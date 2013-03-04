@@ -1,11 +1,11 @@
 # COPASI Dependencies
 This project contains a number of open source libraries, that make the building of [COAPSI](http://coapsi.org "COPASI") with [CMAKE](http://www.cmake.org/) as easy as to configure with: 
 
-`
+```
 cmake -DCOPASI_DEPENDENCY_DIR=<dir> <copasi source dir>  
 make  
 make install
-`
+```
 
 ## Building the dependencies
 For the time being, I am using shell scripts for the individual operating systems to create the build. All of them install into the `./bin` directory of the project. From there I usually either archive, rename, or refer to it directly from CMAKE. 
@@ -22,7 +22,7 @@ Truth be told, building the dependencies on windows was the hardest, and so ther
 
 The batch files so far: 
 
-`
+```
 createX64.bat  
 createX64-vs10.bat
 createX86-vs10.bat  
@@ -30,29 +30,29 @@ createX86_vs11_x64_debug.bat
 createX86_vs11_x64_release.bat  
 createX86_vs11_x86_debug.bat  
 createX86_vs11_x86_release.bat  
-`
+```
 
 ### OS X
 On OSX the `QTDIR` amd and `QMAKESPEC` (to `macx-g++`) are hardcoded to my location. Since I use Lion / Mountainlion, I build with universal binaries for `i386` and `x86_64`, if that is not sufficient, you might need to adapt the: 
 
-`
+```
 ./createOSX.sh
-`
+```
  
 ### Linux
 To build the dependencies on Linux, be sure to have your operating systems qt4 libraries installed (if building with GUI) there I don't even begin to set the `QMAKESPEC` ot `QTDIR` as I hope for qmake to be readily available. To build simply run:
 
-`
+```
 ./createLinux.sh
-`
+```
 
 ## Resetting the build
 Simly remove the `bin` and `tmp` folder to start over. 
 
-`
+```
 rm -rf bin  
 rm -rf tmp  
-`
+```
 
 ## Libraries
 The following open source libraries are included in this project: 
