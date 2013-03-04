@@ -1,9 +1,12 @@
 /**
- * @file    libsbml-config-common.h
+ * @file    libsbml-config-common.h.cmake
  * @brief   Configuration variables 
  * @author  Ben Bornstein
- * 
- * <!--------------------------------------------------------------------------
+ *
+ * $Id$
+ * $HeadURL$
+ *
+ *<!---------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
@@ -47,53 +50,52 @@
 
 
 /* Define to 1 if you have the <check.h> header file. */
-#undef HAVE_CHECK_H
-
-/* Define to 1 if you have the `check' library (-lcheck). */
-#undef HAVE_LIBCHECK
-
-
+/* #undef HAVE_CHECK_H */
 
 /* Define to 1 if you have the <expat.h> header file. */
-#undef HAVE_EXPAT_H
+/* #undef HAVE_EXPAT_H */
 
 /* Define to 1 to use the Expat XML library */
-#undef USE_EXPAT
+/* #undef USE_EXPAT */
 
 
 /* Define to 1 if you have the <errno.h> header file. */
-#undef HAVE_ERRNO_H
+#define HAVE_ERRNO_H 1 
 
 /* Define to 1 if you have the <ieeefp.h> header file. */
-#undef HAVE_IEEEFP_H
+#define HAVE_IEEEFP_H 1
 
 /* Define to 1 if you have the ANSI C header files. */
-#undef STDC_HEADERS
+#define STDC_HEADERS 1
 
 /* Define to 1 if you have the <math.h> header file. */
-#undef HAVE_MATH_H
+#define HAVE_MATH_H 1
 
 /* Define to 1 if you have the <sys/types.h> header file. */
-#undef HAVE_SYS_TYPES_H
+#define HAVE_SYS_TYPES_H 1
 
 /* Define to 1 if you have the `m' library (-lm). */
-#undef HAVE_LIBM
+/* #undef HAVE_LIBM */
 
 
 /* Define to 1 to enable primitive memory tracing. */
-#undef TRACE_MEMORY
+/* #undef TRACE_MEMORY */
 
 /* Define to 1 to build the SBML layout extension. */
-#undef USE_LAYOUT
-
-/* Define to 1 to build the SBML layout extension. */
-#undef LIBSBML_HAS_PACKAGE_LAYOUT
-
+/* #undef USE_LAYOUT */
 
 /* Define to 1 to build the SBML groups extension. */
-#undef USE_GROUPS
+/* #undef USE_GROUPS */
 
+/* Define to build the SBML FBC extension. */
+/* #undef USE_FBC */
 
 /* Define to 1 if your processor stores words with the most significant byte
    first (like Motorola and SPARC, unlike Intel and VAX). */
-#undef WORDS_BIGENDIAN
+/* #undef WORDS_BIGENDIAN */
+
+/* Define to allow the c-functions in util.c and memory.c exit the 
+   application in case of an allocation / file system error. */
+/* #undef EXIT_ON_ERROR */
+
+#include "libsbml-config-packages.h"

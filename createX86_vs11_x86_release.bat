@@ -92,5 +92,5 @@ copy /y lib\* %BASE_DIR%\bin\lib\
 %BUILD_TOOL% clean
 del /s Makefile*
 
-
+cd /d %BASE_DIR%
 
