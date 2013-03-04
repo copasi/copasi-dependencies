@@ -1,5 +1,5 @@
 # COPASI Dependencies
-This project contains a number of open source libraries, that make the building of [COAPSI](http://coapsi.org "COPASI") with [CMAKE](http://www.cmake.org/) as easy as to configure with: 
+This project contains a number of open source libraries, that make the building of [COPASI](http://coapsi.org "COPASI") with [CMAKE](http://www.cmake.org/) as easy as to configure with: 
 
 ```
 cmake -DCOPASI_DEPENDENCY_DIR=<dir> <copasi source dir>  
@@ -63,8 +63,8 @@ The following open source libraries are included in this project:
 - Qt MML widget (LGPL, Qt Solutions)
 - [QWT 5.2.0](http://qwt.sourceforge.net/)
 - [QWT 3D plot](http://qwtplot3d.sourceforge.net/)
-- [libSBML 5.8.0](http://sf.net/projects/sbml/files/libsbml)
-- [SBW Core](http://sf.net/projects/sbw/files/libSBW)
+- [libSBML 5.8.0](http://sbml.org/Software/libSBML)
+- [SBW Core](http://sbw.sourceforge.net/)
 - [raptor](http://librdf.org/raptor/)
 
 ## License
