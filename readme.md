@@ -23,15 +23,13 @@ Truth be told, building the dependencies on windows was the hardest, and so ther
 The batch files so far: 
 
 ```
-createX64.bat  
-createX64-vs10.bat
-createX86-vs10.bat  
 createX86_vs11_x64_debug.bat  
 createX86_vs11_x64_release.bat  
 createX86_vs11_x86_debug.bat  
 createX86_vs11_x86_release.bat  
 ```
 
+These files mainly differ in whether they do a release or debug build, and in what defaults they use. And again, even though those files have a 'vs11' in the name, if your environment is initialized for example with a 'vs9' environment, that will be used instead. 
 ### OS X
 On OSX the `QTDIR` amd and `QMAKESPEC` (to `macx-g++`) are hardcoded to my location. Since I use Lion / Mountainlion, I build with universal binaries for `i386` and `x86_64`, if that is not sufficient, you might need to adapt the: 
 
@@ -39,6 +37,7 @@ On OSX the `QTDIR` amd and `QMAKESPEC` (to `macx-g++`) are hardcoded to my locat
 ./createOSX.sh
 ```
  
+Note: when I tried runing some builds with cmake 2.8.10 supplied by macports, the builds failed (due to missing `CMAKE_OSX_SYSROOT` variable, and later also in a test for endianess). So for the time being I recommend building with the downloadable version from cmake. 
 ### Linux
 To build the dependencies on Linux, be sure to have your operating systems qt4 libraries installed (if building with GUI) there I don't even begin to set the `QMAKESPEC` ot `QTDIR` as I hope for qmake to be readily available. To build simply run:
 
