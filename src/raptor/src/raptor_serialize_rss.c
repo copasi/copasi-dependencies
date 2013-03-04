@@ -34,7 +34,11 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
+
+#ifdef WIN32
 #include <Winsock2.h>
+#endif
+
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
