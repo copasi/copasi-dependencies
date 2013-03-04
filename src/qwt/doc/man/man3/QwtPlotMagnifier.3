@@ -1,0 +1,152 @@
+.TH "QwtPlotMagnifier" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtPlotMagnifier \- \fBQwtPlotMagnifier\fP provides zooming, by magnifying in steps.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_plot_magnifier.h>\fP
+.PP
+Inherits \fBQwtMagnifier\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtPlotMagnifier\fP (\fBQwtPlotCanvas\fP *)"
+.br
+.ti -1c
+.RI "virtual \fB~QwtPlotMagnifier\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetAxisEnabled\fP (int axis, bool on)"
+.br
+.ti -1c
+.RI "bool \fBisAxisEnabled\fP (int axis) const "
+.br
+.ti -1c
+.RI "\fBQwtPlotCanvas\fP * \fBcanvas\fP ()"
+.br
+.ti -1c
+.RI "const \fBQwtPlotCanvas\fP * \fBcanvas\fP () const "
+.br
+.ti -1c
+.RI "\fBQwtPlot\fP * \fBplot\fP ()"
+.br
+.ti -1c
+.RI "const \fBQwtPlot\fP * \fBplot\fP () const "
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBrescale\fP (double factor)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBQwtPlotMagnifier\fP provides zooming, by magnifying in steps. 
+
+Using \fBQwtPlotMagnifier\fP a plot can be zoomed in/out in steps using keys, the mouse wheel or moving a mouse button in vertical direction.
+.PP
+Together with \fBQwtPlotZoomer\fP and \fBQwtPlotPanner\fP it is possible to implement individual and powerful navigation of the plot canvas.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtPlotZoomer\fP, \fBQwtPlotPanner\fP, \fBQwtPlot\fP 
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtPlotMagnifier::QwtPlotMagnifier (\fBQwtPlotCanvas\fP * canvas)\fC [explicit]\fP"
+.PP
+Constructor 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcanvas\fP Plot canvas to be magnified 
+.RE
+.PP
+
+.SS "QwtPlotMagnifier::~QwtPlotMagnifier ()\fC [virtual]\fP"
+.PP
+Destructor. 
+.PP
+.SH "Member Function Documentation"
+.PP 
+.SS "const \fBQwtPlotCanvas\fP * QwtPlotMagnifier::canvas () const"
+.PP
+Return Observed plot canvas. 
+.PP
+.SS "\fBQwtPlotCanvas\fP * QwtPlotMagnifier::canvas ()"
+.PP
+Return observed plot canvas. 
+.PP
+.SS "bool QwtPlotMagnifier::isAxisEnabled (int axis) const"
+.PP
+Test if an axis is enabled
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaxis\fP Axis, see \fBQwtPlot::Axis\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+True, if the axis is enabled
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetAxisEnabled()\fP 
+.RE
+.PP
+
+.SS "const \fBQwtPlot\fP * QwtPlotMagnifier::plot () const"
+.PP
+Return plot widget, containing the observed plot canvas. 
+.PP
+.SS "\fBQwtPlot\fP * QwtPlotMagnifier::plot ()"
+.PP
+Return plot widget, containing the observed plot canvas. 
+.PP
+.SS "void QwtPlotMagnifier::rescale (double factor)\fC [protected, virtual]\fP"
+.PP
+Zoom in/out the axes scales 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfactor\fP A value < 1.0 zooms in, a value > 1.0 zooms out. 
+.RE
+.PP
+
+.PP
+Implements \fBQwtMagnifier\fP.
+.SS "void QwtPlotMagnifier::setAxisEnabled (int axis, bool on)"
+.PP
+En/Disable an axis. 
+.PP
+Axes that are enabled will be synchronized to the result of panning. All other axes will remain unchanged.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaxis\fP Axis, see \fBQwtPlot::Axis\fP 
+.br
+\fIon\fP On/Off
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBisAxisEnabled()\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

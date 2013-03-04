@@ -1,0 +1,449 @@
+.TH "QwtDoubleInterval" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtDoubleInterval \- A class representing an interval.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_double_interval.h>\fP
+.PP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBBorderMode\fP { \fBIncludeBorders\fP =  0, \fBExcludeMinimum\fP =  1, \fBExcludeMaximum\fP =  2, \fBExcludeBorders\fP =  ExcludeMinimum | ExcludeMaximum }"
+.br
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP ()"
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP (double minValue, double maxValue, int borderFlags=IncludeBorders)"
+.br
+.ti -1c
+.RI "void \fBsetInterval\fP (double minValue, double maxValue, int borderFlags=IncludeBorders)"
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBnormalized\fP () const "
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBinverted\fP () const "
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBlimited\fP (double minValue, double maxValue) const "
+.br
+.ti -1c
+.RI "int \fBoperator==\fP (const \fBQwtDoubleInterval\fP &) const "
+.br
+.ti -1c
+.RI "int \fBoperator!=\fP (const \fBQwtDoubleInterval\fP &) const "
+.br
+.ti -1c
+.RI "void \fBsetBorderFlags\fP (int)"
+.br
+.ti -1c
+.RI "int \fBborderFlags\fP () const "
+.br
+.ti -1c
+.RI "double \fBminValue\fP () const "
+.br
+.ti -1c
+.RI "double \fBmaxValue\fP () const "
+.br
+.ti -1c
+.RI "double \fBwidth\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetMinValue\fP (double)"
+.br
+.ti -1c
+.RI "void \fBsetMaxValue\fP (double)"
+.br
+.ti -1c
+.RI "bool \fBcontains\fP (double value) const "
+.br
+.ti -1c
+.RI "bool \fBintersects\fP (const \fBQwtDoubleInterval\fP &) const "
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBintersect\fP (const \fBQwtDoubleInterval\fP &) const "
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBunite\fP (const \fBQwtDoubleInterval\fP &) const "
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBoperator|\fP (const \fBQwtDoubleInterval\fP &) const "
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBoperator&\fP (const \fBQwtDoubleInterval\fP &) const "
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP & \fBoperator|=\fP (const \fBQwtDoubleInterval\fP &)"
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP & \fBoperator&=\fP (const \fBQwtDoubleInterval\fP &)"
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBextend\fP (double value) const "
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBoperator|\fP (double) const "
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP & \fBoperator|=\fP (double)"
+.br
+.ti -1c
+.RI "bool \fBisValid\fP () const "
+.br
+.ti -1c
+.RI "bool \fBisNull\fP () const "
+.br
+.ti -1c
+.RI "void \fBinvalidate\fP ()"
+.br
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBsymmetrize\fP (double value) const "
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A class representing an interval. 
+
+The interval is represented by 2 doubles, the lower and the upper limit. 
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBQwtDoubleInterval::BorderMode\fP"
+.PP
+Flag indicating if a border is included/excluded from an interval
+.PP
+.IP "\(bu" 2
+IncludeBorders
+.br
+ min/max values are inside the interval
+.IP "\(bu" 2
+ExcludeMinimum
+.br
+ min value is not included in the interval
+.IP "\(bu" 2
+ExcludeMaximum
+.br
+ max value is not included in the interval
+.IP "\(bu" 2
+ExcludeBorders
+.br
+ min/max values are not included in the interval
+.PP
+.PP
+\fBSee also:\fP
+.RS 4
+setBorderMode(), testBorderMode() 
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtDoubleInterval::QwtDoubleInterval ()\fC [inline]\fP"
+.PP
+Default Constructor. 
+.PP
+Creates an invalid interval [0.0, -1.0] 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetInterval()\fP, \fBisValid()\fP 
+.RE
+.PP
+
+.SS "QwtDoubleInterval::QwtDoubleInterval (double minValue, double maxValue, int borderFlags = \fCIncludeBorders\fP)\fC [inline]\fP"
+.PP
+Constructor
+.PP
+Build an interval with from min/max values
+.PP
+\fBParameters:\fP
+.RS 4
+\fIminValue\fP Minimum value 
+.br
+\fImaxValue\fP Maximum value 
+.br
+\fIborderFlags\fP Include/Exclude borders 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "int QwtDoubleInterval::borderFlags () const\fC [inline]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+Border flags 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetBorderFlags()\fP 
+.RE
+.PP
+
+.SS "bool QwtDoubleInterval::contains (double value) const"
+.PP
+Test if a value is inside an interval
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP Value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true, if value >= \fBminValue()\fP && value <= \fBmaxValue()\fP 
+.RE
+.PP
+
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::extend (double value) const"
+.PP
+Extend the interval
+.PP
+If value is below minValue, value becomes the lower limit. If value is above maxValue, value becomes the upper limit.
+.PP
+extend has no effect for invalid intervals
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP Value 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBisValid()\fP 
+.RE
+.PP
+
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::intersect (const \fBQwtDoubleInterval\fP & other) const"
+.PP
+Intersect 2 intervals. 
+.PP
+.SS "bool QwtDoubleInterval::intersects (const \fBQwtDoubleInterval\fP & other) const"
+.PP
+Test if two intervals overlap 
+.SS "void QwtDoubleInterval::invalidate ()\fC [inline]\fP"
+.PP
+Invalidate the interval
+.PP
+The limits are set to interval [0.0, -1.0] 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBisValid()\fP 
+.RE
+.PP
+
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::inverted () const"
+.PP
+Invert the limits of the interval 
+.PP
+\fBReturns:\fP
+.RS 4
+Inverted interval 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBnormalized()\fP 
+.RE
+.PP
+
+.SS "bool QwtDoubleInterval::isNull () const\fC [inline]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+true, if \fBisValid()\fP && (\fBminValue()\fP >= \fBmaxValue()\fP) 
+.RE
+.PP
+
+.SS "bool QwtDoubleInterval::isValid () const\fC [inline]\fP"
+.PP
+A interval is valid when \fBminValue()\fP <= \fBmaxValue()\fP. In case of QwtDoubleInterval::ExcludeBorders it is true when \fBminValue()\fP < \fBmaxValue()\fP 
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::limited (double lowerBound, double upperBound) const"
+.PP
+Limit the interval, keeping the border modes
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlowerBound\fP Lower limit 
+.br
+\fIupperBound\fP Upper limit
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Limited interval 
+.RE
+.PP
+
+.SS "double QwtDoubleInterval::maxValue () const\fC [inline]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+Upper limit of the interval 
+.RE
+.PP
+
+.SS "double QwtDoubleInterval::minValue () const\fC [inline]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+Lower limit of the interval 
+.RE
+.PP
+
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::normalized () const"
+.PP
+Normalize the limits of the interval. 
+.PP
+If \fBmaxValue()\fP < \fBminValue()\fP the limits will be inverted. 
+.PP
+\fBReturns:\fP
+.RS 4
+Normalized interval
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBisValid()\fP, \fBinverted()\fP 
+.RE
+.PP
+
+.SS "int QwtDoubleInterval::operator!= (const \fBQwtDoubleInterval\fP & other) const\fC [inline]\fP"
+.PP
+Compare two intervals. 
+.PP
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::operator& (const \fBQwtDoubleInterval\fP & interval) const\fC [inline]\fP"
+.PP
+Intersection of two intervals 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBintersect()\fP 
+.RE
+.PP
+
+.SS "\fBQwtDoubleInterval\fP & QwtDoubleInterval::operator&= (const \fBQwtDoubleInterval\fP & interval)"
+.PP
+Intersects this interval with the given interval. 
+.PP
+.SS "int QwtDoubleInterval::operator== (const \fBQwtDoubleInterval\fP & other) const\fC [inline]\fP"
+.PP
+Compare two intervals. 
+.PP
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::operator| (double value) const\fC [inline]\fP"
+.PP
+Extend an interval 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBextend()\fP 
+.RE
+.PP
+
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::operator| (const \fBQwtDoubleInterval\fP & interval) const\fC [inline]\fP"
+.PP
+Union of two intervals 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBunite()\fP 
+.RE
+.PP
+
+.SS "\fBQwtDoubleInterval\fP & QwtDoubleInterval::operator|= (const \fBQwtDoubleInterval\fP & interval)"
+.PP
+Unites this interval with the given interval. 
+.PP
+.SS "void QwtDoubleInterval::setBorderFlags (int borderFlags)\fC [inline]\fP"
+.PP
+Change the border flags
+.PP
+\fBParameters:\fP
+.RS 4
+\fIborderFlags\fP Or'd BorderMode flags 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBborderFlags()\fP 
+.RE
+.PP
+
+.SS "void QwtDoubleInterval::setInterval (double minValue, double maxValue, int borderFlags = \fCIncludeBorders\fP)\fC [inline]\fP"
+.PP
+Assign the limits of the interval
+.PP
+\fBParameters:\fP
+.RS 4
+\fIminValue\fP Minimum value 
+.br
+\fImaxValue\fP Maximum value 
+.br
+\fIborderFlags\fP Include/Exclude borders 
+.RE
+.PP
+
+.SS "void QwtDoubleInterval::setMaxValue (double maxValue)\fC [inline]\fP"
+.PP
+Assign the upper limit of the interval
+.PP
+\fBParameters:\fP
+.RS 4
+\fImaxValue\fP Maximum value 
+.RE
+.PP
+
+.SS "void QwtDoubleInterval::setMinValue (double minValue)\fC [inline]\fP"
+.PP
+Assign the lower limit of the interval
+.PP
+\fBParameters:\fP
+.RS 4
+\fIminValue\fP Minimum value 
+.RE
+.PP
+
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::symmetrize (double value) const"
+.PP
+Adjust the limit that is closer to value, so that value becomes the center of the interval.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP Center 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Interval with value as center 
+.RE
+.PP
+
+.SS "\fBQwtDoubleInterval\fP QwtDoubleInterval::unite (const \fBQwtDoubleInterval\fP & other) const"
+.PP
+Unite 2 intervals. 
+.PP
+.SS "double QwtDoubleInterval::width () const\fC [inline]\fP"
+.PP
+Return the width of an interval The width of invalid intervals is 0.0, otherwise the result is \fBmaxValue()\fP - \fBminValue()\fP.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBisValid()\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

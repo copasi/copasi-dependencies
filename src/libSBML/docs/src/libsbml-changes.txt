@@ -1,0 +1,6 @@
+/** @page changes Changes between releases
+
+- @subpage libsbml-news
+- @subpage libsbml-old-news
+
+*/

@@ -1,0 +1,145 @@
+.TH "QwtMetricsMap" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtMetricsMap \- A Map to translate between layout, screen and paint device metrics.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_layout_metrics.h>\fP
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBisIdentity\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetMetrics\fP (const QPaintDevice *layoutMetrics, const QPaintDevice *deviceMetrics)"
+.br
+.ti -1c
+.RI "int \fBlayoutToDeviceX\fP (int x) const "
+.br
+.ti -1c
+.RI "int \fBdeviceToLayoutX\fP (int x) const "
+.br
+.ti -1c
+.RI "int \fBscreenToLayoutX\fP (int x) const "
+.br
+.ti -1c
+.RI "int \fBlayoutToScreenX\fP (int x) const "
+.br
+.ti -1c
+.RI "int \fBlayoutToDeviceY\fP (int y) const "
+.br
+.ti -1c
+.RI "int \fBdeviceToLayoutY\fP (int y) const "
+.br
+.ti -1c
+.RI "int \fBscreenToLayoutY\fP (int y) const "
+.br
+.ti -1c
+.RI "int \fBlayoutToScreenY\fP (int y) const "
+.br
+.ti -1c
+.RI "QPoint \fBlayoutToDevice\fP (const QPoint &, const QPainter *=NULL) const "
+.br
+.ti -1c
+.RI "QPoint \fBdeviceToLayout\fP (const QPoint &, const QPainter *=NULL) const "
+.br
+.ti -1c
+.RI "QPoint \fBscreenToLayout\fP (const QPoint &) const "
+.br
+.ti -1c
+.RI "QPoint \fBlayoutToScreen\fP (const QPoint &point) const "
+.br
+.ti -1c
+.RI "QSize \fBlayoutToDevice\fP (const QSize &) const "
+.br
+.ti -1c
+.RI "QSize \fBdeviceToLayout\fP (const QSize &) const "
+.br
+.ti -1c
+.RI "QSize \fBscreenToLayout\fP (const QSize &) const "
+.br
+.ti -1c
+.RI "QSize \fBlayoutToScreen\fP (const QSize &) const "
+.br
+.ti -1c
+.RI "QRect \fBlayoutToDevice\fP (const QRect &, const QPainter *=NULL) const "
+.br
+.ti -1c
+.RI "QRect \fBdeviceToLayout\fP (const QRect &, const QPainter *=NULL) const "
+.br
+.ti -1c
+.RI "QRect \fBscreenToLayout\fP (const QRect &) const "
+.br
+.ti -1c
+.RI "QRect \fBlayoutToScreen\fP (const QRect &) const "
+.br
+.ti -1c
+.RI "QwtPolygon \fBlayoutToDevice\fP (const QwtPolygon &, const QPainter *=NULL) const "
+.br
+.ti -1c
+.RI "QwtPolygon \fBdeviceToLayout\fP (const QwtPolygon &, const QPainter *=NULL) const "
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static QwtPolygon \fBtranslate\fP (const QMatrix &, const QwtPolygon &)"
+.br
+.ti -1c
+.RI "static QRect \fBtranslate\fP (const QMatrix &, const QRect &)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A Map to translate between layout, screen and paint device metrics. 
+
+Qt3 supports painting in integer coordinates only. Therefore it is not possible to scale the layout in screen coordinates to layouts in higher resolutions ( f.e printing ) without losing the higher precision. \fBQwtMetricsMap\fP is used to incorporate the various widget attributes ( always in screen resolution ) into the layout/printing code of \fBQwtPlot\fP.
+.PP
+Qt4 is able to paint floating point based coordinates, what makes it possible always to render in screen coordinates ( with a common scale factor ). \fBQwtMetricsMap\fP will be obsolete as soon as Qt3 support has been dropped ( Qwt 6.x ). 
+.SH "Member Function Documentation"
+.PP 
+.SS "QRect QwtMetricsMap::translate (const QMatrix & m, const QRect & rect)\fC [static]\fP"
+.PP
+Wrapper for QMatrix::mapRect.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP Matrix 
+.br
+\fIrect\fP Rectangle to translate 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Translated rectangle 
+.RE
+.PP
+
+.SS "QwtPolygon QwtMetricsMap::translate (const QMatrix & m, const QwtPolygon & pa)\fC [static]\fP"
+.PP
+Wrapper for QMatrix::map.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP Matrix 
+.br
+\fIpa\fP Polygon to translate 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Translated polygon 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

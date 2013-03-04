@@ -1,0 +1,131 @@
+.TH "QwtPolygonFData" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtPolygonFData \- Data class containing a single QwtArray<QwtDoublePoint> object.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_data.h>\fP
+.PP
+Inherits \fBQwtData\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtPolygonFData\fP (const QPolygonF &)"
+.br
+.ti -1c
+.RI "\fBQwtPolygonFData\fP & \fBoperator=\fP (const \fBQwtPolygonFData\fP &)"
+.br
+.ti -1c
+.RI "virtual \fBQwtData\fP * \fBcopy\fP () const "
+.br
+.ti -1c
+.RI "virtual size_t \fBsize\fP () const "
+.br
+.ti -1c
+.RI "virtual double \fBx\fP (size_t i) const "
+.br
+.ti -1c
+.RI "virtual double \fBy\fP (size_t i) const "
+.br
+.ti -1c
+.RI "const QPolygonF & \fBdata\fP () const "
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Data class containing a single QwtArray<QwtDoublePoint> object. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtPolygonFData::QwtPolygonFData (const QPolygonF & polygon)"
+.PP
+Constructor
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpolygon\fP Polygon data 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtPlotCurve::setData()\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBQwtData\fP * QwtPolygonFData::copy () const\fC [virtual]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+Pointer to a copy (virtual copy constructor) 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "const QPolygonF & QwtPolygonFData::data () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Point array 
+.RE
+.PP
+
+.SS "\fBQwtPolygonFData\fP & QwtPolygonFData::operator= (const \fBQwtPolygonFData\fP & data)"
+.PP
+Assignment. 
+.PP
+.SS "size_t QwtPolygonFData::size () const\fC [virtual]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+Size of the data set 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "double QwtPolygonFData::x (size_t i) const\fC [virtual]\fP"
+.PP
+Return the x value of data point i
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Index 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+x X value of data point i 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "double QwtPolygonFData::y (size_t i) const\fC [virtual]\fP"
+.PP
+Return the y value of data point i
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Index 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+y Y value of data point i 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

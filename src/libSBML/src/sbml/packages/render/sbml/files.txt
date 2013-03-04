@@ -1,0 +1,95 @@
+GlobalRenderInformation.h:  ListOfGlobalStyles mListOfStyles;
+GradientBase.h:             ListOfGradientStops mGradientStops;
+Group.h:                    ListOfDrawables mElements;
+LineEnding.h:               BoundingBox mBoundingBox;
+LineEnding.h:               Group mGroup;
+LocalRenderInformation.h:   ListOfLocalStyles mListOfStyles;
+Polygon.h:                  ListOfCurveElements mListOfElements;
+RenderCurve.h:              ListOfCurveElements mListOfElements;
+RenderInformationBase.h:    ListOfColorDefinitions mListOfColorDefinitions;
+RenderInformationBase.h:    ListOfGradientDefinitions mListOfGradientDefinitions;
+RenderInformationBase.h:    ListOfLineEndings mListOfLineEndings;
+Style.h:                    Group mGroup;
+
+
+// header 
+
+  /** @cond doxygen-libsbml-internal */
+  /**
+   * Sets the parent SBMLDocument of this SBML object.
+   *
+   * @param d the SBMLDocument object to use
+   */
+  virtual void setSBMLDocument (SBMLDocument* d);
+
+
+  /**
+   * Sets this SBML object to child SBML objects (if any).
+   * (Creates a child-parent relationship by the parent)
+   *
+   * Subclasses must override this function if they define
+   * one ore more child elements.
+   * Basically, this function needs to be called in
+   * constructor, copy constructor, assignment operator.
+   *
+   * @see setSBMLDocument
+   * @see enablePackageInternal
+   */
+  virtual void connectToChild ();
+
+  /**
+   * Enables/Disables the given package with this element and child
+   * elements (if any).
+   * (This is an internal implementation for enablePakcage function)
+   *
+   * @note Subclasses in which one or more child elements are defined
+   * must override this function.
+   */
+  virtual void enablePackageInternal(const std::string& pkgURI,
+                                     const std::string& pkgPrefix, bool flag);
+  /** @endcond */
+
+
+// implementation
+
+
+/*
+ * Sets the parent SBMLDocument of this SBML object.
+ */
+void
+ReactionGlyph::setSBMLDocument (SBMLDocument* d)
+{
+  GraphicalObject::setSBMLDocument(d);
+
+  mSpeciesReferenceGlyphs.setSBMLDocument(d);
+  mCurve.setSBMLDocument(d);
+}
+
+/*
+ * Sets this SBML object to child SBML objects (if any).
+ * (Creates a child-parent relationship by the parent)
+ */
+void
+ReactionGlyph::connectToChild()
+{
+  mSpeciesReferenceGlyphs.connectToParent(this);
+  mCurve.connectToParent(this);
+}
+
+/**
+ * Enables/Disables the given package with this element and child
+ * elements (if any).
+ * (This is an internal implementation for enablePakcage function)
+ */
+void
+ReactionGlyph::enablePackageInternal(const std::string& pkgURI,
+                                     const std::string& pkgPrefix, bool flag)
+{
+  SBase::enablePackageInternal(pkgURI,pkgPrefix,flag);
+
+  mSpeciesReferenceGlyphs.enablePackageInternal(pkgURI,pkgPrefix,flag);
+  mCurve.enablePackageInternal(pkgURI,pkgPrefix,flag);
+}
+
+
+

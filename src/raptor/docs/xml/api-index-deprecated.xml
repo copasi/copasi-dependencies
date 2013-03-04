@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE indexdiv PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+<indexdiv>
+<indexdiv><title>R</title>
+<indexentry><primaryie linkends="raptor-iostream-get-bytes-written-count"><link linkend="raptor-iostream-get-bytes-written-count">raptor_iostream_get_bytes_written_count</link></primaryie></indexentry>
+<indexentry><primaryie linkends="raptor-iostream-handler"><link linkend="raptor-iostream-handler">raptor_iostream_handler</link></primaryie></indexentry>
+<indexentry><primaryie linkends="raptor-iostream-write-string-turtle"><link linkend="raptor-iostream-write-string-turtle">raptor_iostream_write_string_turtle</link></primaryie></indexentry>
+<indexentry><primaryie linkends="raptor-new-iostream-from-handler"><link linkend="raptor-new-iostream-from-handler">raptor_new_iostream_from_handler</link></primaryie></indexentry>
+<indexentry><primaryie linkends="raptor-ntriples-string-as-utf8-string"><link linkend="raptor-ntriples-string-as-utf8-string">raptor_ntriples_string_as_utf8_string</link></primaryie></indexentry>
+<indexentry><primaryie linkends="raptor-ntriples-term-as-string"><link linkend="raptor-ntriples-term-as-string">raptor_ntriples_term_as_string</link></primaryie></indexentry>
+<indexentry><primaryie linkends="raptor-print-statement-detailed"><link linkend="raptor-print-statement-detailed">raptor_print_statement_detailed</link></primaryie></indexentry>
+<indexentry><primaryie linkends="raptor-uri-is-file-uri"><link linkend="raptor-uri-is-file-uri">raptor_uri_is_file_uri</link></primaryie></indexentry>
+</indexdiv>
+</indexdiv>

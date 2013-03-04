@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>C++Broker</ProjectName>
+    <ProjectGuid>{7ADB1AE4-BACA-4E3E-B3C3-0D7D63561EF4}</ProjectGuid>
+    <RootNamespace>C++Broker</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MT;_DLL;WIN32;_DEBUG;_CONSOLE;__LITTLE_ENDIAN__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>sbwd.lib;Ws2_32.lib;libxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(ProjectName)d.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MT;_DLL;WIN32;NDEBUG;_WINDOWS;__LITTLE_ENDIAN__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4267; 4312;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/FORCE %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>sbw.lib;Ws2_32.lib;libxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <SetChecksum>true</SetChecksum>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\SBWBroker\Broker.cpp" />
+    <ClCompile Include="..\SBWBroker\BrokerApplication.cpp" />
+    <ClCompile Include="..\SBWBroker\BrokerInstance.cpp" />
+    <ClCompile Include="..\SBWBroker\BrokerInterface.cpp" />
+    <ClCompile Include="..\SBWBroker\BrokerSessionKey.cpp" />
+    <ClCompile Include="..\SBWBroker\CBroker.cpp" />
+    <ClCompile Include="..\SBWBroker\ConnectionThread.cpp" />
+    <ClCompile Include="..\SBWBroker\Host.cpp" />
+    <ClCompile Include="..\SBWBroker\HostAccessTable.cpp" />
+    <ClCompile Include="..\SBWBroker\InstanceTable.cpp" />
+    <ClCompile Include="..\SBWBroker\InstanceThread.cpp" />
+    <ClCompile Include="..\SBWBroker\IntegerHashtable.cpp" />
+    <ClCompile Include="..\SBWBroker\ModuleInstance.cpp" />
+    <ClCompile Include="..\SBWBroker\ModuleRegistry.cpp" />
+    <ClCompile Include="..\SBWBroker\ModuleRegistryFile.cpp" />
+    <ClCompile Include="..\SBWBroker\ObjectOrientedReceiver.cpp" />
+    <ClCompile Include="..\SBWBroker\Properties.cpp" />
+    <ClCompile Include="..\SBWBroker\ProxyLocalBrokerInstance.cpp" />
+    <ClCompile Include="..\SBWBroker\ProxyModuleInstance.cpp" />
+    <ClCompile Include="..\SBWBroker\SBW.cpp" />
+    <ClCompile Include="..\SBWBroker\SBWBrokerRPC.cpp" />
+    <ClCompile Include="..\SBWBroker\ServerSocket.cpp" />
+    <ClCompile Include="..\SBWBroker\SRandom.cpp" />
+    <ClCompile Include="..\SBWBroker\StringUtil.cpp" />
+    <ClCompile Include="..\SBWBroker\Sys.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\SBWBroker\Broker.h" />
+    <ClInclude Include="..\SBWBroker\BrokerApplication.h" />
+    <ClInclude Include="..\SBWBroker\BrokerDefines.h" />
+    <ClInclude Include="..\SBWBroker\BrokerInstance.h" />
+    <ClInclude Include="..\SBWBroker\BrokerInterface.h" />
+    <ClInclude Include="..\SBWBroker\BrokerSessionKey.h" />
+    <ClInclude Include="..\SBWBroker\ConnectionThread.h" />
+    <ClInclude Include="..\SBWBroker\Host.h" />
+    <ClInclude Include="..\SBWBroker\HostAccessTable.h" />
+    <ClInclude Include="..\SBWBroker\Instance.h" />
+    <ClInclude Include="..\SBWBroker\InstanceBase.h" />
+    <ClInclude Include="..\SBWBroker\InstanceTable.h" />
+    <ClInclude Include="..\SBWBroker\InstanceThread.h" />
+    <ClInclude Include="..\SBWBroker\IntegerHashtable.h" />
+    <ClInclude Include="..\SBWBroker\ModuleInstance.h" />
+    <ClInclude Include="..\SBWBroker\ModuleRegistry.h" />
+    <ClInclude Include="..\SBWBroker\ModuleRegistryFile.h" />
+    <ClInclude Include="..\SBWBroker\ObjectOrientedReceiver.h" />
+    <ClInclude Include="..\SBWBroker\Properties.h" />
+    <ClInclude Include="..\SBWBroker\ProxyLocalBrokerInstance.h" />
+    <ClInclude Include="..\SBWBroker\ProxyModuleInstance.h" />
+    <ClInclude Include="..\SBWBroker\Receiver.h" />
+    <ClInclude Include="..\SBWBroker\RemoteInstance.h" />
+    <ClInclude Include="resource-vs2008.h" />
+    <ClInclude Include="..\SBWBroker\SBW.h" />
+    <ClInclude Include="..\SBWBroker\SBWBrokerRPC.h" />
+    <ClInclude Include="..\SBWBroker\ServerSocket.h" />
+    <ClInclude Include="..\SBWBroker\StringUtil.h" />
+    <ClInclude Include="..\SBWBroker\Sys.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icon2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SBWBrokerLight-vs2008.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SBWCore-vs2008.vcxproj">
+      <Project>{d12ace27-383a-4cb8-a07a-6d2958801475}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,118 @@
+.TH "QwtSplineCurveFitter" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtSplineCurveFitter \- A curve fitter using cubic splines.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_curve_fitter.h>\fP
+.PP
+Inherits \fBQwtCurveFitter\fP.
+.PP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBFitMode\fP { \fBAuto\fP, \fBSpline\fP, \fBParametricSpline\fP }"
+.br
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtSplineCurveFitter\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~QwtSplineCurveFitter\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetFitMode\fP (FitMode)"
+.br
+.ti -1c
+.RI "FitMode \fBfitMode\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetSpline\fP (const \fBQwtSpline\fP &)"
+.br
+.ti -1c
+.RI "const \fBQwtSpline\fP & \fBspline\fP () const "
+.br
+.ti -1c
+.RI "\fBQwtSpline\fP & \fBspline\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetSplineSize\fP (int size)"
+.br
+.ti -1c
+.RI "int \fBsplineSize\fP () const "
+.br
+.ti -1c
+.RI "virtual QPolygonF \fBfitCurve\fP (const QPolygonF &) const "
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A curve fitter using cubic splines. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtSplineCurveFitter::QwtSplineCurveFitter ()"
+.PP
+Constructor. 
+.PP
+.SS "QwtSplineCurveFitter::~QwtSplineCurveFitter ()\fC [virtual]\fP"
+.PP
+Destructor. 
+.PP
+.SH "Member Function Documentation"
+.PP 
+.SS "QPolygonF QwtSplineCurveFitter::fitCurve (const QPolygonF & points) const\fC [virtual]\fP"
+.PP
+Find a curve which has the best fit to a series of data points
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpoints\fP Series of data points 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Curve points 
+.RE
+.PP
+
+.PP
+Implements \fBQwtCurveFitter\fP.
+.SS "QwtSplineCurveFitter::FitMode QwtSplineCurveFitter::fitMode () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Mode representing a spline algorithm 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetFitMode()\fP 
+.RE
+.PP
+
+.SS "void QwtSplineCurveFitter::setFitMode (FitMode mode)"
+.PP
+Select the algorithm used for building the spline
+.PP
+\fBParameters:\fP
+.RS 4
+\fImode\fP Mode representing a spline algorithm 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBfitMode()\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

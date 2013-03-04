@@ -1,0 +1,479 @@
+.TH "QwtSlider" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtSlider \- The Slider Widget.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_slider.h>\fP
+.PP
+Inherits \fBQwtAbstractSlider\fP, and \fBQwtAbstractScale\fP.
+.PP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBScalePos\fP { \fBNoScale\fP, \fBLeftScale\fP, \fBRightScale\fP, \fBTopScale\fP, \fBBottomScale\fP }"
+.br
+.ti -1c
+.RI "enum \fBBGSTYLE\fP { \fBBgTrough\fP =  0x1, \fBBgSlot\fP =  0x2, \fBBgBoth\fP =  BgTrough | BgSlot }"
+.br
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtSlider\fP (QWidget *parent, Qt::Orientation=Qt::Horizontal, \fBScalePos\fP=NoScale, \fBBGSTYLE\fP bgStyle=BgTrough)"
+.br
+.ti -1c
+.RI "virtual void \fBsetOrientation\fP (Qt::Orientation)"
+.br
+.ti -1c
+.RI "void \fBsetBgStyle\fP (\fBBGSTYLE\fP)"
+.br
+.ti -1c
+.RI "\fBBGSTYLE\fP \fBbgStyle\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetScalePosition\fP (\fBScalePos\fP s)"
+.br
+.ti -1c
+.RI "\fBScalePos\fP \fBscalePosition\fP () const "
+.br
+.ti -1c
+.RI "int \fBthumbLength\fP () const "
+.br
+.ti -1c
+.RI "int \fBthumbWidth\fP () const "
+.br
+.ti -1c
+.RI "int \fBborderWidth\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetThumbLength\fP (int l)"
+.br
+.ti -1c
+.RI "void \fBsetThumbWidth\fP (int w)"
+.br
+.ti -1c
+.RI "void \fBsetBorderWidth\fP (int bw)"
+.br
+.ti -1c
+.RI "void \fBsetMargins\fP (int x, int y)"
+.br
+.ti -1c
+.RI "virtual QSize \fBsizeHint\fP () const "
+.br
+.ti -1c
+.RI "virtual QSize \fBminimumSizeHint\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetScaleDraw\fP (\fBQwtScaleDraw\fP *)"
+.br
+.ti -1c
+.RI "const \fBQwtScaleDraw\fP * \fBscaleDraw\fP () const "
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual double \fBgetValue\fP (const QPoint &p)"
+.br
+.ti -1c
+.RI "virtual void \fBgetScrollMode\fP (const QPoint &p, int &scrollMode, int &direction)"
+.br
+.ti -1c
+.RI "void \fBdraw\fP (QPainter *p, const QRect &update_rect)"
+.br
+.ti -1c
+.RI "virtual void \fBdrawSlider\fP (QPainter *p, const QRect &r)"
+.br
+.ti -1c
+.RI "virtual void \fBdrawThumb\fP (QPainter *p, const QRect &, int pos)"
+.br
+.ti -1c
+.RI "virtual void \fBresizeEvent\fP (QResizeEvent *e)"
+.br
+.ti -1c
+.RI "virtual void \fBpaintEvent\fP (QPaintEvent *e)"
+.br
+.ti -1c
+.RI "virtual void \fBvalueChange\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBrangeChange\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBscaleChange\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBfontChange\fP (const QFont &oldFont)"
+.br
+.ti -1c
+.RI "void \fBlayoutSlider\fP (bool update=true)"
+.br
+.ti -1c
+.RI "int \fBxyPosition\fP (double v) const "
+.br
+.ti -1c
+.RI "\fBQwtScaleDraw\fP * \fBscaleDraw\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The Slider Widget. 
+
+\fBQwtSlider\fP is a slider widget which operates on an interval of type double. \fBQwtSlider\fP supports different layouts as well as a scale.
+.PP
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtAbstractSlider\fP and \fBQwtAbstractScale\fP for the descriptions of the inherited members. 
+.RE
+.PP
+
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBQwtSlider::BGSTYLE\fP"
+.PP
+Background style. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtSlider()\fP 
+.RE
+.PP
+
+.SS "enum \fBQwtSlider::ScalePos\fP"
+.PP
+Scale position. \fBQwtSlider\fP tries to enforce valid combinations of its orientation and scale position:
+.IP "\(bu" 2
+Qt::Horizonal combines with NoScale, TopScale and BottomScale
+.IP "\(bu" 2
+Qt::Vertical combines with NoScale, LeftScale and RightScale
+.PP
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtSlider()\fP 
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtSlider::QwtSlider (QWidget * parent, Qt::Orientation orientation = \fCQt::Horizontal\fP, \fBScalePos\fP scalePos = \fCNoScale\fP, \fBBGSTYLE\fP bgStyle = \fCBgTrough\fP)\fC [explicit]\fP"
+.PP
+Constructor. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparent\fP parent widget 
+.br
+\fIorientation\fP Orientation of the slider. Can be Qt::Horizontal or Qt::Vertical. Defaults to Qt::Horizontal. 
+.br
+\fIscalePos\fP Position of the scale. Defaults to QwtSlider::NoScale. 
+.br
+\fIbgStyle\fP Background style. QwtSlider::BgTrough draws the slider button in a trough, QwtSlider::BgSlot draws a slot underneath the button. An or-combination of both may also be used. The default is QwtSlider::BgTrough.
+.RE
+.PP
+\fBQwtSlider\fP enforces valid combinations of its orientation and scale position. If the combination is invalid, the scale position will be set to NoScale. Valid combinations are:
+.IP "\(bu" 2
+Qt::Horizonal with NoScale, TopScale, or BottomScale;
+.IP "\(bu" 2
+Qt::Vertical with NoScale, LeftScale, or RightScale. 
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBQwtSlider::BGSTYLE\fP QwtSlider::bgStyle () const"
+.PP
+\fBReturns:\fP
+.RS 4
+the background style. 
+.RE
+.PP
+
+.SS "int QwtSlider::borderWidth () const"
+.PP
+\fBReturns:\fP
+.RS 4
+the border width. 
+.RE
+.PP
+
+.SS "void QwtSlider::draw (QPainter * p, const QRect & update_rect)\fC [protected]\fP"
+.PP
+Draw the \fBQwtSlider\fP. 
+.PP
+.SS "void QwtSlider::drawSlider (QPainter * painter, const QRect & r)\fC [protected, virtual]\fP"
+.PP
+Draw the slider into the specified rectangle.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpainter\fP Painter 
+.br
+\fIr\fP Rectangle 
+.RE
+.PP
+
+.SS "void QwtSlider::drawThumb (QPainter * painter, const QRect & sliderRect, int pos)\fC [protected, virtual]\fP"
+.PP
+Draw the thumb at a position
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpainter\fP Painter 
+.br
+\fIsliderRect\fP Bounding rectangle of the slider 
+.br
+\fIpos\fP Position of the slider thumb 
+.RE
+.PP
+
+.SS "void QwtSlider::fontChange (const QFont & oldFont)\fC [protected, virtual]\fP"
+.PP
+Notify change in font. 
+.PP
+.SS "void QwtSlider::getScrollMode (const QPoint & p, int & scrollMode, int & direction)\fC [protected, virtual]\fP"
+.PP
+Determine scrolling mode and direction. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp\fP point 
+.br
+\fIscrollMode\fP Scrolling mode 
+.br
+\fIdirection\fP Direction 
+.RE
+.PP
+
+.PP
+Implements \fBQwtAbstractSlider\fP.
+.SS "double QwtSlider::getValue (const QPoint & pos)\fC [protected, virtual]\fP"
+.PP
+Determine the value corresponding to a specified mouse location. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpos\fP Mouse position 
+.RE
+.PP
+
+.PP
+Implements \fBQwtAbstractSlider\fP.
+.SS "void QwtSlider::layoutSlider (bool update_geometry = \fCtrue\fP)\fC [protected]\fP"
+.PP
+Recalculate the slider's geometry and layout based on the current rect and fonts. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIupdate_geometry\fP notify the layout system and call update to redraw the scale 
+.RE
+.PP
+
+.SS "QSize QwtSlider::minimumSizeHint () const\fC [virtual]\fP"
+.PP
+Return a minimum size hint. 
+.PP
+\fBWarning:\fP
+.RS 4
+The return value of \fBQwtSlider::minimumSizeHint()\fP depends on the font and the scale. 
+.RE
+.PP
+
+.SS "void QwtSlider::paintEvent (QPaintEvent * event)\fC [protected, virtual]\fP"
+.PP
+Qt paint event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIevent\fP Paint event 
+.RE
+.PP
+
+.SS "void QwtSlider::rangeChange ()\fC [protected, virtual]\fP"
+.PP
+Notify change of range. 
+.PP
+Reimplemented from \fBQwtDoubleRange\fP.
+.SS "void QwtSlider::resizeEvent (QResizeEvent * e)\fC [protected, virtual]\fP"
+.PP
+Qt resize event. 
+.PP
+.SS "void QwtSlider::scaleChange ()\fC [protected, virtual]\fP"
+.PP
+Notify changed scale. 
+.PP
+Reimplemented from \fBQwtAbstractScale\fP.
+.SS "\fBQwtScaleDraw\fP * QwtSlider::scaleDraw ()\fC [protected]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+the scale draw of the slider 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetScaleDraw()\fP 
+.RE
+.PP
+
+.SS "const \fBQwtScaleDraw\fP * QwtSlider::scaleDraw () const"
+.PP
+\fBReturns:\fP
+.RS 4
+the scale draw of the slider 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetScaleDraw()\fP 
+.RE
+.PP
+
+.SS "\fBQwtSlider::ScalePos\fP QwtSlider::scalePosition () const"
+.PP
+Return the scale position. 
+.PP
+.SS "void QwtSlider::setBgStyle (\fBBGSTYLE\fP st)"
+.PP
+Set the background style. 
+.SS "void QwtSlider::setBorderWidth (int bd)"
+.PP
+Change the slider's border width. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbd\fP border width 
+.RE
+.PP
+
+.SS "void QwtSlider::setMargins (int xMargin, int yMargin)"
+.PP
+Set distances between the widget's border and internals. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIxMargin\fP Horizontal margin 
+.br
+\fIyMargin\fP Vertical margin 
+.RE
+.PP
+
+.SS "void QwtSlider::setOrientation (Qt::Orientation o)\fC [virtual]\fP"
+.PP
+Set the orientation. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIo\fP Orientation. Allowed values are Qt::Horizontal and Qt::Vertical.
+.RE
+.PP
+If the new orientation and the old scale position are an invalid combination, the scale position will be set to QwtSlider::NoScale. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtAbstractSlider::orientation()\fP 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBQwtAbstractSlider\fP.
+.SS "void QwtSlider::setScaleDraw (\fBQwtScaleDraw\fP * scaleDraw)"
+.PP
+Set a scale draw. 
+.PP
+For changing the labels of the scales, it is necessary to derive from \fBQwtScaleDraw\fP and overload \fBQwtScaleDraw::label()\fP.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscaleDraw\fP ScaleDraw object, that has to be created with new and will be deleted in ~QwtSlider or the next call of \fBsetScaleDraw()\fP. 
+.RE
+.PP
+
+.SS "void QwtSlider::setScalePosition (\fBScalePos\fP s)"
+.PP
+Change the scale position (and slider orientation). 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP Position of the scale.
+.RE
+.PP
+A valid combination of scale position and orientation is enforced:
+.IP "\(bu" 2
+if the new scale position is Left or Right, the scale orientation will become Qt::Vertical;
+.IP "\(bu" 2
+if the new scale position is Bottom or Top the scale orientation will become Qt::Horizontal;
+.IP "\(bu" 2
+if the new scale position is QwtSlider::NoScale, the scale orientation will not change. 
+.PP
+
+.SS "void QwtSlider::setThumbLength (int thumbLength)"
+.PP
+Set the slider's thumb length. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIthumbLength\fP new length 
+.RE
+.PP
+
+.SS "void QwtSlider::setThumbWidth (int w)"
+.PP
+Change the width of the thumb. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIw\fP new width 
+.RE
+.PP
+
+.SS "QSize QwtSlider::sizeHint () const\fC [virtual]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+\fBQwtSlider::minimumSizeHint()\fP 
+.RE
+.PP
+
+.SS "int QwtSlider::thumbLength () const"
+.PP
+\fBReturns:\fP
+.RS 4
+the thumb length. 
+.RE
+.PP
+
+.SS "int QwtSlider::thumbWidth () const"
+.PP
+\fBReturns:\fP
+.RS 4
+the thumb width. 
+.RE
+.PP
+
+.SS "void QwtSlider::valueChange ()\fC [protected, virtual]\fP"
+.PP
+Notify change of value. 
+.PP
+Reimplemented from \fBQwtAbstractSlider\fP.
+.SS "int QwtSlider::xyPosition (double value) const\fC [protected]\fP"
+.PP
+Find the x/y position for a given value v 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP Value 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

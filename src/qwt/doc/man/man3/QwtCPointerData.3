@@ -1,0 +1,159 @@
+.TH "QwtCPointerData" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtCPointerData \- Data class containing two pointers to memory blocks of doubles.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_data.h>\fP
+.PP
+Inherits \fBQwtData\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtCPointerData\fP (const double *x, const double *y, size_t size)"
+.br
+.ti -1c
+.RI "\fBQwtCPointerData\fP & \fBoperator=\fP (const \fBQwtCPointerData\fP &)"
+.br
+.ti -1c
+.RI "virtual \fBQwtData\fP * \fBcopy\fP () const "
+.br
+.ti -1c
+.RI "virtual size_t \fBsize\fP () const "
+.br
+.ti -1c
+.RI "virtual double \fBx\fP (size_t i) const "
+.br
+.ti -1c
+.RI "virtual double \fBy\fP (size_t i) const "
+.br
+.ti -1c
+.RI "const double * \fBxData\fP () const "
+.br
+.ti -1c
+.RI "const double * \fByData\fP () const "
+.br
+.ti -1c
+.RI "virtual QwtDoubleRect \fBboundingRect\fP () const "
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Data class containing two pointers to memory blocks of doubles. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtCPointerData::QwtCPointerData (const double * x, const double * y, size_t size)"
+.PP
+Constructor
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Array of x values 
+.br
+\fIy\fP Array of y values 
+.br
+\fIsize\fP Size of the x and y arrays
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+The programmer must assure that the memory blocks referenced by the pointers remain valid during the lifetime of the QwtPlotCPointer object.
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtPlotCurve::setData()\fP, \fBQwtPlotCurve::setRawData()\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "QwtDoubleRect QwtCPointerData::boundingRect () const\fC [virtual]\fP"
+.PP
+Returns the bounding rectangle of the data. If there is no bounding rect, like for empty data the rectangle is invalid: QwtDoubleRect::isValid() == false 
+.PP
+Reimplemented from \fBQwtData\fP.
+.SS "\fBQwtData\fP * QwtCPointerData::copy () const\fC [virtual]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+Pointer to a copy (virtual copy constructor) 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "\fBQwtCPointerData\fP & QwtCPointerData::operator= (const \fBQwtCPointerData\fP & data)"
+.PP
+Assignment. 
+.PP
+.SS "size_t QwtCPointerData::size () const\fC [virtual]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+Size of the data set 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "double QwtCPointerData::x (size_t i) const\fC [virtual]\fP"
+.PP
+Return the x value of data point i
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Index 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+x X value of data point i 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "const double * QwtCPointerData::xData () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Array of the x-values 
+.RE
+.PP
+
+.SS "double QwtCPointerData::y (size_t i) const\fC [virtual]\fP"
+.PP
+Return the y value of data point i
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Index 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+y Y value of data point i 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "const double * QwtCPointerData::yData () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Array of the y-values 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

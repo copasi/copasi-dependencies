@@ -1,0 +1,6 @@
+/** @page libsbml-other Extending the libSBML API
+
+- @subpage libsbml-coding for developers and contributors
+- @subpage libsbml-extending
+
+*/

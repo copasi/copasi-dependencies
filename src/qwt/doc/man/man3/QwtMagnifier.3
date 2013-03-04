@@ -1,0 +1,481 @@
+.TH "QwtMagnifier" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtMagnifier \- \fBQwtMagnifier\fP provides zooming, by magnifying in steps.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_magnifier.h>\fP
+.PP
+Inherited by \fBQwtPlotMagnifier\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtMagnifier\fP (QWidget *)"
+.br
+.ti -1c
+.RI "virtual \fB~QwtMagnifier\fP ()"
+.br
+.ti -1c
+.RI "QWidget * \fBparentWidget\fP ()"
+.br
+.ti -1c
+.RI "const QWidget * \fBparentWidget\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetEnabled\fP (bool)"
+.br
+.ti -1c
+.RI "bool \fBisEnabled\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetMouseFactor\fP (double)"
+.br
+.ti -1c
+.RI "double \fBmouseFactor\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetMouseButton\fP (int button, int buttonState=Qt::NoButton)"
+.br
+.ti -1c
+.RI "void \fBgetMouseButton\fP (int &button, int &buttonState) const "
+.br
+.ti -1c
+.RI "void \fBsetWheelFactor\fP (double)"
+.br
+.ti -1c
+.RI "double \fBwheelFactor\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetWheelButtonState\fP (int buttonState)"
+.br
+.ti -1c
+.RI "int \fBwheelButtonState\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetKeyFactor\fP (double)"
+.br
+.ti -1c
+.RI "double \fBkeyFactor\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetZoomInKey\fP (int key, int modifiers)"
+.br
+.ti -1c
+.RI "void \fBgetZoomInKey\fP (int &key, int &modifiers) const "
+.br
+.ti -1c
+.RI "void \fBsetZoomOutKey\fP (int key, int modifiers)"
+.br
+.ti -1c
+.RI "void \fBgetZoomOutKey\fP (int &key, int &modifiers) const "
+.br
+.ti -1c
+.RI "virtual bool \fBeventFilter\fP (QObject *, QEvent *)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBrescale\fP (double factor)=0"
+.br
+.ti -1c
+.RI "virtual void \fBwidgetMousePressEvent\fP (QMouseEvent *)"
+.br
+.ti -1c
+.RI "virtual void \fBwidgetMouseReleaseEvent\fP (QMouseEvent *)"
+.br
+.ti -1c
+.RI "virtual void \fBwidgetMouseMoveEvent\fP (QMouseEvent *)"
+.br
+.ti -1c
+.RI "virtual void \fBwidgetWheelEvent\fP (QWheelEvent *)"
+.br
+.ti -1c
+.RI "virtual void \fBwidgetKeyPressEvent\fP (QKeyEvent *)"
+.br
+.ti -1c
+.RI "virtual void \fBwidgetKeyReleaseEvent\fP (QKeyEvent *)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBQwtMagnifier\fP provides zooming, by magnifying in steps. 
+
+Using \fBQwtMagnifier\fP a plot can be zoomed in/out in steps using keys, the mouse wheel or moving a mouse button in vertical direction. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtMagnifier::QwtMagnifier (QWidget * parent)\fC [explicit]\fP"
+.PP
+Constructor 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparent\fP Widget to be magnified 
+.RE
+.PP
+
+.SS "QwtMagnifier::~QwtMagnifier ()\fC [virtual]\fP"
+.PP
+Destructor. 
+.PP
+.SH "Member Function Documentation"
+.PP 
+.SS "bool QwtMagnifier::eventFilter (QObject * o, QEvent * e)\fC [virtual]\fP"
+.PP
+Event filter. 
+.PP
+When \fBisEnabled()\fP the mouse events of the observed widget are filtered.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBwidgetMousePressEvent()\fP, \fBwidgetMouseReleaseEvent()\fP, \fBwidgetMouseMoveEvent()\fP, \fBwidgetWheelEvent()\fP, \fBwidgetKeyPressEvent()\fP \fBwidgetKeyReleaseEvent()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::getMouseButton (int & button, int & buttonState) const"
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetMouseButton()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::getZoomInKey (int & key, int & modifiers) const"
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetZoomInKey()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::getZoomOutKey (int & key, int & modifiers) const"
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetZoomOutKey()\fP 
+.RE
+.PP
+
+.SS "bool QwtMagnifier::isEnabled () const"
+.PP
+\fBReturns:\fP
+.RS 4
+true when enabled, false otherwise 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetEnabled()\fP, \fBeventFilter()\fP 
+.RE
+.PP
+
+.SS "double QwtMagnifier::keyFactor () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Key factor 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetKeyFactor()\fP 
+.RE
+.PP
+
+.SS "double QwtMagnifier::mouseFactor () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Mouse factor 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetMouseFactor()\fP 
+.RE
+.PP
+
+.SS "const QWidget * QwtMagnifier::parentWidget () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Parent widget, where the rescaling happens 
+.RE
+.PP
+
+.SS "QWidget * QwtMagnifier::parentWidget ()"
+.PP
+\fBReturns:\fP
+.RS 4
+Parent widget, where the rescaling happens 
+.RE
+.PP
+
+.SS "virtual void QwtMagnifier::rescale (double factor)\fC [protected, pure virtual]\fP"
+.PP
+Rescale the parent widget 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfactor\fP Scale factor 
+.RE
+.PP
+
+.PP
+Implemented in \fBQwtPlotMagnifier\fP.
+.SS "void QwtMagnifier::setEnabled (bool on)"
+.PP
+En/disable the magnifier. 
+.PP
+When enabled is true an event filter is installed for the observed widget, otherwise the event filter is removed.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIon\fP true or false 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBisEnabled()\fP, \fBeventFilter()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::setKeyFactor (double factor)"
+.PP
+Change the key factor. 
+.PP
+The key factor defines the ratio between the current range on the parent widget and the zoomed range for each key press of the zoom in/out keys. The default value is 0.9.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfactor\fP Key factor 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBkeyFactor()\fP, \fBsetZoomInKey()\fP, \fBsetZoomOutKey()\fP, \fBsetWheelFactor\fP, \fBsetMouseFactor()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::setMouseButton (int button, int buttonState = \fCQt::NoButton\fP)"
+.PP
+Assign the mouse button, that is used for zooming in/out. The default value is Qt::RightButton.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbutton\fP Button 
+.br
+\fIbuttonState\fP Button state 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBgetMouseButton()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::setMouseFactor (double factor)"
+.PP
+Change the mouse factor. 
+.PP
+The mouse factor defines the ratio between the current range on the parent widget and the zoomed range for each vertical mouse movement. The default value is 0.95.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfactor\fP Wheel factor 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBmouseFactor()\fP, \fBsetMouseButton()\fP, \fBsetWheelFactor()\fP, \fBsetKeyFactor()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::setWheelButtonState (int buttonState)"
+.PP
+Assign a mandatory button state for zooming in/out using the wheel. The default button state is Qt::NoButton.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbuttonState\fP Button state 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBwheelButtonState()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::setWheelFactor (double factor)"
+.PP
+Change the wheel factor. 
+.PP
+The wheel factor defines the ratio between the current range on the parent widget and the zoomed range for each step of the wheel. The default value is 0.9.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfactor\fP Wheel factor 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBwheelFactor()\fP, \fBsetWheelButtonState()\fP, \fBsetMouseFactor()\fP, \fBsetKeyFactor()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::setZoomInKey (int key, int modifiers)"
+.PP
+Assign the key, that is used for zooming in. The default combination is Qt::Key_Plus + Qt::NoModifier.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIkey\fP 
+.br
+\fImodifiers\fP 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBgetZoomInKey()\fP, \fBsetZoomOutKey()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::setZoomOutKey (int key, int modifiers)"
+.PP
+Assign the key, that is used for zooming out. The default combination is Qt::Key_Minus + Qt::NoModifier.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIkey\fP 
+.br
+\fImodifiers\fP 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBgetZoomOutKey()\fP, \fBsetZoomOutKey()\fP 
+.RE
+.PP
+
+.SS "int QwtMagnifier::wheelButtonState () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Wheel button state 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetWheelButtonState()\fP 
+.RE
+.PP
+
+.SS "double QwtMagnifier::wheelFactor () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Wheel factor 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetWheelFactor()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::widgetKeyPressEvent (QKeyEvent * ke)\fC [protected, virtual]\fP"
+.PP
+Handle a key press event for the observed widget.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIke\fP Key event 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBeventFilter()\fP, \fBwidgetKeyReleaseEvent()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::widgetKeyReleaseEvent (QKeyEvent *)\fC [protected, virtual]\fP"
+.PP
+Handle a key release event for the observed widget.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIke\fP Key event 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBeventFilter()\fP, \fBwidgetKeyReleaseEvent()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::widgetMouseMoveEvent (QMouseEvent * me)\fC [protected, virtual]\fP"
+.PP
+Handle a mouse move event for the observed widget.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIme\fP Mouse event 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBeventFilter()\fP, \fBwidgetMousePressEvent()\fP, \fBwidgetMouseReleaseEvent()\fP, 
+.RE
+.PP
+
+.SS "void QwtMagnifier::widgetMousePressEvent (QMouseEvent * me)\fC [protected, virtual]\fP"
+.PP
+Handle a mouse press event for the observed widget.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIme\fP Mouse event 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBeventFilter()\fP, \fBwidgetMouseReleaseEvent()\fP, \fBwidgetMouseMoveEvent()\fP 
+.RE
+.PP
+
+.SS "void QwtMagnifier::widgetMouseReleaseEvent (QMouseEvent *)\fC [protected, virtual]\fP"
+.PP
+Handle a mouse release event for the observed widget. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBeventFilter()\fP, \fBwidgetMousePressEvent()\fP, \fBwidgetMouseMoveEvent()\fP, 
+.RE
+.PP
+
+.SS "void QwtMagnifier::widgetWheelEvent (QWheelEvent * we)\fC [protected, virtual]\fP"
+.PP
+Handle a wheel event for the observed widget.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwe\fP Wheel event 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBeventFilter()\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

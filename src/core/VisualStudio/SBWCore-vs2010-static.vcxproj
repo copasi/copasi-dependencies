@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>SBW-static</ProjectName>
+    <ProjectGuid>{D12ACE27-383A-4CB8-A07A-6D2958801DDD}</ProjectGuid>
+    <RootNamespace>SBW</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\ReleaseSBW-static\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\DebugSBW-static\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/SBWCore.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\include\sbw;../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MT;NDEBUG;WIN32;_WINDOWS;_USRDLL;NO_API;__LITTLE__ENDIAN__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)SBWCore.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)SBWCore.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <SetChecksum>true</SetChecksum>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)../lib/SBW.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/SBWCore.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\include\sbw;../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MT;NDEBUG;WIN32;_WINDOWS;_USRDLL;NO_API;__LITTLE__ENDIAN__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)SBWCore.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)SBWD.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)../lib/SBWD.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\SBWCore\DataBlockReader.cpp" />
+    <ClCompile Include="..\SBWCore\DataBlockWriter.cpp" />
+    <ClCompile Include="..\SBWCore\DoNothingReceiver.cpp" />
+    <ClCompile Include="..\SBWCore\Handler.cpp" />
+    <ClCompile Include="..\SBWCore\ImplDataBlockReader.cpp" />
+    <ClCompile Include="..\SBWCore\ImplDataBlockWriter.cpp" />
+    <ClCompile Include="..\SBWCore\ImplModuleDescriptor.cpp" />
+    <ClCompile Include="..\SBWCore\Method.cpp" />
+    <ClCompile Include="..\SBWCore\MethodImpl.cpp" />
+    <ClCompile Include="..\SBWCore\MethodTable.cpp" />
+    <ClCompile Include="..\SBWCore\Module.cpp" />
+    <ClCompile Include="..\SBWCore\ModuleDescriptor.cpp" />
+    <ClCompile Include="..\SBWCore\ModuleImpl.cpp" />
+    <ClCompile Include="..\SBWCore\portableOS.cpp" />
+    <ClCompile Include="..\SBWCore\RPCInCall.cpp" />
+    <ClCompile Include="..\SBWCore\RPCOutCall.cpp" />
+    <ClCompile Include="..\SBWCore\RuntimeProperties.cpp" />
+    <ClCompile Include="..\SBWCore\SBW.cpp" />
+    <ClCompile Include="..\SBWCore\SBWApplicationException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWBrokerStartException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWC.cpp" />
+    <ClCompile Include="..\SBWCore\SBWCommunicationException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWConfig.cpp" />
+    <ClCompile Include="..\SBWCore\SBWException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWIncompatibleMethodSignatureException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWIncorrectCategorySyntaxException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWListener.cpp" />
+    <ClCompile Include="..\SBWCore\SBWListenerConsolidator.cpp" />
+    <ClCompile Include="..\SBWCore\SBWListenerForC.cpp" />
+    <ClCompile Include="..\SBWCore\SBWLowLevel.cpp" />
+    <ClCompile Include="..\SBWCore\SBWMethodAmbiguousException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWMethodNotFoundException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWMethodTypeNotBlockTypeException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWModuleDefinitionException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWModuleIdSyntaxException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWModuleNotFoundException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWModuleRPC.cpp" />
+    <ClCompile Include="..\SBWCore\SBWModuleStartException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWObject.cpp" />
+    <ClCompile Include="..\SBWCore\SBWOSSocket.cpp" />
+    <ClCompile Include="..\SBWCore\SBWRawException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWRPC.cpp" />
+    <ClCompile Include="..\SBWCore\SBWServiceNotFoundException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWSignatureSyntaxException.cpp" />
+    <ClCompile Include="..\SBWCore\sbwSignatureVoid.cpp" />
+    <ClCompile Include="..\SBWCore\SBWTypeMismatchException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWUnsupportedObjectTypeException.cpp" />
+    <ClCompile Include="..\SBWCore\Service.cpp" />
+    <ClCompile Include="..\SBWCore\ServiceDescriptor.cpp" />
+    <ClCompile Include="..\SBWCore\ServiceImpl.cpp" />
+    <ClCompile Include="..\SBWCore\SessionKey.cpp" />
+    <ClCompile Include="..\SBWCore\Signature.cpp" />
+    <ClCompile Include="..\SBWCore\SignatureArray.cpp" />
+    <ClCompile Include="..\SBWCore\SignatureBoolean.cpp" />
+    <ClCompile Include="..\SBWCore\SignatureElement.cpp" />
+    <ClCompile Include="..\SBWCore\SignatureList.cpp" />
+    <ClCompile Include="..\SBWCore\SignatureListContents.cpp" />
+    <ClCompile Include="..\SBWCore\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Sbw\config.h" />
+    <ClInclude Include="..\include\Sbw\DataBlockReader.h" />
+    <ClInclude Include="..\include\Sbw\DataBlockReaderClass.h" />
+    <ClInclude Include="..\include\Sbw\DataBlockType.h" />
+    <ClInclude Include="..\include\Sbw\DataBlockWriter.h" />
+    <ClInclude Include="..\include\Sbw\DataBlockWriterClass.h" />
+    <ClInclude Include="..\include\Sbw\DoNothingReceiver.h" />
+    <ClInclude Include="..\include\Sbw\Handler.h" />
+    <ClInclude Include="..\include\Sbw\HandlerForC.h" />
+    <ClInclude Include="..\include\Sbw\ImplDataBlockReader.h" />
+    <ClInclude Include="..\include\Sbw\ImplDataBlockReaderClass.h" />
+    <ClInclude Include="..\include\Sbw\ImplDataBlockWriter.h" />
+    <ClInclude Include="..\include\Sbw\ImplDataBlockWriterClass.h" />
+    <ClInclude Include="..\include\Sbw\ImplModuleDescriptor.h" />
+    <ClInclude Include="..\include\Sbw\Method.h" />
+    <ClInclude Include="..\include\Sbw\MethodImpl.h" />
+    <ClInclude Include="..\include\Sbw\MethodInline.h" />
+    <ClInclude Include="..\include\Sbw\MethodTable.h" />
+    <ClInclude Include="..\include\Sbw\Module.h" />
+    <ClInclude Include="..\include\Sbw\ModuleDescriptor.h" />
+    <ClInclude Include="..\include\Sbw\ModuleImpl.h" />
+    <ClInclude Include="..\include\Sbw\ModuleInline.h" />
+    <ClInclude Include="..\include\Sbw\portableOS.h" />
+    <ClInclude Include="..\include\Sbw\Receiver.h" />
+    <ClInclude Include="resource-vs2008.h" />
+    <ClInclude Include="..\include\Sbw\RPCInCall.h" />
+    <ClInclude Include="..\include\Sbw\RPCOutCall.h" />
+    <ClInclude Include="..\include\Sbw\RuntimeProperties.h" />
+    <ClInclude Include="..\include\Sbw\SBW.h" />
+    <ClInclude Include="..\include\Sbw\SBWApplicationException.h" />
+    <ClInclude Include="..\include\Sbw\sbwbasictypes.h" />
+    <ClInclude Include="..\include\Sbw\SBWBrokerStartException.h" />
+    <ClInclude Include="..\include\Sbw\SBWC.h" />
+    <ClInclude Include="..\include\Sbw\SBWCommunicationException.h" />
+    <ClInclude Include="..\include\Sbw\SBWConfig.h" />
+    <ClInclude Include="..\include\Sbw\sbwdefs.h" />
+    <ClInclude Include="..\include\Sbw\sbwenums.h" />
+    <ClInclude Include="..\include\Sbw\SBWException.h" />
+    <ClInclude Include="..\include\Sbw\SBWHandle.h" />
+    <ClInclude Include="..\include\Sbw\SBWHighLevel.h" />
+    <ClInclude Include="..\include\Sbw\SBWIncompatibleMethodSignatureException.h" />
+    <ClInclude Include="..\include\Sbw\SBWIncorrectCategorySyntaxException.h" />
+    <ClInclude Include="..\include\Sbw\SBWListener.h" />
+    <ClInclude Include="..\include\Sbw\SBWListenerConsolidator.h" />
+    <ClInclude Include="..\include\Sbw\SBWListenerForC.h" />
+    <ClInclude Include="..\include\Sbw\SBWLowLevel.h" />
+    <ClInclude Include="..\include\Sbw\SBWMethodAmbiguousException.h" />
+    <ClInclude Include="..\include\Sbw\SBWMethodNotFoundException.h" />
+    <ClInclude Include="..\include\Sbw\SBWMethodTypeNotBlockTypeException.h" />
+    <ClInclude Include="..\include\Sbw\SBWModuleDefinitionException.h" />
+    <ClInclude Include="..\include\Sbw\SBWModuleIdSyntaxException.h" />
+    <ClInclude Include="..\include\Sbw\SBWModuleNotFoundException.h" />
+    <ClInclude Include="..\include\Sbw\SBWModuleRPC.h" />
+    <ClInclude Include="..\include\Sbw\SBWModuleStartException.h" />
+    <ClInclude Include="..\include\Sbw\SBWObject.h" />
+    <ClInclude Include="..\include\Sbw\SBWOSSocket.h" />
+    <ClInclude Include="..\include\Sbw\sbwplusbasictypes.h" />
+    <ClInclude Include="..\include\Sbw\SBWRawException.h" />
+    <ClInclude Include="..\include\Sbw\SBWRPC.h" />
+    <ClInclude Include="..\include\Sbw\SBWRPCListener.h" />
+    <ClInclude Include="..\include\Sbw\SBWServiceNotFoundException.h" />
+    <ClInclude Include="..\include\Sbw\sbwSignatureByte.h" />
+    <ClInclude Include="..\include\Sbw\SBWSignatureSyntaxException.h" />
+    <ClInclude Include="..\include\Sbw\sbwSignatureVoid.h" />
+    <ClInclude Include="..\include\Sbw\SBWTypeMismatchException.h" />
+    <ClInclude Include="..\include\Sbw\SBWUnsupportedObjectTypeException.h" />
+    <ClInclude Include="..\include\Sbw\Service.h" />
+    <ClInclude Include="..\include\Sbw\ServiceDescriptor.h" />
+    <ClInclude Include="..\include\Sbw\ServiceImpl.h" />
+    <ClInclude Include="..\include\Sbw\ServiceInline.h" />
+    <ClInclude Include="..\include\Sbw\SessionKey.h" />
+    <ClInclude Include="..\include\Sbw\Signature.h" />
+    <ClInclude Include="..\include\Sbw\SignatureArray.h" />
+    <ClInclude Include="..\include\Sbw\SignatureBoolean.h" />
+    <ClInclude Include="..\include\Sbw\SignatureElement.h" />
+    <ClInclude Include="..\include\Sbw\SignatureList.h" />
+    <ClInclude Include="..\include\Sbw\SignatureListContents.h" />
+    <ClInclude Include="..\include\Sbw\SignatureScalar.h" />
+    <ClInclude Include="..\include\Sbw\SignatureType.h" />
+    <ClInclude Include="..\include\Sbw\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SBW-vs2008.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

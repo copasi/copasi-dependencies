@@ -1,0 +1,40 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SBW", "SBWCore.vcproj", "{D12ACE27-383A-4CB8-A07A-6D2958801475}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "C++Broker", "SBWBrokerLight.vcproj", "{7ADB1AE4-BACA-4E3E-B3C3-0D7D63561EF4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D12ACE27-383A-4CB8-A07A-6D2958801475} = {D12ACE27-383A-4CB8-A07A-6D2958801475}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SBW-static", "SBWCore-static.vcproj", "{D12ACE27-383A-4CB8-A07A-6D2958801475}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{D12ACE27-383A-4CB8-A07A-6D2958801475}.Debug.ActiveCfg = Debug|Win32
+		{D12ACE27-383A-4CB8-A07A-6D2958801475}.Debug.Build.0 = Debug|Win32
+		{D12ACE27-383A-4CB8-A07A-6D2958801475}.Release.ActiveCfg = Release|Win32
+		{D12ACE27-383A-4CB8-A07A-6D2958801475}.Release.Build.0 = Release|Win32
+		{7ADB1AE4-BACA-4E3E-B3C3-0D7D63561EF4}.Debug.ActiveCfg = Debug|Win32
+		{7ADB1AE4-BACA-4E3E-B3C3-0D7D63561EF4}.Debug.Build.0 = Debug|Win32
+		{7ADB1AE4-BACA-4E3E-B3C3-0D7D63561EF4}.Release.ActiveCfg = Release|Win32
+		{7ADB1AE4-BACA-4E3E-B3C3-0D7D63561EF4}.Release.Build.0 = Release|Win32
+		{D12ACE27-383A-4CB8-A07A-6D2958801475}.Debug.ActiveCfg = Debug|Win32
+		{D12ACE27-383A-4CB8-A07A-6D2958801475}.Debug.Build.0 = Debug|Win32
+		{D12ACE27-383A-4CB8-A07A-6D2958801475}.Release.ActiveCfg = Release|Win32
+		{D12ACE27-383A-4CB8-A07A-6D2958801475}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

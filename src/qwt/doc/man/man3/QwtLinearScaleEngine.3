@@ -1,0 +1,117 @@
+.TH "QwtLinearScaleEngine" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtLinearScaleEngine \- A scale engine for linear scales.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_scale_engine.h>\fP
+.PP
+Inherits \fBQwtScaleEngine\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBautoScale\fP (int maxSteps, double &x1, double &x2, double &stepSize) const "
+.br
+.ti -1c
+.RI "virtual \fBQwtScaleDiv\fP \fBdivideScale\fP (double x1, double x2, int numMajorSteps, int numMinorSteps, double stepSize=0.0) const "
+.br
+.ti -1c
+.RI "virtual \fBQwtScaleTransformation\fP * \fBtransformation\fP () const "
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtDoubleInterval\fP \fBalign\fP (const \fBQwtDoubleInterval\fP &, double stepSize) const "
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A scale engine for linear scales. 
+
+The step size will fit into the pattern $\left\{ 1,2,5\right\} \cdot 10^{n}$, where n is an integer. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBQwtDoubleInterval\fP QwtLinearScaleEngine::align (const \fBQwtDoubleInterval\fP & interval, double stepSize) const\fC [protected]\fP"
+.PP
+Align an interval to a step size. 
+.PP
+The limits of an interval are aligned that both are integer multiples of the step size.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIinterval\fP Interval 
+.br
+\fIstepSize\fP Step size
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Aligned interval 
+.RE
+.PP
+
+.SS "void QwtLinearScaleEngine::autoScale (int maxNumSteps, double & x1, double & x2, double & stepSize) const\fC [virtual]\fP"
+.PP
+Align and divide an interval
+.PP
+\fBParameters:\fP
+.RS 4
+\fImaxNumSteps\fP Max. number of steps 
+.br
+\fIx1\fP First limit of the interval (In/Out) 
+.br
+\fIx2\fP Second limit of the interval (In/Out) 
+.br
+\fIstepSize\fP Step size (Out)
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetAttribute()\fP 
+.RE
+.PP
+
+.PP
+Implements \fBQwtScaleEngine\fP.
+.SS "\fBQwtScaleDiv\fP QwtLinearScaleEngine::divideScale (double x1, double x2, int maxMajSteps, int maxMinSteps, double stepSize = \fC0.0\fP) const\fC [virtual]\fP"
+.PP
+Calculate a scale division. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx1\fP First interval limit 
+.br
+\fIx2\fP Second interval limit 
+.br
+\fImaxMajSteps\fP Maximum for the number of major steps 
+.br
+\fImaxMinSteps\fP Maximum number of minor steps 
+.br
+\fIstepSize\fP Step size. If stepSize == 0, the scaleEngine calculates one.
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+QwtScaleEngine::stepSize(), QwtScaleEngine::subDivide() 
+.RE
+.PP
+
+.PP
+Implements \fBQwtScaleEngine\fP.
+.SS "\fBQwtScaleTransformation\fP * QwtLinearScaleEngine::transformation () const\fC [virtual]\fP"
+.PP
+Return a transformation, for linear scales 
+.PP
+Implements \fBQwtScaleEngine\fP.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

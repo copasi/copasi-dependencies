@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Initialisation</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="Raptor RDF Syntax Parsing and Serializing Library Manual">
+<link rel="up" href="reference-manual.html" title="Part II. Raptor Reference Manual">
+<link rel="prev" href="serializer-dot.html" title="GraphViz dot serializer (name dot)">
+<link rel="next" href="raptor-section-general.html" title="General">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="introduction.html" title="Raptor Overview">
+<link rel="part" href="tutorial.html" title="Part I. Raptor Tutorial">
+<link rel="chapter" href="tutorial-initialising-finishing.html" title="Initialising and Finishing using the Library">
+<link rel="chapter" href="tutorial-querying-functionality.html" title="Listing built-in functionality">
+<link rel="chapter" href="tutorial-parsing.html" title="Parsing syntaxes to RDF Triples">
+<link rel="chapter" href="tutorial-serializing.html" title="Serializing RDF triples to a syntax">
+<link rel="part" href="reference-manual.html" title="Part II. Raptor Reference Manual">
+<link rel="chapter" href="raptor-parsers.html" title="Parsers in Raptor (syntax to triples)">
+<link rel="chapter" href="raptor-serializers.html" title="Serializers in Raptor (triples to syntax)">
+<link rel="index" href="ix01.html" title="Index">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="serializer-dot.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="reference-manual.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Raptor RDF Syntax Parsing and Serializing Library Manual</th>
+<td><a accesskey="n" href="raptor-section-general.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#raptor-section-world.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#raptor-section-world.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry" title="Initialisation">
+<a name="raptor-section-world"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="raptor-section-world.top_of_page"></a>Initialisation</span></h2>
+<p>Initialisation — Library startup, shutdown and configuration.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="raptor-section-world.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+void                <a class="link" href="raptor-section-world.html#raptor-init" title="raptor_init ()">raptor_init</a>                         (void);
+void                <a class="link" href="raptor-section-world.html#raptor-finish" title="raptor_finish ()">raptor_finish</a>                       (void);
+typedef             <a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a>;
+<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a>*       <a class="link" href="raptor-section-world.html#raptor-new-world" title="raptor_new_world ()">raptor_new_world</a>                    (void);
+void                <a class="link" href="raptor-section-world.html#raptor-free-world" title="raptor_free_world ()">raptor_free_world</a>                   (<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a> *world);
+enum                <a class="link" href="raptor-section-world.html#raptor-libxml-flags" title="enum raptor_libxml_flags">raptor_libxml_flags</a>;
+void                <a class="link" href="raptor-section-world.html#raptor-world-set-libxml-flags" title="raptor_world_set_libxml_flags ()">raptor_world_set_libxml_flags</a>       (<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a> *world,
+                                                         int flags);
+void                <a class="link" href="raptor-section-world.html#raptor-world-set-libxslt-security-preferences" title="raptor_world_set_libxslt_security_preferences ()">raptor_world_set_libxslt_security_preferences</a>
+                                                        (<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a> *world,
+                                                         void *security_preferences);
+int                 <a class="link" href="raptor-section-world.html#raptor-world-open" title="raptor_world_open ()">raptor_world_open</a>                   (<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a> *world);
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="raptor-section-world.description"></a><h2>Description</h2>
+<p>
+How to initialise and terminate the library, set
+library-wide configuration flags and options.
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="raptor-section-world.details"></a><h2>Details</h2>
+<div class="refsect2" title="raptor_init ()">
+<a name="raptor-init"></a><h3>raptor_init ()</h3>
+<pre class="programlisting">void                raptor_init                         (void);</pre>
+<p>
+Initialise the raptor library.
+</p>
+<p>
+This function MUST be called before using any of the raptor APIs.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="raptor_finish ()">
+<a name="raptor-finish"></a><h3>raptor_finish ()</h3>
+<pre class="programlisting">void                raptor_finish                       (void);</pre>
+<p>
+Terminate the raptor library.
+</p>
+<p>
+Cleans up state of the library.  If called, must be used after
+all other objects are destroyed with their destructor.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="raptor_world">
+<a name="raptor-world"></a><h3>raptor_world</h3>
+<pre class="programlisting">typedef struct raptor_world_s raptor_world;
+</pre>
+<p>
+Raptor world class.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="raptor_new_world ()">
+<a name="raptor-new-world"></a><h3>raptor_new_world ()</h3>
+<pre class="programlisting"><a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a>*       raptor_new_world                    (void);</pre>
+<p>
+Allocate a new raptor_world object.
+</p>
+<p>
+The raptor_world is initialized with <a class="link" href="raptor-section-world.html#raptor-world-open" title="raptor_world_open ()"><code class="function">raptor_world_open()</code></a>.
+Allocation and initialization are decoupled to allow
+changing settings on the world object before init.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> uninitialized raptor_world object or NULL on failure
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="raptor_free_world ()">
+<a name="raptor-free-world"></a><h3>raptor_free_world ()</h3>
+<pre class="programlisting">void                raptor_free_world                   (<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a> *world);</pre>
+<p>
+Terminate the raptor library.
+</p>
+<p>
+Destroys the raptor_world object and all related information.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>world</code></em> :</span></p></td>
+<td> raptor_world object
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="enum raptor_libxml_flags">
+<a name="raptor-libxml-flags"></a><h3>enum raptor_libxml_flags</h3>
+<pre class="programlisting">typedef enum {
+  RAPTOR_LIBXML_FLAGS_GENERIC_ERROR_SAVE    = 1,
+  RAPTOR_LIBXML_FLAGS_STRUCTURED_ERROR_SAVE = 2
+} raptor_libxml_flags;
+</pre>
+<p>
+libxml library flags
+</p>
+<p>
+These are used by <a class="link" href="raptor-section-world.html#raptor-world-set-libxml-flags" title="raptor_world_set_libxml_flags ()"><code class="function">raptor_world_set_libxml_flags()</code></a> and
+<a class="link" href="raptor-section-general.html#raptor-set-libxml-flags" title="raptor_set_libxml_flags ()"><code class="function">raptor_set_libxml_flags()</code></a> to control common libxml features.
+</p>
+<p>
+If any handler saving/restoring is enabled, any existing handler
+and context is saved before parsing and restored afterwards.
+Otherwise, no saving/restoring is performed.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="RAPTOR-LIBXML-FLAGS-GENERIC-ERROR-SAVE--CAPS"></a><span class="term"><code class="literal">RAPTOR_LIBXML_FLAGS_GENERIC_ERROR_SAVE</code></span></p></td>
+<td> if set - save/restore the libxml generic error handler when parsing (default unset)
+</td>
+</tr>
+<tr>
+<td><p><a name="RAPTOR-LIBXML-FLAGS-STRUCTURED-ERROR-SAVE--CAPS"></a><span class="term"><code class="literal">RAPTOR_LIBXML_FLAGS_STRUCTURED_ERROR_SAVE</code></span></p></td>
+<td> if set - save/restore the libxml structured error handler when parsing (default unset)
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="raptor_world_set_libxml_flags ()">
+<a name="raptor-world-set-libxml-flags"></a><h3>raptor_world_set_libxml_flags ()</h3>
+<pre class="programlisting">void                raptor_world_set_libxml_flags       (<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a> *world,
+                                                         int flags);</pre>
+<p>
+Set common libxml library flags
+</p>
+<p>
+If libxml is compiled into the library, <em class="parameter"><code>flags</code></em> is a bitmask
+taking an OR of values defined in <a class="link" href="raptor-section-world.html#raptor-libxml-flags" title="enum raptor_libxml_flags"><span class="type">raptor_libxml_flags</span></a>
+</p>
+<p>
+See the <a class="link" href="raptor-section-world.html#raptor-libxml-flags" title="enum raptor_libxml_flags"><span class="type">raptor_libxml_flags</span></a> documentation for full details of
+what the flags mean.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>world</code></em> :</span></p></td>
+<td> world
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td> libxml flags
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="raptor_world_set_libxslt_security_preferences ()">
+<a name="raptor-world-set-libxslt-security-preferences"></a><h3>raptor_world_set_libxslt_security_preferences ()</h3>
+<pre class="programlisting">void                raptor_world_set_libxslt_security_preferences
+                                                        (<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a> *world,
+                                                         void *security_preferences);</pre>
+<p>
+Set libxslt security preferences policy object
+</p>
+<p>
+The <em class="parameter"><code>security_preferences</code></em> object will NOT become owned by
+<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world"><span class="type">raptor_world</span></a>
+</p>
+<p>
+If libxslt is compiled into the library, <em class="parameter"><code>security_preferences</code></em>
+should be an <span class="type">xsltSecurityPrefsPtr</span> and will be used to call
+<code class="function">xsltSetCtxtSecurityPrefs()</code> when an XSLT engine is initialised.
+</p>
+<p>
+If libxslt is not compiled in, the object set here is not used.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>world</code></em> :</span></p></td>
+<td> world
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>security_preferences</code></em> :</span></p></td>
+<td> security preferences (an <span class="type">xsltSecurityPrefsPtr</span>)
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="raptor_world_open ()">
+<a name="raptor-world-open"></a><h3>raptor_world_open ()</h3>
+<pre class="programlisting">int                 raptor_world_open                   (<a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world">raptor_world</a> *world);</pre>
+<p>
+Initialise the raptor library.
+</p>
+<p>
+Initializes a <a class="link" href="raptor-section-world.html#raptor-world" title="raptor_world"><span class="type">raptor_world</span></a> object created by <a class="link" href="raptor-section-world.html#raptor-new-world" title="raptor_new_world ()"><code class="function">raptor_new_world()</code></a>.
+Allocation and initialization are decoupled to allow
+changing settings on the world object before init.
+</p>
+<p>
+The initialized world object is used with subsequent raptor API calls.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>world</code></em> :</span></p></td>
+<td> raptor_world object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> non-0 on failure
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.11</div>
+</body>
+</html>

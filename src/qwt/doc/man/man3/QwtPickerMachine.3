@@ -1,0 +1,100 @@
+.TH "QwtPickerMachine" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtPickerMachine \- A state machine for \fBQwtPicker\fP selections.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_picker_machine.h>\fP
+.PP
+Inherited by \fBQwtPickerClickPointMachine\fP, \fBQwtPickerClickRectMachine\fP, \fBQwtPickerDragPointMachine\fP, \fBQwtPickerDragRectMachine\fP, and \fBQwtPickerPolygonMachine\fP.
+.PP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBCommand\fP { \fBBegin\fP, \fBAppend\fP, \fBMove\fP, \fBEnd\fP }"
+.br
+.ti -1c
+.RI "typedef QList< \fBCommand\fP > \fBCommandList\fP"
+.br
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fB~QwtPickerMachine\fP ()"
+.br
+.ti -1c
+.RI "virtual CommandList \fBtransition\fP (const \fBQwtEventPattern\fP &, const QEvent *)=0"
+.br
+.ti -1c
+.RI "void \fBreset\fP ()"
+.br
+.ti -1c
+.RI "int \fBstate\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetState\fP (int)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtPickerMachine\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A state machine for \fBQwtPicker\fP selections. 
+
+\fBQwtPickerMachine\fP accepts key and mouse events and translates them into selection commands.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtEventPattern::MousePatternCode\fP, \fBQwtEventPattern::KeyPatternCode\fP 
+.RE
+.PP
+
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBQwtPickerMachine::Command\fP"
+.PP
+Commands - the output of the state machine. 
+.PP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtPickerMachine::~QwtPickerMachine ()\fC [virtual]\fP"
+.PP
+Destructor. 
+.PP
+.SS "QwtPickerMachine::QwtPickerMachine ()\fC [protected]\fP"
+.PP
+Constructor. 
+.PP
+.SH "Member Function Documentation"
+.PP 
+.SS "void QwtPickerMachine::reset ()"
+.PP
+Set the current state to 0. 
+.PP
+.SS "void QwtPickerMachine::setState (int state)"
+.PP
+Change the current state. 
+.PP
+.SS "int QwtPickerMachine::state () const"
+.PP
+Return the current state. 
+.PP
+.SS "virtual CommandList QwtPickerMachine::transition (const \fBQwtEventPattern\fP &, const QEvent *)\fC [pure virtual]\fP"
+.PP
+Transition. 
+.PP
+Implemented in \fBQwtPickerClickPointMachine\fP, \fBQwtPickerDragPointMachine\fP, \fBQwtPickerClickRectMachine\fP, \fBQwtPickerDragRectMachine\fP, and \fBQwtPickerPolygonMachine\fP.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

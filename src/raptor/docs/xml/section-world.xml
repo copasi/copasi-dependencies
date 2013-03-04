@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+<refentry id="raptor-section-world">
+<refmeta>
+<refentrytitle role="top_of_page" id="raptor-section-world.top_of_page">Initialisation</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>RAPTOR Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>Initialisation</refname>
+<refpurpose>Library startup, shutdown and configuration.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="raptor-section-world.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+<link linkend="void">void</link>                <link linkend="raptor-init">raptor_init</link>                         (void);
+<link linkend="void">void</link>                <link linkend="raptor-finish">raptor_finish</link>                       (void);
+typedef             <link linkend="raptor-world">raptor_world</link>;
+<link linkend="raptor-world">raptor_world</link>*       <link linkend="raptor-new-world">raptor_new_world</link>                    (void);
+<link linkend="void">void</link>                <link linkend="raptor-free-world">raptor_free_world</link>                   (<link linkend="raptor-world">raptor_world</link> *world);
+enum                <link linkend="raptor-libxml-flags">raptor_libxml_flags</link>;
+<link linkend="void">void</link>                <link linkend="raptor-world-set-libxml-flags">raptor_world_set_libxml_flags</link>       (<link linkend="raptor-world">raptor_world</link> *world,
+                                                         <link linkend="int">int</link> flags);
+<link linkend="void">void</link>                <link linkend="raptor-world-set-libxslt-security-preferences">raptor_world_set_libxslt_security_preferences</link>
+                                                        (<link linkend="raptor-world">raptor_world</link> *world,
+                                                         <link linkend="void">void</link> *security_preferences);
+<link linkend="int">int</link>                 <link linkend="raptor-world-open">raptor_world_open</link>                   (<link linkend="raptor-world">raptor_world</link> *world);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="raptor-section-world.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+How to initialise and terminate the library, set
+library-wide configuration flags and options.
+</para>
+</refsect1>
+
+<refsect1 id="raptor-section-world.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="raptor-init" role="function">
+<title>raptor_init ()</title>
+<indexterm zone="raptor-init"><primary sortas="raptor_init">raptor_init</primary></indexterm><programlisting><link linkend="void">void</link>                raptor_init                         (void);</programlisting>
+<para>
+Initialise the raptor library.
+</para>
+<para>
+This function MUST be called before using any of the raptor APIs.</para>
+<para>
+</para></refsect2>
+<refsect2 id="raptor-finish" role="function">
+<title>raptor_finish ()</title>
+<indexterm zone="raptor-finish"><primary sortas="raptor_finish">raptor_finish</primary></indexterm><programlisting><link linkend="void">void</link>                raptor_finish                       (void);</programlisting>
+<para>
+Terminate the raptor library.
+</para>
+<para>
+Cleans up state of the library.  If called, must be used after
+all other objects are destroyed with their destructor.</para>
+<para>
+</para></refsect2>
+<refsect2 id="raptor-world" role="typedef">
+<title>raptor_world</title>
+<indexterm zone="raptor-world"><primary sortas="raptor_world">raptor_world</primary></indexterm><programlisting>typedef struct raptor_world_s raptor_world;
+</programlisting>
+<para>
+Raptor world class.</para>
+<para>
+</para></refsect2>
+<refsect2 id="raptor-new-world" role="function">
+<title>raptor_new_world ()</title>
+<indexterm zone="raptor-new-world"><primary sortas="raptor_new_world">raptor_new_world</primary></indexterm><programlisting><link linkend="raptor-world">raptor_world</link>*       raptor_new_world                    (void);</programlisting>
+<para>
+Allocate a new raptor_world object.
+</para>
+<para>
+The raptor_world is initialized with <link linkend="raptor-world-open"><function>raptor_world_open()</function></link>.
+Allocation and initialization are decoupled to allow
+changing settings on the world object before init.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> uninitialized raptor_world object or NULL on failure
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="raptor-free-world" role="function">
+<title>raptor_free_world ()</title>
+<indexterm zone="raptor-free-world"><primary sortas="raptor_free_world">raptor_free_world</primary></indexterm><programlisting><link linkend="void">void</link>                raptor_free_world                   (<link linkend="raptor-world">raptor_world</link> *world);</programlisting>
+<para>
+Terminate the raptor library.
+</para>
+<para>
+Destroys the raptor_world object and all related information.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>world</parameter>&#160;:</term>
+<listitem><simpara> raptor_world object
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="raptor-libxml-flags" role="enum">
+<title>enum raptor_libxml_flags</title>
+<indexterm zone="raptor-libxml-flags"><primary sortas="raptor_libxml_flags">raptor_libxml_flags</primary></indexterm><programlisting>typedef enum {
+  RAPTOR_LIBXML_FLAGS_GENERIC_ERROR_SAVE    = 1,
+  RAPTOR_LIBXML_FLAGS_STRUCTURED_ERROR_SAVE = 2
+} raptor_libxml_flags;
+</programlisting>
+<para>
+libxml library flags
+</para>
+<para>
+These are used by <link linkend="raptor-world-set-libxml-flags"><function>raptor_world_set_libxml_flags()</function></link> and
+<link linkend="raptor-set-libxml-flags"><function>raptor_set_libxml_flags()</function></link> to control common libxml features.
+</para>
+<para>
+If any handler saving/restoring is enabled, any existing handler
+and context is saved before parsing and restored afterwards.
+Otherwise, no saving/restoring is performed.</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="RAPTOR-LIBXML-FLAGS-GENERIC-ERROR-SAVE--CAPS" role="constant">
+<term><literal>RAPTOR_LIBXML_FLAGS_GENERIC_ERROR_SAVE</literal></term>
+<listitem><simpara> if set - save/restore the libxml generic error handler when parsing (default unset)
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="RAPTOR-LIBXML-FLAGS-STRUCTURED-ERROR-SAVE--CAPS" role="constant">
+<term><literal>RAPTOR_LIBXML_FLAGS_STRUCTURED_ERROR_SAVE</literal></term>
+<listitem><simpara> if set - save/restore the libxml structured error handler when parsing (default unset)
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="raptor-world-set-libxml-flags" role="function">
+<title>raptor_world_set_libxml_flags ()</title>
+<indexterm zone="raptor-world-set-libxml-flags"><primary sortas="raptor_world_set_libxml_flags">raptor_world_set_libxml_flags</primary></indexterm><programlisting><link linkend="void">void</link>                raptor_world_set_libxml_flags       (<link linkend="raptor-world">raptor_world</link> *world,
+                                                         <link linkend="int">int</link> flags);</programlisting>
+<para>
+Set common libxml library flags
+</para>
+<para>
+If libxml is compiled into the library, <parameter>flags</parameter> is a bitmask
+taking an OR of values defined in <link linkend="raptor-libxml-flags"><type>raptor_libxml_flags</type></link>
+</para>
+<para>
+See the <link linkend="raptor-libxml-flags"><type>raptor_libxml_flags</type></link> documentation for full details of
+what the flags mean.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>world</parameter>&#160;:</term>
+<listitem><simpara> world
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>flags</parameter>&#160;:</term>
+<listitem><simpara> libxml flags
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="raptor-world-set-libxslt-security-preferences" role="function">
+<title>raptor_world_set_libxslt_security_preferences ()</title>
+<indexterm zone="raptor-world-set-libxslt-security-preferences"><primary sortas="raptor_world_set_libxslt_security_preferences">raptor_world_set_libxslt_security_preferences</primary></indexterm><programlisting><link linkend="void">void</link>                raptor_world_set_libxslt_security_preferences
+                                                        (<link linkend="raptor-world">raptor_world</link> *world,
+                                                         <link linkend="void">void</link> *security_preferences);</programlisting>
+<para>
+Set libxslt security preferences policy object
+</para>
+<para>
+The <parameter>security_preferences</parameter> object will NOT become owned by
+<link linkend="raptor-world"><type>raptor_world</type></link>
+</para>
+<para>
+If libxslt is compiled into the library, <parameter>security_preferences</parameter>
+should be an <link linkend="xsltSecurityPrefsPtr"><type>xsltSecurityPrefsPtr</type></link> and will be used to call
+<link linkend="xsltSetCtxtSecurityPrefs"><function>xsltSetCtxtSecurityPrefs()</function></link> when an XSLT engine is initialised.
+</para>
+<para>
+If libxslt is not compiled in, the object set here is not used.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>world</parameter>&#160;:</term>
+<listitem><simpara> world
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>security_preferences</parameter>&#160;:</term>
+<listitem><simpara> security preferences (an <link linkend="xsltSecurityPrefsPtr"><type>xsltSecurityPrefsPtr</type></link>)
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="raptor-world-open" role="function">
+<title>raptor_world_open ()</title>
+<indexterm zone="raptor-world-open"><primary sortas="raptor_world_open">raptor_world_open</primary></indexterm><programlisting><link linkend="int">int</link>                 raptor_world_open                   (<link linkend="raptor-world">raptor_world</link> *world);</programlisting>
+<para>
+Initialise the raptor library.
+</para>
+<para>
+Initializes a <link linkend="raptor-world"><type>raptor_world</type></link> object created by <link linkend="raptor-new-world"><function>raptor_new_world()</function></link>.
+Allocation and initialization are decoupled to allow
+changing settings on the world object before init.
+</para>
+<para>
+The initialized world object is used with subsequent raptor API calls.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>world</parameter>&#160;:</term>
+<listitem><simpara> raptor_world object
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> non-0 on failure
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

@@ -1,0 +1,174 @@
+.TH "QwtArrayData" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtArrayData \- Data class containing two QwtArray<double> objects.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_data.h>\fP
+.PP
+Inherits \fBQwtData\fP.
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtArrayData\fP (const QwtArray< double > &x, const QwtArray< double > &y)"
+.br
+.ti -1c
+.RI "\fBQwtArrayData\fP (const double *x, const double *y, size_t size)"
+.br
+.ti -1c
+.RI "\fBQwtArrayData\fP & \fBoperator=\fP (const \fBQwtArrayData\fP &)"
+.br
+.ti -1c
+.RI "virtual \fBQwtData\fP * \fBcopy\fP () const "
+.br
+.ti -1c
+.RI "virtual size_t \fBsize\fP () const "
+.br
+.ti -1c
+.RI "virtual double \fBx\fP (size_t i) const "
+.br
+.ti -1c
+.RI "virtual double \fBy\fP (size_t i) const "
+.br
+.ti -1c
+.RI "const QwtArray< double > & \fBxData\fP () const "
+.br
+.ti -1c
+.RI "const QwtArray< double > & \fByData\fP () const "
+.br
+.ti -1c
+.RI "virtual QwtDoubleRect \fBboundingRect\fP () const "
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Data class containing two QwtArray<double> objects. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtArrayData::QwtArrayData (const QwtArray< double > & x, const QwtArray< double > & y)"
+.PP
+Constructor
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Array of x values 
+.br
+\fIy\fP Array of y values
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtPlotCurve::setData()\fP 
+.RE
+.PP
+
+.SS "QwtArrayData::QwtArrayData (const double * x, const double * y, size_t size)"
+.PP
+Constructor
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Array of x values 
+.br
+\fIy\fP Array of y values 
+.br
+\fIsize\fP Size of the x and y arrays 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtPlotCurve::setData()\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "QwtDoubleRect QwtArrayData::boundingRect () const\fC [virtual]\fP"
+.PP
+Returns the bounding rectangle of the data. If there is no bounding rect, like for empty data the rectangle is invalid: QwtDoubleRect::isValid() == false 
+.PP
+Reimplemented from \fBQwtData\fP.
+.SS "\fBQwtData\fP * QwtArrayData::copy () const\fC [virtual]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+Pointer to a copy (virtual copy constructor) 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "\fBQwtArrayData\fP & QwtArrayData::operator= (const \fBQwtArrayData\fP & data)"
+.PP
+Assignment. 
+.PP
+.SS "size_t QwtArrayData::size () const\fC [virtual]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+Size of the data set 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "double QwtArrayData::x (size_t i) const\fC [virtual]\fP"
+.PP
+Return the x value of data point i
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Index 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+x X value of data point i 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "const QwtArray< double > & QwtArrayData::xData () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Array of the x-values 
+.RE
+.PP
+
+.SS "double QwtArrayData::y (size_t i) const\fC [virtual]\fP"
+.PP
+Return the y value of data point i
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Index 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+y Y value of data point i 
+.RE
+.PP
+
+.PP
+Implements \fBQwtData\fP.
+.SS "const QwtArray< double > & QwtArrayData::yData () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Array of the y-values 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

@@ -1,0 +1,309 @@
+.TH "QwtPlotCanvas" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtPlotCanvas \- Canvas of a \fBQwtPlot\fP.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_plot_canvas.h>\fP
+.PP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBPaintAttribute\fP { \fBPaintCached\fP =  1, \fBPaintPacked\fP =  2 }"
+.br
+.ti -1c
+.RI "enum \fBFocusIndicator\fP { \fBNoFocusIndicator\fP, \fBCanvasFocusIndicator\fP, \fBItemFocusIndicator\fP }"
+.br
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtPlotCanvas\fP (\fBQwtPlot\fP *)"
+.br
+.ti -1c
+.RI "virtual \fB~QwtPlotCanvas\fP ()"
+.br
+.ti -1c
+.RI "\fBQwtPlot\fP * \fBplot\fP ()"
+.br
+.ti -1c
+.RI "const \fBQwtPlot\fP * \fBplot\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetFocusIndicator\fP (\fBFocusIndicator\fP)"
+.br
+.ti -1c
+.RI "\fBFocusIndicator\fP \fBfocusIndicator\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetPaintAttribute\fP (\fBPaintAttribute\fP, bool on=true)"
+.br
+.ti -1c
+.RI "bool \fBtestPaintAttribute\fP (\fBPaintAttribute\fP) const "
+.br
+.ti -1c
+.RI "QPixmap * \fBpaintCache\fP ()"
+.br
+.ti -1c
+.RI "const QPixmap * \fBpaintCache\fP () const "
+.br
+.ti -1c
+.RI "void \fBinvalidatePaintCache\fP ()"
+.br
+.ti -1c
+.RI "void \fBreplot\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBhideEvent\fP (QHideEvent *)"
+.br
+.ti -1c
+.RI "virtual void \fBpaintEvent\fP (QPaintEvent *)"
+.br
+.ti -1c
+.RI "virtual void \fBdrawContents\fP (QPainter *)"
+.br
+.ti -1c
+.RI "virtual void \fBdrawFocusIndicator\fP (QPainter *)"
+.br
+.ti -1c
+.RI "void \fBdrawCanvas\fP (QPainter *painter=NULL)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Canvas of a \fBQwtPlot\fP. 
+
+\fBSee also:\fP
+.RS 4
+\fBQwtPlot\fP 
+.RE
+.PP
+
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBQwtPlotCanvas::FocusIndicator\fP"
+.PP
+Focus indicator. 
+.PP
+.IP "\(bu" 2
+NoFocusIndicator
+.br
+ Don't paint a focus indicator
+.PP
+.PP
+.IP "\(bu" 2
+CanvasFocusIndicator
+.br
+ The focus is related to the complete canvas. Paint the focus indicator using paintFocus()
+.PP
+.PP
+.IP "\(bu" 2
+ItemFocusIndicator
+.br
+ The focus is related to an item (curve, point, ...) on the canvas. It is up to the application to display a focus indication using f.e. highlighting.
+.PP
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetFocusIndicator()\fP, \fBfocusIndicator()\fP, paintFocus() 
+.RE
+.PP
+
+.SS "enum \fBQwtPlotCanvas::PaintAttribute\fP"
+.PP
+Paint attributes. 
+.PP
+.IP "\(bu" 2
+PaintCached
+.br
+ Paint double buffered and reuse the content of the pixmap buffer for some spontaneous repaints that happen when a plot gets unhidden, deiconified or changes the focus. Disabling the cache will improve the performance for incremental paints (using \fBQwtPlotCurve::draw\fP).
+.PP
+.PP
+.IP "\(bu" 2
+PaintPacked
+.br
+ Suppress system background repaints and paint it together with the canvas contents. Painting packed might avoid flickering for expensive repaints, when there is a notable gap between painting the background and the plot contents.
+.PP
+.PP
+The default setting enables PaintCached and PaintPacked
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetPaintAttribute()\fP, \fBtestPaintAttribute()\fP, \fBpaintCache()\fP 
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtPlotCanvas::QwtPlotCanvas (\fBQwtPlot\fP * plot)\fC [explicit]\fP"
+.PP
+Sets a cross cursor, enables QwtPlotCanvas::PaintCached. 
+.PP
+.SS "QwtPlotCanvas::~QwtPlotCanvas ()\fC [virtual]\fP"
+.PP
+Destructor. 
+.PP
+.SH "Member Function Documentation"
+.PP 
+.SS "void QwtPlotCanvas::drawCanvas (QPainter * painter = \fCNULL\fP)\fC [protected]\fP"
+.PP
+Draw the the canvas
+.PP
+Paints all plot items to the contentsRect(), using \fBQwtPlot::drawCanvas\fP and updates the paint cache.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpainter\fP Painter
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBQwtPlot::drawCanvas()\fP, setPaintAttributes(), testPaintAttributes() 
+.RE
+.PP
+
+.SS "void QwtPlotCanvas::drawContents (QPainter * painter)\fC [protected, virtual]\fP"
+.PP
+Redraw the canvas, and focus rect 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpainter\fP Painter 
+.RE
+.PP
+
+.SS "void QwtPlotCanvas::drawFocusIndicator (QPainter * painter)\fC [protected, virtual]\fP"
+.PP
+Draw the focus indication 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpainter\fP Painter 
+.RE
+.PP
+
+.SS "\fBQwtPlotCanvas::FocusIndicator\fP QwtPlotCanvas::focusIndicator () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Focus indicator
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBFocusIndicator\fP, \fBsetFocusIndicator()\fP 
+.RE
+.PP
+
+.SS "void QwtPlotCanvas::hideEvent (QHideEvent * event)\fC [protected, virtual]\fP"
+.PP
+Hide event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIevent\fP Hide event 
+.RE
+.PP
+
+.SS "void QwtPlotCanvas::invalidatePaintCache ()"
+.PP
+Invalidate the internal paint cache. 
+.PP
+.SS "const QPixmap * QwtPlotCanvas::paintCache () const"
+.PP
+Return the paint cache, might be null. 
+.PP
+.SS "QPixmap * QwtPlotCanvas::paintCache ()"
+.PP
+Return the paint cache, might be null. 
+.PP
+.SS "void QwtPlotCanvas::paintEvent (QPaintEvent * event)\fC [protected, virtual]\fP"
+.PP
+Paint event 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIevent\fP Paint event 
+.RE
+.PP
+
+.SS "const \fBQwtPlot\fP * QwtPlotCanvas::plot () const"
+.PP
+Return parent plot widget. 
+.PP
+.SS "\fBQwtPlot\fP * QwtPlotCanvas::plot ()"
+.PP
+Return parent plot widget. 
+.PP
+.SS "void QwtPlotCanvas::replot ()"
+.PP
+Invalidate the paint cache and repaint the canvas 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBinvalidatePaintCache()\fP 
+.RE
+.PP
+
+.SS "void QwtPlotCanvas::setFocusIndicator (\fBFocusIndicator\fP focusIndicator)"
+.PP
+Set the focus indicator
+.PP
+\fBSee also:\fP
+.RS 4
+\fBFocusIndicator\fP, \fBfocusIndicator()\fP 
+.RE
+.PP
+
+.SS "void QwtPlotCanvas::setPaintAttribute (\fBPaintAttribute\fP attribute, bool on = \fCtrue\fP)"
+.PP
+Changing the paint attributes. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIattribute\fP Paint attribute 
+.br
+\fIon\fP On/Off
+.RE
+.PP
+The default setting enables PaintCached and PaintPacked
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtestPaintAttribute()\fP, \fBdrawCanvas()\fP, \fBdrawContents()\fP, \fBpaintCache()\fP 
+.RE
+.PP
+
+.SS "bool QwtPlotCanvas::testPaintAttribute (\fBPaintAttribute\fP attribute) const"
+.PP
+Test wether a paint attribute is enabled
+.PP
+\fBParameters:\fP
+.RS 4
+\fIattribute\fP Paint attribute 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if the attribute is enabled 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetPaintAttribute()\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.

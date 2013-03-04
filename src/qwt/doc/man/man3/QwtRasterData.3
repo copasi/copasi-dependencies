@@ -1,0 +1,223 @@
+.TH "QwtRasterData" 3 "22 Mar 2009" "Qwt User's Guide" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+QwtRasterData \- \fBQwtRasterData\fP defines an interface to any type of raster data.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <qwt_raster_data.h>\fP
+.PP
+Inherited by QwtPlotSpectrogram::QwtPlotSpectrogram::PrivateData::QwtPlotSpectrogram::PrivateData::DummyData.
+.PP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBConrecAttribute\fP { \fBIgnoreAllVerticesOnLevel\fP =  1, \fBIgnoreOutOfRange\fP =  2 }"
+.br
+.ti -1c
+.RI "typedef QMap< double, QPolygonF > \fBContourLines\fP"
+.br
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQwtRasterData\fP ()"
+.br
+.ti -1c
+.RI "\fBQwtRasterData\fP (const QwtDoubleRect &)"
+.br
+.ti -1c
+.RI "virtual \fB~QwtRasterData\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBQwtRasterData\fP * \fBcopy\fP () const =0"
+.br
+.ti -1c
+.RI "virtual void \fBsetBoundingRect\fP (const QwtDoubleRect &)"
+.br
+.ti -1c
+.RI "QwtDoubleRect \fBboundingRect\fP () const "
+.br
+.ti -1c
+.RI "virtual QSize \fBrasterHint\fP (const QwtDoubleRect &) const "
+.br
+.ti -1c
+.RI "virtual void \fBinitRaster\fP (const QwtDoubleRect &, const QSize &raster)"
+.br
+.ti -1c
+.RI "virtual void \fBdiscardRaster\fP ()"
+.br
+.ti -1c
+.RI "virtual double \fBvalue\fP (double x, double y) const =0"
+.br
+.ti -1c
+.RI "virtual \fBQwtDoubleInterval\fP \fBrange\fP () const =0"
+.br
+.ti -1c
+.RI "virtual ContourLines \fBcontourLines\fP (const QwtDoubleRect &rect, const QSize &raster, const QList< double > &levels, int flags) const "
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBQwtRasterData\fP defines an interface to any type of raster data. 
+
+\fBQwtRasterData\fP is an abstract interface, that is used by \fBQwtPlotRasterItem\fP to find the values at the pixels of its raster.
+.PP
+Often a raster item is used to display values from a matrix. Then the derived raster data class needs to implement some sort of resampling, that maps the raster of the matrix into the requested raster of the raster item ( depending on resolution and scales of the canvas ). 
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBQwtRasterData::ConrecAttribute\fP"
+.PP
+Attribute to modify the contour algorithm. 
+.PP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "QwtRasterData::QwtRasterData ()"
+.PP
+Constructor. 
+.PP
+.SS "QwtRasterData::QwtRasterData (const QwtDoubleRect & boundingRect)"
+.PP
+Constructor
+.PP
+\fBParameters:\fP
+.RS 4
+\fIboundingRect\fP Bounding rectangle 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBsetBoundingRect()\fP 
+.RE
+.PP
+
+.SS "QwtRasterData::~QwtRasterData ()\fC [virtual]\fP"
+.PP
+Destructor. 
+.PP
+.SH "Member Function Documentation"
+.PP 
+.SS "QwtDoubleRect QwtRasterData::boundingRect () const"
+.PP
+\fBReturns:\fP
+.RS 4
+Bounding rectangle 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBboundingRect()\fP 
+.RE
+.PP
+
+.SS "QwtRasterData::ContourLines QwtRasterData::contourLines (const QwtDoubleRect & rect, const QSize & raster, const QList< double > & levels, int flags) const\fC [virtual]\fP"
+.PP
+Calculate contour lines
+.PP
+An adaption of CONREC, a simple contouring algorithm. http://local.wasp.uwa.edu.au/~pbourke/papers/conrec/ 
+.SS "virtual \fBQwtRasterData\fP* QwtRasterData::copy () const\fC [pure virtual]\fP"
+.PP
+Clone the data. 
+.PP
+.SS "void QwtRasterData::discardRaster ()\fC [virtual]\fP"
+.PP
+Discard a raster. 
+.PP
+After the composition of an image \fBQwtPlotSpectrogram\fP calls \fBdiscardRaster()\fP.
+.PP
+The default implementation does nothing, but if data has been loaded in \fBinitRaster()\fP, it could deleted now.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBinitRaster()\fP, \fBvalue()\fP 
+.RE
+.PP
+
+.SS "void QwtRasterData::initRaster (const QwtDoubleRect &, const QSize & raster)\fC [virtual]\fP"
+.PP
+Initialize a raster. 
+.PP
+Before the composition of an image \fBQwtPlotSpectrogram\fP calls initRaster, announcing the area and its resolution that will be requested.
+.PP
+The default implementation does nothing, but for data sets that are stored in files, it might be good idea to reimplement initRaster, where the data is resampled and loaded into memory.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrect\fP Area of the raster 
+.br
+\fIraster\fP Number of horizontal and vertical pixels
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBinitRaster()\fP, \fBvalue()\fP 
+.RE
+.PP
+
+.SS "virtual \fBQwtDoubleInterval\fP QwtRasterData::range () const\fC [pure virtual]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+the range of the values 
+.RE
+.PP
+
+.SS "QSize QwtRasterData::rasterHint (const QwtDoubleRect &) const\fC [virtual]\fP"
+.PP
+Find the raster of the data for an area. 
+.PP
+The resolution is the number of horizontal and vertical pixels that the data can return for an area. An invalid resolution indicates that the data can return values for any detail level.
+.PP
+The resolution will limit the size of the image that is rendered from the data. F.e. this might be important when printing a spectrogram to a A0 printer with 600 dpi.
+.PP
+The default implementation returns an invalid resolution (size)
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrect\fP In most implementations the resolution of the data doesn't depend on the requested rectangle.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Resolution, as number of horizontal and vertical pixels 
+.RE
+.PP
+
+.SS "void QwtRasterData::setBoundingRect (const QwtDoubleRect & boundingRect)\fC [virtual]\fP"
+.PP
+Set the bounding rect ( == area, un plot coordinates )
+.PP
+\fBParameters:\fP
+.RS 4
+\fIboundingRect\fP Bounding rectangle 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBboundingRect()\fP 
+.RE
+.PP
+
+.SS "virtual double QwtRasterData::value (double x, double y) const\fC [pure virtual]\fP"
+.PP
+\fBReturns:\fP
+.RS 4
+the value at a raster position 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP X value in plot coordinates 
+.br
+\fIy\fP Y value in plot coordinates 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Qwt User's Guide from the source code.
