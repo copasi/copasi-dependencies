@@ -6,6 +6,10 @@
 .project
 .metadata
 bin/
+bin_vs2008_x64_release/
+bin_vs2008_x86_release/
+src/qwt/lib/
+src/qwtplot3d-qt4/lib/
 tmp/
 *.tmp
 *.bak
