@@ -7,6 +7,10 @@ set(SOURCES qtmmlwidget.cpp)
 set(HEADERS qtmmlwidget.h)
 
 find_package(Qt4 4.7.0 REQUIRED QtCore QtOpenGL QtXml)
+
+include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITIONS})
+
 include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR})
 include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR}/..)
 
