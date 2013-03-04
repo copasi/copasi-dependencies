@@ -6,8 +6,12 @@
 #else
 #include <QtOpenGL/qgl.h>
 #endif
-#include <GL/glu.h>
 
+#ifdef __APPLE__
+#include <OpenGL/glu.h>
+#else
+#include <GL/glu.h>
+#endif
 namespace Qwt3D
 {
 
