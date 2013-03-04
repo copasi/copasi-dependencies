@@ -524,3 +524,5 @@ src/raptor/tests/trig/Makefile
 src/raptor/tests/turtle/Makefile
 src/raptor/utils/Makefile
 src/raptor/utils/rapper.o
+
+src/raptor/win32/Makefile
