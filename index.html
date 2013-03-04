@@ -38,32 +38,110 @@
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <h3>Welcome to GitHub Pages.</h3>
+        <h1>COPASI Dependencies</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>This project contains a number of open source libraries, that make the building of <a href="http://copasi.org" title="COPASI">COPASI</a> with <a href="http://www.cmake.org/">CMAKE</a> as easy as to configure with: </p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<pre><code>cmake -DCOPASI_DEPENDENCY_DIR=&lt;dir&gt; &lt;copasi source dir&gt;  
+make  
+make install
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2>Building the dependencies</h2>
 
-<h3>Designer Templates</h3>
+<p>For the time being, I am using shell scripts for the individual operating systems to create the build. All of them install into the <code>./bin</code> directory of the project. From there I usually either archive, rename, or refer to it directly from CMAKE. </p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>When building the dependencies, you have only to be aware of one thing. The scripts are pretty much dumb, and just build whatever they can, and they certainly won't worry whether the build was successful. So if you happen to not have Qt present, then building all the Qt dependencies will pretty much fail (those being the MML widget, QWT and QWT3dPlot). Now that will be fine, if all you want to build is the language bindings / CopasiSE, but might not be otherwise. </p>
 
-<h3>Rather Drive Stick?</h3>
+<p>Should the build fail unexpectedly for any other reason, please feel free to file an issue and let me know!</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<h3>Windows</h3>
 
-<h3>Authors and Contributors</h3>
+<p>Truth be told, building the dependencies on windows was the hardest, and so there is a while bunch of batch scripts for the case. There are ones for debug builds and release builds. And while they have directories hard coded in them that suit me, those directories might not exist on your machine. But don't despair, you can override them easily. The environment variables to watch out for: </p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<ul>
+<li>
+<code>INCLUDE</code>: if not set variants of vcvars will be called to set up MSVC</li>
+<li>
+<code>QTDIR</code>: if not set my Qt directories will be used, otherwise just set to your Qt root</li>
+<li>
+<code>QMAKESPEC</code>: set to win32-msvc2010 by default</li>
+</ul><p>The batch files so far: </p>
 
-<h3>Support or Contact</h3>
+<pre><code>createX64.bat  
+createX64-vs10.bat
+createX86-vs10.bat  
+createX86_vs11_x64_debug.bat  
+createX86_vs11_x64_release.bat  
+createX86_vs11_x86_debug.bat  
+createX86_vs11_x86_release.bat  
+</code></pre>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h3>OS X</h3>
+
+<p>On OSX the <code>QTDIR</code> amd and <code>QMAKESPEC</code> (to <code>macx-g++</code>) are hardcoded to my location. Since I use Lion / Mountainlion, I build with universal binaries for <code>i386</code> and <code>x86_64</code>, if that is not sufficient, you might need to adapt the: </p>
+
+<pre><code>./createOSX.sh
+</code></pre>
+
+<h3>Linux</h3>
+
+<p>To build the dependencies on Linux, be sure to have your operating systems qt4 libraries installed (if building with GUI) there I don't even begin to set the <code>QMAKESPEC</code> ot <code>QTDIR</code> as I hope for qmake to be readily available. To build simply run:</p>
+
+<pre><code>./createLinux.sh
+</code></pre>
+
+<h2>Resetting the build</h2>
+
+<p>Simly remove the <code>bin</code> and <code>tmp</code> folder to start over. </p>
+
+<pre><code>rm -rf bin  
+rm -rf tmp  
+</code></pre>
+
+<h2>Libraries</h2>
+
+<p>The following open source libraries are included in this project: </p>
+
+<ul>
+<li><a href="http://www.netlib.org/clapack/">clapack 3.2.1</a></li>
+<li><a href="http://sourceforge.net/projects/cppunit/">cppunit 1.12.1</a></li>
+<li><a href="http://expat.sourceforge.net/">expat 2.1.0</a></li>
+<li>Qt MML widget (LGPL, Qt Solutions)</li>
+<li><a href="http://qwt.sourceforge.net/">QWT 5.2.0</a></li>
+<li><a href="http://qwtplot3d.sourceforge.net/">QWT 3D plot</a></li>
+<li><a href="http://sbml.org/Software/libSBML">libSBML 5.8.0</a></li>
+<li><a href="http://sbw.sourceforge.net/">SBW Core</a></li>
+<li><a href="http://librdf.org/raptor/">raptor</a></li>
+</ul><h2>License</h2>
+
+<p>Just in case it needs saying, each of the libraries in the <code>src</code> folder are released under their own respective licenses. Otherwise this project (i.e.: the build scripts) are released under the BSD License: </p>
+
+<pre><code>Copyright (c) 2013, Frank T. Bergmann 
+All rights reserved. 
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are 
+met: 
+
+Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer. Redistributions in 
+binary form must reproduce the above copyright notice, this list of 
+conditions and the following disclaimer in the documentation and/or 
+other materials provided with the distribution. THIS SOFTWARE IS 
+PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+
+</code></pre>
       </section>
 
     </div>
