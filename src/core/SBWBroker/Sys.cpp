@@ -65,10 +65,6 @@
 #include <netdb.h>
 #endif
 
-#if !defined(SOLARIS) && !defined(DARWIN)
-#include <tcpd.h>
-#endif
-
 #include <unistd.h>
 #endif
 
