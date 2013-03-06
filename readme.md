@@ -30,6 +30,13 @@ createX86_vs11_x86_release.bat
 ```
 
 These files mainly differ in whether they do a release or debug build, and in what defaults they use. And again, even though those files have a 'vs11' in the name, if your environment is initialized for example with a 'vs9' environment, that will be used instead. 
+#### Intel Compiler
+Perhaps a word to compile with the intel compiler. I've added variants of the above batch files, that will use the Intel compiler. You would only need to open the intel compiler shell for the architecture and then run either: 
+
+```
+create_icc_x64_release.bat  
+create_icc_x86_release.bat
+```
 ### OS X
 On OSX the `QTDIR` amd and `QMAKESPEC` (to `macx-g++`) are hardcoded to my location. Since I use Lion / Mountainlion, I build with universal binaries for `i386` and `x86_64`, if that is not sufficient, you might need to adapt the: 
 
@@ -70,7 +77,7 @@ The following open source libraries are included in this project:
 Just in case it needs saying, each of the libraries in the `src` folder are released under their own respective licenses. Otherwise this project (i.e.: the build scripts) are released under the BSD License: 
 
 ```
-Copyright (c) 2013, Frank T. Bergmann 
+Copyright (c) 2013, Frank T. Bergmann  
 All rights reserved. 
 
 Redistribution and use in source and binary forms, with or without 
