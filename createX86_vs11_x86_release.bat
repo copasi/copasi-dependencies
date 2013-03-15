@@ -11,7 +11,7 @@ SET BUILD_TYPE=Release
 SET BUILD_TOOL=nmake
 SET BUILD_COMMAND=
 SET INSTALL_COMMAND=install
-SET CMAKE=cmake -G "NMake Makefiles" 
+SET CMAKE=cmake -G "NMake Makefiles"  %CMAKE_OVERRIDES% 
 
 if not exist %BASE_DIR%\tmp mkdir %BASE_DIR%\tmp
 if not exist %BASE_DIR%\bin mkdir %BASE_DIR%\bin

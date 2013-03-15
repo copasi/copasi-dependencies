@@ -12,7 +12,7 @@ SET BUILD_TOOL=nmake
 SET BUILD_COMMAND=
 SET INSTALL_COMMAND=install
 SET ICL=icl
-SET CMAKE=cmake -G "NMake Makefiles" -DCMAKE_C_COMPILER="%ICL%" -DCMAKE_CXX_COMPILER="%ICL%" 
+SET CMAKE=cmake -G "NMake Makefiles" -DCMAKE_C_COMPILER="%ICL%" -DCMAKE_CXX_COMPILER="%ICL%"  %CMAKE_OVERRIDES% 
 
 if not exist %BASE_DIR%\tmp mkdir %BASE_DIR%\tmp
 if not exist %BASE_DIR%\bin mkdir %BASE_DIR%\bin

@@ -13,7 +13,7 @@ SET BUILD_COMMAND=
 SET INSTALL_COMMAND=install
 REM SET ICL=C:/Program Files (x86)/Intel/Compiler/11.1/048/bin/intel64/icl.exe
 SET ICL=icl
-SET CMAKE=cmake -G "NMake Makefiles" -DCMAKE_C_COMPILER="%ICL%" -DCMAKE_CXX_COMPILER="%ICL%" 
+SET CMAKE=cmake -G "NMake Makefiles" -DCMAKE_C_COMPILER="%ICL%" -DCMAKE_CXX_COMPILER="%ICL%"  %CMAKE_OVERRIDES% 
 
 if not exist %BASE_DIR%\tmp mkdir %BASE_DIR%\tmp
 if not exist %BASE_DIR%\bin mkdir %BASE_DIR%\bin
