@@ -1,7 +1,7 @@
 @echo off
 SET BASE_DIR=%~dp0
 
-if "%INCLUDE%"=="" call "C:\Program Files (x86)\Intel\Compiler\11.1\048\bin\iclvars.bat" ia32 PROCESSOR_ARCHITECTURE='x86' 
+if "%INCLUDE%"=="" call "C:\Program Files (x86)\Intel\Compiler\11.1\048\bin\iclvars.bat" ia32
 
 if "%QTDIR%"=="" SET QTDIR=C:\Qt\qt-everywhere-opensource-src-4.8.3
 if "%QMAKESPEC%"=="" SET QMAKESPEC=win32-msvc2010

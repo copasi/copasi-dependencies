@@ -63,7 +63,7 @@
 #define HAVE_ERRNO_H 1 
 
 /* Define to 1 if you have the <ieeefp.h> header file. */
-#define HAVE_IEEEFP_H 1
+/* #undef HAVE_IEEEFP_H */
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -88,7 +88,7 @@
 /* #undef USE_GROUPS */
 
 /* Define to build the SBML FBC extension. */
-#define USE_FBC 1
+/* #undef USE_FBC */
 
 /* Define to 1 if your processor stores words with the most significant byte
    first (like Motorola and SPARC, unlike Intel and VAX). */
