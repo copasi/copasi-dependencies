@@ -528,3 +528,6 @@ src/raptor/utils/Makefile
 src/raptor/utils/rapper.o
 
 src/raptor/win32/Makefile
+/src/qwt/designer/plugins/designer/*.dylib
+
+/src/qwt/designer/plugins/designer/*.lib
