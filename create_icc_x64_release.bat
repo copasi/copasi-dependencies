@@ -1,7 +1,7 @@
 @echo off
 SET BASE_DIR=%~dp0
 
-if "%INCLUDE%"=="" call "C:\Program Files (x86)\Intel\Compiler\11.1\048\bin\iclvars.bat" intel64
+if "%INCLUDE%"=="" call "C:\Program Files (x86)\Intel\Compiler\11.1\048\bin\iclvars.bat" ia32 PROCESSOR_ARCHITECTURE='AMD64'
 
 if "%QTDIR%"=="" SET QTDIR=C:\Qt\qt-everywhere-opensource-src-4.8.3
 if "%QMAKESPEC%"=="" SET QMAKESPEC=win32-msvc2010
@@ -31,7 +31,7 @@ cd /d %BASE_DIR%\tmp\clapack
 REM Build SBW
 mkdir %BASE_DIR%\tmp\SBW
 cd /d %BASE_DIR%\tmp\SBW
-%CMAKE% -DCMAKE_BUILD_TYPE=%BUILD_TYPE%  -DCMAKE_INSTALL_PREFIX=%BASE_DIR%\bin %BASE_DIR%\src\core
+%CMAKE%  -DWITH_BUILD_BROKER=OFF -DCMAKE_BUILD_TYPE=%BUILD_TYPE%  -DCMAKE_INSTALL_PREFIX=%BASE_DIR%\bin %BASE_DIR%\src\core
 %BUILD_TOOL% %BUILD_COMMAND%
 %BUILD_TOOL% %INSTALL_COMMAND%
 
