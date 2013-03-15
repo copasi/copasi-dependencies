@@ -80,6 +80,7 @@ cd /d %BASE_DIR%\src\qwt
 %BUILD_TOOL% %BUILD_TYPE%
 copy /y include\*.h %BASE_DIR%\bin\include
 copy /y lib\* %BASE_DIR%\bin\lib\
+move /y src\*.pdb %BASE_DIR%\bin\lib\qwt.pdb
 %BUILD_TOOL% clean
 del /s Makefile*
 
@@ -92,5 +93,18 @@ copy /y lib\* %BASE_DIR%\bin\lib\
 %BUILD_TOOL% clean
 del /s Makefile*
 
+REM copy PDBs
 cd /d %BASE_DIR%
 
+xcopy /y /s %BASE_DIR%\tmp\clapack\BLAS\SRC\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\clapack\F2CLIBS\libf2c\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\libsbml\src\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\cppunit\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\expat\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\raptor\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\mml\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\SBW\SBWCore\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\SBW\SBWBroker\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\src\qwtplot3d-qt4\lib\*.pdb %BASE_DIR%\bin\lib
+
+cd /d %BASE_DIR%

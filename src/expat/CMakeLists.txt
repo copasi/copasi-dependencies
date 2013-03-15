@@ -57,7 +57,11 @@ endif(WIN32 AND BUILD_shared)
 if(BUILD_shared)
     set(_SHARED SHARED)
 else(BUILD_shared)
-    set(_SHARED STATIC)
+   if(WIN32)
+     # don't decorate
+     add_definitions(-DXML_STATIC)
+   endif(WIN32)
+   set(_SHARED STATIC)
 endif(BUILD_shared)
 
 add_library(expat ${_SHARED} ${expat_SRCS})
