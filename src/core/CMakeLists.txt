@@ -191,7 +191,7 @@ endif(UNIX)
 # Build the actual SBW library
 #
 add_subdirectory(SBWCore)
-#add_subdirectory(SBWBroker)
+add_subdirectory(SBWBroker)
 
 file(GLOB HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/SBW/*.h )
 install(FILES ${HEADER_FILES} DESTINATION include/SBW)
