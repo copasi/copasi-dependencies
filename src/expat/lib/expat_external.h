@@ -5,6 +5,11 @@
 #ifndef Expat_External_INCLUDED
 #define Expat_External_INCLUDED 1
 
+/* we always use the static version */
+#if defined(_WIN32) && !defined(__BEOS__) && !defined(__CYGWIN__) && !defined(XML_STATIC)
+#define XML_STATIC
+#endif
+
 /* External API definitions */
 
 #if defined(_MSC_EXTENSIONS) && !defined(__BEOS__) && !defined(__CYGWIN__)

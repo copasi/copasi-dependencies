@@ -86,7 +86,10 @@ set(SBW_XML_LIBRARY_LIBS ${LIBXML_LIBRARY})
 set(SBW_LIBS ${SBW_LIBS} ${LIBXML_LIBRARY})
 include_directories(${LIBXML_INCLUDE_DIR})
 
-
+#
+# Allow to build core library only by disabling the build of the broker
+#
+option(WITH_BUILD_BROKER "Build the SBW Broker" ON)
 
 ####################################################################
 #
