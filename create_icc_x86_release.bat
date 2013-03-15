@@ -3,16 +3,19 @@ SET BASE_DIR=%~dp0
 
 if "%INCLUDE%"=="" call "C:\Program Files (x86)\Intel\Compiler\11.1\048\bin\iclvars.bat" ia32
 
+set PROCESSOR_ARCHITECTURE=x86
+
 if "%QTDIR%"=="" SET QTDIR=C:\Qt\qt-everywhere-opensource-src-4.8.3
-if "%QMAKESPEC%"=="" SET QMAKESPEC=win32-msvc2010
+if "%QMAKESPEC%"=="" SET QMAKESPEC=win32-icc
 
 SET BUILD_TYPE=Release
 
 SET BUILD_TOOL=nmake
 SET BUILD_COMMAND=
 SET INSTALL_COMMAND=install
-SET ICL=icl
-SET CMAKE=cmake -G "NMake Makefiles" -DCMAKE_C_COMPILER="%ICL%" -DCMAKE_CXX_COMPILER="%ICL%" 
+SET CC=icl
+SET CXX=icl
+SET CMAKE=cmake -G "NMake Makefiles"  
 
 if not exist %BASE_DIR%\tmp mkdir %BASE_DIR%\tmp
 if not exist %BASE_DIR%\bin mkdir %BASE_DIR%\bin
