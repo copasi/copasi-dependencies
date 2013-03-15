@@ -26,12 +26,12 @@ call  "%VC_VARS%" x86
 title Building x86 debug
 cd /d %THIS_DIR%
 call createX86_vs11_x86_debug 
-move bin bin_vs11_x86_debug_static
-move tmp tmp_vs11_x86_debug_static
+move bin bin_vs11_static_x86_debug
+move tmp tmp_vs11_static_x86_debug
 
 title Building x86 release
 cd /d %THIS_DIR%
 call createX86_vs11_x86_release 
-move bin bin_vs11_x86_release_static
-move tmp tmp_vs11_x86_release_static
+move bin bin_vs11_static_x86_release
+move tmp tmp_vs11_static_x86_release
 
