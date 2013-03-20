@@ -85,7 +85,9 @@ target = strstr.str();\
 #endif
 
 // COPASI ONLY: use always static version
+#ifndef (SBW_STATIC)
 #define SBW_STATIC
+#endif
 
 
 #ifndef STDCALL
