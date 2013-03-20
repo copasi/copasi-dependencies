@@ -71,7 +71,7 @@ make install
 # build raptor
 cd $DIRECTORY/src/raptor
 chmod +x configure
-./configure   --with-xml-parser=expat --with-www=none  --with-expat-source=$DIRECTORY/src/expat --enable-shared=no --prefix=$DIRECTORY/bin
+./configure  LDFLAGS="-L$DIRECTORY/bin/lib" CXXFLAGS="-I$DIRECTORY/bin/include" CFLAGS="-I$DIRECTORY/bin/include" --with-xml-parser=expat --with-www=none --enable-shared=no --prefix=$DIRECTORY/bin
 make -i 
 make -i install
 
