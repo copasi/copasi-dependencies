@@ -88,7 +88,7 @@ include_directories(${LIBXML_INCLUDE_DIR})
 
 #
 # Allow to build core library only by disabling the build of the broker
-#
+# 
 option(WITH_BUILD_BROKER "Build the SBW Broker" ON)
 
 ####################################################################

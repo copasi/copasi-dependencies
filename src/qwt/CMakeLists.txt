@@ -237,6 +237,7 @@ if (WITH_QwtWidgets)
 endif (WITH_QwtWidgets) 
 
 
+
 if (WITH_QwtSVGItem)
 find_package(Qt4 4.7.0 REQUIRED QtCore QtOpenGL QtSvg)
 else()
@@ -245,6 +246,10 @@ endif (WITH_QwtSVGItem)
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
+
+qt4_wrap_cpp (MOC_FILES ${HEADERS})
+set(SOURCES ${SOURCES} ${MOC_FILES})
+
 
 include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR})
 include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR}/..)

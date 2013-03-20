@@ -29,7 +29,7 @@ cd /d %BASE_DIR%\tmp\clapack
 REM Build SBW
 mkdir %BASE_DIR%\tmp\SBW
 cd /d %BASE_DIR%\tmp\SBW
-%CMAKE% -DWITH_BUILD_BROKER=OFF -DCMAKE_BUILD_TYPE=%BUILD_TYPE%  -DCMAKE_INSTALL_PREFIX=%BASE_DIR%\bin %BASE_DIR%\src\core
+%CMAKE% -DWITH_BUILD_BROKER=OFF -DWITH_BUILD_SHARED=OFF -DCMAKE_BUILD_TYPE=%BUILD_TYPE%  -DCMAKE_INSTALL_PREFIX=%BASE_DIR%\bin %BASE_DIR%\src\core
 %BUILD_TOOL% %BUILD_COMMAND%
 %BUILD_TOOL% %INSTALL_COMMAND%
 
@@ -73,25 +73,22 @@ cd /d %BASE_DIR%\tmp\mml
 %BUILD_TOOL% %BUILD_COMMAND%
 %BUILD_TOOL% %INSTALL_COMMAND%
 
-
 REM Build QWT
-cd /d %BASE_DIR%\src\qwt
-%QTDIR%\bin\qmake qwt.pro -o Makefile
-%BUILD_TOOL% %BUILD_TYPE%
-copy /y include\*.h %BASE_DIR%\bin\include
-copy /y lib\* %BASE_DIR%\bin\lib\
-move /y src\*.pdb %BASE_DIR%\bin\lib\qwt.pdb
-%BUILD_TOOL% clean
-del /s Makefile*
+cd /d %BASE_DIR%
+mkdir %BASE_DIR%\tmp\qwt
+cd /d %BASE_DIR%\tmp\qwt
+%CMAKE% -DCMAKE_BUILD_TYPE=%BUILD_TYPE%  -DCMAKE_INSTALL_PREFIX=%BASE_DIR%\bin %BASE_DIR%\src\qwt
+%BUILD_TOOL% %BUILD_COMMAND%
+%BUILD_TOOL% %INSTALL_COMMAND%
 
 REM Build QWT Plot
-cd /d %BASE_DIR%\src\qwtplot3d-qt4
-%QTDIR%\bin\qmake qwtplot3d.pro -o Makefile
-%BUILD_TOOL% %BUILD_TYPE%
-copy /y include\*.h %BASE_DIR%\bin\include
-copy /y lib\* %BASE_DIR%\bin\lib\
-%BUILD_TOOL% clean
-del /s Makefile*
+cd /d %BASE_DIR%
+mkdir %BASE_DIR%\tmp\qwtplot3d
+cd /d %BASE_DIR%\tmp\qwtplot3d
+%CMAKE% -DCMAKE_BUILD_TYPE=%BUILD_TYPE%  -DCMAKE_INSTALL_PREFIX=%BASE_DIR%\bin %BASE_DIR%\src\qwtplot3d-qt4
+%BUILD_TOOL% %BUILD_COMMAND%
+%BUILD_TOOL% %INSTALL_COMMAND%
+
 
 REM copy PDBs
 cd /d %BASE_DIR%
@@ -103,8 +100,9 @@ xcopy /y /s %BASE_DIR%\tmp\cppunit\*.pdb %BASE_DIR%\bin\lib
 xcopy /y /s %BASE_DIR%\tmp\expat\*.pdb %BASE_DIR%\bin\lib
 xcopy /y /s %BASE_DIR%\tmp\raptor\*.pdb %BASE_DIR%\bin\lib
 xcopy /y /s %BASE_DIR%\tmp\mml\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\qwt\*.pdb %BASE_DIR%\bin\lib
+xcopy /y /s %BASE_DIR%\tmp\qwtplot3d\*.pdb %BASE_DIR%\bin\lib
 xcopy /y /s %BASE_DIR%\tmp\SBW\SBWCore\*.pdb %BASE_DIR%\bin\lib
 xcopy /y /s %BASE_DIR%\tmp\SBW\SBWBroker\*.pdb %BASE_DIR%\bin\lib
-xcopy /y /s %BASE_DIR%\src\qwtplot3d-qt4\lib\*.pdb %BASE_DIR%\bin\lib
 
 cd /d %BASE_DIR%

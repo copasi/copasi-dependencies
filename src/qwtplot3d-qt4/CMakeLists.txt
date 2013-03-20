@@ -42,7 +42,7 @@ endif ()
 
 # if using msvc or intel windows compiler allow for the use of the static runtime
 if(MSVC OR USING_INTEL)
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE -DQWT3D_DLL -DQWT3D_MAKEDLL)
     set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -D_CRT_SECURE_NO_WARNINGS")
     option(WITH_STATIC_RUNTIME "Compile using the static MSVC Runtime." OFF)
     if(WITH_STATIC_RUNTIME)
@@ -99,6 +99,16 @@ set(HEADERS
 	
 )
 
+set(MOC_HEADERS
+
+		include/qwt3d_plot.h 		
+		include/qwt3d_surfaceplot.h 
+		include/qwt3d_volumeplot.h 
+		include/qwt3d_graphplot.h 
+		include/qwt3d_multiplot.h
+	
+)
+
 set(SOURCES
 
 		src/qwt3d_axis.cpp 
@@ -141,6 +151,11 @@ find_package(Qt4 4.7.0 REQUIRED QtCore QtOpenGL QtXml)
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
+
+
+qt4_wrap_cpp (MOC_FILES ${MOC_HEADERS})
+set(SOURCES ${SOURCES} ${MOC_FILES})
+
 
 include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR})
 include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR}/..)

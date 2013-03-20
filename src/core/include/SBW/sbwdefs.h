@@ -84,7 +84,8 @@ target = strstr.str();\
 #endif
 #endif
 
-
+// COPASI ONLY: use always static version
+#define SBW_STATIC
 
 
 #ifndef STDCALL
@@ -101,7 +102,7 @@ target = strstr.str();\
 
 // There is no DLL business under Linux, so we just use "extern".
 
-#if defined (LINUX) || defined(CYGWIN) || defined(MINGW) || defined(NO_API)
+#if defined (LINUX) || defined(CYGWIN) || defined(MINGW) || defined(NO_API) || defined(SBW_STATIC)
 #define SBW_API
 #else
 
@@ -112,10 +113,9 @@ target = strstr.str();\
 // any other project whose source files include this file see SBW_API
 // functions as being imported from a DLL, wheras this DLL sees symbols
 // defined with this macro as being exported.
-
 #ifdef SBW_EXPORTS
 #define SBW_API __declspec(dllexport)
-#else
+#else 
 #define SBW_API __declspec(dllimport)
 #endif
 
