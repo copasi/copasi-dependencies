@@ -189,7 +189,7 @@ else(UNIX)
 			# this is necessary to build with libxml2 on mingw
 			add_definitions(-DLIBXML_STATIC)
 		endif(WITH_LIBXML)
-	endif(MSVC)
+	endif(MSVC OR USING_INTEL)
 
 endif(UNIX)
 
