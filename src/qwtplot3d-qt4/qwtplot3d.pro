@@ -44,7 +44,7 @@ SOURCES += src/qwt3d_axis.cpp \
            src/qwt3d_scale.cpp
 
 SOURCES += src/qwt3d_gridmapping.cpp \
-					 src/qwt3d_parametricsurface.cpp \
+           src/qwt3d_parametricsurface.cpp \
            src/qwt3d_function.cpp
 
 SOURCES += src/qwt3d_surfaceplot.cpp \
@@ -55,7 +55,7 @@ SOURCES += src/qwt3d_surfaceplot.cpp \
 HEADERS += include/qwt3d_color.h \
            include/qwt3d_global.h \
            include/qwt3d_types.h \
-	         include/qwt3d_axis.h \
+	       include/qwt3d_axis.h \
            include/qwt3d_coordsys.h \
            include/qwt3d_drawable.h \
            include/qwt3d_helper.h \
@@ -73,7 +73,7 @@ HEADERS += include/qwt3d_color.h \
            include/qwt3d_portability.h
 						
 HEADERS += include/qwt3d_mapping.h \
-					 include/qwt3d_gridmapping.h \
+		   include/qwt3d_gridmapping.h \
            include/qwt3d_parametricsurface.h \
            include/qwt3d_function.h
 
@@ -84,10 +84,10 @@ HEADERS += include/qwt3d_surfaceplot.h \
 
 # gl2ps support
 HEADERS+=3rdparty/gl2ps/gl2ps.h \
-         include/qwt3d_io_gl2ps.h
+           include/qwt3d_io_gl2ps.h
          
 SOURCES+=src/qwt3d_io_gl2ps.cpp \
-         3rdparty/gl2ps/gl2ps.c
+           3rdparty/gl2ps/gl2ps.c
 
 # zlib support for gl2ps
 zlib {
