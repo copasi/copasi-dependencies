@@ -3,7 +3,7 @@
 
 DIRECTORY=$(cd `dirname $0` && pwd)
 
-export QTDIR=/Users/fbergmann/QtSDK/Desktop/Qt/4.8.1/gcc/
+# export QTDIR=/Users/fbergmann/QtSDK/Desktop/Qt/4.8.1/gcc/
 export QMAKESPEC=macx-g++
 CMAKE=cmake
 
