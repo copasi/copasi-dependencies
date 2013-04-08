@@ -26,7 +26,7 @@ $MAKE install
 mkdir -p $DIRECTORY/tmp/mml 
 cd $DIRECTORY/tmp/mml 
 $CMAKE  -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin $DIRECTORY/src/mml
-make
+$MAKE
 $MAKE install
 
 #build qwt 
@@ -47,7 +47,7 @@ cp lib/*.a $DIRECTORY/bin/lib
 mkdir -p $DIRECTORY/tmp/SBW
 cd $DIRECTORY/tmp/SBW
 $CMAKE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin $DIRECTORY/src/core
-make
+$MAKE
 $MAKE install
 
 # Build cppunit
