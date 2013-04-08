@@ -4,6 +4,9 @@
 DIRECTORY=$(cd `dirname $0` && pwd)
 BUILD_TYPE=Release
 CMAKE=cmake
+QMAKE=qmake
+command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake-qt4 }
+command -v $QMAKE >/dev/null 2>&1 || { echo >&2 "qmake cannot be found, please update the qmake variable."; }
 
 [ -d $DIRECTORY/tmp ] || mkdir $DIRECTORY/tmp
 [ -d $DIRECTORY/bin ] || mkdir $DIRECTORY/bin
@@ -26,14 +29,14 @@ make install
 
 #build qwt 
 cd $DIRECTORY/src/qwt
-qmake qwt.pro -o Makefile
+$QMAKE qwt.pro -o Makefile
 make -j 4
 cp include/*.h $DIRECTORY/bin/include
 cp lib/*.a $DIRECTORY/bin/lib
 
 #build qwtplot3d 
 cd $DIRECTORY/src/qwtplot3d-qt4
-qmake qwtplot3d.pro -o Makefile
+$QMAKE qwtplot3d.pro -o Makefile
 make -j 4
 cp include/*.h $DIRECTORY/bin/include
 cp lib/*.a $DIRECTORY/bin/lib
