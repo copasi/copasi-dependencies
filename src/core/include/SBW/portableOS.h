@@ -70,9 +70,7 @@
 #include <iostream>
 #include <sstream>
 #include <string.h>
-#if !defined(DARWIN) && !defined(SOLARIS) && !defined(_DARWIN)
-#include <malloc.h>
-#endif 
+#include <stdlib.h>
 #include <string>
 #include "sbwplusbasictypes.h"
 
