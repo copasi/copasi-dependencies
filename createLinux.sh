@@ -5,7 +5,7 @@ DIRECTORY=$(cd `dirname $0` && pwd)
 BUILD_TYPE=Release
 CMAKE=cmake
 QMAKE=qmake
-command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake-qt4 }
+command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake-qt4; }
 command -v $QMAKE >/dev/null 2>&1 || { echo >&2 "qmake cannot be found, please update the qmake variable."; }
 
 [ -d $DIRECTORY/tmp ] || mkdir $DIRECTORY/tmp
