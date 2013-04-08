@@ -2,7 +2,7 @@
 #define SBW_BROKER_SERVERSOCKET
 
 #include "SBW/SBWOSSocket.h"
-#if defined(DARWIN) || defined(SOLARIS)
+#if !defined(WIN32)
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
