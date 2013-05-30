@@ -65,6 +65,7 @@ make install
 # build raptor
 cd $DIRECTORY/src/raptor
 chmod +x configure
+chmod +x install-sh
 ./configure --disable-dependency-tracking LDFLAGS="-L$DIRECTORY/bin/lib" CXXFLAGS="-arch x86_64 -arch i386 -gdwarf-2 -O2 -I$DIRECTORY/bin/include" CFLAGS="-arch x86_64 -arch i386 -gdwarf-2 -O2  -I$DIRECTORY/bin/include"   --with-xml-parser=expat --with-www=none  --enable-shared=no --prefix=$DIRECTORY/bin
 make AM_LDFLAGS="-XCClinker -arch -XCClinker x86_64 -XCClinker -arch -XCClinker i386"
 make install
