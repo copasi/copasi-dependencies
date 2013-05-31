@@ -1,11 +1,9 @@
 # COPASI Dependencies
 This project contains a number of open source libraries, that make the building of [COPASI](http://copasi.org "COPASI") with [CMAKE](http://www.cmake.org/) as easy as to configure with: 
 
-```
-cmake -DCOPASI_DEPENDENCY_DIR=<dir> <copasi source dir>  
-make  
-make install
-```
+	cmake -DCOPASI_DEPENDENCY_DIR=<dir> <copasi source dir>  
+	make  
+	make install
 
 ## Building the dependencies
 For the time being, I am using shell scripts for the individual operating systems to create the build. All of them install into the `./bin` directory of the project. From there I usually either archive, rename, or refer to it directly from CMAKE. 
@@ -22,43 +20,41 @@ Truth be told, building the dependencies on windows was the hardest, and so ther
 
 The batch files so far: 
 
-```
-createX86_vs11_x64_debug.bat  
-createX86_vs11_x64_release.bat  
-createX86_vs11_x86_debug.bat  
-createX86_vs11_x86_release.bat  
-```
+	createX86_vs11_x64_debug.bat  
+	createX86_vs11_x64_release.bat  
+	createX86_vs11_x86_debug.bat  
+	createX86_vs11_x86_release.bat  
 
 These files mainly differ in whether they do a release or debug build, and in what defaults they use. And again, even though those files have a 'vs11' in the name, if your environment is initialized for example with a 'vs9' environment, that will be used instead. 
 #### Intel Compiler
 Perhaps a word to compile with the intel compiler. I've added variants of the above batch files, that will use the Intel compiler. You would only need to open the intel compiler shell for the architecture and then run either: 
 
-```
-create_icc_x64_release.bat  
-create_icc_x86_release.bat
-```
+	create_icc_x64_release.bat  
+	create_icc_x86_release.bat
+
 ### OS X
 On OSX the `QTDIR` amd and `QMAKESPEC` (to `macx-g++`) are hardcoded to my location. Since I use Lion / Mountainlion, I build with universal binaries for `i386` and `x86_64`, if that is not sufficient, you might need to adapt the: 
 
-```
-./createOSX.sh
-```
+	./createOSX.sh
  
-Note: when I tried runing some builds with cmake 2.8.10 supplied by macports, the builds failed (due to missing `CMAKE_OSX_SYSROOT` variable, and later also in a test for endianess). So for the time being I recommend building with the downloadable version from cmake. 
-### Linux
-To build the dependencies on Linux, be sure to have your operating systems qt4 libraries installed (if building with GUI) there I don't even begin to set the `QMAKESPEC` ot `QTDIR` as I hope for qmake to be readily available. To build simply run:
+**Note:** when I tried runing some builds with cmake 2.8.10 supplied by macports, the builds failed (due to missing `CMAKE_OSX_SYSROOT` variable, and later also in a test for endianess). So for the time being I recommend building with the downloadable version from cmake. 
 
-```
-./createLinux.sh
-```
+**Note:** when using the gnu compiler from macports, you want to make sure, that it supports universal builds. If it does not, you will need to adapt the `createOSX.sh` to not build universal binaries. Additionally set the `CMAKE_OSX_ARCHITECTURES` to only the systems arch. 
+  
+### Linux
+To build the dependencies on Linux, be sure to have your operating systems qt4 libraries (including webkit) installed (if building with GUI) along with the mesa gl libraries, and xml2. From there simply run:
+
+	./createLinux.sh
+
+For more step-by-step instructions on building COPASI for various distributions see this [separate document](./readme_linux.md). 
 
 ## Resetting the build
 Simly remove the `bin` and `tmp` folder to start over. 
 
-```
-rm -rf bin  
-rm -rf tmp  
-```
+
+	rm -rf bin  
+	rm -rf tmp  
+
 
 ## Libraries
 The following open source libraries are included in this project: 
