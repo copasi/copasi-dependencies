@@ -1,9 +1,9 @@
-# Building the COPASI  on Linux
+# Building the COPASI Dependencies on Linux
 This document describes how to build the COPASI dependencies on Linux. This document was last modified: 
 
-In order to ensure compilation covers the majority of cases, we list the instructions for the [mostly used](http://www.zdnet.com/the-5-most-popular-linux-distributions-7000003183/) linux distributions. If your linux distibution is not listed here, and the instructions don't work for you, please let me know and I will try to include yours. This document lists; 
+In order to ensure compilation in the majority of cases, we list the instructions for the [mostly used](http://www.zdnet.com/the-5-most-popular-linux-distributions-7000003183/) linux distributions. If your linux distibution is not listed here, and the instructions don't work for you, please let us know and we will try to include yours. This document lists:
 
-* Ubuntu
+* [Ubuntu](https://github.com/copasi/copasi-dependencies/readme_linux.md#ubuntu-1210)
 * Mint Linux  
 * Debian
 * Fedora
