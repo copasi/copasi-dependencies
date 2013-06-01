@@ -3,12 +3,12 @@ This document describes how to build COPASI and its dependencies on Linux. This 
 
 In order to ensure compilation in the majority of cases, we list the instructions for the [mostly used](http://www.zdnet.com/the-5-most-popular-linux-distributions-7000003183/) linux distributions. If your linux distibution is not listed here, and the instructions don't work for you, please let us know and we will try to include yours. This document lists:
 
-* [Ubuntu](https://github.com/copasi/copasi-dependencies/blob/master/readme_linux.md#ubuntu-1210)
-* Mint Linux  
-* Debian
-* Fedora
-* Mageia (a Mandriva derivate)
-* Slackware
+* [Ubuntu](#ubuntu-1210)
+* [Mint Linux](#mint-linux-15) 
+* [Debian](#debian-70)
+* [Fedora](#fedora-19-beta)
+* [Mageia](#mageia-3) (a Mandriva derivate)
+* [Slackware](#slackware-14)
 
 5/31/2013 9:56:15 PM   Frank T. Bergmann 
 
