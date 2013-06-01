@@ -1,5 +1,5 @@
-# Building the COPASI Dependencies on Linux
-This document describes how to build the COPASI dependencies on Linux. This document was last modified: 
+# Building COPASI on Linux
+This document describes how to build COPASI and its dependencies on Linux. This document was last modified: 
 
 In order to ensure compilation in the majority of cases, we list the instructions for the [mostly used](http://www.zdnet.com/the-5-most-popular-linux-distributions-7000003183/) linux distributions. If your linux distibution is not listed here, and the instructions don't work for you, please let us know and we will try to include yours. This document lists:
 
