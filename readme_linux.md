@@ -9,7 +9,7 @@ In order to ensure compilation in the majority of cases, we list the instruction
 * [Fedora](#fedora-19-beta)
 * [Mageia](#mageia-3) (a Mandriva derivate)
 * [Slackware](#slackware-14)
-
+* openSUSE
 
 ## Ubuntu 12.10
 Starting from a vanilla / updated copy of Ubuntu 12.10, the dependencies are built as follows. 
@@ -217,6 +217,42 @@ after which the `bin/lib` directory contains the files:
 	libSBW.so.2.10.0  libexpat.a     libmml.a     libraptor.la
 
 and so building COPASI is again as easy as: 
+
+	git clone https://github.com/copasi/COPASI
+	mkdir build_copasi
+	cd build_copasi
+	cmake -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
+	make
+	make install
+
+which can be confirmed by running `~/copasi/bin/CopasiUI`. 
+
+
+## openSUSE 12.3
+Starting from the a fresh installation (choosing only the GNOME desktop environment) the following packages need to be installed: 
+
+	zypper install git cmake gcc-c++ glu-devel bison
+
+for the graphical frontend you need to additionally install: 
+
+	zypper install libqt4-devel libxml2-devel  libQtWebKit-devel
+
+(in versions prior to 12.3 the `glu.h` is provided by `Mesa-libGLU-devel`). From here the compilation of the dependencies proceeds as before with: 
+
+	git clone https://github.com/copasi/copasi-dependencies
+	cd copasi-dependencies
+	./createLinux.sh
+	cd ..
+
+after which the `copasi-dependencies/bin/lib` directory contains the files: 
+
+	fbergmann@linux-251g:~/Development> ls copasi-dependencies/bin/lib
+	libblas.a      libexpat.a   liblapack.a  libqwtplot3d.a  libsbml-static.a  libSBW.so.2.10.0
+	libcppunit.a   libexpat.la  libmml.a     libraptor.a     libSBW.so         libSBW-static.a
+	libcppunit.la  libf2c.a     libqwt.a     libraptor.la    libSBW.so.2.10    pkgconfig
+
+
+and and then COPASI is again built with: 
 
 	git clone https://github.com/copasi/COPASI
 	mkdir build_copasi
