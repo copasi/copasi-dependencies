@@ -9,7 +9,7 @@ In order to ensure compilation in the majority of cases, we list the instruction
 * [Fedora](#fedora-19-beta)
 * [Mageia](#mageia-3) (a Mandriva derivate)
 * [Slackware](#slackware-14)
-* openSUSE
+* [openSUSE] (#opensuse-123)
 
 ## Ubuntu 12.10
 Starting from a vanilla / updated copy of Ubuntu 12.10, the dependencies are built as follows. 
