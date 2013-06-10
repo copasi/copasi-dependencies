@@ -40,6 +40,13 @@ if (WIN32 AND CMAKE_C_COMPILER AND ${CMAKE_C_COMPILER} MATCHES ".*icl.*$")
   set(USING_INTEL TRUE)
 endif ()
 
+# compile as position independent code
+if (UNIX OR CYGWIN)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif()
+
+
 # if using msvc or intel windows compiler allow for the use of the static runtime
 if(MSVC OR USING_INTEL)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE -DQWT3D_DLL -DQWT3D_MAKEDLL)

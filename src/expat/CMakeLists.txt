@@ -16,6 +16,12 @@ option(BUILD_tests "build the tests for expat library" ON)
 option(BUILD_shared "build a shared expat library" ON)
 
 
+# compile as position independent code
+if (UNIX OR CYGWIN)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif()
+
 
 # are we using the intel compiler
 set(USING_INTEL)

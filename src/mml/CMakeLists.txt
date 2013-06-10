@@ -31,6 +31,12 @@ if(MSVC OR USING_INTEL)
     endif(WITH_STATIC_RUNTIME)
 endif(MSVC OR USING_INTEL)
 
+# compile as position independent code
+if (UNIX OR CYGWIN)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif()
+
 
 set(SOURCES qtmmlwidget.cpp)
 set(HEADERS qtmmlwidget.h)
