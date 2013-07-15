@@ -6,6 +6,9 @@ DIRECTORY=$(cd `dirname $0` && pwd)
 # export QTDIR=/Users/fbergmann/QtSDK/Desktop/Qt/4.8.1/gcc/
 export QMAKESPEC=macx-g++
 CMAKE=cmake
+QMAKE=$QTDIR/bin/qmake
+command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake-qt4; }
+command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake; }
 
 [ -d $DIRECTORY/tmp ] || mkdir $DIRECTORY/tmp
 [ -d $DIRECTORY/bin ] || mkdir $DIRECTORY/bin
@@ -21,14 +24,14 @@ make install
 
 #build qwt 
 cd $DIRECTORY/src/qwt
-$QTDIR/bin/qmake qwt.pro -o Makefile
+$QMAKE qwt.pro -o Makefile
 make -j 4
 cp include/*.h $DIRECTORY/bin/include
 cp lib/*.a $DIRECTORY/bin/lib
 
 #build qwtplot3d 
 cd $DIRECTORY/src/qwtplot3d-qt4
-$QTDIR/bin/qmake qwtplot3d.pro -o Makefile
+$QMAKE qwtplot3d.pro -o Makefile
 make -j 4
 cp include/*.h $DIRECTORY/bin/include
 cp lib/*.a $DIRECTORY/bin/lib
