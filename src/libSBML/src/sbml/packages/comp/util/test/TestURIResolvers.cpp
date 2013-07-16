@@ -145,6 +145,80 @@ START_TEST (test_comp_fileresolver_resolve)
 END_TEST
   
   
+START_TEST (test_comp_fileresolver_resolve_1)
+{ 
+  string filename(TestDataDirectory);
+  filename += "complexified.xml";
+  SBMLDocument* doc = readSBMLFromFile(filename.c_str());
+  fail_unless(doc->getLocationURI() == "file:" + filename);
+  SBMLFileResolver fr;
+  string newFilename(TestDataDirectory);
+  newFilename += "enzyme_model.xml";
+  SBMLDocument* doc2 = fr.resolve(newFilename, doc->getLocationURI());
+  fail_unless(doc2 != NULL);
+  fail_unless(doc2->getModel() != NULL);
+}
+END_TEST
+  
+  
+START_TEST (test_comp_fileresolver_resolve_2)
+{ 
+  string filename(TestDataDirectory);
+  filename += "complexified.xml";
+  SBMLDocument* doc = readSBMLFromFile(filename.c_str());
+  fail_unless(doc->getLocationURI() == "file:" + filename);
+  SBMLFileResolver fr;
+  string newFilename("chrome://anything/enzyme_model.xml");
+  SBMLDocument* doc2 = fr.resolve(newFilename, doc->getLocationURI());
+  // this passes because we have inadvertently used
+  // the file name at the end of the uri
+  fail_unless(doc2 != NULL);
+  fail_unless(doc2->getModel() != NULL);
+}
+END_TEST
+  
+  
+START_TEST (test_comp_fileresolver_resolve_3)
+{ 
+  string filename(TestDataDirectory);
+  SBMLFileResolver fr;
+  SBMLDocument* doc2 = fr.resolve("enzyme_model.xml", filename);
+  fail_unless(doc2 != NULL);
+  fail_unless(doc2->getModel() != NULL);
+}
+END_TEST
+  
+  
+START_TEST (test_comp_fileresolver_resolve_4)
+{ 
+  string filename(TestDataDirectory);
+  filename += "complexified.xml";
+  SBMLDocument* doc = readSBMLFromFile(filename.c_str());
+  fail_unless(doc->getLocationURI() == "file:" + filename);
+  SBMLFileResolver fr;
+  string newDir(TestDataDirectory);
+  newDir += "/subdir";
+  fr.addAdditionalDir(newDir);
+  SBMLDocument* doc2 = fr.resolve("new_aggregate.xml", doc->getLocationURI());
+  fail_unless(doc2 != NULL);
+  fail_unless(doc2->getModel() != NULL);
+}
+END_TEST
+  
+  
+START_TEST (test_comp_fileresolver_resolve_5)
+{ 
+  SBMLFileResolver fr;
+  string name("chrome://anything/enzyme_model.xml");
+  string name1("http://anything/enzyme_model.xml");
+  SBMLDocument* doc2 = fr.resolve(name, name1);
+  // this passes because we have inadvertently used
+  // the file nam at the end of the uri
+  fail_unless(doc2 == NULL);
+}
+END_TEST
+  
+  
 START_TEST (test_comp_resolverregistry_1)
 { 
   SBMLResolverRegistry &registry = SBMLResolverRegistry::getInstance();
@@ -182,6 +256,11 @@ create_suite_TestURIResolvers (void)
   
   tcase_add_test(tcase, test_comp_sbmluri_parse);
   tcase_add_test(tcase, test_comp_fileresolver_resolve);
+  tcase_add_test(tcase, test_comp_fileresolver_resolve_1);
+  tcase_add_test(tcase, test_comp_fileresolver_resolve_2);
+  tcase_add_test(tcase, test_comp_fileresolver_resolve_3);
+  tcase_add_test(tcase, test_comp_fileresolver_resolve_4);
+  tcase_add_test(tcase, test_comp_fileresolver_resolve_5);
   tcase_add_test(tcase, test_comp_resolverregistry_1);
   tcase_add_test(tcase, test_comp_resolverregistry_2);
   suite_add_tcase(suite, tcase);

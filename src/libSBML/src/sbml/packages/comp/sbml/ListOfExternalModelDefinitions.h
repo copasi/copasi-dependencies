@@ -215,15 +215,16 @@ public:
 
   /** @cond doxygen-libsbml-internal */
   /**
-   * Accepts the given CompVisitor.
+   * Accepts the given SBMLVisitor.
    *
-   * @param v the CompVisitor instance to be used.
+   * @param v the SBMLVisitor instance to be used.
    * 
    * @return the result of calling <code>v.visit()</code>, which indicates
    * whether the Visitor would like to visit the next item in the
    * list.
    */
-  virtual bool acceptComp(CompVisitor& v) const;
+
+  virtual bool accept(SBMLVisitor& v) const;
   /** @endcond */
 
 

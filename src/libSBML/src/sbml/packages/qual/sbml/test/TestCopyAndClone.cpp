@@ -323,14 +323,20 @@ START_TEST ( test_Transition_copyConstructor )
     FunctionTerm* ft=new FunctionTerm(GNS);
     ASTNode * math = new ASTNode (AST_CONSTANT_PI);
     ft->setMath(math);
+    ft->setResultLevel(0);
     o1->addFunctionTerm(ft);
+    DefaultTerm *dt = new DefaultTerm(GNS);
+    dt->setResultLevel(0);
+    o1->setDefaultTerm(dt);
 
     delete ft;
     delete math;
+    delete dt;
     
     fail_unless(o1->getId() == "c");
     fail_unless(o1->getNumFunctionTerms() == 1);
     fail_unless(o1->getFunctionTerm(0) != NULL);
+    fail_unless(o1->getDefaultTerm() != NULL);
 
     Transition* o2=new Transition(*o1);
 
@@ -338,6 +344,7 @@ START_TEST ( test_Transition_copyConstructor )
     fail_unless(o2->getNumFunctionTerms() == 1);
     fail_unless(o2->getFunctionTerm(0) != NULL);
     fail_unless(o2->getFunctionTerm(0) != o1->getFunctionTerm(0));
+    fail_unless(o2->getDefaultTerm() != o1->getDefaultTerm());
 
     fail_unless(o2->getParentSBMLObject() == o1->getParentSBMLObject());
 
@@ -353,14 +360,20 @@ START_TEST ( test_Transition_assignmentOperator )
     FunctionTerm* ft=new FunctionTerm(GNS);
     ASTNode * math = new ASTNode (AST_CONSTANT_PI);
     ft->setMath(math);
+    ft->setResultLevel(0);
     o1->addFunctionTerm(ft);
+    DefaultTerm *dt = new DefaultTerm(GNS);
+    dt->setResultLevel(0);
+    o1->setDefaultTerm(dt);
 
     delete ft;
     delete math;
+    delete dt;
     
     fail_unless(o1->getId() == "c");
     fail_unless(o1->getNumFunctionTerms() == 1);
     fail_unless(o1->getFunctionTerm(0) != NULL);
+    fail_unless(o1->getDefaultTerm() != NULL);
 
     Transition* o2 = new Transition(GNS);;
     (*o2)=*o1;
@@ -369,6 +382,7 @@ START_TEST ( test_Transition_assignmentOperator )
     fail_unless(o2->getNumFunctionTerms() == 1);
     fail_unless(o2->getFunctionTerm(0) != NULL);
     fail_unless(o2->getFunctionTerm(0) != o1->getFunctionTerm(0));
+    fail_unless(o2->getDefaultTerm() != o1->getDefaultTerm());
 
     fail_unless(o2->getParentSBMLObject() == o1->getParentSBMLObject());
 
@@ -385,6 +399,7 @@ START_TEST ( test_Transition_clone )
     FunctionTerm* ft=new FunctionTerm(GNS);
     ASTNode * math = new ASTNode (AST_CONSTANT_PI);
     ft->setMath(math);
+    ft->setResultLevel(0);
     o1->addFunctionTerm(ft);
 
     delete ft;

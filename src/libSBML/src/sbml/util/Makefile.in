@@ -51,19 +51,25 @@ thisdir   = src/sbml/util
 # others are used by the default rules in `makefile-common-actions.mk'.
 
 headers   = \
+  IdList.h \
 	List.h \
 	memory.h \
 	Stack.h \
 	StringBuffer.h \
+	ElementFilter.h \
+	IdentifierTransformer.h \
 	util.h
 
 header_inst_prefix = util
 
 sources   = \
+  IdList.cpp \
 	List.cpp \
 	memory.c \
 	Stack.c \
 	StringBuffer.c \
+	ElementFilter.cpp \
+	IdentifierTransformer.cpp \
 	util.c \
 
 extra_CPPFLAGS = -DPACKAGE_NAME=\"$(PACKAGE_NAME)\"

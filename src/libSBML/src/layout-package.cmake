@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# $URL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/src/layout-package.cmake $
+# $URL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/src/layout-package.cmake $
 # $Id: layout-package.cmake 16951 2013-01-28 19:37:29Z mhucka $
 #
 # Description       : CMake include file for SBML Level 3 Layout package

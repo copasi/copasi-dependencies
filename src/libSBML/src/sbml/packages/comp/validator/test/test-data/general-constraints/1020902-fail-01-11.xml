@@ -7,7 +7,7 @@
     <comp:listOfSubmodels>
       <comp:submodel comp:id="sub1" comp:modelRef="moddef1">
         <comp:listOfDeletions>
-          <comp:deletion comp:id="d" comp:idRef="p8" comp:unitRef="asa" />
+          <comp:deletion comp:id="d" comp:idRef="p80" comp:unitRef="asa" />
         </comp:listOfDeletions>
       </comp:submodel>
     </comp:listOfSubmodels>

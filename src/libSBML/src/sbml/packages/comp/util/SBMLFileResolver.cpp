@@ -179,15 +179,41 @@ SBMLFileResolver::resolveUri(const std::string &sUri, const std::string& sBaseUr
   return NULL;
 }
 
+#ifndef WIN32
+#include <dirent.h>
+bool directoryExists( const char* path )
+{
+  if ( path == NULL) return false;
+
+  bool result = false;
+  DIR *dir = opendir (path);
+
+  if (dir != NULL)
+  {
+    result = true;    
+    (void) closedir (dir);
+  }
+
+  return result;
+}
+#endif
+
 /** @cond doxygen-libsbml-internal */
 bool
 SBMLFileResolver::fileExists(const std::string& fileName)
 {
-	ifstream file(fileName.c_str());
-	if (!file)
-		return false;
+  ifstream file(fileName.c_str());
+  if (!file)
+    return false;
   file.close();
-	return true;
+  // on linux we know that ther fileName exists, however 
+  // it could be a directory (windows does not allow 
+  // a directory be opened)
+  #ifndef WIN32
+  if (directoryExists(fileName.c_str()))
+    return false;
+  #endif
+  return true;
 }
 /** @endcond */
 

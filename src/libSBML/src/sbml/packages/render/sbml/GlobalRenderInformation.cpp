@@ -647,6 +647,13 @@ ListOfGlobalRenderInformation::writeXMLNS (XMLOutputStream& stream) const
 }
 /** @endcond */
 
+void 
+ListOfGlobalRenderInformation::addExpectedAttributes(ExpectedAttributes& attributes)
+{
+  attributes.add("versionMajor");
+  attributes.add("versionMinor");
+}
+
 /** @cond doxygen-libsbml-internal */
 void ListOfGlobalRenderInformation::writeAttributes (XMLOutputStream& stream) const
 {

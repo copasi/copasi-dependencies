@@ -24,7 +24,7 @@
  * The SBaseRef class was introduced by the SBML Level&nbsp;3
  * @ref Comp "Hierarchical Model Composition" package ('comp') as the
  * principle way by which submodel elements may be referenced.  The SBaseRef
- * class is usually found as a subclass of a Port, Deletion, ReplacedElement,
+ * class is usually found as the base class of a Port, Deletion, ReplacedElement,
  * or ReplacedBy class, but may appear as an child of one of the above
  * classes if the parent object references a Submodel.
  *
@@ -192,7 +192,7 @@ public:
    *
    * @return a List* of pointers to all children objects.
    */
-  virtual List* getAllElements();
+  virtual List* getAllElements(ElementFilter* filter=NULL);
   
   
   /**
@@ -216,7 +216,7 @@ public:
   /**
    * Sets the value of the "metaIdRef" attribute of this SBaseRef.
    *
-   * This method fails if the id is not a valid syntax for a MetaIdRef (@link
+   * This method fails if the id is not a valid syntax for an IDREF (@link
    * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE
    * LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink), or if the SBaseRef already
    * points to an element of the submodel using a different interface (@link
@@ -268,12 +268,12 @@ public:
   
   /**
    * Sets the value of the "portRef" attribute of this SBaseRef.  Fails if
-   * the id is not a valid syntax for a PidRef (@link
+   * the id is not a valid syntax for a PortSIdRef (@link
    * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE
    * LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink), or if the SBaseRef already
    * points to an element of the submodel using a different interface (@link
    * OperationReturnValues_t#LIBSBML_OPERATION_FAILED
-   * LIBSBML_OPERATION_FAILED @endlink).  An sBaseRef must use exactly one
+   * LIBSBML_OPERATION_FAILED @endlink).  An SBaseRef must use exactly one
    * method to point to a submodel element.
    *
    * @return integer value indicating success/failure of the
@@ -327,8 +327,7 @@ public:
    * points to an element of the submodel using a different interface (@link
    * OperationReturnValues_t#LIBSBML_OPERATION_FAILED
    * LIBSBML_OPERATION_FAILED @endlink).  A sBaseRef must use exactly one
-   * method to point to a submodel element: portRef, idRef, unitRef, or
-   * metaIdRef.
+   * method to point to a submodel element.
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -375,14 +374,13 @@ public:
   /**
    * Sets the value of the "unitRef" attribute of this SBaseRef.
    *
-   * This method fails if the id is not a valid syntax for a UnitIdRef (@link
+   * This method fails if the id is not a valid syntax for a UnitSIdRef (@link
    * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE
    * LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink), or if the SBaseRef already
    * points to an element of the submodel using a different interface (@link
    * OperationReturnValues_t#LIBSBML_OPERATION_FAILED
    * LIBSBML_OPERATION_FAILED @endlink).  A sBaseRef must use exactly one
-   * method to point to a submodel element: portRef, idRef, unitRef,
-   * deletion, or by using a sBaseRef child object.
+   * method to point to a submodel element.
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -411,7 +409,7 @@ public:
   /**
    * Get the child sBaseRef of this sBaseRef.
    * 
-   * @return the const SBaseRef child of this SBaseRef
+   * @return the const SBaseRef child of this SBaseRef, or NULL if none exists.
    */
   const SBaseRef* getSBaseRef () const;
 
@@ -419,7 +417,7 @@ public:
   /**
    * Get the child sBaseRef of this SBaseRef.
    * 
-   * @return the SBaseRef child of this SBaseRef.
+   * @return the SBaseRef child of this SBaseRef, or NULL if none exists.
    */
   SBaseRef* getSBaseRef ();
 
@@ -438,11 +436,8 @@ public:
    * SBaseRef object instance.
    *
    * This method fails if the added sBaseRef does not match the
-   * level/version/package of the parent object, if the added sBaseRef cannot
-   * be copied, or if the SBaseRef already points to an element of the
-   * submodel using a different interface.  A sBaseRef must use exactly one
-   * method to point to a submodel element: portRef, idRef, unitRef,
-   * deletion, or by using a sBaseRef child object.
+   * level/version/package of the parent object or if the added sBaseRef cannot
+   * be copied.
    *
    * @param sBaseRef the SBaseRef object instance to use.
    *
@@ -451,7 +446,6 @@ public:
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * @li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
    * @li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
@@ -464,13 +458,14 @@ public:
    * Creates a new, empty SBaseRef, adds it to this SBaseRef and 
    * returns the created SBaseRef.
    *
-   * @return the newly created SBaseRef object instance
+   * @return the newly created SBaseRef object instance.
    */
   SBaseRef* createSBaseRef ();
 
 
   /**
-   * Unsets the child SBaseRef of this SBaseRef.
+   * Unsets the child SBaseRef of this SBaseRef.  Deletes the former SBaseRef child,
+   * if one existed.
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -540,7 +535,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -586,7 +581,14 @@ public:
 
 
   /**
-   * Finds the SBase object this SBaseRef object points to, if any.
+   * Examines the referenced Model for the referenced object, and returns it, if found.
+   *
+   * @param model the Model in which to look for the object referenced by
+   * this SBaseRef.
+   *
+   * @return the element in the referenced Model to which this SBaseRef
+   * refers.  If this object references an object in a Submodel, the returned
+   * object will be in the instantiated Model in that Submodel.
    *
    */
   virtual SBase* getReferencedElementFrom(Model* model);

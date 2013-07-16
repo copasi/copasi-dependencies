@@ -30,12 +30,14 @@
 
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaParser.h>
+#include <sbml/math/L3Parser.h>
 #include <sbml/EventAssignment.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
 #include <sbml/xml/XMLNode.h>
 
 #include <limits.h>
+#include <math.h>
 #include <check.h>
 
 
@@ -1181,7 +1183,7 @@ START_TEST (test_ASTNode_getReal)
   ASTNode_setType(n, AST_REAL_E);
   ASTNode_setRealWithExponent(n, 12.3, 3);
 
-  double val = abs(ASTNode_getReal(n) - 12300.0);
+  double val = fabs(ASTNode_getReal(n) - 12300.0);
   fail_unless(val < DBL_EPSILON);
 
   /** 1/2 **/
@@ -2727,35 +2729,35 @@ START_TEST (test_ASTNode_isAvogadro)
 
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_LOGICAL_AND);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_LOGICAL_NOT);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_LOGICAL_OR);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_LOGICAL_XOR);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
 
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_RELATIONAL_EQ);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_RELATIONAL_GEQ);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_RELATIONAL_GT);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_RELATIONAL_LEQ);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_RELATIONAL_LT);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
   ASTNode_free(n);
   n = ASTNode_createWithType(AST_RELATIONAL_NEQ);
-  fail_unless( !ASTNode_isAvogadro(n));
+  fail_unless(! ASTNode_isAvogadro(n));
   ASTNode_free(n);
 
   n = ASTNode_createWithType(AST_UNKNOWN);
@@ -2763,6 +2765,39 @@ START_TEST (test_ASTNode_isAvogadro)
   ASTNode_free(n);
 }
 END_TEST
+
+START_TEST (test_ASTNode_hasTypeAndNumChildren)
+{
+  ASTNode_t *n = ASTNode_create();
+  ASTNode_t *c = ASTNode_create();
+
+  ASTNode_setType(n, AST_PLUS);
+  fail_unless( ASTNode_hasTypeAndNumChildren(n, AST_PLUS, 0));
+  fail_unless(!ASTNode_hasTypeAndNumChildren(n, AST_PLUS, 1));
+  fail_unless(!ASTNode_hasTypeAndNumChildren(n, AST_MINUS, 0));
+  fail_unless(!ASTNode_hasTypeAndNumChildren(n, AST_UNKNOWN, 1));
+
+  ASTNode_setName(c, "x");
+  ASTNode_addChild(n, c);
+  ASTNode_setType(n, AST_FUNCTION_PIECEWISE);
+  fail_unless( ASTNode_hasTypeAndNumChildren(n, AST_FUNCTION_PIECEWISE, 1));
+  fail_unless(!ASTNode_hasTypeAndNumChildren(n, AST_FUNCTION_PIECEWISE, 0));
+  fail_unless(!ASTNode_hasTypeAndNumChildren(n, AST_LOGICAL_AND, 1));
+  fail_unless(!ASTNode_hasTypeAndNumChildren(n, AST_DIVIDE, 0));
+
+  c = ASTNode_create();
+  ASTNode_setName(c, "y");
+  ASTNode_addChild(n, c);
+  ASTNode_setType(n, AST_DIVIDE);
+  fail_unless( ASTNode_hasTypeAndNumChildren(n, AST_DIVIDE, 2));
+  fail_unless(!ASTNode_hasTypeAndNumChildren(n, AST_DIVIDE, 0));
+  fail_unless(!ASTNode_hasTypeAndNumChildren(n, AST_CONSTANT_E, 2));
+  fail_unless(!ASTNode_hasTypeAndNumChildren(n, AST_RELATIONAL_EQ, 0));
+
+  ASTNode_free(n);
+}
+END_TEST
+
 
 Suite *
 create_suite_ASTNode (void) 
@@ -2819,6 +2854,7 @@ create_suite_ASTNode (void)
   tcase_add_test( tcase, test_ASTNode_isBoolean               );
   tcase_add_test( tcase, test_ASTNode_returnsBoolean          );
   tcase_add_test( tcase, test_ASTNode_isAvogadro              );
+  tcase_add_test( tcase, test_ASTNode_hasTypeAndNumChildren   );
 
   suite_add_tcase(suite, tcase);
 

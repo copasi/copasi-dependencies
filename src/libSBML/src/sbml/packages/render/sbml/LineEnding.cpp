@@ -85,6 +85,7 @@ LineEnding::LineEnding (RenderPkgNamespaces* renderns):
     GraphicalPrimitive2D(renderns)
     ,mId("")
     ,mEnableRotationalMapping(true)
+    ,mBoundingBox(renderns->getLevel(), renderns->getVersion())
     ,mGroup(renderns)     
 {
     //this->mBoundingBox.setIsInRenderContext(true);
@@ -113,7 +114,7 @@ LineEnding::LineEnding (RenderPkgNamespaces* renderns):
  * @param node the XMLNode object reference that describes the ListOfLineEndings
  * object to be instantiated.
  */
-    ListOfLineEndings::ListOfLineEndings(const XMLNode& node, unsigned int l2version) 
+    ListOfLineEndings::ListOfLineEndings(const XMLNode& node, unsigned int l2version)       
 {
     const XMLAttributes& attributes=node.getAttributes();
     const XMLNode* child;
@@ -140,6 +141,11 @@ LineEnding::LineEnding (RenderPkgNamespaces* renderns):
         }
         ++n;
     }
+
+    
+  setSBMLNamespacesAndOwn(new RenderPkgNamespaces(2,l2version));  
+
+  connectToChild();
 }
 /** @endcond */
 
@@ -467,7 +473,7 @@ XMLNode ListOfLineEndings::toXML() const
  * implementation of this method as well.  For example:
  *
  *   SBase::writeElements(stream);
- *   mReactans.write(stream);
+ *   mReactants.write(stream);
  *   mProducts.write(stream);
  *   ...
  */
@@ -477,6 +483,16 @@ void LineEnding::writeElements (XMLOutputStream& stream) const
     this->mBoundingBox.write(stream);
     this->mGroup.write(stream);
 }
+
+void 
+LineEnding::writeXMLNS (XMLOutputStream& stream) const
+{    
+  XMLNamespaces xmlns;
+  xmlns.add(mBoundingBox.getURI(), mBoundingBox.getPrefix());
+  stream << xmlns;
+
+}
+
 /** @endcond */
 
 

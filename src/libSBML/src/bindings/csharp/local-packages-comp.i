@@ -188,6 +188,16 @@ COVARIANT_RTYPE_RENAMESIDREFS(Port)
 
 COVARIANT_RTYPE_RENAMEUNITSIDREFS(Port)
 
+%define COVARIANT_RTYPE_FUNCTION(_CNAME_, _FNAME_)
+%typemap(cstype) _CNAME_* _CNAME_::_FNAME_  "_CNAME_"
+%csmethodmodifiers _CNAME_::_FNAME_  "public new"
+%enddef
+
+COVARIANT_RTYPE_FUNCTION(Port, unsetName)
+COVARIANT_RTYPE_FUNCTION(Port, setName)
+COVARIANT_RTYPE_FUNCTION(Port, isSetName)
+COVARIANT_RTYPE_FUNCTION(Port, getId)
+
 %define COVARIANT_RTYPE_RENAMEMETAIDREFS(_CNAME_)
 %typemap(cstype) _CNAME_* _CNAME_::renameMetaIdRefs  "_CNAME_"
 %csmethodmodifiers _CNAME_::renameMetaIdRefs  "public new"

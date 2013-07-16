@@ -206,7 +206,7 @@ START_TEST (test_comp_model_flattening_with_ports)
   //fail_unless(flatmod != NULL);
   //SBMLNamespaces sbmlns(3,1,"comp",1);
   //SBMLDocument doc2(&sbmlns);
-  //doc2.setPackageRequired("comp", false);
+  //doc2.setPackageRequired("comp", true);
   //doc2.setModel(flatmod);
   //string newModel = writeSBMLToString(&doc2);
   //===========
@@ -257,7 +257,7 @@ START_TEST (test_comp_flatten_exchange4)
   //fail_unless(flatmod != NULL);
   //CompPkgNamespaces csbmlns(3,1,1,"comp");
   //SBMLDocument flatdoc(&csbmlns);
-  //flatdoc.setPackageRequired("comp", false);
+  //flatdoc.setPackageRequired("comp", true);
   //flatdoc.setModel(flatmod);
 
   //string newModel = writeSBMLToString(&flatdoc);
@@ -310,7 +310,7 @@ START_TEST (test_comp_flatten_exchange5)
   //fail_unless(flatmod != NULL);
   //CompPkgNamespaces csbmlns(3,1,1,"comp");
   //SBMLDocument flatdoc(&csbmlns);
-  //flatdoc.setPackageRequired("comp", false);
+  //flatdoc.setPackageRequired("comp", true);
   //flatdoc.setModel(flatmod);
   //writeSBMLToFile(&flatdoc, "CompTest_flat_ports.xml");
 

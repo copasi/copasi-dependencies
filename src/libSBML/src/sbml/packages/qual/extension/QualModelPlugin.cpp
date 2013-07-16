@@ -28,6 +28,7 @@
  */
 
 #include <sbml/packages/qual/extension/QualModelPlugin.h>
+#include <sbml/packages/qual/validator/QualSBMLError.h>
 
 #include <iostream>
 using namespace std;
@@ -112,6 +113,12 @@ QualModelPlugin::createObject(XMLInputStream& stream)
   {
     if ( name == "listOfQualitativeSpecies" ) 
     {
+      if (mQualitativeSpecies.size() != 0)
+      {
+        getErrorLog()->logPackageError("qual", QualOneListOfTransOrQS, 
+          getPackageVersion(), getLevel(), getVersion());
+      }
+      
       object = &mQualitativeSpecies;
     
       if (targetPrefix.empty())
@@ -130,6 +137,12 @@ QualModelPlugin::createObject(XMLInputStream& stream)
     }          
     else if ( name == "listOfTransitions" ) 
     {
+      if (mTransitions.size() != 0)
+      {
+        getErrorLog()->logPackageError("qual", QualOneListOfTransOrQS, 
+          getPackageVersion(), getLevel(), getVersion());
+      }
+      
       object = &mTransitions;
     
       if (targetPrefix.empty())
@@ -150,6 +163,33 @@ QualModelPlugin::createObject(XMLInputStream& stream)
 
   return object;
 }
+
+
+/** @cond doxygen-libsbml-internal */
+
+
+bool 
+QualModelPlugin::accept(SBMLVisitor& v) const
+{
+  const Model * model = static_cast<const Model * >(this->getParentSBMLObject()); 
+  
+  v.visit(*model);
+  v.leave(*model);
+
+  for (unsigned int i = 0; i < getNumQualitativeSpecies(); i++)
+  {
+    getQualitativeSpecies(i)->accept(v);
+  }
+  for (unsigned int i = 0; i < getNumTransitions(); i++)
+  {
+    getTransition(i)->accept(v);
+  }
+  return true;
+}
+
+
+/** @endcond */
+
 
 
 /*
@@ -175,11 +215,11 @@ QualModelPlugin::hasRequiredElements() const
 {
   bool allPresent = true;
 
-  if (mQualitativeSpecies.size() < 1)
+  if (mQualitativeSpecies.size() < 0)
   {
     allPresent = false;    
   }
-  if (mTransitions.size() < 1)
+  if (mTransitions.size() < 0)
   {
     allPresent = false;    
   }
@@ -260,7 +300,7 @@ QualModelPlugin::getQualitativeSpecies (const std::string& sid) const
 /*
  * Returns the number of QualitativeSpecies objects.
  */
-int 
+unsigned int 
 QualModelPlugin::getNumQualitativeSpecies() const
 {
   return mQualitativeSpecies.size();
@@ -422,7 +462,7 @@ QualModelPlugin::getTransition (const std::string& sid) const
 /*
  * Returns the number of Transition objects.
  */
-int 
+unsigned int 
 QualModelPlugin::getNumTransitions() const
 {
   return mTransitions.size();

@@ -4,8 +4,6 @@
 #
 # 
 
-
-
 foreach( example
 	
 	addCustomValidator
@@ -18,6 +16,7 @@ foreach( example
 	convertSBML
 	createExampleSBML
 	echoSBML
+	GetAllElementsWithNotes
 	printAnnotation
 	printMath
 	printNotes
@@ -27,6 +26,7 @@ foreach( example
 	printUnits
 	readSBML
 	stripPackage
+	SetIdFromNames
 	translateMath
 	unsetAnnotation
 	unsetNotes
@@ -36,7 +36,7 @@ foreach( example
 
 	ADD_CUSTOM_COMMAND(	
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${example}.exe
-		COMMAND "${CSHARP_COMPILER}"
+		COMMAND "${CSHARP_EXAMPLE_COMPILER}"
 		ARGS -r:${CMAKE_CURRENT_BINARY_DIR}/../../src/bindings/csharp/libsbmlcsP.dll
 			-target:exe
 			-out:${example}.exe
@@ -45,6 +45,6 @@ foreach( example
 		MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${example}.cs
 		COMMENT "Build C# example: ${example}") 
 	
-	add_custom_target(exmple_cs_${example} ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${example}.exe)
-	add_dependencies(exmple_cs_${example} binding_csharp_managed_lib)
+	add_custom_target(example_cs_${example} ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${example}.exe)
+	add_dependencies(example_cs_${example} binding_csharp_managed_lib)
 endforeach()

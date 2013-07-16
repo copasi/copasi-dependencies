@@ -197,7 +197,7 @@ XMLNode LocalRenderInformation::toXML() const
  * implementation of this method as well.  For example:
  *
  *   SBase::writeElements(stream);
- *   mReactans.write(stream);
+ *   mReactants.write(stream);
  *   mProducts.write(stream);
  *   ...
  */
@@ -517,6 +517,12 @@ void ListOfLocalRenderInformation::writeAttributes (XMLOutputStream& stream) con
   stream.writeAttribute("versionMinor", getPrefix(), os.str());
 }
 
+void 
+ListOfLocalRenderInformation::addExpectedAttributes(ExpectedAttributes& attributes)
+{
+  attributes.add("versionMajor");
+  attributes.add("versionMinor");
+}
 
 void 
 ListOfLocalRenderInformation::writeXMLNS (XMLOutputStream& stream) const

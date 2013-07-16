@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations: 
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -28,7 +28,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 #include <mex.h>
 
 #ifndef USE_OCTAVE
@@ -39,7 +38,6 @@
 #include <sbml/SBMLTypes.h>
 #include <sbml/util/util.h>
 
-/*#define USE_FBC 1*/
 
 #ifdef USE_FBC
 
@@ -66,7 +64,6 @@ void GetSpeciesType        (Model_t *, unsigned int, unsigned int);
 void GetInitialAssignment  (Model_t *, unsigned int, unsigned int);
 void GetConstraint         (Model_t *, unsigned int, unsigned int);
 
-
 void GetUnit (UnitDefinition_t *, unsigned int, unsigned int);
 
 void GetReactants  (Reaction_t *, unsigned int, unsigned int);
@@ -84,6 +81,7 @@ void GetEventAssignment (Event_t *, unsigned int, unsigned int);
 void GetPriority        (Event_t *, unsigned int, unsigned int);
 
 void GetNamespaces   (SBMLDocument_t *);
+
 
 
 mxArray * CreateIntScalar (int);
@@ -449,6 +447,7 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
   nBuflen = (mxGetM(mxOctave[0])*mxGetN(mxOctave[0])+1);
   pacTempString1 = (char *) mxCalloc(nBuflen, sizeof(char));
   nStatus = mxGetString(mxOctave[0], pacTempString1, (mwSize)(nBuflen));
+  mxDestroyArray(mxOctave[0]);
 
   if (nStatus != 0)
   {
@@ -595,9 +594,13 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         mxPrompt[0]= mxCreateString(pacPromptValid);
         mxPrompt[1]= mxCreateString("s");
         mexCallMATLAB(1, mxReply, 2, mxPrompt, "input");
+        mxDestroyArray(mxPrompt[0]);
+        mxDestroyArray(mxPrompt[1]);
+
         nBufferLen = (mxGetM(mxReply[0])*mxGetN(mxReply[0])+1);
         pacReply = (char *) mxCalloc(nBufferLen, sizeof(char));
         mxGetString(mxReply[0], pacReply, (mwSize)(nBufferLen));
+        mxDestroyArray(mxReply[0]);
   
         if (strcmp_insensitive(pacReply, "y") == 0)
         {
@@ -620,7 +623,8 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
   {
     pacReply = (char *)mxCalloc(3,sizeof(char));
     pacReply = "n";
-    mxPrompt[0] = mxCreateString("Fatal errors were encountered; read was abandoned");
+    /*mxPrompt[0] = mxCreateString("Fatal errors were encountered; read was abandoned");
+    */
     if (outputErrors == 1)
     {
       totalerrors = SBMLDocument_getNumErrors(sbmlDocument);
@@ -649,9 +653,13 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         mxPrompt[0]= mxCreateString(pacPromptValidAnyway);
         mxPrompt[1]= mxCreateString("s");
         mexCallMATLAB(1, mxReply, 2, mxPrompt, "input");
+        mxDestroyArray(mxPrompt[0]);
+        mxDestroyArray(mxPrompt[1]);
+
         nBufferLen = (mxGetM(mxReply[0])*mxGetN(mxReply[0])+1);
         pacReply = (char *) mxCalloc(nBufferLen, sizeof(char));
         mxGetString(mxReply[0], pacReply, (mwSize)(nBufferLen));
+        mxDestroyArray(mxReply[0]);
   
         if (strcmp_insensitive(pacReply, "y") == 0)
         {
@@ -715,6 +723,7 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
           mxErrors[0] = mxCreateString(pacErrors1);
 
           mexCallMATLAB(0, NULL, 1, mxErrors, "disp");
+          mxDestroyArray(mxErrors[0]);
           mexCallMATLAB(1, mxWarn, 2, mxPrompt, "input");
 
           nBufferLen = (mxGetM(mxWarn[0])*mxGetN(mxWarn[0])+1);
@@ -725,6 +734,11 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
           {
             listFlag = 1;
           }
+
+          mxDestroyArray(mxPrompt[0]);
+          mxDestroyArray(mxPrompt[1]);
+          mxDestroyArray(mxWarn[0]);
+
         }
       }
 
@@ -801,6 +815,7 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
           nBufferLen = (mxGetM(mxReply[0])*mxGetN(mxReply[0])+1);
           pacReply = (char *) mxCalloc(nBufferLen, sizeof(char));
           mxGetString(mxReply[0], pacReply, (mwSize)(nBufferLen));
+          mxDestroyArray(mxReply[0]);
         }
         else
         {
@@ -808,6 +823,8 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
           pacReply = "y";
         }
       }
+
+      mxDestroyArray(mxPrompt1[0]);
     }
     else
     {
@@ -1127,6 +1144,8 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     /* we havent read in a Model */
     mxNone[0] = mxCreateString(pacNone);
     mexCallMATLAB(0, NULL, 1, mxNone, "disp");
+    mxDestroyArray(mxNone[0]);
+
     plhs[0] = mxCreateStructArray(0, 0, 0, NULL);
   }
 
@@ -1377,14 +1396,14 @@ CreateIntScalar (int nValue)
 /**
  * NAME:    GetSpecies
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the species mxArray structure
- *            populates the structure with all the species in the Model
+ *            populates the structure with all the species in the model
  *
  */
 void
@@ -1858,14 +1877,14 @@ GetSpecies ( Model_t      *pModel,
 /**
  * NAME:    GetUnitDefinition
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the unit definition mxArray structure
- *            populates the structure with all the unit definition in the Model
+ *            populates the structure with all the unit definition in the model
  *
  */
 void
@@ -2055,14 +2074,14 @@ GetUnitDefinition ( Model_t      *pModel,
 /**
  * NAME:    GetCompartment
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the compartment mxArray structure
- *            populates the structure with all the compartment in the Model
+ *            populates the structure with all the compartment in the model
  *
  */
 void
@@ -2409,14 +2428,14 @@ GetCompartment ( Model_t      *pModel,
 /**
  * NAME:    GetParameter
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the parameter mxArray structure
- *        populates the structure with all the parameters in the Model
+ *        populates the structure with all the parameters in the model
  *
  */
 void
@@ -2667,14 +2686,14 @@ GetParameter ( Model_t      *pModel,
 /**
  * NAME:    GetReaction
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the reaction mxArray structure
- *            populates the structure with all the reactions in the Model
+ *            populates the structure with all the reactions in the model
  *
  */
 void GetReaction ( Model_t      *pModel,
@@ -3910,6 +3929,8 @@ GetStoichiometryMath ( SpeciesReference_t      *pSpeciesReference,
         mexErrMsgTxt("Cannot copy formula");
     }
 
+    mxDestroyArray(mxInput[0]);
+    mxDestroyArray(mxOutput[0]);
     /* END OF HACK */
   }
   /**
@@ -4187,6 +4208,8 @@ GetKineticLaw ( Reaction_t   *pReaction,
           mexErrMsgTxt("Cannot copy formula");
       }
 
+      mxDestroyArray(mxInput[0]);
+      mxDestroyArray(mxOutput[0]);
       /* END OF HACK */
     }
     else
@@ -4209,6 +4232,8 @@ GetKineticLaw ( Reaction_t   *pReaction,
           mexErrMsgTxt("Cannot copy formula");
       }
 
+      mxDestroyArray(mxInput[0]);
+      mxDestroyArray(mxOutput[0]);
       /* END OF HACK */
     }
  }
@@ -4740,14 +4765,14 @@ GetModifier ( Reaction_t   *pReaction,
 /**
  * NAME:    GetListRule
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the rule mxArray structure
- *            populates the structure with all the rules in the Model
+ *            populates the structure with all the rules in the model
  */
 void
 GetRule ( Model_t      *pModel,
@@ -4920,6 +4945,8 @@ GetRule ( Model_t      *pModel,
       mexErrMsgTxt("Cannot copy formula");
   }
 
+  mxDestroyArray(mxInput[0]);
+  mxDestroyArray(mxOutput[0]);
   /* END OF HACK */    
  
   /* values for different types of rules */
@@ -5192,7 +5219,7 @@ GetRule ( Model_t      *pModel,
 /**
  * NAME:    GetFunctionDefinition
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
@@ -5200,7 +5227,7 @@ GetRule ( Model_t      *pModel,
  *
  * FUNCTION:  creates the function definition mxArray structure
  *            populates the structure with all the function definition in
- *            the Model
+ *            the model
  */
 void
 GetFunctionDefinition ( Model_t      *pModel,
@@ -5349,6 +5376,8 @@ GetFunctionDefinition ( Model_t      *pModel,
         mexErrMsgTxt("Cannot copy formula");
     }
     
+    mxDestroyArray(mxInput[0]);
+    mxDestroyArray(mxOutput[0]);
   /* END OF HACK */
     /**
      * check for NULL strings - Matlab doesnt like creating
@@ -5396,14 +5425,14 @@ GetFunctionDefinition ( Model_t      *pModel,
 /**
  * NAME:    GetEvent
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the event mxArray structure
- *            populates the structure with all the events in the Model
+ *            populates the structure with all the events in the model
  */
 void
 GetEvent (Model_t      *pModel,
@@ -5611,6 +5640,8 @@ GetEvent (Model_t      *pModel,
           mexErrMsgTxt("Cannot copy formula");
       }
 
+      mxDestroyArray(mxInput[0]);
+      mxDestroyArray(mxOutput[0]);
       /* END OF HACK */
 
 
@@ -5636,6 +5667,8 @@ GetEvent (Model_t      *pModel,
           mexErrMsgTxt("Cannot copy formula");
       }
 
+      mxDestroyArray(mxInput[0]);
+      mxDestroyArray(mxOutput[0]);
       /* END OF HACK */
       }
     }
@@ -5877,6 +5910,8 @@ GetEventAssignment ( Event_t      *pEvent,
       mexErrMsgTxt("Cannot copy formula");
   }
 
+  mxDestroyArray(mxInput[0]);
+  mxDestroyArray(mxOutput[0]);
   /* END OF HACK */
 
     /**
@@ -6055,6 +6090,8 @@ GetTrigger ( Event_t      *pEvent,
         mexErrMsgTxt("Cannot copy formula");
     }
 
+    mxDestroyArray(mxInput[0]);
+    mxDestroyArray(mxOutput[0]);
     /* END OF HACK */
   }
 
@@ -6218,6 +6255,8 @@ GetDelay ( Event_t      *pEvent,
           mexErrMsgTxt("Cannot copy formula");
       }
 
+      mxDestroyArray(mxInput[0]);
+      mxDestroyArray(mxOutput[0]);
       /* END OF HACK */
     }
     /**
@@ -6359,6 +6398,8 @@ GetPriority ( Event_t      *pEvent,
         mexErrMsgTxt("Cannot copy formula");
     }
 
+    mxDestroyArray(mxInput[0]);
+    mxDestroyArray(mxOutput[0]);
     /* END OF HACK */
   }
   /**
@@ -6554,14 +6595,14 @@ RuleType_toString (RuleType_t typecode)
 /**
  * NAME:    GetCompartmentType
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the event mxArray structure
- *            populates the structure with all the events in the Model
+ *            populates the structure with all the events in the model
  */
 void
 GetCompartmentType (Model_t      *pModel,
@@ -6702,14 +6743,14 @@ GetCompartmentType (Model_t      *pModel,
 /**
  * NAME:    GetSpeciesType
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the event mxArray structure
- *            populates the structure with all the events in the Model
+ *            populates the structure with all the events in the model
  */
 void
 GetSpeciesType (Model_t      *pModel,
@@ -6851,14 +6892,14 @@ GetSpeciesType (Model_t      *pModel,
 /**
  * NAME:    GetInitialAssignment
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the InitialAssignment mxArray structure
- *            populates the structure with all the InitialAssignments in the Model
+ *            populates the structure with all the InitialAssignments in the model
  */
 void
 GetInitialAssignment (Model_t      *pModel,
@@ -6982,6 +7023,8 @@ GetInitialAssignment (Model_t      *pModel,
       mexErrMsgTxt("Cannot copy formula");
   }
 
+  mxDestroyArray(mxInput[0]);
+  mxDestroyArray(mxOutput[0]);
   /* END OF HACK */
 
 
@@ -7031,14 +7074,14 @@ GetInitialAssignment (Model_t      *pModel,
 /**
  * NAME:    GetConstraint
  *
- * PARAMETERS:  Pointer to a Model
+ * PARAMETERS:  Pointer to a model
  *              unSBMLLevel
  *              unSBMLVersion - included for possible expansion needs
  *
  * RETURNS:    void
  *
  * FUNCTION:  creates the Constraint mxArray structure
- *            populates the structure with all the Constraint in the Model
+ *            populates the structure with all the Constraint in the model
  */
 void
 GetConstraint (Model_t      *pModel,
@@ -7165,6 +7208,8 @@ GetConstraint (Model_t      *pModel,
   {
       mexErrMsgTxt("Cannot copy formula");
   }
+  mxDestroyArray(mxInput[0]);
+  mxDestroyArray(mxOutput[0]);
 
   /* END OF HACK */
 

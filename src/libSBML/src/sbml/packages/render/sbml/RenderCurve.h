@@ -458,7 +458,7 @@ protected:
 	 * implementation of this method as well.  For example:
 	 *
 	 *   SBase::writeElements(stream);
-	 *   mReactans.write(stream);
+	 *   mReactants.write(stream);
 	 *   mProducts.write(stream);
 	 *   ...
 	 */

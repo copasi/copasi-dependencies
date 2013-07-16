@@ -1285,6 +1285,19 @@ public:
 
 
   /**
+  * Predicate returning @c true if this node is of type @param type,
+  * and has the number of children @param numchildren.  Designed
+  * for use in cases where it is useful to discover if the node is
+  * a unary not or unary minus, or a times node with no children, etc.
+  *
+  * @return @c true if this ASTNode is has the specified type and number
+  *         of children, @c false otherwise.
+  */
+  LIBSBML_EXTERN
+  int hasTypeAndNumChildren(ASTNodeType_t type, unsigned int numchildren) const;
+
+
+  /**
    * Predicate returning @c true (non-zero) if this node has an unknown type.
    * 
    * "Unknown" nodes have the type @link ASTNodeType_t#AST_UNKNOWN
@@ -2396,6 +2409,19 @@ ASTNode_isUMinus (const ASTNode_t *node);
 LIBSBML_EXTERN
 int
 ASTNode_isUPlus (const ASTNode_t *node);
+
+/**
+* Predicate returning @c true (non-zero) if this node is of type @param type,
+* and has the number of children @param numchildren.  Designed
+* for use in cases where it is useful to discover if the node is
+* a unary not or unary minus, or a times node with no children, etc.
+*
+* @return @c true (non-zero) if this ASTNode is has the specified type and number
+*         of children, @c false (zero) otherwise.
+*/
+LIBSBML_EXTERN
+int
+ASTNode_hasTypeAndNumChildren(const ASTNode_t *node, ASTNodeType_t type, unsigned int numchildren);
 
 
 /**

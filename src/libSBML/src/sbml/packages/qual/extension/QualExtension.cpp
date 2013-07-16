@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -33,6 +33,8 @@
 
 #include <sbml/packages/qual/extension/QualExtension.h>
 #include <sbml/packages/qual/extension/QualModelPlugin.h>
+#include <sbml/packages/qual/extension/QualSBMLDocumentPlugin.h>
+#include <sbml/packages/qual/validator/QualSBMLErrorTable.h>
 
 #ifdef __cplusplus
 
@@ -60,17 +62,26 @@ const std::string& QualExtension::getPackageName ()
 //
 // Default SBML level, version, and package version
 //
-unsigned int QualExtension::getDefaultLevel()
+unsigned int
+QualExtension::getDefaultLevel ()
 {
 	return 3;
 }  
 
-unsigned int QualExtension::getDefaultVersion()
+/*
+ * Returns the default SBML Version this extension.
+ */
+unsigned int
+QualExtension::getDefaultVersion ()
 {
 	return 1; 
 }
 
-unsigned int QualExtension::getDefaultPackageVersion()
+/*
+ * Returns the default SBML version this extension.
+ */
+unsigned int
+QualExtension::getDefaultPackageVersion ()
 {
 	return 1;
 } 
@@ -80,8 +91,8 @@ unsigned int QualExtension::getDefaultPackageVersion()
 // (2) another XML namespace(XMLSchema-instance) required in the qual 
 //  extension.
 //
-
-const std::string& QualExtension::getXmlnsL3V1V1 ()
+const std::string&
+QualExtension::getXmlnsL3V1V1 ()
 {
 	static const std::string xmlns = "http://www.sbml.org/sbml/level3/version1/qual/version1";
 	return xmlns;
@@ -143,11 +154,14 @@ QualExtension::~QualExtension ()
 /*
  * Assignment operator for QualExtension.
  */
-QualExtension& 
-QualExtension::operator=(const QualExtension& orig)
-{
-  SBMLExtension::operator=(orig);
-  return *this;
+QualExtension&
+QualExtension::operator=(const QualExtension& rhs)
+ {
+	if (&rhs != this)
+	{
+		SBMLExtension::operator=(rhs);
+	}
+	return *this;
 }
 
 
@@ -352,7 +366,7 @@ QualExtension::init()
   SBaseExtensionPoint sbmldocExtPoint("core",SBML_DOCUMENT);
   SBaseExtensionPoint modelExtPoint("core",SBML_MODEL);
 
-  SBasePluginCreator<SBMLDocumentPlugin, QualExtension> sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
+  SBasePluginCreator<QualSBMLDocumentPlugin, QualExtension> sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
   SBasePluginCreator<QualModelPlugin,   QualExtension> modelPluginCreator(modelExtPoint,packageURIs);
 
   //--------------------------------------------------------------------------------------
@@ -378,6 +392,46 @@ QualExtension::init()
   }
 }
 
-#endif  /* __cplusplus */
+/** @cond doxygen-libsbml-internal */
+packageErrorTableEntry
+QualExtension::getErrorTable(unsigned int index) const
+{
+  return qualErrorTable[index];
+}
+/** @cond doxygen-libsbml-internal */
+unsigned int 
+QualExtension::getErrorTableIndex(unsigned int errorId) const
+{
+  unsigned int tableSize = sizeof(qualErrorTable)/sizeof(qualErrorTable[0]);
+  unsigned int index = 0;
+
+  for ( unsigned int i = 0; i < tableSize; i++ )
+  {
+    if ( errorId == qualErrorTable[i].code )
+    {
+      index = i;
+      break;
+    }
+  }
+
+  return index;
+}
+/** @endcond */
+
+
+/** @cond doxygen-libsbml-internal */
+unsigned int
+QualExtension::getErrorIdOffset() const
+{
+  return 3000000;
+}
+/** @endcond */
+
+
+
+
 LIBSBML_CPP_NAMESPACE_END
+
+
+#endif /* __cplusplus */
 

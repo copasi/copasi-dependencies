@@ -46,7 +46,6 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 AnalyticVolume::AnalyticVolume (unsigned int level, unsigned int version, unsigned int pkgVersion) 
   : SBase (level,version)
    , mSpatialId("")
-   , mShapeId("")
    , mDomainType("")
    , mFunctionType("")
    , mOrdinal(0)
@@ -64,7 +63,6 @@ AnalyticVolume::AnalyticVolume (unsigned int level, unsigned int version, unsign
 AnalyticVolume::AnalyticVolume(SpatialPkgNamespaces* spatialns)
  : SBase(spatialns)
   , mSpatialId("")
-  , mShapeId("")
   , mDomainType("")
   , mFunctionType("")
   , mOrdinal(0)
@@ -87,7 +85,6 @@ AnalyticVolume::AnalyticVolume(SpatialPkgNamespaces* spatialns)
 AnalyticVolume::AnalyticVolume(const AnalyticVolume& source) : SBase(source)
 {
   this->mSpatialId=source.mSpatialId;
-  this->mShapeId=source.mShapeId;
   this->mDomainType=source.mDomainType;
   this->mFunctionType=source.mFunctionType;
   this->mOrdinal=source.mOrdinal;
@@ -109,7 +106,6 @@ AnalyticVolume& AnalyticVolume::operator=(const AnalyticVolume& source)
   {
     this->SBase::operator=(source);
     this->mSpatialId = source.mSpatialId;
-	this->mShapeId = source.mShapeId;
 	this->mDomainType = source.mDomainType;
 	this->mFunctionType = source.mFunctionType;
 	this->mOrdinal=source.mOrdinal;
@@ -146,15 +142,6 @@ const std::string&
 AnalyticVolume::getSpatialId () const
 {
   return mSpatialId;
-}
-
-/*
-  * Returns the value of the "shapeId" attribute of this AnalyticVolume.
-  */
-const std::string& 
-AnalyticVolume::getShapeId () const
-{
-  return mShapeId;
 }
 
 /*
@@ -205,16 +192,6 @@ AnalyticVolume::isSetSpatialId () const
 
 /*
   * Predicate returning @c true or @c false depending on whether this
-  * AnalyticVolume's "shapeId" attribute has been set.
-  */
-bool 
-AnalyticVolume::isSetShapeId () const
-{
-  return (mShapeId.empty() == false);
-}
-
-/*
-  * Predicate returning @c true or @c false depending on whether this
   * AnalyticVolume's "domainType" attribute has been set.
   */
 bool 
@@ -260,15 +237,6 @@ int
 AnalyticVolume::setSpatialId (const std::string& spatialId)
 {
   return SyntaxChecker::checkAndSetSId(spatialId ,mSpatialId);
-}
-
-/*
-  * Sets the value of the "shapeId" attribute of this AnalyticVolume.
-  */
-int 
-AnalyticVolume::setShapeId (const std::string& shapeId)
-{
-  return SyntaxChecker::checkAndSetSId(shapeId ,mShapeId);
 }
 
 /*
@@ -341,23 +309,6 @@ AnalyticVolume::unsetSpatialId ()
 {
   mSpatialId.erase();
   if (mSpatialId.empty())
-  {
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    return LIBSBML_OPERATION_FAILED;
-  }
-}
-
-/*
-  * Unsets the value of the "shapeId" attribute of this AnalyticVolume.
-  */
-int 
-AnalyticVolume::unsetShapeId ()
-{
-  mShapeId.erase();
-  if (mShapeId.empty())
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -459,7 +410,6 @@ AnalyticVolume::addExpectedAttributes(ExpectedAttributes& attributes)
   SBase::addExpectedAttributes(attributes);
 
   attributes.add("spatialId");
-  attributes.add("shapeId");
   attributes.add("domainType");
   attributes.add("functionType");
   attributes.add("ordinal");
@@ -498,13 +448,6 @@ AnalyticVolume::readAttributes (const XMLAttributes& attributes,
     logEmptyString(mSpatialId, sbmlLevel, sbmlVersion, "<AnalyticVolume>");
   }
   if (!SyntaxChecker::isValidSBMLSId(mSpatialId)) logError(InvalidIdSyntax);
-
-  assigned = attributes.readInto("shapeId", mShapeId, getErrorLog(), true, getLine(), getColumn());
-  if (assigned && mShapeId.empty())
-  {
-    logEmptyString(mShapeId, sbmlLevel, sbmlVersion, "<AnalyticVolume>");
-  }
-  if (!SyntaxChecker::isValidSBMLSId(mShapeId)) logError(InvalidIdSyntax);
   
   assigned = attributes.readInto("domainType", mDomainType, getErrorLog(), true, getLine(), getColumn());
   if (assigned && mDomainType.empty())
@@ -612,7 +555,6 @@ AnalyticVolume::writeAttributes (XMLOutputStream& stream) const
   SBase::writeAttributes(stream);
 
   stream.writeAttribute("spatialId",   getPrefix(), mSpatialId);
-  stream.writeAttribute("shapeId",   getPrefix(), mShapeId);  
   stream.writeAttribute("domainType",   getPrefix(), mDomainType);
   stream.writeAttribute("functionType",   getPrefix(), mFunctionType);
   stream.writeAttribute("ordinal", getPrefix(), mOrdinal);

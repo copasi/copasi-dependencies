@@ -7,7 +7,7 @@
 \author  Ralph Gauges
 
 $Id: layout2svg.xsl 11938 2010-09-20 02:04:23Z mhucka $
-$HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/examples/layout/layout2svg.xsl $
+$HeadURL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/examples/layout/layout2svg.xsl $
 
 Copyright 2004 European Media Laboratories Research gGmbH
 

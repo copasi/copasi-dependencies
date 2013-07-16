@@ -35,8 +35,7 @@
 #include <sbml/validator/Validator.h>
 #include <sbml/packages/comp/validator/CompValidator.h>
 #include <sbml/packages/comp/common/CompExtensionTypes.h>
-#include <sbml/packages/comp/validator/CompVisitor.h>
-
+#include <sbml/SBMLTypes.h>
 /** @cond doxygen-ignored */
 
 using namespace std;
@@ -44,6 +43,7 @@ using namespace std;
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
+
 
 //
 // NOTE: ConstraintSet, ValidatorConstraints, and ValidatingVisitor used to
@@ -144,6 +144,7 @@ struct CompValidatorConstraints
   ConstraintSet<Deletion>                 mDeletion;
   ConstraintSet<ReplacedElement>          mReplacedElement;
   ConstraintSet<ReplacedBy>               mReplacedBy;
+  ConstraintSet<SBaseRef>                 mSBaseRef;
   ConstraintSet<ModelDefinition>          mModelDefinition;
   ConstraintSet<ExternalModelDefinition>  mExtModelDefinition;
 
@@ -226,6 +227,12 @@ CompValidatorConstraints::add (VConstraint* c)
     return;
   }
 
+  if (dynamic_cast< TConstraint<SBaseRef>* >(c) != NULL)
+  {
+    mSBaseRef.add( static_cast< TConstraint<SBaseRef>* >(c) );
+    return;
+  }
+
   if (dynamic_cast< TConstraint<ModelDefinition>* >(c) != NULL)
   {
     mModelDefinition.add( static_cast< TConstraint<ModelDefinition>* >(c) );
@@ -256,7 +263,7 @@ CompValidatorConstraints::add (VConstraint* c)
  * A ValidatingVisitor overrides each visit method to validate the given
  * SBML object.
  */
-class CompValidatingVisitor: public CompVisitor
+class CompValidatingVisitor: public SBMLVisitor
 {
 public:
 
@@ -292,6 +299,12 @@ public:
     return !v.mCompConstraints->mReplacedBy.empty();
   }
 
+  virtual bool visit (const SBaseRef &x)
+  {
+    v.mCompConstraints->mSBaseRef.applyTo(m, x);
+    return !v.mCompConstraints->mSBaseRef.empty();
+  }
+
   virtual bool visit (const ModelDefinition &x)
   {
     v.mCompConstraints->mModelDefinition.applyTo(m, x);
@@ -307,6 +320,62 @@ public:
   virtual void visit (const Model &x)
   {
     v.mCompConstraints->mModel.applyTo(m, x);
+  }
+
+  virtual bool visit (const SBase &x)
+  {
+    if (&x == NULL || x.getPackageName() != "comp")
+    {
+      return SBMLVisitor::visit(x);      
+    }
+
+    int code = x.getTypeCode(); 
+
+    const ListOf* list = dynamic_cast<const ListOf*>(&x);
+
+    if (list != NULL) 
+    {
+      return SBMLVisitor::visit(x);
+    }
+    else
+    {
+      if (code == SBML_COMP_SUBMODEL)
+      {
+        return visit((const Submodel&)x);
+      } 
+      else if (code == SBML_COMP_MODELDEFINITION)
+      {
+        return visit((const ModelDefinition&)x);
+      } 
+      else if (code == SBML_COMP_EXTERNALMODELDEFINITION)
+      {
+        return visit((const ExternalModelDefinition&)x);
+      } 
+      else if (code == SBML_COMP_DELETION)
+      {
+        return visit((const Deletion&)x);
+      } 
+      else if (code == SBML_COMP_REPLACEDELEMENT)
+      {
+        return visit((const ReplacedElement&)x);
+      } 
+      else if (code == SBML_COMP_REPLACEDBY)
+      {
+        return visit((const ReplacedBy&)x);
+      } 
+      else if (code == SBML_COMP_SBASEREF)
+      {
+        return visit((const SBaseRef&)x);
+      } 
+      else if (code == SBML_COMP_PORT)
+      {
+        return visit((const Port&)x);
+      } 
+      else 
+      {
+        return SBMLVisitor::visit(x);
+      } 
+    }
   }
 
 
@@ -387,7 +456,7 @@ CompValidator::addConstraint (VConstraint* c)
 #define ACCEPT_COMP(x,vv)\
 {\
    CompSBasePlugin *plugin = static_cast <CompSBasePlugin *>((x)->getPlugin("comp"));\
-   if (plugin != NULL) plugin->acceptComp(vv);\
+   if (plugin != NULL) plugin->accept(vv);\
 }
 
 /*
@@ -419,8 +488,8 @@ CompValidator::validate (const SBMLDocument& d)
 
     // validate via the plugins for the package
     static_cast <const CompSBMLDocumentPlugin *> 
-                                    (d.getPlugin("comp"))->acceptComp(vv);
-    static_cast <CompModelPlugin *> (m->getPlugin("comp"))->acceptComp(vv);
+                                    (d.getPlugin("comp"))->accept(vv);
+    static_cast <CompModelPlugin *> (m->getPlugin("comp"))->accept(vv);
 
     unsigned int i = 0;
     unsigned int j;

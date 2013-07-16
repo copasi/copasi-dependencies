@@ -47,8 +47,6 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class FbcVisitor;
-
 
 class LIBSBML_EXTERN FluxObjective : public SBase
 {
@@ -303,7 +301,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -320,9 +318,6 @@ public:
    */
   virtual bool accept (SBMLVisitor& v) const;
 
-  /** @cond doxygen-libsbml-internal */
-  virtual bool acceptFbc(FbcVisitor& v) const;
-  /** @endcond */
 
 
 protected:

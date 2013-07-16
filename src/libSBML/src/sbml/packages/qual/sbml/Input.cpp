@@ -28,6 +28,7 @@
 
 
 #include <sbml/packages/qual/sbml/Input.h>
+#include <sbml/packages/qual/validator/QualSBMLError.h>
 
 
 using namespace std;
@@ -48,7 +49,6 @@ Input::Input (unsigned int level, unsigned int version, unsigned int pkgVersion)
 	 ,mSign (INPUT_SIGN_VALUE_NOTSET)
 	 ,mThresholdLevel (SBML_INT_MAX)
 	 ,mIsSetThresholdLevel (false)
-
 {
 	// set an SBMLNamespaces derived object of this package
 	setSBMLNamespacesAndOwn(new QualPkgNamespaces(level, version, pkgVersion));
@@ -67,7 +67,6 @@ Input::Input (QualPkgNamespaces* qualns)
 	 ,mSign (INPUT_SIGN_VALUE_NOTSET)
 	 ,mThresholdLevel (SBML_INT_MAX)
 	 ,mIsSetThresholdLevel (false)
-
 {
 	// set the element namespace of this object
 	setElementNamespace(qualns->getURI());
@@ -283,10 +282,10 @@ Input::setQualitativeSpecies(const std::string& qualitativeSpecies)
 	{
 		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
 	}
-  else if (!(SyntaxChecker::isValidInternalSId(qualitativeSpecies)))
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
+	else if (!(SyntaxChecker::isValidInternalSId(qualitativeSpecies)))
+	{
+		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+	}
 	else
 	{
 		mQualitativeSpecies = qualitativeSpecies;
@@ -526,8 +525,7 @@ Input::writeElements (XMLOutputStream& stream) const
 bool
 Input::accept (SBMLVisitor& v) const
 {
-	return false;
-
+	return v.visit(*this);
 }
 
 
@@ -596,16 +594,76 @@ void
 Input::readAttributes (const XMLAttributes& attributes,
                              const ExpectedAttributes& expectedAttributes)
 {
-	SBase::readAttributes(attributes, expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
+
+	unsigned int numErrs;
+
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfInputs - which will have
+	 * happened immediately prior to this read
+	*/
+
+  if (getErrorLog() != NULL && 
+    static_cast<ListOfInputs*>(getParentSBMLObject())->size() < 2)
+  {
+		numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)      
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details = 
+          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("qual", QualTransitionLOInputAttributes,
+          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      } 
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details = 
+          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("qual", QualTransitionLOInputAttributes,
+          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      } 
+    }
+  }
+
+  SBase::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		unsigned int numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("qual", QualInputAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("qual", QualInputAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
 
 	bool assigned = false;
 
 	//
 	// id SId  ( use = "optional" )
 	//
-	assigned = attributes.readInto("id", mId, getErrorLog(), false);
+	assigned = attributes.readInto("id", mId);
 
-	if (assigned == true)
+ 	if (assigned == true)
 	{
 		// check string is not empty and correct syntax
 
@@ -622,7 +680,7 @@ Input::readAttributes (const XMLAttributes& attributes,
 	//
 	// qualitativeSpecies SIdRef   ( use = "required" )
 	//
-	assigned = attributes.readInto("qualitativeSpecies", mQualitativeSpecies, getErrorLog(), true);
+	assigned = attributes.readInto("qualitativeSpecies", mQualitativeSpecies);
 
 	if (assigned == true)
 	{
@@ -637,12 +695,18 @@ Input::readAttributes (const XMLAttributes& attributes,
 			logError(InvalidIdSyntax);
 		}
 	}
+	else
+	{
+		std::string message = "Qual attribute 'qualitativeSpecies' is missing.";
+		getErrorLog()->logPackageError("qual", QualInputAllowedAttributes,
+		               getPackageVersion(), sbmlLevel, sbmlVersion, message);
+	}
 
 	//
 	// transitionEffect string   ( use = "required" )
 	//
   std::string effect;
-	assigned = attributes.readInto("transitionEffect", effect, getErrorLog(), true);
+	assigned = attributes.readInto("transitionEffect", effect);
 
 	if (assigned == true)
 	{
@@ -657,16 +721,22 @@ Input::readAttributes (const XMLAttributes& attributes,
        mTransitionEffect = InputTransitionEffect_fromString( effect.c_str() );
        if (InputTransitionEffect_isValidInputTransitionEffect(mTransitionEffect) == 0)
        {
-         logError(NotSchemaConformant, getLevel(), getVersion(),
-           "Invalid input transitionEffect.");
+				  getErrorLog()->logPackageError("qual", QualInputTransEffectMustBeInputEffect,
+				               getPackageVersion(), sbmlLevel, sbmlVersion);
        }
     }
+	}
+	else
+	{
+		std::string message = "Qual attribute 'transitionEffect' is missing.";
+		getErrorLog()->logPackageError("qual", QualInputAllowedAttributes,
+		               getPackageVersion(), sbmlLevel, sbmlVersion, message);
 	}
 
 	//
 	// name string   ( use = "optional" )
 	//
-	assigned = attributes.readInto("name", mName, getErrorLog(), false);
+	assigned = attributes.readInto("name", mName);
 
 	if (assigned == true)
 	{
@@ -697,8 +767,8 @@ Input::readAttributes (const XMLAttributes& attributes,
        mSign = InputSign_fromString( sign.c_str() );
        if (InputSign_isValidInputSign(mSign) == 0)
        {
-         logError(NotSchemaConformant, getLevel(), getVersion(),
-           "Invalid input sign.");
+				  getErrorLog()->logPackageError("qual", QualInputSignMustBeSignEnum,
+				               getPackageVersion(), sbmlLevel, sbmlVersion);
        }
     }
 	}
@@ -706,7 +776,30 @@ Input::readAttributes (const XMLAttributes& attributes,
 	//
 	// thresholdLevel int   ( use = "optional" )
 	//
-	mIsSetThresholdLevel = attributes.readInto("thresholdLevel", mThresholdLevel, getErrorLog(), false);
+	numErrs = getErrorLog()->getNumErrors();
+	mIsSetThresholdLevel = attributes.readInto("thresholdLevel", mThresholdLevel);
+
+	if (mIsSetThresholdLevel == false)
+	{
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("qual", QualInputThreshMustBeInteger,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+		}
+	}
+  else
+  {
+    if (mThresholdLevel < 0)
+    {
+			getErrorLog()->logPackageError("qual", QualInputThreshMustBeNonNegative,
+			             getPackageVersion(), sbmlLevel, sbmlVersion);
+    }
+  }
 
 }
 

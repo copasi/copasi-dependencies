@@ -34,6 +34,8 @@
 #include <sbml/packages/comp/sbml/Submodel.h>
 #include <sbml/packages/comp/validator/CompSBMLError.h>
 
+#include <sbml/util/ElementFilter.h>
+
 using namespace std;
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -137,20 +139,15 @@ Submodel::getElementByMetaId(std::string metaid)
 
 
 List*
-Submodel::getAllElements()
+Submodel::getAllElements(ElementFilter *filter)
 {
   List* ret = new List();
   List* sublist = NULL;
-  if (mListOfDeletions.size() > 0) {
-    ret->add(&mListOfDeletions);
-    sublist = mListOfDeletions.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
 
-  sublist = getAllElementsFromPlugins();
-  ret->transferFrom(sublist);
-  delete sublist;
+  ADD_FILTERED_LIST(ret, sublist, mListOfDeletions, filter);  
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
   return ret;
 }
 
@@ -750,28 +747,23 @@ Submodel::getTypeCode () const
 }
 
 /** @cond doxygen-libsbml-internal */
+
 bool
-Submodel::acceptComp (CompVisitor& v) const
+Submodel::accept (SBMLVisitor& v) const
 {
   v.visit(*this);
 
   for (unsigned int i = 0; i < getNumDeletions(); i++)
   {
-    getDeletion(i)->acceptComp(v);
+    getDeletion(i)->accept(v);
   }
 
   v.leave(*this);
 
   return true;
 }
+
 /** @endcond */
-
-
-bool
-Submodel::accept (SBMLVisitor& v) const
-{
-  return false;
-}
 
 
 /** @cond doxygen-libsbml-internal */
@@ -810,6 +802,21 @@ Submodel::connectToChild()
 int 
 Submodel::instantiate()
 {
+  if (getAncestorOfType(SBML_MODEL) != NULL)
+  {
+    if (getModelRef() == getAncestorOfType(SBML_MODEL)->getId())
+    {
+      return LIBSBML_INVALID_OBJECT;
+    }
+  }
+  else if (getAncestorOfType(SBML_COMP_MODELDEFINITION) != NULL)
+  {
+    if (getModelRef() == getAncestorOfType(SBML_COMP_MODELDEFINITION)->getId())
+    {
+      return LIBSBML_INVALID_OBJECT;
+    }
+  }
+
   if (mInstantiatedModel != NULL) 
   {
     delete mInstantiatedModel;

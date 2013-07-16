@@ -35,7 +35,7 @@
 #include <sbml/validator/Validator.h>
 #include <sbml/packages/fbc/validator/FbcValidator.h>
 #include <sbml/packages/fbc/common/FbcExtensionTypes.h>
-#include <sbml/packages/fbc/validator/FbcVisitor.h>
+#include <sbml/SBMLReader.h>
 
 /** @cond doxygen-ignored */
 
@@ -243,25 +243,25 @@ FbcValidatorConstraints::add (VConstraint* c)
  * A ValidatingVisitor overrides each visit method to validate the given
  * SBML object.
  */
-class FbcValidatingVisitor: public FbcVisitor
+class FbcValidatingVisitor: public SBMLVisitor
 {
 public:
 
   FbcValidatingVisitor (FbcValidator& v, const Model& m) : v(v), m(m) { }
 
-  virtual bool visit (const FluxBound &x)
+  bool visit (const FluxBound &x)
   {
     v.mFbcConstraints->mFluxBound.applyTo(m, x);
     return !v.mFbcConstraints->mFluxBound.empty();
   }
 
-  virtual bool visit (const FluxObjective &x)
+  bool visit (const FluxObjective &x)
   {
     v.mFbcConstraints->mFluxObjective.applyTo(m, x);
     return !v.mFbcConstraints->mFluxObjective.empty();
   }
 
-  virtual bool visit (const Objective &x)
+  bool visit (const Objective &x)
   {
     v.mFbcConstraints->mObjective.applyTo(m, x);
     return !v.mFbcConstraints->mObjective.empty();
@@ -273,7 +273,7 @@ public:
     return !v.mFbcConstraints->mSpecies.empty();
   }
 
-  virtual bool visit (const ListOfObjectives &x)
+  bool visit (const ListOfObjectives &x)
   {
     v.mFbcConstraints->mListOfObjectives.applyTo(m, x);
     return !v.mFbcConstraints->mListOfObjectives.empty();
@@ -284,6 +284,51 @@ public:
     v.mFbcConstraints->mModel.applyTo(m, x);
   }
 
+  virtual bool visit (const SBase &x)
+  {
+    if (&x == NULL || x.getPackageName() != "fbc")
+    {
+      return SBMLVisitor::visit(x);      
+    }
+
+    int code = x.getTypeCode(); 
+
+    // check for list of since we need to check ListOfObjectives
+    const ListOf* list = dynamic_cast<const ListOf*>(&x);
+
+    if (list != NULL) 
+    {
+      code = list->getItemTypeCode();
+
+      if (code == SBML_FBC_OBJECTIVE)
+      {
+        return visit((const ListOfObjectives&)x);
+      }
+      else
+      {
+        return SBMLVisitor::visit(x);
+      }
+    }
+    else
+    {
+      if (code == SBML_FBC_OBJECTIVE)
+      {
+        return visit((const Objective&)x);
+      } 
+      else if (code == SBML_FBC_FLUXBOUND)
+      {
+        return visit((const FluxBound&)x);
+      } 
+      else if (code == SBML_FBC_FLUXOBJECTIVE)
+      {
+        return visit((const FluxObjective&)x);
+      } 
+      else 
+      {
+        return SBMLVisitor::visit(x);
+      } 
+    }
+  }
 
 protected:
 
@@ -347,7 +392,7 @@ FbcValidator::validate (const SBMLDocument& d)
       
     if (plugin != NULL)
     {
-      plugin->acceptFbc(vv);
+      plugin->accept(vv);
     }
   }
 

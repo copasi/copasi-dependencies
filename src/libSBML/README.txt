@@ -486,7 +486,7 @@ MiniZip to support reading and writing compressed SBML files.
 File author: M. Hucka, B. Bornstein, S. Keating
 Last Modified: $Date: 2013-02-06 14:17:19 +0100 (Wed, 06 Feb 2013) $
 Last Modified By: $Author: sarahkeating $
-$HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/README.txt $
+$HeadURL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/README.txt $
 -----------------------------------------------
 
 # The following is for [X]Emacs users.  Please leave in place.

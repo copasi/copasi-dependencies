@@ -412,11 +412,20 @@ protected:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
   virtual void writeElements (XMLOutputStream& stream) const;
+
+  
+  /**
+   *
+   * Subclasses should override this method to write their xmlns attriubutes
+   * (if any) to the XMLOutputStream. 
+   *
+   */
+  virtual void writeXMLNS (XMLOutputStream& stream) const;
   /** @endcond */
 };
 

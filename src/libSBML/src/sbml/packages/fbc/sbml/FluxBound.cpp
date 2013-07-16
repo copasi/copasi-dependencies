@@ -28,7 +28,6 @@
 
 #include <sbml/packages/fbc/sbml/FluxBound.h>
 #include <sbml/packages/fbc/extension//FbcExtension.h>
-#include <sbml/packages/fbc/validator/FbcVisitor.h>
 #include <sbml/packages/fbc/validator/FbcSBMLError.h>
 
 #if defined(WIN32) && !defined(CYGWIN)
@@ -675,7 +674,9 @@ FluxBound::clone() const
 bool
 FluxBound::accept (SBMLVisitor& v) const
 {
-  return false;
+  bool visited = false;
+  visited = v.visit(*this);
+  return  visited;
 }
 
 
@@ -859,13 +860,27 @@ ListOfFluxBounds::createObject (XMLInputStream& stream)
   const std::string& name   = stream.peek().getName();
   SBase*        object = 0;
 
-
+  
   if (name == "fluxBound")
   {
-    FBC_CREATE_NS(fbcns, getSBMLNamespaces());
-    object = new FluxBound(fbcns);
-    appendAndOwn(object);
-    //mItems.push_back(object);
+    try
+	{
+      FBC_CREATE_NS(fbcns, getSBMLNamespaces());
+      object = new FluxBound(fbcns);
+      appendAndOwn(object);
+      //mItems.push_back(object);
+	} 
+	catch(...)
+	{
+      /* 
+      * NULL will be returned if the mSBMLNS is invalid (basically this
+      * should not happen) or some exception is thrown (e.g. std::bad_alloc)
+      *
+      * (Maybe this should be changed so that caller can detect what kind 
+      *  of error happened in this function.)
+      */
+	}
+	
   }
 
   return object;
@@ -892,13 +907,6 @@ ListOfFluxBounds::writeXMLNS (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
-bool 
-FluxBound::acceptFbc(FbcVisitor& v) const
-{
-  return v.visit(*this);
-}
-/** @endcond */
 
 
 /**

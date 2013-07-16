@@ -34,7 +34,7 @@ include(${CMAKE_SOURCE_DIR}/qual-package.cmake)
 set(QUAL_SOURCES)
 
 # go through all directtories: common, extension and sbml
-foreach(dir common extension sbml)
+foreach(dir common extension sbml validator validator/constraints)
 
 	# add to include directory
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/qual/${dir})
@@ -70,6 +70,7 @@ if(WITH_CHECK)
 
 	add_subdirectory(sbml/packages/qual/extension/test)
 	add_subdirectory(sbml/packages/qual/sbml/test)
+	add_subdirectory(sbml/packages/qual/validator/test)
 
 endif()
 

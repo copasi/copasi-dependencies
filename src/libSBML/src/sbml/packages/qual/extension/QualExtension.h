@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -99,7 +99,7 @@ public:
   /**
    * Copy constructor.
    */
-  QualExtension(const QualExtension&);
+	QualExtension(const QualExtension& orig);
 
 
   /**
@@ -111,7 +111,7 @@ public:
   /**
    * Assignment operator for QualExtension.
    */
-  QualExtension& operator=(const QualExtension&);
+	QualExtension& operator=(const QualExtension& rhs);
 
 
   /**
@@ -125,7 +125,7 @@ public:
   /**
    * Returns the name of this package ("qual")
    *
-   * @pram the name of this package ("qual")
+	 * @return a string representing the name of this package ("qual")
    */
   virtual const std::string& getName() const;
 
@@ -141,14 +141,15 @@ public:
    *
    * @return a string of the package URI
    */
-  virtual const std::string& getURI(unsigned int sbmlLevel, unsigned int sbmlVersion, 
-                                    unsigned int pkgVersion) const;
+	virtual const std::string& getURI(unsigned int sbmlLevel,
+	                                  unsigned int sbmlVersion,
+	                                  unsigned int pkgVersion) const;
 
 
   /**
    * Returns the SBML level with the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+	 * @param uri the string of URI that represents one of versions of qual package
    *
    * @return the SBML level with the given URI of this package. 0 will be returned
    * if the given URI is invalid.
@@ -160,7 +161,7 @@ public:
   /**
    * Returns the SBML version with the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+	 * @param uri the string of URI that represents one of versions of qual package
    *
    * @return the SBML version with the given URI of this package. 0 will be returned
    * if the given URI is invalid.
@@ -171,7 +172,7 @@ public:
   /**
    * Returns the package version with the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+	 * @param uri the string of URI that represents one of versions of qual package
    *
    * @return the package version with the given URI of this package. 0 will be returned
    * if the given URI is invalid.
@@ -181,13 +182,13 @@ public:
 
   /**
    * Returns an SBMLExtensionNamespaces<QualExtension> object whose alias type is 
-   * LayoutPkgNamespace.
-   * Null will be returned if the given uri is not defined in the layout package.
-   *
-   * @param uri the string of URI that represents one of versions of layout package
-   *
-   * @return an LayoutPkgNamespace object corresponding to the given uri. NULL will
-   * be returned if the given URI is not defined in layout package.
+	 * QualPkgNamespace.
+	 * Null will be returned if the given uri is not defined in the qual package.
+	 *
+	 * @param uri the string of URI that represents one of versions of qual package
+	 *
+	 * @return an QualPkgNamespace object corresponding to the given uri. NULL will
+	 * be returned if the given URI is not defined in qual package.
    */
   virtual SBMLNamespaces* getSBMLExtensionNamespaces(const std::string &uri) const;
 
@@ -200,8 +201,9 @@ public:
 
 
   /** @cond doxygen-libsbml-internal */
+  
   /**
-   * Initializes layout extension by creating an object of this class with 
+	 * Initializes qual extension by creating an object of this class with 
    * required SBasePlugin derived objects and registering the object 
    * to the SBMLExtensionRegistry class.
    *
@@ -215,6 +217,49 @@ public:
   static void init();
 
   /** @endcond doxygen-libsbml-internal */
+	
+  
+  /** @cond doxygen-libsbml-internal */
+
+	/**
+	 * Return the entry in the error table at this index. 
+	 *
+	 * @param index an unsigned intgere representing the index of the error in the QualSBMLErrorTable
+	 *
+	 * @return packageErrorTableEntry object in the QualSBMLErrorTable corresponding to the index given.
+	 */
+	virtual packageErrorTableEntry getErrorTable(unsigned int index) const;
+
+
+	/** @endcond doxygen-libsbml-internal */
+
+
+	/** @cond doxygen-libsbml-internal */
+
+	/**
+	 * Return the index in the error table with the given errorId. 
+	 *
+	 * @param errorId an unsigned intgere representing the errorId of the error in the QualSBMLErrorTable
+	 *
+	 * @return unsigned integer representing the index in the QualSBMLErrorTable corresponding to the errorId given.
+	 */
+	virtual unsigned int getErrorTableIndex(unsigned int errorId) const;
+
+
+	/** @endcond doxygen-libsbml-internal */
+
+
+	/** @cond doxygen-libsbml-internal */
+
+	/**
+	 * Return the offset for the errorId range for the qual L3 package. 
+	 *
+	 * @return unsigned intege representing the  offset for errors QualSBMLErrorTable.
+	 */
+	virtual unsigned int getErrorIdOffset() const;
+
+
+	/** @endcond doxygen-libsbml-internal */
 
 };
 
@@ -223,9 +268,9 @@ public:
 //
 // Required typedef definitions 
 //
-// LayoutPkgNamespaces is derived from the SBMLNamespaces class and
+// QualPkgNamespaces is derived from the SBMLNamespaces class and
 // used when creating an object of SBase derived classes defined in
-// layout package.
+// qual package.
 //
 // --------------------------------------------------------------------
 

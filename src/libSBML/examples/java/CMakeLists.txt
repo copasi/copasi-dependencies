@@ -18,6 +18,7 @@ foreach(file
 		createExampleSBML
 		echoSBML
 		evaluateMath
+		getAllElementsWithNotes
 		printAnnotation
 		printMath
 		printNotes
@@ -27,6 +28,7 @@ foreach(file
 		printUnits
 		readSBML
 		stripPackage
+		setIdFromNames
 		translateMath
 		unsetAnnotation
 		unsetNotes

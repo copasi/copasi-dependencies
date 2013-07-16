@@ -29,8 +29,9 @@
 
 #include <sbml/packages/fbc/sbml/Objective.h>
 #include <sbml/packages/fbc/extension/FbcExtension.h>
-#include <sbml/packages/fbc/validator/FbcVisitor.h>
 #include <sbml/packages/fbc/validator/FbcSBMLError.h>
+
+#include <sbml/util/ElementFilter.h>
 
 using namespace std;
 
@@ -136,19 +137,15 @@ Objective::getElementByMetaId(std::string metaid)
 
 
 List*
-Objective::getAllElements()
+Objective::getAllElements(ElementFilter *filter)
 {
   List* ret = new List();
   List* sublist = NULL;
-  if (mFluxes.size() > 0) {
-    ret->add(&mFluxes);
-    sublist = mFluxes.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
-  sublist = getAllElementsFromPlugins();
-  ret->transferFrom(sublist);
-  delete sublist;
+
+  ADD_FILTERED_LIST(ret, sublist, mFluxes, filter);
+    
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
   return ret;
 }
 
@@ -463,10 +460,26 @@ Objective::getNumFluxObjectives () const
 FluxObjective*
 Objective::createFluxObjective ()
 {
-  FBC_CREATE_NS(fbcns, getSBMLNamespaces());
-  FluxObjective* m = new FluxObjective(fbcns);
-  this->mFluxes.appendAndOwn(m);
-  return m;
+  FluxObjective* result = NULL;
+
+  try
+  {
+    FBC_CREATE_NS(fbcns, getSBMLNamespaces());
+    result = new FluxObjective(fbcns);
+    this->mFluxes.appendAndOwn(result);
+  } 
+  catch(...)
+  {
+    /* 
+    * NULL will be returned if the mSBMLNS is invalid (basically this
+    * should not happen) or some exception is thrown (e.g. std::bad_alloc)
+    *
+    * (Maybe this should be changed so that caller can detect what kind 
+    *  of error happened in this function.)
+    */
+  }
+
+  return result;
 }
 
 /*
@@ -715,7 +728,14 @@ Objective::clone() const
 bool
 Objective::accept (SBMLVisitor& v) const
 {
-  return false;
+  v.visit(*this);
+  for (unsigned int n = 0; n < getNumFluxObjectives(); n++)
+  {
+    getFluxObjective(n)->accept(v);
+  }
+  v.leave(*this);
+
+  return true;
 }
 
 
@@ -777,21 +797,6 @@ Objective::hasRequiredElements() const
   }
   
   return allPresent;
-}
-/** @endcond */
-
-/** @cond doxygen-libsbml-internal */
-bool 
-Objective::acceptFbc(FbcVisitor& v) const
-{
-  v.visit(*this);
-  for (unsigned int n = 0; n < getNumFluxObjectives(); n++)
-  {
-    getFluxObjective(n)->acceptFbc(v);
-  }
-  v.leave(*this);
-
-  return true;
 }
 /** @endcond */
 
@@ -940,10 +945,24 @@ ListOfObjectives::createObject (XMLInputStream& stream)
 
   if (name == "objective")
   {
-    FBC_CREATE_NS(fbcns, getSBMLNamespaces());
-    object = new Objective(fbcns);
-    appendAndOwn(object);
-    //mItems.push_back(object);
+    try
+	{
+      FBC_CREATE_NS(fbcns, getSBMLNamespaces());
+      object = new Objective(fbcns);
+      appendAndOwn(object);
+      //mItems.push_back(object);
+	}
+	catch(...)
+	{
+      /* 
+      * NULL will be returned if the mSBMLNS is invalid (basically this
+      * should not happen) or some exception is thrown (e.g. std::bad_alloc)
+      *
+      * (Maybe this should be changed so that caller can detect what kind 
+      *  of error happened in this function.)
+      */
+	}
+
   }
 
   return object;
@@ -1042,11 +1061,13 @@ ListOfObjectives::unsetActiveObjective()
 
 
 /** @cond doxygen-libsbml-internal */
+
 bool 
-ListOfObjectives::acceptFbc(FbcVisitor& v) const
+ListOfObjectives::accept(SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+
 /** @endcond */
 
 

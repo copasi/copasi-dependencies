@@ -142,7 +142,8 @@ int
         if (end != string::npos)
         {
           string formula = notes.substr(pos + 9, end-(pos+9));
-          formulaMap[current->getId()] = formula;
+          if (formula[0] != '<' &&  formula[0] != '/' )
+            formulaMap[current->getId()] = formula;
         }
       }
     }
@@ -239,6 +240,15 @@ int
     }
 
   }
+  
+  // remove objective if we never had an active one
+  if (objective->getNumFluxObjectives() == 0)
+  {
+    objective = fbcPlugin->removeObjective("obj");
+    delete objective;
+    fbcPlugin->unsetActiveObjectiveId();
+  }
+  
 
   model->setTimeUnits("dimensionless");
 

@@ -376,7 +376,7 @@ int Replacing::performConversions(SBase* replacement, ASTNode*& conversionFactor
   int ret = convertConversionFactor(conversionFactor);
   if (ret != LIBSBML_OPERATION_SUCCESS) return ret;
   if (conversionFactor==NULL) return ret;
-  if (!replacement->isSetId()) return LIBSBML_INVALID_OBJECT;
+  if (replacement==NULL) return LIBSBML_OPERATION_FAILED;
 
   SBase* replaced = getReferencedElement();
   if (replaced==NULL) return LIBSBML_INVALID_OBJECT;

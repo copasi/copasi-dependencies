@@ -161,7 +161,7 @@ public:
 
 
   /**
-   * Finds and stores the referenced object by finding the Submodel to which
+   * Finds and stores the referenced object.  Finds the Submodel to which
    * it refers, getting the instantiated Model inside that Submodel, calling
    * 'getReferencedElementFrom' on that model, and storing the result.
    *
@@ -170,6 +170,8 @@ public:
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int saveReferencedElement();
@@ -197,7 +199,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -284,20 +286,57 @@ protected:
   virtual void writeAttributes (XMLOutputStream& stream) const;
   /** @endcond */
 
+
+  /** @cond doxygen-libsbml-internal */
   /**
-   * Find all idrefs in the Model that 'ref' comes from and replace them with idrefs pointing to 'parent' instead.
+   * Searches the model that @p oldnames came from for references to any of its ids,
+   * and replaces them with references to @p newnames.  
+   *
+   * @param oldnames the object being replaced, and whose parent Model contains
+   * the references that need to be updated.
+   *
+   * @param newnames the object that should now be referenced instead, to which 
+   * any references to @p oldnames should now point.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    */
   virtual int updateIDs(SBase* oldnames, SBase* newnames);
+  /** @endcond */
 
+
+  /** @cond doxygen-libsbml-internal */
   /**
-   * Find all idrefs in the Model that have mathematical meaning, and convert them according to the passed-in ASTNode plus the 'conversionFactor' attribute.
+   * Modify mathematical references to the referenced object according to the @p conversionFactor.  
+   *
+   * Find all idrefs in the Model that have mathematical meaning, and convert 
+   * them to instead reference the @p replacement, modified according to the 
+   * @p conversionFactor.  Will modify the referenced object's use in MathML 
+   * nodes according to replacementID/conversionFactor, and will multiply the 
+   * MathML of elements that assign to the referenced object by the @p conversionFactor.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int performConversions(SBase* replacement, ASTNode*& conversionFactor);
+  /** @endcond */
 
+
+  /** @cond doxygen-libsbml-internal */
   /**
-   * Take the conversion factor we've been handed (from a higher-level model) and add our conversionFactor to it, if present.
+   * Multiply this element's conversion factor (if present) to the @p conversionFactor.
    */
   virtual int convertConversionFactor(ASTNode*& conversionFactor);
+  /** @endcond */
 };
 
 

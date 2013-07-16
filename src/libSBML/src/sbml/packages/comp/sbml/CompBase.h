@@ -22,7 +22,7 @@
  * @brief @htmlinclude pkg-marker-comp.html
  * A convenience subclass of 'comp' package SBase-derived classes
  *
- * The CompBase class derives from SBase, and defines a few common functions
+ * The CompBase class derives from SBase, and defines a few functions
  * and features common to all SBase-derived classes in the SBML Level&nbsp;3
  * @ref Comp "Hierarchical Model Composition" package ('comp').
  */
@@ -196,7 +196,7 @@ protected:
    * Helper to log a common type of error.
    */
   virtual void logMissingAttribute(const std::string& attribute,
-                            const std::string& element);
+                                   const std::string& element);
 
   /** @endcond */
 
@@ -225,13 +225,17 @@ protected:
   bool hasValidLevelVersionNamespaceCombination();
   /** @endcond */
 
+
+  /** @cond doxygen-libsbml-internal */
   /**
+   * Remove the given SBase object, and any Ports that point to it.
    * A static function for removing elements--it is illegal to reference
    * an element from a port that has been deleted or replaced, but if 
    * it happens, we need to not actually crash.  This function finds and 
    * deletes all such invalid ports before deleting the object.
    */
   static int removeFromParentAndPorts(SBase* todelete);
+  /** @endcond */
 
 private:
   /** @cond doxygen-libsbml-internal */

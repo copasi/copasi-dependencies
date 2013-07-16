@@ -64,7 +64,6 @@ LIBSBML_CPP_NAMESPACE_END
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class FbcVisitor;
 
 class LIBSBML_EXTERN FluxBound : public SBase
 {
@@ -381,7 +380,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -448,9 +447,6 @@ public:
   virtual bool hasRequiredElements() const ;
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
-  virtual bool acceptFbc(FbcVisitor& v) const;
-  /** @endcond */
     
 protected:
   /** @cond doxygen-libsbml-internal */

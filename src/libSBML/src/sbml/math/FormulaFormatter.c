@@ -371,21 +371,6 @@ FormulaFormatter_formatReal (StringBuffer_t *sb, const ASTNode_t *node)
   }
 }
 
-int ASTNode_isPlus0(const ASTNode_t *node)
-{
-  return ASTNode_getType(node) == AST_PLUS && ASTNode_getNumChildren(node) == 0;
-}
-
-int ASTNode_isTimes0(const ASTNode_t *node)
-{
-  return ASTNode_getType(node) == AST_TIMES && ASTNode_getNumChildren(node) == 0;
-}
-
-int ASTNode_isTimes1(const ASTNode_t *node)
-{
-  return ASTNode_getType(node) == AST_TIMES && ASTNode_getNumChildren(node) == 1;
-}
-
 /**
  * Visits the given ASTNode node.  This function is really just a
  * dispatcher to either SBML_formulaToString_visitFunction() or
@@ -409,19 +394,19 @@ FormulaFormatter_visit ( const ASTNode_t *parent,
   {
     FormulaFormatter_visitFunction(parent, node, sb);
   }
-  else if (ASTNode_isUMinus(node))
+  else if (ASTNode_hasTypeAndNumChildren(node, AST_MINUS, 1))
   {
     FormulaFormatter_visitUMinus(parent, node, sb);
   }
-  else if (ASTNode_isUPlus(node) || ASTNode_isTimes1(node))
+  else if (ASTNode_hasTypeAndNumChildren(node, AST_PLUS, 1) || ASTNode_hasTypeAndNumChildren(node, AST_TIMES, 1))
   {
     FormulaFormatter_visit(node, ASTNode_getChild(node, 0), sb);
   }
-  else if (ASTNode_isPlus0(node))
+  else if (ASTNode_hasTypeAndNumChildren(node, AST_PLUS, 0))
   {
     StringBuffer_appendInt(sb, 0);
   }
-  else if (ASTNode_isTimes0(node))
+  else if (ASTNode_hasTypeAndNumChildren(node, AST_TIMES, 0))
   {
     StringBuffer_appendInt(sb, 1);
   }
@@ -518,6 +503,7 @@ FormulaFormatter_visitOther ( const ASTNode_t *parent,
 {
   unsigned int numChildren = ASTNode_getNumChildren(node);
   unsigned int group       = FormulaFormatter_isGrouped(parent, node);
+  unsigned int n;
 
 
   if (group)
@@ -525,16 +511,29 @@ FormulaFormatter_visitOther ( const ASTNode_t *parent,
     StringBuffer_appendChar(sb, '(');
   }
 
-  if (numChildren > 0)
-  {
-    FormulaFormatter_visit( node, ASTNode_getLeftChild(node), sb );
+  if (numChildren == 0) {
+    FormulaFormatter_format(sb, node);
   }
 
-  FormulaFormatter_format(sb, node);
-
-  if (numChildren > 1)
+  else if (numChildren == 1)
   {
-    FormulaFormatter_visit( node, ASTNode_getRightChild(node), sb );
+    //I believe this would only be called for invalid ASTNode setups,
+    // but this could in theory occur.  This is the safest 
+    // behavior I can think of.
+    FormulaFormatter_format(sb, node);
+    StringBuffer_appendChar(sb, '(');
+    FormulaFormatter_visit( node, ASTNode_getChild(node, 0), sb );
+    StringBuffer_appendChar(sb, ')');
+  }
+
+  else {
+    FormulaFormatter_visit( node, ASTNode_getChild(node, 0), sb );
+
+    for (n = 1; n < numChildren; n++)
+    {
+      FormulaFormatter_format(sb, node);
+      FormulaFormatter_visit( node, ASTNode_getChild(node, n), sb );
+    }
   }
 
   if (group)

@@ -28,6 +28,9 @@
 %module(directors="1") libsbml
 %feature("director") SBMLValidator;  
 %feature("director") SBMLConverter;  
+%feature("director") ElementFilter;  
+%feature("director") IdentifierTransformer;  
+%ignore IdentifierTransformer::transform(const SBase* element);
 
 #pragma SWIG nowarn=473,401,844
 
@@ -440,6 +443,18 @@ LIBSBML_CPP_NAMESPACE_USE
 %ignore SBase::getAllElements;
 %ignore SBase::setUserData;
 %ignore SBase::getUserData;
+%ignore Model::renameIDs(List* elements, IdentifierTransformer* idTransformer);
+
+%extend Model 
+{
+   void renameIDs(ListWrapper<SBase>* elements, IdentifierTransformer *idTransformer)
+   {
+		if (!elements) return;
+
+		List *list = elements->getList();
+		$self->renameIDs(list, idTransformer);
+   }
+}
 
 %extend SBasePlugin
 {
@@ -449,9 +464,9 @@ LIBSBML_CPP_NAMESPACE_USE
          *
          * @return SBaseList
          */
-	ListWrapper<SBase>* getListOfAllElements()
+	ListWrapper<SBase>* getListOfAllElements(ElementFilter* filter=NULL)
 	{
-		List* list = $self->getAllElements();
+		List* list = $self->getAllElements(filter);
 		return new ListWrapper<SBase>(list);
 	}
 }
@@ -464,9 +479,9 @@ LIBSBML_CPP_NAMESPACE_USE
          *
          * @return SBaseList
          */
-	ListWrapper<SBase>* getListOfAllElements()
+	ListWrapper<SBase>* getListOfAllElements(ElementFilter* filter=NULL)
 	{
-		List* list = $self->getAllElements();
+		List* list = $self->getAllElements(filter);
 		return new ListWrapper<SBase>(list);
 	}
 
@@ -480,9 +495,9 @@ LIBSBML_CPP_NAMESPACE_USE
          * @return a pointer to a List of pointers to all children objects from
          * plugins.
 	 */
-	ListWrapper<SBase>* getListOfAllElementsFromPlugins()
+	ListWrapper<SBase>* getListOfAllElementsFromPlugins(ElementFilter* filter=NULL)
 	{
-		List* list = $self->getAllElementsFromPlugins();
+		List* list = $self->getAllElementsFromPlugins(filter);
 		return new ListWrapper<SBase>(list);
 	}
 }
@@ -505,6 +520,7 @@ LIBSBML_CPP_NAMESPACE_USE
  */
 
 %ignore RDFAnnotationParser::parseRDFAnnotation(const XMLNode * annotation, List * CVTerms);
+%ignore RDFAnnotationParser::parseRDFAnnotation(const XMLNode * annotation, List * CVTerms, const char* metaId = NULL, XMLInputStream* stream = NULL);
 
 %extend RDFAnnotationParser
 {
@@ -514,6 +530,14 @@ LIBSBML_CPP_NAMESPACE_USE
 
     List *list = CVTerms->getList();
     RDFAnnotationParser::parseRDFAnnotation(annotation,list);
+  }
+  
+  static void parseRDFAnnotation(const XMLNode *annotation, ListWrapper<CVTerm> *CVTerms, const char* metaId = NULL, XMLInputStream* stream = NULL)
+  {
+    if (!CVTerms) return;
+
+    List *list = CVTerms->getList();
+    RDFAnnotationParser::parseRDFAnnotation(annotation,list, metaId, stream);
   }
 }
 
@@ -527,6 +551,10 @@ LIBSBML_CPP_NAMESPACE_USE
 
 %include sbml/common/libsbml-version.h
 %include sbml/common/operationReturnValues.h
+
+%include <sbml/util/IdList.h>
+%include <sbml/util/IdentifierTransformer.h>
+%include <sbml/util/ElementFilter.h>
 
 %include sbml/SBMLReader.h
 %include sbml/SBMLWriter.h

@@ -24,10 +24,9 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ---------------------------------------------------------------------- -->*/
+#ifndef CompSBMLErrorTable_h
+#define CompSBMLErrorTable_h
 
-#include <string>
-#include <iostream>
-#include <sstream>
 
 #include <sbml/packages/comp/validator/CompSBMLError.h>
 
@@ -271,7 +270,7 @@ static const packageErrorTableEntry compErrorTable[] =
   { CompRequiredTrueIfElementsRemain, 
     "The comp:required attribute must be 'true' if math changes",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
-    LIBSBML_SEV_ERROR,
+    LIBSBML_SEV_NOT_APPLICABLE,
     "The value of attribute 'comp:required' on the SBML object must "
     "be set to 'true' if the Model object within the SBML object "
     "contains any Submodel with Species, Parameter, Compartment, "
@@ -285,7 +284,7 @@ static const packageErrorTableEntry compErrorTable[] =
   { CompRequiredFalseIfAllElementsReplaced, 
     "The comp:required attribute must be 'false' if math does not change",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
-    LIBSBML_SEV_ERROR,
+    LIBSBML_SEV_NOT_APPLICABLE,
     "The value of attribute 'comp:required' on the SBML object must be "
     "set to 'false' if the Model object within the SBML object contains "
     "no Submodel objects, or if all Submodel objects that are present "
@@ -380,6 +379,17 @@ static const packageErrorTableEntry compErrorTable[] =
     "<listOfExternalModelDefinitions> within an SBML object that uses the "
     "SBML Level 3 Hierarchical Model Composition package.",
     { "L3V1 Comp V1 Section 3.3"
+    }
+  },
+
+  // 1020212
+  { CompAttributeRequiredMustBeTrue, 
+    "The comp:required attribute must be 'true'",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "The value of attribute 'comp:required' on the SBML object must "
+    "be set to 'true'.",
+    { "L3V1 Comp V1 Section 3.1"
     }
   },
 
@@ -1159,11 +1169,49 @@ static const packageErrorTableEntry compErrorTable[] =
     "definition in this model was itself unresolvable.",
     { ""
     }
+  },
+
+  // 1090104
+  { CompModelFlatteningFailed,
+    "Model failed to flatten.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "Errors arose during the attempt to flatten the model. These "
+    "are reported where possible.",
+    { ""
+    }
+  },
+
+  // 1090105
+  { CompFlatModelNotValid,
+    "Flat model not valid.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "The interpretation the Hierarchical Model Composition constructs to "
+    "produce a kind of 'flattened' version of the model devoid of the comp "
+    "package constructs must produce a valid SBML Level 3 model.",
+    { "L3V1 Comp V1 Appendix A1"
+    }
+  },
+
+    // 1090106
+  { CompLineNumbersUnreliable,
+    "Line numbers unreliable.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "Due to the need to instantiate models, modelDefinitions, submodels etc. "
+    "for the purposes of validation it is problematic to reliably report "
+    "line numbers when performing validation on models using the "
+    "Hierarchical Model Composition package." ,
+    { ""
+    }
   }
+
 
 };
 
 LIBSBML_CPP_NAMESPACE_END
 
+#endif
 /** @endcond */
 

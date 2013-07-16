@@ -44,7 +44,6 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class FbcVisitor;
 
 class LIBSBML_EXTERN FbcModelPlugin : public SBasePlugin
 {
@@ -169,7 +168,7 @@ public:
    *
    * @return a List* of pointers to all children objects.
    */
-  virtual List* getAllElements();
+  virtual List* getAllElements(ElementFilter* filter=NULL);
   
   
   /** ------------------------------------------------------------------
@@ -654,7 +653,9 @@ public:
   /** @endcond */
 
   /** @cond doxygen-libsbml-internal */
-  virtual bool acceptFbc(FbcVisitor& v) const;
+
+  virtual bool accept(SBMLVisitor& v) const;
+
   /** @endcond */
 
   ListOfFluxBounds * getFluxBoundsForReaction(const std::string& reaction) const;

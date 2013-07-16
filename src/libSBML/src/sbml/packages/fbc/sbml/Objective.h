@@ -53,7 +53,6 @@ LIBSBML_CPP_NAMESPACE_END
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class FbcVisitor;
 
 class LIBSBML_EXTERN Objective : public SBase
 {
@@ -127,7 +126,7 @@ public:
    *
    * @return a List* of pointers to all children objects.
    */
-  virtual List* getAllElements();
+  virtual List* getAllElements(ElementFilter* filter=NULL);
   
   
   /**
@@ -433,7 +432,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -498,10 +497,6 @@ public:
    * needs to be overloaded for each component
    */
   virtual bool hasRequiredElements() const ;
-  /** @endcond */
-
-  /** @cond doxygen-libsbml-internal */
-  virtual bool acceptFbc(FbcVisitor& v) const;
   /** @endcond */
 
 
@@ -689,7 +684,9 @@ public:
   virtual int unsetActiveObjective();
 
   /** @cond doxygen-libsbml-internal */
-  virtual bool acceptFbc(FbcVisitor& v) const;
+
+  virtual bool accept (SBMLVisitor& v) const;
+
   /** @endcond */
     
 

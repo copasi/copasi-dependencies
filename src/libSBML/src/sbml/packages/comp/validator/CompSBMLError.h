@@ -36,10 +36,6 @@
 #ifndef CompSBMLError_h
 #define CompSBMLError_h
 
-#include <sbml/common/extern.h>
-#include <sbml/SBMLError.h>
-#include <sbml/SBMLNamespaces.h>
-
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
@@ -86,6 +82,7 @@ typedef enum
 , CompLOModelDefsAllowedAttributes      = 1020209
 , CompLOExtModDefsAllowedAttributes     = 1020210
 , CompOneListOfExtModelDefinitions      = 1020211
+, CompAttributeRequiredMustBeTrue       = 1020212
 
 , CompExtModDefAllowedCoreAttributes    = 1020301
 , CompExtModDefAllowedElements          = 1020302
@@ -158,6 +155,9 @@ typedef enum
 , CompUnresolvedReference               = 1090101
 , CompNoModelInReference                = 1090102
 , CompExtModDefBad                      = 1090103
+, CompModelFlatteningFailed             = 1090104
+, CompFlatModelNotValid                 = 1090105
+, CompLineNumbersUnreliable             = 1090106
 
 } CompSBMLErrorCode_t;
 

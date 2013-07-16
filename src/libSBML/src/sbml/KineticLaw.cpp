@@ -43,6 +43,8 @@
 #include <sbml/Parameter.h>
 #include <sbml/KineticLaw.h>
 
+#include <sbml/util/ElementFilter.h>
+
 /** @cond doxygen-ignored */
 
 using namespace std;
@@ -221,27 +223,16 @@ KineticLaw::getElementByMetaId(std::string metaid)
 
 
 List*
-KineticLaw::getAllElements()
+KineticLaw::getAllElements(ElementFilter *filter)
 {
   List* ret = new List();
   List* sublist = NULL;
-  if (mParameters.size() > 0) {
-    ret->add(&mParameters);
-    sublist = mParameters.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
 
-  if (mLocalParameters.size() > 0) {
-    ret->add(&mLocalParameters);
-    sublist = mLocalParameters.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
+  ADD_FILTERED_LIST(ret, sublist, mParameters, filter);
+  ADD_FILTERED_LIST(ret, sublist, mLocalParameters, filter);
+  
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
 
-  sublist = getAllElementsFromPlugins();
-  ret->transferFrom(sublist);
-  delete sublist;
   return ret;
 }
 

@@ -29,7 +29,6 @@
 
 #include <sbml/packages/fbc/sbml/FluxObjective.h>
 #include <sbml/packages/fbc/extension/FbcExtension.h>
-#include <sbml/packages/fbc/validator/FbcVisitor.h>
 #include <sbml/packages/fbc/validator/FbcSBMLError.h>
 
 #if defined(WIN32) && !defined(CYGWIN)
@@ -540,7 +539,7 @@ FluxObjective::clone() const
 bool
 FluxObjective::accept (SBMLVisitor& v) const
 {
-  return false;
+  return v.visit(*this);
 }
 
 
@@ -669,25 +668,29 @@ ListOfFluxObjectives::createObject (XMLInputStream& stream)
 {
   const std::string& name   = stream.peek().getName();
   SBase*        object = NULL;
-
-
+  
   if (name == "fluxObjective")
   {
-    FBC_CREATE_NS(fbcns, getSBMLNamespaces());
-    object = new FluxObjective(fbcns);
-    appendAndOwn(object);
-    //mItems.push_back(object);
+    try
+	{
+      FBC_CREATE_NS(fbcns, getSBMLNamespaces());
+      object = new FluxObjective(fbcns);
+      appendAndOwn(object);
+      //mItems.push_back(object);
+	} 
+	catch(...)
+	{
+      /* 
+      * NULL will be returned if the mSBMLNS is invalid (basically this
+      * should not happen) or some exception is thrown (e.g. std::bad_alloc)
+      *
+      * (Maybe this should be changed so that caller can detect what kind 
+      *  of error happened in this function.)
+      */
+	}
   }
 
   return object;
-}
-/** @endcond */
-
-/** @cond doxygen-libsbml-internal */
-bool 
-FluxObjective::acceptFbc(FbcVisitor& v) const
-{
-  return v.visit(*this);
 }
 /** @endcond */
 

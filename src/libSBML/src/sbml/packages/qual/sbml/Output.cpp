@@ -28,6 +28,7 @@
 
 
 #include <sbml/packages/qual/sbml/Output.h>
+#include <sbml/packages/qual/validator/QualSBMLError.h>
 
 
 using namespace std;
@@ -47,7 +48,6 @@ Output::Output (unsigned int level, unsigned int version, unsigned int pkgVersio
 	 ,mName ("")
 	 ,mOutputLevel (SBML_INT_MAX)
 	 ,mIsSetOutputLevel (false)
-
 {
 	// set an SBMLNamespaces derived object of this package
 	setSBMLNamespacesAndOwn(new QualPkgNamespaces(level, version, pkgVersion));
@@ -65,7 +65,6 @@ Output::Output (QualPkgNamespaces* qualns)
 	 ,mName ("")
 	 ,mOutputLevel (SBML_INT_MAX)
 	 ,mIsSetOutputLevel (false)
-
 {
 	// set the element namespace of this object
 	setElementNamespace(qualns->getURI());
@@ -259,10 +258,10 @@ Output::setQualitativeSpecies(const std::string& qualitativeSpecies)
 	{
 		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
 	}
-  else if (!(SyntaxChecker::isValidInternalSId(qualitativeSpecies)))
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
+	else if (!(SyntaxChecker::isValidInternalSId(qualitativeSpecies)))
+	{
+		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+	}
 	else
 	{
 		mQualitativeSpecies = qualitativeSpecies;
@@ -472,8 +471,7 @@ Output::writeElements (XMLOutputStream& stream) const
 bool
 Output::accept (SBMLVisitor& v) const
 {
-	return false;
-
+	return v.visit(*this);
 }
 
 
@@ -541,16 +539,76 @@ void
 Output::readAttributes (const XMLAttributes& attributes,
                              const ExpectedAttributes& expectedAttributes)
 {
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
+
+	unsigned int numErrs;
+
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfOutputs - which will have
+	 * happened immediately prior to this read
+	*/
+
+  if (getErrorLog() != NULL && 
+    static_cast<ListOfOutputs*>(getParentSBMLObject())->size() < 2)
+  {
+		numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)      
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details = 
+          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("qual", QualTransitionLOOutputAttributes,
+          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      } 
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details = 
+          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("qual", QualTransitionLOOutputAttributes,
+          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      } 
+    }
+  }
+
 	SBase::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("qual", QualOutputAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("qual", QualOutputAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
 
 	bool assigned = false;
 
 	//
 	// id SId  ( use = "optional" )
 	//
-	assigned = attributes.readInto("id", mId, getErrorLog(), false);
+	assigned = attributes.readInto("id", mId);
 
-	if (assigned == true)
+ 	if (assigned == true)
 	{
 		// check string is not empty and correct syntax
 
@@ -567,7 +625,7 @@ Output::readAttributes (const XMLAttributes& attributes,
 	//
 	// qualitativeSpecies SIdRef   ( use = "required" )
 	//
-	assigned = attributes.readInto("qualitativeSpecies", mQualitativeSpecies, getErrorLog(), true);
+	assigned = attributes.readInto("qualitativeSpecies", mQualitativeSpecies);
 
 	if (assigned == true)
 	{
@@ -582,12 +640,18 @@ Output::readAttributes (const XMLAttributes& attributes,
 			logError(InvalidIdSyntax);
 		}
 	}
+	else
+	{
+		std::string message = "Qual attribute 'qualitativeSpecies' is missing.";
+		getErrorLog()->logPackageError("qual", QualOutputAllowedAttributes,
+		               getPackageVersion(), sbmlLevel, sbmlVersion, message);
+	}
 
 	//
 	// transitionEffect string   ( use = "required" )
 	//
   std::string effect;
-	assigned = attributes.readInto("transitionEffect", effect, getErrorLog(), true);
+	assigned = attributes.readInto("transitionEffect", effect);
 
 	if (assigned == true)
 	{
@@ -602,16 +666,22 @@ Output::readAttributes (const XMLAttributes& attributes,
        mTransitionEffect = OutputTransitionEffect_fromString( effect.c_str() );
        if (OutputTransitionEffect_isValidOutputTransitionEffect(mTransitionEffect) == 0)
        {
-         logError(NotSchemaConformant, getLevel(), getVersion(),
-           "Invalid output transitionEffect.");
+		      getErrorLog()->logPackageError("qual", QualOutputTransEffectMustBeOutput,
+		                     getPackageVersion(), sbmlLevel, sbmlVersion);
        }
     }
+  }
+	else
+	{
+		std::string message = "Qual attribute 'transitionEffect' is missing.";
+		getErrorLog()->logPackageError("qual", QualOutputAllowedAttributes,
+		               getPackageVersion(), sbmlLevel, sbmlVersion, message);
 	}
 
 	//
 	// name string   ( use = "optional" )
 	//
-	assigned = attributes.readInto("name", mName, getErrorLog(), false);
+	assigned = attributes.readInto("name", mName);
 
 	if (assigned == true)
 	{
@@ -626,7 +696,30 @@ Output::readAttributes (const XMLAttributes& attributes,
 	//
 	// outputLevel int   ( use = "optional" )
 	//
-	mIsSetOutputLevel = attributes.readInto("outputLevel", mOutputLevel, getErrorLog(), false);
+	numErrs = getErrorLog()->getNumErrors();
+	mIsSetOutputLevel = attributes.readInto("outputLevel", mOutputLevel);
+
+	if (mIsSetOutputLevel == false)
+	{
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("qual", QualOutputLevelMustBeInteger,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+		}
+	}
+  else
+  {
+    if (mOutputLevel < 0)
+    {
+			getErrorLog()->logPackageError("qual", QualOutputLevelMustBeNonNegative,
+			             getPackageVersion(), sbmlLevel, sbmlVersion);
+    }
+  }
 
 }
 
@@ -854,7 +947,7 @@ ListOfOutputs::createObject(XMLInputStream& stream)
 
 	if (name == "output")
 	{
-    QUAL_CREATE_NS(qualns, getSBMLNamespaces());
+		QUAL_CREATE_NS(qualns, getSBMLNamespaces());
 		object = new Output(qualns);
 		appendAndOwn(object);
 	}

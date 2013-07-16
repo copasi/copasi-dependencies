@@ -226,7 +226,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -580,6 +580,7 @@ protected:
 
 
   /** @cond doxygen-libsbml-internal */
+  virtual void addExpectedAttributes(ExpectedAttributes& attributes);
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation

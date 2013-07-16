@@ -73,7 +73,6 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class CompVisitor;
 
 class LIBSBML_EXTERN Port : public SBaseRef
 {
@@ -152,11 +151,7 @@ public:
   /**
    * Sets the value of the "id" attribute of this Port.
    *
-   * This method fails if the @p id is not a valid syntax for an SId, or if the
-   * Port already points to an element of the submodel using a different
-   * interface.  A port must use exactly one method to point to a submodel
-   * element: port, id, xpath:element, metaIdRef, or by using a port child
-   * object.
+   * This method fails if the @p id is not a valid syntax for an SId.
    *
    * @param id the identifier for the port
    *
@@ -235,15 +230,17 @@ public:
    *
    * @return integer value indicating failure of the
    * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * enumeration #OperationReturnValues_t. @endif The possible value
+   * returned by this function is:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int setPortRef (const std::string& id);
 
 
   /**
-   * Returns true if the 'id' and 'metaIdRef' attributes are set.
+   * Returns true if the 'id' attribute is set, and if exactly one of
+   * the optional attributes of SBaseRef (portRef, idRef, metaIdRef, 
+   * and unitRef)are set.
    *
    * @return boolean: 'true' if the attributes are correctly set; 'false' if not.
    */
@@ -278,7 +275,7 @@ public:
 
   /**
    * Finds and stores the referenced object by finding its Model parent,
-   * calling 'getReferencedElementFrom' on that model, and storing the
+   * calling 'getReferencedElementFrom()' on that model, and storing the
    * result.
    *
    * @return integer value indicating success/failure of the
@@ -292,20 +289,19 @@ public:
 
 
   /**
-   * Renames the SIdRef attribute on this element if the oldid matches.
+   * Renames the idRef attribute on this element if the oldid matches.
    */
   virtual void renameSIdRefs(std::string oldid, std::string newid);
 
 
   /**
-   * Renames the UnitidRef attribute on this element if the oldid matches.
+   * Renames the unitRef attribute on this element if the oldid matches.
    */
   virtual void renameUnitSIdRefs(std::string oldid, std::string newid);
 
 
   /**
-   * Renames all the SIdRef attributes on this element, including any found
-   * in MathML, but not any found in child elements
+   * Renames the metaIdRef attribute on this element if the oldid matches.
    */
   virtual void renameMetaIdRefs(std::string oldid, std::string newid);
 
@@ -317,7 +313,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -333,48 +329,7 @@ public:
    * whether or not the Visitor would like to visit the SBML object's next
    * sibling object (if available).
    */
-  virtual bool acceptComp (CompVisitor& v) const;
-  /** @endcond */
-
-
-  /** @cond doxygen-libsbml-internal */
-  /**
-   * Sets the parent SBMLDocument of this SBML object.
-   *
-   * @param d the SBMLDocument object to use
-   */
-  virtual void setSBMLDocument (SBMLDocument* d);
-  /** @endcond */
-
-
-  /** @cond doxygen-libsbml-internal */
-  /**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor, assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */
-  virtual void connectToChild ();
-  /** @endcond */
-
-
-  /** @cond doxygen-libsbml-internal */
-  /**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   *
-   * @note Subclasses in which one or more child elements are defined
-   * must override this function.
-   */
-  virtual void enablePackageInternal(const std::string& pkgURI,
-                                     const std::string& pkgPrefix, bool flag);
+  virtual bool accept (SBMLVisitor& v) const;
   /** @endcond */
 
 

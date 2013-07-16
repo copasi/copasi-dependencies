@@ -24,6 +24,7 @@
 #include <sbml/packages/comp/common/compfwd.h>
 #include <sbml/packages/comp/extension/CompSBasePlugin.h>
 #include <sbml/packages/comp/validator/CompSBMLError.h>
+#include <sbml/util/ElementFilter.h>
 
 #include <iostream>
 
@@ -129,7 +130,7 @@ CompSBasePlugin::createObject(XMLInputStream& stream)
         // in a default namespace, and thus xmlns=".." attribute must be added to 
         // the element.
         // This is done by invoking SBMLDocument::enableDefaultNS() function with 
-        // the two arguments (the uri of this package and true value).
+        // the two arguments (the URI of this package and true value).
         //
         mListOfReplacedElements->getSBMLDocument()->enableDefaultNS(mURI,true);
       }
@@ -205,22 +206,15 @@ CompSBasePlugin::getElementByMetaId(std::string metaid)
 
 
 List*
-CompSBasePlugin::getAllElements()
+CompSBasePlugin::getAllElements(ElementFilter *filter)
 {
   List* ret = new List();
   List* sublist = NULL;
-  if (mListOfReplacedElements!=NULL && mListOfReplacedElements->size() > 0) {
-    ret->add(mListOfReplacedElements);
-    sublist = mListOfReplacedElements->getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
-  if (isSetReplacedBy()) {
-    ret->add(mReplacedBy);
-    sublist = mReplacedBy->getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
+
+  ADD_FILTERED_PLIST(ret, sublist,mListOfReplacedElements, filter);
+
+  ADD_FILTERED_POINTER(ret, sublist, mReplacedBy, filter);
+
   return ret;
 }
 
@@ -534,28 +528,23 @@ CompSBasePlugin::createListOfReplacedElements()
 }
 
 /** @cond doxygen-libsbml-internal */
+
 bool 
-CompSBasePlugin::acceptComp(CompVisitor& v) const
+CompSBasePlugin::accept(SBMLVisitor& v) const
 {
   for (unsigned int i = 0; i < getNumReplacedElements(); i++)
   {
-    getReplacedElement(i)->acceptComp(v);
+    getReplacedElement(i)->accept(v);
   }
 
   if (getReplacedBy() != NULL)
   {
-    getReplacedBy()->acceptComp(v);
+    getReplacedBy()->accept(v);
   }
-  //for (unsigned int i = 0; i < getNumPorts(); i++)
-  //{
-  //  getPort(i)->accept(v);
-  //}
-//  mListOfPorts    .accept(v);
-
-  //v.leave(*model);
 
   return true;
 }
+
 /** @endcond */
 
 

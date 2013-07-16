@@ -57,11 +57,6 @@ public:
 protected:
 
   /**
-   * @return the preamble to use when logging constraint violations.
-   */
-  virtual const char* getPreamble ();
-
-  /**
    * Checks that all ids on the following Model objects are unique:
    * FunctionDefinitions, Species, Compartments, global Parameters,
    * Reactions, and Events.

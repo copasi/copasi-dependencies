@@ -25,12 +25,16 @@
 #include <sbml/packages/comp/util/SBMLResolverRegistry.h>
 #include <sbml/packages/comp/util/SBMLUri.h>
 #include <sbml/packages/comp/extension/CompSBMLDocumentPlugin.h>
+#include <sbml/packages/comp/extension/CompModelPlugin.h>
 #include <sbml/packages/comp/validator/CompIdentifierConsistencyValidator.h>
 #include <sbml/packages/comp/validator/CompConsistencyValidator.h>
 #include <sbml/packages/comp/validator/CompValidator.h>
 #include <sbml/packages/comp/validator/CompSBMLError.h>
 #include <sbml/packages/comp/util/SBMLResolverRegistry.h>
+#include <sbml/conversion/SBMLConverterRegistry.h>
 #include <sbml/packages/comp/util/SBMLUri.h>
+
+#include <sbml/util/ElementFilter.h>
 
 #include <iostream>
 
@@ -45,6 +49,7 @@ CompSBMLDocumentPlugin::CompSBMLDocumentPlugin (const string &uri, const string 
   , mListOfExternalModelDefinitions(compns)
   , mURIToDocumentMap()
   , mCheckingDummyDoc (false)
+  , mFlattenAndCheck (true)
 {
   connectToChild();
 }
@@ -56,6 +61,7 @@ CompSBMLDocumentPlugin::CompSBMLDocumentPlugin(const CompSBMLDocumentPlugin& ori
   , mListOfExternalModelDefinitions(orig.mListOfExternalModelDefinitions)
   , mURIToDocumentMap() //The documents are owning pointers, so don't copy them.
   , mCheckingDummyDoc (orig.mCheckingDummyDoc)
+  , mFlattenAndCheck (orig.mFlattenAndCheck)
 {
   connectToChild();
 }
@@ -71,6 +77,8 @@ CompSBMLDocumentPlugin::operator=(const CompSBMLDocumentPlugin& orig)
     mListOfExternalModelDefinitions = orig.mListOfExternalModelDefinitions;
     mURIToDocumentMap.clear(); //Don't copy the pointers to this object, as they are owning pointers
 
+    mCheckingDummyDoc = orig.mCheckingDummyDoc;
+    mFlattenAndCheck = orig.mFlattenAndCheck;
     connectToChild();
   }    
   return *this;
@@ -128,7 +136,7 @@ CompSBMLDocumentPlugin::createObject(XMLInputStream& stream)
         // in a default namespace, and thus xmlns=".." attribute must be added to 
         // the element.
         // This is done by invoking SBMLDocument::enableDefaultNS() function with 
-        // the two arguments (the uri of this package and true value).
+        // the two arguments (the URI of this package and true value).
         //
         mListOfModelDefinitions.getSBMLDocument()->enableDefaultNS(mURI,true);
       }
@@ -152,7 +160,7 @@ CompSBMLDocumentPlugin::createObject(XMLInputStream& stream)
         // in a default namespace, and thus xmlns=".." attribute must be added to 
         // the element.
         // This is done by invoking SBMLDocument::enableDefaultNS() function with 
-        // the two arguments (the uri of this package and true value).
+        // the two arguments (the URI of this package and true value).
         //
         mListOfExternalModelDefinitions.getSBMLDocument()->enableDefaultNS(mURI,true);
       }
@@ -205,22 +213,14 @@ CompSBMLDocumentPlugin::getElementByMetaId(string metaid)
 
 
 List*
-CompSBMLDocumentPlugin::getAllElements()
+CompSBMLDocumentPlugin::getAllElements(ElementFilter *filter)
 {
   List* ret = new List();
   List* sublist = NULL;
-  if (mListOfModelDefinitions.size() > 0) {
-    ret->add(&mListOfModelDefinitions);
-    sublist = mListOfModelDefinitions.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
-  if (mListOfExternalModelDefinitions.size() > 0) {
-    ret->add(&mListOfExternalModelDefinitions);
-    sublist = mListOfExternalModelDefinitions.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
+
+  ADD_FILTERED_LIST(ret, sublist, mListOfModelDefinitions, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfExternalModelDefinitions, filter);
+
   return ret;
 }
 
@@ -242,8 +242,11 @@ CompSBMLDocumentPlugin::addExpectedAttributes(ExpectedAttributes& attributes)
 /** @cond doxygen-libsbml-internal */
 void 
 CompSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
-                            const ExpectedAttributes& expectedAttributes)
+                                        const ExpectedAttributes& expectedAttributes)
 {
+  // for now don't read the required flag for L2 models 
+  if (getSBMLDocument() != NULL && getSBMLDocument()->getLevel() < 3) return;
+  
   // do not need to call this as we are going to read the required attribute here
   //SBMLDocumentPlugin::readAttributes(attributes, expectedAttributes);
   unsigned int numErrs = getErrorLog()->getNumErrors();
@@ -267,6 +270,11 @@ CompSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
   else
   {
     mIsSetRequired = true;
+    if (mRequired == false) 
+    {
+      getErrorLog()->logPackageError("comp", CompAttributeRequiredMustBeTrue,
+        getPackageVersion(), getLevel(), getVersion());
+    }
   }
 }
 /** @endcond */
@@ -556,6 +564,26 @@ SBase* CompSBMLDocumentPlugin::getModel(const string& sid)
 }
   
   
+int
+CompSBMLDocumentPlugin::setRequired(bool required)
+{
+  //
+  // required attribute is not defined for SBML Level 2 .
+  //
+  if ( getLevel()  < 3) {
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+
+  if (required==false) {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+
+  mRequired = required;
+  mIsSetRequired = true;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
 /** @cond doxygen-libsbml-internal */
 void 
 CompSBMLDocumentPlugin::setSBMLDocument (SBMLDocument* d)
@@ -662,7 +690,7 @@ CompSBMLDocumentPlugin::isFlatteningImplemented() const
 
 
 unsigned int 
-CompSBMLDocumentPlugin::checkConsistency()
+CompSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
 {
   unsigned int nerrors = 0;
   unsigned int total_errors = 0;
@@ -675,7 +703,7 @@ CompSBMLDocumentPlugin::checkConsistency()
     return total_errors;
   }
 
-  /* check the status of the required attribute on main document
+  /* 
    * note number of errors before we do anything here 
    * so we get the right number after
    * total_errors here means teh total number logged by this function
@@ -683,13 +711,12 @@ CompSBMLDocumentPlugin::checkConsistency()
 
   unsigned int errorsB4 = doc->getErrorLog()->getNumErrors();
 
-  if (mCheckingDummyDoc == false)
-  {
-    checkRequiredFlagStatus(doc);
-  }
-
   SBMLErrorLog *log = doc->getErrorLog();
   total_errors = log->getNumErrors() - errorsB4;
+
+  /* log a message to say not to trust line numbers */
+  log->logPackageError("comp", CompLineNumbersUnreliable, 
+                        getLevel(), getVersion(), getPackageVersion());
 
   unsigned char applicableValidators = doc->getApplicableValidators();
 
@@ -740,6 +767,7 @@ CompSBMLDocumentPlugin::checkConsistency()
     for (unsigned int i = 0; i < numMD; i++)
     {
       mCheckingDummyDoc = true;
+      mFlattenAndCheck = false;
       SBMLDocument * dummyDoc = doc->clone();
       const Model * dummyModel = doc->getModel();
       
@@ -772,66 +800,83 @@ CompSBMLDocumentPlugin::checkConsistency()
       }
 
       delete dummyDoc;
+      mFlattenAndCheck = true;
     }
 
 
+  }
+
+
+
+  if (mFlattenAndCheck == true && overrideFlattening == false)
+  {
+    SBMLDocument * dummyDoc = doc->clone();
+    ConversionProperties* props = new ConversionProperties();
+    
+    props->addOption("flatten comp");
+    props->addOption("perform validation", false);
+
+    SBMLConverter* converter = 
+               SBMLConverterRegistry::getInstance().getConverterFor(*props);
+    
+
+    converter->setDocument(dummyDoc);
+    
+    int result = converter->convert();
+
+    if (result == LIBSBML_OPERATION_SUCCESS)
+    {
+      nerrors = dummyDoc->checkConsistency();
+      if (dummyDoc->getErrorLog()->
+                              getNumFailsWithSeverity(LIBSBML_SEV_ERROR) > 0)
+      {
+        std::string message = "Errors that follow relate to the flattened ";
+        message += "document produced using the CompFlatteningConverter.";
+        log->logPackageError("comp", CompFlatModelNotValid, getLevel(),
+          getVersion(), getPackageVersion(), message);
+      }
+
+      total_errors += nerrors;
+      if (nerrors > 0) 
+      {
+        for (unsigned int n = 0; n < nerrors; n++)
+        {
+          log->add( *(dummyDoc->getErrorLog()->getError(n)) );
+        }
+      }
+    }
+    else
+    {
+      nerrors = dummyDoc->getNumErrors();
+      total_errors += nerrors;
+      if (nerrors > 0) 
+      {
+        for (unsigned int n = 0; n < nerrors; n++)
+        {
+          log->add( *(dummyDoc->getErrorLog()->getError(n)) );
+        }
+      }
+    }
+      
+    delete dummyDoc;
   }
   return total_errors;  
 }
 
 /** @cond doxygen-libsbml-internal */
+
 bool 
-CompSBMLDocumentPlugin::acceptComp(CompVisitor& v) const
+CompSBMLDocumentPlugin::accept(SBMLVisitor& v) const
 {
   const SBMLDocument *doc = static_cast<const SBMLDocument *>(this->getParentSBMLObject());
   v.visit(*doc);
 
-  //The list of model definitions is checked in CompValidator::validate.
-  //mListOfModelDefinitions.acceptComp(v);
-
   //The list of external model definitions must be checked here.
-  mListOfExternalModelDefinitions.acceptComp(v);
+  mListOfExternalModelDefinitions.accept(v);
 
   v.leave(*doc);
 
   return true;
-}
-/** @endcond */
-
-/** @cond doxygen-libsbml-internal */
-void
-CompSBMLDocumentPlugin::checkRequiredFlagStatus(SBMLDocument * doc)
-{
-  bool reqd = getRequired();
-
-  Model * m = doc->getModel();
-  if (m == NULL)
-  {
-    return;
-  }
-
-  const CompModelPlugin *mPlugin = static_cast<CompModelPlugin*>(
-    m->getPlugin("comp"));
-
-  if (mPlugin->getNumSubmodels() == 0)
-  {
-    if (reqd == true)
-    {
-      std::string message = "The containing model has no submodels and "
-        "thus the required attribute should be false";
-      doc->getErrorLog()->logPackageError("comp", 
-        CompRequiredFalseIfAllElementsReplaced, getPackageVersion(), getLevel(),
-        getVersion(), message);
-    }
-  }
-  else
-  {
-    //TODO: need to llop thru submodels and check whether they
-    // contain any Species/Parameter/Compa/React/Event that gets replaced
-    // I suspect there might be code in teh flatten stuff that already 
-    // does this but have not had time to look yet
-  }
-
 }
 
 /** @endcond */

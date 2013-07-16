@@ -24,9 +24,9 @@ substances, controlled vocabularies, and more).
 
 -------------------------------------------
 File authors: M. Hucka
-Last Modified: $Date: 2011-02-08 10:49:42 -0800 (Tue, 08 Feb 2011) $
+Last Modified: $Date: 2011-02-08 19:49:42 +0100 (Tue, 08 Feb 2011) $
 Last Modified By: $Author: luciansmith $
-$HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/examples/sample-models/README.txt $
+$HeadURL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/examples/sample-models/README.txt $
 -------------------------------------------
 
 # The following is for [X]Emacs users.  Please leave in place.

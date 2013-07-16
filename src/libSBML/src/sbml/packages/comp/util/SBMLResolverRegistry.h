@@ -33,7 +33,7 @@
  * @htmlinclude libsbml-facility-only-warning.html
  *
  * LibSBML provides facilities for resolving SBML
- * documents in various ways from a given uri. Resolvers are
+ * documents in various ways from a given URI. Resolvers are
  * implemented as objects derived from the class SBMLResolver.
  *
  * The resolver registry, implemented as a singleton object of class
@@ -93,7 +93,7 @@ public:
 
 
   /**
-   * Removes the resolver with the given index
+   * Removes the resolver with the given index.
    * 
    * @param index the index of the resolver to be removed
    *
@@ -142,8 +142,8 @@ public:
   /**
    * Resolves the document for the given URI.
    *
-   * @param uri the uri to the target document
-   * @param baseUri base uri, in case the uri is a relative one
+   * @param uri the URI to the target document
+   * @param baseUri base URI, in case the URI is a relative one
    *
    * @return  the document, if this resolver can resolve the document or NULL.
    */
@@ -154,10 +154,10 @@ public:
    * Resolves the full URI for the given URI without actually reading the
    * document.
    *
-   * @param uri the uri to the target document
-   * @param baseUri base uri, in case the uri is a relative one
+   * @param uri the URI to the target document
+   * @param baseUri base URI, in case the URI is a relative one
    *
-   * @return  the full uri to the document, if this resolver can resolve the document or NULL.
+   * @return  the full URI to the document, if this resolver can resolve the document or NULL.
    */
   virtual SBMLUri* resolveUri(const std::string &uri, const std::string& baseUri="") const;
 
@@ -165,7 +165,6 @@ public:
 protected:
 
   /** @cond doxygen-libsbml-internal */
-
   /**
    * protected constructor, use the getInstance() method to access the registry.
    */

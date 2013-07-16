@@ -53,7 +53,6 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class CompVisitor;
 
 class LIBSBML_EXTERN ModelDefinition : public Model
 {
@@ -156,7 +155,7 @@ public:
    * whether or not the Visitor would like to visit the SBML object's next
    * sibling object (if available).
    */
-  virtual bool acceptComp (CompVisitor& v) const;
+  virtual bool accept (SBMLVisitor& v) const;
   /** @endcond */
 
 protected:

@@ -193,6 +193,9 @@ install(FILES ${files} DESTINATION include/sbml)
 #
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/src/sbml)
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/src)
+if (EXTRA_INCLUDE_DIRS) 
+ include_directories(${EXTRA_INCLUDE_DIRS})
+endif(EXTRA_INCLUDE_DIRS)
 
 
 ###############################################################################
@@ -301,11 +304,13 @@ set(LIBSBML_SOURCES ${LIBSBML_SOURCES} ${COMPRESS_SOURCES})
 
 set(XML_SOURCES)
 set(XML_SOURCES ${XML_SOURCES}
+
   sbml/xml/XMLAttributes.cpp
   sbml/xml/XMLBuffer.cpp
   sbml/xml/XMLConstructorException.cpp
   sbml/xml/XMLError.cpp
   sbml/xml/XMLErrorLog.cpp
+  sbml/xml/XMLLogOverride.cpp
   sbml/xml/XMLFileBuffer.cpp
   sbml/xml/XMLHandler.cpp
   sbml/xml/XMLInputStream.cpp
@@ -322,6 +327,7 @@ set(XML_SOURCES ${XML_SOURCES}
   sbml/xml/XMLConstructorException.h
   sbml/xml/XMLError.h
   sbml/xml/XMLErrorLog.h
+  sbml/xml/XMLLogOverride.h
   sbml/xml/XMLFileBuffer.h
   sbml/xml/XMLHandler.h
   sbml/xml/XMLInputStream.h
@@ -441,6 +447,12 @@ INSTALL(TARGETS ${LIBSBML_LIBRARY}
 endif()
 
 add_library (${LIBSBML_LIBRARY}-static STATIC ${LIBSBML_SOURCES} )
+
+if (WIN32 AND NOT CYGWIN)
+	# don't decorate static library 
+	set_target_properties(${LIBSBML_LIBRARY}-static PROPERTIES COMPILE_DEFINITIONS "LIBLAX_STATIC=1;LIBSBML_STATIC=1")
+endif(WIN32 AND NOT CYGWIN)
+
 target_link_libraries(${LIBSBML_LIBRARY}-static ${LIBSBML_LIBS} ${EXTRA_LIBS})
 
 INSTALL(TARGETS ${LIBSBML_LIBRARY}-static

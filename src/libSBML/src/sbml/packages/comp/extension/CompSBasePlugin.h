@@ -67,7 +67,6 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class CompVisitor;
 
 class LIBSBML_EXTERN CompSBasePlugin : public SBasePlugin
 {
@@ -158,7 +157,7 @@ public:
    *
    * @return a List of pointers to all children objects.
    */
-  virtual List* getAllElements();
+  virtual List* getAllElements(ElementFilter* filter=NULL);
   
   
 #ifndef SWIG
@@ -321,9 +320,8 @@ public:
    * ReplacedBy object instance.
    *
    * This method fails if the added ReplacedBy does not match the
-   * level/version/package of the parent object, if the added ReplacedBy
-   * cannot be copied, or if the ReplacedBy already points to an element of
-   * the submodel using a different interface.
+   * level/version/package of the parent object or if the added ReplacedBy
+   * cannot be copied.
    *
    * @param replacedBy the ReplacedBy object instance to use.
    *
@@ -438,8 +436,8 @@ public:
 
   /** @cond doxygen-libsbml-internal */
 
-  virtual bool acceptComp(CompVisitor& v) const;
-
+  virtual bool accept(SBMLVisitor& v) const;
+ 
   /** @endcond */
 
 

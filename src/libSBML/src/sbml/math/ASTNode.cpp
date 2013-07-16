@@ -1630,6 +1630,13 @@ ASTNode::isUPlus () const
   return uplus;
 }
 
+LIBSBML_EXTERN
+int
+ASTNode::hasTypeAndNumChildren(ASTNodeType_t type, unsigned int numchildren) const
+{
+  return (mType == type && getNumChildren() == numchildren);
+}
+
 /*
  * @return true if this ASTNode is of type AST_UNKNOWN, false otherwise.
  */
@@ -1984,7 +1991,7 @@ ASTNode::replaceIDWithFunction(const std::string& id, const ASTNode* function)
     }
   }
 }
-/** @endcond doxygen-libsbml-internal */
+/** @endcond */
 
 
 /** @cond doxygen-libsbml-internal */
@@ -2001,7 +2008,7 @@ void ASTNode::multiplyTimeBy(const ASTNode* function)
     addChild(time);
   }
 }
-/** @endcond doxygen-libsbml-internal */
+/** @endcond */
 
 LIBSBML_EXTERN
 int
@@ -2151,9 +2158,10 @@ ASTNode::hasCorrectNumberArguments() const
   case AST_CONSTANT_PI:
   case AST_CONSTANT_TRUE:
 
-    if (numChildren != 0)
+    if (numChildren != 0) {
       correctNum = false;
-      break;
+    }
+    break;
 
   case AST_FUNCTION_ABS:
   case AST_FUNCTION_ARCCOS:
@@ -2187,63 +2195,63 @@ ASTNode::hasCorrectNumberArguments() const
   case AST_FUNCTION_TANH:
   case AST_LOGICAL_NOT:
 
-    if (numChildren != 1)
+    if (numChildren != 1) {
       correctNum = false;
-      break;
+    }
+    break;
 
-    case AST_DIVIDE:
-    case AST_POWER:
-    case AST_RELATIONAL_NEQ:
-    case AST_FUNCTION_DELAY:
-    case AST_FUNCTION_POWER:
-    case AST_FUNCTION_LOG:       // a log ASTNode has a child for base
+  case AST_DIVIDE:
+  case AST_POWER:
+  case AST_RELATIONAL_NEQ:
+  case AST_FUNCTION_DELAY:
+  case AST_FUNCTION_POWER:
+  case AST_FUNCTION_LOG:       // a log ASTNode has a child for base
 
-    if (numChildren != 2)
+    if (numChildren != 2) {
       correctNum = false;
-      break;
+    }
+    break;
 
-    case AST_TIMES:
-    case AST_PLUS:
-    case AST_LOGICAL_AND:
-    case AST_LOGICAL_OR:
-    case AST_LOGICAL_XOR:
-      correctNum = true;
-      break;
+  case AST_TIMES:
+  case AST_PLUS:
+  case AST_LOGICAL_AND:
+  case AST_LOGICAL_OR:
+  case AST_LOGICAL_XOR:
+    correctNum = true;
+    break;
 
-    case AST_RELATIONAL_EQ:
-    case AST_RELATIONAL_GEQ:
-    case AST_RELATIONAL_GT:
-    case AST_RELATIONAL_LEQ:
-    case AST_RELATIONAL_LT:
+  case AST_RELATIONAL_EQ:
+  case AST_RELATIONAL_GEQ:
+  case AST_RELATIONAL_GT:
+  case AST_RELATIONAL_LEQ:
+  case AST_RELATIONAL_LT:
 
-    if (numChildren < 2)
+    if (numChildren < 2) {
       correctNum = false;
-      break;
+    }
+    break;
 
-    case AST_FUNCTION_PIECEWISE:
+  case AST_FUNCTION_ROOT:
+  case AST_MINUS:
 
-      if (numChildren < 1)
-        correctNum = false;
-      break;
-
-    case AST_FUNCTION_ROOT:
-    case AST_MINUS:
-      
-    if (numChildren < 1 || numChildren > 2)
+    if (numChildren < 1 || numChildren > 2) {
       correctNum = false;
-      break;
+    }
+    break;
 
-    case AST_LAMBDA:
-      
-    if (numChildren < 1)
+  case AST_FUNCTION_PIECEWISE:
+  case AST_LAMBDA:
+
+    if (numChildren < 1) {
       correctNum = false;
-      break;
-     
-    case AST_FUNCTION:
-      break;
+    }
+    break;
 
-    default:
-      break;
+  case AST_FUNCTION:
+    break;
+
+  default:
+    break;
 
   }
 
@@ -3173,12 +3181,20 @@ ASTNode_isSqrt (const ASTNode_t *node)
  * otherwise.
  *
  * For numbers, unary minus nodes can be "collapsed" by negating the
- * number.  In fact, SBML_parseFormula() does this during its parse.
- * However, unary minus nodes for symbols (AST_NAMES) cannot be
- * "collapsed", so this predicate function is necessary.
+ * number.  In fact, @if clike SBML_parseFormula()@endif@if csharp SBML_parseFormula()@endif@if python libsbml.parseFormula()@endif@if java <code><a href="libsbml.html#parseFormula(java.lang.String)">libsbml.parseFormula(String formula)</a></code>@endif@~
+ * does this during its parse, and 
+ * @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
+ * has a configuration option that allows this behavior to be turned
+ * on or off.  However, unary minus nodes for symbols (@c AST_NAMES) 
+ * cannot be "collapsed", so this predicate function is necessary.
  *
- * A node is defined as a unary minus node if it is of type AST_MINUS and
- * has exactly one child.
+ * A node is defined as a unary minus node if it is of type @c AST_MINUS
+ * and has exactly one child.
+ *
+ * @if clike @see SBML_parseL3Formula()@endif@~
+ * @if csharp @see SBML_parseL3Formula()@endif@~
+ * @if python @see libsbml.parseL3Formula()@endif@~
+ * @if java @see <code><a href="libsbml.html#parseL3Formula(String formula)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
  */
 LIBSBML_EXTERN
 int
@@ -3200,7 +3216,17 @@ ASTNode_isUPlus (const ASTNode_t *node)
   return (int) static_cast<const ASTNode*>(node)->isUPlus();
 }
 
-
+/**
+ * @return true (non-zero) if this ASTNode has the given type and 
+ * number of children, false (0) otherwise.
+ */
+LIBSBML_EXTERN
+int
+ASTNode_hasTypeAndNumChildren(const ASTNode_t *node, ASTNodeType_t type, unsigned int numchildren)
+{
+  if (node==NULL) return (int) false;
+  return node->hasTypeAndNumChildren(type, numchildren);
+}
 
 
 /**
@@ -3766,7 +3792,7 @@ ASTNode_getNumSemanticsAnnotations(ASTNode_t* node)
  * @param node the ASTNode_t structure to query.
  * @param n unsigned int the index of the annotation to be retrieved.
  * 
- * @return the nth annotation of this ASTNode, or NULL if this node has no nth
+ * @return the nth annotation of this ASTNode, or @c NULL if this node has no nth
  * annotation (<code>n &gt; ASTNode_getNumSemanticsAnnotations() - 1</code>).
  */
 LIBSBML_EXTERN

@@ -81,6 +81,9 @@ void
 FbcSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
                             const ExpectedAttributes& expectedAttributes)
 {
+  // for now don't read the required flag for L2 models 
+  if (getSBMLDocument() != NULL && getSBMLDocument()->getLevel() < 3) return;
+  
   // do not need to call this as we are going to read the required attribute here
   //SBMLDocumentPlugin::readAttributes(attributes, expectedAttributes);
   unsigned int numErrs = getErrorLog()->getNumErrors();
@@ -122,7 +125,7 @@ FbcSBMLDocumentPlugin::isFlatteningImplemented() const
 
 
 unsigned int 
-FbcSBMLDocumentPlugin::checkConsistency()
+FbcSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
 {
   unsigned int nerrors = 0;
   unsigned int total_errors = 0;
@@ -170,8 +173,9 @@ FbcSBMLDocumentPlugin::checkConsistency()
 }
 
 /** @cond doxygen-libsbml-internal */
+
 bool 
-FbcSBMLDocumentPlugin::acceptFbc(FbcVisitor& v) const
+FbcSBMLDocumentPlugin::accept(SBMLVisitor& v) const
 {
   const SBMLDocument *doc = static_cast<const SBMLDocument *>(this->getParentSBMLObject());
   v.visit(*doc);
@@ -180,6 +184,7 @@ FbcSBMLDocumentPlugin::acceptFbc(FbcVisitor& v) const
 
   return true;
 }
+
 /** @endcond */
 
 

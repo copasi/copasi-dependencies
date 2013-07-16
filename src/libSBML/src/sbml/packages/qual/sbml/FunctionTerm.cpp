@@ -28,6 +28,7 @@
 
 
 #include <sbml/packages/qual/sbml/FunctionTerm.h>
+#include <sbml/packages/qual/validator/QualSBMLError.h>
 #include <sbml/math/MathML.h>
 
 
@@ -44,8 +45,7 @@ FunctionTerm::FunctionTerm (unsigned int level, unsigned int version, unsigned i
 	: SBase(level, version)
 	 ,mResultLevel (SBML_INT_MAX)
 	 ,mIsSetResultLevel (false)
-   ,mMath (NULL)
-
+	 ,mMath (NULL)
 {
 	// set an SBMLNamespaces derived object of this package
 	setSBMLNamespacesAndOwn(new QualPkgNamespaces(level, version, pkgVersion));
@@ -62,7 +62,7 @@ FunctionTerm::FunctionTerm (QualPkgNamespaces* qualns)
 	: SBase(qualns)
 	 ,mResultLevel (SBML_INT_MAX)
 	 ,mIsSetResultLevel (false)
-   ,mMath (NULL)
+	 ,mMath (NULL)
 {
 	// set the element namespace of this object
 	setElementNamespace(qualns->getURI());
@@ -86,15 +86,14 @@ FunctionTerm::FunctionTerm (const FunctionTerm& orig)
 	{
 		mResultLevel  = orig.mResultLevel;
 		mIsSetResultLevel  = orig.mIsSetResultLevel;
-    if (orig.mMath != NULL)
-    {
-		  mMath  = orig.mMath->deepCopy();
-    }
-    else
-    {
-      mMath = NULL;
-    }
-
+		if (orig.mMath != NULL)
+		{
+			mMath = orig.mMath->deepCopy();
+		}
+		else
+		{
+			mMath = NULL;
+		}
 	}
 }
 
@@ -114,11 +113,14 @@ FunctionTerm::operator=(const FunctionTerm& rhs)
 		SBase::operator=(rhs);
 		mResultLevel  = rhs.mResultLevel;
 		mIsSetResultLevel  = rhs.mIsSetResultLevel;
-    if (rhs.mMath != NULL)
-    {
-      mMath  = rhs.mMath->deepCopy();
-    }
-
+		if (rhs.mMath != NULL)
+		{
+			mMath = rhs.mMath->deepCopy();
+		}
+		else
+		{
+			mMath = NULL;
+		}
 	}
 	return *this;
 }
@@ -139,6 +141,7 @@ FunctionTerm::clone () const
  */
 FunctionTerm::~FunctionTerm ()
 {
+	delete mMath;
 }
 
 
@@ -155,7 +158,7 @@ FunctionTerm::getResultLevel() const
 /*
  * Returns the value of the "math" attribute of this FunctionTerm.
  */
-const ASTNode *
+const ASTNode*
 FunctionTerm::getMath() const
 {
 	return mMath;
@@ -178,7 +181,7 @@ FunctionTerm::isSetResultLevel() const
 bool
 FunctionTerm::isSetMath() const
 {
-  return (mMath != NULL);
+	return (mMath != NULL);
 }
 
 
@@ -198,29 +201,33 @@ FunctionTerm::setResultLevel(int resultLevel)
  * Sets math and returns value indicating success.
  */
 int
-FunctionTerm::setMath(ASTNode * math)
+FunctionTerm::setMath(ASTNode* math)
 {
-  if (mMath == math) 
-  {
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (math == NULL)
-  {
-    delete mMath;
-    mMath = NULL;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (!(math->isWellFormedASTNode()))
-  {
-    return LIBSBML_INVALID_OBJECT;
-  }
-  else
-  {
-    delete mMath;
-    mMath = (math != NULL) ? math->deepCopy() : NULL;
-    if (mMath != NULL) mMath->setParentSBMLObject(this);
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+	if (mMath == math)
+	{
+		return LIBSBML_OPERATION_SUCCESS;
+	}
+	else if (math == NULL)
+	{
+		delete mMath;
+		mMath = NULL;
+		return LIBSBML_OPERATION_SUCCESS;
+	}
+	else if (!(math->isWellFormedASTNode()))
+	{
+		return LIBSBML_INVALID_OBJECT;
+	}
+	else
+	{
+		delete mMath;
+		mMath = (math != NULL) ?
+			math->deepCopy() : NULL;
+		if (mMath != NULL)
+		{
+			mMath->setParentSBMLObject(this);
+		}
+		return LIBSBML_OPERATION_SUCCESS;
+	}
 }
 
 
@@ -250,9 +257,9 @@ FunctionTerm::unsetResultLevel()
 int
 FunctionTerm::unsetMath()
 {
-  delete mMath;
-  mMath = NULL;
-  return LIBSBML_OPERATION_SUCCESS;
+	delete mMath;
+	mMath = NULL;
+	return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -285,6 +292,9 @@ FunctionTerm::hasRequiredAttributes () const
 {
 	bool allPresent = true;
 
+	if (isSetResultLevel() == false)
+		allPresent = false;
+
 	return allPresent;
 }
 
@@ -314,10 +324,10 @@ FunctionTerm::writeElements (XMLOutputStream& stream) const
 {
 	SBase::writeElements(stream);
 
-  if (isSetMath() == true ) 
-  {
-    writeMathML(getMath(), stream, getSBMLNamespaces());
-  }
+	if (isSetMath() == true)
+	{
+		writeMathML(getMath(), stream, getSBMLNamespaces());
+	}
 
 	SBase::writeExtensionElements(stream);
 }
@@ -334,8 +344,7 @@ FunctionTerm::writeElements (XMLOutputStream& stream) const
 bool
 FunctionTerm::accept (SBMLVisitor& v) const
 {
-	return false;
-
+	return v.visit(*this);
 }
 
 
@@ -399,14 +408,102 @@ void
 FunctionTerm::readAttributes (const XMLAttributes& attributes,
                              const ExpectedAttributes& expectedAttributes)
 {
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
+
+	unsigned int numErrs;
+
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfFunctionTerms - which will have
+	 * happened immediately prior to this read
+	*/
+  if (getErrorLog() != NULL && 
+    static_cast<ListOfFunctionTerms*>(getParentSBMLObject())->size() < 2)
+  {
+		numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)      
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details = 
+          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("qual", QualTransitionLOFuncTermAttributes,
+          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      } 
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details = 
+          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("qual", QualTransitionLOFuncTermAttributes,
+          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      } 
+    }
+  }
+
 	SBase::readAttributes(attributes, expectedAttributes);
 
-	//bool assigned = false;
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("qual", QualFuncTermAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("qual", QualFuncTermAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	bool assigned = false;
 
 	//
-	// resultLevel int   ( use = "optional" )
+	// resultLevel int   ( use = "required" )
 	//
-	mIsSetResultLevel = attributes.readInto("resultLevel", mResultLevel, getErrorLog(), false);
+	numErrs = getErrorLog()->getNumErrors();
+	mIsSetResultLevel = attributes.readInto("resultLevel", mResultLevel);
+
+	if (mIsSetResultLevel == false)
+	{
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("qual", QualFuncTermResultMustBeInteger,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+			else
+			{
+				std::string message = "Qual attribute 'resultLevel' is missing.";
+				getErrorLog()->logPackageError("qual", QualFuncTermAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, message);
+			}
+		}
+	}
+  else
+  {
+    if (mResultLevel < 0)
+    {
+			getErrorLog()->logPackageError("qual", QualFuncTermResultMustBeNonNeg,
+			             getPackageVersion(), sbmlLevel, sbmlVersion);
+    }
+  }
 
 }
 
@@ -429,6 +526,11 @@ FunctionTerm::readOtherXML (XMLInputStream& stream)
 
   if (name == "math")
   {
+    if (mMath != NULL)
+    {
+			getErrorLog()->logPackageError("qual", QualFuncTermOnlyOneMath,
+			             getPackageVersion(), getLevel(), getVersion());
+    }
     /* check for MathML namespace 
      * this may be explicitly declared here
      * or implicitly declared on the whole document
@@ -532,7 +634,10 @@ ListOfFunctionTerms::ListOfFunctionTerms (const ListOfFunctionTerms& orig)
 	}
 	else
 	{
-		mDefaultTerm  = orig.mDefaultTerm;
+    if (orig.mDefaultTerm != NULL)
+    {
+      mDefaultTerm = static_cast<DefaultTerm*>( orig.mDefaultTerm->clone() );
+    }
 
     connectToChild();
 	}
@@ -552,7 +657,15 @@ ListOfFunctionTerms::operator=(const ListOfFunctionTerms& rhs)
 	else if (&rhs != this)
 	{
 		ListOf::operator=(rhs);
-		mDefaultTerm  = rhs.mDefaultTerm;
+    delete mDefaultTerm;
+    if (rhs.mDefaultTerm != NULL)
+    {
+      mDefaultTerm = static_cast<DefaultTerm*>( rhs.mDefaultTerm->clone() );
+    }
+    else
+    {
+      mDefaultTerm = NULL;
+    }
 
     connectToChild();
 	}
@@ -849,6 +962,11 @@ ListOfFunctionTerms::accept(SBMLVisitor& v) const
   if (mDefaultTerm != NULL)
   {
     mDefaultTerm->accept(v);
+  }
+
+  for (unsigned int i = 0; i < size(); i++)
+  {
+    get(i)->accept(v);
   }
 
   v.leave(*this);

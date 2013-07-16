@@ -71,8 +71,8 @@ public:
 	 * @param pkgVersion an unsigned int, the SBML Qual Version to assign to this DefaultTerm
 	 */
 	DefaultTerm(unsigned int level      = QualExtension::getDefaultLevel(),
-	             unsigned int version    = QualExtension::getDefaultVersion(),
-	             unsigned int pkgVersion = QualExtension::getDefaultPackageVersion());
+	            unsigned int version    = QualExtension::getDefaultVersion(),
+	            unsigned int pkgVersion = QualExtension::getDefaultPackageVersion());
 
 
 	/**
@@ -214,18 +214,6 @@ public:
 	virtual bool hasRequiredAttributes() const;
 
 
-	/**
-	 * Predicate returning @c true if all the required attributes
-	 * for this DefaultTerm object have been set.
-	 *
-	 * @note The required elements for a DefaultTerm object are:
-	 *
-	 * @return a boolean value indicating whether all the required
-	 * elements for this object have been defined.
-	 */
-	virtual bool hasRequiredElements() const;
-
-
 	/** @cond doxygen-libsbml-internal */
 
 	/**
@@ -297,18 +285,6 @@ protected:
 
 	/** @endcond doxygen-libsbml-internal */
 
- 	/** @cond doxygen-libsbml-internal */
-
-  /**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */
-  virtual bool readOtherXML (XMLInputStream& stream);
-
-	/** @endcond doxygen-libsbml-internal */
-
 
 	/** @cond doxygen-libsbml-internal */
 
@@ -324,6 +300,8 @@ protected:
 
 };
 
+
+
 LIBSBML_CPP_NAMESPACE_END
 
 #endif  /*  __cplusplus  */
@@ -336,47 +314,44 @@ BEGIN_C_DECLS
 LIBSBML_EXTERN
 DefaultTerm_t *
 DefaultTerm_create(unsigned int level, unsigned int version,
-                    unsigned int pkgVersion);
+                   unsigned int pkgVersion);
 
 
 LIBSBML_EXTERN
 void
-DefaultTerm_free(DefaultTerm_t * ft);
+DefaultTerm_free(DefaultTerm_t * dt);
 
 
 LIBSBML_EXTERN
 DefaultTerm_t *
-DefaultTerm_clone(DefaultTerm_t * ft);
+DefaultTerm_clone(DefaultTerm_t * dt);
 
 
 LIBSBML_EXTERN
 int
-DefaultTerm_getResultLevel(DefaultTerm_t * ft);
+DefaultTerm_getResultLevel(DefaultTerm_t * dt);
 
 
 LIBSBML_EXTERN
 int
-DefaultTerm_isSetResultLevel(DefaultTerm_t * ft);
+DefaultTerm_isSetResultLevel(DefaultTerm_t * dt);
 
 
 LIBSBML_EXTERN
 int
-DefaultTerm_setResultLevel(DefaultTerm_t * ft, int resultLevel);
+DefaultTerm_setResultLevel(DefaultTerm_t * dt, int resultLevel);
 
 
 LIBSBML_EXTERN
 int
-DefaultTerm_unsetResultLevel(DefaultTerm_t * ft);
+DefaultTerm_unsetResultLevel(DefaultTerm_t * dt);
 
 
 LIBSBML_EXTERN
 int
-DefaultTerm_hasRequiredAttributes(DefaultTerm_t * ft);
+DefaultTerm_hasRequiredAttributes(DefaultTerm_t * dt);
 
 
-LIBSBML_EXTERN
-int
-DefaultTerm_hasRequiredElements(DefaultTerm_t * ft);
 
 
 END_C_DECLS
@@ -385,3 +360,4 @@ LIBSBML_CPP_NAMESPACE_END
 #endif  /*  !SWIG  */
 
 #endif /*  DefaultTerm_H__  */
+

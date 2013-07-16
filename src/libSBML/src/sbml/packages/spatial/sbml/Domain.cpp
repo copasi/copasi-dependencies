@@ -44,10 +44,7 @@ Domain::Domain (unsigned int level, unsigned int version, unsigned int pkgVersio
   : SBase (level,version)
    , mSpatialId("")
    , mDomainType("")
-   , mShapeId("")
    , mInteriorPoints(level,version, pkgVersion)
-   , mImplicit (false)
-   , mIsSetImplicit (false)
 {
   // set an SBMLNamespaces derived object (SpatialPkgNamespaces) of this package.
   setSBMLNamespacesAndOwn(new SpatialPkgNamespaces(level,version,pkgVersion));  
@@ -67,10 +64,7 @@ Domain::Domain(SpatialPkgNamespaces* spatialns)
  : SBase(spatialns)
   , mSpatialId("")
   , mDomainType("")
-  , mShapeId("")
   , mInteriorPoints(spatialns)
-  , mImplicit (false)
-  , mIsSetImplicit (false)
 {
   //
   // set the element namespace of this object
@@ -94,10 +88,7 @@ Domain::Domain(const Domain& source) : SBase(source)
 {
   this->mSpatialId=source.mSpatialId;
   this->mDomainType=source.mDomainType;
-  this->mShapeId=source.mShapeId;
   this->mInteriorPoints=source.mInteriorPoints;
-  this->mImplicit=source.mImplicit;
-  this->mIsSetImplicit=source.mIsSetImplicit;
 
   connectToChild();
 }
@@ -112,10 +103,7 @@ Domain& Domain::operator=(const Domain& source)
     this->SBase::operator=(source);
     this->mSpatialId = source.mSpatialId;
 	this->mDomainType = source.mDomainType;
-	this->mShapeId = source.mShapeId;
 	this->mInteriorPoints = source.mInteriorPoints;
-	this->mImplicit = source.mImplicit;
-	this->mIsSetImplicit = source.mIsSetImplicit;
   }
   
   connectToChild();
@@ -148,23 +136,6 @@ Domain::getDomainType () const
   return mDomainType;
 }
 
-/*
-  * Returns the value of the "shapeId" attribute of this Domain.
-  */
-const std::string& 
-Domain::getShapeId () const
-{
-  return mShapeId;
-}
-
-/*
- * @return true if this DomainType is implicit, false otherwise.
- */
-bool
-Domain::getImplicit () const
-{
-  return mImplicit;
-}
 
 /*
   * Predicate returning @c true or @c false depending on whether this
@@ -186,25 +157,6 @@ Domain::isSetDomainType () const
   return (mDomainType.empty() == false);
 }
 
-/*
-  * Predicate returning @c true or @c false depending on whether this
-  * Domain's "shapeId" attribute has been set.
-  */
-bool 
-Domain::isSetShapeId () const
-{
-  return (mShapeId.empty() == false);
-}
-
-/*
- * @return true if the "implicit" of this Domain has been set, false
- * otherwise.
- */
-bool
-Domain::isSetImplicit () const
-{
-  return mIsSetImplicit;
-}
 
 /*
   * Sets the value of the "spatialId" attribute of this Domain.
@@ -222,33 +174,6 @@ int
 Domain::setDomainType (const std::string& domainType)
 {
   return SyntaxChecker::checkAndSetSId(domainType ,mDomainType);
-}
-
-/*
-  * Sets the value of the "shapeId" attribute of this Domain.
-  */
-int 
-Domain::setShapeId (const std::string& shapeId)
-{
-  return SyntaxChecker::checkAndSetSId(shapeId ,mShapeId);
-}
-
-/*
- * Sets the "implicit" field of this Domain to value.
- */
-int
-Domain::setImplicit (bool value)
-{
-  /*if ( getLevel() < 3 )
-  {
-    // mImplicit = value;
-    return LIBSBML_UNEXPECTED_ATTRIBUTE;
-  }
-  else
-  { */
-    mImplicit = value;
-    mIsSetImplicit = true;
-    return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -277,23 +202,6 @@ Domain::unsetDomainType ()
 {
   mDomainType.erase();
   if (mDomainType.empty())
-  {
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    return LIBSBML_OPERATION_FAILED;
-  }
-}
-
-/*
-  * Unsets the value of the "shapeId" attribute of this Domain.
-  */
-int 
-Domain::unsetShapeId ()
-{
-  mShapeId.erase();
-  if (mShapeId.empty())
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -459,8 +367,7 @@ Domain::addExpectedAttributes(ExpectedAttributes& attributes)
 
   attributes.add("spatialId");
   attributes.add("domainType");
-  attributes.add("goemetricObject");
-  attributes.add("implicit");
+  // attributes.add("goemetricObject");
 }
 
 
@@ -492,15 +399,6 @@ Domain::readAttributes (const XMLAttributes& attributes,
   }
   if (!SyntaxChecker::isValidSBMLSId(mDomainType)) logError(InvalidIdSyntax);
   
-  assigned = attributes.readInto("shapeId", mShapeId, getErrorLog(), true, getLine(), getColumn());
-  if (assigned && mShapeId.empty())
-  {
-    logEmptyString(mShapeId, sbmlLevel, sbmlVersion, "<Domain>");
-  }
-  if (!SyntaxChecker::isValidSBMLSId(mShapeId)) logError(InvalidIdSyntax);
-
-  mIsSetImplicit = attributes.readInto("implicit", mImplicit, 
-                                            getErrorLog(), true, getLine(), getColumn());
 }
 
 
@@ -516,9 +414,6 @@ Domain::writeAttributes (XMLOutputStream& stream) const
 
   stream.writeAttribute("spatialId",   getPrefix(), mSpatialId);
   stream.writeAttribute("domainType",   getPrefix(), mDomainType);  
-  stream.writeAttribute("shapeId",   getPrefix(), mShapeId);
-  stream.writeAttribute("implicit", getPrefix(), mImplicit);
-
 
   //
   // (EXTENSION)

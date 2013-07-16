@@ -29,7 +29,6 @@
 #include <sbml/packages/comp/sbml/ReplacedBy.h>
 #include <sbml/packages/comp/extension/CompExtension.h>
 #include <sbml/packages/comp/extension/CompSBasePlugin.h>
-#include <sbml/packages/comp/validator/CompVisitor.h>
 
 using namespace std;
 
@@ -138,11 +137,20 @@ int ReplacedBy::performReplacement()
 
 
 /** @cond doxygen-libsbml-internal */
+
 bool
-ReplacedBy::acceptComp (CompVisitor& v) const
+ReplacedBy::accept (SBMLVisitor& v) const
 {
-  return v.visit(*this);
+  v.visit(*this);
+
+  if (isSetSBaseRef() == true)
+  {
+    getSBaseRef()->accept(v);
+  }
+
+  return true;
 }
+
 /** @endcond */
 
 /**

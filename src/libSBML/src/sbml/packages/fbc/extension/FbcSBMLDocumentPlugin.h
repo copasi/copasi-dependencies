@@ -47,12 +47,10 @@
 
 #include <sbml/packages/fbc/extension/FbcExtension.h>
 #include <sbml/packages/fbc/validator/FbcValidator.h>
-#include <sbml/packages/fbc/validator/FbcVisitor.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 class FbcValidator;
-class FbcVisitor;
 
 class LIBSBML_EXTERN FbcSBMLDocumentPlugin : public SBMLDocumentPlugin
 {
@@ -106,12 +104,12 @@ public:
   virtual bool isFlatteningImplemented() const;
 
 
-  virtual unsigned int checkConsistency(); 
+  virtual unsigned int checkConsistency(bool overrideFlattening = false); 
 
 
   /** @cond doxygen-libsbml-internal */
 
-  virtual bool acceptFbc(FbcVisitor& v) const;
+  virtual bool accept(SBMLVisitor& v) const;
 
   /** @endcond */
 

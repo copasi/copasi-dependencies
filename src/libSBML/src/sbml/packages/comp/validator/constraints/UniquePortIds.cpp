@@ -38,16 +38,6 @@ using namespace std;
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-static const char* PREAMBLE =
-    "The value of the 'id' field on every instance of the following type of "
-    "object in a model must be unique: <model>, <functionDefinition>, "
-    "<compartmentType>, <compartment>, <speciesType>, <species>, <reaction>, "
-    "<speciesReference>, <modifierSpeciesReference>, <event>, and model-wide "
-    "<parameter>s. Note that <unitDefinition> and parameters defined inside "
-    "a reaction are treated separately. (References: L2V1 Section 3.5; L2V2 "
-    "Section 3.4; L2V3 Section 3.3.)";
-
-
 /*
  * Creates a new Constraint with the given constraint id.
  */
@@ -62,16 +52,6 @@ UniquePortIds::UniquePortIds (unsigned int id, CompValidator& v) :
  */
 UniquePortIds::~UniquePortIds ()
 {
-}
-
-
-/*
- * @return the preamble to use when logging constraint violations.
- */
-const char*
-UniquePortIds::getPreamble ()
-{
-  return PREAMBLE;
 }
 
 

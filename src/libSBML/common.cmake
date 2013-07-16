@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# $URL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/common.cmake $
+# $URL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/common.cmake $
 # $Id: common.cmake 16951 2013-01-28 19:37:29Z mhucka $
 # 
 # Description       : Common CMake macros for building libSBML

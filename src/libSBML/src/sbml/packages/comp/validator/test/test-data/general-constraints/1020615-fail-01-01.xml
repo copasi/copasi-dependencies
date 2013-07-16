@@ -2,11 +2,7 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
   <model>
     <listOfParameters>
-      <parameter id="param1" constant="true">
-        <comp:listOfReplacedElements>
-          <comp:replacedElement comp:idRef="subparam1" comp:submodelRef="submod1"/>
-        </comp:listOfReplacedElements>
-      </parameter>
+      <parameter id="param1" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
       <comp:submodel comp:id="submod1" comp:modelRef="Moda"/>

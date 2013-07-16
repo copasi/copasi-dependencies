@@ -31,7 +31,6 @@
 #include <sbml/packages/comp/extension/CompModelPlugin.h>
 #include <sbml/packages/comp/sbml/ReplacedElement.h>
 #include <sbml/packages/comp/sbml/ListOfReplacedElements.h>
-#include <sbml/packages/comp/validator/CompVisitor.h>
 #include <sbml/packages/comp/validator/CompSBMLError.h>
 #include <sbml/Model.h>
 
@@ -382,11 +381,20 @@ ReplacedElement::getReferencedElementFrom(Model* model)
 }
 
 /** @cond doxygen-libsbml-internal */
+
 bool
-ReplacedElement::acceptComp (CompVisitor& v) const
+ReplacedElement::accept (SBMLVisitor& v) const
 {
-  return v.visit(*this);
+  v.visit(*this);
+
+  if (isSetSBaseRef() == true)
+  {
+    getSBaseRef()->accept(v);
+  }
+
+  return true;
 }
+
 /** @endcond */
 
 

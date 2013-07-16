@@ -43,7 +43,6 @@ class LIBSBML_EXTERN AnalyticVolume : public SBase
 protected:
 
   std::string mSpatialId;
-  std::string mShapeId;
   std::string mDomainType;
   std::string mFunctionType;
   unsigned int mOrdinal;
@@ -93,13 +92,6 @@ public:
   virtual const std::string& getSpatialId () const;
 
   /**
-   * Returns the string of the "shapeId" attribute of this AnalyticVolume.
-   *
-   * @return the string of the "shapeId" attribute of this AnalyticVolume.
-   */
-  virtual const std::string& getShapeId () const;
-
-  /**
    * Returns the string of the "domainType" attribute of this AnalyticVolume.
    *
    * @return the string of the "domainType" attribute of this AnalyticVolume.
@@ -142,15 +134,6 @@ public:
    * otherwise @c false is returned.
    */
   virtual bool isSetSpatialId () const;
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * AnalyticVolume's "shapeId" attribute has been set.
-   *
-   * @return @c true if this AnalyticVolume's "shapeId" attribute has been set, 
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetShapeId () const;
 
   /**
    * Predicate returning @c true or @c false depending on whether this
@@ -202,20 +185,6 @@ public:
    * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
    */
   virtual int setSpatialId (const std::string& spatialId);
-
-  /**
-   * Sets the SIdRef string of the "shapeId" attribute of this AnalyticVolume.
-   *
-   * @param shapeId a SIdRef string to be set.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  virtual int setShapeId (const std::string& shapeId);
 
   /**
    * Sets the SIdRef string of the "domainType" attribute of this AnalyticVolume.
@@ -288,18 +257,6 @@ public:
    * @li LIBSBML_OPERATION_FAILED
    */
   virtual int unsetSpatialId ();
-
-  /**
-   * Unsets the value of the "shapeId" attribute of this AnalyticVolume.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetShapeId ();
 
  /**
    * Unsets the value of the "domainType" attribute of this AnalyticVolume.
@@ -648,11 +605,6 @@ AnalyticVolume_getSpatialId (const AnalyticVolume_t *av);
 
 LIBSBML_EXTERN
 const char *
-AnalyticVolume_getShapeId (const AnalyticVolume_t *av);
-
-
-LIBSBML_EXTERN
-const char *
 AnalyticVolume_getDomainType (const AnalyticVolume_t *av);
 
 
@@ -674,11 +626,6 @@ AnalyticVolume_getMath (const AnalyticVolume_t *av);
 LIBSBML_EXTERN
 int
 AnalyticVolume_isSetSpatialId (const AnalyticVolume_t *av);
-
-
-LIBSBML_EXTERN
-int
-AnalyticVolume_isSetShapeId (const AnalyticVolume_t *av);
 
 
 LIBSBML_EXTERN
@@ -708,11 +655,6 @@ AnalyticVolume_setSpatialId (AnalyticVolume_t *av, const char *sid);
 
 LIBSBML_EXTERN
 int
-AnalyticVolume_setShapeId (AnalyticVolume_t *av, const char *sid);
-
-
-LIBSBML_EXTERN
-int
 AnalyticVolume_setDomainType (AnalyticVolume_t *av, const char *dt);
 
 
@@ -734,11 +676,6 @@ AnalyticVolume_setMath (AnalyticVolume_t *av, const ASTNode_t *math);
 LIBSBML_EXTERN
 int
 AnalyticVolume_unsetSpatialId (AnalyticVolume_t *av);
-
-
-LIBSBML_EXTERN
-int
-AnalyticVolume_unsetShapeId (AnalyticVolume_t *av);
 
 
 LIBSBML_EXTERN

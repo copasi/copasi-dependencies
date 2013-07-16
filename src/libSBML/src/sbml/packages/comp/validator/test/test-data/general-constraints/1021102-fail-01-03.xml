@@ -14,7 +14,7 @@
     <listOfSpecies>
       <species id="S1" compartment="C" initialAmount="5" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
         <comp:listOfReplacedElements>
-          <comp:replacedElement comp:idRef="sub2" comp:submodelRef="sub2"/>
+          <comp:replacedElement comp:idRef="S1" comp:submodelRef="sub2"/>
         </comp:listOfReplacedElements>
         <comp:replacedBy comp:unitRef="ddd" comp:idRef="C" comp:submodelRef="sub2"/>
       </species>

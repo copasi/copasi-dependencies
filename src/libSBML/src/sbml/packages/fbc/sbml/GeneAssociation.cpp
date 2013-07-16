@@ -333,17 +333,25 @@ GeneAssociation::isSetAssociation () const
 Association* GeneAssociation::createAssociation()
 {
   Association* result = NULL;
-  try {
+  try 
+  {
     FBC_CREATE_NS(fbcns, getSBMLNamespaces());
     result = new Association(fbcns);
     unsetAssociation();
     mAssociation = result;
     mAssociation->connectToParent(this);
-  }
-  catch (...)
+  } 
+  catch(...)
   {
-    return NULL;
+    /* 
+    * NULL will be returned if the mSBMLNS is invalid (basically this
+    * should not happen) or some exception is thrown (e.g. std::bad_alloc)
+    *
+    * (Maybe this should be changed so that caller can detect what kind 
+    *  of error happened in this function.)
+    */
   }
+  
   return result;
 }
 
@@ -668,10 +676,23 @@ ListOfGeneAssociations::createObject (XMLInputStream& stream)
 
   if (name == "geneAssociation")
   {
-    FBC_CREATE_NS(fbcns, getSBMLNamespaces());
-    object = new GeneAssociation(fbcns);
-    appendAndOwn(object);
-    //mItems.push_back(object);
+    try
+	{
+      FBC_CREATE_NS(fbcns, getSBMLNamespaces());
+      object = new GeneAssociation(fbcns);
+      appendAndOwn(object);
+      //mItems.push_back(object);
+	} 
+	catch(...)
+	{
+      /* 
+      * NULL will be returned if the mSBMLNS is invalid (basically this
+      * should not happen) or some exception is thrown (e.g. std::bad_alloc)
+      *
+      * (Maybe this should be changed so that caller can detect what kind 
+      *  of error happened in this function.)
+      */
+	}
   }
 
   return object;

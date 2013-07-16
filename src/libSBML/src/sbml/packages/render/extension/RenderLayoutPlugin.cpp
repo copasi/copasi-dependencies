@@ -46,6 +46,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
   const std::string &prefix,
   RenderPkgNamespaces *renderns)
   : SBasePlugin(uri,prefix, renderns)
+  , mLocalRenderInformation(renderns)
 {
 }
 
@@ -55,6 +56,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 */
 RenderLayoutPlugin::RenderLayoutPlugin(const RenderLayoutPlugin& orig)
   : SBasePlugin(orig)
+  , mLocalRenderInformation(orig.mLocalRenderInformation)
 {
 }
 
@@ -133,11 +135,11 @@ RenderLayoutPlugin::writeAttributes (XMLOutputStream& stream) const
   if ( getURI() != RenderExtension::getXmlnsL2() ) return;
 
   SBase *parent = const_cast<SBase*>(getParentSBMLObject());
-  if (!parent) return;
+  if (parent == NULL) 
+    return;
 
-  //RenderLayoutPlugin* self = const_cast<RenderLayoutPlugin*>(this);
+  // when called this will serialize the annotation
   parent->getAnnotation();
-  //self->syncAnnotation(parent, parrent->getA);
 }
 /** @endcond */
 
@@ -171,7 +173,7 @@ RenderLayoutPlugin::syncAnnotation (SBase *parentObject, XMLNode *pAnnotation)
 {
   if(pAnnotation && pAnnotation->getNumChildren() > 0)
   {
-      deleteLocalRenderAnnotation(pAnnotation);
+      parentObject->removeTopLevelAnnotationElement("listOfRenderInformation", "", false);
   }
 
   // only do this for L1 and L2 documents
@@ -189,7 +191,9 @@ RenderLayoutPlugin::syncAnnotation (SBase *parentObject, XMLNode *pAnnotation)
   
   if (pAnnotation == NULL)
   {
-      pAnnotation = render;
+    // cannot happen, as syncAnnotation is called with a valid Annotation
+    // (possibly empty)
+    return;
   }
   else
   {
@@ -217,39 +221,9 @@ RenderLayoutPlugin::syncAnnotation (SBase *parentObject, XMLNode *pAnnotation)
 bool
 RenderLayoutPlugin::readOtherXML (SBase* parentObject, XMLInputStream& stream)
 {
-  const string& name = stream.peek().getName();
-
-  if (!(name.empty()) && name != "annotation")
-   {
-     return false;
-   }
-
-  //
-  // This function is used only for SBML Level 2.
-  //
-  if ( getURI() != LayoutExtension::getXmlnsL2() ) return false;
-
-  XMLNode *pAnnotation = parentObject->getAnnotation();
-  if (!pAnnotation)
-  {
-    //
-    // (NOTES)
-    //
-    // annotation element has not been parsed by the parent element
-    // (Model) of this plugin object, thus annotation element is
-    // parsed via the given XMLInputStream object in this block. 
-    //
-  
-    if (name == "annotation")
-    {
-      pAnnotation = new XMLNode(stream); 
-      parseAnnotation(parentObject, pAnnotation);
-      return true;
-    }
-  }
-  
-  return false;
-
+  // L2 render parsed by the annotation API 
+  // @see parseAnnotation / syncAnnotation
+  return false; 
 }
 /** @endcond */
 

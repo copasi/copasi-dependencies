@@ -4,10 +4,13 @@
 #
 # 
 
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/include)
+
+if (EXTRA_INCLUDE_DIRS) 
+include_directories(${EXTRA_INCLUDE_DIRS})
+endif(EXTRA_INCLUDE_DIRS)
 
 foreach(example 
 
@@ -21,6 +24,8 @@ foreach(example
 	convertSBML
 	createExampleSBML
 	echoSBML
+	inlineFunctionDefintions
+	getAllElementsWithNotes
 	printAnnotation
 	printMath
 	printNotes
@@ -29,6 +34,8 @@ foreach(example
 	printSupported
 	printUnits
 	readSBML
+	renameSId
+	setIdFromNames
 	stripPackage
 	translateMath
 	translateL3Math

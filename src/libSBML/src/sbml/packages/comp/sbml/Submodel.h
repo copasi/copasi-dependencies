@@ -107,7 +107,6 @@
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 class ReplacedElement;
-class CompVisitor;
 
 class LIBSBML_EXTERN Submodel : public CompBase
 {
@@ -197,11 +196,11 @@ public:
   
   /**
    * Returns a List of all child SBase objects, including those nested to an
-   * arbitrary depth
+   * arbitrary depth.
    *
    * @return a List of pointers to all children objects.
    */
-  virtual List* getAllElements();
+  virtual List* getAllElements(ElementFilter* filter=NULL);
   
   
   /**
@@ -651,7 +650,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -660,15 +659,6 @@ public:
 
 
   /** @cond doxygen-libsbml-internal */
-  /**
-   * Accepts the given CompVisitor.
-   *
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether or not the Visitor would like to visit the SBML object's next
-   * sibling object (if available).
-   */
-  virtual bool acceptComp (CompVisitor& v) const;
-  /** @endcond */
 
 
   /**
@@ -679,6 +669,8 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
+  
+  /** @endcond */
 
 
   /** @cond doxygen-libsbml-internal */
@@ -718,12 +710,12 @@ public:
 
 
   /**
-   * Follow the rules set out in this object and instantiate a Model object
-   * from them.  Is recursive, in that if the instantiated Model contains any
+   * Find and create a local copy of the Model object referenced by this
+   * Submodel.  Is recursive, in that if the instantiated Model contains any
    * Submodel objects, those Submodels will themselves be instantiated.  If
    * an instantiated model previously existed, it is deleted and a new one is
-   * created.  For this reason, call this function only once, or, better yet,
-   * just call 'getInstantiation'
+   * created.  For this reason, call this function only once, or 
+   * call Submodel::getInstantiation().
    *
    * @return an integer value indicating success/failure of the operation.
    * Possible return values from this function are:
@@ -750,7 +742,7 @@ public:
 
 
   /**
-   * Delete the element in question from the stored instantiation object, and
+   * Delete the element in question from the stored instantiated Model, and
    * replace all references to it with references to the replacement object.
    * @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * means that this Submodel itself or one of the passed-in objects are invalid.
@@ -770,9 +762,11 @@ public:
    * Get the instantiated Model this Submodel contains rules to create.
    * Calls instantiate() automatically if this operation has not yet been
    * performed, and/or if the operation failed the last time it was called.
+   * Any modifictions that have been performed with performDeletions(), 
+   * replaceElement(), or convertTimeAndExtent() function calls will be included.
    *
    * @return the instantiated Model object: a clone of the original, modified
-   * according to the deletion rules and any 'replaceElement' functions that
+   * according to the performDeletions() and replaceElement() functions that
    * have been called.  Returns NULL if any error is encountered.
    */
   virtual Model* getInstantiation();
@@ -782,16 +776,18 @@ public:
    * Get the instantiated Model this Submodel contains rules to create.
    * Calls instantiate() automatically if this operation has not yet been
    * performed, and/or if the operation failed the last time it was called.
+   * Any modifictions that have been performed with performDeletions(), 
+   * replaceElement(), or convertTimeAndExtent() function calls will be included.
    *
    * @return the instantiated Model object: a clone of the original, modified
-   * according to the deletion rules and any 'replaceElement' functions that
+   * according to the performDeletions() and replaceElement() functions that
    * have been called.  Returns NULL if any error is encountered.
    */
   virtual const Model* getInstantiation() const;
 
 
   /**
-   * Delete the instantiated Model*, if it exists.
+   * Delete the instantiated Model, if it exists.
    */
   virtual void clearInstantiation();
 
@@ -804,7 +800,8 @@ public:
 
 
   /**
-   * Convert all references to time and extent according to the
+   * Convert all references to time and extent in the instantiated
+   * Model, according to the
    * timeConversionFactor and extentConversionFactor attributes.
    */
   virtual int convertTimeAndExtent();

@@ -10,23 +10,16 @@
     </listOfUnitDefinitions>
     <listOfCompartments>
       <compartment id="C" spatialDimensions="3" size="10" constant="false" metaid="CD">
-        <comp:listOfReplacedElements>
+<!--        <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="sub1" comp:submodelRef="sub2">
             <comp:sBaseRef comp:idRef="C"/>
           </comp:replacedElement>
         </comp:listOfReplacedElements>
-      </compartment>
+-->      </compartment>
     </listOfCompartments>
     <listOfSpecies>
       <species id="S1" compartment="C" initialAmount="5" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
-        <comp:listOfReplacedElements>
-          <comp:replacedElement comp:idRef="sub2" comp:submodelRef="sub2">
-            <comp:sBaseRef comp:idRef="sub1">
-              <comp:sBaseRef comp:idRef="S1"/>
-            </comp:sBaseRef>
-          </comp:replacedElement>
-        </comp:listOfReplacedElements>
-        <comp:replacedBy comp:metaIdRef="_c" comp:submodelRef="sub2">
+        <comp:replacedBy comp:metaIdRef="__sub1" comp:submodelRef="sub2">
           <comp:sBaseRef comp:idRef="S1"/>
         </comp:replacedBy>
       </species>
@@ -56,7 +49,7 @@
         <species id="S1" compartment="C" initialAmount="9" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
       </listOfSpecies>
       <comp:listOfSubmodels>
-        <comp:submodel comp:id="sub1" comp:modelRef="moddef1"/>
+        <comp:submodel metaid="__sub1" comp:id="sub1" comp:modelRef="moddef1"/>
       </comp:listOfSubmodels>
     </comp:modelDefinition>
     

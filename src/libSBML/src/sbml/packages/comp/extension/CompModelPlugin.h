@@ -64,11 +64,9 @@
 #include <sbml/packages/comp/sbml/ListOfSubmodels.h>
 #include <sbml/packages/comp/sbml/ListOfPorts.h>
 #include <sbml/packages/comp/util/CompFlatteningConverter.h>
-#include <sbml/packages/comp/validator/CompVisitor.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class CompVisitor;
 
 class LIBSBML_EXTERN CompModelPlugin : public CompSBasePlugin
 {
@@ -164,7 +162,7 @@ public:
    *
    * @return a List of pointers to all children objects.
    */
-  virtual List* getAllElements();
+  virtual List* getAllElements(ElementFilter* filter=NULL);
   
   
  /**
@@ -382,8 +380,8 @@ public:
    * flattening models.
    *
    * The divider string consists of two underscore characters
-   * (&quot;<code>__</code>&quot;) by default.  This method will fail if used
-   * with an empty string, or a string that cannot be used internally as part
+   * (&quot;<code>__</code>&quot;) by default.  This method will fail if called
+   * with an empty @p divider, or a @p divider that cannot be used internally as part
    * of a valid SBML SId.
    * 
    * @return integer value indicating success/failure of the
@@ -401,7 +399,8 @@ public:
    * flattening models.
    *
    * The divider string consists of two underscore characters
-   * (&quot;<code>__</code>&quot;) by default.
+   * (&quot;<code>__</code>&quot;) by default, and can be overridden
+   * with the setDivider() function.
    *
    * @see setDivider()
    */
@@ -470,7 +469,7 @@ public:
 
   /** @cond doxygen-libsbml-internal */
 
-  virtual bool acceptComp(CompVisitor& v) const;
+  virtual bool accept(SBMLVisitor& v) const;
 
   /** @endcond */
 
@@ -478,8 +477,10 @@ public:
   protected:
 
   /**
-   * Follow all the rules of the hierarchical model composition package and
-   * return a version with all submodels copied into the main model, with all
+   * Flatten and return a copy of this hierarchical model.
+   *
+   * Follows all the rules of the hierarchical model composition package and
+   * returns a version with all submodels copied into the main model, with all
    * deletions removed and all replaced elements replaced, following any and
    * all rules of conversion factors.  Only the ports created for this model
    * will remain.
@@ -489,8 +490,6 @@ public:
   virtual Model* flattenModel() const;
 
   friend class CompFlatteningConverter;
-
-  private:
 
   /**
    * Loop through all Submodels in this Model, instantiate all of them,
@@ -507,6 +506,8 @@ public:
    * In this case, 'invalid object' means that this Submodel itself is invalid, and no Model can be instantiated from it.
    */
   virtual int instantiateSubmodels();
+
+  private:
 
   /*
    * Combine mListOfPorts and mListOfSubmodels.  If this is called from

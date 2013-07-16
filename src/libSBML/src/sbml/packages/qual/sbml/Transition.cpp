@@ -28,6 +28,7 @@
 
 
 #include <sbml/packages/qual/sbml/Transition.h>
+#include <sbml/packages/qual/validator/QualSBMLError.h>
 
 
 using namespace std;
@@ -46,7 +47,6 @@ Transition::Transition (unsigned int level, unsigned int version, unsigned int p
 	 ,mInputs (level, version, pkgVersion)
 	 ,mOutputs (level, version, pkgVersion)
 	 ,mFunctionTerms (level, version, pkgVersion)
-
 {
 	// set an SBMLNamespaces derived object of this package
 	setSBMLNamespacesAndOwn(new QualPkgNamespaces(level, version, pkgVersion));
@@ -66,7 +66,6 @@ Transition::Transition (QualPkgNamespaces* qualns)
 	 ,mInputs (qualns)
 	 ,mOutputs (qualns)
 	 ,mFunctionTerms (qualns)
-
 {
 	// set the element namespace of this object
 	setElementNamespace(qualns->getURI());
@@ -258,8 +257,6 @@ Transition::unsetName()
  */
 const ListOfInputs*
 Transition::getListOfInputs() const
-
-
 {
 	return &mInputs;
 }
@@ -270,8 +267,6 @@ Transition::getListOfInputs() const
  */
 ListOfInputs*
 Transition::getListOfInputs()
-
-
 {
 	return &mInputs;
 }
@@ -907,9 +902,6 @@ Transition::hasRequiredElements () const
 {
 	bool allPresent = true;
 
-	if (getNumOutputs() == 0)
-		allPresent = false;
-
 	return allPresent;
 }
 
@@ -953,15 +945,15 @@ Transition::writeElements (XMLOutputStream& stream) const
 bool
 Transition::accept (SBMLVisitor& v) const
 {
-  bool result = v.visit(*this);
+	v.visit(*this);
 
   mInputs.accept(v);
   mOutputs.accept(v);
   mFunctionTerms.accept(v);
 
-  v.leave(*this);
+	v.leave(*this);
 
-  return result;
+	return true;
 }
 
 
@@ -1037,10 +1029,22 @@ Transition::createObject (XMLInputStream& stream)
 
   if (name == "listOfInputs")
   {
+    if (mInputs.size() != 0)
+    {
+      getErrorLog()->logPackageError("qual", QualTransitionLOElements, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+      
     object = &mInputs;
   }
   else if (name == "listOfOutputs")
   {
+    if (mOutputs.size() != 0)
+    {
+      getErrorLog()->logPackageError("qual", QualTransitionLOElements, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+      
     object = &mOutputs;
   }
   else if (name == "listOfFunctionTerms")
@@ -1080,16 +1084,76 @@ void
 Transition::readAttributes (const XMLAttributes& attributes,
                              const ExpectedAttributes& expectedAttributes)
 {
-	SBase::readAttributes(attributes, expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
+
+	unsigned int numErrs;
+
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfTransitions - which will have
+	 * happened immediately prior to this read
+	*/
+
+  if (getErrorLog() != NULL && 
+    static_cast<ListOfTransitions*>(getParentSBMLObject())->size() < 2)
+  {
+		numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)      
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details = 
+          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("qual", QualLOTransitionsAllowedAttributes,
+          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      } 
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details = 
+          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("qual", QualLOTransitionsAllowedAttributes,
+          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      } 
+    }
+  }
+
+  SBase::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("qual", QualTransitionAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("qual", QualTransitionAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
 
 	bool assigned = false;
 
 	//
 	// id SId  ( use = "optional" )
 	//
-	assigned = attributes.readInto("id", mId, getErrorLog(), false);
+	assigned = attributes.readInto("id", mId);
 
-	if (assigned == true)
+ 	if (assigned == true)
 	{
 		// check string is not empty and correct syntax
 
@@ -1106,7 +1170,7 @@ Transition::readAttributes (const XMLAttributes& attributes,
 	//
 	// name string   ( use = "optional" )
 	//
-	assigned = attributes.readInto("name", mName, getErrorLog(), false);
+	assigned = attributes.readInto("name", mName);
 
 	if (assigned == true)
 	{
@@ -1299,7 +1363,7 @@ ListOfTransitions::createObject(XMLInputStream& stream)
 
 	if (name == "transition")
 	{
-    QUAL_CREATE_NS(qualns, getSBMLNamespaces());
+		QUAL_CREATE_NS(qualns, getSBMLNamespaces());
 		object = new Transition(qualns);
 		appendAndOwn(object);
 	}

@@ -30,14 +30,18 @@
 #ifndef AddingConstraintsToValidator
 
 #include <sbml/validator/VConstraint.h>
-#include <sbml/packages/comp/sbml/Port.h>
-#include <sbml/packages/comp/sbml/Submodel.h>
-#include <sbml/packages/comp/sbml/ExternalModelDefinition.h>
-#include <sbml/packages/comp/sbml/ModelDefinition.h>
 #include <sbml/packages/comp/validator/CompSBMLError.h>
-#include <sbml/packages/comp/extension/CompSBMLDocumentPlugin.h>
 #include <sbml/packages/comp/util/SBMLResolverRegistry.h>
 #include <sbml/packages/comp/util/SBMLUri.h>
+#include <sbml/SBMLTypes.h>
+#include <sbml/packages/comp/common/CompExtensionTypes.h>
+#include <sbml/util/ElementFilter.h>
+
+#include "ExtModelReferenceCycles.h"
+#include "SubmodelReferenceCycles.h"
+#include "UniquePortReferences.h"
+#include "UniqueReplacedReferences.h"
+
 #endif
 
 #include <sbml/validator/ConstraintMacros.h>
@@ -48,11 +52,551 @@ using namespace std;
 
 /** @endcond */
 
+/** 
+ * This class implements an element filter, that can be used to find elements
+ * with an id set
+ */ 
+class IdFilter : public ElementFilter
+{
+public:
+	IdFilter() : ElementFilter()
+	{
+	}
+
+	virtual bool filter(const SBase* element)
+	{
+		// return in case we don't have a valid element with an id
+        if (element == NULL || element->isSetId() == false)
+        {
+            return false;
+        }
+
+        // otherwise we have an id set and want to keep the element
+        // unless it is a rule or intialAssignment/eventAssignment
+        int tc = element->getTypeCode();
+        if (tc == SBML_ASSIGNMENT_RULE || tc == SBML_RATE_RULE
+          || tc == SBML_INITIAL_ASSIGNMENT || tc == SBML_EVENT_ASSIGNMENT)
+        {
+          return false;
+        }
+
+
+        return true;			
+	}
+
+};
+
+/** 
+ * This class implements an element filter, that can be used to find elements
+ * with an metaid set
+ */ 
+class MetaIdFilter : public ElementFilter
+{
+public:
+	MetaIdFilter() : ElementFilter()
+	{
+	}
+
+	virtual bool filter(const SBase* element)
+	{
+		// return in case we don't have a valid element with an id
+        if (element == NULL || element->isSetMetaId() == false)
+        {
+            return false;
+        }
+
+        return true;			
+	}
+
+};
+
+class ReferencedModel
+{
+public:
+  ReferencedModel(const Model & m, const Port & p)
+  {
+    referencedModel = 
+      static_cast<const Model*>(p.getAncestorOfType(SBML_MODEL, "core"));
+    if (referencedModel == NULL) 
+    {
+      referencedModel = static_cast<const Model*>
+        (p.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    }
+  }
+
+  ReferencedModel(const Model & m, const Deletion & d)
+  {
+    referencedModel = NULL;
+
+    const Submodel * sub = static_cast<const Submodel*>
+                        (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+    if (sub != NULL)
+    {
+      std::string modelId = sub->getModelRef();
+
+      const SBMLDocument * doc = d.getSBMLDocument();
+      bool found = false;
+      while (doc != NULL && found == false)
+      {
+        CompSBMLDocumentPlugin * docPlug = 
+          (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
+      
+        if (docPlug != NULL)
+        {
+
+          referencedModel = docPlug->getModelDefinition(modelId);
+          if (referencedModel == NULL)
+          {
+            // may be an external model
+            ExternalModelDefinition * emd = 
+                              docPlug->getExternalModelDefinition(modelId);
+            pre (emd != NULL);
+
+            string locationURI = doc->getLocationURI();
+            string uri = emd->getSource();
+
+            const SBMLResolverRegistry& registry = 
+                                 SBMLResolverRegistry::getInstance();
+            doc = registry.resolve(uri, locationURI);
+            if (doc != NULL)
+            {
+              if (emd->isSetModelRef() == false)
+              {
+                referencedModel = doc->getModel();
+                found = true;
+              }
+              else if (doc->getModel() != NULL &&
+                doc->getModel()->isSetId() == true &&
+                emd->getModelRef() == doc->getModel()->getId())
+              {
+                referencedModel = doc->getModel();
+                found = true;
+              }
+              else
+              {
+                modelId = emd->getModelRef();
+              }
+            }
+          }
+          else
+          {
+            found = true;
+          }
+        }
+        else
+        {
+          found = true;
+        }
+      }
+    }
+  }
+
+ 
+  
+  ReferencedModel(const Model & m, const ReplacedElement & repE)
+  {
+    referencedModel = NULL;
+
+    CompModelPlugin *plug = (CompModelPlugin*)(m.getPlugin("comp"));
+    
+    if ((plug != NULL) && (plug->getSubmodel(repE.getSubmodelRef()) != NULL))
+    {
+      std::string modelId = 
+               (plug->getSubmodel(repE.getSubmodelRef()))->getModelRef();
+
+      const SBMLDocument * doc = repE.getSBMLDocument();
+
+      bool found = false;
+      while (doc != NULL && found == false)
+      {
+        CompSBMLDocumentPlugin * docPlug = 
+          (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
+      
+        if (docPlug != NULL)
+        {
+
+          referencedModel = docPlug->getModelDefinition(modelId);
+          if (referencedModel == NULL)
+          {
+            // may be an external model
+            ExternalModelDefinition * emd = 
+                              docPlug->getExternalModelDefinition(modelId);
+            pre (emd != NULL);
+
+            string locationURI = doc->getLocationURI();
+            string uri = emd->getSource();
+
+            const SBMLResolverRegistry& registry = 
+                                 SBMLResolverRegistry::getInstance();
+            doc = registry.resolve(uri, locationURI);
+            if (doc != NULL)
+            {
+              if (emd->isSetModelRef() == false)
+              {
+                referencedModel = doc->getModel();
+                found = true;
+              }
+              else if (doc->getModel() != NULL &&
+                doc->getModel()->isSetId() == true &&
+                emd->getModelRef() == doc->getModel()->getId())
+              {
+                referencedModel = doc->getModel();
+                found = true;
+              }
+              else
+              {
+                modelId = emd->getModelRef();
+              }
+            }
+          }
+          else
+          {
+            found = true;
+          }
+        }
+        else
+        {
+          found = true;
+        }
+      }
+    }
+  }
+
+ 
+  
+  ReferencedModel(const Model & m, const ReplacedBy & repBy)
+  {
+    referencedModel = NULL;
+
+    CompModelPlugin *plug = (CompModelPlugin*)(m.getPlugin("comp"));
+    
+    if ((plug != NULL) && (plug->getSubmodel(repBy.getSubmodelRef()) != NULL))
+    {
+      std::string modelId = 
+               (plug->getSubmodel(repBy.getSubmodelRef()))->getModelRef();
+
+      const SBMLDocument * doc = repBy.getSBMLDocument();
+
+      bool found = false;
+      while (doc != NULL && found == false)
+      {
+        CompSBMLDocumentPlugin * docPlug = 
+          (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
+      
+        if (docPlug != NULL)
+        {
+
+          referencedModel = docPlug->getModelDefinition(modelId);
+          if (referencedModel == NULL)
+          {
+            // may be an external model
+            ExternalModelDefinition * emd = 
+                              docPlug->getExternalModelDefinition(modelId);
+            pre (emd != NULL);
+
+            string locationURI = doc->getLocationURI();
+            string uri = emd->getSource();
+
+            const SBMLResolverRegistry& registry = 
+                                 SBMLResolverRegistry::getInstance();
+            doc = registry.resolve(uri, locationURI);
+            if (doc != NULL)
+            {
+              if (emd->isSetModelRef() == false)
+              {
+                referencedModel = doc->getModel();
+                found = true;
+              }
+              else if (doc->getModel() != NULL &&
+                doc->getModel()->isSetId() == true &&
+                emd->getModelRef() == doc->getModel()->getId())
+              {
+                referencedModel = doc->getModel();
+                found = true;
+              }
+              else
+              {
+                modelId = emd->getModelRef();
+              }
+            }
+          }
+          else
+          {
+            found = true;
+          }
+        }
+        else
+        {
+          found = true;
+        }
+      }
+    }
+  }
+
+ 
+  
+  ReferencedModel(const Model & m, const SBaseRef & sbRef)
+  {
+    referencedModel = NULL;
+    
+    if (sbRef.getParentSBMLObject() != NULL)
+    {
+      int tc = sbRef.getParentSBMLObject()->getTypeCode();
+      const SBMLDocument * doc = sbRef.getSBMLDocument();
+      CompSBMLDocumentPlugin * docPlug = NULL;
+      if (doc != NULL)
+      {
+        docPlug = (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
+      }
+
+      ReferencedModel *ref;
+      std::string idRef;
+      std::string metaIdRef;
+      std::string modelId;
+      const Model* parentRefModel = NULL;
+      const ReplacedElement * repE = NULL;
+      const ReplacedBy* repBy = NULL;
+      const Deletion * del = NULL;
+      const Port * port = NULL;
+      const SBaseRef * parent = NULL;
+      const SBaseRef * grandParent = NULL;
+      int tc1;
+
+
+      switch (tc)
+      {
+        case SBML_COMP_REPLACEDELEMENT:
+          repE = 
+            static_cast<const ReplacedElement*>(sbRef.getParentSBMLObject());
+          ref = new ReferencedModel(m, *(repE));
+          parentRefModel = ref->getReferencedModel();
+          idRef = repE->getIdRef();
+          metaIdRef = repE->getMetaIdRef();
+          break;
+        case SBML_COMP_REPLACEDBY:
+          repBy = 
+            static_cast<const ReplacedBy*>(sbRef.getParentSBMLObject());
+          ref = new ReferencedModel(m, *(repBy));
+          parentRefModel = ref->getReferencedModel();
+          idRef = repBy->getIdRef();
+          metaIdRef = repBy->getMetaIdRef();
+          break;
+        case SBML_COMP_PORT:
+          port = 
+            static_cast<const Port*>(sbRef.getParentSBMLObject());
+          ref = new ReferencedModel(m, *(port));
+          parentRefModel = ref->getReferencedModel();
+          idRef = port->getIdRef();
+          metaIdRef = port->getMetaIdRef();
+         break;
+        case SBML_COMP_DELETION:
+          del = 
+            static_cast<const Deletion*>(sbRef.getParentSBMLObject());
+          ref = new ReferencedModel(m, *(del));
+          parentRefModel = ref->getReferencedModel();
+          idRef = del->getIdRef();
+          metaIdRef = del->getMetaIdRef();
+         break;
+        case SBML_COMP_SBASEREF:
+          parent = static_cast<const SBaseRef*>(sbRef.getParentSBMLObject());
+          idRef = parent->getIdRef();
+          metaIdRef = parent->getMetaIdRef();
+          if (idRef.empty() == false)
+          {
+            mReferences.push_back(make_pair(idRef, "id"));
+          }
+          else
+          {
+            mReferences.push_back(make_pair(metaIdRef, "metaid"));
+          }
+          grandParent = static_cast<const SBaseRef*>
+                                   (parent->getParentSBMLObject());
+          tc1 = grandParent->getTypeCode();
+          while (tc1 == SBML_COMP_SBASEREF)
+          {
+            idRef = grandParent->getIdRef();
+            metaIdRef = grandParent->getMetaIdRef();
+            if (idRef.empty() == false)
+            {
+              mReferences.push_back(make_pair(idRef, "id"));
+            }
+            else
+            {
+              mReferences.push_back(make_pair(metaIdRef, "metaid"));
+            }
+            grandParent = static_cast<const SBaseRef*>
+                                      (grandParent->getParentSBMLObject());
+            tc1 = grandParent->getTypeCode();
+          }
+          switch (tc1)
+          {
+            case SBML_COMP_REPLACEDELEMENT:
+              repE = 
+                static_cast<const ReplacedElement*>(grandParent);
+              ref = new ReferencedModel(m, *(repE));
+              parentRefModel = ref->getReferencedModel();
+              idRef = repE->getIdRef();
+              metaIdRef = repE->getMetaIdRef();
+              break;
+            case SBML_COMP_REPLACEDBY:
+              repBy = 
+                static_cast<const ReplacedBy*>(grandParent);
+              ref = new ReferencedModel(m, *(repBy));
+              parentRefModel = ref->getReferencedModel();
+              idRef = repBy->getIdRef();
+              metaIdRef = repBy->getMetaIdRef();
+              break;
+            case SBML_COMP_PORT:
+              port = 
+                static_cast<const Port*>(grandParent);
+              ref = new ReferencedModel(m, *(port));
+              parentRefModel = ref->getReferencedModel();
+              idRef = port->getIdRef();
+              metaIdRef = port->getMetaIdRef();
+             break;
+            case SBML_COMP_DELETION:
+              del = 
+                static_cast<const Deletion*>(grandParent);
+              ref = new ReferencedModel(m, *(del));
+              parentRefModel = ref->getReferencedModel();
+              idRef = del->getIdRef();
+              metaIdRef = del->getMetaIdRef();
+             break;
+          }
+        break;
+      }
+      
+      if (parentRefModel != NULL)
+      {
+        doc = parentRefModel->getSBMLDocument();
+        docPlug = (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
+        CompModelPlugin *plug1 = 
+                        (CompModelPlugin*)(parentRefModel->getPlugin("comp"));
+        
+        if (docPlug != NULL && plug1 != NULL)
+        {
+          if (idRef.empty() == false)
+          {
+            pre (plug1->getSubmodel(idRef) != NULL);
+
+            modelId = (plug1->getSubmodel(idRef))->getModelRef();
+          }
+          else
+          {
+            for (unsigned int i = 0; i < plug1->getNumSubmodels(); i++)
+            {
+              if (plug1->getSubmodel(i)->getMetaId() == metaIdRef)
+              {
+                modelId = plug1->getSubmodel(i)->getModelRef();
+                break;
+              }
+            }
+          }
+
+          referencedModel = docPlug->getModelDefinition(modelId);
+          if (referencedModel == NULL)
+          {
+            /* may be an external model */
+            ExternalModelDefinition * emd = 
+                                docPlug->getExternalModelDefinition(modelId);
+            pre (emd != NULL);
+
+            string locationURI = doc->getLocationURI();
+            string uri = emd->getSource();
+
+            const SBMLResolverRegistry& registry = 
+                                  SBMLResolverRegistry::getInstance();
+            SBMLDocument *newDoc = registry.resolve(uri, locationURI);
+            pre(newDoc != NULL);
+            referencedModel = newDoc->getModel();
+          }
+
+          while (mReferences.empty() == false)
+          {
+            size_t numRefs = mReferences.size();
+            if (mReferences.at(numRefs - 1).second == "id")
+            {
+              idRef = mReferences.at(numRefs -1 ).first;
+              metaIdRef = "";
+            }
+            else
+            {
+              metaIdRef = mReferences.at(numRefs -1 ).first;
+              idRef = "";
+            }
+            CompModelPlugin *plug1 = 
+                        (CompModelPlugin*)(referencedModel->getPlugin("comp"));
+            
+            if (docPlug != NULL && plug1 != NULL)
+            {
+              if (idRef.empty() == false)
+              {
+                pre (plug1->getSubmodel(idRef) != NULL);
+
+                modelId = (plug1->getSubmodel(idRef))->getModelRef();
+              }
+              else
+              {
+                for (unsigned int i = 0; i < plug1->getNumSubmodels(); i++)
+                {
+                  if (plug1->getSubmodel(i)->getMetaId() == metaIdRef)
+                  {
+                    modelId = plug1->getSubmodel(i)->getModelRef();
+                    break;
+                  }
+                }
+              }
+
+              referencedModel = docPlug->getModelDefinition(modelId);
+              if (referencedModel == NULL)
+              {
+                /* may be an external model */
+                ExternalModelDefinition * emd = 
+                                    docPlug->getExternalModelDefinition(modelId);
+                pre (emd != NULL);
+
+                string locationURI = doc->getLocationURI();
+                string uri = emd->getSource();
+
+                const SBMLResolverRegistry& registry = 
+                                      SBMLResolverRegistry::getInstance();
+                SBMLDocument *newDoc = registry.resolve(uri, locationURI);
+                pre(newDoc != NULL);
+                referencedModel = newDoc->getModel();
+              }
+            }
+            mReferences.erase(mReferences.end()-1);
+          }
+        }
+      }
+    }
+  }
+
+
+  const Model * getReferencedModel()
+  {
+    return referencedModel;
+  }
+
+private:
+
+  const Model* referencedModel;
+  vector< pair< std::string, std::string > >  mReferences;
+};
+
+//*************************************
+
+//SBase  constraints
+
 // 20101 - caught at read
 // 20102 - caught at read
 // 20103 - caught at read
 // 20104 - caught at read
 // 20105 - caught at read
+
+//*************************************
+
+//SBML class  constraints
 
 // 20201 - caught at read
 // 20202 - caught at read
@@ -66,6 +610,10 @@ using namespace std;
 // 20210 - caught at read
 // 20211 - caught at read
 
+//*************************************
+
+//ExternalModelDefinition  constraints
+
 // 20301 - caught at read
 // 20302 - caught at read
 // 20303 - caught at read
@@ -75,19 +623,8 @@ START_CONSTRAINT (CompReferenceMustBeL3, ExternalModelDefinition, emd)
 {
   pre (emd.isSetSource() == true);
   pre (emd.isSetId() == true);
-  
-  const SBMLDocument* doc = emd.getSBMLDocument();
-  pre(doc != NULL);
-  string locationURI = doc->getLocationURI();
-  string uri = emd.getSource();
-  doc = NULL;
-
+ 
   bool fail = false;
-
-  const SBMLResolverRegistry& registry = SBMLResolverRegistry::getInstance();
-
-  SBMLUri* resolved = registry.resolveUri(uri, locationURI);
-  pre(resolved != NULL )
 
   msg = "<externalModelDefinition> '";
   msg += emd.getId();
@@ -95,8 +632,12 @@ START_CONSTRAINT (CompReferenceMustBeL3, ExternalModelDefinition, emd)
   msg += emd.getSource();
   msg += "' which is not an SBML Level 3 document.";
 
-  string resolvedURI = resolved->getUri();
-  delete resolved;
+  const SBMLResolverRegistry& registry = SBMLResolverRegistry::getInstance();
+  const SBMLDocument* doc = emd.getSBMLDocument();
+  pre(doc != NULL);
+  string locationURI = doc->getLocationURI();
+  string uri = emd.getSource();
+  doc = NULL;
 
   doc = registry.resolve(uri, locationURI);
   pre (doc != NULL);
@@ -119,20 +660,6 @@ START_CONSTRAINT (CompModReferenceMustIdOfModel, ExternalModelDefinition, emd)
   pre (emd.isSetId() == true);
   pre (emd.isSetModelRef() == true);
   
-  const SBMLDocument* doc = emd.getSBMLDocument();
-  pre(doc != NULL);
-  string locationURI = doc->getLocationURI();
-  string uri = emd.getSource();
-
-  const SBMLResolverRegistry& registry = SBMLResolverRegistry::getInstance();
-  SBMLUri* resolved = registry.resolveUri(uri, locationURI);
-  pre(resolved != NULL )
-  string resolvedURI = resolved->getUri();
-  delete resolved;
-  doc = registry.resolve(uri, locationURI);
-  pre(doc != NULL);
-  pre(doc->getLevel() == 3);
-
   bool fail = false;
 
   msg = "<externalModelDefinition> '";
@@ -141,7 +668,22 @@ START_CONSTRAINT (CompModReferenceMustIdOfModel, ExternalModelDefinition, emd)
   msg += emd.getModelRef();
   msg += "' that does not exist in the referenced document.";
 
-  const CompSBMLDocumentPlugin* csdp = static_cast<const CompSBMLDocumentPlugin*>(doc->getPlugin(emd.getPrefix()));
+  const SBMLResolverRegistry& registry = SBMLResolverRegistry::getInstance();
+  const SBMLDocument* doc = emd.getSBMLDocument();
+  pre(doc != NULL);
+  string locationURI = doc->getLocationURI();
+  string uri = emd.getSource();
+
+  //SBMLUri* resolved = registry.resolveUri(uri, locationURI);
+  //pre(resolved != NULL )
+  //string resolvedURI = resolved->getUri();
+  //delete resolved;
+  doc = registry.resolve(uri, locationURI);
+  pre(doc != NULL);
+  pre(doc->getLevel() == 3);
+
+  const CompSBMLDocumentPlugin* csdp = 
+    static_cast<const CompSBMLDocumentPlugin*>(doc->getPlugin("comp"));
   if (csdp == NULL) 
   {
     const Model* model = doc->getModel();
@@ -164,10 +706,51 @@ START_CONSTRAINT (CompModReferenceMustIdOfModel, ExternalModelDefinition, emd)
 END_CONSTRAINT
 
 //TODO: 20306 - caught at read md5
-//TODO: 20307 - caught at read anyURI
+// 20307 - caught at read anyURI
 // 20308 - caught at read
 // 20309 - string
-//TODO: 20310 
+// 20310 
+EXTERN_CONSTRAINT( CompCircularExternalModelReference, ExtModelReferenceCycles)
+
+//90101
+START_CONSTRAINT (CompUnresolvedReference, ExternalModelDefinition, emd)
+{
+  pre (emd.isSetSource() == true);
+  
+  const SBMLDocument* doc = emd.getSBMLDocument();
+  pre(doc != NULL);
+  string locationURI = doc->getLocationURI();
+  string uri = emd.getSource();
+
+  const SBMLResolverRegistry& registry = SBMLResolverRegistry::getInstance();
+  SBMLUri* resolved = registry.resolveUri(uri, locationURI);
+
+  bool fail = false;
+
+  msg = "<externalModelDefinition> '";
+  msg += emd.getId() ;
+  msg += "' refers to a source '";
+  msg += emd.getSource();
+  msg += "' that cannot be accessed from here. Further checks relating to.";
+  msg += "' this document cannot be performed.";
+
+  if (resolved == NULL) 
+  {
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+
+//*************************************
+
+// 204xx - not used 
+
+//*************************************
+
+//Model  constraints
 
 //20501 - caught at read
 //20502 - caught at read
@@ -177,7 +760,10 @@ END_CONSTRAINT
 //20506 - caught at read
 
 
+//*************************************
+
 //Submodel constraints
+
 //20601 - caught at read
 //20602 - caught at read
 //20603 - caught at read
@@ -202,9 +788,11 @@ START_CONSTRAINT (CompSubmodelMustReferenceModel, Submodel, s)
   msg = "<submodel> '";
   msg += s.getId() ;
   msg += "' in ";
-  const Model* mod = static_cast<const Model*>(s.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                     (s.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(s.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                      (s.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -230,6 +818,8 @@ START_CONSTRAINT (CompSubmodelMustReferenceModel, Submodel, s)
     // do we refernce an external modelDefinition
     CompSBMLDocumentPlugin *docPlug = (CompSBMLDocumentPlugin*)
       (m.getSBMLDocument()->getPlugin("comp"));
+    pre (docPlug != NULL);
+
     ModelDefinition * md = docPlug->getModelDefinition(s.getModelRef());
     if (md == NULL)
     {
@@ -261,9 +851,12 @@ START_CONSTRAINT (CompSubmodelCannotReferenceSelf, Submodel, s)
   msg = "<submodel> '";
   msg += s.getId() ;
   msg += "' in ";
-  const Model* mod = static_cast<const Model*>(s.getAncestorOfType(SBML_MODEL, "core"));
-  if (mod == NULL) {
-    mod = static_cast<const Model*>(s.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+  const Model* mod = static_cast<const Model*>
+                                (s.getAncestorOfType(SBML_MODEL, "core"));
+  if (mod == NULL) 
+  {
+    mod = static_cast<const Model*>
+                      (s.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -287,7 +880,9 @@ START_CONSTRAINT (CompSubmodelCannotReferenceSelf, Submodel, s)
 }
 END_CONSTRAINT
 
-//TODO: 20617 circular dependencies
+// 20617 
+EXTERN_CONSTRAINT( CompModCannotCircularlyReferenceSelf, 
+                                                SubmodelReferenceCycles)
 
 // 20618 - 20621 non existant
 
@@ -301,9 +896,11 @@ START_CONSTRAINT (CompTimeConversionMustBeParameter, Submodel, s)
   msg = "The 'timeConversionFactor' of <submodel> '";
   msg += s.getId() ;
   msg += "' in ";
-  const Model* mod = static_cast<const Model*>(s.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                (s.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(s.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                     (s.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -337,9 +934,11 @@ START_CONSTRAINT (CompExtentConversionMustBeParameter, Submodel, s)
   msg = "The 'extentConversionFactor' of <submodel> '";
   msg += s.getId() ;
   msg += "' in ";
-  const Model* mod = static_cast<const Model*>(s.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                (s.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(s.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                      (s.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -367,6 +966,8 @@ END_CONSTRAINT
 
 //SBaseRef constraints
 // -  need to implement for each object that derives from SBaseRef
+// Port; Deletion; ReplacedElement; ReplacedBy
+
 //20701
 // Port doesnt have portRef
 
@@ -378,8 +979,8 @@ START_CONSTRAINT (CompPortRefMustReferencePort, Deletion, d)
   bool fail = false;
 
   const Submodel * sub = static_cast<const Submodel*>
-    (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
-
+                        (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+  pre (sub != NULL);
 
   msg = "The 'portRef' of a <deletion>";
   msg += " is set to '";
@@ -389,23 +990,31 @@ START_CONSTRAINT (CompPortRefMustReferencePort, Deletion, d)
   msg += sub->getId();
   msg += "'.";
 
-  std::string modelId = sub->getModelRef();
+  ReferencedModel *ref = new ReferencedModel(m, d);
+  const Model* referencedModel = ref->getReferencedModel();
 
-  const SBMLDocument * doc = d.getSBMLDocument();
-  CompSBMLDocumentPlugin * docPlug = 
-    (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
-  Model * referencedModel = docPlug->getModelDefinition(modelId);
-  if (referencedModel == NULL)
+  pre (referencedModel != NULL);
+
+  CompModelPlugin *plug1 = 
+                  (CompModelPlugin*)(referencedModel->getPlugin("comp"));
+  pre (plug1 != NULL);
+
+  if (plug1->getPort(d.getPortRef()) == NULL)
   {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
     fail = true;
-  }
-  else
-  {
-    CompModelPlugin *plug1 = (CompModelPlugin*)(referencedModel->getPlugin("comp"));
-    if (plug1->getPort(d.getPortRef()) == NULL)
-    {
-      fail = true;
-    }
   }
 
   inv(fail == false);
@@ -429,24 +1038,31 @@ START_CONSTRAINT (CompPortRefMustReferencePort, ReplacedElement, repE)
   msg += "'.";
 
   /* need to be using the correct model */
-  CompModelPlugin *plug = (CompModelPlugin*)(m.getPlugin("comp"));
-  std::string modelId = (plug->getSubmodel(repE.getSubmodelRef()))->getModelRef();
+  ReferencedModel *ref = new ReferencedModel(m, repE);
+  const Model* referencedModel = ref->getReferencedModel();
 
-  const SBMLDocument * doc = repE.getSBMLDocument();
-  CompSBMLDocumentPlugin * docPlug = 
-    (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
-  Model * referencedModel = docPlug->getModelDefinition(modelId);
-  if (referencedModel == NULL)
+  pre (referencedModel != NULL);
+
+  CompModelPlugin *plug1 = 
+                   (CompModelPlugin*)(referencedModel->getPlugin("comp"));
+  pre (plug1 != NULL);
+
+  if (plug1->getPort(repE.getPortRef()) == NULL)
   {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
     fail = true;
-  }
-  else
-  {
-    CompModelPlugin *plug1 = (CompModelPlugin*)(referencedModel->getPlugin("comp"));
-    if (plug1->getPort(repE.getPortRef()) == NULL)
-    {
-      fail = true;
-    }
   }
 
   inv(fail == false);
@@ -470,32 +1086,449 @@ START_CONSTRAINT (CompPortRefMustReferencePort, ReplacedBy, repBy)
   msg += "'.";
 
   /* need to be using the correct model */
-  CompModelPlugin *plug = (CompModelPlugin*)(m.getPlugin("comp"));
-  std::string modelId = (plug->getSubmodel(repBy.getSubmodelRef()))->getModelRef();
+  ReferencedModel *ref = new ReferencedModel(m, repBy);
+  const Model* referencedModel = ref->getReferencedModel();
 
-  const SBMLDocument * doc = repBy.getSBMLDocument();
-  CompSBMLDocumentPlugin * docPlug = 
-    (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
-  Model * referencedModel = docPlug->getModelDefinition(modelId);
-  if (referencedModel == NULL)
+  pre (referencedModel != NULL);
+
+  CompModelPlugin *plug1 = 
+                  (CompModelPlugin*)(referencedModel->getPlugin("comp"));
+  pre (plug1 != NULL);
+
+  if (plug1->getPort(repBy.getPortRef()) == NULL)
   {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
     fail = true;
-  }
-  else
-  {
-    CompModelPlugin *plug1 = (CompModelPlugin*)(referencedModel->getPlugin("comp"));
-    if (plug1->getPort(repBy.getPortRef()) == NULL)
-    {
-      fail = true;
-    }
   }
 
   inv(fail == false);
 }
 END_CONSTRAINT
 
-//20702 - to do
+// 20701 - sBaseRef
+START_CONSTRAINT (CompPortRefMustReferencePort, SBaseRef, sbRef)
+{
+  pre(sbRef.isSetPortRef());
 
+  bool fail = false;
+
+  pre (sbRef.getParentSBMLObject() != NULL);
+
+  int tc = sbRef.getParentSBMLObject()->getTypeCode();
+
+  msg = "The 'portRef' of a <sBaseRef>";
+  msg += " is set to '";
+  msg += sbRef.getPortRef();
+  msg += "' which is not a <port> within the <model> referenced by ";
+
+  if (tc == SBML_COMP_REPLACEDELEMENT)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedElement*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_REPLACEDBY)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedBy*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_PORT)
+  {
+    msg += "port '";
+    msg += sbRef.getParentSBMLObject()->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_DELETION)
+  {
+    const Submodel * sub = static_cast<const Submodel*>
+                           (sbRef.getParentSBMLObject()
+                           ->getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+    pre (sub != NULL);
+    
+    msg += "the submodel '";
+    msg += sub->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_SBASEREF)
+  {
+    msg += "the parent sBaseRef.";
+  }
+
+  /* need to be using the correct model */
+  ReferencedModel *ref = new ReferencedModel(m, sbRef);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  CompModelPlugin *plug1 = 
+                  (CompModelPlugin*)(referencedModel->getPlugin("comp"));
+  pre (plug1 != NULL);
+
+  if (plug1->getPort(sbRef.getPortRef()) == NULL)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20702
+//20702 - port
+START_CONSTRAINT (CompIdRefMustReferenceObject, Port, p)
+{
+  pre(p.isSetIdRef());
+  
+  bool fail = false;
+
+  msg = "The 'idRef' of a <port>";
+  msg += " is set to '";
+  msg += p.getIdRef();
+  msg += "' which is not an element within the <model>.";
+
+  IdList mIds;
+
+  // create the filter we want to use
+  IdFilter filter;
+
+  ReferencedModel *ref = new ReferencedModel(m, p);
+  const Model* mod = ref->getReferencedModel();
+  
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getId());
+  }
+
+
+  if (mIds.contains(p.getIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20702 - deletion
+START_CONSTRAINT (CompIdRefMustReferenceObject, Deletion, d)
+{
+  pre(d.isSetIdRef());
+  
+  bool fail = false;
+
+  const Submodel * sub = static_cast<const Submodel*>
+                        (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+  pre (sub != NULL);
+
+  msg = "The 'idRef' of a <deletion>";
+  msg += " is set to '";
+  msg += d.getIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += sub->getId();
+  msg += "'.";
+
+  ReferencedModel *ref = new ReferencedModel(m, d);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  IdList mIds;
+
+  // create the filter we want to use
+  IdFilter filter;
+
+  //  get a list of all elements with an id
+  List* allElements = const_cast<Model*>
+                                (referencedModel)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getId());
+  }
+
+
+  if (mIds.contains(d.getIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20702 - replacedElement
+START_CONSTRAINT (CompIdRefMustReferenceObject, ReplacedElement, repE)
+{
+  pre(repE.isSetIdRef());
+  pre(repE.isSetSubmodelRef());
+
+  bool fail = false;
+
+  msg = "The 'idRef' of a <replacedElement>";
+  msg += " is set to '";
+  msg += repE.getIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += repE.getSubmodelRef();
+  msg += "'.";
+
+  /* need to be using the correct model */
+  ReferencedModel *ref = new ReferencedModel(m, repE);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  IdList mIds;
+
+  // create the filter we want to use
+  IdFilter filter;
+
+  //  get a list of all elements with an id
+  List* allElements = const_cast<Model*>
+                               (referencedModel)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getId());
+  }
+
+
+  if (mIds.contains(repE.getIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20702 - replacedBy
+START_CONSTRAINT (CompIdRefMustReferenceObject, ReplacedBy, repBy)
+{
+  pre(repBy.isSetIdRef());
+  pre(repBy.isSetSubmodelRef());
+
+  bool fail = false;
+
+  msg = "The 'idRef' of a <replacedBy>";
+  msg += " is set to '";
+  msg += repBy.getIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += repBy.getSubmodelRef();
+  msg += "'.";
+
+  /* need to be using the correct model */
+  ReferencedModel *ref = new ReferencedModel(m, repBy);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  IdList mIds;
+
+  // create the filter we want to use
+  IdFilter filter;
+
+  //  get a list of all elements with an id
+  List* allElements = const_cast<Model*>
+                               (referencedModel)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getId());
+  }
+
+
+  if (mIds.contains(repBy.getIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20702 - sBaseRef
+START_CONSTRAINT (CompIdRefMustReferenceObject, SBaseRef, sbRef)
+{
+  pre(sbRef.isSetIdRef());
+
+  bool fail = false;
+
+  pre (sbRef.getParentSBMLObject() != NULL);
+
+  int tc = sbRef.getParentSBMLObject()->getTypeCode();
+
+  msg = "The 'idRef' of a <sBaseRef>";
+  msg += " is set to '";
+  msg += sbRef.getIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+
+  if (tc == SBML_COMP_REPLACEDELEMENT)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedElement*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_REPLACEDBY)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedBy*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_PORT)
+  {
+    msg += "port '";
+    msg += sbRef.getParentSBMLObject()->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_DELETION)
+  {
+    const Submodel * sub = static_cast<const Submodel*>
+                           (sbRef.getParentSBMLObject()
+                           ->getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+    pre (sub != NULL);
+    
+    msg += "the submodel '";
+    msg += sub->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_SBASEREF)
+  {
+    msg += "the parent sBaseRef.";
+  }
+  
+  /* need to be using the correct model */
+  ReferencedModel *ref = new ReferencedModel(m, sbRef);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  IdList mIds;
+
+  // create the filter we want to use
+  IdFilter filter;
+
+  //  get a list of all elements with an id
+  List* allElements = const_cast<Model*>
+                                (referencedModel)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getId());
+  }
+
+
+  if (mIds.contains(sbRef.getIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20703
 //20703 - port
 START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, Port, p)
 {
@@ -510,6 +1543,19 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, Port, p)
 
   if (m.getUnitDefinition(p.getUnitRef()) == NULL)
   {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
     fail = true;
   }
 
@@ -525,8 +1571,8 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, Deletion, d)
   bool fail = false;
 
   const Submodel * sub = static_cast<const Submodel*>
-    (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
-
+                         (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+  pre (sub != NULL);
 
   msg = "The 'unitRef' of a <deletion>";
   msg += " is set to '";
@@ -536,22 +1582,27 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, Deletion, d)
   msg += sub->getId();
   msg += "'.";
 
-  std::string modelId = sub->getModelRef();
+  ReferencedModel *ref = new ReferencedModel(m, d);
+  const Model* referencedModel = ref->getReferencedModel();
 
-  const SBMLDocument * doc = d.getSBMLDocument();
-  CompSBMLDocumentPlugin * docPlug = 
-    (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
-  Model * referencedModel = docPlug->getModelDefinition(modelId);
-  if (referencedModel == NULL)
+  pre (referencedModel != NULL);
+
+  if (referencedModel->getUnitDefinition(d.getUnitRef()) == NULL)
   {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
     fail = true;
-  }
-  else
-  {
-    if (referencedModel->getUnitDefinition(d.getUnitRef()) == NULL)
-    {
-      fail = true;
-    }
   }
 
   inv(fail == false);
@@ -575,23 +1626,27 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, ReplacedElement, repE)
   msg += "'.";
 
   /* need to be using the correct model */
-  CompModelPlugin *plug = (CompModelPlugin*)(m.getPlugin("comp"));
-  std::string modelId = (plug->getSubmodel(repE.getSubmodelRef()))->getModelRef();
+  ReferencedModel *ref = new ReferencedModel(m, repE);
+  const Model* referencedModel = ref->getReferencedModel();
 
-  const SBMLDocument * doc = repE.getSBMLDocument();
-  CompSBMLDocumentPlugin * docPlug = 
-    (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
-  Model * referencedModel = docPlug->getModelDefinition(modelId);
-  if (referencedModel == NULL)
+  pre (referencedModel != NULL);
+
+  if (referencedModel->getUnitDefinition(repE.getUnitRef()) == NULL)
   {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
     fail = true;
-  }
-  else
-  {
-    if (referencedModel->getUnitDefinition(repE.getUnitRef()) == NULL)
-    {
-      fail = true;
-    }
   }
 
   inv(fail == false);
@@ -615,23 +1670,436 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, ReplacedBy, repBy)
   msg += "'.";
 
   /* need to be using the correct model */
-  CompModelPlugin *plug = (CompModelPlugin*)(m.getPlugin("comp"));
-  std::string modelId = (plug->getSubmodel(repBy.getSubmodelRef()))->getModelRef();
+  ReferencedModel *ref = new ReferencedModel(m, repBy);
+  const Model* referencedModel = ref->getReferencedModel();
 
-  const SBMLDocument * doc = repBy.getSBMLDocument();
-  CompSBMLDocumentPlugin * docPlug = 
-    (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
-  Model * referencedModel = docPlug->getModelDefinition(modelId);
-  if (referencedModel == NULL)
+  pre (referencedModel != NULL);
+
+  if (referencedModel->getUnitDefinition(repBy.getUnitRef()) == NULL)
   {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
     fail = true;
   }
-  else
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20703 - sBaseRef
+START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, SBaseRef, sbRef)
+{
+  pre(sbRef.isSetUnitRef());
+
+  bool fail = false;
+
+  pre (sbRef.getParentSBMLObject() != NULL);
+
+  int tc = sbRef.getParentSBMLObject()->getTypeCode();
+
+  msg = "The 'unitRef' of a <sBaseRef>";
+  msg += " is set to '";
+  msg += sbRef.getUnitRef();
+  msg += "' which is not a <unitDefinition> within the <model> referenced by ";
+
+  if (tc == SBML_COMP_REPLACEDELEMENT)
   {
-    if (referencedModel->getUnitDefinition(repBy.getUnitRef()) == NULL)
-    {
-      fail = true;
-    }
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedElement*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_REPLACEDBY)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedBy*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_PORT)
+  {
+    msg += "port '";
+    msg += sbRef.getParentSBMLObject()->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_DELETION)
+  {
+    const Submodel * sub = static_cast<const Submodel*>
+                           (sbRef.getParentSBMLObject()
+                           ->getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+    pre (sub != NULL);
+    
+    msg += "the submodel '";
+    msg += sub->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_SBASEREF)
+  {
+    msg += "the parent sBaseRef.";
+  }
+
+  /* need to be using the correct model */
+  ReferencedModel *ref = new ReferencedModel(m, sbRef);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  if (referencedModel->getUnitDefinition(sbRef.getUnitRef()) == NULL)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20704
+//20704 - port
+START_CONSTRAINT (CompMetaIdRefMustReferenceObject, Port, p)
+{
+  pre(p.isSetMetaIdRef());
+  
+  bool fail = false;
+
+  msg = "The 'metaIdRef' of a <port>";
+  msg += " is set to '";
+  msg += p.getMetaIdRef();
+  msg += "' which is not an element within the <model>.";
+
+  IdList mIds;
+
+  // create the filter we want to use
+  MetaIdFilter filter;
+
+  //  get a list of all elements with an id
+  ReferencedModel *ref = new ReferencedModel(m, p);
+  const Model* mod = ref->getReferencedModel();
+
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getMetaId());
+  }
+
+
+  if (mIds.contains(p.getMetaIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20704 - deletion
+START_CONSTRAINT (CompMetaIdRefMustReferenceObject, Deletion, d)
+{
+  pre(d.isSetMetaIdRef());
+  
+  bool fail = false;
+
+  const Submodel * sub = static_cast<const Submodel*>
+                        (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+  pre (sub != NULL);
+
+  msg = "The 'metaIdRef' of a <deletion>";
+  msg += " is set to '";
+  msg += d.getMetaIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += sub->getId();
+  msg += "'.";
+
+  ReferencedModel *ref = new ReferencedModel(m, d);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  IdList mIds;
+
+  // create the filter we want to use
+  MetaIdFilter filter;
+
+  //  get a list of all elements with an id
+  List* allElements = const_cast<Model*>
+                                (referencedModel)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getMetaId());
+  }
+
+
+  if (mIds.contains(d.getMetaIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20704 - replacedElement
+START_CONSTRAINT (CompMetaIdRefMustReferenceObject, ReplacedElement, repE)
+{
+  pre(repE.isSetMetaIdRef());
+  pre(repE.isSetSubmodelRef());
+
+  bool fail = false;
+
+  msg = "The 'metaidRef' of a <replacedElement>";
+  msg += " is set to '";
+  msg += repE.getMetaIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += repE.getSubmodelRef();
+  msg += "'.";
+
+  /* need to be using the correct model */
+  ReferencedModel *ref = new ReferencedModel(m, repE);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  IdList mIds;
+
+  // create the filter we want to use
+  MetaIdFilter filter;
+
+  //  get a list of all elements with an id
+  List* allElements = const_cast<Model*>
+                               (referencedModel)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getMetaId());
+  }
+
+
+  if (mIds.contains(repE.getMetaIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20704 - replacedBy
+START_CONSTRAINT (CompMetaIdRefMustReferenceObject, ReplacedBy, repBy)
+{
+  pre(repBy.isSetMetaIdRef());
+  pre(repBy.isSetSubmodelRef());
+
+  bool fail = false;
+
+  msg = "The 'metaIdRef' of a <replacedBy>";
+  msg += " is set to '";
+  msg += repBy.getMetaIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += repBy.getSubmodelRef();
+  msg += "'.";
+
+  /* need to be using the correct model */
+  ReferencedModel *ref = new ReferencedModel(m, repBy);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  IdList mIds;
+
+  // create the filter we want to use
+  MetaIdFilter filter;
+
+  //  get a list of all elements with an id
+  List* allElements = const_cast<Model*>
+                                (referencedModel)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getMetaId());
+  }
+
+
+  if (mIds.contains(repBy.getMetaIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20705 - sBaseRef
+START_CONSTRAINT (CompMetaIdRefMustReferenceObject, SBaseRef, sbRef)
+{
+  pre(sbRef.isSetMetaIdRef());
+
+  bool fail = false;
+
+  pre (sbRef.getParentSBMLObject() != NULL);
+
+  int tc = sbRef.getParentSBMLObject()->getTypeCode();
+
+  msg = "The 'metaIdRef' of a <sBaseRef>";
+  msg += " is set to '";
+  msg += sbRef.getMetaIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+
+  if (tc == SBML_COMP_REPLACEDELEMENT)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedElement*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_REPLACEDBY)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedBy*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_PORT)
+  {
+    msg += "port '";
+    msg += sbRef.getParentSBMLObject()->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_DELETION)
+  {
+    const Submodel * sub = static_cast<const Submodel*>
+                           (sbRef.getParentSBMLObject()
+                           ->getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+    pre (sub != NULL);
+    
+    msg += "the submodel '";
+    msg += sub->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_SBASEREF)
+  {
+    msg += "the parent sBaseRef.";
+  }
+
+  /* need to be using the correct model */
+  ReferencedModel *ref = new ReferencedModel(m, sbRef);
+  const Model* referencedModel = ref->getReferencedModel();
+
+  pre (referencedModel != NULL);
+
+  IdList mIds;
+
+  // create the filter we want to use
+  MetaIdFilter filter;
+
+  //  get a list of all elements with an id
+  List* allElements = const_cast<Model*>
+                                (referencedModel)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getMetaId());
+  }
+
+
+  if (mIds.contains(sbRef.getMetaIdRef()) == false)
+  {
+    /* take out for now since I was right teh first time
+     * the reference should be there without need to instantiate
+     */
+    //// it is possible that the referenced model needs to actually instantiate
+    //// its submodels to find the reference
+    //// we are not going to do that here so if there are submodels
+    //// give it the benefit of the doubt and do not report the id as missing
+    //const CompModelPlugin * plug = static_cast<const CompModelPlugin*>
+    //                                   (referencedModel->getPlugin("comp"));
+    //if (plug == NULL || plug->getNumSubmodels() == 0)
+    //{
+    //  fail = true;
+    //}
+    fail = true;
   }
 
   inv(fail == false);
@@ -639,13 +2107,446 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, ReplacedBy, repBy)
 END_CONSTRAINT
 
 
-//
-//20704
-//20705
-//20706
-//20707
-//20708
-//20709
+// 20705
+// 20705 - port
+START_CONSTRAINT (CompParentOfSBRefChildMustBeSubmodel, Port, port)
+{
+  pre (port.isSetSBaseRef());
+
+  bool fail = false;
+
+  if (port.isSetIdRef() == true || port.isSetMetaIdRef() == true)
+  {
+    if (port.isSetIdRef() == true)
+    {
+      msg = "The 'idRef' of a <replacedElement>";
+      msg += " is set to '";
+      msg += port.getIdRef();
+    }
+    else
+    {
+      msg = "The 'metaIdRef' of a <replacedElement>";
+      msg += " is set to '";
+      msg += port.getMetaIdRef();
+    }
+    msg += "' which is not a submodel within the <model>.";
+
+    /* need to be using the correct model */
+    ReferencedModel *ref = new ReferencedModel(m, port);
+    const Model* mod = ref->getReferencedModel();
+
+    pre (mod != NULL);
+
+    CompModelPlugin *plug = (CompModelPlugin*)(mod->getPlugin("comp"));
+    
+    pre (plug != NULL);
+
+    if (port.isSetIdRef() == true)
+    {
+      if (plug->getSubmodel(port.getIdRef()) == NULL)
+      {
+        fail = true;
+      }
+    }
+    else
+    {
+      // must be a metaidref
+      std::string ref = port.getMetaIdRef();
+      bool found = false;
+      unsigned int i = 0;
+      while (found == false &&  i < plug->getNumSubmodels())
+      {
+        if (ref == plug->getSubmodel(i)->getMetaId())
+        {
+          found = true;
+        }
+
+        i++;
+      }
+      if (found == false)
+      {
+        fail = true;
+      }
+    }
+  }
+  else
+  {
+    fail = true;
+
+    if (port.isSetUnitRef() == true)
+    {
+      msg = "The 'unitRef' of a <replacedElement>";
+      msg += " is set to '";
+      msg += port.getUnitRef();
+    }
+    msg += "' which is not a submodel within the <model>.";
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20705 - deletion
+START_CONSTRAINT (CompParentOfSBRefChildMustBeSubmodel, Deletion, del)
+{
+  pre (del.isSetSBaseRef());
+
+  bool fail = false;
+
+  const Submodel * sub = static_cast<const Submodel*>
+                         (del.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+  pre (sub != NULL);
+
+  if (del.isSetIdRef() == true || del.isSetMetaIdRef() == true)
+  {
+    if (del.isSetIdRef() == true)
+    {
+      msg = "The 'idRef' of a <deletion>";
+      msg += " is set to '";
+      msg += del.getIdRef();
+    }
+    else
+    {
+      msg = "The 'metaIdRef' of a <deletion>";
+      msg += " is set to '";
+      msg += del.getMetaIdRef();
+    }
+    msg += "' which is not a submodel within the <model> referenced by ";
+    msg += "submodel '";
+    msg += sub->getId();
+    msg += "'.";
+
+    /* need to be using the correct model */
+    ReferencedModel *ref = new ReferencedModel(m, del);
+    const Model* referencedModel = ref->getReferencedModel();
+
+    pre (referencedModel != NULL);
+
+    CompModelPlugin *plug1 = 
+                    (CompModelPlugin*)(referencedModel->getPlugin("comp"));
+    pre (plug1 != NULL);
+
+    if (del.isSetIdRef() == true)
+    {
+      if (plug1->getSubmodel(del.getIdRef()) == NULL)
+      {
+        fail = true;
+      }
+    }
+    else
+    {
+      // must be a metaidref
+      std::string ref = del.getMetaIdRef();
+      bool found = false;
+      unsigned int i = 0;
+      while (found == false &&  i < plug1->getNumSubmodels())
+      {
+        if (ref == plug1->getSubmodel(i)->getMetaId())
+        {
+          found = true;
+        }
+
+        i++;
+      }
+      if (found == false)
+      {
+        fail = true;
+      }
+    }
+  }
+  else
+  {
+    fail = true;
+
+    if (del.isSetPortRef() == true)
+    {
+      msg = "The 'portRef' of a <deletion>";
+      msg += " is set to '";
+      msg += del.getPortRef();
+    }
+    else
+    {
+      msg = "The 'unitRef' of a <deletion>";
+      msg += " is set to '";
+      msg += del.getUnitRef();
+    }
+    msg += "' which is not a submodel within the <model> referenced by ";
+    msg += "submodel '";
+    msg += sub->getId();
+    msg += "'.";  
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20705 - replacedElement
+START_CONSTRAINT (CompParentOfSBRefChildMustBeSubmodel, ReplacedElement, repE)
+{
+  pre (repE.isSetSBaseRef());
+
+  bool fail = false;
+
+  if (repE.isSetIdRef() == true || repE.isSetMetaIdRef() == true)
+  {
+    if (repE.isSetIdRef() == true)
+    {
+      msg = "The 'idRef' of a <replacedElement>";
+      msg += " is set to '";
+      msg += repE.getIdRef();
+    }
+    else
+    {
+      msg = "The 'metaIdRef' of a <replacedElement>";
+      msg += " is set to '";
+      msg += repE.getMetaIdRef();
+    }
+    msg += "' which is not a submodel within the <model> referenced by ";
+    msg += "submodel '";
+    msg += repE.getSubmodelRef();
+    msg += "'.";
+
+    /* need to be using the correct model */
+    ReferencedModel *ref = new ReferencedModel(m, repE);
+    const Model* referencedModel = ref->getReferencedModel();
+
+    pre (referencedModel != NULL);
+
+    CompModelPlugin *plug1 = 
+                    (CompModelPlugin*)(referencedModel->getPlugin("comp"));
+    pre (plug1 != NULL);
+
+    if (repE.isSetIdRef() == true)
+    {
+      if (plug1->getSubmodel(repE.getIdRef()) == NULL)
+      {
+        fail = true;
+      }
+    }
+    else
+    {
+      // must be a metaidref
+      std::string ref = repE.getMetaIdRef();
+      bool found = false;
+      unsigned int i = 0;
+      while (found == false &&  i < plug1->getNumSubmodels())
+      {
+        if (ref == plug1->getSubmodel(i)->getMetaId())
+        {
+          found = true;
+        }
+
+        i++;
+      }
+      if (found == false)
+      {
+        fail = true;
+      }
+    }
+  }
+  else
+  {
+    fail = true;
+
+    if (repE.isSetPortRef() == true)
+    {
+      msg = "The 'portRef' of a <replacedElement>";
+      msg += " is set to '";
+      msg += repE.getPortRef();
+    }
+    else
+    {
+      msg = "The 'unitRef' of a <replacedElement>";
+      msg += " is set to '";
+      msg += repE.getUnitRef();
+    }
+    msg += "' which is not a submodel within the <model> referenced by ";
+    msg += "submodel '";
+    msg += repE.getSubmodelRef();
+    msg += "'.";  
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20705 - replacedBy
+START_CONSTRAINT (CompParentOfSBRefChildMustBeSubmodel, ReplacedBy, repE)
+{
+  pre (repE.isSetSBaseRef());
+
+  bool fail = false;
+
+  if (repE.isSetIdRef() == true || repE.isSetMetaIdRef() == true)
+  {
+    if (repE.isSetIdRef() == true)
+    {
+      msg = "The 'idRef' of a <replacedBy>";
+      msg += " is set to '";
+      msg += repE.getIdRef();
+    }
+    else
+    {
+      msg = "The 'metaIdRef' of a <replacedBy>";
+      msg += " is set to '";
+      msg += repE.getMetaIdRef();
+    }
+    msg += "' which is not a submodel within the <model> referenced by ";
+    msg += "submodel '";
+    msg += repE.getSubmodelRef();
+    msg += "'.";
+
+    /* need to be using the correct model */
+    ReferencedModel *ref = new ReferencedModel(m, repE);
+    const Model* referencedModel = ref->getReferencedModel();
+
+    pre (referencedModel != NULL);
+
+    CompModelPlugin *plug1 = 
+                    (CompModelPlugin*)(referencedModel->getPlugin("comp"));
+    pre (plug1 != NULL);
+
+    if (repE.isSetIdRef() == true)
+    {
+      if (plug1->getSubmodel(repE.getIdRef()) == NULL)
+      {
+        fail = true;
+      }
+    }
+    else
+    {
+      // must be a metaidref
+      std::string ref = repE.getMetaIdRef();
+      bool found = false;
+      unsigned int i = 0;
+      while (found == false &&  i < plug1->getNumSubmodels())
+      {
+        if (ref == plug1->getSubmodel(i)->getMetaId())
+        {
+          found = true;
+        }
+
+        i++;
+      }
+      if (found == false)
+      {
+        fail = true;
+      }
+    }
+  }
+  else
+  {
+    fail = true;
+
+    if (repE.isSetPortRef() == true)
+    {
+      msg = "The 'portRef' of a <replacedBy>";
+      msg += " is set to '";
+      msg += repE.getPortRef();
+    }
+    else
+    {
+      msg = "The 'unitRef' of a <replacedBy>";
+      msg += " is set to '";
+      msg += repE.getUnitRef();
+    }
+    msg += "' which is not a submodel within the <model> referenced by ";
+    msg += "submodel '";
+    msg += repE.getSubmodelRef();
+    msg += "'.";  
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 20705 - sBaseRef
+START_CONSTRAINT (CompParentOfSBRefChildMustBeSubmodel, SBaseRef, sbRef)
+{
+  pre (sbRef.isSetSBaseRef());
+
+  bool fail = false;
+
+  if (sbRef.isSetIdRef() == true || sbRef.isSetMetaIdRef() == true)
+  {
+    if (sbRef.isSetIdRef() == true)
+    {
+      msg = "The 'idRef' of a <sBaseRef>";
+      msg += " is set to '";
+      msg += sbRef.getIdRef();
+    }
+    else
+    {
+      msg = "The 'metaIdRef' of a <sbaseRef>";
+      msg += " is set to '";
+      msg += sbRef.getMetaIdRef();
+    }
+    msg += "' which is not a submodel within the referenced <model>.";
+
+    /* need to be using the correct model */
+    /* need to be using the correct model */
+    ReferencedModel *ref = new ReferencedModel(m, sbRef);
+    const Model* referencedModel = ref->getReferencedModel();
+
+    pre (referencedModel != NULL);
+
+    CompModelPlugin *plug = (CompModelPlugin*)
+                            (referencedModel->getPlugin("comp"));
+    
+    pre (plug != NULL);
+
+    if (sbRef.isSetIdRef() == true)
+    {
+      if (plug->getSubmodel(sbRef.getIdRef()) == NULL)
+      {
+        fail = true;
+      }
+    }
+    else
+    {
+      // must be a metaidref
+      std::string ref = sbRef.getMetaIdRef();
+      bool found = false;
+      unsigned int i = 0;
+      while (found == false &&  i < plug->getNumSubmodels())
+      {
+        if (ref == plug->getSubmodel(i)->getMetaId())
+        {
+          found = true;
+        }
+
+        i++;
+      }
+      if (found == false)
+      {
+        fail = true;
+      }
+    }
+  }
+  else
+  {
+    fail = true;
+
+    if (sbRef.isSetUnitRef() == true)
+    {
+      msg = "The 'unitRef' of a <sBaseRef>";
+      msg += " is set to '";
+      msg += sbRef.getUnitRef();
+    }
+    msg += "' which is not a submodel within the <model>.";
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+
+//20706 - caught at read
+//20707 - caught at read
+//20708 - caught at read
+//20709 - caught at read
+//20710 - caught at read
+//20711 - caught at read
 
 //*************************************
 
@@ -663,9 +2564,11 @@ START_CONSTRAINT (CompPortMustReferenceObject, Port, p)
   msg = "<port> '";
   msg += p.getId() ;
   msg += "' in ";
-  const Model* mod = static_cast<const Model*>(p.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                    (p.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(p.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                     (p.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -713,9 +2616,11 @@ START_CONSTRAINT (CompPortMustReferenceOnlyOneObject, Port, p)
   msg = "<port> '";
   msg += p.getId() ;
   msg += "' in ";
-  const Model* mod = static_cast<const Model*>(p.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                    (p.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(p.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                     (p.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -777,7 +2682,8 @@ END_CONSTRAINT
 
 //20803 - caught at read
 
-//20804 - to do
+//20804
+EXTERN_CONSTRAINT( CompPortReferencesUnique, UniquePortReferences)
 
 //*************************************
 
@@ -796,9 +2702,11 @@ START_CONSTRAINT (CompDeletionMustReferenceObject, Deletion, d)
   msg = "<Deletion> '";
   msg += d.getId() ;
   msg += "' in ";
-  const Model* mod = static_cast<const Model*>(d.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                    (d.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(d.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                     (d.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -851,9 +2759,11 @@ START_CONSTRAINT (CompDeletionMustReferOnlyOneObject, Deletion, d)
   msg = "<Deletion> '";
   msg += d.getId() ;
   msg += "' in ";
-  const Model* mod = static_cast<const Model*>(d.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                    (d.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(d.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                     (d.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -984,9 +2894,11 @@ START_CONSTRAINT (CompReplacedElementMustRefObject, ReplacedElement, repE)
   bool deletion = repE.isSetDeletion();
 
   msg = "A <replacedElement> in ";
-  const Model* mod = static_cast<const Model*>(repE.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                  (repE.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(repE.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                   (repE.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -1044,9 +2956,11 @@ START_CONSTRAINT (CompReplacedElementMustRefOnlyOne, ReplacedElement, repE)
   msg = "<replacedElement> '";
   msg += repE.getId() ;
   msg += "' in ";
-  const Model* mod = static_cast<const Model*>(repE.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                (repE.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(repE.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                  (repE.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -1242,7 +3156,8 @@ START_CONSTRAINT (CompReplacedElementSubModelRef, ReplacedElement, repE)
 
   bool fail = false;
 
-  const CompModelPlugin * plug = static_cast<const CompModelPlugin*>(m.getPlugin("comp"));
+  const CompModelPlugin * plug = 
+                  static_cast<const CompModelPlugin*>(m.getPlugin("comp"));
   if (plug != NULL
     && plug->getSubmodel(repE.getSubmodelRef()) == NULL)
   {
@@ -1261,9 +3176,11 @@ START_CONSTRAINT (CompReplacedElementDeletionRef, ReplacedElement, repE)
   pre (repE.isSetDeletion());
 
   msg = "A <replacedElement> in ";
-  const Model* mod = static_cast<const Model*>(repE.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                (repE.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(repE.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                 (repE.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -1302,9 +3219,11 @@ START_CONSTRAINT (CompReplacedElementConvFactorRef, ReplacedElement, repE)
   pre (repE.isSetConversionFactor());
 
   msg = "The 'timeConversionFactor' of a <replacedElement> in ";
-  const Model* mod = static_cast<const Model*>(repE.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                 (repE.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(repE.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                  (repE.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -1333,7 +3252,8 @@ END_CONSTRAINT
 //21008 - repeat of 10309
 //21009 - repeat of 10310
 
-//21010 - to do
+//21010
+EXTERN_CONSTRAINT( CompReplacedElementSameReference, UniqueReplacedReferences)
 
 //*************************************
 
@@ -1350,9 +3270,11 @@ START_CONSTRAINT (CompReplacedByMustRefObject, ReplacedBy, repBy)
   bool portRef = repBy.isSetPortRef();
 
   msg = "A <replacedBy> in ";
-  const Model* mod = static_cast<const Model*>(repBy.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                (repBy.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(repBy.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                 (repBy.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -1362,7 +3284,7 @@ START_CONSTRAINT (CompReplacedByMustRefObject, ReplacedBy, repBy)
     msg += mod->getId();
     msg += "'";
   }
-  msg = " does not refer to another object.";
+  msg += " does not refer to another object.";
 
   bool fail = true;
 
@@ -1401,9 +3323,11 @@ START_CONSTRAINT (CompReplacedByMustRefOnlyOne, ReplacedBy, repBy)
   bool fail = false;
 
   msg = "A <replacedBy> object in ";
-  const Model* mod = static_cast<const Model*>(repBy.getAncestorOfType(SBML_MODEL, "core"));
+  const Model* mod = static_cast<const Model*>
+                                (repBy.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(repBy.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                 (repBy.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -1413,7 +3337,7 @@ START_CONSTRAINT (CompReplacedByMustRefOnlyOne, ReplacedBy, repBy)
     msg += mod->getId();
     msg += "'";
   }
-  msg = " refers to ";
+  msg += " refers to ";
 
   if (idRef == true)
   {
@@ -1522,10 +3446,12 @@ START_CONSTRAINT (CompReplacedBySubModelRef, ReplacedBy, repBy)
 {
   pre (repBy.isSetSubmodelRef());
 
-  msg = "A <replacedElement> in ";
-  const Model* mod = static_cast<const Model*>(repBy.getAncestorOfType(SBML_MODEL, "core"));
+  msg = "A <replacedBy> in ";
+  const Model* mod = static_cast<const Model*>
+                                (repBy.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
-    mod = static_cast<const Model*>(repBy.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    mod = static_cast<const Model*>
+                   (repBy.getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
   }
   if (mod == NULL || !mod->isSetId()) {
     msg += "the main model in the document";
@@ -1535,13 +3461,14 @@ START_CONSTRAINT (CompReplacedBySubModelRef, ReplacedBy, repBy)
     msg += mod->getId();
     msg += "'";
   }
-  msg = " refers to the submodel '";
+  msg += " refers to the submodel '";
   msg += repBy.getSubmodelRef();
   msg += "' that is not part of the parent model.";
 
   bool fail = false;
 
-  const CompModelPlugin * plug = static_cast<const CompModelPlugin*>(m.getPlugin("comp"));
+  const CompModelPlugin * plug = 
+                      static_cast<const CompModelPlugin*>(m.getPlugin("comp"));
   if (plug != NULL
     && plug->getSubmodel(repBy.getSubmodelRef()) == NULL)
   {

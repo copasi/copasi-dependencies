@@ -497,7 +497,11 @@ ExternalModelDefinition::readAttributes (const XMLAttributes& attributes,
     }
     else
     {
-      //TODO:  anyURI syntax checking here.
+      if (!SyntaxChecker::isValidXMLanyURI(mSource)) 
+      {
+        getErrorLog()->logPackageError("comp", CompInvalidSourceSyntax,
+          getPackageVersion(), getLevel(), getVersion());
+      }
     }
     
     XMLTriple tripleModel("modelRef", mURI, getPrefix());
@@ -565,19 +569,14 @@ ExternalModelDefinition::getTypeCode () const
 }
 
 /** @cond doxygen-libsbml-internal */
-bool
-ExternalModelDefinition::acceptComp (CompVisitor& v) const
-{
-  return v.visit(*this);
-}
-/** @endcond */
-
 
 bool
 ExternalModelDefinition::accept (SBMLVisitor& v) const
 {
-  return false;
+  return v.visit(*this);
 }
+
+/** @endcond */
 
 /*
  * Resolves the referenced document.
@@ -618,7 +617,7 @@ ExternalModelDefinition::getReferencedModel()
   
   if (!(doc->getLevel() == 3  && doc->getVersion() == 1))
   {
-    // comp ONLY allows L3 models. All other levels and versions are not supported. 
+    // comp v1 ONLY allows L3v1 models. All other levels and versions are not supported. 
     // 
     getSBMLDocument()->getErrorLog()->logPackageError("comp", CompReferenceMustBeL3);
     return NULL;

@@ -28,7 +28,7 @@
 
 #include <sbml/packages/comp/extension/CompExtension.h>
 #include <sbml/packages/comp/sbml/Port.h>
-#include <sbml/packages/comp/validator/CompVisitor.h>
+#include <sbml/packages/comp/sbml/ListOfPorts.h>
 #include <sbml/packages/comp/validator/CompSBMLError.h>
 
 using namespace std;
@@ -336,48 +336,20 @@ Port::renameMetaIdRefs(std::string oldid, std::string newid)
 
 
 /** @cond doxygen-libsbml-internal */
+
 bool
-Port::acceptComp (CompVisitor& v) const
+Port::accept (SBMLVisitor& v) const
 {
-  return v.visit(*this);
+  v.visit(*this);
+
+  if (isSetSBaseRef() == true)
+  {
+    getSBaseRef()->accept(v);
+  }
+
+  return true;
 }
-/** @endcond */
 
-
-/** @cond doxygen-libsbml-internal */
-void
-Port::setSBMLDocument (SBMLDocument* d)
-{
-  SBaseRef::setSBMLDocument(d);
-}
-/** @endcond */
-
-
-/** @cond doxygen-libsbml-internal */
-/*
- * Sets this SBML object to child SBML objects (if any).
- * (Creates a child-parent relationship by the parent)
- */
-void
-Port::connectToChild()
-{
-  SBaseRef::connectToChild();
-}
-/** @endcond */
-
-
-/** @cond doxygen-libsbml-internal */
-/*
- * Enables/Disables the given package with this element and child
- * elements (if any).
- * (This is an internal implementation for enablePackage function)
- */
-void
-Port::enablePackageInternal(const std::string& pkgURI,
-                                const std::string& pkgPrefix, bool flag)
-{
-  SBaseRef::enablePackageInternal(pkgURI,pkgPrefix,flag);
-}
 /** @endcond */
 
 

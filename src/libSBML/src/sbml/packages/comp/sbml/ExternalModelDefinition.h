@@ -102,7 +102,6 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class CompVisitor;
 
 class LIBSBML_EXTERN ExternalModelDefinition : public CompBase
 {
@@ -291,7 +290,7 @@ public:
   
   /**
    * Sets the value of the "modelRef" attribute of this
-   * ExternalModelDefinition.  Fails if the id is not a valid syntax for an
+   * ExternalModelDefinition.  Fails if the @p id is not a valid syntax for an
    * SIdRef.
    *
    * @return integer value indicating success/failure of the
@@ -341,8 +340,6 @@ public:
   /**
    * Sets the value of the "md5" attribute of this ExternalModelDefinition.
    * 
-   * This method will fail if the string is not in proper md5 format.
-   *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
@@ -350,7 +347,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
-  virtual int setMd5 (const std::string& id);
+  virtual int setMd5 (const std::string& md5);
 
 
   /**
@@ -389,8 +386,6 @@ public:
   /**
    * Sets the value of the "source" attribute of this
    * ExternalModelDefinition.
-   *
-   * This method will fail if the source identifier not in proper URI format.
    *
    * @param source the value to use for the "source" attribute.
    *
@@ -462,7 +457,7 @@ public:
    * implementation of this method as well.  For example:
    * <pre>
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    * <pre>
@@ -472,9 +467,6 @@ public:
 
 
   /** @cond doxygen-libsbml-internal */
-  virtual bool acceptComp (CompVisitor& v) const;
-  /** @endcond */
-
 
   /**
    * Accepts the given SBMLVisitor.
@@ -485,10 +477,16 @@ public:
    */
   virtual bool accept (SBMLVisitor& v) const;
 
+  /** @endcond */
 
   /**
-   * Finds the referenced model based on the SBMLDocumentPlugin's URI
-   * resolvers, and returns a pointer to it, if it can be found.
+   * Resolves and returns the referenced Model object of this ExternalModelDefinition.
+   * If none can be found, an error is set and NULL is returned.  The
+   * returned Model is a non-owning pointer to the model; the original
+   * Model is saved (along with the SBMLDocument from which it comes) as
+   * a child of the CompSBMLDocumentPlugin of the SBMLDocument to which this
+   * Model belongs.  If this ExternalModelDefinition is not part of any
+   * SBMLDocument, NULL will be returned.
    */
   virtual Model* getReferencedModel();
 

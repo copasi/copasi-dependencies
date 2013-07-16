@@ -28,7 +28,7 @@
 
 
 #include <sbml/packages/qual/sbml/DefaultTerm.h>
-#include <sbml/math/MathML.h>
+#include <sbml/packages/qual/validator/QualSBMLError.h>
 
 
 using namespace std;
@@ -203,17 +203,8 @@ DefaultTerm::hasRequiredAttributes () const
 {
 	bool allPresent = true;
 
-	return allPresent;
-}
-
-
-/*
- * check if all the required attributes are set
- */
-bool
-DefaultTerm::hasRequiredElements () const
-{
-	bool allPresent = true;
+	if (isSetResultLevel() == false)
+		allPresent = false;
 
 	return allPresent;
 }
@@ -244,8 +235,7 @@ DefaultTerm::writeElements (XMLOutputStream& stream) const
 bool
 DefaultTerm::accept (SBMLVisitor& v) const
 {
-	return false;
-
+	return v.visit(*this);
 }
 
 
@@ -309,45 +299,78 @@ void
 DefaultTerm::readAttributes (const XMLAttributes& attributes,
                              const ExpectedAttributes& expectedAttributes)
 {
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
+
+	unsigned int numErrs;
+
 	SBase::readAttributes(attributes, expectedAttributes);
 
-	//bool assigned = false;
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("qual", QualDefaultTermAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("qual", QualDefaultTermAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	bool assigned = false;
 
 	//
-	// resultLevel int   ( use = "optional" )
+	// resultLevel int   ( use = "required" )
 	//
-	mIsSetResultLevel = attributes.readInto("resultLevel", mResultLevel, getErrorLog(), false);
+	numErrs = getErrorLog()->getNumErrors();
+	mIsSetResultLevel = attributes.readInto("resultLevel", mResultLevel);
+
+	if (mIsSetResultLevel == false)
+	{
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("qual", QualDefaultTermResultMustBeInteger,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+			else
+			{
+				std::string message = "Qual attribute 'resultLevel' is missing.";
+				getErrorLog()->logPackageError("qual", QualDefaultTermAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, message);
+			}
+		}
+	}
+  else
+  {
+    if (mResultLevel < 0)
+    {
+			getErrorLog()->logPackageError("qual", QualDefaultTermResultMustBeNonNeg,
+			             getPackageVersion(), sbmlLevel, sbmlVersion);
+    }
+  }
 
 }
 
 
 	/** @endcond doxygen-libsbml-internal */
-
-
-/** @cond doxygen-libsbml-internal */
-/*
- * Subclasses should override this method to read (and store) XHTML,
- * MathML, etc. directly from the XMLInputStream.
- *
- * @return true if the subclass read from the stream, false otherwise.
- */
-bool
-DefaultTerm::readOtherXML (XMLInputStream& stream)
-{
-  bool          read = false;
-  //const string& name = stream.peek().getName();
-
-  /* ------------------------------
-   *
-   *   (EXTENSION)
-   *
-   * ------------------------------ */
-  if ( SBase::readOtherXML(stream) )
-    read = true;
-
-  return read;
-}
-/** @endcond */
 
 
 	/** @cond doxygen-libsbml-internal */
@@ -377,7 +400,7 @@ DefaultTerm::writeAttributes (XMLOutputStream& stream) const
 LIBSBML_EXTERN
 DefaultTerm_t *
 DefaultTerm_create(unsigned int level, unsigned int version,
-                    unsigned int pkgVersion)
+                   unsigned int pkgVersion)
 {
 	return new DefaultTerm(level, version, pkgVersion);
 }
@@ -388,10 +411,10 @@ DefaultTerm_create(unsigned int level, unsigned int version,
  */
 LIBSBML_EXTERN
 void
-DefaultTerm_free(DefaultTerm_t * ft)
+DefaultTerm_free(DefaultTerm_t * dt)
 {
-	if (ft != NULL)
-		delete ft;
+	if (dt != NULL)
+		delete dt;
 }
 
 
@@ -400,11 +423,11 @@ DefaultTerm_free(DefaultTerm_t * ft)
  */
 LIBSBML_EXTERN
 DefaultTerm_t *
-DefaultTerm_clone(DefaultTerm_t * ft)
+DefaultTerm_clone(DefaultTerm_t * dt)
 {
-	if (ft != NULL)
+	if (dt != NULL)
 	{
-		return static_cast<DefaultTerm_t*>(ft->clone());
+		return static_cast<DefaultTerm_t*>(dt->clone());
 	}
 	else
 	{
@@ -418,9 +441,9 @@ DefaultTerm_clone(DefaultTerm_t * ft)
  */
 LIBSBML_EXTERN
 int
-DefaultTerm_getResultLevel(DefaultTerm_t * ft)
+DefaultTerm_getResultLevel(DefaultTerm_t * dt)
 {
-	return (ft != NULL) ? ft->getResultLevel() : 0;
+	return (dt != NULL) ? dt->getResultLevel() : SBML_INT_MAX;
 }
 
 
@@ -429,9 +452,9 @@ DefaultTerm_getResultLevel(DefaultTerm_t * ft)
  */
 LIBSBML_EXTERN
 int
-DefaultTerm_isSetResultLevel(DefaultTerm_t * ft)
+DefaultTerm_isSetResultLevel(DefaultTerm_t * dt)
 {
-	return (ft != NULL) ? static_cast<int>(ft->isSetResultLevel()) : 0;
+	return (dt != NULL) ? static_cast<int>(dt->isSetResultLevel()) : 0;
 }
 
 
@@ -440,9 +463,9 @@ DefaultTerm_isSetResultLevel(DefaultTerm_t * ft)
  */
 LIBSBML_EXTERN
 int
-DefaultTerm_setResultLevel(DefaultTerm_t * ft, int resultLevel)
+DefaultTerm_setResultLevel(DefaultTerm_t * dt, int resultLevel)
 {
-	return (ft != NULL) ? ft->setResultLevel(resultLevel) : LIBSBML_INVALID_OBJECT;
+	return (dt != NULL) ? dt->setResultLevel(resultLevel) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -451,9 +474,9 @@ DefaultTerm_setResultLevel(DefaultTerm_t * ft, int resultLevel)
  */
 LIBSBML_EXTERN
 int
-DefaultTerm_unsetResultLevel(DefaultTerm_t * ft)
+DefaultTerm_unsetResultLevel(DefaultTerm_t * dt)
 {
-	return (ft != NULL) ? ft->unsetResultLevel() : LIBSBML_INVALID_OBJECT;
+	return (dt != NULL) ? dt->unsetResultLevel() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -462,9 +485,9 @@ DefaultTerm_unsetResultLevel(DefaultTerm_t * ft)
  */
 LIBSBML_EXTERN
 int
-DefaultTerm_hasRequiredAttributes(DefaultTerm_t * ft)
+DefaultTerm_hasRequiredAttributes(DefaultTerm_t * dt)
 {
-	return (ft != NULL) ? static_cast<int>(ft->hasRequiredAttributes()) : 0;
+	return (dt != NULL) ? static_cast<int>(dt->hasRequiredAttributes()) : 0;
 }
 
 

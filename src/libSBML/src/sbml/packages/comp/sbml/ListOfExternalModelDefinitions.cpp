@@ -28,7 +28,6 @@
 
 #include <sbml/packages/comp/extension/CompExtension.h>
 #include <sbml/packages/comp/sbml/ListOfExternalModelDefinitions.h>
-#include <sbml/packages/comp/validator/CompVisitor.h>
 #include <sbml/Model.h>
 
 using namespace std;
@@ -171,15 +170,20 @@ ListOfExternalModelDefinitions::writeXMLNS (XMLOutputStream& stream) const
 /** @endcond */
 
 /** @cond doxygen-libsbml-internal */
+
 bool
-ListOfExternalModelDefinitions::acceptComp(CompVisitor& v) const
+ListOfExternalModelDefinitions::accept(SBMLVisitor& v) const
 {
-  v.visit(*this, getItemTypeCode() );
-  for (unsigned int n = 0 ; n < mItems.size() && static_cast<ExternalModelDefinition*>(mItems[n])->acceptComp(v); ++n) ;
-  v.leave(*this, getItemTypeCode() );
+  v.visit(*this);
+  for (unsigned int n = 0 ; n < mItems.size(); n++)
+  {
+    static_cast<ExternalModelDefinition*>(mItems[n])->accept(v);
+  }
+  v.leave(*this);
 
   return true;
 }
+
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

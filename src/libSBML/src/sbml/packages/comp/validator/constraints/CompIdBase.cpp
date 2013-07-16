@@ -29,6 +29,10 @@
 
 #include "CompIdBase.h"
 #include <sbml/packages/comp/sbml/Port.h>
+#include <sbml/ModifierSpeciesReference.h>
+#include <sbml/Rule.h>
+#include <sbml/AssignmentRule.h>
+#include <sbml/RateRule.h>
 
 /** @cond doxygen-ignored */
 

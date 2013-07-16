@@ -78,6 +78,9 @@ class LIBSBML_EXTERN CompartmentGlyph : public GraphicalObject
 protected:
   /** @cond doxygen-libsbml-internal */
   std::string mCompartment;
+  double      mOrder;
+  bool        mIsSetOrder;
+
   /** @endcond */
         
   friend class LayoutHandler;
@@ -160,7 +163,41 @@ public:
    */  
   
   bool isSetCompartmentId () const;
+     
+  /**
+   * Returns the compartment order.
+   */          
+  double getOrder () const;
         
+  /**
+   * Sets the compartment order
+   */   
+  int setOrder (double order);
+
+  /**
+   * Sets the compartment order
+   */   
+  int unsetOrder ();
+  
+  /**
+   * Returns true if the compartment order has been set
+   */    
+  bool isSetOrder () const;
+	 
+  /**
+   * Renames all the @c SIdRef attributes on this element, including any
+   * found in MathML content (if such exists).
+   *
+   * This method works by looking at all attributes and (if appropriate)
+   * mathematical formulas, comparing the identifiers to the value of @p
+   * oldid.  If any matches are found, the matching identifiers are replaced
+   * with @p newid.  The method does @em not descend into child elements.
+   *
+   * @param oldid the old identifier
+   * @param newid the new identifier
+   */
+  virtual void renameSIdRefs(std::string oldid, std::string newid);
+
   /**
    * Calls initDefaults from GraphicalObject.
    */ 
@@ -174,7 +211,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -345,6 +382,33 @@ LIBSBML_EXTERN
 int
 CompartmentGlyph_isSetCompartmentId (const CompartmentGlyph_t *cg);
 
+/*
+ * Returns the compartment order.
+ */          
+LIBSBML_EXTERN
+double
+CompartmentGlyph_getOrder (const CompartmentGlyph_t *cg);
+      
+/*
+ * Sets the compartment order
+ */   
+LIBSBML_EXTERN
+int
+CompartmentGlyph_setOrder (CompartmentGlyph_t *cg, double order);
+
+/*
+ * Sets the compartment order
+ */   
+LIBSBML_EXTERN
+int
+CompartmentGlyph_unsetOrder (CompartmentGlyph_t *cg);
+
+/*
+ * Returns true if the compartment order has been set
+ */    
+LIBSBML_EXTERN
+int
+CompartmentGlyph_isSetOrder (const CompartmentGlyph_t *cg);
 
 /*
  * Calls initDefaults from GraphicalObject.

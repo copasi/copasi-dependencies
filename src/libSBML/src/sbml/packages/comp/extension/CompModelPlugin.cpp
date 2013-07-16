@@ -29,6 +29,8 @@
 #include <sbml/packages/comp/validator/CompSBMLError.h>
 #include <sbml/Model.h>
 
+#include <sbml/util/ElementFilter.h>
+#include <sbml/util/IdentifierTransformer.h>
 
 using namespace std;
 
@@ -181,22 +183,14 @@ CompModelPlugin::getElementByMetaId(std::string metaid)
 }
 
 List*
-CompModelPlugin::getAllElements()
+  CompModelPlugin::getAllElements(ElementFilter *filter)
 {
   List* ret = new List();
   List* sublist = NULL;
-  if (mListOfSubmodels.size() > 0) {
-    ret->add(&mListOfSubmodels);
-    sublist = mListOfSubmodels.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
-  if (mListOfPorts.size() > 0) {
-    ret->add(&mListOfPorts);
-    sublist = mListOfPorts.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
+
+  ADD_FILTERED_LIST(ret, sublist, mListOfSubmodels, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfPorts, filter);
+
   return ret;
 }
 
@@ -830,6 +824,43 @@ void CompModelPlugin::findUniqueSubmodPrefixes(vector<string>& submodids, List* 
 }
 /** @endcond */
 
+/** 
+ * Simple IdentifierTransformer, that prefixes all given 
+ * elements with the prefix given to the constructor. 
+ * 
+ * this will prefix metaids, unitsids and sids. 
+ */ 
+class PrefixTransformer : public IdentifierTransformer
+{
+  string mPrefix;
+public: 
+  PrefixTransformer (const string& prefix) 
+  : mPrefix(prefix) {}
+  
+  virtual int transform(SBase* element)
+  {
+    // if there is nothing to do return ... 
+    if (element == NULL) 
+	  return LIBSBML_OPERATION_SUCCESS;
+	
+	// prefix meta id if we have one ... 
+    if (element->isSetMetaId())
+    {
+      if (element->setMetaId(mPrefix + element->getMetaId()) != LIBSBML_OPERATION_SUCCESS)
+        return LIBSBML_OPERATION_FAILED;
+    }
+	
+	// prefix other ids (unitsid, or sid) ...
+    // skip local parameters
+    if (element->isSetId() && element->getTypeCode() != SBML_LOCAL_PARAMETER)
+    {
+      if (element->setId(mPrefix + element->getId()) != LIBSBML_OPERATION_SUCCESS)
+        return LIBSBML_OPERATION_FAILED;
+    }
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+};
+
 /** @cond doxygen-libsbml-internal */
 void CompModelPlugin::renameIDs(List* allElements, const string& prefix)
 {
@@ -837,11 +868,14 @@ void CompModelPlugin::renameIDs(List* allElements, const string& prefix)
   vector<pair<string, string> > renamedSIds;
   vector<pair<string, string> > renamedUnitSIds;
   vector<pair<string, string> > renamedMetaIds;
-  for (unsigned long el=0; el<allElements->getSize(); el++) {
+  PrefixTransformer trans(prefix);
+  for (unsigned long el=0; el < allElements->getSize(); ++el) 
+  {
     SBase* element = static_cast<SBase*>(allElements->get(el));
     string id = element->getId();
     string metaid = element->getMetaId();
-    element->prependStringToAllIdentifiers(prefix);
+    element->transformIdentifiers(&trans);
+    //element->prependStringToAllIdentifiers(prefix);
     if (element->getTypeCode() == SBML_LOCAL_PARAMETER) {
       element->setId(id); //Change it back.  This would perhaps be better served by overriding 'prependStringToAllIdentifiers' but hey.
     }
@@ -869,13 +903,16 @@ void CompModelPlugin::renameIDs(List* allElements, const string& prefix)
 
   for (unsigned long el=0; el<allElements->getSize(); el++) {
     SBase* element = static_cast<SBase*>(allElements->get(el));
-    for (size_t id=0; id<renamedSIds.size(); id++) {
+    for (size_t id=0; id<renamedSIds.size(); id++) 
+    {
       element->renameSIdRefs(renamedSIds[id].first, renamedSIds[id].second);
     }
-    for (size_t uid=0; uid<renamedUnitSIds.size(); uid++) {
+    for (size_t uid=0; uid<renamedUnitSIds.size(); uid++) 
+    {
       element->renameUnitSIdRefs(renamedUnitSIds[uid].first, renamedUnitSIds[uid].second);
     }
-    for (size_t mid=0; mid<renamedMetaIds.size(); mid++) {
+    for (size_t mid=0; mid<renamedMetaIds.size(); mid++) 
+    {
       element->renameMetaIdRefs(renamedMetaIds[mid].first, renamedMetaIds[mid].second);
     }
   }
@@ -962,8 +999,9 @@ int CompModelPlugin::performReplacementsAndConversions()
 }
 
 /** @cond doxygen-libsbml-internal */
+
 bool 
-CompModelPlugin::acceptComp(CompVisitor& v) const
+CompModelPlugin::accept(SBMLVisitor& v) const
 {
   const Model * model = static_cast<const Model * >(this->getParentSBMLObject()); 
   
@@ -972,15 +1010,16 @@ CompModelPlugin::acceptComp(CompVisitor& v) const
 
   for (unsigned int i = 0; i < getNumSubmodels(); i++)
   {
-    getSubmodel(i)->acceptComp(v);
+    getSubmodel(i)->accept(v);
   }
   for (unsigned int i = 0; i < getNumPorts(); i++)
   {
-    getPort(i)->acceptComp(v);
+    getPort(i)->accept(v);
   }
 
   return true;
 }
+
 /** @endcond */
 
 

@@ -36,7 +36,7 @@
  * example, if one species replaces another, then any reference to the
  * original species in mathematical formulas, or lists of reactants or
  * products or modifiers in reactions, or initial assignments, or any other
- * SBML construct, are taken to refer to the replacement species (with its
+ * SBML construct, are taken to refer to the replacement species, with its
  * value possibly modified by either this object's "conversionFactor"
  * attribute or the relevant submodel's conversion factors. Moreover, any 
  * annotations that refer to the
@@ -125,7 +125,6 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class CompVisitor;
 
 class LIBSBML_EXTERN ReplacedElement : public Replacing
 {
@@ -346,7 +345,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */
@@ -355,6 +354,7 @@ public:
 
 
   /** @cond doxygen-libsbml-internal */
+
   /**
    * Accepts the given SBMLVisitor.
    *
@@ -362,7 +362,8 @@ public:
    * whether or not the Visitor would like to visit the SBML object's next
    * sibling object (if available).
    */
-  virtual bool acceptComp (CompVisitor& v) const;
+  virtual bool accept (SBMLVisitor& v) const;
+
   /** @endcond */
 
 

@@ -29,7 +29,6 @@
 #include <sbml/packages/comp/sbml/Deletion.h>
 #include <sbml/packages/comp/sbml/Port.h>
 #include <sbml/packages/comp/sbml/Submodel.h>
-#include <sbml/packages/comp/validator/CompVisitor.h>
 #include <sbml/packages/comp/validator/CompSBMLError.h>
 
 using namespace std;
@@ -278,11 +277,20 @@ Deletion::saveReferencedElement()
 }
 
 /** @cond doxygen-libsbml-internal */
+
 bool
-Deletion::acceptComp (CompVisitor& v) const
+Deletion::accept (SBMLVisitor& v) const
 {
-  return v.visit(*this);
+  v.visit(*this);
+
+  if (isSetSBaseRef() == true)
+  {
+    getSBaseRef()->accept(v);
+  }
+
+  return true;
 }
+
 /** @endcond */
 
 

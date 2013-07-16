@@ -65,12 +65,36 @@
 #include <sbml/packages/layout/extension/LayoutExtension.h>
 #include <sbml/packages/layout/common/LayoutExtensionTypes.h>
 
+#include <sbml/util/ElementFilter.h>
 
 #if LIBSBML_HAS_PACKAGE_RENDER
 #include <sbml/packages/render/extension/RenderGraphicalObjectPlugin.h>
 #endif
 
 LIBSBML_CPP_NAMESPACE_BEGIN
+
+List*
+GraphicalObject::getAllElements(ElementFilter *filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_ELEMENT(ret, sublist, mBoundingBox, filter);  
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+void
+GraphicalObject::renameMetaIdRefs(std::string oldid, std::string newid)
+{
+  SBase::renameMetaIdRefs(oldid, newid);
+  if (isSetMetaIdRef() && mMetaIdRef == oldid) 
+  {
+    mMetaIdRef = newid;
+  }
+}
 
 /*
  * Creates a new GraphicalObject.
@@ -283,12 +307,13 @@ GraphicalObject::GraphicalObject(const XMLNode& node, unsigned int l2version)
 #if LIBSBML_HAS_PACKAGE_RENDER
 
     // explicitly read render plugin for now until we sorted this whole reading from 
-	// XMLNode business
+    // XMLNode business
     RenderGraphicalObjectPlugin *rplugin = static_cast<RenderGraphicalObjectPlugin *>(getPlugin("render"));
-    ExpectedAttributes expected;
-    expected.add("objectRole");
-    rplugin->readAttributes(node.getAttributes(), expected);
-
+    if (rplugin != NULL) {
+      ExpectedAttributes expected;
+      expected.add("objectRole");
+      rplugin->readAttributes(node.getAttributes(), expected);
+    }
 #endif
 
 

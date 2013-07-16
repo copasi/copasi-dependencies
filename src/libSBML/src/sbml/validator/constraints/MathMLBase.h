@@ -39,7 +39,7 @@
 
 #include <sbml/validator/VConstraint.h>
 #include <sbml/util/memory.h>
-#include "IdList.h"
+#include <sbml/util/IdList.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
@@ -66,7 +66,7 @@ protected:
   /**
    * loops through all occurences of MathML within a model
    */
-  void check_(const Model& m, const Model& object);
+  virtual void check_(const Model& m, const Model& object);
 
   /**
    * Checks the MathML of the ASTnode 

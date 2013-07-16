@@ -46,12 +46,8 @@ protected:
 
   std::string mSpatialId;
   std::string mDomainType;
-  std::string mShapeId;
 
   ListOfInteriorPoints mInteriorPoints;
-
-  bool mImplicit;
-  bool mIsSetImplicit;
 
 public:
 
@@ -100,28 +96,6 @@ public:
    */
   virtual const std::string& getDomainType () const;
 
- /**
-   * Returns the string of the "shapeId" attribute of this Domain.
-   *
-   * @return the string of the "shapeId" attribute of this Domain.
-   */
-  virtual const std::string& getShapeId () const;
-
- /**
-   * Get the value of the "implicit" attribute of this Domain.
-   *
-   * @return @c true if this Domain's domainType is flagged as being
-   * implicit, @c false otherwise.
-   */
-  bool getImplicit () const;
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * Domain's "spatialId" attribute has been set.
-   *
-   * @return @c true if this Domain's "spatialId" attribute has been set, 
-   * otherwise @c false is returned.
-   */
   virtual bool isSetSpatialId () const;
 
     /**
@@ -132,29 +106,6 @@ public:
    * otherwise @c false is returned.
    */
   virtual bool isSetDomainType () const;
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * Domain's "shapeId" attribute has been set.
-   *
-   * @return @c true if this Domain's "shapeId" attribute has been set, 
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetShapeId () const;
-  
- /**
-   * Predicate returning @c true or @c false depending on whether this
-   * Domain's "implicit" attribute has been set.
-   * 
-   * @htmlinclude libsbml-comment-set-methods.html
-   *
-   * @note This function only applies to SBML L3 where there are no
-   * default values.
-   *
-   * @return @c true if the "implicit" attribute of this Domain has
-   * been set, @c false otherwise.
-   */
-  bool isSetImplicit () const;
 
 
   /**
@@ -185,36 +136,6 @@ public:
    */
   virtual int setDomainType (const std::string& domainType);
 
-    /**
-   * Sets the SIdRef string of the "shapeId" attribute of this Domain.
-   *
-   * @param spatialId a SIdRef string to be set.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  virtual int setShapeId (const std::string& shapeId);
-
-  /**
-   * Sets the value of the "implicit" attribute of this Domain.
-   *
-   * @param value a boolean indicating whether the size/volume of this
-   * compartment should be considered constant (@c true) or variable (@c
-   * false)
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_UNEXPECTED_ATTRIBUTE
-   */
-  int setImplicit (bool value);
-
   /**
    * Unsets the value of the "spatialId" attribute of this Domain.
    *
@@ -238,18 +159,6 @@ public:
    * @li LIBSBML_OPERATION_FAILED
    */
   virtual int unsetDomainType ();
-
-  /**
-   * Unsets the value of the "shapeId" attribute of this Domain.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetShapeId ();
 
 /**
    * Adds a copy of the given InteriorPoint object to this Domain.
@@ -667,16 +576,6 @@ Domain_getDomainType (const Domain_t *c);
 
 
 LIBSBML_EXTERN
-const char *
-Domain_getShapeId (const Domain_t *c);
-
-
-LIBSBML_EXTERN
-bool
-Domain_getImplicit (const Domain_t *c);
-
-
-LIBSBML_EXTERN
 Domain_t *
 Domain_clone (const Domain_t* c);
 
@@ -693,16 +592,6 @@ Domain_isSetDomainType (const Domain_t *c);
 
 LIBSBML_EXTERN
 int
-Domain_isSetShapeId (const Domain_t *c);
-
-
-LIBSBML_EXTERN
-int
-Domain_isSetImplicit (const Domain_t *c);
-
-
-LIBSBML_EXTERN
-int
 Domain_setSpatialId (Domain_t *c, const char *sid);
 
 
@@ -713,27 +602,12 @@ Domain_setDomainType (Domain_t *c, const char *sid);
 
 LIBSBML_EXTERN
 int
-Domain_setShapeId (Domain_t *c, const char *sid);
-
-
-LIBSBML_EXTERN
-int
-Domain_setImplicit (Domain_t *c, int value);
-
-
-LIBSBML_EXTERN
-int
 Domain_unsetSpatialId (Domain_t *c);
 
 
 LIBSBML_EXTERN
 int
 Domain_unsetDomainType (Domain_t *c);
-
-
-LIBSBML_EXTERN
-int
-Domain_unsetShapeId (Domain_t *c);
 
 
 LIBSBML_EXTERN

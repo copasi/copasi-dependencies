@@ -7,7 +7,7 @@
  * This file is part of SBMLToolbox.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of SBMLToolbox.
  *
- * Copyright (C) 2009-2012 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations: 
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -1995,8 +1995,7 @@ GetUnit ( mxArray * mxUnits,
 		}
 
 
- 		
-    /* get annotations */
+ 		/* get annotations */
 		mxAnnotations = mxGetField(mxSpecies, i, "annotation");
 		nBuflen = (mxGetM(mxAnnotations)*mxGetN(mxAnnotations)+1);
 		pacAnnotations = (char *)mxCalloc(nBuflen, sizeof(char));
@@ -2386,7 +2385,7 @@ GetUnit ( mxArray * mxUnits,
 		}
 
 
-		/* get annotations */
+ 		/* get annotations */
 		mxAnnotations = mxGetField(mxRule, i, "annotation");
 		nBuflen = (mxGetM(mxAnnotations)*mxGetN(mxAnnotations)+1);
 		pacAnnotations = (char *)mxCalloc(nBuflen, sizeof(char));
@@ -2688,7 +2687,7 @@ GetUnit ( mxArray * mxUnits,
         break;
 		}
 
-    /* free any memory allocated */
+   /* free any memory allocated */
 	  mxFree(pacTypecode);
 	  mxFree(pacNotes);
 	  mxFree(pacAnnotations);
@@ -5406,7 +5405,7 @@ GetStoichiometryMath ( mxArray * mxStoichiometryMath,
 
 
   SpeciesReference_setStoichiometryMath(sbmlSpeciesReference, pStoichiometryMath);
-  
+
   /* free any memory allocated */
   mxFree(pacNotes);
   mxFree(pacAnnotations);

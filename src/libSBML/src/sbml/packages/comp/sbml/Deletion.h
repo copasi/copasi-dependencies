@@ -92,7 +92,6 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-class CompVisitor;
 
 class LIBSBML_EXTERN Deletion : public SBaseRef
 {
@@ -275,9 +274,9 @@ public:
 
 
   /**
-   * Finds and stores the referenced object by finding its Submodel parent,
-   * getting its instantiated Model object, calling
-   * 'getReferencedElementFrom' on that model, and storing the result.
+   * Finds and stores the referenced object.  It finds its Submodel parent,
+   * gets its instantiated Model object, calls
+   * 'getReferencedElementFrom' on that model, and stores the result.
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -297,7 +296,7 @@ public:
    * whether or not the Visitor would like to visit the SBML object's next
    * sibling object (if available).
    */
-  virtual bool acceptComp (CompVisitor& v) const;
+  virtual bool accept (SBMLVisitor& v) const;
   /** @endcond */
 
 

@@ -90,8 +90,8 @@ at the top level of the libSBML distribution.
 
 
 -----------------------------------------------------------------------------
-Last Modified: $Date: 2011-02-08 10:49:42 -0800 (Tue, 08 Feb 2011) $
+Last Modified: $Date: 2011-02-08 19:49:42 +0100 (Tue, 08 Feb 2011) $
 Last Modified By: $Author: luciansmith $
-$HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/src/bindings/ruby/README.txt $
+$HeadURL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/src/bindings/ruby/README.txt $
 -----------------------------------------------------------------------------
 

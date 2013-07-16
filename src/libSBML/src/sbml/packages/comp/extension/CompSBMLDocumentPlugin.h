@@ -72,12 +72,10 @@
 #include <sbml/packages/comp/sbml/ListOfModelDefinitions.h>
 #include <sbml/packages/comp/sbml/ListOfExternalModelDefinitions.h>
 #include <sbml/packages/comp/validator/CompValidator.h>
-#include <sbml/packages/comp/validator/CompVisitor.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 class CompValidator;
-class CompVisitor;
 
 class LIBSBML_EXTERN CompSBMLDocumentPlugin : public SBMLDocumentPlugin
 {
@@ -159,7 +157,7 @@ public:
    *
    * @return a List of pointers to all children objects.
    */
-  virtual List* getAllElements();
+  virtual List* getAllElements(ElementFilter* filter=NULL);
   
   
   /** @cond doxygen-libsbml-internal */
@@ -206,12 +204,12 @@ public:
   virtual bool isFlatteningImplemented() const;
 
 
-  virtual unsigned int checkConsistency(); 
+  virtual unsigned int checkConsistency(bool overrideFlattening = false); 
 
 
   /** @cond doxygen-libsbml-internal */
 
-  virtual bool acceptComp(CompVisitor& v) const;
+  virtual bool accept(SBMLVisitor& v) const;
 
   /** @endcond */
 
@@ -441,6 +439,25 @@ public:
   
 
   /**
+   *
+   * Sets the bool value of "required" attribute of corresponding package
+   * in SBMLDocument element.  The only legal value is 'true' for the 
+   * Hierarchical Model Composition package.
+   *
+   * @param value the bool value of "required" attribute of corresponding 
+   * package in SBMLDocument element.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  The possible values
+   * returned by this function are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   */
+  virtual int setRequired(bool value);
+
+
+  /**
    * Adds a copy of the given ExternalModelDefinition object to the list of
    * ExternalModelDefinitions.
    *
@@ -611,14 +628,12 @@ private:
    */
   virtual void clearStoredURIDocuments();
 
-  /** @cond doxygen-libsbml-internal */
   
   /** variables and functions for consistency checking **/
 
+  /** @cond doxygen-libsbml-internal */
   bool mCheckingDummyDoc;
-
-  void checkRequiredFlagStatus(SBMLDocument * doc);
-
+  bool mFlattenAndCheck;
   /** @endcond */
 };
 

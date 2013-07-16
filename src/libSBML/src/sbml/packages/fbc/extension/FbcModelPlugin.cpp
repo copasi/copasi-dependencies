@@ -4,8 +4,6 @@
  *          the fbc package for the Model element.
  * @author  Frank T. Bergmann
  *
- * $Id$
- * $HeadURL$
  *
  *<!---------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more
@@ -23,10 +21,10 @@
 
 #include <sbml/packages/fbc/extension/FbcModelPlugin.h>
 #include <sbml/packages/fbc/extension/FbcExtension.h>
-#include <sbml/packages/fbc/validator/FbcVisitor.h>
 #include <sbml/packages/fbc/validator/FbcSBMLError.h>
 
 
+#include <sbml/util/ElementFilter.h>
 
 #include <iostream>
 using namespace std;
@@ -327,26 +325,66 @@ FbcModelPlugin::readOtherXML (SBase* parentObject, XMLInputStream& stream)
     return readAnnotationFromStream;
   }
   
-  XMLNode *pAnnotation = parentObject->getAnnotation();
-  FBC_CREATE_NS(fbcns, getSBMLNamespaces());
-  
-  if (!pAnnotation)
-  {
-    //
-    // (NOTES)
-    //
-    // annotation element has not been parsed by the parent element
-    // (Model) of this plugin object, thus annotation element is
-    // parsed via the given XMLInputStream object in this block.
-    //
+  try
+  {   
+    XMLNode *pAnnotation = parentObject->getAnnotation();
+    FBC_CREATE_NS(fbcns, getSBMLNamespaces());
     
-    const string& name = stream.peek().getName();
-    
-
-    if (name == "annotation")
+    if (!pAnnotation)
     {
-      pAnnotation = new XMLNode(stream);
+      //
+      // (NOTES)
+      //
+      // annotation element has not been parsed by the parent element
+      // (Model) of this plugin object, thus annotation element is
+      // parsed via the given XMLInputStream object in this block.
+      //
       
+      const string& name = stream.peek().getName();
+      
+    
+      if (name == "annotation")
+      {
+        pAnnotation = new XMLNode(stream);
+        
+        parseFbcAnnotation(pAnnotation, mAssociations, fbcns);
+        
+        if (mAssociations.size() > 0)
+        {
+          //
+          // Removes the annotation for layout extension from the annotation
+          // of parent element (pAnnotation) and then set the new annotation
+          // (newAnnotation) to the parent element.
+          //
+          XMLNode *newAnnotation = deleteFbcAnnotation(pAnnotation);
+          parentObject->setAnnotation(newAnnotation);
+          delete newAnnotation;
+        }
+        else
+        {
+          //
+          // No layout annotation is included in the read annotation
+          // (pAnnotation) and thus just set the annotation to the parent
+          // element.
+          //
+          parentObject->setAnnotation(pAnnotation);
+        }
+        
+        delete pAnnotation;
+        
+        readAnnotationFromStream = true;
+      }
+      
+    }
+    else if (mAssociations.size() == 0)
+    {
+      //
+      // (NOTES)
+      //
+      // annotation element has been parsed by the parent element
+      // (Model) of this plugin object, thus the annotation element
+      // set to the above pAnnotation variable is parsed in this block.
+      //
       parseFbcAnnotation(pAnnotation, mAssociations, fbcns);
       
       if (mAssociations.size() > 0)
@@ -358,47 +396,17 @@ FbcModelPlugin::readOtherXML (SBase* parentObject, XMLInputStream& stream)
         //
         XMLNode *newAnnotation = deleteFbcAnnotation(pAnnotation);
         parentObject->setAnnotation(newAnnotation);
-        delete newAnnotation;
       }
-      else
-      {
-        //
-        // No layout annotation is included in the read annotation
-        // (pAnnotation) and thus just set the annotation to the parent
-        // element.
-        //
-        parentObject->setAnnotation(pAnnotation);
-      }
-      
-      delete pAnnotation;
       
       readAnnotationFromStream = true;
     }
-    
   }
-  else if (mAssociations.size() == 0)
+  catch(...)
   {
-    //
-    // (NOTES)
-    //
-    // annotation element has been parsed by the parent element
-    // (Model) of this plugin object, thus the annotation element
-    // set to the above pAnnotation variable is parsed in this block.
-    //
-    parseFbcAnnotation(pAnnotation, mAssociations, fbcns);
-    
-    if (mAssociations.size() > 0)
-    {
-      //
-      // Removes the annotation for layout extension from the annotation
-      // of parent element (pAnnotation) and then set the new annotation
-      // (newAnnotation) to the parent element.
-      //
-      XMLNode *newAnnotation = deleteFbcAnnotation(pAnnotation);
-      parentObject->setAnnotation(newAnnotation);
-    }
-    
-    readAnnotationFromStream = true;
+	// an exception occured, most likely becase a namespace constructor
+	// threw an exception, catching this here, and return false, to indicate
+	// that the annotation wasn't read. 
+	readAnnotationFromStream = false;
   }
   
   return readAnnotationFromStream;
@@ -459,28 +467,15 @@ FbcModelPlugin::getElementByMetaId(std::string metaid)
 
 
 List*
-FbcModelPlugin::getAllElements()
+FbcModelPlugin::getAllElements(ElementFilter *filter)
 {
   List* ret = new List();
   List* sublist = NULL;
-  if (mBounds.size() > 0) {
-    ret->add(&mBounds);
-    sublist = mBounds.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
-  if (mObjectives.size() > 0) {
-    ret->add(&mObjectives);
-    sublist = mObjectives.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
-  if (mAssociations.size() > 0) {
-    ret->add(&mAssociations);
-    sublist = mAssociations.getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
+
+  ADD_FILTERED_LIST(ret, sublist, mBounds, filter);
+  ADD_FILTERED_LIST(ret, sublist, mObjectives, filter);
+  ADD_FILTERED_LIST(ret, sublist, mAssociations, filter);
+ 
   return ret;
 }
 
@@ -1251,8 +1246,10 @@ void
 
 
 /** @cond doxygen-libsbml-internal */
+
+
 bool 
-FbcModelPlugin::acceptFbc(FbcVisitor& v) const
+FbcModelPlugin::accept(SBMLVisitor& v) const
 {
   const Model * model = static_cast<const Model * >(this->getParentSBMLObject()); 
   
@@ -1261,15 +1258,17 @@ FbcModelPlugin::acceptFbc(FbcVisitor& v) const
 
   for (unsigned int i = 0; i < getNumFluxBounds(); i++)
   {
-    getFluxBound(i)->acceptFbc(v);
+    getFluxBound(i)->accept(v);
   }
   for (unsigned int i = 0; i < getNumObjectives(); i++)
   {
-    getListOfObjectives()->acceptFbc(v);
-    getObjective(i)->acceptFbc(v);
+    getListOfObjectives()->accept(v);
+    getObjective(i)->accept(v);
   }
   return true;
 }
+
+
 /** @endcond */
 
 ListOfFluxBounds * 

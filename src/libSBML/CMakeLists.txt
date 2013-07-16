@@ -233,9 +233,10 @@ endif()
 #
 # If WITH_SWIG is selected, we need to find swig
 #
-
+set(LIBSBML_USE_CPP_NAMESPACE OFF)
 if(WITH_CPP_NAMESPACE)
     add_definitions(-DLIBSBML_USE_CPP_NAMESPACE)
+    set(LIBSBML_USE_CPP_NAMESPACE ON)	
 endif()
 
 if(WITH_SWIG)
@@ -252,6 +253,10 @@ if(WITH_SWIG)
               /usr/bin
         DOC "The file name of the swig executable."
         )
+    find_package(SWIG)
+    if (SWIG_FOUND AND SWIG_VERSION VERSION_LESS "2.0.4")
+    	message(WARNING "You are using swig version ${SWIG_VERSION} while we recommend at least version 2.0.4.")
+    endif()
     set(SWIG_EXTRA_ARGS)
 endif(WITH_SWIG)
 
@@ -296,7 +301,7 @@ endif(WITH_EXPAT)
 #
 # Locate Libxml2 if needed
 #
-
+set(USE_LIBXML OFF)
 if(WITH_LIBXML)
     find_library(LIBXML_LIBRARY
         NAMES libxml2.lib xml2
@@ -315,6 +320,7 @@ if(WITH_LIBXML)
               )
 
     add_definitions( -DUSE_LIBXML )
+	set(USE_LIBXML ON)
 
     set(LIBSBML_XML_LIBRARY "libxml2")
     set(LIBSBML_XML_LIBRARY_INCLUDE ${LIBXML_INCLUDE_DIR})
@@ -380,6 +386,7 @@ else()
 endif()
 
 option(WITH_BZIP2    "Enable the use of bzip2 compression."  ${BZIP_INITIAL_VALUE})
+set(USE_BZ2 OFF)
 if(WITH_BZIP2)
 
     find_path(LIBBZ_INCLUDE_DIR
@@ -389,6 +396,7 @@ if(WITH_BZIP2)
         DOC "The directory containing the bzip2 include files."
               )
 
+    set(USE_BZ2 ON)
     add_definitions( -DUSE_BZ2 )
 
     # make sure that we have a valid bzip2 library
@@ -414,7 +422,8 @@ endif(WITH_BZIP2)
 # list of additional files to link against.
 #
 
-set(EXTRA_LIBS "" CACHE STRING "List of additional libraries to link against." )
+set(EXTRA_LIBS "" CACHE STRING "Semicolon separatred list of additional libraries to link against." )
+set(EXTRA_INCLUDE_DIRS "" CACHE STRING "Semicolon separated list of additional include directories." )
 
 
 ###############################################################################
@@ -437,6 +446,7 @@ else()
 endif()
 option(WITH_ZLIB     "Enable the use of zip compression."    ${ZLIB_INITIAL_VALUE} )
 
+set(USE_ZLIB OFF)
 if(WITH_ZLIB)
 
     find_path(LIBZ_INCLUDE_DIR
@@ -445,7 +455,7 @@ if(WITH_ZLIB)
               ${LIBSBML_DEPENDENCY_DIR}/include
         DOC "The directory containing the zlib include files."
               )
-
+    set(USE_ZLIB ON)
     add_definitions( -DUSE_ZLIB )
 
     # make sure that we have a valid zip library
@@ -472,10 +482,26 @@ endif(WITH_ZLIB)
 #
 
 if(WITH_CSHARP)
+    FILE(TO_CMAKE_PATH "$ENV{WINDIR}" windir)	
     find_program(CSHARP_COMPILER
         NAMES gmcs csc
-        PATHS C:/Windows/Microsoft.NET/Framework/v2.0.50727/ /usr/bin /usr/local/bin
-        DOC "The file name of the C# compiler."
+        PATHS 
+            ${windir}/Microsoft.NET/Framework/v2.0.50727/ 
+            ${windir}/Microsoft.NET/Framework/v3.0/ 
+            /usr/bin 
+            /usr/local/bin
+        DOC "The file name of the C# compiler for the libsbmlcs assembly."
+        )
+    find_program(CSHARP_EXAMPLE_COMPILER
+        NAMES gmcs csc
+        PATHS 
+            ${windir}/Microsoft.NET/Framework/v4.0.30319/ 
+            ${windir}/Microsoft.NET/Framework/v3.5/ 
+            ${windir}/Microsoft.NET/Framework/v3.0/ 
+            ${windir}/Microsoft.NET/Framework/v2.0.50727/ 
+            /usr/bin 
+            /usr/local/bin
+        DOC "The file name of the C# compiler to be used for the examples."
         )
     if(UNIX)
     else()
@@ -824,6 +850,11 @@ endif()
 
 if(WITH_SWIG)
     message(STATUS "  Using SWIG                    = ${SWIG_EXECUTABLE}")
+    
+    if (SWIG_FOUND AND SWIG_VERSION VERSION_LESS "2.0.4")
+    	message(WARNING "   You are using swig version ${SWIG_VERSION} while we recommend at least version 2.0.4.")
+    endif()
+
 endif()
 
 
@@ -903,10 +934,10 @@ if(EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)
 
             math(EXPR length_minus_two "${length} - 2")
             if(${length_minus_two} GREATER 3)
-	        math(EXPR length_minus_one "${length} - 1")
+                math(EXPR length_minus_one "${length} - 1")
                 string(SUBSTRING "${line}" ${length_minus_one} 1 last_char)
-		if("x${last_char}" STREQUAL "x.")
-	            math(EXPR length_minus_three "${length} - 3")
+                if("x${last_char}" STREQUAL "x.")
+                    math(EXPR length_minus_three "${length} - 3")
                     string(SUBSTRING "${line}" 2 ${length_minus_three} last_line)
                 else()
                     string(SUBSTRING "${line}" 2 ${length_minus_two} last_line)

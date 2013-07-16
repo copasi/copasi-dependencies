@@ -8,7 +8,7 @@
 
 
 		  Date of last update to this file:
-	$Date: 2011-03-11 02:25:30 -0800 (Fri, 11 Mar 2011) $
+	$Date: 2011-03-11 11:25:30 +0100 (Fri, 11 Mar 2011) $
 
 
 ---------------
@@ -89,9 +89,9 @@ distribution.
 
 -----------------------------------------------------------------------------
 File author: B. Bornstein, S. Keating, M. Hucka
-Last Modified: $Date: 2011-03-11 02:25:30 -0800 (Fri, 11 Mar 2011) $
+Last Modified: $Date: 2011-03-11 11:25:30 +0100 (Fri, 11 Mar 2011) $
 Last Modified By: $Author: sarahkeating $
-$HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/src/bindings/matlab/README.txt $
+$HeadURL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/src/bindings/matlab/README.txt $
 -----------------------------------------------------------------------------
 
 # The following is for [X]Emacs users.  Please leave in place.

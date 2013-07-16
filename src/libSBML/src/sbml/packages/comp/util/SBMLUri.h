@@ -1,6 +1,6 @@
 /**
  * @file    SBMLUri.h
- * @brief   Definition of SBMLUri, the utility class for handling uris.
+ * @brief   Definition of SBMLUri, the utility class for handling URIs.
  * @author  Frank Bergmann
  *
  * <!--------------------------------------------------------------------------
@@ -28,11 +28,11 @@
  * @class SBMLUri
  * @ingroup Comp
  * @brief @htmlinclude pkg-marker-comp.html
- * utility class for handling uris.
+ * utility class for handling URIs.
  *
  * @htmlinclude libsbml-facility-only-warning.html
  *
- * The SBMLUri parses uris and provides information about them.
+ * The SBMLUri parses URIs and provides information about them.
  */
 
 #ifndef SBMLUri_h
@@ -52,13 +52,13 @@ class LIBSBML_EXTERN SBMLUri
 public:
 
   /**
-   * Creates a new SBMLUri from the given string uri.
+   * Creates a new SBMLUri from the given string URI.
    */
   SBMLUri(const std::string& uri); 
 
 
   /**
-   * Copy constructor; creates a copy of an SBMLUri object.
+   * Copy constructor.  Creates a copy of an SBMLUri object.
    *
    * @param orig the SBMLUri object to copy.
    *
@@ -87,9 +87,9 @@ public:
 
 
   /**
-   * Assignment operator for SBMLUri, allows parsing of the given string.
+   * Assignment operator for SBMLUri.  Allows parsing of the given string.
    *
-   * @param uri the uri to parse
+   * @param uri the URI to parse
    */
   SBMLUri& operator=(const std::string& uri);
 
@@ -109,38 +109,38 @@ public:
 
 
   /**
-   * @return the host of the uri (empty in case of files)
+   * @return the host of the URI (empty in case of files)
    */
   const std::string& getHost() const;
 
 
   /**
-   * @return the path of the uri (i.e: the full filename with path)
+   * @return the path of the URI (i.e: the full filename with path)
    */
   const std::string& getPath() const;
 
 
   /**
-   * @return the query any additional query bit
+   * @return the query of the URI (i.e.: the part after the full filename with path)
    */
   const std::string& getQuery() const;
 
 
   /**
-   * @return the original query (with only backslashes replaced to slashes)
+   * @return the original URI (with only backslashes replaced to slashes)
    */
   const std::string& getUri() const;
 
 
   /**
-   * Constructs a new uri relative to this object and the given uri. 
+   * Constructs a new URI relative to this object and the given URI. 
    * 
    * For example,  SBMLUri("c:\\test").relativeTo("test.xml") would 
-   * construct a new file uri, with path c:/test/test.xml.
+   * construct a new file URI, with path c:/test/test.xml.
    * 
-   * @param uri uri to be added
+   * @param uri URI to be added
    * 
-   * @return the new uri
+   * @return the new URI
    */
   SBMLUri relativeTo(const std::string& uri) const;
 

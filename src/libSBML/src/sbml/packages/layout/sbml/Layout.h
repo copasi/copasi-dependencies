@@ -826,6 +826,14 @@ public:
    
   ListOfGraphicalObjects* getListOfAdditionalGraphicalObjects ();
 
+  
+  /**
+   * Returns a List of all child SBase objects, including those nested to an
+   * arbitrary depth
+   *
+   * @return a List* of pointers to all children objects.
+   */
+  virtual List* getAllElements(ElementFilter* filter=NULL);
 
   /**
    * Returns the compartment glyph with the given index.
@@ -1232,7 +1240,7 @@ public:
    * implementation of this method as well.  For example:
    *
    *   SBase::writeElements(stream);
-   *   mReactans.write(stream);
+   *   mReactants.write(stream);
    *   mProducts.write(stream);
    *   ...
    */

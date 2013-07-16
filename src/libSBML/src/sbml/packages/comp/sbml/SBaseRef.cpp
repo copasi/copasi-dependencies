@@ -32,6 +32,8 @@
 #include <sbml/packages/comp/validator/CompSBMLErrorTable.h>
 #include <sbml/Model.h>
 
+#include <sbml/util/ElementFilter.h>
+
 using namespace std;
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -137,20 +139,15 @@ SBaseRef::getElementByMetaId(std::string metaid)
 
 
 List*
-SBaseRef::getAllElements()
+SBaseRef::getAllElements(ElementFilter *filter)
 {
   List* ret = new List();
   List* sublist = NULL;
-  if (mSBaseRef != NULL) {
-    ret->add(mSBaseRef);
-    sublist = mSBaseRef->getAllElements();
-    ret->transferFrom(sublist);
-    delete sublist;
-  }
 
-  sublist = getAllElementsFromPlugins();
-  ret->transferFrom(sublist);
-  delete sublist;
+  ADD_FILTERED_POINTER(ret, sublist, mSBaseRef, filter);  
+  
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
   return ret;
 }
 
@@ -693,7 +690,11 @@ SBaseRef::getTypeCode () const
 bool
 SBaseRef::accept (SBMLVisitor& v) const
 {
-  return false;
+  if (isSetSBaseRef() == true)
+  {
+    mSBaseRef->accept(v);
+  }
+  return v.visit(*this);
 }
 
 

@@ -32,16 +32,9 @@
 
 
 #include <sbml/common/extern.h>
-#include <sbml/common/sbmlfwd.h>
-#include <sbml/packages/qual/common/qualfwd.h>
-#include <sbml/SBMLTypeCodes.h>
 
 #ifdef __cplusplus
 
-#include <sbml/SBMLErrorLog.h>
-#include <sbml/Model.h>
-#include <sbml/xml/XMLInputStream.h>
-#include <sbml/xml/XMLOutputStream.h>
 #include <sbml/extension/SBasePlugin.h>
 #include <sbml/packages/qual/sbml/QualitativeSpecies.h>
 #include <sbml/packages/qual/sbml/Transition.h>
@@ -258,7 +251,7 @@ public:
    *
    * @return the number of QualitativeSpecies object in this plugin object.
    */
-  int getNumQualitativeSpecies() const;
+  unsigned int getNumQualitativeSpecies() const;
 
   /**
    * Returns the ListOfTransitions in this plugin object.
@@ -387,7 +380,7 @@ public:
    *
    * @return the number of Transition object in this plugin object.
    */
-  int getNumTransitions() const;
+  unsigned int getNumTransitions() const;
 
   // ---------------------------------------------------------
   //
@@ -445,6 +438,12 @@ public:
    */
   virtual void enablePackageInternal(const std::string& pkgURI,
                                      const std::string& pkgPrefix, bool flag);
+
+	/**
+	 * Accepts the given SBMLVisitor.
+	 */
+	virtual bool accept (SBMLVisitor& v) const;
+
   /** @endcond doxygen-libsbml-internal */
 
 protected:

@@ -76,7 +76,7 @@ examples =                                                          \
   examples/c/printSupported.c                                       \
   examples/c/printUnits.c                                           \
   examples/c/readSBML.c                                             \
-  examples/c/stripPackage.c                                        \
+  examples/c/stripPackage.c                                         \
   examples/c/translateMath.c                                        \
   examples/c/translateL3Math.c                                      \
   examples/c/util.c                                                 \
@@ -87,6 +87,8 @@ examples =                                                          \
   examples/c++/Makefile.in                                          \
   examples/c++/addCVTerms.cpp                                       \
   examples/c++/addCustomValidator.cpp                               \
+  examples/c++/renameSId.cpp                                        \
+  examples/c++/setIdFromNames.cpp                                   \
   examples/c++/addModelHistory.cpp                                  \
   examples/c++/addingEvidenceCodes_1.cpp                            \
   examples/c++/addingEvidenceCodes_2.cpp                            \
@@ -95,6 +97,8 @@ examples =                                                          \
   examples/c++/convertSBML.cpp                                      \
   examples/c++/createExampleSBML.cpp                                \
   examples/c++/echoSBML.cpp                                         \
+  examples/c++/getAllElementsWithNotes.cpp                          \
+  examples/c++/inlineFunctionDefintions.cpp                         \
   examples/c++/printAnnotation.cpp                                  \
   examples/c++/printMath.cpp                                        \
   examples/c++/printNotes.cpp                                       \
@@ -103,7 +107,8 @@ examples =                                                          \
   examples/c++/printSupported.cpp                                   \
   examples/c++/printUnits.cpp                                       \
   examples/c++/readSBML.cpp                                         \
-  examples/c++/stripPackage.cpp                                    \
+  examples/c++/rngvalidator.cpp                                     \
+  examples/c++/stripPackage.cpp                                     \
   examples/c++/translateMath.cpp                                    \
   examples/c++/translateL3Math.cpp                                  \
   examples/c++/unsetAnnotation.cpp                                  \
@@ -130,11 +135,13 @@ examples =                                                          \
   examples/csharp/printsupported.cs                                 \
   examples/csharp/printUnits.cs                                     \
   examples/csharp/readSBML.cs                                       \
-  examples/csharp/stripPackage.cs                                  \
+  examples/csharp/stripPackage.cs                                   \
   examples/csharp/translateMath.cs                                  \
   examples/csharp/unsetAnnotation.cs                                \
   examples/csharp/unsetNotes.cs                                     \
   examples/csharp/validateSBML.cs                                   \
+  examples/csharp/SetIdFromNames.cs                                 \
+  examples/csharp/GetAllElementsWithNotes.cs                        \
   examples/java/Makefile.in                                         \
   examples/java/README.txt                                          \
   examples/java/addCustomValidator.java                             \
@@ -148,6 +155,7 @@ examples =                                                          \
   examples/java/createExampleSBML.java                              \
   examples/java/echoSBML.java                                       \
   examples/java/evaluateMath.java                                   \
+  examples/java/getAllElementsWithNotes.java                        \
   examples/java/printAnnotation.java                                \
   examples/java/printMath.java                                      \
   examples/java/printNotes.java                                     \
@@ -156,7 +164,8 @@ examples =                                                          \
   examples/java/printsupported.java                                 \
   examples/java/printUnits.java                                     \
   examples/java/readSBML.java                                       \
-  examples/java/stripPackage.java                                  \
+  examples/java/stripPackage.java                                   \
+  examples/java/setIdFromNames.java                                 \
   examples/java/translateMath.java                                  \
   examples/java/unsetAnnotation.java                                \
   examples/java/unsetNotes.java                                     \
@@ -179,6 +188,7 @@ examples =                                                          \
   examples/layout/example3-L3.cpp                                   \
   examples/layout/layout2svg.xsl                                    \
   examples/perl/addCVTerms.pl                                       \
+  examples/perl/addCustomValidator.pl                               \
   examples/perl/addingEvidenceCodes_1.pl                            \
   examples/perl/addingEvidenceCodes_2.pl                            \
   examples/perl/addModelHistory.pl                                  \
@@ -187,7 +197,7 @@ examples =                                                          \
   examples/perl/convertSBML.pl                                      \
   examples/perl/createExampleSBML.pl                                \
   examples/perl/echoSBML.pl                                         \
-  examples/perl/stripPackage.pl                                    \
+  examples/perl/stripPackage.pl                                     \
   examples/perl/evaluateMath.pl                                     \
   examples/perl/extractReactionInfo.pl                              \
   examples/perl/extractReactions.pl                                 \
@@ -212,8 +222,9 @@ examples =                                                          \
   examples/python/callExternalValidator.py                          \
   examples/python/convertSBML.py                                    \
   examples/python/createExampleSBML.py                              \
+  examples/python/getAllElementsWithNotes.py                        \
   examples/python/echoSBML.py                                       \
-  examples/python/stripPackage.py                                  \
+  examples/python/stripPackage.py                                   \
   examples/python/printAnnotation.py                                \
   examples/python/printMath.py                                      \
   examples/python/printNotes.py                                     \
@@ -222,6 +233,7 @@ examples =                                                          \
   examples/python/printsupported.py                                 \
   examples/python/printUnits.py                                     \
   examples/python/readSBML.py                                       \
+  examples/python/setIdFromNames.py                                 \
   examples/python/translateMath.py                                  \
   examples/python/unsetAnnotation.py                                \
   examples/python/unsetNotes.py                                     \

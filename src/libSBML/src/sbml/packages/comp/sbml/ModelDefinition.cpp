@@ -137,11 +137,14 @@ ModelDefinition::removeFromParentAndDelete()
 
 
 /** @cond doxygen-libsbml-internal */
+
 bool
-ModelDefinition::acceptComp (CompVisitor& v) const
+ModelDefinition::accept (SBMLVisitor& v) const
 {
+  v.visit(*this);
   return true;
 }
+
 /** @endcond */
 
 /** @cond doxygen-libsbml-internal */
