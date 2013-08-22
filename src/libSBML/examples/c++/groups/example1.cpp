@@ -110,10 +110,10 @@ group->setKind(GROUP_KIND_CLASSIFICATION);
 group->setSBOTerm("SBO:0000252");
 
 Member* member = group->createMember();
-member->setSymbol("ATPc");
+member->setIdRef("ATPc");
 
 member = group->createMember();
-member->setSymbol("ATPm");
+member->setIdRef("ATPm");
 
 writeSBML(document,"groups_example1.xml");
 delete document;

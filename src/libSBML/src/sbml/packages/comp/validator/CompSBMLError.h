@@ -129,6 +129,9 @@ typedef enum
 , CompInvalidMetaIdRefSyntax            = 1020709
 , CompOneSBaseRefOnly                   = 1020710
 , CompDeprecatedSBaseRefSpelling        = 1020711
+, CompSBaseRefMustReferenceObject       = 1020712
+, CompSBaseRefMustReferenceOnlyOneObject= 1020713
+, CompNoMultipleReferences              = 1020714
 
 , CompPortMustReferenceObject           = 1020801
 , CompPortMustReferenceOnlyOneObject    = 1020802
@@ -152,12 +155,23 @@ typedef enum
 , CompReplacedByAllowedAttributes       = 1021103
 , CompReplacedBySubModelRef             = 1021104
 
+, CompMustReplaceSameClass              = 1021201
+, CompMustReplaceIDs                    = 1021202
+, CompMustReplaceMetaIDs                = 1021203
+, CompMustReplacePackageIDs             = 1021204
+, CompReplacedUnitsShouldMatch          = 1021205
+
 , CompUnresolvedReference               = 1090101
 , CompNoModelInReference                = 1090102
 , CompExtModDefBad                      = 1090103
 , CompModelFlatteningFailed             = 1090104
 , CompFlatModelNotValid                 = 1090105
 , CompLineNumbersUnreliable             = 1090106
+
+, CompFlatteningNotRecognisedNotReqd    = 1090108
+, CompFlatteningNotRecognisedReqd       = 1090107
+, CompFlatteningNotImplementedNotReqd   = 1090109
+, CompFlatteningNotImplementedReqd      = 1090110
 
 } CompSBMLErrorCode_t;
 

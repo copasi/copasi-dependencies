@@ -62,7 +62,8 @@
 #include <sbml/packages/layout/sbml/GraphicalObject.h>
 #include <sbml/packages/layout/util/LayoutUtilities.h>
 #include <sbml/packages/layout/extension/LayoutExtension.h>
-
+#include <sbml/packages/layout/sbml/Layout.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 #include <sbml/util/ElementFilter.h>
 
 #include <sbml/xml/XMLNode.h>
@@ -106,6 +107,7 @@ GeneralGlyph::GeneralGlyph(unsigned int level, unsigned int version, unsigned in
   ,mReferenceGlyphs(level,version,pkgVersion)
   ,mSubGlyphs(level,version,pkgVersion)
   ,mCurve(level,version,pkgVersion)
+  ,mCurveExplicitlySet (false)
 {
   mSubGlyphs.setElementName("listOfSubGlyphs");
 
@@ -128,6 +130,7 @@ GeneralGlyph::GeneralGlyph(LayoutPkgNamespaces* layoutns)
   ,mReferenceGlyphs(layoutns)
   ,mSubGlyphs(layoutns)
   ,mCurve(layoutns)
+  , mCurveExplicitlySet ( false )
 {
   mSubGlyphs.setElementName("listOfSubGlyphs");
   //
@@ -157,6 +160,7 @@ GeneralGlyph::GeneralGlyph (LayoutPkgNamespaces* layoutns, const std::string& id
    ,mReferenceGlyphs(layoutns)
    ,mSubGlyphs(layoutns)
    ,mCurve(layoutns)
+   ,mCurveExplicitlySet (false)
 {
   mSubGlyphs.setElementName("listOfSubGlyphs");
 
@@ -188,6 +192,7 @@ GeneralGlyph::GeneralGlyph (LayoutPkgNamespaces* layoutns, const std::string& id
    ,mReferenceGlyphs(layoutns)
    ,mSubGlyphs(layoutns)
    ,mCurve(layoutns)
+   , mCurveExplicitlySet (false)
 {
   mSubGlyphs.setElementName("listOfSubGlyphs");
 
@@ -216,6 +221,7 @@ GeneralGlyph::GeneralGlyph(const XMLNode& node, unsigned int l2version)
    ,mReferenceGlyphs(2,l2version)
    ,mSubGlyphs(2,l2version)
    ,mCurve(2,l2version)
+   ,mCurveExplicitlySet (false)
 {
     mSubGlyphs.setElementName("listOfSubGlyphs");
     const XMLAttributes& attributes=node.getAttributes();
@@ -251,6 +257,7 @@ GeneralGlyph::GeneralGlyph(const XMLNode& node, unsigned int l2version)
               }
             }
             delete pTmpCurve;
+            mCurveExplicitlySet = true;
         }
         else if(childName=="listOfReferenceGlyphs")
         {
@@ -346,6 +353,7 @@ GeneralGlyph::GeneralGlyph(const GeneralGlyph& source):GraphicalObject(source)
     this->mCurve=*source.getCurve();
     this->mReferenceGlyphs=*source.getListOfReferenceGlyphs();
     this->mSubGlyphs=*source.getListOfSubGlyphs();
+    this->mCurveExplicitlySet = source.mCurveExplicitlySet;
 
     connectToChild();
 }
@@ -362,6 +370,7 @@ GeneralGlyph& GeneralGlyph::operator=(const GeneralGlyph& source)
     this->mCurve=*source.getCurve();
     this->mReferenceGlyphs=*source.getListOfReferenceGlyphs();
     this->mSubGlyphs=*source.getListOfSubGlyphs();
+    this->mCurveExplicitlySet = source.mCurveExplicitlySet;
     connectToChild();
   }
   
@@ -584,6 +593,7 @@ void GeneralGlyph::setCurve (const Curve* curve)
   if(!curve) return;
   this->mCurve = *curve;
   this->mCurve.connectToParent(this);
+  mCurveExplicitlySet = true;
 }
 
 
@@ -593,6 +603,13 @@ void GeneralGlyph::setCurve (const Curve* curve)
 bool GeneralGlyph::isSetCurve () const
 {
   return this->mCurve.getNumCurveSegments() > 0;
+}
+
+
+bool
+GeneralGlyph::getCurveExplicitlySet() const
+{
+  return mCurveExplicitlySet;
 }
 
 
@@ -779,15 +796,34 @@ GeneralGlyph::createObject (XMLInputStream& stream)
 
   if (name == "listOfReferenceGlyphs")
   {
+    if (mReferenceGlyphs.size() != 0)
+    {
+      getErrorLog()->logPackageError("layout", LayoutGGAllowedElements, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+
     object = &mReferenceGlyphs;
   }
   else if (name == "listOfSubGlyphs")
   {
+    if (mSubGlyphs.size() != 0)
+    {
+      getErrorLog()->logPackageError("layout", LayoutGGAllowedElements, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+
     object = &mSubGlyphs;
   }
   else if(name=="curve")
   {
+    if (getCurveExplicitlySet() == true)
+    {
+      getErrorLog()->logPackageError("layout", LayoutGGAllowedElements, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+
     object = &mCurve;
+    mCurveExplicitlySet = true;
   }
   else
   {
@@ -798,7 +834,7 @@ GeneralGlyph::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 GeneralGlyph::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -808,55 +844,142 @@ GeneralGlyph::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GeneralGlyph::readAttributes (const XMLAttributes& attributes,
                                     const ExpectedAttributes& expectedAttributes)
 {
-  GraphicalObject::readAttributes(attributes,expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
 
-  const unsigned int sbmlLevel   = getLevel  ();
-  const unsigned int sbmlVersion = getVersion();
+	unsigned int numErrs;
 
-  bool assigned = attributes.readInto("reference", mReference, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mReference.empty())
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfAdditionalGraphicalObjects - which will have
+	 * happened immediately prior to this read
+	*/
+
+  bool loSubGlyphs = false;
+  if (getParentSBMLObject() != NULL
+    && getParentSBMLObject()->getElementName() == "listOfSubGlyphs")
   {
-    logEmptyString(mReference, sbmlLevel, sbmlVersion, "<" + getElementName() + ">");
+    loSubGlyphs = true;
   }
-  if (!SyntaxChecker::isValidInternalSId(mReference)) logError(InvalidIdSyntax);
+
+	if (getErrorLog() != NULL &&
+	    static_cast<ListOfGraphicalObjects*>(getParentSBMLObject())->size() < 2)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				      getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+        if (loSubGlyphs == true)
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOSubGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOAddGOAllowedAttribut,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				           getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+        if (loSubGlyphs == true)
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOSubGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOAddGOAllowedAttribut,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+			}
+		}
+	}
+
+	GraphicalObject::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", LayoutGGAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", LayoutGGAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	bool assigned = false;
+
+	//
+	// reference SIdRef   ( use = "optional" )
+	//
+	assigned = attributes.readInto("reference", mReference);
+
+	if (assigned == true)
+	{
+		// check string is not empty and correct syntax
+
+		if (mReference.empty() == true)
+		{
+			logEmptyString(mReference, getLevel(), getVersion(), "<GeneralGlyph>");
+		}
+		else if (SyntaxChecker::isValidSBMLSId(mReference) == false)
+		{
+			getErrorLog()->logPackageError("layout", LayoutGGReferenceSyntax,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+		}
+	}
+
+
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 GeneralGlyph::writeElements (XMLOutputStream& stream) const
 {
+  GraphicalObject::writeElements(stream);
   if(this->isSetCurve())
   {
-    SBase::writeElements(stream);
     mCurve.write(stream);
-    //
-    // BoundingBox is to be ignored if a curve element defined.
-    //
   }
-  else
-  {
-    //
-    // SBase::writeElements(stream) is invoked in the function below.
-    //
-    GraphicalObject::writeElements(stream);
-  }
-
+ 
   if ( getNumReferenceGlyphs() > 0 ) mReferenceGlyphs.write(stream);
   if ( getNumSubGlyphs() > 0 ) mSubGlyphs.write(stream);
-
-  //
-  // (EXTENSION)
-  //
-  SBase::writeExtensionElements(stream);
+ 
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GeneralGlyph::writeAttributes (XMLOutputStream& stream) const
 {
   GraphicalObject::writeAttributes(stream);
@@ -1013,7 +1136,7 @@ ListOfReferenceGlyphs::remove (const std::string& sid)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ListOfReferenceGlyphs::createObject (XMLInputStream& stream)
 {
@@ -1044,24 +1167,29 @@ XMLNode ListOfReferenceGlyphs::toXML() const
 
 /*
  * Accepts the given SBMLVisitor.
- 
+ */
 bool
 GeneralGlyph::accept (SBMLVisitor& v) const
 {
-  bool result=v.visit(*this);
-  if(this->mCurve.getNumCurveSegments()>0)
+  v.visit(*this);
+  
+  if(getCurveExplicitlySet() == true)
   {
     this->mCurve.accept(v);
   }
-  else
+  
+  if (getBoundingBoxExplicitlySet() == true)
   {
     this->mBoundingBox.accept(v);
   }
-  this->mReferenceGlyphs.accept(this);
+  
+  this->mReferenceGlyphs.accept(v);
+  
   v.leave(*this);
-  return result;
+  
+  return true;
 }
-*/
+
 
 
 /*

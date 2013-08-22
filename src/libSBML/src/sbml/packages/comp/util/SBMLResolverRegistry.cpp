@@ -91,7 +91,7 @@ SBMLResolverRegistry::getResolverByIndex(int index) const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 SBMLResolverRegistry::SBMLResolverRegistry()
 {
@@ -104,8 +104,8 @@ SBMLResolverRegistry::SBMLResolverRegistry()
 
 SBMLResolverRegistry::~SBMLResolverRegistry()
 {
-  unsigned int numResolvers = mResolvers.size();
-  for (unsigned int i = 0; i < numResolvers; ++i)
+  size_t numResolvers = mResolvers.size();
+  for (size_t i = 0; i < numResolvers; ++i)
   {
     SBMLResolver *current = const_cast<SBMLResolver *>(mResolvers.back());
     mResolvers.pop_back();

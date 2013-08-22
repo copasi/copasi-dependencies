@@ -64,6 +64,7 @@
 #include <sbml/xml/XMLOutputStream.h>
 
 #include <sbml/packages/layout/extension/LayoutExtension.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
@@ -75,6 +76,7 @@ Point::Point(unsigned int level, unsigned int version, unsigned int pkgVersion)
   , mXOffset(0.0)
   , mYOffset(0.0)
   , mZOffset(0.0)
+  , mZOffsetExplicitlySet (false)
   , mElementName("point")
 {
   setSBMLNamespacesAndOwn(new LayoutPkgNamespaces(level,version,pkgVersion));  
@@ -90,6 +92,7 @@ Point::Point(LayoutPkgNamespaces* layoutns)
   , mXOffset(0.0)
   , mYOffset(0.0)
   , mZOffset(0.0)
+  , mZOffsetExplicitlySet (false)
   , mElementName("point")
 {
   //
@@ -114,6 +117,7 @@ Point::Point(const Point& orig):SBase(orig)
     this->mZOffset=orig.mZOffset;
     this->mElementName=orig.mElementName;
 
+    this->mZOffsetExplicitlySet=orig.mZOffsetExplicitlySet;
     // attributes of SBase
     //this->mId=orig.mId;
     //this->mName=orig.mName;
@@ -145,6 +149,7 @@ Point& Point::operator=(const Point& orig)
     this->mZOffset=orig.mZOffset;
     this->mElementName=orig.mElementName;
 
+    this->mZOffsetExplicitlySet=orig.mZOffsetExplicitlySet;
     this->mMetaId=orig.mMetaId;
     delete this->mNotes;
     this->mNotes=NULL;
@@ -187,6 +192,7 @@ Point::Point(LayoutPkgNamespaces* layoutns, double x, double y, double z)
   , mXOffset(x)
   , mYOffset(y)
   , mZOffset(z)
+  , mZOffsetExplicitlySet (true)
   , mElementName("point")  
 {
   //
@@ -217,6 +223,7 @@ Point::Point(const XMLNode& node, unsigned int l2version)
   , mXOffset(0.0)
   , mYOffset(0.0)
   , mZOffset(0.0)
+  , mZOffsetExplicitlySet (false)
   , mElementName(node.getName())
 {
     const XMLAttributes& attributes=node.getAttributes();
@@ -370,6 +377,7 @@ void
 Point::setZ (double z)
 {
   this->mZOffset = z;
+  this->mZOffsetExplicitlySet = true;
 }
 
 
@@ -432,6 +440,12 @@ Point::z () const
 }
 
 
+bool
+Point::getZOffsetExplicitlySet() const
+{
+  return mZOffsetExplicitlySet;
+}
+
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -479,7 +493,7 @@ Point::clone () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 Point::createObject (XMLInputStream& stream)
 {
@@ -491,7 +505,7 @@ Point::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Point::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -504,32 +518,144 @@ Point::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Point::readAttributes (const XMLAttributes& attributes,
                             const ExpectedAttributes& expectedAttributes)
 {
-  SBase::readAttributes(attributes,expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
 
-  const unsigned int sbmlLevel   = getLevel  ();
-  const unsigned int sbmlVersion = getVersion();
+	unsigned int numErrs;
 
-  bool assigned = attributes.readInto("id", mId, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mId.empty())
-    {
-      logEmptyString(mId, sbmlLevel, sbmlVersion, "<point>");
-    }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+	SBase::readAttributes(attributes, expectedAttributes);
 
-  attributes.readInto("x", mXOffset,getErrorLog(),true, getLine(), getColumn());
-  attributes.readInto("y", mYOffset,getErrorLog(),true, getLine(), getColumn());
-  if(!attributes.readInto("z", mZOffset, getErrorLog(), false, getLine(), getColumn()))
-  {
-      this->mZOffset=0.0;
-  }
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", LayoutPointAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", 
+                       LayoutPointAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	bool assigned = false;
+
+	//
+	// id SId  ( use = "optional" )
+	//
+	assigned = attributes.readInto("id", mId);
+
+ 	if (assigned == true && getErrorLog() != NULL)
+	{
+		// check string is not empty and correct syntax
+
+		if (mId.empty() == true)
+		{
+			logEmptyString(mId, getLevel(), getVersion(), "<Point>");
+		}
+		else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+		{
+      getErrorLog()->logPackageError("layout", LayoutSIdSyntax, 
+        getPackageVersion(), sbmlLevel, sbmlVersion);
+		}
+	}
+
+	//
+	// x double   ( use = "required" )
+	//
+  numErrs = getErrorLog() != NULL ? getErrorLog()->getNumErrors() : 0;
+	assigned = attributes.readInto("x", mXOffset);
+
+	if (assigned == false)
+	{
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("layout", 
+                     LayoutPointAttributesMustBeDouble,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+			else
+			{
+				std::string message = "Layout attribute 'x' is missing.";
+				getErrorLog()->logPackageError("layout", LayoutPointAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, message);
+			}
+		}
+	}
+
+	//
+	// y double   ( use = "required" )
+	//
+  numErrs = getErrorLog() != NULL ? getErrorLog()->getNumErrors() : 0;
+	assigned = attributes.readInto("y", mYOffset);
+
+	if (assigned == false)
+	{
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("layout", 
+                     LayoutPointAttributesMustBeDouble,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+			else
+			{
+				std::string message = "Layout attribute 'y' is missing.";
+				getErrorLog()->logPackageError("layout", LayoutPointAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, message);
+			}
+		}
+	}
+
+	//
+	// z double   ( use = "optional" )
+	//
+  numErrs = getErrorLog() != NULL ? getErrorLog()->getNumErrors() : 0;
+	mZOffsetExplicitlySet = attributes.readInto("z", mZOffset);
+
+	if (mZOffsetExplicitlySet == false)
+	{
+    mZOffset = 0.0;
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("layout", 
+                     LayoutPointAttributesMustBeDouble,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+		}
+	}
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Point::writeAttributes (XMLOutputStream& stream) const
 {
   SBase::writeAttributes(stream);
@@ -580,8 +706,7 @@ Point::getTypeCode () const
  */
 bool Point::accept (SBMLVisitor& v) const
 {
-    //v.visit(*this);
-    return false;
+    return v.visit(*this);
 }
 
 

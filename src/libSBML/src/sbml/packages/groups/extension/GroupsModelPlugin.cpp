@@ -11,7 +11,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -31,8 +31,8 @@
  */
 
 #include <sbml/packages/groups/extension/GroupsModelPlugin.h>
+#include <sbml/packages/groups/sbml/Group.h>
 
-#include <iostream>
 using namespace std;
 
 
@@ -40,24 +40,25 @@ using namespace std;
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
+
 /*
- * Constructor
+ * Creates a new GroupsModelPlugin
  */
-GroupsModelPlugin::GroupsModelPlugin (const std::string &uri, 
-                                      const std::string &prefix,
-                                      GroupsPkgNamespaces *groupsns)
-  : SBasePlugin(uri,prefix, groupsns)
-   ,mGroups(groupsns)
+GroupsModelPlugin::GroupsModelPlugin(const std::string& uri,  
+                                 const std::string& prefix, 
+                               GroupsPkgNamespaces* groupsns) :
+	  SBasePlugin(uri, prefix, groupsns)
+	, mGroups (groupsns)
 {
 }
 
 
 /*
- * Copy constructor. Creates a copy of this SBase object.
+ * Copy constructor for GroupsModelPlugin.
  */
-GroupsModelPlugin::GroupsModelPlugin(const GroupsModelPlugin& orig)
-  : SBasePlugin(orig)
-  , mGroups(orig.mGroups)
+GroupsModelPlugin::GroupsModelPlugin(const GroupsModelPlugin& orig) :
+	  SBasePlugin(orig)
+	, mGroups ( orig.mGroups)
 {
 }
 
@@ -94,8 +95,14 @@ GroupsModelPlugin::clone () const
 }
 
 
+//---------------------------------------------------------------
+//
+// overridden virtual functions for read/write/check
+//
+//---------------------------------------------------------------
+
 /*
- *
+ * create object
  */
 SBase*
 GroupsModelPlugin::createObject(XMLInputStream& stream)
@@ -235,7 +242,7 @@ GroupsModelPlugin::getGroup (const std::string& sid) const
 /*
  * Returns the number of Group objects.
  */
-int 
+unsigned int 
 GroupsModelPlugin::getNumGroups() const
 {
   return mGroups.size();
@@ -290,7 +297,8 @@ GroupsModelPlugin::createGroup ()
 
   try
   {  
-    g = new Group(static_cast<GroupsPkgNamespaces*>(mSBMLNS));
+		GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
+		g = new Group(groupsns);
   }
   catch(...)
   {
@@ -303,7 +311,10 @@ GroupsModelPlugin::createGroup ()
      */
   }
 
-  if (g) mGroups.appendAndOwn(g);
+	if (g != NULL)
+	{
+		mGroups.appendAndOwn(g);
+	}
 
   return g;
 }
@@ -369,6 +380,29 @@ GroupsModelPlugin::enablePackageInternal(const std::string& pkgURI,
 {
   mGroups.enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
+
+
+/*
+ * Accept the SBMLVisitor.
+ */
+bool
+GroupsModelPlugin::accept(SBMLVisitor& v) const
+{
+	const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
+
+	v.visit(*model);
+	v.leave(*model);
+
+	for(unsigned int i = 0; i < getNumGroups(); i++)
+	{
+		getGroup(i)->accept(v);
+	}
+
+	return true;
+}
+
+
+
 
 LIBSBML_CPP_NAMESPACE_END
 

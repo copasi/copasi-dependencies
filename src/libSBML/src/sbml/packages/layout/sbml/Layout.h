@@ -210,7 +210,7 @@ public:
     
 protected:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -348,7 +348,7 @@ public:
     
 protected:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -486,7 +486,7 @@ public:
     
 protected:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -624,7 +624,7 @@ public:
     
 protected:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -636,28 +636,30 @@ protected:
 class LIBSBML_EXTERN Layout : public SBase
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   std::string mId;
+  std::string mName;
   Dimensions mDimensions;
   ListOfCompartmentGlyphs mCompartmentGlyphs;
   ListOfSpeciesGlyphs mSpeciesGlyphs;
   ListOfReactionGlyphs mReactionGlyphs;
   ListOfTextGlyphs mTextGlyphs;
   ListOfGraphicalObjects mAdditionalGraphicalObjects;
+  bool mDimensionsExplicitlySet;
   /** @endcond */
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   GraphicalObject*
   removeObjectWithId (ListOf* list, const std::string& id);
   /** @endcond */
   
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   const GraphicalObject*
   getObjectWithId (const ListOf* list, const std::string& id) const;
   /** @endcond */
   
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   GraphicalObject*
   getObjectWithId (ListOf* list, const std::string& id) ;
   /** @endcond */
@@ -748,6 +750,31 @@ public:
 
 
   /**
+   * Returns the value of the "name" attribute of this Layout.
+   */
+  virtual const std::string& getName () const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * Layout's "name" attribute has been set.
+   */
+  virtual bool isSetName () const;
+
+  
+  /**
+   * Sets the value of the "name" attribute of this Layout.
+   */
+  virtual int setName (const std::string& name);
+
+
+  /**
+   * Unsets the value of the "name" attribute of this Layout.
+   */
+  virtual int unsetName ();
+
+
+  /**
    * Returns the dimensions of the layout.
    */ 
   
@@ -765,6 +792,10 @@ public:
     
   void setDimensions (const Dimensions* dimensions);
 
+  /**
+   * Predicate returning true if the dimensions has been set
+   */
+  bool getDimensionsExplicitlySet() const;
 
   /**
    * Returns the ListOf object that holds all compartment glyphs.
@@ -1233,7 +1264,7 @@ public:
   GraphicalObject*
   removeAdditionalGraphicalObject(const std::string id);
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write out their contained
    * SBML objects as XML elements.  Be sure to call your parents
@@ -1305,7 +1336,7 @@ public:
     XMLNode toXML() const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBMLDocument of this SBML object.
    *
@@ -1315,7 +1346,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets this SBML object to child SBML objects (if any).
    * (Creates a child-parent relationship by the parent)
@@ -1332,7 +1363,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Enables/Disables the given package with this element and child
    * elements (if any).
@@ -1347,7 +1378,7 @@ public:
 
     
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -1357,7 +1388,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -1368,7 +1399,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
@@ -1379,7 +1410,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -1528,7 +1559,7 @@ public:
     
 protected:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.

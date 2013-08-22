@@ -108,14 +108,14 @@ GroupsModelPlugin mplugin = (GroupsModelPlugin)(model.getPlugin("groups"));
 Group group = mplugin.createGroup();
 
 group.setId("ATP");
-group.setKind("classification");
+group.setKind(libsbml.GROUP_KIND_CLASSIFICATION);
 group.setSBOTerm("SBO:0000252");
 
 Member member = group.createMember();
-member.setSymbol("ATPc");
+member.setIdRef("ATPc");
 
 member = group.createMember();
-member.setSymbol("ATPm");
+member.setIdRef("ATPm");
 
 libsbml.writeSBML(document,"groups_example1-java.xml");
 

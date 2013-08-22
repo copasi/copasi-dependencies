@@ -201,7 +201,7 @@ public:
     
 protected:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -215,10 +215,11 @@ protected:
 class LIBSBML_EXTERN ReactionGlyph : public GraphicalObject
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   std::string mReaction;
   ListOfSpeciesReferenceGlyphs mSpeciesReferenceGlyphs;
   Curve mCurve;
+  bool mCurveExplicitlySet;
   /** @endcond */
         
 
@@ -394,6 +395,8 @@ public:
   
   bool isSetCurve () const;
 
+
+  bool getCurveExplicitlySet() const;
   /**
    * Creates a new SpeciesReferenceGlyph object, adds it to the end of the
    * list of species reference objects and returns a reference to the newly
@@ -445,7 +448,7 @@ public:
   getIndexForSpeciesReferenceGlyph(const std::string& id) const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write out their contained
    * SBML objects as XML elements.  Be sure to call your parents
@@ -507,9 +510,9 @@ public:
    * @return the result of calling <code>v.visit()</code>, which indicates
    * whether or not the Visitor would like to visit the SBML object's next
    * sibling object (if available).
-   
-  virtual bool accept (SBMLVisitor& v) const;
    */
+  virtual bool accept (SBMLVisitor& v) const;
+   
    
    /**
     * Creates an XMLNode object from this.
@@ -517,7 +520,7 @@ public:
     virtual XMLNode toXML() const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBMLDocument of this SBML object.
    *
@@ -527,7 +530,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets this SBML object to child SBML objects (if any).
    * (Creates a child-parent relationship by the parent)
@@ -544,7 +547,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Enables/Disables the given package with this element and child
    * elements (if any).
@@ -558,7 +561,7 @@ public:
   /** @endcond */
     
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -568,7 +571,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -579,7 +582,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
@@ -590,7 +593,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation

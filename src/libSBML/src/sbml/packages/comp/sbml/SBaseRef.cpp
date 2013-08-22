@@ -46,6 +46,7 @@ SBaseRef::SBaseRef (unsigned int level, unsigned int version, unsigned int pkgVe
   , mUnitRef("")
   , mSBaseRef(NULL)
   , mReferencedElement(NULL)
+  , mDirectReference(NULL)
 {
 }
 
@@ -58,6 +59,7 @@ SBaseRef::SBaseRef(CompPkgNamespaces* compns)
   , mUnitRef("")
   , mSBaseRef(NULL)
   , mReferencedElement(NULL)
+  , mDirectReference(NULL)
 {
   loadPlugins(compns);
 }
@@ -77,6 +79,7 @@ SBaseRef::SBaseRef(const SBaseRef& source)
     mSBaseRef=NULL;
   }
   mReferencedElement = NULL;
+  mDirectReference = NULL;
 }
 
 SBaseRef& SBaseRef::operator=(const SBaseRef& source)
@@ -96,6 +99,7 @@ SBaseRef& SBaseRef::operator=(const SBaseRef& source)
     }
   }
   mReferencedElement = NULL;
+  mDirectReference = NULL;
 
   return *this;
 }
@@ -542,7 +546,7 @@ SBaseRef::getElementName () const
   return name;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 SBaseRef::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -554,7 +558,7 @@ SBaseRef::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 SBaseRef::readAttributes (const XMLAttributes& attributes,
                           const ExpectedAttributes& expectedAttributes)
@@ -599,7 +603,7 @@ SBaseRef::readAttributes (const XMLAttributes& attributes,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase* 
 SBaseRef::createObject (XMLInputStream& stream)
 {
@@ -642,7 +646,7 @@ SBaseRef::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 SBaseRef::writeAttributes (XMLOutputStream& stream) const
 {
@@ -663,7 +667,7 @@ SBaseRef::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 SBaseRef::writeElements (XMLOutputStream& stream) const
 {
@@ -698,7 +702,7 @@ SBaseRef::accept (SBMLVisitor& v) const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  */
@@ -713,7 +717,7 @@ SBaseRef::setSBMLDocument (SBMLDocument* d)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets this SBML object to child SBML objects (if any).
  * (Creates a child-parent relationship by the parent)
@@ -732,41 +736,119 @@ SBaseRef::connectToChild()
 SBase* 
 SBaseRef::getReferencedElementFrom(Model* model)
 {
+  SBMLDocument* doc = getSBMLDocument();
   if (!hasRequiredAttributes()) {
+    if (doc) {
+      string error = "In SBaseRef::getReferencedElementFrom, unable to find referenced element from <" + getElementName() + "> ";
+      if (isSetId()) {
+        error += "with ID '" + getId() + "' ";
+      }
+      error += "as it does not have the required attributes.";
+      int en = CompSBaseRefMustReferenceObject;
+      switch(getTypeCode()) {
+      case SBML_COMP_REPLACEDBY:
+        en = CompReplacedByAllowedAttributes;
+        break;
+      case SBML_COMP_REPLACEDELEMENT:
+        en = CompReplacedElementAllowedAttributes;
+        break;
+      case SBML_COMP_PORT:
+        en = CompPortAllowedAttributes;
+        break;
+      case SBML_COMP_DELETION:
+        en = CompDeletionAllowedAttributes;
+      }
+      doc->getErrorLog()->logPackageError("comp", en, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
     return NULL;
   }
   SBase* referent = NULL;
   if (isSetPortRef()) {
     CompModelPlugin* mplugin = static_cast<CompModelPlugin*>(model->getPlugin(getPrefix()));
     Port* port = mplugin->getPort(getPortRef());
-    if (port==NULL) return NULL;
+    if (port==NULL) {
+      if (doc) {
+        string error = "In SBaseRef::getReferencedElementFrom, unable to find referenced element from SBase reference ";
+        if (isSetId()) {
+          error += "'" + getId() + "' ";
+        }
+        error += "as the port it references ('" + getPortRef() +"') could not be found.";
+        doc->getErrorLog()->logPackageError("comp", CompPortRefMustReferencePort, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      }
+      return NULL;
+    }
+    mDirectReference = port;
     referent = port->getReferencedElementFrom(model);
   }
   else if (isSetIdRef()) {
     referent = model->getElementBySId(getIdRef());
+    if (referent == NULL && doc) {
+      string error = "In SBaseRef::getReferencedElementFrom, unable to find referenced element: no such SId in the model: '" + getIdRef() + "'.";
+      doc->getErrorLog()->logPackageError("comp", CompIdRefMustReferenceObject, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
   }
   else if (isSetUnitRef()) {
     referent = model->getUnitDefinition(getUnitRef());
+    if (referent == NULL && doc) {
+      string error = "In SBaseRef::getReferencedElementFrom, unable to find referenced element: no such Unit in the model: '" + getUnitRef() + "'.";
+      doc->getErrorLog()->logPackageError("comp", CompUnitRefMustReferenceUnitDef, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
   }
   else if (isSetMetaIdRef()) {
     referent = model->getElementByMetaId(getMetaIdRef());
+    if (referent == NULL && doc) {
+      string error = "In SBaseRef::getReferencedElementFrom, unable to find referenced element: no such metaid in the model: '" + getMetaIdRef() + "'.";
+      doc->getErrorLog()->logPackageError("comp", CompMetaIdRefMustReferenceObject, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
   }
   else {
     //This is actually possible if the subclass overrides getNumReferents() (which some do).  In that case, we just return NULL and let the overriding function find the referent instead.
     return NULL;
   }
-  if (referent == NULL) return NULL;
+  if (referent == NULL) {
+    //No need to set an error message--one was already set above.
+    return NULL;
+  }
   if (isSetSBaseRef()) {
     //We're drilling into the submodels here, so our referent must be a submodel.
     if (referent->getTypeCode() != SBML_COMP_SUBMODEL) {
-      //Set something in the error log?
+      if (doc) {
+        string error = "In SBaseRef::getReferencedElementFrom, unable to find referenced element: the element ";
+        if (referent->isSetId()) {
+          error += "'" + referent->getId() + "'";
+        }
+        else if (referent->isSetMetaId()) {
+          error += "with the metaid '" + referent->getMetaId() + "'";
+        }
+        error += " is not a submodel, and therefore has no subobjects for the child <sBaseRef> to refer to.";
+        doc->getErrorLog()->logPackageError("comp", CompParentOfSBRefChildMustBeSubmodel, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      }
       return NULL;
     }
     Submodel* subm = static_cast<Submodel*>(referent);
-    if (subm==NULL) return NULL;
+    if (subm==NULL) {
+      //Note:  should be impossible.
+      if (doc) {
+        string error = "In SBaseRef::getReferencedElementFrom, unable to find referenced element: the element ";
+        if (referent->isSetId()) {
+          error += "'" + referent->getId() + "' ";
+        }
+        else if (referent->isSetMetaId()) {
+          error += "with the metaid '" + referent->getMetaId() + "' ";
+        }
+        error += "claims to be a Submodel, but could not be programmatically turned into one.";
+        doc->getErrorLog()->logPackageError("comp", CompParentOfSBRefChildMustBeSubmodel, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      }
+      return NULL;
+    }
     Model* inst = subm->getInstantiation();
-    if (inst==NULL) return NULL;
+    if (inst==NULL) {
+      //No need to set an additional error, as 'getInstantiation' will set one itself.
+      return NULL;
+    }
+    //Recursive, so will set its own error messages:
     referent = getSBaseRef()->getReferencedElementFrom(inst);
+    mDirectReference = getSBaseRef()->getDirectReference();
   }
   return referent;
 }
@@ -774,15 +856,37 @@ SBaseRef::getReferencedElementFrom(Model* model)
 int SBaseRef::saveReferencedElement()
 {
   //The only thing that knows what Model we should point to is the parent of this object.  Since it will also be of the class SBaseRef, just call this recursively.
+  SBMLDocument* doc = getSBMLDocument();
   SBase* parent = getParentSBMLObject();
-  if (parent==NULL) return LIBSBML_OPERATION_FAILED;
+  if (parent==NULL) {
+    if (doc) {
+      string error = "In SBaseRef::saveReferencedElement, unable to find referenced element: no parent could be found for the given <sBaseRef> element.";
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return LIBSBML_OPERATION_FAILED;
+  }
   SBaseRef* parentref = static_cast<SBaseRef*>(parent);
-  if (parentref==NULL) return LIBSBML_OPERATION_FAILED;
+  if (parentref==NULL || (parent->getTypeCode() != SBML_COMP_SBASEREF &&
+                          parent->getTypeCode() != SBML_COMP_PORT &&
+                          parent->getTypeCode() != SBML_COMP_DELETION &&
+                          parent->getTypeCode() != SBML_COMP_REPLACEDBY &&
+                          parent->getTypeCode() != SBML_COMP_REPLACEDELEMENT)) {
+    if (doc) {
+      string error = "In SBaseRef::saveReferencedElement, unable to find referenced element: the parent of the given <sBaseRef> element was not the correct type.";
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return LIBSBML_OPERATION_FAILED;
+  }
   if (parentref->saveReferencedElement() != LIBSBML_OPERATION_SUCCESS) {
+    //saveReferencedElement will set its own error messages.
     return LIBSBML_OPERATION_FAILED;
   }
   mReferencedElement = parentref->getReferencedElement();
-  if (mReferencedElement==NULL) return LIBSBML_OPERATION_FAILED;
+  mDirectReference = parentref->getDirectReference();
+  if (mReferencedElement==NULL) {
+    //getReferencedElement will set its own error messages.
+    return LIBSBML_OPERATION_FAILED;
+  }
   return LIBSBML_OPERATION_SUCCESS;
 }
 
@@ -802,7 +906,9 @@ void SBaseRef::clearReferencedElement()
 int SBaseRef::performDeletion()
 {
   SBase* todelete = getReferencedElement();
-  if (todelete==NULL) return LIBSBML_INVALID_OBJECT;
+  if (todelete==NULL) {
+    return LIBSBML_INVALID_OBJECT;
+  }
   CompSBasePlugin* todplug = static_cast<CompSBasePlugin*>(todelete->getPlugin(getPrefix()));
   if (todplug != NULL) {
     for (unsigned long re=0; re<todplug->getNumReplacedElements(); re++) {
@@ -839,6 +945,10 @@ int SBaseRef::removeFromParentAndDelete()
   }
 }
 
+SBase* SBaseRef::getDirectReference()
+{
+  return mDirectReference;
+}
 
 /**
  * 

@@ -65,6 +65,7 @@
 #include <sbml/util/ElementFilter.h>
 
 #include <sbml/packages/layout/extension/LayoutExtension.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
@@ -91,6 +92,8 @@ BoundingBox::BoundingBox(unsigned int level, unsigned int version, unsigned int 
  : SBase(level,version)
   ,mPosition(level,version,pkgVersion)
   ,mDimensions(level,version,pkgVersion)
+  ,mPositionExplicitlySet (false)
+  ,mDimensionsExplicitlySet (false)
 {
   mPosition.setElementName("position");
   setSBMLNamespacesAndOwn(new LayoutPkgNamespaces(level,version,pkgVersion));  
@@ -102,6 +105,8 @@ BoundingBox::BoundingBox(LayoutPkgNamespaces* layoutns)
  : SBase(layoutns)
   ,mPosition(layoutns)
   ,mDimensions(layoutns)
+  ,mPositionExplicitlySet (false)
+  ,mDimensionsExplicitlySet (false)
 {
   //
   // set the element namespace of this object
@@ -127,6 +132,8 @@ BoundingBox::BoundingBox(const BoundingBox& orig):SBase(orig)
   this->mId = orig.mId;
   this->mPosition=orig.mPosition;
   this->mDimensions=orig.mDimensions;
+  this->mPositionExplicitlySet = orig.mPositionExplicitlySet;
+  this->mDimensionsExplicitlySet = orig.mDimensionsExplicitlySet;
 
   connectToChild();
 }
@@ -144,6 +151,8 @@ BoundingBox& BoundingBox::operator=(const BoundingBox& orig)
     this->mId = orig.mId;
     this->mPosition=orig.mPosition;
     this->mDimensions=orig.mDimensions;
+    this->mPositionExplicitlySet = orig.mPositionExplicitlySet;
+    this->mDimensionsExplicitlySet = orig.mDimensionsExplicitlySet;
 
     connectToChild();
   }
@@ -162,6 +171,8 @@ BoundingBox::BoundingBox (LayoutPkgNamespaces* layoutns, const std::string id)
  ,mId (id)
  ,mPosition(layoutns)
  ,mDimensions(layoutns)
+  ,mPositionExplicitlySet (false)
+  ,mDimensionsExplicitlySet (false)
 {
   //
   // set the element namespace of this object
@@ -185,6 +196,8 @@ BoundingBox::BoundingBox (LayoutPkgNamespaces* layoutns, const std::string id,
   , mId (id)
   , mPosition  (layoutns, x, y, 0.0)
   , mDimensions(layoutns, width, height, 0.0)
+  ,mPositionExplicitlySet (true)
+  ,mDimensionsExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -212,6 +225,8 @@ BoundingBox::BoundingBox (LayoutPkgNamespaces* layoutns, const std::string id,
   , mId (id)
   , mPosition  (layoutns, x, y, z)
   , mDimensions(layoutns, width, height, depth)
+  ,mPositionExplicitlySet (true)
+  ,mDimensionsExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -239,6 +254,8 @@ BoundingBox::BoundingBox (LayoutPkgNamespaces* layoutns, const std::string id,
   , mId (id)
   , mPosition(layoutns)
   , mDimensions(layoutns)
+  ,mPositionExplicitlySet (true)
+  ,mDimensionsExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -273,6 +290,8 @@ BoundingBox::BoundingBox(const XMLNode& node, unsigned int l2version)
   , mId("")
   , mPosition(2,l2version)
   , mDimensions(2,l2version)
+  ,mPositionExplicitlySet (false)
+  ,mDimensionsExplicitlySet (false)
 {
     mPosition.setElementName("position");
 
@@ -291,10 +310,12 @@ BoundingBox::BoundingBox(const XMLNode& node, unsigned int l2version)
         if(childName=="position")
         {
             this->mPosition=Point(*child);
+            this->mPositionExplicitlySet = true;
         }
         else if(childName=="dimensions")
         {
             this->mDimensions=Dimensions(*child);
+            this->mDimensionsExplicitlySet = true;
         }
         else if(childName=="annotation")
         {
@@ -427,6 +448,7 @@ void BoundingBox::setPosition (const Point* p)
     this->mPosition = Point(*p);
 	this->mPosition.setElementName("position");
     this->mPosition.connectToParent(this);
+    this->mPositionExplicitlySet = true;
 }
 
 
@@ -439,6 +461,19 @@ BoundingBox::setDimensions (const Dimensions* d)
   if(!d) return;
   this->mDimensions = Dimensions(*d);
   this->mDimensions.connectToParent(this);
+  this->mDimensionsExplicitlySet = true;
+}
+
+bool
+BoundingBox::getPositionExplicitlySet() const
+{
+  return mPositionExplicitlySet;
+}
+
+bool
+BoundingBox::getDimensionsExplicitlySet() const
+{
+  return mDimensionsExplicitlySet;
 }
 
 
@@ -597,7 +632,7 @@ BoundingBox::clone () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 BoundingBox::createObject (XMLInputStream& stream)
 {
@@ -606,19 +641,31 @@ BoundingBox::createObject (XMLInputStream& stream)
 
   if (name == "dimensions")
   {
+    if (getDimensionsExplicitlySet() == true)
+    {
+      getErrorLog()->logPackageError("layout", LayoutBBoxAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+    }
     object = &mDimensions;
+    mDimensionsExplicitlySet = true;
   }
 
   else if ( name == "position"    )
   {
+    if (getPositionExplicitlySet() == true)
+    {
+      getErrorLog()->logPackageError("layout", LayoutBBoxAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+    }
       object = &mPosition;
+      mPositionExplicitlySet = true;
   }
 
   return object;
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 BoundingBox::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -628,25 +675,68 @@ BoundingBox::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void BoundingBox::readAttributes (const XMLAttributes& attributes,
                                   const ExpectedAttributes& expectedAttributes)
 {
-  SBase::readAttributes(attributes,expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
 
-  const unsigned int sbmlLevel   = getLevel  ();
-  const unsigned int sbmlVersion = getVersion();
+	unsigned int numErrs;
 
-  bool assigned = attributes.readInto("id", mId, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mId.empty())
-  {
-    logEmptyString(mId, sbmlLevel, sbmlVersion, "<boundingBox>");
-  }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+	SBase::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", LayoutBBoxAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", 
+                       LayoutBBoxAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	bool assigned = false;
+
+	//
+	// id SId  ( use = "optional" )
+	//
+	assigned = attributes.readInto("id", mId);
+
+ 	if (assigned == true && getErrorLog() != NULL)
+	{
+		// check string is not empty and correct syntax
+
+		if (mId.empty() == true)
+		{
+			logEmptyString(mId, getLevel(), getVersion(), "<BoundingBox>");
+		}
+		else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+		{
+      getErrorLog()->logPackageError("layout", LayoutSIdSyntax, 
+        getPackageVersion(), sbmlLevel, sbmlVersion);
+		}
+	}
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void BoundingBox::writeAttributes (XMLOutputStream& stream) const
 {
   SBase::writeAttributes(stream);
@@ -676,12 +766,14 @@ BoundingBox::getTypeCode () const
 bool
 BoundingBox::accept (SBMLVisitor& v) const
 {
-  /*
-  bool result=v.visit(*this);
+  v.visit(*this);
+
   mPosition.accept(v);
   mDimensions.accept(v);
-  v.leave(*this);*/
-  return false;
+  
+  v.leave(*this);
+  
+  return true;
 }
 
 /*

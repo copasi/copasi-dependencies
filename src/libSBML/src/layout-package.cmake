@@ -1,7 +1,7 @@
 ###############################################################################
 #
 # $URL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/src/layout-package.cmake $
-# $Id: layout-package.cmake 16951 2013-01-28 19:37:29Z mhucka $
+# $Id: layout-package.cmake 18293 2013-08-05 08:43:49Z sarahkeating $
 #
 # Description       : CMake include file for SBML Level 3 Layout package
 # Original author(s): Frank Bergmann <fbergman@caltech.edu>
@@ -36,7 +36,7 @@ add_definitions( -DUSE_LAYOUT )
 #build up sources
 set(LAYOUT_SOURCES)
 # go through all directtories: common, extension, sbml and util
-foreach(dir common extension sbml util)
+foreach(dir common extension sbml util validator validator/constraints)
 
 	
 	# file sources
@@ -66,6 +66,7 @@ SET(LIBSBML_SOURCES ${LIBSBML_SOURCES} ${LAYOUT_SOURCES})
 if(WITH_CHECK)
 
 	add_subdirectory(sbml/packages/layout/sbml/test)
+	add_subdirectory(sbml/packages/layout/validator/test)
 
 endif()
 

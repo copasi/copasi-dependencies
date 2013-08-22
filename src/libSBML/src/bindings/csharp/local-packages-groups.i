@@ -8,19 +8,29 @@
  *
  * $Id: local.i 10190 2009-09-23 16:03:35Z ajouraku $
  * $URL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/src/bindings/csharp/local.i $
- */
-
-/*
- *This file is part of libSBML.  Please visit http://sbml.org for more
- *information about SBML, and the latest version of libSBML.
  *
- *Copyright 2008 California Institute of Technology.
  *
- *This library is free software; you can redistribute it and/or modify it
- *under the terms of the GNU Lesser General Public License as published by
- *the Free Software Foundation.  A copy of the license agreement is provided
- *in the file named "LICENSE.txt" included with this software distribution
- *and also available online as http://sbml.org/software/libsbml/license.html
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBML.  Please visit http://sbml.org for more
+ * information about SBML, and the latest version of libSBML.
+ *
+ * Copyright (C) 2009-2013 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ *
+ * Copyright (C) 2006-2008 by the California Institute of Technology,
+ *     Pasadena, CA, USA 
+ *
+ * Copyright (C) 2002-2005 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. Japan Science and Technology Agency, Japan
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.  A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as http://sbml.org/software/libsbml/license.html
+ * ------------------------------------------------------------------------ -->
  */
 
 #ifdef USE_GROUPS
@@ -59,6 +69,10 @@
 			     {
 		               return new ListOfMembers(cPtr, owner);
                              }
+				else if (name == "listOfMemberConstraints")
+				{
+					return new ListOfMemberConstraints(cPtr, owner);
+				}
 		             else if(name =="listOfGroups")
 			     {
 		               return new ListOfGroups(cPtr, owner);
@@ -68,7 +82,10 @@
 				
 			case (int) libsbml.SBML_GROUPS_MEMBER:
 				return new Member(cPtr, owner);
-				
+
+			case (int) libsbml.SBML_GROUPS_MEMBER_CONSTRAINT:
+				return new MemberConstraint(cPtr, owner);
+
 			case (int) libsbml.SBML_GROUPS_GROUP:
 				return new Group(cPtr, owner);
 				
@@ -80,18 +97,23 @@
 
 COVARIANT_RTYPE_CLONE(GroupsExtension)
 COVARIANT_RTYPE_CLONE(Member)
+COVARIANT_RTYPE_CLONE(MemberConstraint)
 COVARIANT_RTYPE_CLONE(Group)
 COVARIANT_RTYPE_CLONE(ListOfMembers)
+COVARIANT_RTYPE_CLONE(ListOfMemberConstraints)
 COVARIANT_RTYPE_CLONE(ListOfGroups)
 
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(Member)
+COVARIANT_RTYPE_LISTOF_GET_REMOVE(MemberConstraint)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(Group)
 
-SBMLCONSTRUCTOR_EXCEPTION(Group)
 SBMLCONSTRUCTOR_EXCEPTION(GroupsPkgNamespaces)
-SBMLCONSTRUCTOR_EXCEPTION(ListOfGroups)
-SBMLCONSTRUCTOR_EXCEPTION(ListOfMembers)
 SBMLCONSTRUCTOR_EXCEPTION(Member)
+SBMLCONSTRUCTOR_EXCEPTION(MemberConstraint)
+SBMLCONSTRUCTOR_EXCEPTION(Group)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfMembers)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfMemberConstraints)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfGroups)
 
 #endif  /* USE_GROUPS */
 

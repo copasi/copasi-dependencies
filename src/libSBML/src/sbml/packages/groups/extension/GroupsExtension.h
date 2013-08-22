@@ -10,7 +10,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -151,7 +151,7 @@ public:
   /**
    * Returns the SBML level with the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+	 * @param uri the string of URI that represents one of versions of groups package
    *
    * @return the SBML level with the given URI of this package. 0 will be returned
    * if the given URI is invalid.
@@ -163,7 +163,7 @@ public:
   /**
    * Returns the SBML version with the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+	 * @param uri the string of URI that represents one of versions of groups package
    *
    * @return the SBML version with the given URI of this package. 0 will be returned
    * if the given URI is invalid.
@@ -174,7 +174,7 @@ public:
   /**
    * Returns the package version with the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+	 * @param uri the string of URI that represents one of versions of groups package
    *
    * @return the package version with the given URI of this package. 0 will be returned
    * if the given URI is invalid.
@@ -183,20 +183,20 @@ public:
 
 
   /**
-   * Returns an SBMLExtensionNamespaces<GroupsExtension> object whose alias type is 
-   * LayoutPkgNamespace.
-   * Null will be returned if the given uri is not defined in the layout package.
-   *
-   * @param uri the string of URI that represents one of versions of layout package
-   *
-   * @return an LayoutPkgNamespace object corresponding to the given uri. NULL will
-   * be returned if the given URI is not defined in layout package.
+	 * Returns an SBMLExtensionNamespaces<GroupsExtension> object whose alias type is 
+	 * GroupsPkgNamespace.
+	 * Null will be returned if the given uri is not defined in the groups package.
+	 *
+	 * @param uri the string of URI that represents one of versions of groups package
+	 *
+	 * @return an GroupsPkgNamespace object corresponding to the given uri. NULL will
+	 * be returned if the given URI is not defined in groups package.
    */
   virtual SBMLNamespaces* getSBMLExtensionNamespaces(const std::string &uri) const;
 
 
   /**
-   * This method takes a type code of groups package and returns a string representing 
+	 * This method takes a type code from the Groups package and returns a string representing 
    * the code.
    */
   virtual const char* getStringFromTypeCode(int typeCode) const;
@@ -204,7 +204,7 @@ public:
 
   /** @cond doxygen-libsbml-internal */
   /**
-   * Initializes layout extension by creating an object of this class with 
+	 * Initializes groups extension by creating an object of this class with 
    * required SBasePlugin derived objects and registering the object 
    * to the SBMLExtensionRegistry class.
    *
@@ -219,19 +219,62 @@ public:
 
   /** @endcond doxygen-libsbml-internal */
 
+
+	/** @cond doxygen-libsbml-internal */
+
+	/**
+	 * Return the entry in the error table at this index. 
+	 *
+	 * @param index an unsigned intgere representing the index of the error in the GroupsSBMLErrorTable
+	 *
+	 * @return packageErrorTableEntry object in the GroupsSBMLErrorTable corresponding to the index given.
+	 */
+	virtual packageErrorTableEntry getErrorTable(unsigned int index) const;
+
+
+	/** @endcond doxygen-libsbml-internal */
+
+
+	/** @cond doxygen-libsbml-internal */
+
+	/**
+	 * Return the index in the error table with the given errorId. 
+	 *
+	 * @param errorId an unsigned intgere representing the errorId of the error in the GroupsSBMLErrorTable
+	 *
+	 * @return unsigned integer representing the index in the GroupsSBMLErrorTable corresponding to the errorId given.
+	 */
+	virtual unsigned int getErrorTableIndex(unsigned int errorId) const;
+
+
+	/** @endcond doxygen-libsbml-internal */
+
+
+	/** @cond doxygen-libsbml-internal */
+
+	/**
+	 * Return the offset for the errorId range for the groups L3 package. 
+	 *
+	 * @return unsigned intege representing the  offset for errors GroupsSBMLErrorTable.
+	 */
+	virtual unsigned int getErrorIdOffset() const;
+
+
+	/** @endcond doxygen-libsbml-internal */
+
+
 };
 
 
 // --------------------------------------------------------------------
 //
-// Required typedef definitions 
+// Required typedef definitions
 //
-// LayoutPkgNamespaces is derived from the SBMLNamespaces class and
+// GroupsPkgNamespaces is derived from the SBMLNamespaces class and
 // used when creating an object of SBase derived classes defined in
-// layout package.
+// groups package.
 //
 // --------------------------------------------------------------------
-
 //
 // (NOTE) 
 //
@@ -242,12 +285,18 @@ typedef SBMLExtensionNamespaces<GroupsExtension> GroupsPkgNamespaces;
 
 typedef enum
 {
-   SBML_GROUPS_GROUP  = 200
- , SBML_GROUPS_MEMBER = 201
+	  SBML_GROUPS_MEMBER  = 200
+	, SBML_GROUPS_MEMBER_CONSTRAINT  = 201
+	, SBML_GROUPS_GROUP              = 202
 } SBMLGroupsTypeCode_t;
+
+
 
 
 LIBSBML_CPP_NAMESPACE_END
 
-#endif  /* __cplusplus */
-#endif  /* GroupsExtension_h */
+
+#endif /* __cplusplus */
+#endif /* GroupsExtension_H__ */
+
+

@@ -55,6 +55,8 @@
 #include <sbml/packages/layout/sbml/TextGlyph.h>
 #include <sbml/packages/layout/util/LayoutUtilities.h>
 #include <sbml/packages/layout/extension/LayoutExtension.h>
+#include <sbml/packages/layout/sbml/Layout.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 
 #include <sbml/xml/XMLNode.h>
 #include <sbml/xml/XMLToken.h>
@@ -342,7 +344,7 @@ TextGlyph::clone () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 TextGlyph::createObject (XMLInputStream& stream)
 {
@@ -354,7 +356,7 @@ TextGlyph::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 TextGlyph::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -366,34 +368,160 @@ TextGlyph::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void TextGlyph::readAttributes (const XMLAttributes& attributes,
                                 const ExpectedAttributes& expectedAttributes)
 {
-  GraphicalObject::readAttributes(attributes,expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
 
-  const unsigned int sbmlLevel   = getLevel  ();
-  const unsigned int sbmlVersion = getVersion();
+	unsigned int numErrs;
 
-  bool assigned = attributes.readInto("graphicalObject", mGraphicalObject, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mGraphicalObject.empty())
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfTextGlyphs - which will have
+	 * happened immediately prior to this read
+	*/
+
+  bool loSubGlyphs = false;
+  if (getParentSBMLObject() != NULL
+    && getParentSBMLObject()->getElementName() == "listOfSubGlyphs")
   {
-    logEmptyString(mGraphicalObject, sbmlLevel, sbmlVersion, "<" + getElementName() + ">");
+    loSubGlyphs = true;
   }
-  if (!SyntaxChecker::isValidInternalSId(mGraphicalObject)) logError(InvalidIdSyntax);
 
-  assigned = attributes.readInto("originOfText", mOriginOfText, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mOriginOfText.empty())
-  {
-    logEmptyString(mOriginOfText, sbmlLevel, sbmlVersion, "<" + getElementName() + ">");
-  }
-  if (!SyntaxChecker::isValidInternalSId(mOriginOfText)) logError(InvalidIdSyntax);  
+	if (getErrorLog() != NULL &&
+	    static_cast<ListOfTextGlyphs*>(getParentSBMLObject())->size() < 2)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				      getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+        if (loSubGlyphs == true)
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOSubGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOTextGlyphAllowedAttributes,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				           getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+        if (loSubGlyphs == true)
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOSubGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOTextGlyphAllowedAttributes,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+			}
+		}
+	}
 
-  attributes.readInto("text", mText, getErrorLog(), false, getLine(), getColumn());
+	GraphicalObject::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", LayoutTGAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", LayoutTGAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	bool assigned = false;
+
+	//
+	// graphicalObject SIdRef   ( use = "optional" )
+	//
+	assigned = attributes.readInto("graphicalObject", mGraphicalObject);
+
+	if (assigned == true && getErrorLog() != NULL)
+	{
+		// check string is not empty and correct syntax
+
+		if (mGraphicalObject.empty() == true)
+		{
+			logEmptyString(mGraphicalObject, getLevel(), getVersion(), "<TextGlyph>");
+		}
+		else if (SyntaxChecker::isValidSBMLSId(mGraphicalObject) == false)
+		{
+			getErrorLog()->logPackageError("layout", LayoutTGGraphicalObjectSyntax,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+		}
+	}
+
+	//
+	// text string   ( use = "optional" )
+	//
+	assigned = attributes.readInto("text", mText);
+
+	if (assigned == true && getErrorLog() != NULL)
+	{
+		// check string is not empty
+
+		if (mText.empty() == true)
+		{
+			logEmptyString(mText, getLevel(), getVersion(), "<TextGlyph>");
+		}
+	}
+
+	//
+	// originOfText SIdRef   ( use = "optional" )
+	//
+	assigned = attributes.readInto("originOfText", mOriginOfText);
+
+	if (assigned == true && getErrorLog() != NULL)
+	{
+		// check string is not empty and correct syntax
+
+		if (mOriginOfText.empty() == true)
+		{
+			logEmptyString(mOriginOfText, getLevel(), getVersion(), "<TextGlyph>");
+		}
+		else if (SyntaxChecker::isValidSBMLSId(mOriginOfText) == false)
+		{
+			getErrorLog()->logPackageError("layout", LayoutTGOriginOfTextSyntax,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+		}
+	}
+
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void TextGlyph::writeElements (XMLOutputStream& stream) const
 {
   GraphicalObject::writeElements(stream);
@@ -405,7 +533,7 @@ void TextGlyph::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void TextGlyph::writeAttributes (XMLOutputStream& stream) const
 {
   GraphicalObject::writeAttributes(stream);

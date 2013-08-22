@@ -106,10 +106,10 @@ group.setKind("classification");
 group.setSBOTerm("SBO:0000252");
 
 member = group.createMember();
-member.setSymbol("ATPc");
+member.setIdRef("ATPc");
 
 member = group.createMember();
-member.setSymbol("ATPm");
+member.setIdRef("ATPm");
 
 writeSBML(document,"groups_example1-python.xml");
 

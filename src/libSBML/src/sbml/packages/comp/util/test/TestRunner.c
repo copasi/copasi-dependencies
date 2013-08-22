@@ -46,6 +46,7 @@ CK_CPPSTART
 #endif
 
 Suite *create_suite_TestFlatteningConverter  (void);
+Suite *create_suite_TestFlatteningErrorMessages  (void);
 Suite *create_suite_TestURIResolvers (void);
 Suite *create_suite_TestExternalModelResolving (void);
 
@@ -93,6 +94,7 @@ main (void)
   setTestDataDirectory();
 
   SRunner *runner = srunner_create( create_suite_TestURIResolvers() );
+  srunner_add_suite( runner, create_suite_TestFlatteningErrorMessages() );
   srunner_add_suite( runner, create_suite_TestFlatteningConverter() );
   srunner_add_suite( runner, create_suite_TestExternalModelResolving() );
 

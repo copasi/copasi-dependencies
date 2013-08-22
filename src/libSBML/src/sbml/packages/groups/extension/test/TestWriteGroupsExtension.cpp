@@ -93,8 +93,8 @@ START_TEST (test_GroupsExtension_create_and_write_L3V1V1)
     "    <groups:listOfGroups>\n"
     "      <groups:group sboTerm=\"SBO:0000252\" groups:id=\"ATP\" groups:kind=\"collection\">\n"
     "        <groups:listOfMembers>\n"
-    "          <groups:member groups:symbol=\"ATPc\"/>\n"
-    "          <groups:member groups:symbol=\"ATPm\"/>\n"
+    "          <groups:member groups:idRef=\"ATPc\"/>\n"
+    "          <groups:member groups:idRef=\"ATPm\"/>\n"
     "        </groups:listOfMembers>\n"
     "      </groups:group>\n"
     "    </groups:listOfGroups>\n"
@@ -158,10 +158,10 @@ START_TEST (test_GroupsExtension_create_and_write_L3V1V1)
                                                == LIBSBML_OPERATION_SUCCESS);
 
   Member* member = group->createMember();
-  fail_unless(member->setSymbol("ATPc") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(member->setIdRef("ATPc") == LIBSBML_OPERATION_SUCCESS);
 
   member = group->createMember();
-  fail_unless(member->setSymbol("ATPm") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(member->setIdRef("ATPm") == LIBSBML_OPERATION_SUCCESS);
 
   char *s2 = writeSBMLToString(document);
 
@@ -208,8 +208,8 @@ START_TEST (test_GroupsExtension_create_add_and_write_L3V1V1)
     "    <groups:listOfGroups>\n"
     "      <groups:group sboTerm=\"SBO:0000252\" groups:id=\"ATP\" groups:kind=\"collection\">\n"
     "        <groups:listOfMembers>\n"
-    "          <groups:member groups:symbol=\"ATPc\"/>\n"
-    "          <groups:member groups:symbol=\"ATPm\"/>\n"
+    "          <groups:member groups:idRef=\"ATPc\"/>\n"
+    "          <groups:member groups:idRef=\"ATPm\"/>\n"
     "        </groups:listOfMembers>\n"
     "      </groups:group>\n"
     "    </groups:listOfGroups>\n"
@@ -276,11 +276,11 @@ START_TEST (test_GroupsExtension_create_add_and_write_L3V1V1)
                                                == LIBSBML_OPERATION_SUCCESS);
 
   Member *member1 = new Member(sbmlns);
-  fail_unless(member1->setSymbol("ATPc") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(member1->setIdRef("ATPc") == LIBSBML_OPERATION_SUCCESS);
   fail_unless(group->addMember(member1) == LIBSBML_OPERATION_SUCCESS);
 
   Member *member2 = new Member(sbmlns);
-  fail_unless(member2->setSymbol("ATPm") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(member2->setIdRef("ATPm") == LIBSBML_OPERATION_SUCCESS);
   fail_unless(group->addMember(member2) == LIBSBML_OPERATION_SUCCESS);
   fail_unless(mplugin->addGroup(group) == LIBSBML_OPERATION_SUCCESS);
   fail_unless(mplugin->getGroup(0) != NULL);
@@ -331,8 +331,8 @@ START_TEST (test_GroupsExtension_read_enable_via_model_and_write_L3V1V1)
     "    <groups:listOfGroups>\n"
     "      <groups:group sboTerm=\"SBO:0000252\" groups:id=\"ATP\" groups:kind=\"collection\">\n"
     "        <groups:listOfMembers>\n"
-    "          <groups:member groups:symbol=\"ATPc\"/>\n"
-    "          <groups:member groups:symbol=\"ATPm\"/>\n"
+    "          <groups:member groups:idRef=\"ATPc\"/>\n"
+    "          <groups:member groups:idRef=\"ATPm\"/>\n"
     "        </groups:listOfMembers>\n"
     "      </groups:group>\n"
     "    </groups:listOfGroups>\n"
@@ -374,10 +374,10 @@ START_TEST (test_GroupsExtension_read_enable_via_model_and_write_L3V1V1)
                                                == LIBSBML_OPERATION_SUCCESS);
 
   Member* member = group->createMember();
-  fail_unless(member->setSymbol("ATPc") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(member->setIdRef("ATPc") == LIBSBML_OPERATION_SUCCESS);
 
   member = group->createMember();
-  fail_unless(member->setSymbol("ATPm") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(member->setIdRef("ATPm") == LIBSBML_OPERATION_SUCCESS);
 
   char *s2 = writeSBMLToString(document);
 
@@ -406,8 +406,8 @@ START_TEST (test_GroupsExtension_read_disable_via_model_and_write_L3V1V1)
     "    <groups:listOfGroups>\n"
     "      <groups:group sboTerm=\"SBO:0000252\" groups:id=\"ATP\" groups:kind=\"collection\">\n"
     "        <groups:listOfMembers>\n"
-    "          <groups:member groups:symbol=\"ATPc\"/>\n"
-    "          <groups:member groups:symbol=\"ATPm\"/>\n"
+    "          <groups:member groups:idRef=\"ATPc\"/>\n"
+    "          <groups:member groups:idRef=\"ATPm\"/>\n"
     "        </groups:listOfMembers>\n"
     "      </groups:group>\n"
     "    </groups:listOfGroups>\n"
@@ -491,8 +491,8 @@ START_TEST (test_GroupsExtension_read_enable_via_sbmldocument_and_write_L3V1V1)
     "    <groups:listOfGroups>\n"
     "      <groups:group sboTerm=\"SBO:0000252\" groups:id=\"ATP\" groups:kind=\"collection\">\n"
     "        <groups:listOfMembers>\n"
-    "          <groups:member groups:symbol=\"ATPc\"/>\n"
-    "          <groups:member groups:symbol=\"ATPm\"/>\n"
+    "          <groups:member groups:idRef=\"ATPc\"/>\n"
+    "          <groups:member groups:idRef=\"ATPm\"/>\n"
     "        </groups:listOfMembers>\n"
     "      </groups:group>\n"
     "    </groups:listOfGroups>\n"
@@ -533,10 +533,10 @@ START_TEST (test_GroupsExtension_read_enable_via_sbmldocument_and_write_L3V1V1)
                                                == LIBSBML_OPERATION_SUCCESS);
 
   Member* member = group->createMember();
-  fail_unless(member->setSymbol("ATPc") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(member->setIdRef("ATPc") == LIBSBML_OPERATION_SUCCESS);
 
   member = group->createMember();
-  fail_unless(member->setSymbol("ATPm") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(member->setIdRef("ATPm") == LIBSBML_OPERATION_SUCCESS);
 
   char *s2 = writeSBMLToString(document);
 
@@ -565,8 +565,8 @@ START_TEST (test_GroupsExtension_read_disable_via_sbmldocument_and_write_L3V1V1)
     "    <groups:listOfGroups>\n"
     "      <groups:group sboTerm=\"SBO:0000252\" groups:id=\"ATP\" groups:kind=\"collection\">\n"
     "        <groups:listOfMembers>\n"
-    "          <groups:member groups:symbol=\"ATPc\"/>\n"
-    "          <groups:member groups:symbol=\"ATPm\"/>\n"
+    "          <groups:member groups:idRef=\"ATPc\"/>\n"
+    "          <groups:member groups:idRef=\"ATPm\"/>\n"
     "        </groups:listOfMembers>\n"
     "      </groups:group>\n"
     "    </groups:listOfGroups>\n"

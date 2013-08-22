@@ -10,7 +10,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -36,7 +36,8 @@
 #include <sbml/packages/groups/extension/GroupsExtension.h>
 #include <sbml/packages/groups/extension/GroupsModelPlugin.h>
 
-#include <sbml/packages/groups/sbml/Group.h>
 #include <sbml/packages/groups/sbml/Member.h>
+#include <sbml/packages/groups/sbml/MemberConstraint.h>
+#include <sbml/packages/groups/sbml/Group.h>
 
 #endif  /* GroupsExtensionTypes_h */

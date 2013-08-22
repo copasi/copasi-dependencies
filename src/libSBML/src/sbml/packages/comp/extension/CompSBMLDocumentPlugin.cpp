@@ -103,7 +103,7 @@ CompSBMLDocumentPlugin::~CompSBMLDocumentPlugin ()
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 CompSBMLDocumentPlugin::createObject(XMLInputStream& stream)
 {
@@ -170,7 +170,7 @@ CompSBMLDocumentPlugin::createObject(XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 CompSBMLDocumentPlugin::writeElements (XMLOutputStream& stream) const
 {
@@ -225,7 +225,7 @@ CompSBMLDocumentPlugin::getAllElements(ElementFilter *filter)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 CompSBMLDocumentPlugin::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -239,7 +239,7 @@ CompSBMLDocumentPlugin::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 CompSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
                                         const ExpectedAttributes& expectedAttributes)
@@ -553,8 +553,8 @@ const SBase* CompSBMLDocumentPlugin::getModel(const string& sid) const
  */
 SBase* CompSBMLDocumentPlugin::getModel(const string& sid)
 {
-  SBMLDocument* sdoc = getSBMLDocument();
-  if (sdoc==NULL) return NULL;
+  SBMLDocument* doc = getSBMLDocument();
+  if (doc==NULL) return NULL;
   SBase* ret = getSBMLDocument()->getModel();
   if (ret != NULL && ret->getId() == sid) return ret;
   ret = getModelDefinition(sid);
@@ -584,7 +584,7 @@ CompSBMLDocumentPlugin::setRequired(bool required)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 CompSBMLDocumentPlugin::setSBMLDocument (SBMLDocument* d)
 {
@@ -596,7 +596,7 @@ CompSBMLDocumentPlugin::setSBMLDocument (SBMLDocument* d)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 CompSBMLDocumentPlugin::connectToChild()
 {
@@ -605,7 +605,7 @@ CompSBMLDocumentPlugin::connectToChild()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 CompSBMLDocumentPlugin::connectToParent (SBase* sbase)
 {
@@ -616,7 +616,7 @@ CompSBMLDocumentPlugin::connectToParent (SBase* sbase)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Enables/Disables the given package with child elements in this plugin
  * object (if any).
@@ -706,7 +706,7 @@ CompSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
   /* 
    * note number of errors before we do anything here 
    * so we get the right number after
-   * total_errors here means teh total number logged by this function
+   * total_errors here means the total number logged by this function
    */
 
   unsigned int errorsB4 = doc->getErrorLog()->getNumErrors();
@@ -714,9 +714,11 @@ CompSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
   SBMLErrorLog *log = doc->getErrorLog();
   total_errors = log->getNumErrors() - errorsB4;
 
-  /* log a message to say not to trust line numbers */
-  log->logPackageError("comp", CompLineNumbersUnreliable, 
-                        getLevel(), getVersion(), getPackageVersion());
+  /* log a message to say not to trust line numbers 
+   * but only do this if we are actually logging errors
+   * use boolean to ensure we only log it once
+   */
+  bool lineNumMessageLogged = false;
 
   unsigned char applicableValidators = doc->getApplicableValidators();
 
@@ -734,7 +736,20 @@ CompSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
     total_errors += nerrors;
     if (nerrors > 0) 
     {
+      /* log a message to say not to trust line numbers 
+       * but only do this if we are actually logging errors
+       * and only do it once
+       */
+      if (lineNumMessageLogged == false)
+      {
+        log->logPackageError("comp", CompLineNumbersUnreliable, 
+          getPackageVersion(), getLevel(), getVersion());
+        total_errors++;
+        lineNumMessageLogged = true;
+      }
+
       log->add(id_validator.getFailures() );
+      
       /* only want to bail if errors not warnings */
       if (log->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) > 0)
       {
@@ -750,7 +765,20 @@ CompSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
     total_errors += nerrors;
     if (nerrors > 0) 
     {
+      /* log a message to say not to trust line numbers 
+       * but only do this if we are actually logging errors
+       * and only do it once
+       */
+      if (lineNumMessageLogged == false)
+      {
+        log->logPackageError("comp", CompLineNumbersUnreliable, 
+          getPackageVersion(), getLevel(), getVersion());
+        total_errors++;
+        lineNumMessageLogged = true;
+      }
+
       log->add( validator.getFailures() );
+
       /* only want to bail if errors not warnings */
       if (log->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) > 0)
       {
@@ -786,6 +814,18 @@ CompSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
       total_errors += nerrors;
       if (nerrors > 0) 
       {
+        /* log a message to say not to trust line numbers 
+         * but only do this if we are actually logging errors
+         * and only do it once
+         */
+        if (lineNumMessageLogged == false)
+        {
+          log->logPackageError("comp", CompLineNumbersUnreliable, 
+            getPackageVersion(), getLevel(), getVersion());
+          total_errors++;
+          lineNumMessageLogged = true;
+        }
+
         for (unsigned int n = 0; n < nerrors; n++)
         {
           log->add( *(dummyDoc->getErrorLog()->getError(n)) );
@@ -830,15 +870,39 @@ CompSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
       if (dummyDoc->getErrorLog()->
                               getNumFailsWithSeverity(LIBSBML_SEV_ERROR) > 0)
       {
+        /* log a message to say not to trust line numbers 
+         * but only do this if we are actually logging errors
+         * and only do it once
+         */
+        if (lineNumMessageLogged == false)
+        {
+          log->logPackageError("comp", CompLineNumbersUnreliable, 
+            getPackageVersion(), getLevel(), getVersion());
+          total_errors++;
+          lineNumMessageLogged = true;
+        }
+
         std::string message = "Errors that follow relate to the flattened ";
         message += "document produced using the CompFlatteningConverter.";
-        log->logPackageError("comp", CompFlatModelNotValid, getLevel(),
-          getVersion(), getPackageVersion(), message);
+        log->logPackageError("comp", CompFlatModelNotValid, 
+          getPackageVersion(), getLevel(), getVersion(), message);
       }
 
       total_errors += nerrors;
       if (nerrors > 0) 
       {
+         /* log a message to say not to trust line numbers 
+         * but only do this if we are actually logging errors
+         * and only do it once
+         */
+        if (lineNumMessageLogged == false)
+        {
+          log->logPackageError("comp", CompLineNumbersUnreliable, 
+            getPackageVersion(), getLevel(), getVersion());
+          total_errors++;
+          lineNumMessageLogged = true;
+        }
+
         for (unsigned int n = 0; n < nerrors; n++)
         {
           log->add( *(dummyDoc->getErrorLog()->getError(n)) );
@@ -851,6 +915,18 @@ CompSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
       total_errors += nerrors;
       if (nerrors > 0) 
       {
+        /* log a message to say not to trust line numbers 
+         * but only do this if we are actually logging errors
+         * and only do it once
+         */
+        if (lineNumMessageLogged == false)
+        {
+          log->logPackageError("comp", CompLineNumbersUnreliable, 
+            getPackageVersion(), getLevel(), getVersion());
+          total_errors++;
+          lineNumMessageLogged = true;
+        }
+
         for (unsigned int n = 0; n < nerrors; n++)
         {
           log->add( *(dummyDoc->getErrorLog()->getError(n)) );
@@ -863,7 +939,7 @@ CompSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
   return total_errors;  
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 bool 
 CompSBMLDocumentPlugin::accept(SBMLVisitor& v) const

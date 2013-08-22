@@ -36,7 +36,7 @@
 #include <sbml/packages/comp/validator/CompValidator.h>
 #include <sbml/packages/comp/common/CompExtensionTypes.h>
 #include <sbml/SBMLTypes.h>
-/** @cond doxygen-ignored */
+/** @cond doxygenIgnored */
 
 using namespace std;
 
@@ -487,9 +487,22 @@ CompValidator::validate (const SBMLDocument& d)
     CompValidatingVisitor vv(*this, *m);
 
     // validate via the plugins for the package
-    static_cast <const CompSBMLDocumentPlugin *> 
-                                    (d.getPlugin("comp"))->accept(vv);
-    static_cast <CompModelPlugin *> (m->getPlugin("comp"))->accept(vv);
+    const CompSBMLDocumentPlugin* csdp = 
+      static_cast <const CompSBMLDocumentPlugin *>(d.getPlugin("comp"));
+    
+    if (csdp != NULL) 
+    {
+      csdp->accept(vv);
+    }
+
+    CompModelPlugin* cmp = 
+      static_cast <CompModelPlugin *>(m->getPlugin("comp"));
+    
+    if (cmp != NULL) 
+    {
+      cmp->accept(vv);
+    }
+    
 
     unsigned int i = 0;
     unsigned int j;

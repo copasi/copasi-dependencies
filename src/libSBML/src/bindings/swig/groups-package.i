@@ -28,14 +28,17 @@
 
 #ifdef USE_GROUPS
 
-%newobject removeGroup;
 %newobject removeMember;
+%newobject removeMemberConstraint;
+%newobject removeGroup;
 
-%template(GroupsPkgNamespaces) SBMLExtensionNamespaces<GroupsExtension>;
+%template (GroupsPkgNamespaces) SBMLExtensionNamespaces<GroupsExtension>;
 
 %include <sbml/packages/groups/extension/GroupsExtension.h>
 %include <sbml/packages/groups/extension/GroupsModelPlugin.h>
-%include <sbml/packages/groups/sbml/Group.h>
 %include <sbml/packages/groups/sbml/Member.h>
+%include <sbml/packages/groups/sbml/MemberConstraint.h>
+%include <sbml/packages/groups/sbml/Group.h>
 
 #endif /* USE_GROUPS */
+

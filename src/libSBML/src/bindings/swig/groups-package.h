@@ -27,10 +27,12 @@
 
 #ifdef USE_GROUPS
 
-#include <sbml/packages/groups/sbml/Group.h>
 #include <sbml/packages/groups/extension/GroupsExtension.h>
-#include <sbml/packages/groups/common/GroupsExtensionTypes.h>
 #include <sbml/packages/groups/extension/GroupsModelPlugin.h>
+#include <sbml/packages/groups/common/GroupsExtensionTypes.h>
 #include <sbml/packages/groups/sbml/Member.h>
+#include <sbml/packages/groups/sbml/MemberConstraint.h>
+#include <sbml/packages/groups/sbml/Group.h>
 
-#endif
+#endif // USE_GROUPS 
+

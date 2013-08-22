@@ -246,22 +246,35 @@ END_TEST
 
 START_TEST(test_GroupsExtension_typecode)
 {
-  const SBMLExtension* sbext = SBMLExtensionRegistry::getInstance().getExtension("groups");
+  const SBMLExtension* sbext = SBMLExtensionRegistry::getInstance().
+                                                      getExtension("groups");
 
   fail_unless(sbext != NULL);
-  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_GROUPS_GROUP), "Group") == 0);
-  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_GROUPS_MEMBER), "Member") == 0);
-  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_GROUPS_GROUP-1), "(Unknown SBML Groups Type)") == 0);
-  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_GROUPS_MEMBER+1), "(Unknown SBML Groups Type)") == 0);
+  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_GROUPS_GROUP), 
+                                                              "Group")== 0);
+  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_GROUPS_MEMBER), 
+                                                            "Member") == 0);
+  fail_unless(strcmp(sbext->getStringFromTypeCode(
+                  SBML_GROUPS_MEMBER_CONSTRAINT), "MemberConstraint") == 0);
+  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_GROUPS_GROUP+1), 
+                                        "(Unknown SBML Groups Type)") == 0);
+  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_GROUPS_MEMBER-1), 
+                                        "(Unknown SBML Groups Type)") == 0);
 }
 END_TEST
 
 START_TEST(test_GroupsExtension_SBMLtypecode)
 {	
-	fail_unless(strcmp(SBMLTypeCode_toString(SBML_GROUPS_GROUP     ,"groups"), "Group") == 0);
-	fail_unless(strcmp(SBMLTypeCode_toString(SBML_GROUPS_MEMBER    ,"groups"), "Member") == 0);
-	fail_unless(strcmp(SBMLTypeCode_toString(SBML_GROUPS_GROUP - 1   ,"groups"), "(Unknown SBML Groups Type)") == 0);
-	fail_unless(strcmp(SBMLTypeCode_toString(SBML_GROUPS_MEMBER + 1  ,"groups"), "(Unknown SBML Groups Type)") == 0);
+	fail_unless(strcmp(SBMLTypeCode_toString(SBML_GROUPS_GROUP     ,"groups"), 
+                                                              "Group") == 0);
+	fail_unless(strcmp(SBMLTypeCode_toString(SBML_GROUPS_MEMBER    ,"groups"), 
+                                                             "Member") == 0);
+	fail_unless(strcmp(SBMLTypeCode_toString(SBML_GROUPS_MEMBER_CONSTRAINT,
+                                       "groups"),  "MemberConstraint") == 0);
+	fail_unless(strcmp(SBMLTypeCode_toString(SBML_GROUPS_GROUP + 1, "groups"), 
+                                         "(Unknown SBML Groups Type)") == 0);
+	fail_unless(strcmp(SBMLTypeCode_toString(SBML_GROUPS_MEMBER - 1, "groups"), 
+                                         "(Unknown SBML Groups Type)") == 0);
 }
 END_TEST
 

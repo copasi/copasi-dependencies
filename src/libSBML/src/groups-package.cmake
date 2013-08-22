@@ -1,16 +1,14 @@
 ###############################################################################
 #
-# $URL: https://sbml.svn.sourceforge.net/svnroot/sbml/branches/libsbml-5/src/groups-package.cmake $
-# $Id: groups-package.cmake 13541 2011-04-08 22:16:45Z fbergmann $
-#
-# Description       : CMake include file for SBML Level 3 Groups package
+# @file:   groups-package.cmake
+# @brief:  CMake configuration for L3 Groups package
 # Original author(s): Frank Bergmann <fbergman@caltech.edu>
 # Organization      : California Institute of Technology
 #
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2009-2011 jointly by the following organizations: 
+# Copyright (C) 2009-2013 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
 #  
@@ -36,8 +34,8 @@ include(${CMAKE_SOURCE_DIR}/groups-package.cmake)
 #build up sources
 set(GROUPS_SOURCES)
 
-# go through all directtories: common, extension and sbml
-foreach(dir common extension sbml)
+# go through all directories: common, extension and sbml
+foreach(dir common extension sbml validator)
 
 	# add to include directory
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/groups/${dir})

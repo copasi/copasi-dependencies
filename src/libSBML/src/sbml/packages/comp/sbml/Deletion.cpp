@@ -158,7 +158,7 @@ Deletion::getElementName () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Deletion::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -168,7 +168,7 @@ Deletion::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Deletion::readAttributes (const XMLAttributes& attributes,
                           const ExpectedAttributes& expectedAttributes)
@@ -234,7 +234,7 @@ Deletion::readAttributes (const XMLAttributes& attributes,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Deletion::writeAttributes (XMLOutputStream& stream) const
 {
@@ -260,23 +260,53 @@ Deletion::getTypeCode () const
 int 
 Deletion::saveReferencedElement()
 {
+  SBMLDocument* doc = getSBMLDocument();
   SBase* listodels = getParentSBMLObject();
-  if (listodels==NULL) return LIBSBML_OPERATION_FAILED;
+  ListOf* listodelslist = static_cast<ListOf*>(listodels);
+  if (listodels==NULL || listodels->getTypeCode() != SBML_LIST_OF || listodelslist->getItemTypeCode() != SBML_COMP_DELETION ) {
+    if (doc) {
+      string error = "Unable to find referenced element in Deletion::saveReferencedElement: the deletion ";
+      if (isSetId()) {
+        error += "'" + getId() + "' ";
+      }
+      error += "has no parent list of deletions.";
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return LIBSBML_OPERATION_FAILED;
+  }
   SBase* submodsb = listodels->getParentSBMLObject();
-  if (submodsb==NULL) return LIBSBML_OPERATION_FAILED;
   Submodel* submod = static_cast<Submodel*>(submodsb);
-  if (submod==NULL) return LIBSBML_OPERATION_FAILED;
+  if (submodsb==NULL || submod->getTypeCode() != SBML_COMP_SUBMODEL) {
+    if (doc) {
+      string error = "Unable to find referenced element in Deletion::saveReferencedElement: the deletion ";
+      if (isSetId()) {
+        error += "'" + getId() + "' ";
+      }
+      error += "has no parent submodel.";
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return LIBSBML_OPERATION_FAILED;
+  }
   Model* referencedmod = submod->getInstantiation();
   mReferencedElement = getReferencedElementFrom(referencedmod);
-  if (mReferencedElement==NULL) return LIBSBML_OPERATION_FAILED;
+  if (mDirectReference==NULL) {
+    mDirectReference = mReferencedElement;
+  }
+  if (mReferencedElement==NULL) {
+    //getReferencedElementFrom will provide its own error messages.
+    return LIBSBML_OPERATION_FAILED;
+  }
   if (mReferencedElement->getTypeCode()==SBML_COMP_PORT) {
     mReferencedElement = static_cast<Port*>(mReferencedElement)->getReferencedElement();
   }
-  if (mReferencedElement==NULL) return LIBSBML_OPERATION_FAILED;
+  if (mReferencedElement==NULL) {
+    //getReferencedElementFrom will provide its own error messages.
+    return LIBSBML_OPERATION_FAILED;
+  }
   return LIBSBML_OPERATION_SUCCESS;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 bool
 Deletion::accept (SBMLVisitor& v) const

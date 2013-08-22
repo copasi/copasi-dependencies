@@ -56,15 +56,15 @@ public class example1
     Input i = t.createInput();
     i.setId("RD");
     i.setQualitativeSpecies("s1");
-    i.setTransitionEffect("none");
-    i.setSign("negative");
+    i.setTransitionEffect(libsbml.INPUT_TRANSITION_EFFECT_NONE);
+    i.setSign(libsbml.INPUT_SIGN_NEGATIVE);
     i.setThresholdLevel(2);
     i.setName("aa");
 
     Output o = t.createOutput();
     o.setId("wd");
     o.setQualitativeSpecies("s1");
-    o.setTransitionEffect("production");
+    o.setTransitionEffect(libsbml.OUTPUT_TRANSITION_EFFECT_PRODUCTION);
     o.setOutputLevel(2);
     o.setName("aa");
 

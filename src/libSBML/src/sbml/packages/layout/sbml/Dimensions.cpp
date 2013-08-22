@@ -65,6 +65,7 @@
 #include <sbml/xml/XMLOutputStream.h>
 
 #include <sbml/packages/layout/extension/LayoutExtension.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
@@ -76,6 +77,7 @@ Dimensions::Dimensions (unsigned int level, unsigned int version, unsigned int p
   , mW(0.0)
   , mH(0.0)
   , mD(0.0)
+  , mDExplicitlySet (false)
 {
   setSBMLNamespacesAndOwn(new LayoutPkgNamespaces(level,version,pkgVersion));  
 }
@@ -89,6 +91,7 @@ Dimensions::Dimensions(LayoutPkgNamespaces* layoutns)
   , mW(0.0)
   , mH(0.0)
   , mD(0.0)  
+  , mDExplicitlySet (false)
 {
   //
   // set the element namespace of this object
@@ -110,6 +113,7 @@ Dimensions::Dimensions (LayoutPkgNamespaces* layoutns, double width, double heig
   , mW(width)
   , mH(height)
   , mD(depth)
+  , mDExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -129,6 +133,7 @@ Dimensions::Dimensions(const Dimensions& orig)
     this->mH=orig.mH;
     this->mW=orig.mW;
     this->mD=orig.mD;
+    this->mDExplicitlySet=orig.mDExplicitlySet;
     // attributes of SBase
 //    this->mId=orig.mId;
 //    this->mName=orig.mName;
@@ -158,6 +163,7 @@ Dimensions& Dimensions::operator=(const Dimensions& orig)
     this->mH=orig.mH;
     this->mW=orig.mW;
     this->mD=orig.mD;
+    this->mDExplicitlySet=orig.mDExplicitlySet;
     this->mMetaId=orig.mMetaId;
     delete this->mNotes;
     this->mNotes=NULL;
@@ -193,6 +199,7 @@ Dimensions::Dimensions(const XMLNode& node, unsigned int l2version)
  , mW(0.0)
  , mH(0.0)
  , mD(0.0)
+ , mDExplicitlySet (false)
 {
     const XMLAttributes& attributes=node.getAttributes();
     const XMLNode* child;
@@ -362,6 +369,8 @@ Dimensions::setHeight (double height)
 void Dimensions::setDepth (double depth)
 {
   this->mD = depth;
+  this->mDExplicitlySet = true;
+
 }
 
 
@@ -376,6 +385,11 @@ Dimensions::setBounds (double w, double h, double d)
   this->setDepth (d);
 }
 
+bool 
+Dimensions::getDExplicitlySet() const
+{ 
+  return mDExplicitlySet;
+}
 
 /*
  * Sets the depth to 0.0
@@ -405,7 +419,7 @@ Dimensions::clone () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 Dimensions::createObject (XMLInputStream& stream)
 {
@@ -417,7 +431,7 @@ Dimensions::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Dimensions::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -430,36 +444,145 @@ Dimensions::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Dimensions::readAttributes (const XMLAttributes& attributes,
                                  const ExpectedAttributes& expectedAttributes)
 {
-  SBase::readAttributes(attributes,expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
 
-  const unsigned int sbmlLevel   = getLevel  ();
-  const unsigned int sbmlVersion = getVersion();
+	unsigned int numErrs;
 
-  bool assigned = attributes.readInto("id", mId, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mId.empty())
-  {
-    logEmptyString(mId, sbmlLevel, sbmlVersion, "<dimension>");
-  }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+	SBase::readAttributes(attributes, expectedAttributes);
 
-  attributes.readInto(std::string("width"),  mW, getErrorLog(),true, getLine(), getColumn());
-  attributes.readInto(std::string("height"), mH, getErrorLog(),true, getLine(), getColumn());
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", LayoutDimsAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", 
+                       LayoutDimsAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
 
-  //
-  // (TODO) default value should be allowd in package of Level 3?
-  //
-  if(!attributes.readInto("depth", mD, getErrorLog(), false, getLine(), getColumn()))
-  {
-      this->mD=0.0;
-  }
+	bool assigned = false;
+
+	//
+	// id SId  ( use = "optional" )
+	//
+	assigned = attributes.readInto("id", mId);
+
+ 	if (assigned == true && getErrorLog() != NULL)
+	{
+		// check string is not empty and correct syntax
+
+		if (mId.empty() == true)
+		{
+			logEmptyString(mId, getLevel(), getVersion(), "<Dimensions>");
+		}
+		else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+		{
+      getErrorLog()->logPackageError("layout", LayoutSIdSyntax, 
+        getPackageVersion(), sbmlLevel, sbmlVersion);
+		}
+	}
+
+	//
+	// width double   ( use = "required" )
+	//
+  numErrs = getErrorLog() != NULL ? getErrorLog()->getNumErrors() : 0;
+	assigned = attributes.readInto("width", mW);
+
+	if (assigned == false)
+	{
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("layout", 
+                     LayoutDimsAttributesMustBeDouble,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+			else
+			{
+				std::string message = "Layout attribute 'width' is missing.";
+				getErrorLog()->logPackageError("layout", LayoutDimsAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, message);
+			}
+		}
+	}
+
+	//
+	// height double   ( use = "required" )
+	//
+  numErrs = getErrorLog() != NULL ? getErrorLog()->getNumErrors() : 0;
+	assigned = attributes.readInto("height", mH);
+
+	if (assigned == false)
+	{
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("layout", 
+                     LayoutDimsAttributesMustBeDouble,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+			else
+			{
+				std::string message = "Layout attribute 'height' is missing.";
+				getErrorLog()->logPackageError("layout", LayoutDimsAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, message);
+			}
+		}
+	}
+
+	//
+	// depth double   ( use = "optional" )
+	//
+  numErrs = getErrorLog() != NULL ? getErrorLog()->getNumErrors() : 0;
+	mDExplicitlySet = attributes.readInto("depth", mD);
+
+	if (mDExplicitlySet == false)
+	{
+    mD = 0.0;
+		if (getErrorLog() != NULL)
+		{
+			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+			        getErrorLog()->contains(XMLAttributeTypeMismatch))
+			{
+				getErrorLog()->remove(XMLAttributeTypeMismatch);
+				getErrorLog()->logPackageError("layout", 
+                     LayoutDimsAttributesMustBeDouble,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+			}
+		}
+	}
+
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Dimensions::writeElements (XMLOutputStream& stream) const
 {
@@ -472,7 +595,7 @@ Dimensions::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Dimensions::writeAttributes (XMLOutputStream& stream) const
 {
   SBase::writeAttributes(stream);
@@ -518,8 +641,7 @@ Dimensions::getTypeCode () const
  */
 bool Dimensions::accept (SBMLVisitor& v) const
 {
-    //return v.visit(*this);
-    return false;
+    return v.visit(*this);
 }
 
 /*

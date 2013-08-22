@@ -64,6 +64,7 @@
 
 #include <sbml/packages/layout/extension/LayoutExtension.h>
 #include <sbml/packages/layout/common/LayoutExtensionTypes.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 
 #include <sbml/util/ElementFilter.h>
 
@@ -104,6 +105,7 @@ GraphicalObject::GraphicalObject(unsigned int level, unsigned int version, unsig
   , mId("")
   , mMetaIdRef ("")
   , mBoundingBox(level,version,pkgVersion)
+  , mBoundingBoxExplicitlySet (false)
 {
   setSBMLNamespacesAndOwn(new LayoutPkgNamespaces(level,version,pkgVersion));  
 }
@@ -117,6 +119,7 @@ GraphicalObject::GraphicalObject (LayoutPkgNamespaces* layoutns)
   , mId ("")
   , mMetaIdRef ("")
   , mBoundingBox(layoutns)
+  , mBoundingBoxExplicitlySet (false)
 {
   //
   // set the element namespace of this object
@@ -140,6 +143,7 @@ GraphicalObject::GraphicalObject (LayoutPkgNamespaces* layoutns, const std::stri
   , mId (id)
   , mMetaIdRef ("")
   , mBoundingBox(layoutns)
+  , mBoundingBoxExplicitlySet (false )
 {
   //
   // set the element namespace of this object
@@ -165,6 +169,7 @@ GraphicalObject::GraphicalObject (LayoutPkgNamespaces* layoutns, const std::stri
   , mId (id)
   , mMetaIdRef ("")
   , mBoundingBox( BoundingBox(layoutns, "", x, y, 0.0, w, h, 0.0))
+  , mBoundingBoxExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -191,6 +196,7 @@ GraphicalObject::GraphicalObject (LayoutPkgNamespaces* layoutns, const std::stri
   , mId (id)
   , mMetaIdRef ("")
   , mBoundingBox( BoundingBox(layoutns, "", x, y, z, w, h, d))
+  , mBoundingBoxExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -217,6 +223,7 @@ GraphicalObject::GraphicalObject (LayoutPkgNamespaces* layoutns, const std::stri
   , mId (id)
   , mMetaIdRef ("")
   , mBoundingBox( BoundingBox(layoutns, "", p, d) )
+  , mBoundingBoxExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -241,6 +248,7 @@ GraphicalObject::GraphicalObject (LayoutPkgNamespaces* layoutns, const std::stri
   , mId (id)
   , mMetaIdRef ("")
   , mBoundingBox(layoutns)
+  , mBoundingBoxExplicitlySet ( false)
 {
   //
   // set the element namespace of this object
@@ -250,6 +258,7 @@ GraphicalObject::GraphicalObject (LayoutPkgNamespaces* layoutns, const std::stri
   if(bb)
   {
       this->mBoundingBox=*bb;
+      mBoundingBoxExplicitlySet = true;
   }
 
   connectToChild();
@@ -288,6 +297,7 @@ GraphicalObject::GraphicalObject(const XMLNode& node, unsigned int l2version)
         if(childName=="boundingBox")
         {
             this->mBoundingBox=BoundingBox(*child);
+            mBoundingBoxExplicitlySet = true;
         }
         else if(childName=="annotation")
         {
@@ -329,6 +339,7 @@ GraphicalObject::GraphicalObject(const GraphicalObject& source):SBase(source)
     this->mId = source.mId;
     this->mMetaIdRef = source.mMetaIdRef;
     this->mBoundingBox=*source.getBoundingBox();
+    this->mBoundingBoxExplicitlySet = source.mBoundingBoxExplicitlySet;
 
     connectToChild();
 }
@@ -344,6 +355,7 @@ GraphicalObject& GraphicalObject::operator=(const GraphicalObject& source)
     this->mId = source.mId;
     this->mMetaIdRef = source.mMetaIdRef;
     this->mBoundingBox=*source.getBoundingBox();
+    this->mBoundingBoxExplicitlySet = source.mBoundingBoxExplicitlySet;
 
     connectToChild();
   }
@@ -460,6 +472,7 @@ GraphicalObject::setBoundingBox (const BoundingBox* bb)
   if(bb==NULL) return;  
   this->mBoundingBox = *bb;
   this->mBoundingBox.connectToParent(this);
+  this->mBoundingBoxExplicitlySet = true;
 }
 
 
@@ -482,6 +495,12 @@ GraphicalObject::getBoundingBox ()
   return &this->mBoundingBox;
 }
 
+
+bool
+GraphicalObject::getBoundingBoxExplicitlySet() const
+{
+  return mBoundingBoxExplicitlySet;
+}
 
 /*
  * Does nothing. No defaults are defined for GraphicalObject.
@@ -511,7 +530,7 @@ GraphicalObject::clone () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 GraphicalObject::createObject (XMLInputStream& stream)
 {
@@ -521,14 +540,56 @@ GraphicalObject::createObject (XMLInputStream& stream)
 
   if (name == "boundingBox")
   {
+    if (getBoundingBoxExplicitlySet() == true)
+    {
+      int tc = this->getTypeCode();
+
+      switch (tc)
+      {
+      case SBML_LAYOUT_COMPARTMENTGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutCGAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+        break;
+      case SBML_LAYOUT_REACTIONGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutRGAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+        break;
+      case SBML_LAYOUT_SPECIESGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutSGAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+        break;
+      case SBML_LAYOUT_SPECIESREFERENCEGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutSRGAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+        break;
+      case SBML_LAYOUT_TEXTGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutTGAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+        break;
+      case SBML_LAYOUT_REFERENCEGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutREFGAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+        break;
+      case SBML_LAYOUT_GENERALGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutGGAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+        break;
+      default:
+        getErrorLog()->logPackageError("layout", LayoutGOMustContainBoundingBox, 
+          getPackageVersion(), getLevel(), getVersion());
+        break;
+      }
+    }
+
     object = &mBoundingBox;
+    mBoundingBoxExplicitlySet = true;
   }
 
   return object;
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 GraphicalObject::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -539,27 +600,277 @@ GraphicalObject::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GraphicalObject::readAttributes (const XMLAttributes& attributes,
                                       const ExpectedAttributes& expectedAttributes)
 {
-  SBase::readAttributes(attributes,expectedAttributes);
-
   const unsigned int sbmlLevel   = getLevel  ();
   const unsigned int sbmlVersion = getVersion();
 
-  bool assigned = attributes.readInto("id", mId, getErrorLog(), true, getLine(), getColumn());
-  if (assigned && mId.size() == 0)
+  unsigned int numErrs;
+
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfTextGlyphs - which will have
+	 * happened immediately prior to this read
+	*/
+
+  bool loSubGlyphs = false;
+  if (getParentSBMLObject() != NULL
+    && getParentSBMLObject()->getElementName() == "listOfSubGlyphs")
   {
-    logEmptyString(mId, sbmlLevel, sbmlVersion, "<" + getElementName() + ">");
+    loSubGlyphs = true;
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
-  attributes.readInto("metaidRef", mMetaIdRef, getErrorLog(), false, getLine(), getColumn());
-  if (!SyntaxChecker::isValidInternalSId(mMetaIdRef)) logError(InvalidIdSyntax);
+
+	if (getErrorLog() != NULL && loSubGlyphs == true &&
+	    static_cast<ListOfGraphicalObjects*>(getParentSBMLObject())->size() < 2)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				      getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+			  getErrorLog()->logPackageError("layout", 
+                                  LayoutLOSubGlyphAllowedAttribs,
+			            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				           getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+			  getErrorLog()->logPackageError("layout", 
+                                  LayoutLOSubGlyphAllowedAttribs,
+			            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+  SBase::readAttributes(attributes,expectedAttributes);
+
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+        
+        int tc = this->getTypeCode();
+
+        switch (tc)
+        {
+        case SBML_LAYOUT_COMPARTMENTGLYPH:
+          getErrorLog()->logPackageError("layout", LayoutCGAllowedAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_REACTIONGLYPH:
+          getErrorLog()->logPackageError("layout", LayoutRGAllowedAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_SPECIESGLYPH:
+          getErrorLog()->logPackageError("layout", LayoutSGAllowedAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_SPECIESREFERENCEGLYPH:
+          getErrorLog()->logPackageError("layout", LayoutSRGAllowedAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_TEXTGLYPH:
+          getErrorLog()->logPackageError("layout", LayoutTGAllowedAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_REFERENCEGLYPH:
+          getErrorLog()->logPackageError("layout", LayoutREFGAllowedAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_GENERALGLYPH:
+          getErrorLog()->logPackageError("layout", LayoutGGAllowedAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        default:
+          getErrorLog()->logPackageError("layout", LayoutGOAllowedAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        }
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+        int tc = this->getTypeCode();
+
+        switch (tc)
+        {
+        case SBML_LAYOUT_COMPARTMENTGLYPH:
+          getErrorLog()->logPackageError("layout", 
+            LayoutCGAllowedCoreAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_REACTIONGLYPH:
+          getErrorLog()->logPackageError("layout", 
+            LayoutRGAllowedCoreAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_SPECIESGLYPH:
+          getErrorLog()->logPackageError("layout", 
+            LayoutSGAllowedCoreAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_SPECIESREFERENCEGLYPH:
+          getErrorLog()->logPackageError("layout", 
+            LayoutSRGAllowedCoreAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_TEXTGLYPH:
+          getErrorLog()->logPackageError("layout", 
+            LayoutTGAllowedCoreAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_REFERENCEGLYPH:
+          getErrorLog()->logPackageError("layout", 
+            LayoutREFGAllowedCoreAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        case SBML_LAYOUT_GENERALGLYPH:
+          getErrorLog()->logPackageError("layout", 
+            LayoutGGAllowedCoreAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        default:
+          getErrorLog()->logPackageError("layout", 
+            LayoutGOAllowedCoreAttributes, 
+            getPackageVersion(), sbmlLevel, sbmlVersion);
+          break;
+        }
+			}
+		}
+	}
+
+  // id reqd
+  bool assigned = attributes.readInto("id", mId);
+
+  if (getErrorLog() != NULL)
+  {
+  
+    if (assigned == true)
+    {
+      // "id" attribute is set to this fbc element
+
+      if (mId.empty())
+      {
+        //
+        // Logs an error if the "id" attribute is empty.
+        //
+        logEmptyString(mId, sbmlLevel, sbmlVersion, "<layout>");
+      }
+      else if (!SyntaxChecker::isValidSBMLSId(mId)) 
+      {
+        //
+        // Logs an error if the "id" attribute doesn't
+        // conform to the SBML type SId.
+        //
+        getErrorLog()->logPackageError("layout", LayoutSIdSyntax, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+      }
+    }
+    else
+    {
+      int tc = this->getTypeCode();
+
+      switch (tc)
+      {
+      case SBML_LAYOUT_COMPARTMENTGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutCGAllowedAttributes, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_REACTIONGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutRGAllowedAttributes, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_SPECIESGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutSGAllowedAttributes, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_SPECIESREFERENCEGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutSRGAllowedAttributes, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_TEXTGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutTGAllowedAttributes, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_REFERENCEGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutREFGAllowedAttributes, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_GENERALGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutGGAllowedAttributes, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      default:
+        getErrorLog()->logPackageError("layout", LayoutGOAllowedAttributes, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      }
+    }
+  }
+  assigned = attributes.readInto("metaidRef", mMetaIdRef);
+  if (assigned == true && getErrorLog() != NULL)
+  {
+    if (!SyntaxChecker::isValidInternalSId(mMetaIdRef)) 
+    {
+      int tc = this->getTypeCode();
+
+      switch (tc)
+      {
+      case SBML_LAYOUT_COMPARTMENTGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutCGMetaIdRefMustBeIDREF, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_REACTIONGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutRGMetaIdRefMustBeIDREF, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_SPECIESGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutSGMetaIdRefMustBeIDREF, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_SPECIESREFERENCEGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutSRGMetaIdRefMustBeIDREF, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_TEXTGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutTGMetaIdRefMustBeIDREF, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_REFERENCEGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutREFGMetaIdRefMustBeIDREF, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      case SBML_LAYOUT_GENERALGLYPH:
+        getErrorLog()->logPackageError("layout", LayoutGGMetaIdRefMustBeIDREF, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      default:
+        getErrorLog()->logPackageError("layout", LayoutGOMetaIdRefMustBeIDREF, 
+          getPackageVersion(), sbmlLevel, sbmlVersion);
+        break;
+      }
+    }
+  }
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 GraphicalObject::writeElements (XMLOutputStream& stream) const
 {
@@ -574,7 +885,7 @@ GraphicalObject::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GraphicalObject::writeAttributes (XMLOutputStream& stream) const
 {
   SBase::writeAttributes(stream);
@@ -590,7 +901,7 @@ void GraphicalObject::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 GraphicalObject::writeXMLNS (XMLOutputStream& stream) const
 {
@@ -622,13 +933,17 @@ GraphicalObject::getTypeCode () const
  */
 bool
 GraphicalObject::accept (SBMLVisitor& v) const
-{
-  /*  
-  bool result=v.visit(*this);
-  this->mBoundingBox.accept(v);
+{   
+  v.visit(*this);
+  
+  if (getBoundingBoxExplicitlySet() == true)
+  {
+    this->mBoundingBox.accept(v);
+  }
+
   v.leave(*this);
-  */
-  return false;
+  
+  return true;
 }
 
 /*
@@ -805,7 +1120,7 @@ ListOfGraphicalObjects::remove (const std::string& sid)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ListOfGraphicalObjects::createObject (XMLInputStream& stream)
 {
@@ -847,6 +1162,18 @@ ListOfGraphicalObjects::createObject (XMLInputStream& stream)
   {
     LAYOUT_CREATE_NS(layoutns,this->getSBMLNamespaces());
     object = new ReactionGlyph(layoutns);
+    appendAndOwn(object);
+  }
+  else if (name == "speciesReferenceGlyph")
+  {
+    LAYOUT_CREATE_NS(layoutns,this->getSBMLNamespaces());
+    object = new SpeciesReferenceGlyph(layoutns);
+    appendAndOwn(object);
+  }
+  else if (name == "referenceGlyph")
+  {
+    LAYOUT_CREATE_NS(layoutns,this->getSBMLNamespaces());
+    object = new ReferenceGlyph(layoutns);
     appendAndOwn(object);
   }
 

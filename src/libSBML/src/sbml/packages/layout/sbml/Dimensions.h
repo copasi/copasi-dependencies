@@ -71,11 +71,12 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 class LIBSBML_EXTERN Dimensions : public SBase
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   std::string mId;
   double mW;
   double mH;
   double mD;
+  bool mDExplicitlySet;
   /** @endcond */
 
 
@@ -185,6 +186,7 @@ public:
   
   void setBounds (double w, double h, double d = 0.0);
 
+  bool getDExplicitlySet() const;
   /**
    * Sets the depth to 0.0
    */ 
@@ -215,7 +217,7 @@ public:
   virtual int unsetId ();
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write out their contained
    * SBML objects as XML elements.  Be sure to call your parents
@@ -287,7 +289,7 @@ public:
     XMLNode toXML() const;
     
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -297,7 +299,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -308,7 +310,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
@@ -319,7 +321,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation

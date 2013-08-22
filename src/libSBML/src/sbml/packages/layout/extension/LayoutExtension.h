@@ -199,7 +199,7 @@ public:
   virtual SBMLNamespaces* getSBMLExtensionNamespaces(const std::string &uri) const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Initializes layout extension by creating an object of this class with 
    * required SBasePlugin derived objects and registering the object 
@@ -253,6 +253,49 @@ public:
    *         byy the document. 
    */
   virtual bool isInUse(SBMLDocument *doc) const;
+
+	/** @cond doxygenLibsbmlInternal */
+
+	/**
+	 * Return the entry in the error table at this index. 
+	 *
+	 * @param index an unsigned intgere representing the index of the error in the LayoutSBMLErrorTable
+	 *
+	 * @return packageErrorTableEntry object in the LayoutSBMLErrorTable corresponding to the index given.
+	 */
+	virtual packageErrorTableEntry getErrorTable(unsigned int index) const;
+
+
+	/** @endcond doxygenLibsbmlInternal */
+
+
+	/** @cond doxygenLibsbmlInternal */
+
+	/**
+	 * Return the index in the error table with the given errorId. 
+	 *
+	 * @param errorId an unsigned intgere representing the errorId of the error in the LayoutSBMLErrorTable
+	 *
+	 * @return unsigned integer representing the index in the LayoutSBMLErrorTable corresponding to the errorId given.
+	 */
+	virtual unsigned int getErrorTableIndex(unsigned int errorId) const;
+
+
+	/** @endcond doxygenLibsbmlInternal */
+
+
+	/** @cond doxygenLibsbmlInternal */
+
+	/**
+	 * Return the offset for the errorId range for the layout L3 package. 
+	 *
+	 * @return unsigned intege representing the  offset for errors LayoutSBMLErrorTable.
+	 */
+	virtual unsigned int getErrorIdOffset() const;
+
+
+	/** @endcond doxygenLibsbmlInternal */
+
 };
 
 

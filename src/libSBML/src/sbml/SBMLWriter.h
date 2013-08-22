@@ -33,9 +33,9 @@
  *
  * The SBMLWriter class is the converse of SBMLReader, and provides the
  * main interface for serializing SBML models into XML and writing the
- * result to files and text strings.  The methods for writing SBML all take
- * an SBMLDocument object and a destination.  They return a boolean or
- * integer value to indicate success or failure.
+ * result to an output stream or to files and text strings.  The methods 
+ * for writing SBML all take an SBMLDocument object and a destination.  
+ * They return a boolean or integer value to indicate success or failure.
  *
  * @section compression Support for writing compressed files
  *
@@ -202,7 +202,7 @@ public:
   bool writeSBML (const SBMLDocument* d, std::ostream& stream);
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /**
    * Writes the given SBML document to an in-memory string and returns a
@@ -309,7 +309,7 @@ public:
 
 
  protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   std::string mProgramName;
   std::string mProgramVersion;

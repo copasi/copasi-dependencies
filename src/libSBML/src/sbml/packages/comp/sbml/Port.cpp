@@ -179,7 +179,7 @@ Port::getElementName () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Port::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -189,7 +189,7 @@ Port::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Port::readAttributes (const XMLAttributes& attributes,
                       const ExpectedAttributes& expectedAttributes)
@@ -265,7 +265,7 @@ Port::readAttributes (const XMLAttributes& attributes,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Port::writeAttributes (XMLOutputStream& stream) const
 {
@@ -280,7 +280,7 @@ Port::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Port::writeElements (XMLOutputStream& stream) const
 {
@@ -300,14 +300,32 @@ Port::getTypeCode () const
 int 
 Port::saveReferencedElement()
 {
+  SBMLDocument* doc = getSBMLDocument();
   Model* model = CompBase::getParentModel(this);
-  if (model==NULL) return LIBSBML_OPERATION_FAILED;
+  if (model==NULL) {
+    if (doc) {
+      string error = "Unable to discover referenced element: no model could be found for the given <port> element";
+      if (isSetId()) {
+        error += " '" + getId() + "'.";
+      }
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return LIBSBML_OPERATION_FAILED;
+  }
+  //No other error messages need to be set--'getReferencedElement*' will set them.
   mReferencedElement = getReferencedElementFrom(model);
-  if (mReferencedElement==NULL) return LIBSBML_OPERATION_FAILED;
+  if (mDirectReference == NULL) {
+    mDirectReference = mReferencedElement;
+  }
+  if (mReferencedElement==NULL) {
+    return LIBSBML_OPERATION_FAILED;
+  }
   if (mReferencedElement->getTypeCode()==SBML_COMP_PORT) {
     mReferencedElement = static_cast<Port*>(mReferencedElement)->getReferencedElement();
   }
-  if (mReferencedElement==NULL) return LIBSBML_OPERATION_FAILED;
+  if (mReferencedElement==NULL) {
+    return LIBSBML_OPERATION_FAILED;
+  }
   return LIBSBML_OPERATION_SUCCESS;
 }
 
@@ -335,7 +353,7 @@ Port::renameMetaIdRefs(std::string oldid, std::string newid)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 bool
 Port::accept (SBMLVisitor& v) const

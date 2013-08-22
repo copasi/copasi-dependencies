@@ -57,6 +57,8 @@
 #include <sbml/packages/layout/sbml/SpeciesReferenceGlyph.h>
 #include <sbml/packages/layout/util/LayoutUtilities.h>
 #include <sbml/packages/layout/extension/LayoutExtension.h>
+#include <sbml/packages/layout/sbml/Layout.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 
 #include <sbml/xml/XMLNode.h>
 #include <sbml/xml/XMLToken.h>
@@ -101,6 +103,7 @@ ReactionGlyph::ReactionGlyph(unsigned int level, unsigned int version, unsigned 
   ,mReaction("")
   ,mSpeciesReferenceGlyphs(level,version,pkgVersion)
   ,mCurve(level,version,pkgVersion)
+  ,mCurveExplicitlySet (false)
 {
   connectToChild();
   //
@@ -120,6 +123,7 @@ ReactionGlyph::ReactionGlyph(LayoutPkgNamespaces* layoutns)
   ,mReaction("")
   ,mSpeciesReferenceGlyphs(layoutns)
   ,mCurve(layoutns)
+  , mCurveExplicitlySet ( false )
 {
   //
   // (NOTE) Developers don't have to invoke setElementNamespace function as follows (commentted line)
@@ -147,6 +151,7 @@ ReactionGlyph::ReactionGlyph (LayoutPkgNamespaces* layoutns, const std::string& 
    ,mReaction("")
    ,mSpeciesReferenceGlyphs(layoutns)
    ,mCurve(layoutns)
+   ,mCurveExplicitlySet (false)
 {
   //
   // (NOTE) Developers don't have to invoke setElementNamespace function as follows (commentted line)
@@ -175,6 +180,7 @@ ReactionGlyph::ReactionGlyph (LayoutPkgNamespaces* layoutns, const std::string& 
    ,mReaction      ( reactionId  )
    ,mSpeciesReferenceGlyphs(layoutns)
    ,mCurve(layoutns)
+   , mCurveExplicitlySet (false)
 {
   //
   // (NOTE) Developers don't have to invoke setElementNamespace function as follows (commentted line)
@@ -200,6 +206,7 @@ ReactionGlyph::ReactionGlyph(const XMLNode& node, unsigned int l2version)
    ,mReaction      ("")
    ,mSpeciesReferenceGlyphs(2,l2version)
    ,mCurve(2,l2version)
+   ,mCurveExplicitlySet (false)
 {
     const XMLAttributes& attributes=node.getAttributes();
     const XMLNode* child;
@@ -234,6 +241,7 @@ ReactionGlyph::ReactionGlyph(const XMLNode& node, unsigned int l2version)
               }
             }
             delete pTmpCurve;
+            mCurveExplicitlySet = true;
         }
         else if(childName=="listOfSpeciesReferenceGlyphs")
         {
@@ -280,6 +288,7 @@ ReactionGlyph::ReactionGlyph(const ReactionGlyph& source):GraphicalObject(source
     this->mReaction=source.getReactionId();
     this->mCurve=*source.getCurve();
     this->mSpeciesReferenceGlyphs=*source.getListOfSpeciesReferenceGlyphs();
+    this->mCurveExplicitlySet = source.mCurveExplicitlySet;
 
     connectToChild();
 }
@@ -295,6 +304,7 @@ ReactionGlyph& ReactionGlyph::operator=(const ReactionGlyph& source)
     this->mReaction=source.getReactionId();
     this->mCurve=*source.getCurve();
     this->mSpeciesReferenceGlyphs=*source.getListOfSpeciesReferenceGlyphs();
+    this->mCurveExplicitlySet = source.mCurveExplicitlySet;
     connectToChild();
   }
   
@@ -453,6 +463,7 @@ void ReactionGlyph::setCurve (const Curve* curve)
   if(!curve) return;
   this->mCurve = *curve;
   this->mCurve.connectToParent(this);
+  mCurveExplicitlySet = true;
 }
 
 
@@ -462,6 +473,13 @@ void ReactionGlyph::setCurve (const Curve* curve)
 bool ReactionGlyph::isSetCurve () const
 {
   return this->mCurve.getNumCurveSegments() > 0;
+}
+
+
+bool
+ReactionGlyph::getCurveExplicitlySet() const
+{
+  return mCurveExplicitlySet;
 }
 
 
@@ -580,7 +598,7 @@ ReactionGlyph::clone () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ReactionGlyph::createObject (XMLInputStream& stream)
 {
@@ -590,11 +608,24 @@ ReactionGlyph::createObject (XMLInputStream& stream)
 
   if (name == "listOfSpeciesReferenceGlyphs")
   {
+    if (mSpeciesReferenceGlyphs.size() != 0)
+    {
+      getErrorLog()->logPackageError("layout", LayoutRGAllowedElements, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+
     object = &mSpeciesReferenceGlyphs;
   }
   else if(name=="curve")
   {
+    if (getCurveExplicitlySet() == true)
+    {
+      getErrorLog()->logPackageError("layout", LayoutRGAllowedElements, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+
     object = &mCurve;
+    mCurveExplicitlySet = true;
   }
   else
   {
@@ -605,7 +636,7 @@ ReactionGlyph::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 ReactionGlyph::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -615,25 +646,125 @@ ReactionGlyph::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void ReactionGlyph::readAttributes (const XMLAttributes& attributes,
                                     const ExpectedAttributes& expectedAttributes)
 {
-  GraphicalObject::readAttributes(attributes,expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
 
-  const unsigned int sbmlLevel   = getLevel  ();
-  const unsigned int sbmlVersion = getVersion();
+	unsigned int numErrs;
 
-  bool assigned = attributes.readInto("reaction", mReaction, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mReaction.empty())
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfReactionGlyphs - which will have
+	 * happened immediately prior to this read
+	*/
+
+  bool loSubGlyphs = false;
+  if (getParentSBMLObject() != NULL
+    && getParentSBMLObject()->getElementName() == "listOfSubGlyphs")
   {
-    logEmptyString(mReaction, sbmlLevel, sbmlVersion, "<" + getElementName() + ">");
+    loSubGlyphs = true;
   }
-  if (!SyntaxChecker::isValidInternalSId(mReaction)) logError(InvalidIdSyntax);
+
+	if (getErrorLog() != NULL &&
+	    static_cast<ListOfReactionGlyphs*>(getParentSBMLObject())->size() < 2)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				      getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+        if (loSubGlyphs == true)
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOSubGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLORnGlyphAllowedAttributes,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				           getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+        if (loSubGlyphs == true)
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOSubGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLORnGlyphAllowedAttributes,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+			}
+		}
+	}
+
+	GraphicalObject::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", LayoutRGAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", LayoutRGAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	bool assigned = false;
+
+	//
+	// reaction SIdRef   ( use = "optional" )
+	//
+	assigned = attributes.readInto("reaction", mReaction);
+
+	if (assigned == true && getErrorLog() != NULL)
+	{
+		// check string is not empty and correct syntax
+
+		if (mReaction.empty() == true)
+		{
+			logEmptyString(mReaction, getLevel(), getVersion(), "<ReactionGlyph>");
+		}
+		else if (SyntaxChecker::isValidSBMLSId(mReaction) == false)
+		{
+			getErrorLog()->logPackageError("layout", LayoutRGReactionSyntax,
+				             getPackageVersion(), sbmlLevel, sbmlVersion);
+		}
+	}
+
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 ReactionGlyph::writeElements (XMLOutputStream& stream) const
 {
@@ -662,7 +793,7 @@ ReactionGlyph::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void ReactionGlyph::writeAttributes (XMLOutputStream& stream) const
 {
   GraphicalObject::writeAttributes(stream);
@@ -819,7 +950,7 @@ ListOfSpeciesReferenceGlyphs::remove (const std::string& sid)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ListOfSpeciesReferenceGlyphs::createObject (XMLInputStream& stream)
 {
@@ -839,7 +970,7 @@ ListOfSpeciesReferenceGlyphs::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 XMLNode ListOfSpeciesReferenceGlyphs::toXML() const
 {
   return getXmlNodeForSBase(this);
@@ -850,24 +981,29 @@ XMLNode ListOfSpeciesReferenceGlyphs::toXML() const
 
 /*
  * Accepts the given SBMLVisitor.
- 
+ */
 bool
 ReactionGlyph::accept (SBMLVisitor& v) const
 {
-  bool result=v.visit(*this);
-  if(this->mCurve.getNumCurveSegments()>0)
+  v.visit(*this);
+
+  if(getCurveExplicitlySet() == true)
   {
     this->mCurve.accept(v);
   }
-  else
+
+  if (getBoundingBoxExplicitlySet() == true)
   {
     this->mBoundingBox.accept(v);
   }
-  this->mSpeciesReferenceGlyphs.accept(this);
+
+  this->mSpeciesReferenceGlyphs.accept(v);
+  
   v.leave(*this);
-  return result;
+  
+  return true;
 }
-*/
+
 
 
 /*

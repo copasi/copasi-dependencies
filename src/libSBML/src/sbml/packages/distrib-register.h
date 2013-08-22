@@ -27,6 +27,6 @@
  */
 
 #ifdef USE_DISTRIB
-	#include <sbml/packages/distrib/extension/distribExtension.h>
+	#include <sbml/packages/distrib/extension/DistribExtension.h>
 #endif
 

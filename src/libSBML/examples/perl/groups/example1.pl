@@ -109,10 +109,10 @@ $group->setKind("classification");
 $group->setSBOTerm("SBO:0000252");
 
 my $member = $group->createMember();
-$member->setSymbol("ATPc");
+$member->setIdRef("ATPc");
 
 $member = $group->createMember();
-$member->setSymbol("ATPm");
+$member->setIdRef("ATPm");
 
 LibSBML::writeSBML($document,"groups_example1-perl.xml");
 

@@ -10,7 +10,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -32,91 +32,113 @@
 #include <sbml/extension/SBMLExtensionRegister.h>
 #include <sbml/extension/SBMLExtensionRegistry.h>
 #include <sbml/extension/SBasePluginCreator.h>
-#include <sbml/extension/SBMLDocumentPluginNotRequired.h>
+#include <sbml/extension/SBMLDocumentPlugin.h>
 
 #include <sbml/packages/groups/extension/GroupsExtension.h>
 #include <sbml/packages/groups/extension/GroupsModelPlugin.h>
+#include <sbml/packages/groups/extension/GroupsSBMLDocumentPlugin.h>
+#include <sbml/packages/groups/validator/GroupsSBMLErrorTable.h>
+
 
 #ifdef __cplusplus
 
+
 #include <iostream>
+
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-// -------------------------------------------------------------------------
-//
-// This block is global initialization code which should be automatically 
-// executed before invoking main() block.
-//
-// -------------------------------------------------------------------------
 
-//------------- (START) -----------------------------------
+/*---------------------------------------------------------------
+ *
+ * This block is global initialization code which should be automatically
+ * executed before invoking main() block.
+ *
+ */
 
-// The name of this package
+/*------------------ (START) ----------------------------------*/
 
-const std::string& GroupsExtension::getPackageName ()
+/*
+/* Returns the package name of this extension.
+ */
+const std::string&
+GroupsExtension::getPackageName ()
 {
 	static const std::string pkgName = "groups";
 	return pkgName;
 }
 
-//
-// Default SBML level, version, and package version
-//
-unsigned int GroupsExtension::getDefaultLevel()
+
+/*
+ * Returns the default SBML Level this extension.
+ */
+unsigned int
+GroupsExtension::getDefaultLevel ()
 {
 	return 3;
-}  
-
-unsigned int GroupsExtension::getDefaultVersion()
-{
-	return 1; 
 }
 
-unsigned int GroupsExtension::getDefaultPackageVersion()
+
+/*
+ * Returns the default SBML Version this extension.
+ */
+unsigned int
+GroupsExtension::getDefaultVersion ()
 {
 	return 1;
-} 
+}
 
-//
-// XML namespaces of (1) package versions of groups extension, and 
-// (2) another XML namespace(XMLSchema-instance) required in the groups 
-//  extension.
-//
 
-const std::string& GroupsExtension::getXmlnsL3V1V1 ()
+/*
+ * Returns the default SBML version this extension.
+ */
+unsigned int
+GroupsExtension::getDefaultPackageVersion ()
+{
+	return 1;
+}
+
+
+/*
+ * XML namespaces of package.
+ */
+const std::string&
+GroupsExtension::getXmlnsL3V1V1 ()
 {
 	static const std::string xmlns = "http://www.sbml.org/sbml/level3/version1/groups/version1";
 	return xmlns;
 }
 
-//
-// Adds this GroupsExtension object to the SBMLExtensionRegistry class.
-// GroupsExtension::init() function is automatically invoked when this
-// object is instantiated.
-//
+
+/*
+ * Adds this GroupsExtension object to the SBMLExtensionRegistry class.
+ * GroupsExtension::init function is automatically invoked when this
+ * object is instantiated
+ */
 static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegistry;
+
 
 static
 const char* SBML_GROUPS_TYPECODE_STRINGS[] =
 {
-    "Group"
-  , "Member"
+	  "Member"
+	, "MemberConstraint"
+	, "Group"
 };
 
-//------------- (END) -----------------------------------
 
-// --------------------------------------------------------
-//
-// Instantiate SBMLExtensionNamespaces<GroupsExtension>
-// (GroupsPkgNamespaces) for DLL.
-//
-// --------------------------------------------------------
-
+/*
+ * Instantiate SBMLExtensionNamespaces<GroupsExtension>
+ * (GroupsPkgNamespaces) for DLL.
+ */
 template class LIBSBML_EXTERN SBMLExtensionNamespaces<GroupsExtension>;
 
 
+/*------------------ (END) ----------------------------------*/
 
+/*
+ * Constructor
+ */
 GroupsExtension::GroupsExtension ()
 {
 }
@@ -278,8 +300,8 @@ GroupsExtension::getSBMLExtensionNamespaces(const std::string &uri) const
 const char* 
 GroupsExtension::getStringFromTypeCode(int typeCode) const
 {
-  int min = SBML_GROUPS_GROUP;
-  int max = SBML_GROUPS_MEMBER;
+  int min = SBML_GROUPS_MEMBER;
+  int max = SBML_GROUPS_GROUP;
 
   if ( typeCode < min || typeCode > max)
   {
@@ -351,7 +373,7 @@ GroupsExtension::init()
   SBaseExtensionPoint sbmldocExtPoint("core",SBML_DOCUMENT);
   SBaseExtensionPoint modelExtPoint("core",SBML_MODEL);
 
-  SBasePluginCreator<SBMLDocumentPluginNotRequired, GroupsExtension> sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
+	SBasePluginCreator<GroupsSBMLDocumentPlugin, GroupsExtension> sbmldocPluginCreator(sbmldocExtPoint, packageURIs);
   SBasePluginCreator<GroupsModelPlugin,   GroupsExtension> modelPluginCreator(modelExtPoint,packageURIs);
 
   //--------------------------------------------------------------------------------------
@@ -377,6 +399,67 @@ GroupsExtension::init()
   }
 }
 
-#endif  /* __cplusplus */
+
+	/** @cond doxygen-libsbml-internal */
+
+/*
+ * Return error table entry. 
+ */
+packageErrorTableEntry
+GroupsExtension::getErrorTable(unsigned int index) const
+{
+	return groupsErrorTable[index];
+}
+
+	/** @endcond doxygen-libsbml-internal */
+
+
+	/** @cond doxygen-libsbml-internal */
+
+/*
+ * Return error table index for this id. 
+ */
+unsigned int
+GroupsExtension::getErrorTableIndex(unsigned int errorId) const
+{
+	unsigned int tableSize = sizeof(groupsErrorTable)/sizeof(groupsErrorTable[0]);
+	unsigned int index = 0;
+
+	for(unsigned int i = 0; i < tableSize; i++)
+	{
+		if (errorId == groupsErrorTable[i].code)
+		{
+			index = i;
+			break;
+		}
+
+	}
+
+	return index;
+}
+
+	/** @endcond doxygen-libsbml-internal */
+
+
+	/** @cond doxygen-libsbml-internal */
+
+/*
+ * Return error offset. 
+ */
+unsigned int
+GroupsExtension::getErrorIdOffset() const
+{
+	return 4000000;
+}
+
+	/** @endcond doxygen-libsbml-internal */
+
+
+
+
 LIBSBML_CPP_NAMESPACE_END
+
+
+#endif /* __cplusplus */
+
 

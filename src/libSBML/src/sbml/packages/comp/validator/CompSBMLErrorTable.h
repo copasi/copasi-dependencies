@@ -33,7 +33,7 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 
 
@@ -398,7 +398,7 @@ static const packageErrorTableEntry compErrorTable[] =
     "Allowed <externalModelDefinitions> core attributes",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
-    "An <externalModelDefinition>  object may have the optional "
+    "An <externalModelDefinition> object may have the optional "
     "SBML Level 3 Core attributes 'metaid' and 'sboTerm'.  No "
     "other attributes from the SBML Level 3 Core namespace are permitted on "
     "an <externalModelDefinition> object.",
@@ -836,7 +836,8 @@ static const packageErrorTableEntry compErrorTable[] =
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "If an <sBaseRef> object contains an <sBaseRef> child, the parent "
-    "<sBaseRef> must point to a <submodel> object. ",
+    "<sBaseRef> must point to a <submodel> object, or a "
+    "<port> that itself points to a <submodel> object. ",
     { "L3V1 Comp V1 Section 3.7.2"
     }
   },
@@ -908,6 +909,47 @@ static const packageErrorTableEntry compErrorTable[] =
     }
   },
 
+  // 1020712
+  { CompSBaseRefMustReferenceObject, 
+    "An SBaseRef must reference an object.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "An <sBaseRef> object must point to another object; that is, a "
+    "<sBaseRef> object must always have a value for one of the attributes "
+    "'comp:portRef', 'comp:idRef', 'comp:unitRef', or 'comp:metaIdRef'.",
+    { "L3V1 Comp V1 Section 3.7.1"
+    }
+  },
+
+  // 1020713
+  { CompSBaseRefMustReferenceOnlyOneObject, 
+    "An SBaseRef must reference only one other object.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "An <sBaseRef> object can only point to one other object; that is, "
+    "a given <sBaseRef> object can only have a value for one of the "
+    "attributes 'comp:portRef', 'comp:idRef', 'comp:unitRef', or "
+    "'comp:metaIdRef'.",
+    { "L3V1 Comp V1 Section 3.7.1"
+    }
+  },
+
+  // 1020714
+  { CompNoMultipleReferences, 
+    "Objects may not be referenced by mutiple SBaseRef constructs.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "Any one SBML object may only be referenced in one of the following ways:  "
+    "referenced by a single <port> object; referenced by a single <deletion> "
+    "object; referenced by a single <replacedElement>; be the parent of a "
+    "single <replacedBy> child; be referenced by one or more <replacedBy> "
+    "objects; or be referenced by one or more <replacedElement> objects all "
+    "using the 'deletion' attribute.  Essentially, once an object has been "
+    "referenced in one of these ways it cannot be referenced again.",
+    { "L3V1 Comp V1 Section 3.7.1"
+    }
+  },
+
   // 1020801
   { CompPortMustReferenceObject, 
     "Port must reference an object",
@@ -915,7 +957,7 @@ static const packageErrorTableEntry compErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <port> object must point to another object; that "
     "is, a <port> object must always have a value for one of the attributes "
-    "'comp:idRef', 'comp:unitRef', or 'comp:metaIdRef'",
+    "'comp:idRef', 'comp:unitRef', or 'comp:metaIdRef'.",
     { "L3V1 Comp V1 Section 3.4.3"
     }
   },
@@ -927,7 +969,7 @@ static const packageErrorTableEntry compErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <port> object can only point to one other "
     "object; that is, a given <port> object can only have a value for one of "
-    "the attributes 'comp:idRef', 'comp:unitRef', or 'comp:metaIdRef'",
+    "the attributes 'comp:idRef', 'comp:unitRef', or 'comp:metaIdRef'.",
     { "L3V1 Comp V1 Section 3.4.3"
     }
   },
@@ -1139,6 +1181,57 @@ static const packageErrorTableEntry compErrorTable[] =
     }
   },
 
+  // 1021201
+  { CompMustReplaceSameClass, 
+    "Replaced classes must match.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, the SBML class of the replacement element must match the SBML class of the replaced element, with two exceptions: an element of a derived class may replace an object of its base class (for base classes other than SBase), and any SBML class with mathematical meaning may replace a <parameter>. A base class may not replace a derived class, however, nor may a <parameter> replace some other SBML element with mathematical meaning.",
+    { "L3V1 Comp V1 Section 3.6.5"
+    }
+  },
+
+  // 1021202
+  { CompMustReplaceIDs, 
+    "Replaced IDs must be replaced with IDs.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, if the replaced element has the 'id' attribute set, the replacement element must also have the 'id' attribute set.",
+    { "L3V1 Comp V1 Section 3.6.5"
+    }
+  },
+
+  // 1021203
+  { CompMustReplaceMetaIDs, 
+    "Replaced metaids must be replaced with metaids.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, if the replaced element has the 'metaid' attribute set, the replacement element must also have the 'metaid' attribute set.",
+    { "L3V1 Comp V1 Section 3.6.5"
+    }
+  },
+
+  // 1021204
+  { CompMustReplacePackageIDs, 
+    "Replaced package IDs must be replaced with package IDs.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, if the replaced element has an identifier attribute from some other SBML package set, the replacement element must also have that same identifier attribute set.",
+    { "L3V1 Comp V1 Section 3.6.5"
+    }
+  },
+
+  // 1021205
+  { CompReplacedUnitsShouldMatch, 
+    "Units of replaced elements should match replacement units.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, the units of the replaced element, multiplied by the units of any applicable conversion factor, should equal the units of the replacement element.",
+    { "L3V1 Comp V1 Section 3.6.5"
+    }
+  },
+
+
   // 1090101
   { CompUnresolvedReference, 
     "Unresolved reference.",
@@ -1155,7 +1248,7 @@ static const packageErrorTableEntry compErrorTable[] =
     "No model in referenced document.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
-    "The external model referenced in this model did not contain any models.",
+    "The external document referenced in this model did not contain any models.",
     { ""
     }
   },
@@ -1176,8 +1269,7 @@ static const packageErrorTableEntry compErrorTable[] =
     "Model failed to flatten.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
-    "Errors arose during the attempt to flatten the model. These "
-    "are reported where possible.",
+    "Errors arose during the attempt to flatten the model.",
     { ""
     }
   },
@@ -1203,6 +1295,53 @@ static const packageErrorTableEntry compErrorTable[] =
     "for the purposes of validation it is problematic to reliably report "
     "line numbers when performing validation on models using the "
     "Hierarchical Model Composition package." ,
+    { ""
+    }
+  },
+
+    // 1090107
+  { CompFlatteningNotRecognisedNotReqd,
+    "Flattening not implemented for unrequired package.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "The CompFlatteningConverter has encountered an unrequired package for "
+    "which libSBML does not recognize the information.",
+    { ""
+    }
+  },
+
+    // 1090108
+  { CompFlatteningNotRecognisedReqd,
+    "Flattening not implemented for required package.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "The CompFlatteningConverter has encountered a required package for "
+    "which libSBML does not recognize the information.",
+    { ""
+    }
+  },
+
+    // 1090109
+  { CompFlatteningNotImplementedNotReqd,
+    "Flattening not implemented for unrequired package.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "The CompFlatteningConverter has encountered an unrequired package for "
+    "which "
+    "the necessary routines to allow flattening have not yet been implemented. "
+    "" ,
+    { ""
+    }
+  },
+
+    // 1090110
+  { CompFlatteningNotImplementedReqd,
+    "Flattening not implemented for required package.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "The CompFlatteningConverter has encountered a required package for which "
+    "the necessary routines to allow flattening have not yet been implemented. "
+    "" ,
     { ""
     }
   }

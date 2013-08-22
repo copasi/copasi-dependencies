@@ -53,6 +53,8 @@
 
 
 #include <sbml/packages/layout/sbml/ReferenceGlyph.h>
+#include <sbml/packages/layout/sbml/GeneralGlyph.h>
+#include <sbml/packages/layout/sbml/GraphicalObject.h>
 #include <sbml/packages/layout/util/LayoutUtilities.h>
 #include <sbml/packages/layout/extension/LayoutExtension.h>
 
@@ -63,6 +65,7 @@
 #include <sbml/xml/XMLOutputStream.h>
 
 #include <sbml/util/ElementFilter.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
@@ -102,6 +105,7 @@ ReferenceGlyph::ReferenceGlyph (unsigned int level, unsigned int version, unsign
    ,mGlyph("")
    ,mRole  ( "" )
    ,mCurve(level,version,pkgVersion)
+  ,mCurveExplicitlySet (false)
 {
   connectToChild();
   //
@@ -120,6 +124,7 @@ ReferenceGlyph::ReferenceGlyph(LayoutPkgNamespaces* layoutns)
    ,mGlyph    ("")
    ,mRole     ("")
    ,mCurve(layoutns)
+  , mCurveExplicitlySet ( false )
 {
   connectToChild();
   //
@@ -155,6 +160,7 @@ ReferenceGlyph::ReferenceGlyph
   , mGlyph           ( glyphId     )
   , mRole            ( role               )
   ,mCurve            ( layoutns)
+   ,mCurveExplicitlySet (false)
 {
   connectToChild();
 
@@ -181,6 +187,7 @@ ReferenceGlyph::ReferenceGlyph(const XMLNode& node, unsigned int l2version)
    ,mGlyph    ("")
    ,mRole     ("")
   , mCurve           (2, l2version)
+   ,mCurveExplicitlySet (false)
 {
     const XMLAttributes& attributes=node.getAttributes();
     const XMLNode* child;
@@ -215,6 +222,7 @@ ReferenceGlyph::ReferenceGlyph(const XMLNode& node, unsigned int l2version)
               }
             }
             delete pTmpCurve;
+            mCurveExplicitlySet = true;
         }        
         ++n;
     }    
@@ -232,6 +240,7 @@ ReferenceGlyph::ReferenceGlyph(const ReferenceGlyph& source) :
     this->mGlyph=source.mGlyph;
     this->mRole=source.mRole;
     this->mCurve=*source.getCurve();
+    this->mCurveExplicitlySet = source.mCurveExplicitlySet;
 
     connectToChild();
 }
@@ -249,6 +258,7 @@ ReferenceGlyph& ReferenceGlyph::operator=(const ReferenceGlyph& source)
     this->mRole=source.mRole;
     this->mCurve=*source.getCurve();
 
+    this->mCurveExplicitlySet = source.mCurveExplicitlySet;
     connectToChild();
   }
   
@@ -348,6 +358,7 @@ ReferenceGlyph::setCurve (const Curve* curve)
   if(!curve) return;
   this->mCurve = *curve;
   this->mCurve.connectToParent(this);
+  mCurveExplicitlySet = true;
 }
 
 
@@ -360,6 +371,11 @@ ReferenceGlyph::isSetCurve () const
   return this->mCurve.getNumCurveSegments() > 0;
 }
 
+bool
+ReferenceGlyph::getCurveExplicitlySet() const
+{
+  return mCurveExplicitlySet;
+}
 
 /*
  * Returns true if the id of the associated glpyh is not the empty
@@ -446,7 +462,7 @@ ReferenceGlyph::clone () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ReferenceGlyph::createObject (XMLInputStream& stream)
 {
@@ -456,7 +472,14 @@ ReferenceGlyph::createObject (XMLInputStream& stream)
 
   if (name == "curve")
   {
+    if (getCurveExplicitlySet() == true)
+    {
+      getErrorLog()->logPackageError("layout", LayoutREFGAllowedElements, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+
     object = &mCurve;
+    mCurveExplicitlySet = true;
   }
   else
   {
@@ -467,7 +490,7 @@ ReferenceGlyph::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 ReferenceGlyph::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -479,40 +502,173 @@ ReferenceGlyph::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void ReferenceGlyph::readAttributes (const XMLAttributes& attributes,
-                                            const ExpectedAttributes& expectedAttributes)
+                                const ExpectedAttributes& expectedAttributes)
 {
-  GraphicalObject::readAttributes(attributes,expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
 
-  const unsigned int sbmlLevel   = getLevel  ();
-  const unsigned int sbmlVersion = getVersion();
+	unsigned int numErrs;
 
-  bool assigned = attributes.readInto("reference", mReference, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mReference.empty())
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfReferenceGlyphs - which will have
+	 * happened immediately prior to this read
+	*/
+
+  bool loSubGlyphs = false;
+  if (getParentSBMLObject() != NULL
+    && getParentSBMLObject()->getElementName() == "listOfSubGlyphs")
   {
-    logEmptyString(mReference, sbmlLevel, sbmlVersion, "<" + getElementName() + ">");
+    loSubGlyphs = true;
   }
-  if (!SyntaxChecker::isValidInternalSId(mReference)) logError(InvalidIdSyntax);
 
-  assigned = attributes.readInto("glyph", mGlyph, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mGlyph.empty())
+	if (getErrorLog() != NULL &&
+	    static_cast<ListOfReferenceGlyphs*>(getParentSBMLObject())->size() < 2)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				      getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+        if (loSubGlyphs == true)
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOSubGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOReferenceGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				           getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+        if (loSubGlyphs == true)
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOSubGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+				  getErrorLog()->logPackageError("layout", 
+                                    LayoutLOReferenceGlyphAllowedAttribs,
+				            getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+			}
+		}
+	}
+
+	GraphicalObject::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", LayoutREFGAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", 
+                       LayoutREFGAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	bool assigned = false;
+
+	//
+	// glyph SIdRef   ( use = "required" )
+	//
+	assigned = attributes.readInto("glyph", mGlyph);
+
+  if (getErrorLog() != NULL)
   {
-    logEmptyString(mGlyph, sbmlLevel, sbmlVersion, "<" + getElementName() + ">");
+	  if (assigned == true)
+	  {
+		  // check string is not empty and correct syntax
+
+		  if (mGlyph.empty() == true)
+		  {
+			  logEmptyString(mGlyph, getLevel(), getVersion(), "<ReferenceGlyph>");
+		  }
+		  else if (SyntaxChecker::isValidSBMLSId(mGlyph) == false)
+		  {
+		    getErrorLog()->logPackageError("layout", LayoutREFGGlyphSyntax,
+		                   getPackageVersion(), sbmlLevel, sbmlVersion);
+		  }
+	  }
+	  else
+	  {
+		  std::string message = "Layout attribute 'glyph' is missing.";
+		  getErrorLog()->logPackageError("layout", LayoutREFGAllowedAttributes,
+		                 getPackageVersion(), sbmlLevel, sbmlVersion, message);
+	  }
   }
-  if (!SyntaxChecker::isValidInternalSId(mGlyph)) logError(InvalidIdSyntax);  
-  
+
+	//
+	// reference SIdRef   ( use = "optional" )
+	//
+	assigned = attributes.readInto("reference", mReference);
+
+	if (assigned == true && getErrorLog() != NULL)
+	{
+		// check string is not empty and correct syntax
+
+		if (mReference.empty() == true)
+		{
+			logEmptyString(mReference, getLevel(), getVersion(), "<ReferenceGlyph>");
+		}
+		else if (SyntaxChecker::isValidSBMLSId(mReference) == false)
+		{
+		  getErrorLog()->logPackageError("layout", LayoutREFGReferenceSyntax,
+		                 getPackageVersion(), sbmlLevel, sbmlVersion);
+		}
+	}
+
+	//
+	// role string   ( use = "optional" )
+	//
   std::string role;
-  if(attributes.readInto("role", role, getErrorLog(), false, getLine(), getColumn()))
-  {
+	assigned = attributes.readInto("role", role);
+
+	if (assigned == true)
+	{
+		// check string is not empty
+
+		if (role.empty() == true  && getErrorLog() != NULL)
+		{
+			logEmptyString(role, getLevel(), getVersion(), "<ReferenceGlyph>");
+		}
+
     this->setRole(role);
-  }
- 
+	}
   
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 ReferenceGlyph::writeElements (XMLOutputStream& stream) const
 {
@@ -533,7 +689,7 @@ ReferenceGlyph::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void ReferenceGlyph::writeAttributes (XMLOutputStream& stream) const
 {
   GraphicalObject::writeAttributes(stream);
@@ -579,23 +735,27 @@ XMLNode ReferenceGlyph::toXML() const
 
 /*
  * Accepts the given SBMLVisitor.
-
+ */
 bool
 ReferenceGlyph::accept (SBMLVisitor& v) const
 {
-  bool result=v.visit(*this);
-  if(this->mCurve.getNumCurveSegments()>0)
+  v.visit(*this);
+  
+  if(getCurveExplicitlySet() == true)
   {
     this->mCurve.accept(v);
   }
-  else
+  
+  if (getBoundingBoxExplicitlySet() == true)
   {
     this->mBoundingBox.accept(v);
   }
+
   v.leave(*this);
-  return result;
+  
+  return true;
 }
-*/
+
 
 
 /*

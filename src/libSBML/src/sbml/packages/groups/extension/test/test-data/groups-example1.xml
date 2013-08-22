@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?oxygen RNGSchema="../sbml.rng" type="xml"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" groups:required="false" xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1" version="1" level="3" >
   <model>
     <listOfCompartments>
@@ -13,8 +12,8 @@
     <groups:listOfGroups>
       <groups:group sboTerm="SBO:0000252" groups:id="ATP" groups:kind="classification">
         <groups:listOfMembers>
-          <groups:member groups:symbol="ATPc"/>
-          <groups:member groups:symbol="ATPm"/>
+          <groups:member groups:idRef="ATPc"/>
+          <groups:member groups:idRef="ATPm"/>
         </groups:listOfMembers>
       </groups:group>
     </groups:listOfGroups>

@@ -213,7 +213,7 @@ ReplacedElement::getNumReferents() const
   return retval;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 ReplacedElement::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -222,7 +222,7 @@ ReplacedElement::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 ReplacedElement::readAttributes (const XMLAttributes& attributes,
                                  const ExpectedAttributes& expectedAttributes)
@@ -277,7 +277,7 @@ ReplacedElement::readAttributes (const XMLAttributes& attributes,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 ReplacedElement::writeAttributes (XMLOutputStream& stream) const
 {
@@ -294,7 +294,7 @@ ReplacedElement::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 ReplacedElement::writeElements (XMLOutputStream& stream) const
 {
@@ -321,37 +321,63 @@ ReplacedElement::renameSIdRefs(std::string oldid, std::string newid)
 
 int ReplacedElement::performReplacement()
 {
+  SBMLDocument* doc = getSBMLDocument();
   if (isSetDeletion()) {
     //Deletions don't need to be replaced.
     return LIBSBML_OPERATION_SUCCESS;
   }
   //Find the various objects and plugin objects we need for this to work.
   SBase* lore = getParentSBMLObject();
-  if (lore == NULL) return LIBSBML_INVALID_OBJECT;
-  if (lore->getTypeCode() != SBML_LIST_OF) return LIBSBML_INVALID_OBJECT;
+  ListOf* lorelist = static_cast<ListOf*>(lore);
+  if (lore == NULL) {
+    if (doc) {
+      string error = "Cannot carry out replacement in ReplacedElement::performReplacement: no parent <listOfReplacedElements> could be found for the given replacement element.";
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return LIBSBML_INVALID_OBJECT;
+  }
+  if (lore->getTypeCode() != SBML_LIST_OF || lorelist->getItemTypeCode() != SBML_COMP_REPLACEDELEMENT) {
+    if (doc) {
+      string error = "Cannot carry out replacement in ReplacedElement::performReplacement: no parent <listOfReplacedElements> could be found for the given replacement element.";
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return LIBSBML_INVALID_OBJECT;
+  }
   SBase* parent = lore->getParentSBMLObject();
-  if (parent==NULL) return LIBSBML_INVALID_OBJECT;
+  if (parent==NULL) {
+    if (doc) {
+      string error = "Cannot carry out replacement in ReplacedElement::performReplacement: no parent could be found for the parent <listOfReplacedElements> object.";
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return LIBSBML_INVALID_OBJECT;
+  }
   SBase* ref = getReferencedElement();
-  if (ref==NULL) return LIBSBML_INVALID_OBJECT;
-  CompSBasePlugin* refplug = static_cast<CompSBasePlugin*>(ref->getPlugin(getPrefix()));
-  if (refplug==NULL) return LIBSBML_INVALID_OBJECT;
+  if (ref==NULL) {
+    //getReferencedElement sets its own error messages.
+    return LIBSBML_INVALID_OBJECT;
+  }
 
   //Update the IDs.
   int ret = updateIDs(ref, parent);
-  if (ret != LIBSBML_OPERATION_SUCCESS) return ret;
+  if (ret != LIBSBML_OPERATION_SUCCESS) {
+    return ret;
+  }
 
   //Perform any conversions on references in the submodel.
   ASTNode* blank = NULL;
   ret = performConversions(parent, blank);
   if (ret != LIBSBML_OPERATION_SUCCESS) return ret;
 
-  //Now recurse down the 'replace*' tree, renaming IDs and deleting things as we go.
-  for (unsigned int re=0; re<refplug->getNumReplacedElements(); re++) {
-    refplug->getReplacedElement(re)->replaceWithAndMaybeDelete(parent, true, blank);
-  }
-  if (refplug->isSetReplacedBy()) {
-    //Even if the subelement used to be replaced by something further down, it is now being replaced by the parent.  It just can't catch a break, it seems.
-    refplug->getReplacedBy()->replaceWithAndMaybeDelete(parent, true, blank);
+  CompSBasePlugin* refplug = static_cast<CompSBasePlugin*>(ref->getPlugin(getPrefix()));
+  if (refplug != NULL) {
+    //Now recurse down the 'replace*' tree, renaming IDs and deleting things as we go.
+    for (unsigned int re=0; re<refplug->getNumReplacedElements(); re++) {
+      refplug->getReplacedElement(re)->replaceWithAndMaybeDelete(parent, true, blank);
+    }
+    if (refplug->isSetReplacedBy()) {
+      //Even if the subelement used to be replaced by something further down, it is now being replaced by the parent.  It just can't catch a break, it seems.
+      refplug->getReplacedBy()->replaceWithAndMaybeDelete(parent, true, blank);
+    }
   }
 
   //And finally, delete the referenced object.
@@ -361,26 +387,46 @@ int ReplacedElement::performReplacement()
 SBase* 
 ReplacedElement::getReferencedElementFrom(Model* model)
 {
-  if (!hasRequiredAttributes()) {
-    return NULL;
-  }
+  SBMLDocument* doc = getSBMLDocument();
   SBase* referent = Replacing::getReferencedElementFrom(model);
   if (referent != NULL) return referent;
-  if (isSetDeletion()) {
-    //The deletion is not actually in the passed-in Model, but in our own Model.
-    model = getParentModel(this);
-    if (model==NULL) return NULL;
-    if (!isSetSubmodelRef()) return NULL;
-    CompModelPlugin* mplugin = static_cast<CompModelPlugin*>(model->getPlugin(getPrefix()));
-    if (mplugin==NULL) return NULL;
-    Submodel* submod = mplugin->getSubmodel(getSubmodelRef());
-    if (submod==NULL) return NULL;
-    return submod->getDeletion(getDeletion());
+  if (!isSetDeletion()) {
+    //In this case, something else went wrong in getReferencedElementFrom, which will have set its own error message.
+    return NULL;
   }
-  return NULL;
+  model = getParentModel(this);
+  if (model==NULL) {
+    if (doc) {
+      string error = "In ReplacedElement::getReferencedElementFrom, unable to find referenced deletion '" + getDeletion() + "' for <replacedElement>: no parent model could be found.";
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return NULL;
+  }
+  CompModelPlugin* mplugin = static_cast<CompModelPlugin*>(model->getPlugin(getPrefix()));
+  if (mplugin==NULL) {
+    if (doc) {
+      string error = "In ReplacedElement::getReferencedElementFrom, unable to find referenced deletion '" + getDeletion() + "' for <replacedElement>: no 'comp' plugin for the parent model could be found.";
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return NULL;
+  }
+  Submodel* submod = mplugin->getSubmodel(getSubmodelRef());
+  if (submod==NULL) {
+    if (doc) {
+      string error = "In ReplacedElement::getReferencedElementFrom, unable to find referenced deletion '" + getDeletion() + "' for <replacedElement>: no such submodel '" + getSubmodelRef() + "'.";
+      doc->getErrorLog()->logPackageError("comp", CompReplacedElementSubModelRef, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+    }
+    return NULL;
+  }
+  SBase* ret = submod->getDeletion(getDeletion());
+  if (ret==NULL && doc) {
+    string error = "In ReplacedElement::getReferencedElementFrom, unable to find referenced deletion '" + getDeletion() + "' for <replacedElement>: no deletion with that ID exists in the model.";
+    doc->getErrorLog()->logPackageError("comp", CompDeletionMustReferenceObject, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+  }
+  return ret;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 bool
 ReplacedElement::accept (SBMLVisitor& v) const

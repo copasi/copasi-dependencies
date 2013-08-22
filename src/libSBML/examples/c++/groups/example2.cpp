@@ -334,19 +334,19 @@ group->setId("role_substrate");
 group->setKind(GROUP_KIND_CLASSIFICATION);
 
 Member* member = group->createMember();
-member->setSymbol("SpeciesReferenceGlyph_1");
+member->setIdRef("SpeciesReferenceGlyph_1");
 
 member = group->createMember();
-member->setSymbol("SpeciesReferenceGlyph_3");
+member->setIdRef("SpeciesReferenceGlyph_3");
 
 group = mpluginGroups->createGroup();
 group->setId("role_product");
 
 member = group->createMember();
-member->setSymbol("SpeciesReferenceGlyph_2");
+member->setIdRef("SpeciesReferenceGlyph_2");
 
 member = group->createMember();
-member->setSymbol("SpeciesReferenceGlyph_4");
+member->setIdRef("SpeciesReferenceGlyph_4");
 
 
 writeSBML(document,"groups_example2.xml");

@@ -11,7 +11,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -35,16 +35,11 @@
 
 
 #include <sbml/common/extern.h>
-#include <sbml/common/sbmlfwd.h>
-#include <sbml/packages/groups/common/groupsfwd.h>
-#include <sbml/SBMLTypeCodes.h>
+
 
 #ifdef __cplusplus
 
-#include <sbml/SBMLErrorLog.h>
-#include <sbml/Model.h>
-#include <sbml/xml/XMLInputStream.h>
-#include <sbml/xml/XMLOutputStream.h>
+
 #include <sbml/extension/SBasePlugin.h>
 #include <sbml/packages/groups/sbml/Group.h>
 
@@ -54,17 +49,19 @@ class LIBSBML_EXTERN GroupsModelPlugin : public SBasePlugin
 {
 public:
 
-  /**
-   * Constructor
-   */
-  GroupsModelPlugin (const std::string &uri, const std::string &prefix,
-                    GroupsPkgNamespaces *groupsns);
+	/**
+	 * Creates a new GroupsModelPlugin
+	 */
+	GroupsModelPlugin(const std::string& uri, const std::string& prefix, 
+	                               GroupsPkgNamespaces* groupsns);
 
 
-  /**
-   * Copy constructor. Creates a copy of this SBase object.
-   */
-  GroupsModelPlugin(const GroupsModelPlugin& orig);
+	/**
+	 * Copy constructor for GroupsModelPlugin.
+	 *
+	 * @param orig; the GroupsModelPlugin instance to copy.
+	 */
+	GroupsModelPlugin(const GroupsModelPlugin& orig);
 
 
   /**
@@ -260,7 +257,7 @@ public:
    *
    * @return the number of Group object in this plugin object.
    */
-  int getNumGroups() const;
+	unsigned int getNumGroups () const;
 
   // ---------------------------------------------------------
   //
@@ -320,12 +317,20 @@ public:
                                      const std::string& pkgPrefix, bool flag);
   /** @endcond doxygen-libsbml-internal */
 
+
+	/** @cond doxygen-libsbml-internal */
+
+	virtual bool accept (SBMLVisitor& v) const;
+
+	/** @endcond doxygen-libsbml-internal */
+
+
 protected:
   /** @cond doxygen-libsbml-internal */
 
   /*-- data members --*/
 
-  ListOfGroups mGroups;
+	ListOfGroups mGroups;
 
   /** @endcond doxygen-libsbml-internal */
 };
@@ -334,3 +339,5 @@ LIBSBML_CPP_NAMESPACE_END
 
 #endif  /* __cplusplus */
 #endif  /* GroupsModelPlugin_h */
+
+

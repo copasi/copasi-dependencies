@@ -115,7 +115,7 @@ public:
   void clearLog();
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /**
    * Creates a new empty XMLErrorLog.
@@ -231,8 +231,12 @@ public:
    */
   void setSeverityOverride(XMLErrorSeverityOverride_t severity);
 
+  void changeErrorSeverity(XMLErrorSeverity_t originalSeverity,
+                                 XMLErrorSeverity_t targetSeverity,
+                                 std::string package = "all");
+
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   std::vector<XMLError*> mErrors;
   const XMLParser*       mParser;

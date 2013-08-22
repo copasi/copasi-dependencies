@@ -70,6 +70,7 @@
 
 #include <sbml/util/ElementFilter.h>
 #include <sbml/packages/layout/extension/LayoutExtension.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
@@ -79,12 +80,14 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 Layout::Layout (unsigned int level, unsigned int version, unsigned int pkgVersion) 
   : SBase (level,version)
    ,mId("")
+   ,mName("")
    ,mDimensions(level,version,pkgVersion)
    ,mCompartmentGlyphs(level,version,pkgVersion)
    ,mSpeciesGlyphs(level,version,pkgVersion)
    ,mReactionGlyphs(level,version,pkgVersion)
    ,mTextGlyphs(level,version,pkgVersion)
    ,mAdditionalGraphicalObjects(level,version,pkgVersion)
+   ,mDimensionsExplicitlySet( false )
 {
   // set an SBMLNamespaces derived object (LayoutPkgNamespaces) of this package.
   setSBMLNamespacesAndOwn(new LayoutPkgNamespaces(level,version,pkgVersion));  
@@ -100,12 +103,14 @@ Layout::Layout (unsigned int level, unsigned int version, unsigned int pkgVersio
 Layout::Layout (LayoutPkgNamespaces* layoutns, const std::string& id, const Dimensions* dimensions)
   : SBase (layoutns)
    ,mId (id)
+   ,mName("")
    ,mDimensions(layoutns)
    ,mCompartmentGlyphs(layoutns)
    ,mSpeciesGlyphs(layoutns)
    ,mReactionGlyphs(layoutns)
    ,mTextGlyphs(layoutns)
    ,mAdditionalGraphicalObjects(layoutns)
+   ,mDimensionsExplicitlySet (false)
 {
   //
   // set the element namespace of this object
@@ -115,6 +120,7 @@ Layout::Layout (LayoutPkgNamespaces* layoutns, const std::string& id, const Dime
   if(dimensions)
   {
     this->mDimensions=*dimensions;
+    mDimensionsExplicitlySet = true;
   }
 
   // connect child elements to this element.
@@ -133,12 +139,14 @@ Layout::Layout (LayoutPkgNamespaces* layoutns, const std::string& id, const Dime
 Layout::Layout(LayoutPkgNamespaces* layoutns)
  : SBase(layoutns)
   ,mId("")
+  ,mName("")
   ,mDimensions(layoutns)
   ,mCompartmentGlyphs(layoutns)
   ,mSpeciesGlyphs(layoutns)
   ,mReactionGlyphs(layoutns)
   ,mTextGlyphs(layoutns)
   ,mAdditionalGraphicalObjects(layoutns)
+  ,mDimensionsExplicitlySet (false )
 {
   //
   // set the element namespace of this object
@@ -162,12 +170,14 @@ Layout::Layout(LayoutPkgNamespaces* layoutns)
 Layout::Layout(const XMLNode& node, unsigned int l2version)
  : SBase(2,l2version)
   ,mId ("")
+  ,mName("")
   ,mDimensions(2,l2version)
   ,mCompartmentGlyphs(2,l2version)
   ,mSpeciesGlyphs(2,l2version)
   ,mReactionGlyphs(2,l2version)
   ,mTextGlyphs(2,l2version)
   ,mAdditionalGraphicalObjects(2,l2version)
+  ,mDimensionsExplicitlySet (false)
 {
 
   LayoutPkgNamespaces *layoutNS = new LayoutPkgNamespaces(2,l2version);
@@ -192,6 +202,7 @@ Layout::Layout(const XMLNode& node, unsigned int l2version)
         if(childName=="dimensions")
         {
             this->mDimensions=Dimensions(*child);
+            mDimensionsExplicitlySet = true;
         }
         else if(childName=="annotation")
         {
@@ -365,12 +376,14 @@ Layout::Layout(const XMLNode& node, unsigned int l2version)
 Layout::Layout(const Layout& source):SBase(source)
 {
     this->mId=source.getId();
+    this->mName=source.getName();
     this->mDimensions=*source.getDimensions();
     this->mCompartmentGlyphs=*source.getListOfCompartmentGlyphs();
     this->mSpeciesGlyphs=*source.getListOfSpeciesGlyphs();
     this->mReactionGlyphs=*source.getListOfReactionGlyphs();
     this->mTextGlyphs=*source.getListOfTextGlyphs();
     this->mAdditionalGraphicalObjects=*source.getListOfAdditionalGraphicalObjects();
+    this->mDimensionsExplicitlySet=source.getDimensionsExplicitlySet();
 
     // connect child elements to this element.
     connectToChild();
@@ -385,12 +398,14 @@ Layout& Layout::operator=(const Layout& source)
   {
     this->SBase::operator=(source);
     this->mId = source.mId;
+    this->mName = source.mName;
     this->mDimensions=*source.getDimensions();
     this->mCompartmentGlyphs=*source.getListOfCompartmentGlyphs();
     this->mSpeciesGlyphs=*source.getListOfSpeciesGlyphs();
     this->mReactionGlyphs=*source.getListOfReactionGlyphs();
     this->mTextGlyphs=*source.getListOfTextGlyphs();
     this->mAdditionalGraphicalObjects=*source.getListOfAdditionalGraphicalObjects();
+    this->mDimensionsExplicitlySet=source.mDimensionsExplicitlySet;
 
     // connect child elements to this element.
     connectToChild();
@@ -426,6 +441,12 @@ const std::string& Layout::getId () const
 }
 
 
+const std::string& Layout::getName () const
+{
+  return mName;
+}
+
+
 /*
   * Predicate returning @c true or @c false depending on whether this
   * Layout's "id" attribute has been set.
@@ -433,6 +454,11 @@ const std::string& Layout::getId () const
 bool Layout::isSetId () const
 {
   return (mId.empty() == false);
+}
+
+bool Layout::isSetName () const
+{
+  return (mName.empty() == false);
 }
 
 /*
@@ -443,6 +469,21 @@ int Layout::setId (const std::string& id)
   return SyntaxChecker::checkAndSetSId(id,mId);
 }
 
+int Layout::setName (const std::string& name)
+{
+  /* if this is setting an L2 name the type is string
+   * whereas if it is setting an L1 name its type is SId
+   */
+  if (&(name) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mName = name;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
 
 /*
   * Unsets the value of the "id" attribute of this Layout.
@@ -460,6 +501,18 @@ int Layout::unsetId ()
   }
 }
 
+int Layout::unsetName ()
+{
+  mId.erase();
+  if (mId.empty())
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
 /*
  * Returns the dimensions of the layout.
  */ 
@@ -488,7 +541,15 @@ Layout::setDimensions (const Dimensions* dimensions)
 {
   if(dimensions==NULL) return;  
   this->mDimensions = *dimensions;
+  this->mDimensionsExplicitlySet = true;
   this->mDimensions.connectToParent(this);
+}
+
+
+bool
+Layout::getDimensionsExplicitlySet() const
+{
+  return mDimensionsExplicitlySet;
 }
 
 
@@ -1391,7 +1452,7 @@ Layout::getElementName () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 Layout::createObject (XMLInputStream& stream)
 {
@@ -1400,55 +1461,198 @@ Layout::createObject (XMLInputStream& stream)
 
   if (name == "listOfCompartmentGlyphs")
   {
+    if (mCompartmentGlyphs.size() != 0)
+    {
+      getErrorLog()->logPackageError("layout", LayoutOnlyOneEachListOf, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+      
     object = &mCompartmentGlyphs;
   }
 
-  else if ( name == "listOfSpeciesGlyphs"      ) object = &mSpeciesGlyphs;
-  else if ( name == "listOfReactionGlyphs"       ) object = &mReactionGlyphs;
-  else if ( name == "listOfTextGlyphs"            ) object = &mTextGlyphs;
-  else if ( name == "listOfAdditionalGraphicalObjects") object = &mAdditionalGraphicalObjects;
-  else if ( name == "dimensions"               ) object = &mDimensions;
+  else if ( name == "listOfSpeciesGlyphs"      ) 
+  {
+    if (mSpeciesGlyphs.size() != 0)
+    {
+      getErrorLog()->logPackageError("layout", LayoutOnlyOneEachListOf, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+      
+    object = &mSpeciesGlyphs;
+  }
+  else if ( name == "listOfReactionGlyphs"       ) 
+  {
+    if (mReactionGlyphs.size() != 0)
+    {
+      getErrorLog()->logPackageError("layout", LayoutOnlyOneEachListOf, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+      
+    object = &mReactionGlyphs;
+  }
+  else if ( name == "listOfTextGlyphs"            ) 
+  {
+    if (mTextGlyphs.size() != 0)
+    {
+      getErrorLog()->logPackageError("layout", LayoutOnlyOneEachListOf, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+      
+    object = &mTextGlyphs;
+  }
+  else if ( name == "listOfAdditionalGraphicalObjects") 
+  {
+    if (mAdditionalGraphicalObjects.size() != 0)
+    {
+      getErrorLog()->logPackageError("layout", LayoutOnlyOneEachListOf, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+      
+    object = &mAdditionalGraphicalObjects;
+  }
+  else if ( name == "dimensions"               ) 
+  {
+    if (getDimensionsExplicitlySet() == true)
+    {
+      getErrorLog()->logPackageError("layout", LayoutLayoutMustHaveDimensions, 
+        getPackageVersion(), getLevel(), getVersion());
+    }
+      
+    object = &mDimensions;
+    mDimensionsExplicitlySet = true;
+  }
 
   return object;
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Layout::addExpectedAttributes(ExpectedAttributes& attributes)
 {
   SBase::addExpectedAttributes(attributes);
 
   attributes.add("id");
+  attributes.add("name");
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Layout::readAttributes (const XMLAttributes& attributes,
                         const ExpectedAttributes& expectedAttributes)
 {
-  SBase::readAttributes(attributes,expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
 
-  const unsigned int sbmlLevel   = getLevel  ();
-  const unsigned int sbmlVersion = getVersion();
+	unsigned int numErrs;
 
-  bool assigned = attributes.readInto("id", mId, getErrorLog(), true, getLine(), getColumn());
-  if (assigned && mId.empty())
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfLayouts - which will have
+	 * happened immediately prior to this read
+	*/
+
+	if (getErrorLog() != NULL &&
+	    static_cast<ListOfLayouts*>(getParentSBMLObject())->size() < 2)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				      getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", 
+                       LayoutLOLayoutsAllowedAttributes,
+				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				           getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", 
+                  LayoutLOLayoutsAllowedAttributes,
+				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	SBase::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", LayoutLayoutAllowedAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", LayoutLayoutAllowedCoreAttributes,
+				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	bool assigned = false;
+
+	//
+	// id SId  ( use = "required" )
+	//
+	assigned = attributes.readInto("id", mId);
+
+  if (getErrorLog() != NULL)
   {
-    logEmptyString(mId, sbmlLevel, sbmlVersion, "<layout>");
+ 	  if (assigned == true)
+	  {
+		  // check string is not empty and correct syntax
+
+		  if (mId.empty() == true)
+		  {
+			  logEmptyString(mId, getLevel(), getVersion(), "<Layout>");
+		  }
+		  else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+		  {
+		    getErrorLog()->logPackageError("layout", LayoutSIdSyntax,
+		                   getPackageVersion(), sbmlLevel, sbmlVersion);
+		  }
+	  }
+	  else
+	  {
+		  std::string message = "Layout attribute 'id' is missing.";
+		  getErrorLog()->logPackageError("layout", LayoutLayoutAllowedAttributes,
+		                 getPackageVersion(), sbmlLevel, sbmlVersion, message);
+	  }
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+
+  attributes.readInto("name", mName);
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Layout::writeAttributes (XMLOutputStream& stream) const
 {
   SBase::writeAttributes(stream);
 
   stream.writeAttribute("id", getPrefix(), mId);
+
+  if (isSetName())
+  {
+    stream.writeAttribute("name", getPrefix(), mId);
+  }
 
   //
   // (EXTENSION)
@@ -1457,7 +1661,7 @@ Layout::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Layout::writeElements (XMLOutputStream& stream) const
 {
@@ -1510,16 +1714,19 @@ Layout::clone() const
 bool
 Layout::accept (SBMLVisitor& v) const
 {
-  /*  
-  bool result=v.visit(*this);
+    
+  v.visit(*this);
+  
   this->mDimensions.accept(v);
   this->mCompartmentGlyphs.accept(v);
   this->mSpeciesGlyphs.accept(v);
   this->mReactionGlyphs.accept(v);
   this->mTextGlyphs.accept(v);
   this->mAdditionalGraphicalObjects.accept(v);
-  v.leave(*this);*/
-  return false;
+  
+  v.leave(*this);
+  
+  return true;
 }
 
 
@@ -1710,7 +1917,7 @@ ListOfLayouts::resetElementNamespace(const std::string& uri)
 
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ListOfLayouts::createObject (XMLInputStream& stream)
 {
@@ -1730,7 +1937,7 @@ ListOfLayouts::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 ListOfLayouts::writeXMLNS (XMLOutputStream& stream) const
 {
@@ -1881,7 +2088,7 @@ ListOfCompartmentGlyphs::getElementName () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ListOfCompartmentGlyphs::createObject (XMLInputStream& stream)
 {
@@ -2032,7 +2239,7 @@ ListOfSpeciesGlyphs::getElementName () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ListOfSpeciesGlyphs::createObject (XMLInputStream& stream)
 {
@@ -2180,7 +2387,7 @@ ListOfReactionGlyphs::remove (const std::string& sid)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ListOfReactionGlyphs::createObject (XMLInputStream& stream)
 {
@@ -2328,7 +2535,7 @@ ListOfTextGlyphs::remove (const std::string& sid)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 ListOfTextGlyphs::createObject (XMLInputStream& stream)
 {

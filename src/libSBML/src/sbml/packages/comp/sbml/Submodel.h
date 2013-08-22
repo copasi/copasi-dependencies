@@ -112,7 +112,7 @@ class LIBSBML_EXTERN Submodel : public CompBase
 {
 protected:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   std::string   mId;
   std::string   mName;
   std::string   mModelRef;
@@ -121,6 +121,7 @@ protected:
   std::string   mExtentConversionFactor;
   ListOfDeletions  mListOfDeletions;
   Model*        mInstantiatedModel;
+  std::string   mInstantiationOriginalURI;
   /** @endcond */
 
 public:
@@ -643,7 +644,7 @@ public:
   int getTypeCode () const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write out their contained
    * SBML objects as XML elements.  Be sure to call your parents
@@ -658,7 +659,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 
   /**
@@ -673,7 +674,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBMLDocument of this SBML object.
    *
@@ -683,7 +684,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets this SBML object to child SBML objects (if any).
    * (Creates a child-parent relationship by the parent)
@@ -700,7 +701,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -808,7 +809,7 @@ public:
 
 protected:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -819,7 +820,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
@@ -830,7 +831,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation

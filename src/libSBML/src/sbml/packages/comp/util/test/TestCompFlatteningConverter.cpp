@@ -50,6 +50,7 @@ START_TEST (test_comp_get_flattening_converter)
 {
   ConversionProperties* props = new ConversionProperties();
   props->addOption("flatten comp");
+  props->addOption("perform validation", true);
   
   SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
   
@@ -84,6 +85,7 @@ START_TEST (test_comp_flatten_aggregate)
   
   props->addOption("flatten comp");
   props->addOption("basePath", filename);
+  props->addOption("perform validation", true);
 
   SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
   
@@ -141,6 +143,7 @@ void TestFlattenedPair(string file1, string file2)
   
   props->addOption("flatten comp");
   props->addOption("basePath", filename);
+  props->addOption("perform validation", true);
 
   SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
   
@@ -155,6 +158,14 @@ void TestFlattenedPair(string file1, string file2)
 
   fail_unless(doc->getErrorLog()->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) == 0);
   //For use debugging the above statement:
+
+  converter->setDocument(doc);
+  int result = converter->convert();
+
+  // fail if conversion was not valid
+  fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+
+  //For use in debugging the above statement.
   /*
   SBMLErrorLog* errors = doc->getErrorLog();
   if (errors->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) != 0) {
@@ -167,12 +178,6 @@ void TestFlattenedPair(string file1, string file2)
     }
   }
   */
-
-  converter->setDocument(doc);
-  int result = converter->convert();
-
-  // fail if conversion was not valid
-  fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
   string newModel = writeSBMLToString(doc);
   //writeSBMLToFile(doc, "test1_flat.xml");
@@ -217,6 +222,7 @@ START_TEST (test_comp_flatten_qtpop)
   
   props->addOption("flatten comp");
   props->addOption("basePath", filename);
+  props->addOption("perform validation", true);
 
   SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
   
@@ -271,7 +277,6 @@ END_TEST
 START_TEST (test_comp_flatten_double_ext1)
 { 
   SBMLNamespaces sbmlns(3,1,"comp",1);
-  CompPkgNamespaces csbmlns(3,1,1,"comp");
 
   // create the document
   SBMLDocument *doc = new SBMLDocument(&sbmlns);
@@ -337,7 +342,6 @@ END_TEST
 START_TEST (test_comp_flatten_double_ext2)
 { 
   SBMLNamespaces sbmlns(3,1,"comp",1);
-  CompPkgNamespaces csbmlns(3,1,1,"comp");
 
   // create the document
   SBMLDocument *doc = new SBMLDocument(&sbmlns);
@@ -427,7 +431,6 @@ END_TEST
 START_TEST (test_comp_flatten_dropports)
 { 
   SBMLNamespaces sbmlns(3,1,"comp",1);
-  CompPkgNamespaces csbmlns(3,1,1,"comp");
 
   // create the document
   SBMLDocument *doc = new SBMLDocument(&sbmlns);
@@ -1286,6 +1289,7 @@ START_TEST (test_comp_flatten_converter_packages1)
   ConversionProperties* props = new ConversionProperties();
   
   props->addOption("flatten comp");
+  props->addOption("perform validation", true);
 
   SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
   
@@ -1314,9 +1318,16 @@ START_TEST (test_comp_flatten_converter_packages1)
   if (SBMLExtensionRegistry::isPackageEnabled("layout") == true)
   {
     ffile = filename + "aggregate_layout_flat_layout_removed.xml";
+    fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(doc->getNumErrors() == 1);
+    fail_unless(doc->getErrorLog()->getError(0)->getErrorId() == 1090109);
   }
   else
   {
+    fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(doc->getNumErrors() == 2);
+    fail_unless(doc->getErrorLog()->getError(0)->getErrorId() == 99108);
+    fail_unless(doc->getErrorLog()->getError(1)->getErrorId() == 1090108);
     ffile = filename + "aggregate_layout_flat_layout_removed.xml";
   }
 
@@ -1338,7 +1349,7 @@ START_TEST (test_comp_flatten_converter_packages2)
   ConversionProperties* props = new ConversionProperties();
   
   props->addOption("flatten comp");
-  props->addOption("ignorePackages", true);
+  props->addOption("perform validation", true);
 
   SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
   
@@ -1369,11 +1380,16 @@ START_TEST (test_comp_flatten_converter_packages2)
   {
     // fbc is not required so should just get removed
     fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(doc->getNumErrors() == 1);
+    fail_unless(doc->getErrorLog()->getError(0)->getErrorId() == 1090109);
     ffile = filename + "aggregate_fbc_flat_fbc_removed.xml";
   }
   else
   {
     fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(doc->getNumErrors() == 2);
+    fail_unless(doc->getErrorLog()->getError(0)->getErrorId() == 99108);
+    fail_unless(doc->getErrorLog()->getError(1)->getErrorId() == 1090108);
     ffile = filename + "aggregate_fbc_flat_fbc_removed.xml";
   }
 
@@ -1396,6 +1412,7 @@ START_TEST (test_comp_flatten_converter_packages3)
   
   props->addOption("flatten comp");
   props->addOption("ignorePackages", true);
+  props->addOption("perform validation", true);
 
   SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
   
@@ -1426,11 +1443,16 @@ START_TEST (test_comp_flatten_converter_packages3)
   {
     // fbc is not required so should just get removed
     fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(doc->getNumErrors() == 1);
+    fail_unless(doc->getErrorLog()->getError(0)->getErrorId() == 1090109);
     ffile = filename + "aggregate_fbc_flat_fbc_removed.xml";
   }
   else
   {
     fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(doc->getNumErrors() == 2);
+    fail_unless(doc->getErrorLog()->getError(0)->getErrorId() == 99108);
+    fail_unless(doc->getErrorLog()->getError(1)->getErrorId() == 1090108);
     ffile = filename + "aggregate_fbc_flat_fbc_removed.xml";
   }
 
@@ -1453,6 +1475,7 @@ START_TEST (test_comp_flatten_converter_packages4)
   
   props->addOption("flatten comp");
   props->addOption("ignorePackages", false);
+  props->addOption("perform validation", true);
 
   SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
   
@@ -1481,11 +1504,16 @@ START_TEST (test_comp_flatten_converter_packages4)
   if (SBMLExtensionRegistry::isPackageEnabled("fbc") == true)
   {
     fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(doc->getNumErrors() == 1);
+    fail_unless(doc->getErrorLog()->getError(0)->getErrorId() == 1090109);
     ffile = filename + "aggregate_fbc_flat_fbc_not_removed.xml";
   }
   else
   {
     fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(doc->getNumErrors() == 2);
+    fail_unless(doc->getErrorLog()->getError(0)->getErrorId() == 99108);
+    fail_unless(doc->getErrorLog()->getError(1)->getErrorId() == 1090108);
     ffile = filename + "aggregate_fbc_flat_fbc_not_enabled.xml";
   }
 
@@ -1551,34 +1579,6 @@ START_TEST(test_comp_validator_44781839)
   doc->checkConsistency();
   delete doc;
   
-}
-END_TEST
-
-START_TEST(test_comp_flatten_invalid)
-{
-  ConversionProperties* props = new ConversionProperties();
-  
-  props->addOption("flatten comp");
-
-  SBMLConverter* converter = 
-    SBMLConverterRegistry::getInstance().getConverterFor(*props);
-  
-  // load document
-  string dir(TestDataDirectory);
-  string fileName = dir + "1020616-fail-01-01.xml";  
-  SBMLDocument* doc = readSBMLFromFile(fileName.c_str());
-
-  // fail if there is no model (readSBMLFromFile always returns a valid document)
-  fail_unless(doc->getNumErrors() == 0);
-  fail_unless(doc->getModel() != NULL);
-
-  converter->setDocument(doc);
-  int result = converter->convert();
-
-  fail_unless( result == LIBSBML_CONV_INVALID_SRC_DOCUMENT);
-
-  delete doc;
-  delete converter;
 }
 END_TEST
 
@@ -1677,9 +1677,6 @@ create_suite_TestFlatteningConverter (void)
   tcase_add_test(tcase, test_comp_flatten_converter_packages4);
   tcase_add_test(tcase, test_comp_validator_44781839);
  
-  
-  tcase_add_test(tcase, test_comp_flatten_invalid);
-
   suite_add_tcase(suite, tcase);
 
   return suite;

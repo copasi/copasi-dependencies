@@ -144,7 +144,7 @@ CompBase::getParentModel(SBase* child)
   return NULL;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 CompBase::readAttributes (const XMLAttributes& attributes,
                           const ExpectedAttributes& expectedAttributes)
@@ -176,7 +176,7 @@ CompBase::readAttributes (const XMLAttributes& attributes,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 CompBase::writeAttributes (XMLOutputStream& stream) const
 {
@@ -188,7 +188,7 @@ CompBase::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Helper to log a common type of error.
  */
@@ -213,7 +213,7 @@ CompBase::logUnknownElement(const std::string &element)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Helper to log a common type of error.
  */
@@ -248,7 +248,7 @@ CompBase::logUnknownAttribute(const std::string &attribute,
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Helper to log a common type of error.
  */
@@ -274,7 +274,7 @@ CompBase::logEmptyString(const std::string &attribute,
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 CompBase::logInvalidId(const std::string& attribute,
                        const std::string& wrongattribute,
@@ -373,7 +373,7 @@ CompBase::logInvalidId(const std::string& attribute,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 CompBase::logMissingAttribute(const std::string& attribute,
                               const std::string& element)
@@ -413,7 +413,7 @@ CompBase::logMissingAttribute(const std::string& attribute,
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 bool 
 CompBase::hasValidLevelVersionNamespaceCombination()
 {  
@@ -430,32 +430,34 @@ CompBase::hasValidLevelVersionNamespaceCombination()
 
 int CompBase::removeFromParentAndPorts(SBase* todelete)
 {
+  //First remove from ports:
   Model* parent = static_cast<Model*>(todelete->getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
-    if (parent==NULL) {
-      parent = static_cast<Model*>(todelete->getAncestorOfType(SBML_MODEL));
+  if (parent==NULL) {
+    parent = static_cast<Model*>(todelete->getAncestorOfType(SBML_MODEL));
+  }
+  while (parent != NULL) {
+    CompModelPlugin* cmp = static_cast<CompModelPlugin*>(parent->getPlugin("comp"));
+    if (cmp==NULL) {
+      parent = NULL;
+      continue;
     }
-    while (parent != NULL) {
-      CompModelPlugin* cmp = static_cast<CompModelPlugin*>(parent->getPlugin("comp"));
-      if (cmp==NULL) {
-        parent = NULL;
-        continue;
+    for (unsigned long p=0; p<cmp->getNumPorts();) {
+      Port* port = cmp->getPort(p);
+      if (port->getReferencedElement() == todelete) {
+        port->removeFromParentAndDelete();
       }
-      for (unsigned long p=0; p<cmp->getNumPorts();) {
-        Port* port = cmp->getPort(p);
-        if (port->getReferencedElement() == todelete) {
-          port->removeFromParentAndDelete();
-        }
-        else {
-          p++;
-        }
+      else {
+        p++;
       }
-      Model* tempparent = static_cast<Model*>(parent->getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
-      if (tempparent==NULL) {
-        parent = static_cast<Model*>(parent->getAncestorOfType(SBML_MODEL));
-      }
-      else parent = tempparent;
     }
-    return todelete->removeFromParentAndDelete();
+    Model* tempparent = static_cast<Model*>(parent->getAncestorOfType(SBML_COMP_MODELDEFINITION, "comp"));
+    if (tempparent==NULL) {
+      parent = static_cast<Model*>(parent->getAncestorOfType(SBML_MODEL));
+    }
+    else parent = tempparent;
+  }
+  //And secondly, remove from parent
+  return todelete->removeFromParentAndDelete();
 }
 
 LIBSBML_CPP_NAMESPACE_END

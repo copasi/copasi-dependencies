@@ -53,6 +53,7 @@
 
 
 #include <sbml/packages/layout/sbml/LineSegment.h>
+#include <sbml/packages/layout/sbml/Curve.h>
 #include <sbml/packages/layout/util/LayoutUtilities.h>
 #include <sbml/SBMLVisitor.h>
 #include <sbml/xml/XMLNode.h>
@@ -64,6 +65,7 @@
 #include <sbml/util/ElementFilter.h>
 
 #include <sbml/packages/layout/extension/LayoutExtension.h>
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
@@ -90,6 +92,8 @@ LineSegment::LineSegment (unsigned int level, unsigned int version, unsigned int
  :  SBase (level,version)
   , mStartPoint(level,version,pkgVersion)
   , mEndPoint  (level,version,pkgVersion)
+  , mStartExplicitlySet (false)
+  , mEndExplicitlySet (false)
 {
   this->mStartPoint.setElementName("start");
   this->mEndPoint.setElementName("end");
@@ -106,6 +110,8 @@ LineSegment::LineSegment (LayoutPkgNamespaces* layoutns)
  : SBase (layoutns)
  , mStartPoint(layoutns)
  , mEndPoint (layoutns)
+  , mStartExplicitlySet (false)
+  , mEndExplicitlySet (false)
 {
   //
   // set the element namespace of this object
@@ -131,6 +137,8 @@ LineSegment::LineSegment (LayoutPkgNamespaces* layoutns, double x1, double y1, d
  : SBase (layoutns)
  , mStartPoint(layoutns, x1, y1, 0.0 )
  , mEndPoint (layoutns, x2, y2, 0.0 )
+  , mStartExplicitlySet (true)
+  , mEndExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -157,6 +165,8 @@ LineSegment::LineSegment (LayoutPkgNamespaces* layoutns, double x1, double y1, d
  : SBase(layoutns)
   , mStartPoint(layoutns, x1, y1, z1)
   , mEndPoint  (layoutns, x2, y2, z2)
+  , mStartExplicitlySet (true)
+  , mEndExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -181,6 +191,8 @@ LineSegment::LineSegment(const LineSegment& orig):SBase(orig)
 {
   this->mStartPoint=orig.mStartPoint;
   this->mEndPoint=orig.mEndPoint;
+  this->mStartExplicitlySet=orig.mStartExplicitlySet;
+  this->mEndExplicitlySet=orig.mEndExplicitlySet;
 
   connectToChild();
 }
@@ -196,6 +208,8 @@ LineSegment& LineSegment::operator=(const LineSegment& orig)
     this->SBase::operator=(orig);
     this->mStartPoint=orig.mStartPoint;
     this->mEndPoint=orig.mEndPoint;
+    this->mStartExplicitlySet=orig.mStartExplicitlySet;
+    this->mEndExplicitlySet=orig.mEndExplicitlySet;
     connectToChild();
   }
   
@@ -210,6 +224,8 @@ LineSegment::LineSegment (LayoutPkgNamespaces* layoutns, const Point* start, con
  : SBase (layoutns)
  , mStartPoint(layoutns)
  , mEndPoint  (layoutns)
+  , mStartExplicitlySet (true)
+  , mEndExplicitlySet (true)
 {
   //
   // set the element namespace of this object
@@ -239,6 +255,8 @@ LineSegment::LineSegment(const XMLNode& node, unsigned int l2version)
  : SBase (2, l2version)
  , mStartPoint(2, l2version)
  , mEndPoint  (2, l2version)
+  , mStartExplicitlySet (false)
+  , mEndExplicitlySet (false)
 {
     const XMLAttributes& attributes=node.getAttributes();
     const XMLNode* child;
@@ -254,10 +272,12 @@ LineSegment::LineSegment(const XMLNode& node, unsigned int l2version)
         if(childName=="start")
         {
             this->mStartPoint=Point(*child);
+            this->mStartExplicitlySet = true;
         }
         else if(childName=="end")
         {
             this->mEndPoint=Point(*child);
+            this->mEndExplicitlySet = true;
         }
         else if(childName=="annotation")
         {
@@ -326,6 +346,7 @@ LineSegment::setStart (const Point* start)
     this->mStartPoint=*start;
     this->mStartPoint.setElementName("start");
     this->mStartPoint.connectToParent(this);
+    this->mStartExplicitlySet = true;
   }
 }
 
@@ -337,6 +358,7 @@ void
 LineSegment::setStart (double x, double y, double z)
 {
   this->mStartPoint.setOffsets(x, y, z);
+  this->mStartExplicitlySet = true;
 }
 
 
@@ -371,6 +393,7 @@ LineSegment::setEnd (const Point* end)
     this->mEndPoint = *end;
     this->mEndPoint.setElementName("end");
     this->mEndPoint.connectToParent(this);
+    this->mEndExplicitlySet = true;
   }
 }
 
@@ -382,6 +405,22 @@ void
 LineSegment::setEnd (double x, double y, double z)
 {
   this->mEndPoint.setOffsets(x, y, z);
+  this->mEndExplicitlySet = true;
+}
+
+
+bool
+LineSegment::getStartExplicitlySet() const
+{
+  return mStartExplicitlySet;
+}
+
+
+
+bool
+LineSegment::getEndExplicitlySet() const
+{
+  return mEndExplicitlySet;
 }
 
 
@@ -405,7 +444,7 @@ LineSegment::clone () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 LineSegment::createObject (XMLInputStream& stream)
 {
@@ -415,11 +454,25 @@ LineSegment::createObject (XMLInputStream& stream)
 
   if (name == "start")
   {
+    if (getStartExplicitlySet() == true)
+    {
+      getErrorLog()->logPackageError("layout", LayoutLSegAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+    }
+
     object = &mStartPoint;
+    mStartExplicitlySet = true;
   }
   else if(name == "end")
   {
+    if (getEndExplicitlySet() == true)
+    {
+      getErrorLog()->logPackageError("layout", LayoutLSegAllowedElements, 
+          getPackageVersion(), getLevel(), getVersion());
+    }
+
     object = &mEndPoint;
+    mEndExplicitlySet = true;
   }
 
  
@@ -427,7 +480,7 @@ LineSegment::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 LineSegment::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -436,12 +489,114 @@ LineSegment::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void LineSegment::readAttributes (const XMLAttributes& attributes,
                                   const ExpectedAttributes& expectedAttributes)
 {
-  SBase::readAttributes(attributes,expectedAttributes);
+	const unsigned int sbmlLevel   = getLevel  ();
+	const unsigned int sbmlVersion = getVersion();
 
+	unsigned int numErrs;
+
+	/* look to see whether an unknown attribute error was logged
+	 * during the read of the listOfLineSegments - which will have
+	 * happened immediately prior to this read
+	*/
+
+	if (getErrorLog() != NULL &&
+	    static_cast<ListOfLineSegments*>(getParentSBMLObject())->size() < 2)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				      getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+				getErrorLog()->logPackageError("layout", 
+                  LayoutLOCurveSegsAllowedAttributes,
+				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				           getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+				getErrorLog()->logPackageError("layout", 
+                  LayoutLOCurveSegsAllowedAttributes,
+				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+			}
+		}
+	}
+
+	SBase::readAttributes(attributes, expectedAttributes);
+
+	// look to see whether an unknown attribute error was logged
+	if (getErrorLog() != NULL)
+	{
+		numErrs = getErrorLog()->getNumErrors();
+		for (int n = numErrs-1; n >= 0; n--)
+		{
+			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownPackageAttribute);
+        if (this->getTypeCode() == SBML_LAYOUT_LINESEGMENT)
+        {
+				  getErrorLog()->logPackageError("layout", LayoutLSegAllowedAttributes,
+				                 getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+ 				  getErrorLog()->logPackageError("layout", LayoutCBezAllowedAttributes,
+				                 getPackageVersion(), sbmlLevel, sbmlVersion, details);
+       }
+			}
+			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+			{
+				const std::string details =
+				                  getErrorLog()->getError(n)->getMessage();
+				getErrorLog()->remove(UnknownCoreAttribute);
+        if (this->getTypeCode() == SBML_LAYOUT_LINESEGMENT)
+        {
+				  getErrorLog()->logPackageError("layout", 
+                         LayoutLSegAllowedCoreAttributes,
+				                 getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+        else
+        {
+				  getErrorLog()->logPackageError("layout", 
+                         LayoutCBezAllowedCoreAttributes,
+				                 getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        }
+			}
+		}
+	}
+
+	//bool assigned = false;
+
+	////
+	//// xsi:type string   ( use = "required" )
+	////
+	//assigned = attributes.readInto("xsi:type", mXsi:type);
+
+	//if (assigned == true)
+	//{
+	//	// check string is not empty
+
+	//	if (mXsi:type.empty() == true)
+	//	{
+	//		logEmptyString(mXsi:type, getLevel(), getVersion(), "<LineSegment>");
+	//	}
+	//}
+	//else
+	//{
+	//	std::string message = "Layout attribute 'xsi:type' is missing.";
+	//	getErrorLog()->logPackageError("layout", LayoutUnknownError,
+	//	               getPackageVersion(), sbmlLevel, sbmlVersion, message);
+	//}
 }
 
 void
@@ -458,7 +613,7 @@ LineSegment::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void LineSegment::writeAttributes (XMLOutputStream& stream) const
 {
   SBase::writeAttributes(stream);
@@ -487,12 +642,14 @@ LineSegment::getTypeCode () const
 bool
 LineSegment::accept (SBMLVisitor& v) const
 {
-   /*
-  bool result=v.visit(*this);
+  v.visit(*this);
+  
   this->mStartPoint.accept(v);
   this->mEndPoint.accept(v);
-  v.leave(*this);*/
-  return false;
+  
+  v.leave(*this);
+
+  return true;
 }
 
 

@@ -10,7 +10,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2009-2011 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  *  
@@ -51,8 +51,9 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-typedef CLASS_OR_STRUCT Group   Group_t;
-typedef CLASS_OR_STRUCT Member  Member_t;
+typedef CLASS_OR_STRUCT Member		Member_t;
+typedef CLASS_OR_STRUCT MemberConstraint		MemberConstraint_t;
+typedef CLASS_OR_STRUCT Group		Group_t;
 
 LIBSBML_CPP_NAMESPACE_END
 

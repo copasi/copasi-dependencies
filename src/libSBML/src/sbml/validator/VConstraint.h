@@ -55,7 +55,20 @@ class LIBSBML_EXTERN VConstraint
 {
 public:
 
+  /**
+   * Creates a new VConstraint with the given @p id and Validator @p v.
+   *
+   * The severity of the constraint is set to 2 by default.
+   *
+   * @param id an integer, the id of the new VConstraint
+   * @param v a Validator for the new VContraint
+   */
   VConstraint (unsigned int id, Validator& v);
+
+
+  /**
+   * Destructor for the VConstraint object.
+   */
   virtual ~VConstraint ();
 
 
@@ -89,7 +102,7 @@ public:
 
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /**
    * Logs a constraint failure to the validator for the given SBML object.
@@ -115,7 +128,7 @@ protected:
 };
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 template <typename T>
 class TConstraint : public VConstraint
@@ -142,7 +155,7 @@ public:
 
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /**
    * The check method delegates to this virtual method.

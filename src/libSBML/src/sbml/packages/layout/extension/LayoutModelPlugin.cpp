@@ -33,6 +33,8 @@
 
 #include <sbml/util/ElementFilter.h>
 
+#include <sbml/packages/layout/validator/LayoutSBMLError.h>
+
 #include <iostream>
 using namespace std;
 
@@ -109,7 +111,7 @@ LayoutModelPlugin::clone () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 LayoutModelPlugin::createObject(XMLInputStream& stream)
 {
@@ -125,6 +127,12 @@ LayoutModelPlugin::createObject(XMLInputStream& stream)
   {
     if ( name == "listOfLayouts" ) 
     {
+      if (mLayouts.size() != 0)
+      {
+        getErrorLog()->logPackageError("layout", LayoutOnlyOneLOLayouts, 
+          getPackageVersion(), getLevel(), getVersion());
+      }
+
       //cout << "[DEBUG] LayoutModelPlugin::createObject create listOfLayouts" << endl;
       object = &mLayouts;
     
@@ -142,7 +150,7 @@ LayoutModelPlugin::createObject(XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 bool 
 LayoutModelPlugin::readOtherXML (SBase* parentObject, XMLInputStream& stream)
 {
@@ -153,7 +161,7 @@ LayoutModelPlugin::readOtherXML (SBase* parentObject, XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 LayoutModelPlugin::writeAttributes (XMLOutputStream& stream) const
 {
@@ -172,7 +180,7 @@ LayoutModelPlugin::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 LayoutModelPlugin::writeElements (XMLOutputStream& stream) const
 {
@@ -235,7 +243,7 @@ LayoutModelPlugin::parseAnnotation(SBase *parentObject, XMLNode *pAnnotation)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Synchronizes the annotation of this SBML object.
  */
@@ -480,6 +488,28 @@ LayoutModelPlugin::enablePackageInternal(const std::string& pkgURI,
 {
   mLayouts.enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
+
+
+/*
+ * Accept the SBMLVisitor.
+ */
+bool
+LayoutModelPlugin::accept(SBMLVisitor& v) const
+{
+	const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
+
+	v.visit(*model);
+	v.leave(*model);
+
+	for(int i = 0; i < getNumLayouts(); i++)
+	{
+		getLayout(i)->accept(v);
+	}
+
+	return true;
+}
+
+
 
 
 LIBSBML_CPP_NAMESPACE_END

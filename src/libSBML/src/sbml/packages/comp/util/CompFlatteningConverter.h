@@ -50,7 +50,7 @@ class CompFlatteningConverter : public SBMLConverter
 {
 public:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   
   /* register with the ConversionRegistry */
   static void init();  
@@ -119,6 +119,8 @@ public:
   virtual ConversionProperties getDefaultProperties() const;
 
 private:
+
+  int reconstructDocument(Model* flatmodel, SBMLDocument &dummyDoc);
 
   bool getLeavePorts() const;
 
