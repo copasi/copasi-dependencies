@@ -63,28 +63,31 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options a
 #
 # Locate Libxml2 if needed
 #
-find_library(LIBXML_LIBRARY
-	NAMES libxml2.lib xml2
-	PATHS /usr/lib /usr/local/lib
-		  ${CMAKE_SOURCE_DIR}
-		  ${CMAKE_SOURCE_DIR}/lib
-)
+if (WITH_BUILD_BROKER)
 
-find_path(LIBXML_INCLUDE_DIR
+  find_library(LIBXML_LIBRARY
+    NAMES libxml2.lib xml2
+    PATHS /usr/lib /usr/local/lib
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/lib
+    )
+
+  find_path(LIBXML_INCLUDE_DIR
     NAMES libxml/parser.h
     PATHS /usr/include /usr/local/include
-          /usr/include/libxml2
-          /usr/local/include/libxml2
-          ${CMAKE_SOURCE_DIR}/include
+    /usr/include/libxml2
+    /usr/local/include/libxml2
+    ${CMAKE_SOURCE_DIR}/include
+    )
 
-)
+  set(SBW_XML_LIBRARY "libxml2")
+  set(SBW_XML_LIBRARY_INCLUDE ${LIBXML_INCLUDE_DIR})
+  set(SBW_XML_LIBRARY_LIBS ${LIBXML_LIBRARY})
 
-set(SBW_XML_LIBRARY "libxml2")
-set(SBW_XML_LIBRARY_INCLUDE ${LIBXML_INCLUDE_DIR})
-set(SBW_XML_LIBRARY_LIBS ${LIBXML_LIBRARY})
+  set(SBW_LIBS ${SBW_LIBS} ${LIBXML_LIBRARY})
+  include_directories(${LIBXML_INCLUDE_DIR})
 
-set(SBW_LIBS ${SBW_LIBS} ${LIBXML_LIBRARY})
-include_directories(${LIBXML_INCLUDE_DIR})
+endif (WITH_BUILD_BROKER)
 
 #
 # Allow to build core library only by disabling the build of the broker
