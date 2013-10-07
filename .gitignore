@@ -225,6 +225,7 @@ pip-log.txt
 ## Gnumake files ...
 ##
 
+.deps/
 src/cppunit/Makefile
 src/cppunit/config.status
 src/cppunit/config/stamp-h1
@@ -237,6 +238,7 @@ src/cppunit/examples/DumperPlugIn/Makefile
 src/cppunit/examples/Makefile
 src/cppunit/examples/cppunittest/Makefile
 src/cppunit/examples/hierarchy/Makefile
+src/cppunit/examples/msvc6
 src/cppunit/examples/money/Makefile
 src/cppunit/examples/simple/ExampleTestCase.o
 src/cppunit/examples/simple/Main.o
@@ -526,8 +528,10 @@ src/raptor/tests/trig/Makefile
 src/raptor/tests/turtle/Makefile
 src/raptor/utils/Makefile
 src/raptor/utils/rapper.o
+src/raptor/utils/rapper
 
 src/raptor/win32/Makefile
-/src/qwt/designer/plugins/designer/*.dylib
 
-/src/qwt/designer/plugins/designer/*.lib
+src/qwt/designer/plugins
+src/qwt/designer/plugins/designer/*.dylib
+src/qwt/designer/plugins/designer/*.lib
