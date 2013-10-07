@@ -58,14 +58,14 @@ $MAKE install
 # Build cppunit
 cd $DIRECTORY/src/cppunit
 chmod +x configure
-./configure --enable-html-docs=no --enable-doxygen=no --enable-dot=no --enable-shared=no --prefix=$DIRECTORY/bin
+./configure --enable-html-docs=no  --with-pic --enable-doxygen=no --enable-dot=no --enable-shared=no --prefix=$DIRECTORY/bin
 $MAKE 
 $MAKE install
 
 # build expat
 cd $DIRECTORY/src/expat
 chmod +x configure 
-./configure  --enable-shared=no --prefix=$DIRECTORY/bin
+./configure  --with-pic  --enable-shared=no --prefix=$DIRECTORY/bin
 $MAKE 
 $MAKE install
 # delete shared library just in case
@@ -82,7 +82,7 @@ $MAKE install
 cd $DIRECTORY/src/raptor
 chmod +x configure
 chmod +x install-sh
-./configure  LDFLAGS="-L$DIRECTORY/bin/lib" CXXFLAGS="-I$DIRECTORY/bin/include" CFLAGS="-I$DIRECTORY/bin/include" --with-xml-parser=expat --with-www=none --enable-shared=no --prefix=$DIRECTORY/bin
+./configure  LDFLAGS="-L$DIRECTORY/bin/lib" CXXFLAGS="-I$DIRECTORY/bin/include" CFLAGS="-I$DIRECTORY/bin/include" --with-xml-parser=expat --with-www=none --enable-shared=no --with-pic --prefix=$DIRECTORY/bin
 $MAKE -i 
 $MAKE -i install
 
