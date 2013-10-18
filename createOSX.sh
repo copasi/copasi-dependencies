@@ -79,3 +79,9 @@ chmod +x install-sh
 make AM_LDFLAGS="-XCClinker -arch -XCClinker x86_64 -XCClinker -arch -XCClinker i386"
 make install
 
+# build libSEDML
+mkdir -p $DIRECTORY/tmp/libSEDML
+cd $DIRECTORY/tmp/libSEDML
+$CMAKE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin -DLIBSBML_STATIC=ON -DLIBSEDML_SHARED_VERSION=OFF -DENABLE_UNIVERSAL=ON -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" $DIRECTORY/src/libSEDML
+make -j
+make install
