@@ -51,9 +51,7 @@ main (int argc, char* argv[])
   }
 
   // create the document
-  SedDocument doc;
-  doc.setLevel(1);
-  doc.setVersion(2);
+  SedDocument doc(1,2);
   doc.setAnnotation("<test xmlns='http://test.org/test/annotation' attribute='test' />");
 
   {
@@ -99,6 +97,10 @@ main (int argc, char* argv[])
   // need to set the correct KISAO Term
   SedAlgorithm* alg = tc->createAlgorithm();
   alg->setKisaoID("KISAO:0000019");
+  SedAlgorithmParameter* algParam = alg->createAlgorithmParameter();
+  algParam ->setNotes("<p xmlns='http://www.w3.org/1999/xhtml'>This is the absolute tolerance</p>");
+  algParam ->setKisaoID("KISAO:0000211");
+  algParam ->setValue("1e-12");
   // add annotation
   tc->setAnnotation("<test xmlns='http://test.org/test/simulation/annotation' attribute='uniform time course' />");
   alg->setAnnotation("<test xmlns='http://test.org/test/simulation/annotation' attribute='algorithm' />");
@@ -114,6 +116,8 @@ main (int argc, char* argv[])
   // create steady state
   SedSteadyState* steady = doc.createSteadyState();
   steady->setId("sim3");
+  alg = steady->createAlgorithm();
+  alg->setKisaoID("KISAO:0000282");
 
   // create a task that uses the simulation and the model above
   SedTask* task = doc.createTask();
@@ -127,7 +131,7 @@ main (int argc, char* argv[])
   task->setSimulationReference("sim2");
 
   SedRepeatedTask* repeat = doc.createRepeatedTask();
-  repeat->setId("task2");
+  repeat->setId("task3");
   repeat->setRangeId("index");
   repeat->setResetModel(false);
 
@@ -145,6 +149,9 @@ main (int argc, char* argv[])
 
   SedVectorRange* vrange = repeat->createVectorRange();
   vrange->setId("vRange");
+  vrange->addValue(8);
+  vrange->addValue(4);
+  vrange->addValue(0.1);
 
 
   SedSetValue* setValue = repeat->createTaskChange();

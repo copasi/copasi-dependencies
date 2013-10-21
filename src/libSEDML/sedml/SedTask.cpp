@@ -744,17 +744,33 @@ SedListOfTasks::getNumTasks() const
 }
 
 /**
- * Creates a new SedTask object, adds it to this SedListOfTaskss
- * SedTask and returns the SedTask object created. 
+ * Creates a new SedTask object, adds it to this SedListOfTasks
+ * task and returns the SedTask object created. 
  *
  * @return a new SedTask object instance
  *
- * @see addSedTask(const SedTask* st)
+ * @see addTask(const SedTask* st)
  */
 SedTask* 
 SedListOfTasks::createTask()
 {
 	SedTask *temp = new SedTask();
+	if (temp != NULL) appendAndOwn(temp);
+	return temp;
+}
+
+/**
+ * Creates a new SedRepeatedTask object, adds it to this SedListOfTasks
+ * repeatedTask and returns the SedRepeatedTask object created. 
+ *
+ * @return a new SedRepeatedTask object instance
+ *
+ * @see addRepeatedTask(const SedTask* st)
+ */
+SedRepeatedTask* 
+SedListOfTasks::createRepeatedTask()
+{
+	SedRepeatedTask *temp = new SedRepeatedTask();
 	if (temp != NULL) appendAndOwn(temp);
 	return temp;
 }
@@ -838,6 +854,12 @@ SedListOfTasks::createObject(XMLInputStream& stream)
 		appendAndOwn(object);
 	}
 
+	if (name == "repeatedTask")
+	{
+		object = new SedRepeatedTask(getSedNamespaces());
+		appendAndOwn(object);
+	}
+
 	return object;
 }
 
@@ -859,9 +881,10 @@ SedListOfTasks::writeXMLNS(XMLOutputStream& stream) const
 
 	if (prefix.empty())
 	{
-		if (getNamespaces() != NULL && !getNamespaces()->hasURI(SEDML_XMLNS_L1))
+		if (getNamespaces() != NULL && !getNamespaces()->hasURI(SEDML_XMLNS_L1) && !getNamespaces()->hasURI(SEDML_XMLNS_L1V2))
 		{
-			xmlns.add(SEDML_XMLNS_L1,prefix);
+			if (getVersion() == 2) xmlns.add(SEDML_XMLNS_L1V2,prefix);
+			else xmlns.add(SEDML_XMLNS_L1V2,prefix);
 		}
 	}
 
