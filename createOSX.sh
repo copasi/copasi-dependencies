@@ -62,7 +62,8 @@ chmod +x configure
 ./configure --disable-dependency-tracking CXXFLAGS="-arch x86_64 -arch i386 -gdwarf-2 -O2" CFLAGS="-arch x86_64 -arch i386 -gdwarf-2 -O2"  --enable-shared=no --prefix=$DIRECTORY/bin
 make AM_LDFLAGS="-XCClinker -arch -XCClinker x86_64 -XCClinker -arch -XCClinker i386"
 make install
-rm bin/lib/libexpat*dylib
+# delete shared library just in case
+[ -e $DIRECTORY/bin/lib/libexpat*dylib ] && rm $DIRECTORY/bin/lib/libexpat*dylib
 
 # build libsbml
 mkdir $DIRECTORY/tmp/libsbml
@@ -85,3 +86,4 @@ cd $DIRECTORY/tmp/libSEDML
 $CMAKE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin -DLIBSBML_STATIC=ON -DLIBSEDML_SHARED_VERSION=OFF -DENABLE_UNIVERSAL=ON -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" -DLIBSEDML_SKIP_SHARED_LIBRARY=ON -DLIBSEDML_DEPENDENCY_DIR=$BASE_DIR/bin -DEXTRA_LIBS=%BASE_DIR%/lib/libexpat.a  $DIRECTORY/src/libSEDML
 make -j
 make install
+[ -e $DIRECTORY/bin/lib/libsedml*.dylib ] && rm $DIRECTORY/bin/lib/libsedml*.dylib
