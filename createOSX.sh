@@ -18,33 +18,61 @@ command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake; }
 #build MML
 mkdir $DIRECTORY/tmp/mml 
 cd $DIRECTORY/tmp/mml 
-$CMAKE -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin -DENABLE_UNIVERSAL=ON -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" $DIRECTORY/src/mml
-make
+$CMAKE \
+  -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+  -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin \
+  -DENABLE_UNIVERSAL=ON \
+  -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" \
+  $DIRECTORY/src/mml
+make -j 4
 make install
 
 #build qwt 
-cd $DIRECTORY/src/qwt
-$QMAKE qwt.pro -o Makefile
+mkdir $DIRECTORY/tmp/qwt 
+cd $DIRECTORY/tmp/qwt 
+$CMAKE \
+  -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+  -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin \
+  -DENABLE_UNIVERSAL=ON \
+  -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" \
+  $DIRECTORY/src/qwt
 make -j 4
-cp include/*.h $DIRECTORY/bin/include
-cp lib/*.a $DIRECTORY/bin/lib
+make install
+
+# cd $DIRECTORY/src/qwt
+# $QMAKE qwt.pro -o Makefile
+# make -j 4
+# cp include/*.h $DIRECTORY/bin/include
+# cp lib/*.a $DIRECTORY/bin/lib
 
 #build qwtplot3d 
-cd $DIRECTORY/src/qwtplot3d-qt4
-$QMAKE qwtplot3d.pro -o Makefile
+mkdir $DIRECTORY/tmp/qwtplot3d-qt4
+cd $DIRECTORY/tmp/qwtplot3d-qt4 
+$CMAKE \
+  -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+  -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin \
+  -DENABLE_UNIVERSAL=ON \
+  -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" \
+  $DIRECTORY/src/qwtplot3d-qt4
 make -j 4
-cp include/*.h $DIRECTORY/bin/include
-cp lib/*.a $DIRECTORY/bin/lib
+make install
+
+# cd $DIRECTORY/src/qwtplot3d-qt4
+# $QMAKE qwtplot3d.pro -o Makefile
+# make -j 4
+# cp include/*.h $DIRECTORY/bin/include
+# cp lib/*.a $DIRECTORY/bin/lib
 
 #Build SBW
 mkdir $DIRECTORY/tmp/SBW
 cd $DIRECTORY/tmp/SBW
 $CMAKE \
   -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+  -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin \
+  -DENABLE_UNIVERSAL=ON \
+  -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" \
   -DWITH_BUILD_BROKER=OFF \
   -DWITH_BUILD_SHARED=OFF \
-  -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin \
-  -DCMAKE_OSX_ARCHITECTURES="i386;x86_64" \
   $DIRECTORY/src/core
 make
 make install
