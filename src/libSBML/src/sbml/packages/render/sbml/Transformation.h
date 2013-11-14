@@ -54,7 +54,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 class LIBSBML_EXTERN Transformation : public SBase
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   double mMatrix[12];
   static const double IDENTITY3D[12];
   /** @endcond */

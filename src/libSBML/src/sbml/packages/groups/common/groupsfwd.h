@@ -51,9 +51,9 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-typedef CLASS_OR_STRUCT Member		Member_t;
-typedef CLASS_OR_STRUCT MemberConstraint		MemberConstraint_t;
-typedef CLASS_OR_STRUCT Group		Group_t;
+typedef CLASS_OR_STRUCT Member    Member_t;
+typedef CLASS_OR_STRUCT MemberConstraint    MemberConstraint_t;
+typedef CLASS_OR_STRUCT Group    Group_t;
 
 LIBSBML_CPP_NAMESPACE_END
 

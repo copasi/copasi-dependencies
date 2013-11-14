@@ -40,12 +40,12 @@
 
 using namespace std;
 
-/** @endcond doxygenLibsbmlInternal */
+/** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-LayoutSBMLDocumentPlugin::LayoutSBMLDocumentPlugin (const string &uri, 
-                              const string &prefix, LayoutPkgNamespaces *layoutns)
+LayoutSBMLDocumentPlugin::LayoutSBMLDocumentPlugin (const std::string &uri, 
+                                                    const std::string &prefix, LayoutPkgNamespaces *layoutns)
   : SBMLDocumentPlugin(uri,prefix, layoutns)
   , mValidationListsPopulated ( false )
 {
@@ -127,18 +127,21 @@ LayoutSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
   }
 }
 
-/** @endcond doxygenLibsbmlInternal*/
+/** @endcond*/
 
 
+/** @cond doxygenLibsbmlInternal */
 bool
-LayoutSBMLDocumentPlugin::isFlatteningImplemented() const
+LayoutSBMLDocumentPlugin::isCompFlatteningImplemented() const
 {
-  return false;
+  return true;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 unsigned int 
-LayoutSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
+LayoutSBMLDocumentPlugin::checkConsistency()
 {
   unsigned int nerrors = 0;
   unsigned int total_errors = 0;
@@ -201,31 +204,41 @@ LayoutSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
 
   return total_errors;  
 }
+/** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 IdList
 LayoutSBMLDocumentPlugin::getMetaidList() const
 {
   return mMetaIdList;
 }
+/** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 IdList
 LayoutSBMLDocumentPlugin::getIdList() const
 {
   return mIdList;
 }
+/** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 List *
 LayoutSBMLDocumentPlugin::getListElementsWithId() const
 {
   return mElementsWithId;
 }
+/** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 bool
 LayoutSBMLDocumentPlugin::haveValidationListsBeenPopulated() const
 {
   return mValidationListsPopulated;
 }
+/** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 void
 LayoutSBMLDocumentPlugin::populateValidationLists()
 {
@@ -256,6 +269,7 @@ LayoutSBMLDocumentPlugin::populateValidationLists()
 
   mValidationListsPopulated = true;
 }
+/** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END
 

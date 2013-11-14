@@ -26,7 +26,7 @@
  * ---------------------------------------------------------------------- -->
  *
  * @class XMLInputStream
- * @ingroup Core
+ * @sbmlbrief{core} An interface to an XML input stream.
  *
  * @if notclike @internal @endif@~
  */
@@ -80,6 +80,7 @@ public:
                   , const std::string  library  = "" 
                   , XMLErrorLog*       errorLog = NULL );
 
+
   /**
    * Destroys this XMLInputStream.
    */
@@ -87,18 +88,25 @@ public:
 
 
   /**
+   * Returns the encoding of the XML stream.
+   *
    * @return the encoding of the XML stream.
    */
   const std::string& getEncoding ();
 
 
   /**
+   * Returns the version of the XML stream.
+   *
    * @return the version of the XML stream.
    */
   const std::string& getVersion ();
 
 
   /**
+   * Returns an XMLErrorLog which can be used to log XML parse errors and
+   * other validation errors (and messages).
+   *
    * @return an XMLErrorLog which can be used to log XML parse errors and
    * other validation errors (and messages).
    */
@@ -106,6 +114,9 @@ public:
 
 
   /**
+   * Returns true if end of file (stream) has been reached, false
+   * otherwise.
+   *
    * @return true if end of file (stream) has been reached, false
    * otherwise.
    */
@@ -113,12 +124,17 @@ public:
 
 
   /**
+   * Returns true if a fatal error occurred while reading from this stream.
+   *
    * @return true if a fatal error occurred while reading from this stream.
    */
   bool isError () const;
 
 
   /**
+   * Returns true if the stream is in a good state (i.e. isEOF() and
+   * isError() are both false), false otherwise.
+   *
    * @return true if the stream is in a good state (i.e. isEOF() and
    * isError() are both false), false otherwise.
    */
@@ -178,6 +194,21 @@ public:
   SBMLNamespaces * getSBMLNamespaces();
 
   void setSBMLNamespaces(SBMLNamespaces * sbmlns);
+
+private:
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Copy Constructor, made private so as to notify users, that copying an input stream is not supported. 
+   */
+  XMLInputStream (const XMLInputStream& other);
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Assignment operator, made private so as to notify users, that copying an input stream is not supported. 
+   */
+  XMLInputStream& operator=(const XMLInputStream& other);
+  /** @endcond */
 
 protected:
 

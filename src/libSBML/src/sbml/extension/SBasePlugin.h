@@ -28,8 +28,8 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBasePlugin
- * @ingroup Core
- * @brief Representation of a plug-in object of SBML's package extension.
+ * @sbmlbrief{core} Representation of a plug-in object of SBML's package
+ * extension.
  * 
  * Additional attributes and/or elements of a package extension which are directly 
  * contained by some pre-defined element are contained/accessed by <a href="#SBasePlugin"> 
@@ -71,9 +71,9 @@
  *         </li>
  *         <li> <code>virtual bool readOtherXML (SBase* parentObject, XMLInputStream& stream)</code>
  *         <p>This function should be overridden if elements of annotation, notes, MathML, etc. need 
- *            to be directly parsed from the given XMLInputStream object instead of the
- *            SBase::readAnnotation(XMLInputStream& stream) 
- *            and/or SBase::readNotes(XMLInputStream& stream) functions.
+ *            to be directly parsed from the given XMLInputStream object @if clike instead of the
+ *            SBase::readAnnotation(XMLInputStream& stream)
+ *            and/or SBase::readNotes(XMLInputStream& stream) functions@endif.
  *         </p> 
  *         </li>
  *       </ol>
@@ -311,7 +311,7 @@ public:
    *
    * @return pointer to the first element found with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
@@ -321,7 +321,7 @@ public:
    *
    * @return pointer to the first element found with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
   
   /**
    * Returns a List of all child SBase objects, including those nested to an arbitrary depth
@@ -504,8 +504,8 @@ public:
    *
    * @param d the SBMLDocument object to use
    *
-   * @see connectToParent
-   * @see enablePackageInternal
+   * @see connectToParent()
+   * @see enablePackageInternal()
    */
   virtual void setSBMLDocument (SBMLDocument* d);
   /** @endcond */
@@ -525,8 +525,10 @@ public:
    *
    * @param sbase the SBase object to use
    *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
+   * @if cpp 
+   * @see setSBMLDocument()
+   * @see enablePackageInternal()
+   * @endif
    */
   virtual void connectToParent (SBase *sbase);
   /** @endcond */
@@ -543,8 +545,10 @@ public:
    * override this function if elements defined in them can be extended by
    * some other package extension.
    *
-   * @see setSBMLDocument
-   * @see connectToParent
+   * @if cpp 
+   * @see setSBMLDocument()
+   * @see connectToParent()
+   * @endif
    */
   virtual void enablePackageInternal(const std::string& pkgURI,
                                      const std::string& pkgPrefix, bool flag);
@@ -588,12 +592,13 @@ public:
    *
    * @return the URI this elements  
    *
-   * @see getPackageName
-   * @see getElementNamespace
-   * @see SBMLDocument::getSBMLNamespaces
-   * @see getSBMLDocument
+   * @see getPackageName()
+   * @see getElementNamespace()
+   * @see SBMLDocument::getSBMLNamespaces()
+   * @see getSBMLDocument()
    */
   std::string getURI() const;
+
 
   /**
    * Returns the parent SBase object to which this plugin 
@@ -800,7 +805,10 @@ protected:
 
 
   /**
-   * @return the SBMLErrorLog used to log errors during while reading and
+   * Returns the SBMLErrorLog used to log errors while reading and
+   * validating SBML.
+   *
+   * @return the SBMLErrorLog used to log errors while reading and
    * validating SBML.
    */
   SBMLErrorLog* getErrorLog ();

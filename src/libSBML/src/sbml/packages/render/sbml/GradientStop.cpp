@@ -50,7 +50,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 const std::string ListOfGradientStops::ELEMENT_NAME="listOfGradientStops"; 
 const std::string GradientStop::ELEMENT_NAME="stop"; 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GradientStop object with the given SBML level
  * and SBML version.
@@ -74,7 +74,7 @@ GradientStop::GradientStop (unsigned int level, unsigned int version, unsigned i
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GradientStop object with the given SBMLNamespaces.
  *
@@ -119,7 +119,7 @@ ListOfGradientStops::ListOfGradientStops(unsigned int level, unsigned int versio
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
 };
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ListOfGradientStops object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -168,7 +168,7 @@ ListOfGradientStops::ListOfGradientStops(const XMLNode& node, unsigned int l2ver
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GradientStop object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -212,7 +212,7 @@ GradientStop::GradientStop(const XMLNode& node, unsigned int l2version) : SBase(
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 GradientStop::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -223,7 +223,7 @@ GradientStop::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GradientStop::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
     SBase::readAttributes(attributes, expectedAttributes);
@@ -237,7 +237,7 @@ void GradientStop::readAttributes (const XMLAttributes& attributes, const Expect
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the offset of the gradient.
  *
@@ -249,7 +249,7 @@ const RelAbsVector& GradientStop::getOffset() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the offset of the gradient.
  *
@@ -261,7 +261,7 @@ RelAbsVector& GradientStop::getOffset()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the offset for the gradient stop.
  *
@@ -275,7 +275,7 @@ void GradientStop::setOffset(double abs,double rel)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the offset to the value specified by the given string.
  * The string has to represent a combination of an absolute 
@@ -298,7 +298,7 @@ void GradientStop::setOffset(const std::string& co)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the offset to the given vector object.
  *
@@ -311,7 +311,7 @@ void GradientStop::setOffset(const RelAbsVector& co)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the stop color id or the value string.
  * Since ids can not start with the '#' character,
@@ -326,7 +326,7 @@ const std::string& GradientStop::getStopColor() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the stop color id or the stop color value.
  *
@@ -340,7 +340,7 @@ void GradientStop::setStopColor(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a deep copy of the ListOfGradientStops object.
  *
@@ -352,7 +352,7 @@ ListOfGradientStops* ListOfGradientStops::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor; creates a copy of the given ListOfGradientStops object.
  *
@@ -363,7 +363,7 @@ ListOfGradientStops::ListOfGradientStops(const ListOfGradientStops& source):List
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfGradientStops objects.
  */
@@ -377,7 +377,7 @@ ListOfGradientStops& ListOfGradientStops::operator=(const ListOfGradientStops& s
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., GradientStop objects, if the list is non-empty).
@@ -405,7 +405,7 @@ int ListOfGradientStops::getItemTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfGradientStops, is always @c "listOfGradientStops".
@@ -419,7 +419,7 @@ const std::string& ListOfGradientStops::getElementName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfGradientStops object.
  *
@@ -433,7 +433,7 @@ XMLNode ListOfGradientStops::toXML() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -453,7 +453,7 @@ SBase* ListOfGradientStops::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -475,7 +475,7 @@ void GradientStop::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this GradientStop object.
  *
@@ -488,7 +488,7 @@ XMLNode GradientStop::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -514,7 +514,7 @@ int GradientStop::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor for this instance of Group.
  *
@@ -528,7 +528,7 @@ bool GradientStop::accept(SBMLVisitor& /*visitor*/) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -543,7 +543,7 @@ const std::string& GradientStop::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this GradientStop object.
  * 
@@ -555,7 +555,7 @@ GradientStop* GradientStop::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the GradientStop with the given index or NULL if
  * the index is invalid.
@@ -570,7 +570,7 @@ GradientStop* ListOfGradientStops::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the GradientStop with the given index or NULL if
  * the index is invalid.
@@ -585,7 +585,7 @@ const GradientStop* ListOfGradientStops::get(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes the nth item from this list */
     GradientStop*
 ListOfGradientStops::remove (unsigned int n)
@@ -594,7 +594,7 @@ ListOfGradientStops::remove (unsigned int n)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -610,7 +610,7 @@ bool GradientStop::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

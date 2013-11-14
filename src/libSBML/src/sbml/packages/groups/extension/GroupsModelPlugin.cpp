@@ -47,8 +47,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 GroupsModelPlugin::GroupsModelPlugin(const std::string& uri,  
                                  const std::string& prefix, 
                                GroupsPkgNamespaces* groupsns) :
-	  SBasePlugin(uri, prefix, groupsns)
-	, mGroups (groupsns)
+    SBasePlugin(uri, prefix, groupsns)
+  , mGroups (groupsns)
 {
 }
 
@@ -57,8 +57,8 @@ GroupsModelPlugin::GroupsModelPlugin(const std::string& uri,
  * Copy constructor for GroupsModelPlugin.
  */
 GroupsModelPlugin::GroupsModelPlugin(const GroupsModelPlugin& orig) :
-	  SBasePlugin(orig)
-	, mGroups ( orig.mGroups)
+    SBasePlugin(orig)
+  , mGroups ( orig.mGroups)
 {
 }
 
@@ -297,8 +297,8 @@ GroupsModelPlugin::createGroup ()
 
   try
   {  
-		GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
-		g = new Group(groupsns);
+    GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
+    g = new Group(groupsns);
   }
   catch(...)
   {
@@ -311,10 +311,10 @@ GroupsModelPlugin::createGroup ()
      */
   }
 
-	if (g != NULL)
-	{
-		mGroups.appendAndOwn(g);
-	}
+  if (g != NULL)
+  {
+    mGroups.appendAndOwn(g);
+  }
 
   return g;
 }
@@ -388,17 +388,17 @@ GroupsModelPlugin::enablePackageInternal(const std::string& pkgURI,
 bool
 GroupsModelPlugin::accept(SBMLVisitor& v) const
 {
-	const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
+  const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
 
-	v.visit(*model);
-	v.leave(*model);
+  v.visit(*model);
+  v.leave(*model);
 
-	for(unsigned int i = 0; i < getNumGroups(); i++)
-	{
-		getGroup(i)->accept(v);
-	}
+  for(unsigned int i = 0; i < getNumGroups(); i++)
+  {
+    getGroup(i)->accept(v);
+  }
 
-	return true;
+  return true;
 }
 
 

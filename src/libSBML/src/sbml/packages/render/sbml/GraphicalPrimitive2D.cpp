@@ -40,7 +40,7 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GraphicalPrimitive2D object with the given SBML level
  * and SBML version.
@@ -56,7 +56,7 @@ GraphicalPrimitive2D::GraphicalPrimitive2D (unsigned int level, unsigned int ver
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GraphicalPrimitive2D object with the given SBMLNamespaces.
  *
@@ -77,7 +77,7 @@ GraphicalPrimitive2D::GraphicalPrimitive2D (RenderPkgNamespaces* renderns):
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GraphicalPrimitive2D object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -102,7 +102,7 @@ GraphicalPrimitive2D::GraphicalPrimitive2D(const XMLNode& node, unsigned int l2v
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 GraphicalPrimitive2D::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -124,7 +124,7 @@ GraphicalPrimitive2D::GraphicalPrimitive2D(const GraphicalPrimitive2D& other)
 
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
@@ -159,7 +159,7 @@ void GraphicalPrimitive2D::readAttributes (const XMLAttributes& attributes, cons
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a GraphicalPrimitive2D.
  * The attributes inherited from GraphicalPrimitive1D are set as described
@@ -190,7 +190,7 @@ GraphicalPrimitive2D::GraphicalPrimitive2D(RenderPkgNamespaces* renderns, const 
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Set fill color to the id of a color definition, the id of a gradient
  * definition or a color value string.
@@ -203,7 +203,7 @@ void GraphicalPrimitive2D::setFillColor(const std::string& color)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the fill rule. Possible values are GraphicalPrimitive2D::NONZERO,
  * GraphicalPrimitive2D::EVENODD, GraphicalPrimitive::INHERIT or
@@ -224,7 +224,7 @@ void GraphicalPrimitive2D::setFillRule(GraphicalPrimitive2D::FILL_RULE rule)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the fill color.
  *
@@ -236,7 +236,7 @@ const std::string& GraphicalPrimitive2D::getFillColor() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the fill rule.
  *
@@ -248,7 +248,7 @@ GraphicalPrimitive2D::FILL_RULE GraphicalPrimitive2D::getFillRule() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -287,7 +287,7 @@ void GraphicalPrimitive2D::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds all set attributes specific to the given GraphicalPrimitive2D objects to the given
  * XMLAttributes object.
@@ -318,7 +318,7 @@ void GraphicalPrimitive2D::addGraphicalPrimitive2DAttributes(const GraphicalPrim
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the fill attribute is set or false otherwise.
  * The fill attribute is considered set if the string is not empty.
@@ -333,7 +333,7 @@ bool GraphicalPrimitive2D::isSetFillColor() const
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the fill attribute is set or false otherwise.
  * The fill attribute is considered set if the string is not empty.
@@ -352,7 +352,7 @@ bool GraphicalPrimitive2D::isSetFill() const
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the fill rule attribute is set or false otherwise.
  * The fill rule is considered as set if it is not GraphicalPrimitive2D::UNSET.

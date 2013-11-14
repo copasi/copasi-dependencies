@@ -302,6 +302,20 @@ FluxObjective::unsetCoefficient ()
 
 
 /*
+ * rename attributes that are SIdRefs or instances in math
+ */
+void
+FluxObjective::renameSIdRefs(const std::string& oldid, const std::string& newid)
+{
+  if (isSetReaction() == true && mReaction == oldid)
+  {
+    setReaction(newid);
+  }
+
+}
+
+
+/*
  * Returns the XML element name of
  * this SBML object.
  */
@@ -672,14 +686,14 @@ ListOfFluxObjectives::createObject (XMLInputStream& stream)
   if (name == "fluxObjective")
   {
     try
-	{
+    {
       FBC_CREATE_NS(fbcns, getSBMLNamespaces());
       object = new FluxObjective(fbcns);
       appendAndOwn(object);
       //mItems.push_back(object);
-	} 
-	catch(...)
-	{
+    } 
+    catch(...)
+    {
       /* 
       * NULL will be returned if the mSBMLNS is invalid (basically this
       * should not happen) or some exception is thrown (e.g. std::bad_alloc)
@@ -687,7 +701,7 @@ ListOfFluxObjectives::createObject (XMLInputStream& stream)
       * (Maybe this should be changed so that caller can detect what kind 
       *  of error happened in this function.)
       */
-	}
+    }
   }
 
   return object;

@@ -35,26 +35,26 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 static const packageErrorTableEntry groupsErrorTable[] = 
 {
-	//4010100
-	{	GroupsUnknownError,
-		"Unknown error from groups",
-		LIBSBML_CAT_GENERAL_CONSISTENCY,
-		LIBSBML_SEV_ERROR,
-		"Unknown error from groups",
-		{ " "
-		}
-	}
+  //4010100
+  {  GroupsUnknownError,
+    "Unknown error from groups",
+    LIBSBML_CAT_GENERAL_CONSISTENCY,
+    LIBSBML_SEV_ERROR,
+    "Unknown error from groups",
+    { " "
+    }
+  }
 
 };
 
 
 LIBSBML_CPP_NAMESPACE_END
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 #endif  /*  GroupsSBMLErrorTable_h__  */

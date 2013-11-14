@@ -163,7 +163,10 @@ UFFI              = @UFFI@
 EXT_CPARSE        = @EXT_CPARSE@
 CPARSE            = @CPARSE@
 
+USE_COMP          = @USE_COMP@
+USE_FBC           = @USE_FBC@
 USE_LAYOUT        = @USE_LAYOUT@
+USE_QUAL          = @USE_QUAL@
 
 USE_SWIG          = @USE_SWIG@
 SWIG              = @SWIG@

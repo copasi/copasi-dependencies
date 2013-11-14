@@ -26,8 +26,8 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class XMLConstructorException
- * @ingroup Core
- * @brief Class of exceptions thrown by constructors of some libSBML objects.
+ * @sbmlbrief{core} Class of exceptions thrown by constructors of some
+ * libSBML objects.
  *
  * @htmlinclude not-sbml-warning.html
  *

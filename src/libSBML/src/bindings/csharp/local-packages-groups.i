@@ -115,5 +115,10 @@ SBMLCONSTRUCTOR_EXCEPTION(ListOfMembers)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfMemberConstraints)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfGroups)
 
+COVARIANT_METHOD_NAME(ListOfMemberConstraints,unsetId)
+COVARIANT_METHOD_NAME(ListOfMemberConstraints,isSetName)
+COVARIANT_METHOD_NAME(ListOfMemberConstraints,setName)
+COVARIANT_METHOD_NAME(ListOfMemberConstraints,unsetName)
+
 #endif  /* USE_GROUPS */
 

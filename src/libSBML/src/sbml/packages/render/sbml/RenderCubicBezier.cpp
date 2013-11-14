@@ -51,7 +51,7 @@
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderCubicBezier object with the given SBML level
  * and SBML version.
@@ -76,7 +76,7 @@ RenderCubicBezier::RenderCubicBezier (unsigned int level, unsigned int version, 
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderCubicBezier object with the given SBMLNamespaces.
  *
@@ -99,7 +99,7 @@ RenderCubicBezier::RenderCubicBezier (RenderPkgNamespaces* renderns):
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a CubicBezier with the given points.
  *
@@ -132,7 +132,7 @@ RenderCubicBezier::RenderCubicBezier (RenderPkgNamespaces* renderns, const RelAb
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor for RenderCubicBezier objects.
  */
@@ -148,7 +148,7 @@ RenderCubicBezier::RenderCubicBezier(const RenderCubicBezier& orig):RenderPoint(
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for RenderCubicBezier objects.
  */
@@ -168,7 +168,7 @@ RenderCubicBezier& RenderCubicBezier::operator=(const RenderCubicBezier& orig)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Comparison operator for RenderCubicBezier objects.
  */
@@ -186,7 +186,7 @@ bool RenderCubicBezier::operator==(const RenderCubicBezier& left) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderCubicBezier object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -233,7 +233,7 @@ RenderCubicBezier::RenderCubicBezier(const XMLNode& node, unsigned int l2version
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Destroys the RenderCubicBezier object.
  */ 
@@ -242,7 +242,7 @@ RenderCubicBezier::~RenderCubicBezier ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x value of the first base point of the curve (the one closer to the
  * starting point) as a const reference.
@@ -255,7 +255,7 @@ const RelAbsVector& RenderCubicBezier::basePoint1_X() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y value of the first base point of the curve (the one closer to the
  * starting point) as a const reference.
@@ -268,7 +268,7 @@ const RelAbsVector& RenderCubicBezier::basePoint1_Y() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z value of the first base point of the curve (the one closer to the
  * starting point) as a const reference.
@@ -282,7 +282,7 @@ const RelAbsVector& RenderCubicBezier::basePoint1_Z() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x value of the second base point of the curve (the one further from the
  * starting point) as a const reference.
@@ -295,7 +295,7 @@ const RelAbsVector& RenderCubicBezier::basePoint2_X() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y value of the second base point of the curve (the one further from the
  * starting point) as a const reference.
@@ -308,7 +308,7 @@ const RelAbsVector& RenderCubicBezier::basePoint2_Y() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z value of the second base point of the curve (the one further from the
  * starting point) as a const reference.
@@ -322,7 +322,7 @@ const RelAbsVector& RenderCubicBezier::basePoint2_Z() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x value of the first base point of the curve (the one closer to the
  * starting point) as a reference.
@@ -335,7 +335,7 @@ RelAbsVector& RenderCubicBezier::basePoint1_X()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y value of the first base point of the curve (the one closer to the
  * starting point) as a reference.
@@ -348,7 +348,7 @@ RelAbsVector& RenderCubicBezier::basePoint1_Y()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z value of the first base point of the curve (the one closer to the
  * starting point) as a reference.
@@ -362,7 +362,7 @@ RelAbsVector& RenderCubicBezier::basePoint1_Z()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x value of the second base point of the curve (the one further from the
  * starting point) as a reference.
@@ -375,7 +375,7 @@ RelAbsVector& RenderCubicBezier::basePoint2_X()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y value of the second base point of the curve (the one further from the
  * starting point) as a reference.
@@ -388,7 +388,7 @@ RelAbsVector& RenderCubicBezier::basePoint2_Y()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z value of the second base point of the curve (the one further from the
  * starting point) as a reference.
@@ -402,7 +402,7 @@ RelAbsVector& RenderCubicBezier::basePoint2_Z()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the x value of the first base point of the curve (the one closer to the
  * starting point).
@@ -415,7 +415,7 @@ void RenderCubicBezier::setBasePoint1_X(const RelAbsVector& v)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the y value of the first base point of the curve (the one closer to the
  * starting point).
@@ -428,7 +428,7 @@ void RenderCubicBezier::setBasePoint1_Y(const RelAbsVector& v)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the z value of the first base point of the curve (the one closer to the
  * starting point).
@@ -442,7 +442,7 @@ void RenderCubicBezier::setBasePoint1_Z(const RelAbsVector& v)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the x value of the second base point of the curve (the one further from the
  * starting point).
@@ -455,7 +455,7 @@ void RenderCubicBezier::setBasePoint2_X(const RelAbsVector& v)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the y value of the second base point of the curve (the one further from the
  * starting point).
@@ -468,7 +468,7 @@ void RenderCubicBezier::setBasePoint2_Y(const RelAbsVector& v)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the z value of the second base point of the curve (the one further from the
  * starting point).
@@ -484,7 +484,7 @@ void RenderCubicBezier::setBasePoint2_Z(const RelAbsVector& v)
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * RenderCubicBezier, is always @c "element".
@@ -498,7 +498,7 @@ const std::string& RenderCubicBezier::getElementName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the RenderCubicBezier object.
  *
@@ -511,7 +511,7 @@ RenderCubicBezier::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 RenderCubicBezier::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -526,7 +526,7 @@ RenderCubicBezier::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void RenderCubicBezier::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
 
@@ -592,7 +592,7 @@ RenderCubicBezier::writeXMLNS (XMLOutputStream& stream) const
   stream << xmlns;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -647,7 +647,7 @@ void RenderCubicBezier::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., ColorDefinition objects, if the list is non-empty).
@@ -677,7 +677,7 @@ RenderCubicBezier::getTypeCode () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this RenderCubicBezier object.
  *
@@ -690,7 +690,7 @@ XMLNode RenderCubicBezier::toXML(const std::string& name) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the first basepoint to the given coordinatees.
  *
@@ -707,7 +707,7 @@ void RenderCubicBezier::setBasePoint1(const RelAbsVector& x, const RelAbsVector&
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the second basepoint to the given coordinatees.
  *
@@ -724,7 +724,7 @@ void RenderCubicBezier::setBasePoint2(const RelAbsVector& x, const RelAbsVector&
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -754,7 +754,7 @@ bool RenderCubicBezier::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

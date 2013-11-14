@@ -39,7 +39,7 @@
 #include <sbml/packages/qual/validator/QualIdentifierConsistencyValidator.h>
 #include <sbml/packages/qual/validator/QualMathConsistencyValidator.h>
 
-/** @cond doxygen-ignored */
+/** @cond doxygenIgnored */
 
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE

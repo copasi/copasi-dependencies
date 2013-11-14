@@ -18,17 +18,16 @@
  *------------------------------------------------------------------------- -->
  *
  * @class CompModelPlugin
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * Implementation of the 'comp' package extention to the %Model construct.
+ * @sbmlbrief{comp} Implementation of the &ldquo;comp&rdquo; package
+ * extention to the %Model construct.
  *
  * The CompModelPlugin class inherits from the SBMLSBasePlugin class, and
  * codifies the extentions to the Model class defined in the SBML
- * Level&nbsp;3 @ref Comp "Hierarchical Model Composition" package ('comp').  This
- * extention allows a Model to define Submodels (other Models that are
- * instantiated as new parts of the parent Model), and Ports, a defined
- * interface for including the given Model as a Submodel of a different
- * Model.
+ * Level&nbsp;3 @ref comp @if java "Hierarchical %Model Composition"@endif@~ 
+ * package (&ldquo;comp&rdquo;).  This extention allows a Model to define
+ * Submodels (other Models that are instantiated as new parts of the parent
+ * Model), and Ports, a defined interface for including the given Model as a
+ * Submodel of a different Model.
  *
  * Submodels are stored in an optional child ListOfSubmodels object, which, 
  * if present, must contain one or more Submodel objects.  All of the Submodels
@@ -116,6 +115,8 @@ public:
 
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */
@@ -134,7 +135,7 @@ public:
    * ============================
    */
 
-   /**
+  /**
    * Returns the first child element found that has the given @p id in the
    * model-wide SId namespace, or @c NULL if no such object is found.
    *
@@ -142,7 +143,7 @@ public:
    *
    * @return a pointer to the SBase element with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
@@ -154,7 +155,7 @@ public:
    *
    * @return a pointer to the SBase element with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
   
   
  /**
@@ -231,9 +232,7 @@ public:
    * submodels.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
@@ -334,9 +333,7 @@ public:
    * parent object, or cannot be added to the list of ports.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
@@ -386,9 +383,7 @@ public:
    * of a valid SBML SId.
    * 
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -403,7 +398,7 @@ public:
    * (&quot;<code>__</code>&quot;) by default, and can be overridden
    * with the setDivider() function.
    *
-   * @see setDivider()
+   * @see setDivider(const std::string& divider)
    */
   std::string getDivider();
 
@@ -445,10 +440,11 @@ public:
    * addXXX, createXXX, and connectToChild functions of the
    * parent element).
    *
-   * @param sb the SBML object to use
+   * @param parent the SBML object to use
    */
   void connectToParent (SBase* parent);
   /** @endcond */
+
 
   /** @cond doxygenLibsbmlInternal */
   /**
@@ -489,8 +485,16 @@ public:
    *@return a Model object with no submodels.  On failure, return @c NULL.
    */
   virtual Model* flattenModel() const;
-
   friend class CompFlatteningConverter;
+
+  /**
+   * Deletes any elements in 'toremove' that do not already exist in 'removed', 
+   * while taking care to not double-delete any element.  Intended for use with
+   * collectDeletionsAndDeleteCompConstructs and 
+   * collectRenameAndConvertReplacements.
+   */
+  virtual int removeCollectedElements(std::set<SBase*>* removed, std::set<SBase*>* toremove);
+  friend class ReplacedElement;
 
   /**
    * Loop through all Submodels in this Model, instantiate all of them,
@@ -508,7 +512,24 @@ public:
    */
   virtual int instantiateSubmodels();
 
-  private:
+
+  /** @cond doxygenLibsbmlInternal */
+  std::set<SBase*>* getRemovedSet();
+  friend class Replacing;
+  friend class SBaseRef;
+  friend class CompBase;
+  /** @endcond */
+
+private:
+
+  /** @cond doxygenLibsbmlInternal */
+  /*
+   * This is a nuisance variable, used for the deprecated functions 
+   * performDeletions and performReplacementsAndConversions.  It has 
+   * no other use.
+   */
+  std::set<SBase*>  mRemoved;
+  /** @endcond */
 
   /*
    * Combine mListOfPorts and mListOfSubmodels.  If this is called from
@@ -521,7 +542,7 @@ public:
    * Find all SBaseRef-derived objects in this Model and in instantiated
    * Submodels and find and save pointers to the elements they point to.
    */
-  virtual int saveAllReferencedElements(std::set<SBase*> uniqueRefs = std::set<SBase*>(), std::set<SBase*> replacedBys = std::set<SBase*>());
+  virtual int saveAllReferencedElements();
 
   /*
    * Renames all ids of all elements in the instantiated submodel (SIds,
@@ -532,14 +553,52 @@ public:
    */
   virtual int renameAllIDsAndPrepend(const std::string& prefix);
 
+  /** @cond doxygenLibsbmlInternal */
   /*
-   * Removes all elements from instantiated submodels slated to be deleted,
-   * plus any elements those deleted elements may have replaced or been
-   * replaced by.
+   * DEPRECATED FUNCTION:  DO NOT USE!!!
+   *
+   * It is impossible to properly use this function as it was originally designed,
+   * without some models either causing the program to crash, or causing them
+   * to be interpreted incorrectly.  Instead, one should use 
+   * collectDeletionsAndDeleteCompConstructs, in conjunction with 
+   * collectRenameAndConvertReplacements and removeCollectedElements
+   * to properly process hierarchical models.
    */
   virtual int performDeletions();
+  /** @endcond */
+ 
+  
+  /**
+   * Collects all elements from instantiated submodels slated to be deleted,
+   * and stores them in 'toremove', and also actually deletes the comp constructs
+   * Deletions, ReplacedElements, and ReplacedBy's.  This is so that
+   * it is possible to delete a deletion or replacement, and end up with a model 
+   * that still has the element that would have otherwise been deleted.
+   * Also, actually deletes local parameters, because this potentially affects
+   * the naming conventions when replacing.
+   *
+   * Any comp elements or local parameters that have been removed will be added to 'removed', and
+   * any elements that are to be removed will be added to 'toremove'.
+   */
+virtual int collectDeletionsAndDeleteSome(std::set<SBase*>* removed, 
+                                          std::set<SBase*>* toremove);
 
+
+  /** @cond doxygenLibsbmlInternal */
   /*
+   * DEPRECATED FUNCTION:  DO NOT USE!!!
+   *
+   * It is impossible to properly use this function as it was originally designed,
+   * without some models either causing the program to crash, or causing them
+   * to be interpreted incorrectly.  Instead, one should use 
+   * collectDeletionsAndDeleteCompConstructs, in conjunction with 
+   * collectRenameAndConvertReplacements and removeCollectedElements
+   * to properly process hierarchical models.
+   */
+  virtual int performReplacementsAndConversions();
+  /** @endcond */
+
+  /**
    * Removes all elements from instantiated submodels slated to be replaced,
    * and points all old references to that element to the replacement
    * element.  Also takes any 'replacedBy' construct, deleting the original
@@ -547,12 +606,19 @@ public:
    * identifiers, and points all old references to the replacement object's
    * old identifiers to the new identifiers.
    */
-  virtual int performReplacementsAndConversions();
+  virtual int collectRenameAndConvertReplacements(std::set<SBase*>* removed, 
+                                                  std::set<SBase*>* toremove);
 
   /** @cond doxygenLibsbmlInternal */
   virtual void findUniqueSubmodPrefixes(std::vector<std::string>& submodids, List* allElements);
   virtual void renameIDs(List* allElements, const std::string& prefix);
   virtual void resetPorts();
+  /** @endcond */
+
+
+  /** @cond doxygenLibsbmlInternal */
+  protected:
+  virtual int saveAllReferencedElements(std::set<SBase*> uniqueRefs, std::set<SBase*> replacedBys);
   /** @endcond */
 
 };

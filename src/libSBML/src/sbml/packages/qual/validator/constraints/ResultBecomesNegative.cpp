@@ -1,5 +1,5 @@
 /**
- * @cond doxygen-libsbml-internal
+ * @cond doxygenLibsbmlInternal
  *
  * @file    ResultBecomesNegative.cpp
  * @brief   Checks rule ordering for l2v1 and l1
@@ -34,7 +34,7 @@
 
 #include "ResultBecomesNegative.h"
 
-/** @cond doxygen-ignored */
+/** @cond doxygenIgnored */
 
 using namespace std;
 

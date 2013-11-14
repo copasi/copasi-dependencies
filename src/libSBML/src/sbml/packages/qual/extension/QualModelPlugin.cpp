@@ -42,12 +42,14 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  * Constructor
  */
 QualModelPlugin::QualModelPlugin (const std::string &uri, 
-                                      const std::string &prefix,
-                                      QualPkgNamespaces *qualns)
+                                  const std::string &prefix,
+                                  QualPkgNamespaces *qualns)
   : SBasePlugin(uri,prefix, qualns)
    ,mQualitativeSpecies(qualns)
    ,mTransitions(qualns)
 {
+  // connect child elements to this element.
+  connectToChild();
 }
 
 
@@ -59,6 +61,8 @@ QualModelPlugin::QualModelPlugin(const QualModelPlugin& orig)
   , mQualitativeSpecies(orig.mQualitativeSpecies)
   , mTransitions(orig.mTransitions)
 {
+  // connect child elements to this element.
+  connectToChild();
 }
 
 
@@ -78,6 +82,8 @@ QualModelPlugin::operator=(const QualModelPlugin& orig)
     this->SBasePlugin::operator =(orig);
     mQualitativeSpecies    = orig.mQualitativeSpecies;
     mTransitions    = orig.mTransitions;
+    // connect child elements to this element.
+    connectToChild();
   }    
   return *this;
 }
@@ -95,9 +101,7 @@ QualModelPlugin::clone () const
 }
 
 
-/*
- *
- */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 QualModelPlugin::createObject(XMLInputStream& stream)
 {
@@ -163,9 +167,10 @@ QualModelPlugin::createObject(XMLInputStream& stream)
 
   return object;
 }
+/** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 
 bool 
@@ -191,10 +196,7 @@ QualModelPlugin::accept(SBMLVisitor& v) const
 /** @endcond */
 
 
-
-/*
- *
- */
+/** @cond doxygenLibsbmlInternal */
 void
 QualModelPlugin::writeElements (XMLOutputStream& stream) const
 {
@@ -207,24 +209,19 @@ QualModelPlugin::writeElements (XMLOutputStream& stream) const
     mTransitions.write(stream);
   }    
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /* default for components that have no required elements */
 bool
 QualModelPlugin::hasRequiredElements() const
 {
   bool allPresent = true;
 
-  if (mQualitativeSpecies.size() < 0)
-  {
-    allPresent = false;    
-  }
-  if (mTransitions.size() < 0)
-  {
-    allPresent = false;    
-  }
   return allPresent;
 }
+/** @endcond */
 
 
 
@@ -234,7 +231,62 @@ QualModelPlugin::hasRequiredElements() const
  *
  */  
 
+/** @cond doxygenLibsbmlInternal */
 
+int 
+QualModelPlugin::appendFrom(const Model* model)
+{
+  int ret = LIBSBML_OPERATION_SUCCESS;
+
+  if (model==NULL)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+
+  const QualModelPlugin* modplug = 
+    static_cast<const QualModelPlugin*>(model->getPlugin(getPrefix()));
+  
+  if (modplug==NULL)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+
+  Model* parent = static_cast<Model*>(getParentSBMLObject());
+
+  if (parent==NULL) 
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  
+  ret = mQualitativeSpecies.appendFrom(modplug->getListOfQualitativeSpecies());
+
+  if (ret != LIBSBML_OPERATION_SUCCESS)
+  {
+    return ret;
+  }
+
+  ret = mTransitions.appendFrom(modplug->getListOfTransitions());
+  
+  return ret;
+}
+/** @endcond */
+
+
+
+List*
+QualModelPlugin::getAllElements(ElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mQualitativeSpecies, filter);
+  ADD_FILTERED_LIST(ret, sublist, mTransitions, filter);
+
+  return ret;
+}
+
+
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the ListOf Qual for this Model.
  */
@@ -243,8 +295,10 @@ QualModelPlugin::getListOfQualitativeSpecies () const
 {
   return &this->mQualitativeSpecies;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the ListOf Qual for this Model.
  */
@@ -253,8 +307,10 @@ QualModelPlugin::getListOfQualitativeSpecies ()
 {
   return &this->mQualitativeSpecies;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the qual object that belongs to the given index. If the index
  * is invalid, NULL is returned.
@@ -264,8 +320,10 @@ QualModelPlugin::getQualitativeSpecies (unsigned int index) const
 {
   return static_cast<const QualitativeSpecies*>( mQualitativeSpecies.get(index) );
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the qual object that belongs to the given index. If the index
  * is invalid, NULL is returned.
@@ -275,8 +333,10 @@ QualModelPlugin::getQualitativeSpecies (unsigned int index)
 {
   return static_cast<QualitativeSpecies*>( mQualitativeSpecies.get(index) );
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the qualitativeSpecies object based on its identifier.
  */
@@ -285,8 +345,10 @@ QualModelPlugin::getQualitativeSpecies (const std::string& sid)
 {
   return static_cast<QualitativeSpecies*>( mQualitativeSpecies.get(sid) );
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the qualitativeSpecies object based on its identifier.
  */
@@ -295,8 +357,10 @@ QualModelPlugin::getQualitativeSpecies (const std::string& sid) const
 {
   return static_cast<const QualitativeSpecies*>( mQualitativeSpecies.get(sid) );
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of QualitativeSpecies objects.
  */
@@ -305,9 +369,11 @@ QualModelPlugin::getNumQualitativeSpecies() const
 {
   return mQualitativeSpecies.size();
 }
+/** @endcond */
 
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of the qual object to the list of quals.
  */ 
@@ -342,8 +408,10 @@ QualModelPlugin::addQualitativeSpecies (const QualitativeSpecies* qual)
   return LIBSBML_OPERATION_SUCCESS;
 
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new qual object and adds it to the list of qual objects.
  * A reference to the newly created object is returned.
@@ -373,8 +441,10 @@ QualModelPlugin::createQualitativeSpecies ()
 
   return g;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the nth QualitativeSpecies object from this Model object and
  * returns a pointer to it.
@@ -384,8 +454,10 @@ QualModelPlugin::removeQualitativeSpecies (unsigned int n)
 {
   return static_cast<QualitativeSpecies*>(mQualitativeSpecies.remove(n));
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the QualitativeSpecies object with the given id attribute from 
  * this plugin object and returns a pointer to it.
@@ -395,8 +467,10 @@ QualModelPlugin::removeQualitativeSpecies (const std::string& sid)
 {
   return static_cast<QualitativeSpecies*>(mQualitativeSpecies.remove(sid));
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the ListOf Qual for this Model.
  */
@@ -405,8 +479,10 @@ QualModelPlugin::getListOfTransitions () const
 {
   return &this->mTransitions;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the ListOfTransitions for this Model.
  */
@@ -415,8 +491,10 @@ QualModelPlugin::getListOfTransitions ()
 {
   return &this->mTransitions;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the qual object that belongs to the given index. If the index
  * is invalid, NULL is returned.
@@ -426,8 +504,10 @@ QualModelPlugin::getTransition (unsigned int index) const
 {
   return static_cast<const Transition*>( mTransitions.get(index) );
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the qual object that belongs to the given index. If the index
  * is invalid, NULL is returned.
@@ -437,8 +517,10 @@ QualModelPlugin::getTransition (unsigned int index)
 {
   return static_cast<Transition*>( mTransitions.get(index) );
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the group object based on its identifier.
  */
@@ -447,8 +529,10 @@ QualModelPlugin::getTransition (const std::string& sid)
 {
   return static_cast<Transition*>( mTransitions.get(sid) );
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the group object based on its identifier.
  */
@@ -457,8 +541,10 @@ QualModelPlugin::getTransition (const std::string& sid) const
 {
   return static_cast<const Transition*>( mTransitions.get(sid) );
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of Transition objects.
  */
@@ -467,9 +553,12 @@ QualModelPlugin::getNumTransitions() const
 {
   return mTransitions.size();
 }
+/** @endcond */
 
 
 
+/** @cond doxygenLibsbmlInternal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of the qual object to the list of quals.
  */ 
@@ -504,8 +593,10 @@ QualModelPlugin::addTransition (const Transition* qual)
   return LIBSBML_OPERATION_SUCCESS;
 
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new qual object and adds it to the list of qual objects.
  * A reference to the newly created object is returned.
@@ -535,8 +626,10 @@ QualModelPlugin::createTransition ()
 
   return g;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the nth Transition object from this Model object and
  * returns a pointer to it.
@@ -546,8 +639,10 @@ QualModelPlugin::removeTransition (unsigned int n)
 {
   return static_cast<Transition*>(mTransitions.remove(n));
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the Transition object with the given id attribute from 
  * this plugin object and returns a pointer to it.
@@ -557,8 +652,10 @@ QualModelPlugin::removeTransition (const std::string& sid)
 {
   return static_cast<Transition*>(mTransitions.remove(sid));
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -572,8 +669,19 @@ QualModelPlugin::setSBMLDocument (SBMLDocument* d)
   mQualitativeSpecies.setSBMLDocument(d);  
   mTransitions.setSBMLDocument(d);  
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
+void
+QualModelPlugin::connectToChild()
+{
+  connectToParent(getParentSBMLObject());
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBML object of this plugin object to
  * this object and child elements (if any).
@@ -587,8 +695,10 @@ QualModelPlugin::connectToParent (SBase* sbase)
   mQualitativeSpecies.connectToParent(sbase);
   mTransitions.connectToParent(sbase);
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Enables/Disables the given package with child elements in this plugin
  * object (if any).
@@ -600,6 +710,7 @@ QualModelPlugin::enablePackageInternal(const std::string& pkgURI,
   mQualitativeSpecies.enablePackageInternal(pkgURI,pkgPrefix,flag);
   mTransitions.enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
+/** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END
 

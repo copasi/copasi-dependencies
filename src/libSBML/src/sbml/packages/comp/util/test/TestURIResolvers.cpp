@@ -126,6 +126,29 @@ START_TEST (test_comp_sbmluri_parse)
   fail_unless(uri.getQuery() == "");
   fail_unless(uri.getHost() == "");
 
+  // testing directory
+  uri = TestDataDirectory;
+  fail_unless(uri.getScheme() == "file");
+  fail_unless(uri.getQuery() == "");
+  fail_unless(uri.getHost() == "");
+  
+  SBMLUri uri2 = SBMLUri("").relativeTo(TestDataDirectory);
+  fail_unless(uri2.getScheme() == "file");
+  fail_unless(uri2.getPath() == uri.getPath());
+  fail_unless(uri2.getQuery() == "");
+  fail_unless(uri2.getHost() == "");
+  
+  // testing odd schemes
+  string filename(TestDataDirectory);
+  filename += "1090101-fail-01-04.xml";
+  uri = SBMLUri("1//jjj/lllkl:jjkj");
+  fail_unless(uri.getScheme() == "1//jjj/lllkl");
+  fail_unless(uri.getPath() == "");
+  uri = SBMLUri("1//jjj/lllkl:jjkj").relativeTo(filename);
+  fail_unless(uri.getScheme() == "1//jjj/lllkl");
+  fail_unless(uri.getPath() == filename);
+  
+  
 }
 END_TEST
 

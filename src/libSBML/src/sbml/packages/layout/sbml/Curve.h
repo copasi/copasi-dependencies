@@ -4,53 +4,44 @@
  * @author  Ralph Gauges
  * 
  * <!--------------------------------------------------------------------------
- * Description : SBML Layout Curve C++ Header
- * Organization: European Media Laboratories Research gGmbH
- * Created     : 2004-07-15
+ * This file is part of libSBML.  Please visit http://sbml.org for more
+ * information about SBML, and the latest version of libSBML.
  *
- * Copyright 2004 European Media Laboratories Research gGmbH
- *
+ * Copyright (C) 2009-2013 jointly by the following organizations: 
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ *  
+ * Copyright (C) 2004-2008 by European Media Laboratories Research gGmbH,
+ *     Heidelberg, Germany
+ * 
  * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation; either version 2.1 of the License, or
- * any later version.
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.  A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as http://sbml.org/software/libsbml/license.html
+ * ------------------------------------------------------------------------ -->
  *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
- * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
- * documentation provided hereunder is on an "as is" basis, and the
- * European Media Laboratories Research gGmbH have no obligations to
- * provide maintenance, support, updates, enhancements or modifications.
- * In no event shall the European Media Laboratories Research gGmbH be
- * liable to any party for direct, indirect, special, incidental or
- * consequential damages, including lost profits, arising out of the use of
- * this software and its documentation, even if the European Media
- * Laboratories Research gGmbH have been advised of the possibility of such
- * damage.  See the GNU Lesser General Public License for more details.
+ * @class Curve
+ * @sbmlbrief{layout} The Curve class describes how to connect elements in a
+ * diagram defined with the use of the &ldquo;layout&rdquo; package. A curve
+ * is fully specified by a mandatory listOfCurveSegments element and is used
+ * in four places in the &ldquo;layout&rdquo; package:
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * @li SpeciesReferenceGlyph: Here it describes a curve from/to the center
+ * piece of the parent ReactionGlyph to/from the SpeciesGlyph it represents.
  *
- * The original code contained here was initially developed by:
+ * @li ReactionGlyph: Here it describes a curve for the center piece of a
+ * reaction.
  *
- *     Ralph Gauges
- *     Bioinformatics Group
- *     European Media Laboratories Research gGmbH
- *     Schloss-Wolfsbrunnenweg 31c
- *     69118 Heidelberg
- *     Germany
+ * @li ReferenceGlyph: Here it describes a curve from/to the center piece of
+ * the parent GeneralGlyph to/from the glyph it represents.
  *
- *     http://www.eml-research.de/english/Research/BCB/
- *     mailto:ralph.gauges@eml-r.villa-bosch.de
+ * @li GeneralGlyph: Here it describes a curve for the center piece of an
+ * additional relationship.
  *
- * Contributor(s):
- *
- *     Akiya Jouraku <jouraku@bio.keio.ac.jp>
- *     Modified this file for package extension in libSBML5
- *
+ * In the text above, the term 'center piece' refers to either the Curve
+ * element of a ReactionGlyph, or its BoundingBox.
  */
-
 
 #ifndef Curve_H__
 #define Curve_H__
@@ -73,11 +64,24 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
+/**
+ * @class ListOfLineSegments
+ * @sbmlbrief{layout} Implementation of the %ListOfLineSegments construct
+ * from the 'layout' package.
+ * 
+ * The ListOfLineSegments is a container for the LineSegment elements of a Curve.
+ * 
+ * @copydetails doc_what_is_listof
+ *
+ * @see Input
+ */
 class LIBSBML_EXTERN ListOfLineSegments : public ListOf
 {
  public:
 
   /**
+   * Creates and returns a deep copy of this ListOfLineSegments.
+   * 
    * @return a (deep) copy of this ListOfLineSegments.
    */
   virtual ListOfLineSegments* clone () const;
@@ -97,8 +101,16 @@ class LIBSBML_EXTERN ListOfLineSegments : public ListOf
 
 
   /**
-   * @return the const char* of SBML objects contained in this ListOf or
-   * SBML_UNKNOWN (default).
+   * Returns the libSBML type code for the SBML objects
+   * contained in this ListOf object.
+   * 
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for objects contained in this list:
+   * @link SBMLTypeCode_t#SBML_LAYOUT_LINESEGMENT SBML_LAYOUT_LINESEGMENT@endlink (default).
+   *
+   * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
@@ -155,6 +167,8 @@ protected:
 
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */
@@ -300,34 +314,22 @@ public:
   virtual const std::string& getElementName () const ;
 
   /**
+   * Creates and returns a deep copy of this Curve.
+   * 
    * @return a (deep) copy of this Curve.
    */
   virtual Curve* clone () const;
 
 
   /**
-   * Returns the libSBML type code for this object.
+   * Returns the libSBML type code of this object instance.
    *
-   * This method MAY return the typecode of this SBML object or it MAY
-   * return SBML_UNKNOWN.  That is, subclasses of SBase are not required to
-   * implement this method to return a typecode.  This method is meant
-   * primarily for the LibSBML C interface where class and subclass
-   * information is not readily available.
+   * @copydetails doc_what_are_typecodes
    *
-   * @note In libSBML 5, the type of return value has been changed from
-   *       SBMLTypeCode_t to int. The return value is one of enum values defined
-   *       for each package. For example, return values will be one of
-   *       SBMLTypeCode_t if this object is defined in SBML core package,
-   *       return values will be one of SBMLLayoutTypeCode_t if this object is
-   *       defined in Layout extension (i.e. similar enum types are defined in
-   *       each pacakge extension for each SBase subclass)
-   *       The value of each typecode can be duplicated between those of
-   *       different packages. Thus, to distinguish the typecodes of different
-   *       packages, not only the return value of getTypeCode() but also that of
-   *       getPackageName() must be checked.
+   * @return the SBML type code for this object:
+   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_CURVE SBML_LAYOUT_CURVE@endlink
    *
-   * @return the typecode (int value) of this SBML object or SBML_UNKNOWN
-   * (default).
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
    * @see getPackageName()
@@ -393,6 +395,8 @@ public:
 protected:
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */

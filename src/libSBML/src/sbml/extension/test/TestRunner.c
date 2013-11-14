@@ -50,9 +50,45 @@ Suite *create_suite_SBMLDocumentPlugin       (void);
 Suite *create_suite_SBMLExtension		     (void);
 Suite *create_suite_SBMLExtensionNamespaces  (void);
 Suite *create_suite_SBMLExtensionRegistry    (void);
+Suite *create_suite_TestUnknownPackages      (void);
 
 END_C_DECLS
 
+
+/**
+ * Global.
+ *
+ * Declared extern in TestReadFromFileN suites.
+ */
+char *TestDataDirectory;
+
+
+/**
+ * Sets TestDataDirectory for the the TestReadFromFileN suites.
+ *
+ * For Automake's distcheck target to work properly, TestDataDirectory must
+ * begin with the value of the environment variable SRCDIR.
+ */
+void
+setTestDataDirectory (void)
+{
+  char *srcdir = getenv("srcdir");
+  int  length  = (srcdir == NULL) ? 0 : strlen(srcdir);
+
+
+  /**
+   * strlen("/test-data/") = 11 + 1 (for NULL) = 12
+   */
+  TestDataDirectory = (char *) safe_calloc( length + 12, sizeof(char) );
+
+  if (srcdir != NULL)
+  {
+    strcpy(TestDataDirectory, srcdir);
+    strcat(TestDataDirectory, "/");
+  }
+
+  strcat(TestDataDirectory, "test-data/");
+}
 
 
 int
@@ -61,6 +97,8 @@ main (void)
   int num_failed;
   SRunner *runner;
 
+  setTestDataDirectory();
+  
   runner = srunner_create( create_suite_SBaseExtensionPoint() );
   srunner_add_suite( runner, create_suite_SBasePlugin () );
   srunner_add_suite( runner, create_suite_SBasePluginCreator () );
@@ -69,6 +107,7 @@ main (void)
   srunner_add_suite( runner, create_suite_SBMLExtension () );
   srunner_add_suite( runner, create_suite_SBMLExtensionNamespaces () );
   srunner_add_suite( runner, create_suite_SBMLExtensionRegistry () );
+  srunner_add_suite( runner, create_suite_TestUnknownPackages () );
 
   /* srunner_set_fork_status(runner, CK_NOFORK); */
 

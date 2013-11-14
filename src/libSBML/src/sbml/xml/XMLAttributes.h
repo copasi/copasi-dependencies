@@ -26,8 +26,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class XMLAttributes
- * @ingroup Core
- * @brief Representation of attributes on an XML node.
+ * @sbmlbrief{core} Representation of attributes on an XML node.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -35,8 +34,8 @@
  */ 
 /**
  * @class XMLConstructorException
- * @ingroup Core
- * @brief Class of exceptions thrown by constructors of some libSBML objects.
+ * @sbmlbrief{core} Class of exceptions thrown by constructors of some
+ * libSBML objects.
  *
  * @htmlinclude not-sbml-warning.html
  *

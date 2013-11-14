@@ -67,7 +67,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 class LIBSBML_EXTERN RadialGradient : public GradientBase
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   RelAbsVector mCX;
   RelAbsVector mCY;
   RelAbsVector mCZ;
@@ -339,7 +339,7 @@ public:
    */
   XMLNode toXML() const;
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
@@ -349,7 +349,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -360,7 +360,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation

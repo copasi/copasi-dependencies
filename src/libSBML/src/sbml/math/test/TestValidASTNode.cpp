@@ -381,6 +381,7 @@ START_TEST (test_ValidASTNode_returnsBoolean)
 }
 END_TEST
 
+
 Suite *
 create_suite_TestValidASTNode ()
 {

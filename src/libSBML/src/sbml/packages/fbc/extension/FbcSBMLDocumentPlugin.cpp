@@ -117,15 +117,18 @@ FbcSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
 /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 bool
-FbcSBMLDocumentPlugin::isFlatteningImplemented() const
+FbcSBMLDocumentPlugin::isCompFlatteningImplemented() const
 {
-  return false;
+  return true;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 unsigned int 
-FbcSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
+FbcSBMLDocumentPlugin::checkConsistency()
 {
   unsigned int nerrors = 0;
   unsigned int total_errors = 0;
@@ -171,9 +174,9 @@ FbcSBMLDocumentPlugin::checkConsistency(bool overrideFlattening)
 
   return total_errors;  
 }
+/** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 bool 
 FbcSBMLDocumentPlugin::accept(SBMLVisitor& v) const
 {

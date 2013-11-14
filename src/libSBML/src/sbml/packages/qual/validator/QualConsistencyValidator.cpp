@@ -1,5 +1,5 @@
 /**
- * @cond doxygen-libsbml-internal
+ * @cond doxygenLibsbmlInternal
  *
  * @file    QualConsistencyValidator.cpp
  * @brief   Checks an SBML model for structural consistency

@@ -45,7 +45,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string LinearGradient::ELEMENT_NAME="linearGradient";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LinearGradient object with the given SBML level
  * and SBML version.
@@ -68,7 +68,7 @@ LinearGradient::LinearGradient (unsigned int level, unsigned int version, unsign
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LinearGradient object with the given SBMLNamespaces.
  *
@@ -96,7 +96,7 @@ LinearGradient::LinearGradient (RenderPkgNamespaces* renderns):
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LinearGradient object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -123,7 +123,7 @@ LinearGradient::LinearGradient(const XMLNode& node, unsigned int l2version):Grad
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a LinearGradient with no gradient stops.
  * The id is set to the given value.
@@ -162,7 +162,7 @@ LinearGradient::LinearGradient(const XMLNode& node, unsigned int l2version):Grad
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the 3D coordinates for the start and the end point of the linear gradient vector.
  * Each value can be a combination of absolute and relative value and is represented by 
@@ -183,7 +183,7 @@ void LinearGradient::setCoordinates(const RelAbsVector& x1,const RelAbsVector& y
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the 2D coordinates for the start and the end point of the linear gradient vector.
  * The z values are automatically set to 0.
@@ -201,7 +201,7 @@ void LinearGradient::setCoordinates(const RelAbsVector& x1,const RelAbsVector& y
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the coordinates for the start point of the linear gradient vector.
  *
@@ -223,7 +223,7 @@ void LinearGradient::setPoint1(const RelAbsVector& x,const RelAbsVector& y,const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the coordinates for the end point of the linear gradient vector.
  *
@@ -245,7 +245,7 @@ void LinearGradient::setPoint2(const RelAbsVector& x,const RelAbsVector& y,const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the start point as a const reference.
  *
@@ -257,7 +257,7 @@ const RelAbsVector& LinearGradient::getXPoint1() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the start point as a const reference.
  *
@@ -269,7 +269,7 @@ const RelAbsVector& LinearGradient::getYPoint1() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the start point as a const reference.
  *
@@ -281,7 +281,7 @@ const RelAbsVector& LinearGradient::getZPoint1() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the end point as a const reference.
  *
@@ -293,7 +293,7 @@ const RelAbsVector& LinearGradient::getXPoint2() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the end point as a const reference.
  *
@@ -305,7 +305,7 @@ const RelAbsVector& LinearGradient::getYPoint2() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the end point as a const reference.
  *
@@ -317,7 +317,7 @@ const RelAbsVector& LinearGradient::getZPoint2() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the start point as a reference.
  *
@@ -329,7 +329,7 @@ RelAbsVector& LinearGradient::getXPoint1()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the start point as a reference.
  *
@@ -341,7 +341,7 @@ RelAbsVector& LinearGradient::getYPoint1()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the start point as a reference.
  *
@@ -353,7 +353,7 @@ RelAbsVector& LinearGradient::getZPoint1()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the end point as a reference.
  *
@@ -365,7 +365,7 @@ RelAbsVector& LinearGradient::getXPoint2()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the end point as a reference.
  *
@@ -377,7 +377,7 @@ RelAbsVector& LinearGradient::getYPoint2()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the end point as a reference.
  *
@@ -389,7 +389,7 @@ RelAbsVector& LinearGradient::getZPoint2()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 LinearGradient::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -404,7 +404,7 @@ LinearGradient::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void LinearGradient::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
     this->GradientBase::readAttributes(attributes, expectedAttributes);
@@ -467,7 +467,7 @@ void LinearGradient::readAttributes (const XMLAttributes& attributes, const Expe
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -494,7 +494,7 @@ int LinearGradient::getTypeCode() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor for this instance of LinearGradient.
  *
@@ -508,7 +508,7 @@ bool LinearGradient::accept(SBMLVisitor& /*visitor*/) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -523,7 +523,7 @@ const std::string& LinearGradient::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this LinearGradient object.
  * 
@@ -535,7 +535,7 @@ LinearGradient* LinearGradient::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -591,7 +591,7 @@ void LinearGradient::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this LinearGradient object.
  *

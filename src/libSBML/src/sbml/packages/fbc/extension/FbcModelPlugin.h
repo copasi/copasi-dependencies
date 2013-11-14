@@ -18,9 +18,8 @@
  *------------------------------------------------------------------------- -->
  *
  * @class FbcModelPlugin
- * @ingroup FBC
- * @brief @htmlinclude pkg-marker-fbc.html
- * Implementation of the 'fbc' package extention to the %Model construct.
+ * @sbmlbrief{fbc} Implementation of the 'fbc' package extention to the
+ * %Model construct.
  */
 
 #ifndef FbcModelPlugin_h
@@ -144,14 +143,14 @@ public:
   /** @endcond */
 
 
-   /**
+  /**
    * Returns the first child element found that has the given @p id in the model-wide SId namespace, or @c NULL if no such object is found.
    *
    * @param id string representing the id of objects to find
    *
    * @return a pointer to the SBase element with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
@@ -161,7 +160,7 @@ public:
    *
    * @return a pointer to the SBase element with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
   
   /**
    * Returns a List of all child SBase* objects, including those nested to an arbitrary depth
@@ -171,6 +170,12 @@ public:
   virtual List* getAllElements(ElementFilter* filter=NULL);
   
   
+  /** @cond doxygenLibsbmlInternal */
+
+  int appendFrom(const Model* model);
+
+  /** @endcond */
+
   /** ------------------------------------------------------------------
    *
    *  Additional public functions
@@ -225,8 +230,8 @@ public:
    * @return FluxBound in the ListOfFluxBounds with the given @p sid
    * or NULL if no such FluxBound exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getFluxBound(unsigned int n)
+   * @see getListOfFluxBounds()
    */
   FluxBound* getFluxBound (const std::string& sid);
 
@@ -240,10 +245,11 @@ public:
    * @return FluxBound in the ListOfFluxBounds with the given @p sid 
    * or NULL if no such FluxBound exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getFluxBound(unsigned int n)
+   * @see getListOfFluxBounds()
    */
   const FluxBound* getFluxBound (const std::string& sid) const;
+
 
   /**
    * Adds a copy of the given FluxBound object to the list of FluxBounds.
@@ -251,10 +257,8 @@ public:
    * @param bound the FluxBound object to be added to the list of FluxBounds.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    */ 
   int addFluxBound (const FluxBound* bound);
 
@@ -356,8 +360,8 @@ public:
    * @return Objective in the ListOfObjectives with the given @p id
    * or NULL if no such Objective exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getObjective(unsigned int n)
+   * @see getListOfObjectives()
    */
   Objective* getObjective (const std::string& sid);
 
@@ -371,10 +375,11 @@ public:
    * @return Objective in the ListOfObjectives with the given @p sid 
    * or NULL if no such Objective exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getObjective(unsigned int n)
+   * @see getListOfObjectives()
    */
   const Objective* getObjective (const std::string& sid) const;
+
 
   /**
    * Adds a copy of the given Objective object to the list of Objectives.
@@ -382,10 +387,8 @@ public:
    * @param bound the Objective object to be added to the list of Objectives.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    */ 
   int addObjective (const Objective* bound);
 
@@ -509,8 +512,8 @@ public:
    * @return GeneAssociation in the ListOfGeneAssociations with the given @p sid
    * or NULL if no such GeneAssociation exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getGeneAssociation(unsigned int n)
+   * @see getListOfGeneAssociations()
    */
   GeneAssociation* getGeneAssociation (const std::string& sid);
 
@@ -524,10 +527,11 @@ public:
    * @return GeneAssociation in the ListOfGeneAssociations with the given @p sid 
    * or NULL if no such GeneAssociation exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getGeneAssociation(unsigned int n)
+   * @see getListOfGeneAssociations()
    */
   const GeneAssociation* getGeneAssociation (const std::string& sid) const;
+
 
   /**
    * Adds a copy of the given GeneAssociation object to the list of GeneAssociations.
@@ -535,10 +539,8 @@ public:
    * @param association the GeneAssociation object to be added to the list of GeneAssociations.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    */ 
   int addGeneAssociation (const GeneAssociation* association);
 
@@ -616,6 +618,18 @@ public:
 
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Sets the *parent* of this SBML object to child SBML objects (if any).
+   * (Creates a child-parent relationship by the parent)
+   *
+   * @see setSBMLDocument
+   * @see enablePackageInternal
+   */
+  virtual void connectToChild ();
+  /** @endcond */
+
+
+  /** @cond doxygenLibsbmlInternal */
+  /**
    * Sets the parent SBML object of this plugin object to
    * this object and child elements (if any).
    * (Creates a child-parent relationship by this plugin object)
@@ -640,7 +654,7 @@ public:
    * Enables/Disables the given package with child elements in this plugin
    * object (if any).
    * (This is an internal implementation invoked from
-   *  SBase::enablePakcageInternal() function)
+   *  SBase::enablePackageInternal() function)
    *
    * @note Subclasses in which one or more SBase derived elements are
    * defined must override this function.
@@ -661,6 +675,15 @@ public:
   ListOfFluxBounds * getFluxBoundsForReaction(const std::string& reaction) const;
 
 protected:
+
+  /** @cond doxygenLibsbmlInternal */
+  /** 
+   * Parse L2 annotation if supported
+   *
+   */
+  virtual void parseAnnotation(SBase *parentObject, XMLNode *annotation);
+  /** @endcond */
+
   /** @cond doxygenLibsbmlInternal */
 
   /*-- data members --*/

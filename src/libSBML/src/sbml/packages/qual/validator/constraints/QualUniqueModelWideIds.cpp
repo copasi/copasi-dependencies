@@ -1,5 +1,5 @@
 /**
- * @cond doxygen-libsbml-internal
+ * @cond doxygenLibsbmlInternal
  *
  * @file    QualUniqueModelWideIds.cpp
  * @brief   Base class for Id constraints
@@ -30,7 +30,7 @@
 #include "QualUniqueModelWideIds.h"
 #include <sbml/packages/qual/extension/QualModelPlugin.h>
 
-/** @cond doxygen-ignored */
+/** @cond doxygenIgnored */
 
 using namespace std;
 

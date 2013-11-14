@@ -169,6 +169,7 @@ InitialAssignment::getSymbol () const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /**
  * @return the string of symbol attribute of this object.
  * 
@@ -181,7 +182,7 @@ InitialAssignment::getId() const
 {
   return getSymbol();
 }
-
+/** @endcond */
 
 
 /*
@@ -281,7 +282,25 @@ InitialAssignment::getDerivedUnitDefinition()
   /* if we have the whole model but it is not in a document
    * it is still possible to determine the units
    */
-  Model * m = static_cast <Model *> (getAncestorOfType(SBML_MODEL));
+  
+  /* VERY NASTY HACK THAT WILL WORK IF WE DONT KNOW ABOUT COMP
+   * but will identify if the parent model is a ModelDefinition
+   */
+  Model * m = NULL;
+  
+  if (this->isPackageEnabled("comp"))
+  {
+    m = static_cast <Model *> (getAncestorOfType(251, "comp"));
+  }
+
+  if (m == NULL)
+  {
+    m = static_cast <Model *> (getAncestorOfType(SBML_MODEL));
+  }
+
+  /* we should have a model by this point 
+   * OR the object is not yet a child of a model
+   */
 
   if (m != NULL)
   {
@@ -331,7 +350,26 @@ InitialAssignment::containsUndeclaredUnits()
   /* if we have the whole model but it is not in a document
    * it is still possible to determine the units
    */
-  Model * m = static_cast <Model *> (getAncestorOfType(SBML_MODEL));
+  
+  /* VERY NASTY HACK THAT WILL WORK IF WE DONT KNOW ABOUT COMP
+   * but will identify if the parent model is a ModelDefinition
+   */
+  Model * m = NULL;
+  
+  if (this->isPackageEnabled("comp"))
+  {
+    m = static_cast <Model *> (getAncestorOfType(251, "comp"));
+  }
+
+  if (m == NULL)
+  {
+    m = static_cast <Model *> (getAncestorOfType(SBML_MODEL));
+  }
+
+  /* we should have a model by this point 
+   * OR the object is not yet a child of a model
+   */
+
 
   if (m != NULL)
   {
@@ -417,7 +455,7 @@ InitialAssignment::hasRequiredElements() const
 
 
 void
-InitialAssignment::renameSIdRefs(std::string oldid, std::string newid)
+InitialAssignment::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (mSymbol == oldid) {
     setSymbol(newid);
@@ -428,7 +466,7 @@ InitialAssignment::renameSIdRefs(std::string oldid, std::string newid)
 }
 
 void 
-InitialAssignment::renameUnitSIdRefs(std::string oldid, std::string newid)
+InitialAssignment::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);
@@ -861,7 +899,7 @@ ListOfInitialAssignments::remove (const std::string& sid)
 
 
 SBase*
-ListOfInitialAssignments::getElementBySId(std::string id)
+ListOfInitialAssignments::getElementBySId(const std::string& id)
 {
   for (unsigned int i = 0; i < size(); i++)
   {

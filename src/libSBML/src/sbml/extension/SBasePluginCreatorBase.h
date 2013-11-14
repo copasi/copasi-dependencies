@@ -26,6 +26,9 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class SBasePluginCreatorBase
+ * @sbmlbrief{core} Base class of %SBasePluginCreator.
  */
 
 #ifndef SBasePluginCreatorBase_h
@@ -42,9 +45,6 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 class SBasePlugin;
 
-/**
- * @ingroup Core
- */
 class LIBSBML_EXTERN SBasePluginCreatorBase
 {
 public:
@@ -68,7 +68,9 @@ public:
 
 
   /**
-   * clone
+   * Creates and returns a deep copy of this SBasePluginCreatorBase.  Must be overridden by child classes.
+   * 
+   * @return a (deep) copy of this SBasePluginCreatorBase.
    */
   virtual SBasePluginCreatorBase* clone() const = 0;
 

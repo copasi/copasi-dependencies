@@ -36,7 +36,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 class LIBSBML_EXTERN RenderLayoutConverter : public SBMLConverter
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   int targetLevel;
   int targetVersion;
   std::string renderNsUri;
@@ -51,7 +51,7 @@ protected:
 
 public:
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   
   /* register with the ConversionRegistry */
   static void init();  

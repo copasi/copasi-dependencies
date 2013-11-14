@@ -27,8 +27,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLError
- * @ingroup Core
- * @brief Representation of errors, warnings and other diagnostics
+ * @sbmlbrief{core} Representation of errors, warnings and other diagnostics
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -237,7 +236,23 @@
  * longer and (hopefully) clearer explanation of the issue is returned by
  * SBMLError::getMessage().
  *
- * @htmlinclude sbmlerror-table.html
+ * The error codes come from different lists depending on whether they're
+ * from libSBML core or from an SBML Level&nbsp;3 package extension.
+ * @if clike The errors below come from #XMLErrorCode_t and #SBMLErrorCode_t
+ * (for core), and #CompSBMLErrorCode_t, #FbcSBMLErrorCode_t,
+ * #LayoutSBMLErrorCode_t, and #QualSBMLErrorCode_t (for packages).@endif
+ * @if notclike However, in the language interfaces other than C++, all
+ * libSBML error codes are ultimately represented as integer constants rather
+ * than separate enumerations lists, and they are all stored in a single
+ * interface class.  Codes from different libSBML extensions have names that
+ * begin with the package's nickname, such as <code>Qual</code> for
+ * the Qualitative Models package, <code>Layout</code> for the Layout
+ * package, and so on.  If the name of a code does not begin with one of
+ * the package nicknames (<code>%Layout</code>, <code>Fbc</code>,
+ * <code>Comp</code>, <code>Qual</code>, etc.), then it is a code
+ * from libSBML core.@endif
+ *
+ * @copydetails doc_sbml_error_table
  * 
  * @if clike <h3><a class="anchor" name="SBMLErrorCategory_t">SBMLErrorCategory_t</a></h3>
  *
@@ -432,14 +447,10 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
 /**
- * Codes for all SBML-level errors and warnings.
- *
- * These are distinguished from the XML layer (LIBLAX) error codes by being
- * numbered > 10000, while the XML layer's codes are < 9999.  Calling
- * programs may wish to check whether a given SBMLError object's error
- * identifier is actually from SBMLErrorCode_t or XMLError::XMLErrorCode_t.
- * This distinction corresponds to whether a given error represents a
- * low-level XML problem or an SBML problem.
+ * @enum SBMLErrorCode_t
+ * Codes for all SBML-level errors and warnings from the core specification.
+ * 
+ * @copydetails doc_sbml_error_code_ranges
  */
 typedef enum
 {
@@ -538,7 +549,7 @@ typedef enum
 , LevelPositiveInteger                  = 20105 /*!< The 'level' attribute must have a positive integer value. */
 , VersionPositiveInteger                = 20106 /*!< The 'version' attribute must have a positive integer value. */
 , AllowedAttributesOnSBML               = 20108 /*!< Invalid attribute found on the SBML container element. */
-, L3PackageOnLowerSBML                  = 20109 /*!< An L3 package ns found on the SBML container element.. */
+, L3PackageOnLowerSBML                  = 20109 /*!< An L3 package ns found on the SBML container element. */
 , MissingModel                          = 20201 /*!< No model definition found. */
 , IncorrectOrderInModel                 = 20202 /*!< Incorrect ordering of components within the Model object. */
 , EmptyListElement                      = 20203 /*!< Empty ListOf___ object found. */
@@ -734,9 +745,9 @@ typedef enum
 , ConversionFactorNotInL1               = 91015 /*!< SBML Level 1 does not support the 'conversionFactor' attribute. */
 , CompartmentNotOnL1Reaction            = 91016 /*!< SBML Level 1 does not support the 'compartment' attribute on Reaction objects. */
 , ExtentUnitsNotSubstance               = 91017 /*!< Units of extent must be compatible with units of substance. */
-, GlobalUnitsNotDeclared                = 91018 /*!< Global units must be refer to unit kind or unitDefinition.. */
-, HasOnlySubstanceUnitsNotinL1          = 91019 /*!< The concept of hasOnlySubstanceUnits was not available in SBML Level 1.. */
-, AvogadroNotSupported                  = 91020 /*!< Avogadro not supported in Levels 2 and 1.. */
+, GlobalUnitsNotDeclared                = 91018 /*!< Global units must be refer to unit kind or unitDefinition. */
+, HasOnlySubstanceUnitsNotinL1          = 91019 /*!< The concept of hasOnlySubstanceUnits was not available in SBML Level 1. */
+, AvogadroNotSupported                  = 91020 /*!< Avogadro not supported in Levels 2 and 1. */
 , NoConstraintsInL2v1                   = 92001 /*!< SBML Level 2 Version 1 does not support Constraint objects. */
 , NoInitialAssignmentsInL2v1            = 92002 /*!< SBML Level 2 Version 1 does not support InitialAssignment objects. */
 , NoSpeciesTypeInL2v1                   = 92003 /*!< SBML Level 2 Version 1 does not support SpeciesType objects. */
@@ -792,7 +803,7 @@ typedef enum
 , InvalidRuleOrdering                   = 99106 /*!< Invalid ordering of rules. */
 , RequiredPackagePresent                = 99107 /*!< The SBML document requires an SBML Level 3 package unavailable in this software. */
 , UnrequiredPackagePresent              = 99108 /*!< The SBML document uses an SBML Level 3 package unavailable in this software. */
-, PackageRequiredShouldBeFalse          = 99109 /*!< This package expects required to be false.. */
+, PackageRequiredShouldBeFalse          = 99109 /*!< This package expects required to be false. */
 , SubsUnitsAllowedInKL                  = 99127 /*!< Disallowed value for attribute 'substanceUnits' on KineticLaw object. */
 , TimeUnitsAllowedInKL                  = 99128 /*!< Disallowed value for attribute 'timeUnits' on KineticLaw object. */
 , FormulaInLevel1KL                     = 99129 /*!< Only predefined functions are allowed in SBML Level 1 formulas. */
@@ -807,15 +818,15 @@ typedef enum
 , NoTimeSymbolInFunctionDef             = 99301 /*!< Use of <code>&lt;csymbol&gt;</code> for 'time' not allowed within FunctionDefinition objects. */
 , NoBodyInFunctionDef                   = 99302 /*!< There must be a <code>&lt;lambda&gt;</code> body within the <code>&lt;math&gt;</code> element of a FunctionDefinition object. */
 , DanglingUnitSIdRef                    = 99303 /*!< Units must refer to valid unit or unitDefinition. */
-, RDFMissingAboutTag                    = 99401 /*!< RDF missing the <code>&lt;about&gt;</code> tag.. */
-, RDFEmptyAboutTag                      = 99402 /*!< RDF empty <code>&lt;about&gt;</code> tag.. */
-, RDFAboutTagNotMetaid                  = 99403 /*!< RDF <code>&lt;about&gt;</code> tag is not metaid.. */
-, RDFNotCompleteModelHistory            = 99404 /*!< RDF does not contain valid ModelHistory.. */
-, RDFNotModelHistory                    = 99405 /*!< RDF does not result in a ModelHistory.. */
-, AnnotationNotElement                  = 99406 /*!< Annotation must contain element.. */
-, InconsistentArgUnitsWarnings          = 99502
-, InconsistentPowerUnitsWarnings        = 99503
-, InconsistentExponUnitsWarnings        = 99504
+, RDFMissingAboutTag                    = 99401 /*!< RDF missing the <code>&lt;about&gt;</code> tag. */
+, RDFEmptyAboutTag                      = 99402 /*!< RDF empty <code>&lt;about&gt;</code> tag. */
+, RDFAboutTagNotMetaid                  = 99403 /*!< RDF <code>&lt;about&gt;</code> tag is not metaid. */
+, RDFNotCompleteModelHistory            = 99404 /*!< RDF does not contain valid ModelHistory. */
+, RDFNotModelHistory                    = 99405 /*!< RDF does not result in a ModelHistory. */
+, AnnotationNotElement                  = 99406 /*!< Annotation must contain element. */
+, InconsistentArgUnitsWarnings          = 99502 /*!< This is an internal error that reverts to 10501. */
+, InconsistentPowerUnitsWarnings        = 99503 /*!< This is an internal error that reverts to 10501. */
+, InconsistentExponUnitsWarnings        = 99504 /*!< This is an internal error that reverts to 10501. */
 , UndeclaredUnits                       = 99505 /*!< Missing unit declarations on parameters or literal numbers in expression. */
 , UndeclaredTimeUnitsL3                 = 99506 /*!< Unable to verify consistency of units: the unit of time has not been declared. */
 , UndeclaredExtentUnitsL3               = 99507 /*!< Unable to verify consistency of units: the units of reaction extent have not been declared. */
@@ -853,7 +864,7 @@ typedef enum
 , PackageConversionNotSupported         = 99996 /*!< Conversion of SBML Level 3 package constructs is not yet supported. */
 , InvalidTargetLevelVersion             = 99997 /*!< The requested SBML Level/Version combination is not known to exist. */
 , L3NotSupported                        = 99998 /*!< SBML Level 3 is not yet supported. */
-, SBMLCodesUpperBound                   = 99999
+, SBMLCodesUpperBound                   = 99999 /*!< Upper boundary of libSBML-specific diagnostic codes. */
 } SBMLErrorCode_t;
 
 
@@ -968,7 +979,9 @@ typedef enum
 /**
  * Severity codes for SBMLError diagnostics.
  *
- * These are distinct from XMLError's severity codes.  
+ * The only publicly-reported values of this type are the four from #XMLErrorSeverity_t.
+ * All other values are used internally only, with translation of those 
+ * codes done in SBMLError.cpp
  *
  * @see XMLErrorSeverity_t
  */
@@ -1147,7 +1160,9 @@ public:
   /** @cond doxygenLibsbmlInternal **/
 
   /**
-   * clone function
+   * Creates and returns a deep copy of this SBMLError.
+   * 
+   * @return a (deep) copy of this SBMLError.
    */
   virtual SBMLError* clone() const; 
 

@@ -40,6 +40,12 @@
 	}
 }
 
+/* 
+ * Currently we have to ignore methods that take std::list and vector.
+ */
+%ignore SBMLFileResolver::setAdditionalDirs(const std::vector<std::string>& dirs);
+
+
 %include <sbml/packages/comp/extension/CompExtension.h>
 %include <sbml/packages/comp/extension/CompSBasePlugin.h>
 %include <sbml/packages/comp/extension/CompModelPlugin.h>
@@ -68,6 +74,7 @@
 %include sbml/packages/comp/sbml/Submodel.h
 %include sbml/packages/comp/sbml/Replacing.h
 
+%include sbml/packages/comp/validator/CompSBMLError.h
 
 %template(CompPkgNamespaces) SBMLExtensionNamespaces<CompExtension>;
 

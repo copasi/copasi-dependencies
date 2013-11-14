@@ -80,7 +80,7 @@ public:
 
 #ifndef SWIG
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /**
    * Subclasses should override this method to get the list of
@@ -103,7 +103,7 @@ public:
    */
   virtual void writeAttributes (XMLOutputStream& stream) const;
 
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 #endif //SWIG
@@ -163,24 +163,19 @@ public:
 
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /*-- data members --*/
 
   //
-  // 'mathOverridden' - represents the namespace prefix(?) of a package that
-  // redefines given element's math (element whose math is directly affected)
   //
   bool          mIsSpatial;	// for species
 
   //
-  // boolean that is set to T or F depending on whether an interpreter that
-  // only understands the core package would have a workable/complete (could 
-  // be different) version of the math for given element.
   //
   bool			mIsLocal;	// for reaction
 
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 };
 
 LIBSBML_CPP_NAMESPACE_END

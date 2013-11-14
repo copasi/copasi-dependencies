@@ -42,15 +42,18 @@
 #include "SubmodelReferenceCycles.h"
 #include "UniquePortReferences.h"
 #include "UniqueReplacedReferences.h"
+#include "ClassReplacements.h"
+#include "PackageIdReplacementCheck.h"
 
 #endif
 
+#include <sbml/common/libsbml-namespace.h>
 #include <sbml/validator/ConstraintMacros.h>
 
 /** @cond doxygenIgnored */
 
 using namespace std;
-
+LIBSBML_CPP_NAMESPACE_USE
 /** @endcond */
 
 class ReferencedModel
@@ -1150,6 +1153,17 @@ START_CONSTRAINT (CompIdRefMustReferenceObject, Port, p)
 {
   pre(p.isSetIdRef());
   
+  /* only log this if there are no unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == false);
+
   bool fail = false;
 
   msg = "The 'idRef' of a <port>";
@@ -1201,6 +1215,17 @@ END_CONSTRAINT
 START_CONSTRAINT (CompIdRefMustReferenceObject, Deletion, d)
 {
   pre(d.isSetIdRef());
+
+  /* only log this if there are no unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == false);
   
   bool fail = false;
 
@@ -1263,6 +1288,17 @@ START_CONSTRAINT (CompIdRefMustReferenceObject, ReplacedElement, repE)
 {
   pre(repE.isSetIdRef());
   pre(repE.isSetSubmodelRef());
+
+  /* only log this if there are no unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == false);
 
   bool fail = false;
 
@@ -1380,6 +1416,17 @@ END_CONSTRAINT
 START_CONSTRAINT (CompIdRefMustReferenceObject, SBaseRef, sbRef)
 {
   pre(sbRef.isSetIdRef());
+
+  /* only log this if there are no unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == false);
 
   bool fail = false;
 
@@ -1727,6 +1774,17 @@ START_CONSTRAINT (CompMetaIdRefMustReferenceObject, Port, p)
 {
   pre(p.isSetMetaIdRef());
   
+  /* only log this if there are no unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == false);
+
   bool fail = false;
 
   msg = "The 'metaIdRef' of a <port>";
@@ -1780,6 +1838,17 @@ START_CONSTRAINT (CompMetaIdRefMustReferenceObject, Deletion, d)
 {
   pre(d.isSetMetaIdRef());
   
+  /* only log this if there are no unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == false);
+
   bool fail = false;
 
   const Submodel * sub = static_cast<const Submodel*>
@@ -1841,6 +1910,17 @@ START_CONSTRAINT (CompMetaIdRefMustReferenceObject, ReplacedElement, repE)
 {
   pre(repE.isSetMetaIdRef());
   pre(repE.isSetSubmodelRef());
+
+  /* only log this if there are no unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == false);
 
   bool fail = false;
 
@@ -1958,6 +2038,17 @@ END_CONSTRAINT
 START_CONSTRAINT (CompMetaIdRefMustReferenceObject, SBaseRef, sbRef)
 {
   pre(sbRef.isSetMetaIdRef());
+
+  /* only log this if there are no unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == false);
 
   bool fail = false;
 
@@ -3466,7 +3557,7 @@ START_CONSTRAINT (CompReplacedElementConvFactorRef, ReplacedElement, repE)
   pre (repE.isSetSubmodelRef());
   pre (repE.isSetConversionFactor());
 
-  msg = "The 'timeConversionFactor' of a <replacedElement> in ";
+  msg = "The 'conversionFactor' of a <replacedElement> in ";
   const Model* mod = static_cast<const Model*>
                                  (repE.getAncestorOfType(SBML_MODEL, "core"));
   if (mod == NULL) {
@@ -3502,6 +3593,22 @@ END_CONSTRAINT
 
 //21010
 EXTERN_CONSTRAINT( CompReplacedElementSameReference, UniqueReplacedReferences)
+
+//21011
+START_CONSTRAINT (CompReplacedElementNoDelAndConvFact, ReplacedElement, repE)
+{
+  pre (repE.isSetDeletion());
+
+  bool fail = false;
+
+  if (repE.isSetConversionFactor() == true)
+  {
+    fail = true;
+  }
+
+  inv(fail == false);
+}
+END_CONSTRAINT
 
 //*************************************
 
@@ -3727,6 +3834,355 @@ START_CONSTRAINT (CompReplacedBySubModelRef, ReplacedBy, repBy)
 }
 END_CONSTRAINT
 
+//21201
+EXTERN_CONSTRAINT( CompMustReplaceSameClass, ClassReplacements)
+
+//21202 - caught during flattening
+//21203 - caught during flattening
+
+//21204
+EXTERN_CONSTRAINT(CompMustReplacePackageIDs, PackageIdReplacementCheck)
+
+// 90115 (note not on a replacedBy)
+// 90115 - port
+START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, Port, p)
+{
+  pre(p.isSetIdRef());
+
+  /* only log this if there are unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == true);
+  
+  bool fail = true;
+
+  msg = "The 'idRef' of a <port>";
+  msg += " is set to '";
+  msg += p.getIdRef();
+  msg += "' which is not an element within the <model>.";
+  msg += " However it may be an identifier of an object within an ";
+  msg += "unrecognised package. ";
+
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+
+// 90115 - deletion
+START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, Deletion, d)
+{
+  /* only log this if there are unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == true);
+  pre(d.isSetIdRef());
+  
+  bool fail = true;
+
+  const Submodel * sub = static_cast<const Submodel*>
+                        (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+  pre (sub != NULL);
+
+  msg = "The 'idRef' of a <deletion>";
+  msg += " is set to '";
+  msg += d.getIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += sub->getId();
+  msg += "'. However it may be an identifier of an object within an ";
+  msg += "unrecognised package. ";
+
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+
+// 90115 - replacedElement
+START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, ReplacedElement, repE)
+{
+  pre(repE.isSetIdRef());
+  pre(repE.isSetSubmodelRef());
+
+  /* only log this if there are unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == true);
+  
+  bool fail = true;
+
+  msg = "The 'idRef' of a <replacedElement>";
+  msg += " is set to '";
+  msg += repE.getIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += repE.getSubmodelRef();
+  msg += "'. However it may be an identifier of an object within an ";
+  msg += "unrecognised package. ";
+
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+
+// 90115 - sBaseRef
+START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, SBaseRef, sbRef)
+{
+  pre(sbRef.isSetIdRef());
+
+  /* only log this if there are unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == true);
+  
+  bool fail = true;
+
+  pre (sbRef.getParentSBMLObject() != NULL);
+
+  int tc = sbRef.getParentSBMLObject()->getTypeCode();
+
+  msg = "The 'idRef' of a <sBaseRef>";
+  msg += " is set to '";
+  msg += sbRef.getIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+
+  if (tc == SBML_COMP_REPLACEDELEMENT)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedElement*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_REPLACEDBY)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedBy*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_PORT)
+  {
+    msg += "port '";
+    msg += sbRef.getParentSBMLObject()->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_DELETION)
+  {
+    const Submodel * sub = static_cast<const Submodel*>
+                           (sbRef.getParentSBMLObject()
+                           ->getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+    pre (sub != NULL);
+    
+    msg += "the submodel '";
+    msg += sub->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_SBASEREF)
+  {
+    msg += "the parent sBaseRef.";
+  }
+  msg += "However it may be an identifier of an object within an ";
+  msg += "unrecognised package. ";
+
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+
+// 90116
+//90116 - port
+START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, Port, p)
+{
+  pre(p.isSetMetaIdRef());
+  
+  /* only log this if there are unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == true);
+
+  bool fail = true;
+
+  msg = "The 'metaIdRef' of a <port>";
+  msg += " is set to '";
+  msg += p.getMetaIdRef();
+  msg += "' which is not an element within the <model>. ";
+  msg += "However it may be the 'metaid' of an object within an ";
+  msg += "unrecognised package. ";
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 90116 - deletion
+START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, Deletion, d)
+{
+  pre(d.isSetMetaIdRef());
+  
+  /* only log this if there are unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == true);
+
+  bool fail = true;
+
+  const Submodel * sub = static_cast<const Submodel*>
+                        (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+  pre (sub != NULL);
+
+  msg = "The 'metaIdRef' of a <deletion>";
+  msg += " is set to '";
+  msg += d.getMetaIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += sub->getId();
+  msg += "'. ";
+  msg += "However it may be the 'metaid' of an object within an ";
+  msg += "unrecognised package. ";
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 90116 - replacedElement
+START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, ReplacedElement, repE)
+{
+  pre(repE.isSetMetaIdRef());
+  pre(repE.isSetSubmodelRef());
+
+  /* only log this if there are unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == true);
+
+  bool fail = true;
+
+  msg = "The 'metaidRef' of a <replacedElement>";
+  msg += " is set to '";
+  msg += repE.getMetaIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+  msg += "submodel '";
+  msg += repE.getSubmodelRef();
+  msg += "'. ";
+  msg += "However it may be the 'metaid' of an object within an ";
+  msg += "unrecognised package. ";
+
+  inv(fail == false);
+}
+END_CONSTRAINT
+
+// 90116 - sBaseRef
+START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, SBaseRef, sbRef)
+{
+  pre(sbRef.isSetMetaIdRef());
+
+  /* only log this if there are unknown packages present */
+  const SBMLDocument *doc = m.getSBMLDocument();
+  SBMLErrorLog *errlog = const_cast<SBMLErrorLog*>(doc->getErrorLog());
+  bool unknownPackagePresent = false;
+  if (errlog->contains(UnrequiredPackagePresent)
+    || errlog->contains(RequiredPackagePresent))
+  {
+    unknownPackagePresent = true;
+  }
+  pre ( unknownPackagePresent == true);
+
+  bool fail = true;
+
+  pre (sbRef.getParentSBMLObject() != NULL);
+
+  int tc = sbRef.getParentSBMLObject()->getTypeCode();
+
+  msg = "The 'metaIdRef' of a <sBaseRef>";
+  msg += " is set to '";
+  msg += sbRef.getMetaIdRef();
+  msg += "' which is not an element within the <model> referenced by ";
+
+  if (tc == SBML_COMP_REPLACEDELEMENT)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedElement*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_REPLACEDBY)
+  {
+    msg += "the submodel '";
+    msg += static_cast<const ReplacedBy*>(sbRef.getParentSBMLObject())
+                                               ->getSubmodelRef();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_PORT)
+  {
+    msg += "port '";
+    msg += sbRef.getParentSBMLObject()->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_DELETION)
+  {
+    const Submodel * sub = static_cast<const Submodel*>
+                           (sbRef.getParentSBMLObject()
+                           ->getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
+    pre (sub != NULL);
+    
+    msg += "the submodel '";
+    msg += sub->getId();
+    msg += "'.";
+  }
+  else if (tc == SBML_COMP_SBASEREF)
+  {
+    msg += "the parent sBaseRef.";
+  }
+  msg += " However it may be the 'metaid' of an object within an ";
+  msg += "unrecognised package. ";
+
+  inv(fail == false);
+}
+END_CONSTRAINT
 
 
 

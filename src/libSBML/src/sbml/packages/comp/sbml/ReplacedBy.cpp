@@ -29,6 +29,7 @@
 #include <sbml/packages/comp/sbml/ReplacedBy.h>
 #include <sbml/packages/comp/extension/CompExtension.h>
 #include <sbml/packages/comp/extension/CompSBasePlugin.h>
+#include <sbml/packages/comp/extension/CompModelPlugin.h>
 #include <sbml/packages/comp/validator/CompSBMLError.h>
 
 using namespace std;
@@ -98,8 +99,7 @@ ReplacedBy::removeFromParentAndDelete()
   return comp_parent->unsetReplacedBy();
 }
 
-
-int ReplacedBy::performReplacement()
+int ReplacedBy::performReplacementAndCollect(set<SBase*>* removed, set<SBase*>* toremove)
 {
   SBMLDocument* doc = getSBMLDocument();
   //Find the various objects and plugin objects we need for this to work.
@@ -129,15 +129,18 @@ int ReplacedBy::performReplacement()
   }
   if (ret != LIBSBML_OPERATION_SUCCESS) return ret;
 
-  //And finally, delete the parent object.
-  return CompBase::removeFromParentAndPorts(parent);
+  //And finally, get ready to delete the parent object.
+  if (toremove) {
+    toremove->insert(parent);
+  }
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
+/** @cond doxygenLibsbmlInternal */
 int 
 ReplacedBy::updateIDs(SBase* oldnames, SBase* newnames)
 {
   //The trick here is that 'oldnames' is actually replacing 'newnames' so we need to get the error messages correct.
-  int ret = LIBSBML_OPERATION_SUCCESS;
   SBMLDocument* doc = getSBMLDocument();
   if (!oldnames->isSetId() && newnames->isSetId()) {
     if (doc) {
@@ -165,6 +168,7 @@ ReplacedBy::updateIDs(SBase* oldnames, SBase* newnames)
   //LS DEBUG We also need to update the other package IDs.
   return Replacing::updateIDs(oldnames, newnames);
 }
+/** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -192,7 +196,7 @@ ReplacedBy_t *
 ReplacedBy_create(unsigned int level, unsigned int version,
                   unsigned int pkgVersion)
 {
-	return new ReplacedBy(level, version, pkgVersion);
+  return new ReplacedBy(level, version, pkgVersion);
 }
 
 
@@ -203,8 +207,8 @@ LIBSBML_EXTERN
 void
 ReplacedBy_free(ReplacedBy_t * rb)
 {
-	if (rb != NULL)
-		delete rb;
+  if (rb != NULL)
+    delete rb;
 }
 
 
@@ -215,14 +219,14 @@ LIBSBML_EXTERN
 ReplacedBy_t *
 ReplacedBy_clone(ReplacedBy_t * rb)
 {
-	if (rb != NULL)
-	{
-		return static_cast<ReplacedBy_t*>(rb->clone());
-	}
-	else
-	{
-		return NULL;
-	}
+  if (rb != NULL)
+  {
+    return static_cast<ReplacedBy_t*>(rb->clone());
+  }
+  else
+  {
+    return NULL;
+  }
 }
 
 
@@ -233,10 +237,10 @@ LIBSBML_EXTERN
 char *
 ReplacedBy_getSubmodelRef(ReplacedBy_t * rb)
 {
-	if (rb == NULL)
-		return NULL;
+  if (rb == NULL)
+    return NULL;
 
-	return rb->getSubmodelRef().empty() ? NULL : safe_strdup(rb->getSubmodelRef().c_str());
+  return rb->getSubmodelRef().empty() ? NULL : safe_strdup(rb->getSubmodelRef().c_str());
 }
 
 
@@ -247,7 +251,7 @@ LIBSBML_EXTERN
 int
 ReplacedBy_isSetSubmodelRef(ReplacedBy_t * rb)
 {
-	return (rb != NULL) ? static_cast<int>(rb->isSetSubmodelRef()) : 0;
+  return (rb != NULL) ? static_cast<int>(rb->isSetSubmodelRef()) : 0;
 }
 
 
@@ -258,7 +262,7 @@ LIBSBML_EXTERN
 int
 ReplacedBy_setSubmodelRef(ReplacedBy_t * rb, const char * submodelRef)
 {
-	return (rb != NULL) ? rb->setSubmodelRef(submodelRef) : LIBSBML_INVALID_OBJECT;
+  return (rb != NULL) ? rb->setSubmodelRef(submodelRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -269,7 +273,7 @@ LIBSBML_EXTERN
 int
 ReplacedBy_unsetSubmodelRef(ReplacedBy_t * rb)
 {
-	return (rb != NULL) ? rb->unsetSubmodelRef() : LIBSBML_INVALID_OBJECT;
+  return (rb != NULL) ? rb->unsetSubmodelRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -280,7 +284,7 @@ LIBSBML_EXTERN
 int
 ReplacedBy_hasRequiredAttributes(ReplacedBy_t * rb)
 {
-	return (rb != NULL) ? static_cast<int>(rb->hasRequiredAttributes()) : 0;
+  return (rb != NULL) ? static_cast<int>(rb->hasRequiredAttributes()) : 0;
 }
 
 

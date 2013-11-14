@@ -24,6 +24,20 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class LayoutSBMLDocumentPlugin
+ * @sbmlbrief{layout} Implementation of the 'layout' package extention to the
+ * %SBMLDocument construct.
+ *
+ * The LayoutSBMLDocumentPlugin class inherits from the SBMLDocumentPlugin
+ * class, and codifies the extentions to the SBMLDocument class defined in
+ * the SBML Level&nbsp;3 @ref layout "Layout" package ('layout').
+ *
+ * The LayoutSBMLDocumentPlugin defines a
+ * required flag named <code>required</code>, which indicates whether the
+ * 'fbc' constructs can be used to change the core mathematics of the
+ * <code>&lt;model&gt;</code> child of the <code>&lt;sbml&gt;</code> element.
+ * Because they can not, this attribute must be set @c false.
  */
 
 
@@ -98,7 +112,7 @@ public:
 	                             const ExpectedAttributes& expectedAttributes);
 
 
-	/** @endcond doxygenLibsbmlInternal */
+	/** @endcond */
 
 
 #endif // SWIG
@@ -111,21 +125,18 @@ public:
 	 * @returns @c true if flattening for composed models has been implemented,
 	 * false otherwise.
 	 */
-	virtual bool isFlatteningImplemented() const;
+	virtual bool isCompFlatteningImplemented() const;
 
 
-	/** @endcond doxygenLibsbmlInternal */
+	/** @endcond */
 
 
 	/** @cond doxygenLibsbmlInternal */
-
 	/**
 	 * Check consistency function.
 	 */
-	virtual unsigned int checkConsistency(bool overrideFlattening);
-
-
-	/** @endcond doxygenLibsbmlInternal */
+	virtual unsigned int checkConsistency();
+	/** @endcond */
 
 
 	/** @cond doxygenLibsbmlInternal */
@@ -144,7 +155,7 @@ public:
 
   List * getListElementsWithId() const;
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 protected:
@@ -160,7 +171,7 @@ protected:
   bool mValidationListsPopulated;
 	
   
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 };

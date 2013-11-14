@@ -217,7 +217,7 @@ Replacing::saveReferencedElement()
 
 
 void
-Replacing::renameSIdRefs(std::string oldid, std::string newid)
+Replacing::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (mSubmodelRef==oldid) mSubmodelRef=newid;
   if (mConversionFactor==oldid) mConversionFactor=newid;
@@ -318,19 +318,6 @@ Replacing::setSBMLDocument (SBMLDocument* d)
 
 
 /** @cond doxygenLibsbmlInternal */
-/*
- * Sets this SBML object to child SBML objects (if any).
- * (Creates a child-parent relationship by the parent)
- */
-void
-Replacing::connectToChild()
-{
-  SBaseRef::connectToChild();
-}
-/** @endcond */
-
-
-/** @cond doxygenLibsbmlInternal */
 int 
 Replacing::replaceWithAndMaybeDelete(SBase* replacement, bool deleteme, ASTNode* conversionFactor)
 {
@@ -361,17 +348,12 @@ Replacing::replaceWithAndMaybeDelete(SBase* replacement, bool deleteme, ASTNode*
     ret = replacedplug->getReplacedBy()->replaceWithAndMaybeDelete(replacement, deleteme, conversionFactor);
     if (ret != LIBSBML_OPERATION_SUCCESS) return ret;
   }
-
-  //And now delete the replaced thing.
-  if (deleteme) {
-    //We have to iterate upwards and see if any ports referenced this deletion.  If so, delete those ports.
-    return CompBase::removeFromParentAndPorts(replaced);
-  }
   return LIBSBML_OPERATION_SUCCESS;
 }
 /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 Replacing::updateIDs(SBase* oldnames, SBase* newnames)
 {
@@ -445,7 +427,10 @@ Replacing::updateIDs(SBase* oldnames, SBase* newnames)
   //LS DEBUG And here is where we would need some sort of way to check for ids that were not 'id' or 'metaid'.
   return ret;
 }
+/** @endcond */
 
+
+/** @cond doxygenLibsbmlInternal */
 int Replacing::performConversions(SBase* replacement, ASTNode*& conversionFactor)
 {
   SBMLDocument* doc = getSBMLDocument();
@@ -500,7 +485,10 @@ int Replacing::performConversions(SBase* replacement, ASTNode*& conversionFactor
   }
   return ret;
 }
+/** @endcond */
 
+
+/** @cond doxygenLibsbmlInternal */
 int Replacing::convertConversionFactor(ASTNode*& conversionFactor)
 {
   int ret = LIBSBML_OPERATION_SUCCESS;
@@ -536,7 +524,35 @@ int Replacing::convertConversionFactor(ASTNode*& conversionFactor)
   }
   return ret;
 }
+/** @endcond */
 
-  
+
+//Deprecated function
+int Replacing::performReplacement()
+{
+  set<SBase*> toremove;
+  set<SBase*>* removed = NULL;
+  CompModelPlugin* cmp = NULL;
+  SBase* parent = getParentSBMLObject();
+  while (parent != NULL && parent->getTypeCode() != SBML_DOCUMENT) {
+    if (parent->getTypeCode() == SBML_COMP_MODELDEFINITION ||
+        parent->getTypeCode() == SBML_MODEL) {
+          cmp = static_cast<CompModelPlugin*>(parent->getPlugin("comp"));
+          if (cmp != NULL) {
+            removed = cmp->getRemovedSet();
+          }
+    }
+    parent = parent->getParentSBMLObject();
+  }
+  int ret = performReplacementAndCollect(removed, &toremove);
+  if (ret != LIBSBML_OPERATION_SUCCESS) {
+    return ret;
+  }
+  if (cmp == NULL) {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  return cmp->removeCollectedElements(removed, &toremove);
+}
+ 
 LIBSBML_CPP_NAMESPACE_END
 

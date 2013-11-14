@@ -57,7 +57,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 const std::string ListOfGlobalRenderInformation::ELEMENT_NAME="listOfGlobalRenderInformation";
 const std::string GlobalRenderInformation::ELEMENT_NAME="renderInformation";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GlobalRenderInformation object with the given SBML level
  * and SBML version.
@@ -75,7 +75,7 @@ GlobalRenderInformation::GlobalRenderInformation (unsigned int level, unsigned i
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GlobalRenderInformation object with the given SBMLNamespaces.
  *
@@ -97,7 +97,7 @@ GlobalRenderInformation::GlobalRenderInformation (RenderPkgNamespaces* renderns)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Parses the xml information in the given node and sets the attributes.
  * This method should never be called by the user. It is only used to read render 
@@ -134,7 +134,7 @@ void GlobalRenderInformation::parseXML(const XMLNode& node)
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a GlobalRenderInformation with the given @p id
  * and all lists empty.
@@ -163,7 +163,21 @@ GlobalRenderInformation::GlobalRenderInformation(RenderPkgNamespaces* renderns, 
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+List*
+GlobalRenderInformation::getAllElements(ElementFilter* filter)
+{
+  List* ret = RenderInformationBase::getAllElements(filter);
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mListOfStyles, filter);
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of styles.
  *
@@ -175,7 +189,7 @@ unsigned int GlobalRenderInformation::getNumStyles() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the ListOfGlobalStyles object.
  *
@@ -187,7 +201,7 @@ ListOfGlobalStyles* GlobalRenderInformation::getListOfStyles()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the ListOfGlobalStyles object.
  *
@@ -199,7 +213,7 @@ const ListOfGlobalStyles* GlobalRenderInformation::getListOfStyles() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the style with the given @p id.
  * If the id is invalid, @c NULL is returned.
@@ -214,7 +228,7 @@ GlobalStyle* GlobalRenderInformation::getStyle(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the style with the given @p id.
  * If the id is invalid, @c NULL is returned.
@@ -229,7 +243,7 @@ const GlobalStyle* GlobalRenderInformation::getStyle(const std::string& id) cons
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the style with the given index.
  * If the index is invalid, @c NULL is returned.
@@ -244,7 +258,7 @@ GlobalStyle* GlobalRenderInformation::getStyle(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the style with the given index.
  * If the index is invalid, @c NULL is returned.
@@ -259,7 +273,7 @@ const GlobalStyle* GlobalRenderInformation::getStyle(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GlobalStyle object. The object is added to and owned
  * by the GlobalRenderInformation object.
@@ -294,7 +308,7 @@ GlobalStyle* GlobalRenderInformation::createStyle(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of a GlobalStyle to the GlobalRenderInformation object.
  * The style is only added if it is valid, i.e. it has to have an id and
@@ -358,7 +372,7 @@ int GlobalRenderInformation::addStyle(const GlobalStyle* pStyle)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GlobalRenderInformation::writeElements (XMLOutputStream& stream) const
 {
     RenderInformationBase::writeElements(stream);
@@ -366,7 +380,7 @@ void GlobalRenderInformation::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 GlobalRenderInformation* 
 GlobalRenderInformation::clone () const
 {
@@ -374,7 +388,7 @@ GlobalRenderInformation::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 GlobalRenderInformation::createObject (XMLInputStream& stream)
 {
@@ -394,7 +408,7 @@ GlobalRenderInformation::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 GlobalRenderInformation::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -402,7 +416,7 @@ GlobalRenderInformation::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GlobalRenderInformation::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
       ExpectedAttributes ea;
@@ -411,14 +425,14 @@ void GlobalRenderInformation::readAttributes (const XMLAttributes& attributes, c
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GlobalRenderInformation::writeAttributes (XMLOutputStream& stream) const
 {
     RenderInformationBase::writeAttributes(stream);
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this GlobalRenderInformation object.
  *
@@ -434,7 +448,7 @@ XMLNode GlobalRenderInformation::toXML() const
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -462,7 +476,7 @@ GlobalRenderInformation::getTypeCode () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor.
  *
@@ -479,7 +493,7 @@ bool GlobalRenderInformation::accept (SBMLVisitor& v) const
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the ListOfGlobalRenderInformation object.
  *
@@ -493,7 +507,7 @@ ListOfGlobalRenderInformation* ListOfGlobalRenderInformation::clone () const
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Parses the xml information in the given node and sets the attributes.
  * This method should never be called by the user. It is only used to read render 
@@ -526,7 +540,7 @@ void ListOfGlobalRenderInformation::parseXML(const XMLNode& node)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor for ListOfGlobalRenderInformation objects.
  */ 
@@ -538,7 +552,7 @@ ListOfGlobalRenderInformation::ListOfGlobalRenderInformation(const ListOfGlobalR
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfGlobalRenderInformationObjects.
  */
@@ -554,7 +568,7 @@ ListOfGlobalRenderInformation& ListOfGlobalRenderInformation::operator=(const Li
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., GradientDefinition objects, if the list is non-empty).
@@ -582,7 +596,7 @@ int ListOfGlobalRenderInformation::getItemTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfGlobalRenderInformation, is always @c "listOfGlobalRenderInformation".
@@ -623,7 +637,7 @@ ListOfGlobalRenderInformation::ListOfGlobalRenderInformation(unsigned int level,
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
 };
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * GlobalRenderInformation, is always @c "renderInformation".
@@ -637,7 +651,7 @@ const std::string& GlobalRenderInformation::getElementName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 ListOfGlobalRenderInformation::writeXMLNS (XMLOutputStream& stream) const
 {
@@ -654,7 +668,7 @@ ListOfGlobalRenderInformation::addExpectedAttributes(ExpectedAttributes& attribu
   attributes.add("versionMinor");
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void ListOfGlobalRenderInformation::writeAttributes (XMLOutputStream& stream) const
 {
   ListOf::writeAttributes(stream);
@@ -668,7 +682,7 @@ void ListOfGlobalRenderInformation::writeAttributes (XMLOutputStream& stream) co
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfGlobalRenderInformation object.
  *
@@ -682,7 +696,7 @@ XMLNode ListOfGlobalRenderInformation::toXML() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -704,7 +718,7 @@ SBase* ListOfGlobalRenderInformation::createObject (XMLInputStream& stream)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the version of the render information list.
  * The version consists of a major and a minor version number.
@@ -719,7 +733,7 @@ void ListOfGlobalRenderInformation::setVersion(unsigned int major,unsigned int m
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the major version of the render information list.
  *
@@ -732,7 +746,7 @@ unsigned int ListOfGlobalRenderInformation::getMajorVersion() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the minor version of the render information list.
  *
@@ -745,7 +759,7 @@ unsigned int ListOfGlobalRenderInformation::getMinorVersion() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the version as a string.
  *
@@ -760,7 +774,7 @@ std::string ListOfGlobalRenderInformation::getVersionString() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the GlobalRenderInformation with the given index or NULL if
  * the index is invalid.
@@ -775,7 +789,7 @@ GlobalRenderInformation* ListOfGlobalRenderInformation::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the GlobalRenderInformation with the given index or NULL if
  * the index is invalid.
@@ -790,7 +804,7 @@ const GlobalRenderInformation* ListOfGlobalRenderInformation::get(unsigned int i
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Used by ListOf::get() to lookup an SBase based by its id.
  */
@@ -805,7 +819,7 @@ struct IdEqGlobalRenderInformation : public std::unary_function<SBase*, bool>
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the GlobalRenderInformation with the given @p id or @c NULL if
  * the id is invalid.
@@ -822,7 +836,7 @@ GlobalRenderInformation* ListOfGlobalRenderInformation::get(const std::string& i
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the GlobalRenderInformation with the given @p id or @c NULL if
  * the id is invalid.
@@ -840,7 +854,7 @@ const GlobalRenderInformation* ListOfGlobalRenderInformation::get(const std::str
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes the nth item from this list */
     GlobalRenderInformation*
 ListOfGlobalRenderInformation::remove (unsigned int n)
@@ -850,7 +864,7 @@ ListOfGlobalRenderInformation::remove (unsigned int n)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes item in this list by id */
     GlobalRenderInformation*
 ListOfGlobalRenderInformation::remove (const std::string& sid)
@@ -870,7 +884,7 @@ ListOfGlobalRenderInformation::remove (const std::string& sid)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *

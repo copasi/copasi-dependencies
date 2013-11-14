@@ -49,7 +49,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 const std::string RenderCurve::ELEMENT_NAME="curve";
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderCurve object with the given SBML level
  * and SBML version.
@@ -77,7 +77,7 @@ RenderCurve::RenderCurve (unsigned int level, unsigned int version, unsigned int
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderCurve object with the given SBMLNamespaces.
  *
@@ -103,7 +103,7 @@ RenderCurve::RenderCurve (RenderPkgNamespaces* renderns):
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderCurve object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -141,7 +141,21 @@ RenderCurve::RenderCurve(const XMLNode& node, unsigned int l2version)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+List*
+RenderCurve::getAllElements(ElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mListOfElements, filter);
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+
+/** @cond doxygenLibsbmlInternal */
 void
 RenderCurve::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -153,7 +167,7 @@ RenderCurve::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void RenderCurve::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
   GraphicalPrimitive1D::readAttributes(attributes, expectedAttributes);
@@ -167,7 +181,7 @@ void RenderCurve::readAttributes (const XMLAttributes& attributes, const Expecte
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with id.
  */
@@ -201,7 +215,7 @@ RenderCurve::RenderCurve(RenderPkgNamespaces* renderns, const std::string& id)
 #endif // OMIT_DEPRECATED
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the id of the start head.
  *
@@ -214,7 +228,7 @@ void RenderCurve::setStartHead(const std::string& startHead)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the id of the end head.
  *
@@ -227,7 +241,7 @@ void RenderCurve::setEndHead(const std::string& endHead)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the id of the LineEnding object to be applied to the start of the curve.
  *
@@ -240,7 +254,7 @@ const std::string& RenderCurve::getStartHead() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the id of the LineEnding object to be applied to the end of the curve.
  *
@@ -253,7 +267,7 @@ const std::string& RenderCurve::getEndHead() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of curve segments.
  *
@@ -266,7 +280,7 @@ unsigned int RenderCurve::getNumElements() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new bezier element.
  * The element is added to and owned by the curve.
@@ -300,7 +314,7 @@ RenderCubicBezier* RenderCurve::createCubicBezier()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new point element.
  * The element is added to and owned by the curve.
@@ -334,7 +348,7 @@ RenderPoint* RenderCurve::createPoint()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the curve segment with the given index or NULL if
  * the id is invalid.
@@ -350,7 +364,7 @@ const RenderPoint* RenderCurve::getElement(unsigned int index) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the curve segment with the given index or NULL if
  * the id is invalid.
@@ -367,7 +381,7 @@ RenderPoint* RenderCurve::getElement(unsigned int index)
 /** @endcond */
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the curve segment with the given index or NULL if
  * the id is invalid.
@@ -390,7 +404,7 @@ const RenderPoint* RenderCurve::getCurveElement(unsigned int index) const
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the curve segment with the given index or NULL if
  * the id is invalid.
@@ -413,7 +427,7 @@ RenderPoint* RenderCurve::getCurveElement(unsigned int index)
 #endif // OMIT_DEPRECATED
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of the given curve segment to the end of the list of
  * curve segments.
@@ -472,7 +486,7 @@ int RenderCurve::addElement(const RenderPoint* cs)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the curve segment with the given index.
  * If the index is valid, a pointer to the removed element is returned
@@ -495,7 +509,7 @@ RenderPoint* RenderCurve::removeElement(unsigned int i)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the list of curve segments.
  *
@@ -508,7 +522,7 @@ const ListOfCurveElements* RenderCurve::getListOfElements() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the list of curve segments.
  *
@@ -521,7 +535,7 @@ ListOfCurveElements* RenderCurve::getListOfElements()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -548,7 +562,7 @@ int RenderCurve::getTypeCode() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor.
  *
@@ -563,7 +577,7 @@ bool RenderCurve::accept(SBMLVisitor& /*visitor*/) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * RenderCurve, is always @c "curve".
@@ -578,7 +592,7 @@ const std::string& RenderCurve::getElementName() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the RenderCurve object.
  *
@@ -591,7 +605,7 @@ RenderCurve* RenderCurve::clone() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the start head is set or false otherwise.
  * The start decoration is considered set if the string is not empty and if
@@ -606,7 +620,7 @@ bool RenderCurve::isSetStartHead() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the end head is set or false otherwise.
  * The end decoration is considered set if the string is not empty and if
@@ -620,7 +634,23 @@ bool RenderCurve::isSetEndHead() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+
+void
+RenderCurve::renameSIdRefs(const std::string& oldid, const std::string& newid)
+{
+  if (isSetStartHead() && mStartHead == oldid) 
+  {
+    setStartHead(newid);
+  }
+
+  if (isSetEndHead() && mEndHead == oldid) 
+  {
+    setEndHead(newid);
+  }
+
+}
+
+ /** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -639,7 +669,7 @@ SBase* RenderCurve::createObject (XMLInputStream& stream)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -665,7 +695,7 @@ void RenderCurve::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this RenderCurve object.
  *
@@ -678,7 +708,7 @@ XMLNode RenderCurve::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -697,7 +727,7 @@ void RenderCurve::writeElements (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -719,7 +749,7 @@ RenderCurve::setSBMLDocument (SBMLDocument* d)
 void
 RenderCurve::connectToChild()
 {
-  SBase::connectToChild();
+  GraphicalPrimitive1D::connectToChild();
   mListOfElements.connectToParent(this);
 }
 
@@ -738,7 +768,7 @@ RenderCurve::enablePackageInternal(const std::string& pkgURI,
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBML object of this SBML object.
  *

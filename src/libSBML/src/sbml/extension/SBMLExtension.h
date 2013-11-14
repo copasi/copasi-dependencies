@@ -26,8 +26,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLExtension
- * @ingroup Core
- * @brief The core component of SBML's package extension.
+ * @sbmlbrief{core} The core component of SBML's package extension.
  *
  * SBMLExtension class (abstract class) is a core component of package extension
  * which needs to be extended by package developers. 
@@ -44,8 +43,8 @@
  * The extended class is implemented based on the following steps:
  *
  * (NOTE: 
- *   "src/pacakges/groups/extension/GroupsExtension.{h,cpp}" and
- *   "src/pacakges/layout/extension/LayoutExtension.{h,cpp}" are
+ *   "src/packages/groups/extension/GroupsExtension.{h,cpp}" and
+ *   "src/packages/layout/extension/LayoutExtension.{h,cpp}" are
  *   example files in which SBMLExtension derived classes are implemented)
  *
  * <ol>
@@ -271,7 +270,7 @@ GroupsExtension::getSBMLExtensionNamespaces(const std::string &uri) const
  * and <em>SBML_GROUPS_MEMBER</em> corresponds to the Member (&lt;member&gt;) class, respectively.
  *
  *
- *  <p> Similarly, SBMLLayoutTypeCode_t 
+ *  <p> Similarly, #SBMLLayoutTypeCode_t 
  *   for layout package is defined in LayoutExtension.h as follows: </p>
  *
 @verbatim  
@@ -391,11 +390,11 @@ GroupsExtension::init()
 {
   //-------------------------------------------------------------------------
   //
-  // 1. Checks if the groups pacakge has already been registered.
+  // 1. Checks if the groups package has already been registered.
   //
   //-------------------------------------------------------------------------
 
-  if (SBMLExtensionRegistry::getInstance().isRegistered(getPackageName()))
+  if ( SBMLExtensionRegistry::getInstance().isRegistered(getPackageName()) )
   {
     // do nothing;
     return;
@@ -748,7 +747,7 @@ public:
    *
    * Returns the ith URI (the supported package version)
    *
-   * @param i the index of the list of URI (the list of supporeted pacakge versions)
+   * @param i the index of the list of URI (the list of supporeted package versions)
    * @return the URI of supported package version with the given index.
    */
   const std::string& getSupportedPackageURI(unsigned int i) const;
@@ -874,6 +873,7 @@ public:
    */
   bool isEnabled() const;
 
+
   /**
    * Removes the L2 Namespaces. 
    *
@@ -882,13 +882,15 @@ public:
    */
   virtual void removeL2Namespaces(XMLNamespaces* xmlns)  const;
 
+
   /**
-   * adds all L2 Extension namespaces to the namespace list. 
+   * Adds all L2 Extension namespaces to the namespace list. 
    * 
    * This method should be overridden by all extensions that want to serialize
    * to an L2 annotation.
    */
   virtual void addL2Namespaces(XMLNamespaces *xmlns) const;
+
 
   /**
    * Adds the L2 Namespace to the document and enables the extension.
@@ -898,19 +900,21 @@ public:
    */
   virtual void enableL2NamespaceForDocument(SBMLDocument* doc)  const;
 
+
   /** 
-   * Determines whether this extension is being used by the given SBMLDocument
+   * Indicates whether this extension is being used by the given SBMLDocument.
    *
    * The default implementation returns true. This means that when a document
    * had this extension enabled, it will not be possible to convert it to L2
    * as we cannot make sure that the extension can be converted.
    * 
-   * @param doc the sbml document to test. 
+   * @param doc the SBML document to test. 
    * 
    * @return a boolean indicating whether the extension is actually being used
-   *         byy the document. 
+   *         by the document. 
    */
   virtual bool isInUse(SBMLDocument *doc) const;
+
 
   /** @cond doxygenLibsbmlInternal */
   /*

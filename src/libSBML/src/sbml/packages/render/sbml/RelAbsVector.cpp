@@ -43,7 +43,7 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with two values.
  * First value sets the absolute value, second sets the relative value (%). 
@@ -56,7 +56,7 @@ RelAbsVector::RelAbsVector(double a,double r):mAbs(a),mRel(r)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with a value string.
  * If the string does not represent a valid value, the relative and the
@@ -68,7 +68,7 @@ RelAbsVector::RelAbsVector(const std::string& coordString):mAbs(0.0),mRel(0.0)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the relative and absolute value.
  *
@@ -82,7 +82,7 @@ void RelAbsVector::setCoordinate(double abs,double rel)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the coordinatees from the given string.
  * If the string does not represent a valid value, the relative and the
@@ -163,7 +163,7 @@ void RelAbsVector::setCoordinate(const std::string& coordString)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the absolute coordinate value.
  *
@@ -175,7 +175,7 @@ void RelAbsVector::setAbsoluteValue(double abs)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the relative coordinate value.
  *
@@ -187,7 +187,7 @@ void RelAbsVector::setRelativeValue(double rel)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the absolute coordinate value.
  *
@@ -199,7 +199,7 @@ double RelAbsVector::getAbsoluteValue() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the relative coordinate value.
  *
@@ -211,7 +211,7 @@ double RelAbsVector::getRelativeValue() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * addition operator for RelAbsVector objects
  */
@@ -221,7 +221,7 @@ RelAbsVector RelAbsVector::operator+(const RelAbsVector& other) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Divides a RelAbsVector object by a double value.
  *
@@ -235,7 +235,7 @@ RelAbsVector RelAbsVector::operator/(double x) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Comparison operator.
  * Return true if two RelAbsVector objects are equal.
@@ -269,7 +269,7 @@ bool RelAbsVector::operator==(const RelAbsVector& other) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Inverse comparison operator.
  * Return false if two RelAbsVector objects are equal.
@@ -284,7 +284,7 @@ bool RelAbsVector::operator!=(const RelAbsVector& other) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Output operator for RelAbsVector objects.
  */
@@ -310,7 +310,7 @@ std::ostream& operator<<(std::ostream& os,const RelAbsVector& v)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for RelAbsVector objects.
  */

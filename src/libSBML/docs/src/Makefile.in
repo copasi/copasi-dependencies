@@ -119,237 +119,248 @@ extra_distclean =                           \
 # The `make dist' rules for this directory are more complicated than usual.
 # There are additional separate rules below.
 
-distfiles =							\
-	doxygen-layout-cpp.xml					\
-	doxygen-layout-notcpp.xml				\
-        SBMLDoclet.java						\
-        Makefile.in						\
-        common-text/L1-math-syntax-warning.html			\
-        common-text/about-sbml-units-attrib.html		\
-        common-text/about-semantic-annotations.html		\
-        common-text/assuming-compressed-file.html		\
-        common-text/astnode-illustration.html			\
-        common-text/astnode-types.html				\
-        common-text/base-units.html				\
-        common-text/base-units2.html				\
-        common-text/comment-set-methods.html			\
-        common-text/compartment-size-recommendations.html	\
-        common-text/compartment-size-restrictions.html		\
-        common-text/cvterm-common-description-text.html		\
-        common-text/id-syntax.html				\
-        common-text/level-1-uses-text-string-math.html		\
-        common-text/libsbml-facility-only-warning.html		\
-        common-text/libsbml-version.html.in			\
-        common-text/math-functions.html				\
-        common-text/math-precedence-table-l3.html		\
-        common-text/math-precedence-table.html			\
-        common-text/not-sbml-warning.html			\
-        common-text/note-reading-zipped-files.html		\
-        common-text/note-writing-zipped-files.html		\
-        common-text/parameter-addition-overrides-values.html	\
-        common-text/pkg-marker-comp.html			\
-        common-text/pkg-marker-fbc.html				\
-        common-text/pkg-marker-layout.html			\
-        common-text/predefined-units.html			\
-        common-text/rules-additional-restrictions.html		\
-        common-text/rules-additional-restrictions.txt		\
-        common-text/rules-general-summary.html			\
-        common-text/rules-general-summary.txt			\
-        common-text/sbmlerror-table.html			\
-        common-text/simple-ast.graffle				\
-        common-text/simple-ast.svg				\
-        common-text/species-boundarycondition.html		\
-        common-text/species-hasonlysubstance.html		\
-        common-text/string-functions-table-l3.html		\
-        common-text/string-functions-table.html			\
-        common-text/string-values-table-l3.html			\
-        common-text/unassigned-units-are-not-a-default.html	\
-        common-text/unitid-syntax.html				\
-        common-text/unitkind-table.html				\
-        common-text/unitkind-table.txt				\
-        common-text/warn-default-args-in-docs.html		\
-        common-text/xmlid-syntax.html				\
-        csdocfilter.py						\
-        doxygen-base-stylesheet.css				\
-        doxygen-config-c.txt.cmake				\
-        doxygen-config-c.txt.in					\
-        doxygen-config-common.txt				\
-        doxygen-config-common.txt.cmake				\
-        doxygen-config-cpp.txt.cmake				\
-        doxygen-config-cpp.txt.in				\
-        doxygen-config-csharp.txt.in				\
-        doxygen-config-csharp.txt.cmake                         \
-        doxygen-config-matlab.txt.in				\
-        doxygen-config-octave.txt.in				\
-        doxygen-config-perl.txt.cmake				\
-        doxygen-config-perl.txt.in				\
-        doxygen-config-python.txt.cmake				\
-        doxygen-config-python.txt.in				\
-        doxygen-footer.html					\
-        doxygen-header.html					\
-        doxygen-navtree.css					\
-        doxygen-tabs.css					\
-        doxygen-tree.css					\
-        examples/readmath.cpp					\
-        examples/readSBML.java					\
-        examples/simpleread.cpp					\
-        force-serif-font-off.html				\
-        force-serif-font-on.html				\
-        graphics/astnode-illustration.jpg			\
-        graphics/built-in-units.jpg				\
-        graphics/cmake-configure-macos.png			\
-        graphics/cmake-configure-windows.png			\
-        graphics/cmake-empty-screenshot.png			\
-        graphics/cmake-empty-windows.png			\
-        graphics/cmake-options-red-windows.png			\
-        graphics/cmake-options-red.png				\
-        graphics/compartment-size.jpg				\
-        graphics/enzymatic-reaction.jpg				\
-        graphics/ftv2doc.png					\
-        graphics/ftv2folderclosed.png				\
-        graphics/ftv2folderopen.png				\
-        graphics/hellojsp-screenshot.png			\
-        graphics/listof-illustration.jpg			\
-        graphics/listof-illustration.txt			\
-        graphics/math-formula-precedence.jpg			\
-        graphics/math-string-functions.jpg			\
-        graphics/official-sbml-supported-32.jpg			\
-        graphics/official-sbml-supported-40.jpg			\
-        graphics/official-sbml-supported-70.png			\
-        graphics/right-arrow.gif				\
-        graphics/sbase-species.eps				\
-        graphics/sbase-species.pdf				\
-        graphics/sbase-species.vthought				\
-        graphics/sbase.eps					\
-        graphics/sbase.pdf					\
-        graphics/sbase.vtt					\
-        graphics/solution-explorer-windows.png			\
-        graphics/species-boundarycondition.jpg			\
-        graphics/species-hasonlysubstance.jpg			\
-        graphics/species.eps					\
-        graphics/species.pdf					\
-        graphics/species.vtt					\
-        graphics/string-functions.jpg				\
-        graphics/string-syntax.jpg				\
-        graphics/tab_a.png					\
-        graphics/tab_b.png					\
-        graphics/tab_h.png					\
-        graphics/tab_s.png					\
-        graphics/top-level.eps					\
-        graphics/top-level.pdf					\
-        graphics/top-level.vtt					\
-        graphics/unitdefinition.eps				\
-        graphics/unitdefinition.pdf				\
-        graphics/unitdefinition.vtt				\
-        java-skip.txt						\
-        java-substitutions/ASTNodeList.java			\
-        java-substitutions/CVTermList.java			\
-        java-substitutions/DateList.java			\
-        java-substitutions/ModelCreatorList.java		\
-        java-substitutions/SBMLConstructorException.java	\
-        java-substitutions/SBMLNamespacesList.java		\
-        java-substitutions/SBaseList.java			\
-        java-substitutions/XMLConstructorException.java		\
-        java-substitutions/libsbmlConstants.java		\
-	libsbml-doxygen.html					\
-	libsbml-extending.txt					\
-        libsbml-accessing.html					\
-        libsbml-accessing.txt					\
-        libsbml-authors.html					\
-        libsbml-blurb.html					\
-        libsbml-blurb.txt					\
-        libsbml-changes.txt					\
-        libsbml-coding.txt					\
-        libsbml-communications.html				\
-        libsbml-communications.txt				\
-        libsbml-conversion-warnings.html			\
-        libsbml-conversion-warnings.txt				\
-	libsbml-core-versus-packages.html			\
-	libsbml-core-versus-packages.txt			\
-        libsbml-csharp-mainpage.txt				\
-        libsbml-csharp-math.txt					\
-        libsbml-csharp-reading-files.txt			\
-	libsbml-doxygen.html					\
-        libsbml-example.txt					\
-        libsbml-extension-support-classes.txt			\
-        libsbml-features.html					\
-        libsbml-features.txt					\
-	libsbml-group-comp-intro.html				\
-	libsbml-group-comp-intro.txt				\
-	libsbml-group-core-intro.html				\
-	libsbml-group-core-intro.txt				\
-	libsbml-group-fbc-intro.html				\
-	libsbml-group-fbc-intro.txt				\
-	libsbml-group-layout-intro.html				\
-	libsbml-group-layout-intro.txt				\
-        libsbml-howto-implement-extension.txt			\
-        libsbml-installation.html.in				\
-        libsbml-installation.txt				\
-        libsbml-issues.html					\
-        libsbml-issues.txt					\
-        libsbml-java-bottom.html				\
-        libsbml-java-fake-overview.html				\
-        libsbml-java-footer.html				\
-        libsbml-java-math.html					\
-	libsbml-java-misc.html					\
-        libsbml-java-overview.html				\
-        libsbml-java-reading.html				\
-        libsbml-java-top.html					\
-        libsbml-java-verb-bottom.html				\
-        libsbml-java-verb-top.html				\
-        libsbml-license.txt					\
-        libsbml-mainpage.txt					\
-        libsbml-math.txt					\
-        libsbml-matlab-mainpage.txt				\
-        libsbml-matlab-reading-files.txt			\
-        libsbml-news.txt					\
-        libsbml-octave-mainpage.txt				\
-        libsbml-octave-reading-files.txt			\
-        libsbml-old-news.txt					\
-        libsbml-other.txt					\
-        libsbml-papers.html					\
-        libsbml-papers.txt					\
-        libsbml-programming.txt					\
-	libsbml-programming-csharp.txt				\
-	libsbml-programming-python.txt				\
-        libsbml-python-mainpage.txt				\
-        libsbml-python-math.txt					\
-        libsbml-python-reading-files.txt			\
-        libsbml-reading-files.txt				\
-        libsbml-release-info.txt				\
-        plain-font-off.html					\
-        plain-font-on.html					\
-        python-substitutions/ASTNodeList.py			\
-        python-substitutions/CVTermList.py			\
-        python-substitutions/DateList.py			\
-        python-substitutions/ISBMLExtensionNamespaces.py	\
-        python-substitutions/libsbml.py				\
-        python-substitutions/ModelCreatorList.py		\
-        python-substitutions/SBaseExtensionPoint.py		\
-        python-substitutions/SBaseList.py			\
-        python-substitutions/SBMLExtension.py			\
-        python-substitutions/SBMLNamespacesList.py		\
-        python-substitutions/SBMLTransforms.py			\
-        python-substitutions/string.py				\
-        python-substitutions/SwigPyIterator.py			\
-        python-substitutions/XMLInputStream.py			\
-        python-substitutions/XMLOutputStream.py			\
-        pythondocfilter.py					\
-        pythondocpreprocessor.py				\
-        sbml.js							\
-        search.css						\
-        search.png						\
-        templates/c++.txt					\
-        templates/c.txt						\
-        templates/m4.txt					\
-        templates/makefile.txt                                  \
+distfiles =						     \
+        SBMLDoclet.java					     \
+        Makefile.in					     \
+	common-graphics/biology-qualifiers.png		     \
+	common-graphics/biology-qualifiers.txt		     \
+        common-graphics/cmake-configure-macos.png	     \
+        common-graphics/cmake-configure-windows.png	     \
+        common-graphics/cmake-empty-screenshot.png	     \
+        common-graphics/cmake-empty-windows.png		     \
+        common-graphics/cmake-options-red-windows.png	     \
+        common-graphics/cmake-options-red.png		     \
+	common-graphics/comp-examples.graffle		     \
+	common-graphics/comp-examples.svg		     \
+        common-graphics/enzyme-reaction-equation.graffle     \
+        common-graphics/enzyme-reaction-equation.svg	     \
+        common-graphics/ftv2doc.png			     \
+        common-graphics/ftv2folderclosed.png		     \
+        common-graphics/ftv2folderopen.png		     \
+        common-graphics/hellojsp-screenshot.png		     \
+	common-graphics/icon-format-pdf-44px.jpg	     \
+        common-graphics/layout-example.png		     \
+        common-graphics/listof-illustration.svg		     \
+	common-graphics/model-qualifiers.png		     \
+	common-graphics/model-qualifiers.txt		     \
+        common-graphics/official-sbml-supported-32.jpg	     \
+        common-graphics/official-sbml-supported-40.jpg	     \
+        common-graphics/official-sbml-supported-70.png	     \
+        common-graphics/right-arrow.gif			     \
+        common-graphics/simple-ast.graffle		     \
+        common-graphics/simple-ast.svg			     \
+        common-graphics/solution-explorer-windows.png	     \
+	common-graphics/sourceforge-download.png	     \
+        common-graphics/tab_a.png			     \
+        common-graphics/tab_b.png			     \
+        common-graphics/tab_h.png			     \
+        common-graphics/tab_s.png			     \
+        common-text/about-sbml-units-attrib.html	     \
+        common-text/about-semantic-annotations.html	     \
+        common-text/listof-illustration.html	     \
+        common-text/pkg-marker-comp.txt	     \
+        common-text/pkg-marker-core.html	     \
+        common-text/pkg-marker-core.txt	     \
+        common-text/pkg-marker-fbc.txt	     \
+        common-text/pkg-marker-layout.txt	     \
+        common-text/pkg-marker-qual.txt	     \
+        common-text/assuming-compressed-file.html	     \
+        common-text/astnode-illustration.html		     \
+        common-text/astnode-types.html			     \
+        common-text/comment-set-methods.html		     \
+        common-text/level-1-uses-text-string-math.html	     \
+        common-text/enzymatic-reaction-equation.html	     \
+        common-text/libsbml-facility-only-warning.html	     \
+        common-text/libsbml-version.html.in		     \
+        common-text/listof-illustration.txt		     \
+        common-text/math-functions.html			     \
+        common-text/math-precedence-table-l3.html	     \
+        common-text/math-precedence-table.html		     \
+        common-text/not-sbml-warning.html		     \
+        common-text/note-reading-zipped-files.html	     \
+        common-text/note-writing-zipped-files.html	     \
+        common-text/parameter-addition-overrides-values.html \
+        common-text/pkg-marker-comp.html		     \
+        common-text/pkg-marker-fbc.html			     \
+        common-text/pkg-marker-layout.html		     \
+        common-text/pkg-marker-qual.html		     \
+        common-text/predefined-units.html		     \
+        common-text/species-boundarycondition.html	     \
+        common-text/species-hasonlysubstance.html	     \
+        common-text/string-functions-table-l3.html	     \
+        common-text/string-functions-table.html		     \
+        common-text/string-values-table-l3.html		     \
+        common-text/unitid-syntax.html			     \
+        common-text/unitkind-table.html			     \
+        common-text/unitkind-table.txt			     \
+        common-text/warn-default-args-in-docs.html	     \
+        common-text/xmlid-syntax.html			     \
+        csdocfilter.py					     \
+	css/generate-pkg-stylesheet.py			     \
+	css/libsbml-base-stylesheet.css			     \
+	css/libsbml-doxygen-navtree.css			     \
+	css/libsbml-doxygen-stylesheet.css		     \
+	css/libsbml-doxygen-tabs.css			     \
+	css/libsbml-javadoc-stylesheet.css		     \
+	css/libsbml-reset-stylesheet.css		     \
+        css/search.css					     \
+        css/search.png					     \
+        doxygen-config-c.txt.cmake			     \
+        doxygen-config-c.txt.in				     \
+        doxygen-config-common.txt			     \
+        doxygen-config-common.txt.cmake			     \
+        doxygen-config-cpp.txt.cmake			     \
+        doxygen-config-cpp.txt.in			     \
+        doxygen-config-csharp.txt.in			     \
+        doxygen-config-csharp.txt.cmake                      \
+        doxygen-config-matlab.txt.in			     \
+        doxygen-config-octave.txt.in			     \
+        doxygen-config-perl.txt.cmake			     \
+        doxygen-config-perl.txt.in			     \
+        doxygen-config-python.txt.cmake			     \
+        doxygen-config-python.txt.in			     \
+        doxygen-footer.html				     \
+        doxygen-header.html				     \
+	doxygen-layout-cpp.xml				     \
+	doxygen-layout-csharp.xml			     \
+	doxygen-layout-notcpp.xml			     \
+	doxygen-layout-python.xml			     \
+	doxygen-regular-text-end.html			     \
+	doxygen-regular-text-start.html			     \
+        examples/readmath.cpp				     \
+        examples/readSBML.java				     \
+        examples/simpleread.cpp				     \
+        force-serif-font-off.html			     \
+        force-serif-font-on.html			     \
+	generate-extensions-summary.py			     \
+        java-skip.txt					     \
+        java-substitutions/ASTNodeList.java		     \
+        java-substitutions/CompPkgNamespaces.java	     \
+        java-substitutions/CVTermList.java		     \
+        java-substitutions/DateList.java		     \
+        java-substitutions/FbcPkgNamespaces.java	     \
+        java-substitutions/LayoutPkgNamespaces.java	     \
+        java-substitutions/ModelCreatorList.java	     \
+        java-substitutions/QualPkgNamespaces.java	     \
+        java-substitutions/SBMLConstructorException.java     \
+        java-substitutions/SBMLNamespacesList.java	     \
+        java-substitutions/SBaseList.java		     \
+        java-substitutions/XMLConstructorException.java	     \
+        java-substitutions/libsbmlConstants.java.in	     \
+	libsbml-doxygen.html				     \
+	libsbml-extending.txt				     \
+        libsbml-accessing.html				     \
+        libsbml-accessing.txt				     \
+        libsbml-authors.html				     \
+        libsbml-blurb.html				     \
+        libsbml-blurb.txt				     \
+        libsbml-changes.txt				     \
+        libsbml-coding.txt				     \
+        libsbml-communications.html			     \
+        libsbml-communications.txt			     \
+        libsbml-conversion-warnings.html		     \
+        libsbml-conversion-warnings.txt			     \
+	libsbml-core-versus-packages.html		     \
+	libsbml-core-versus-packages.txt		     \
+        libsbml-csharp-example-files.txt		     \
+        libsbml-csharp-mainpage.txt			     \
+        libsbml-csharp-math.txt				     \
+        libsbml-csharp-reading-files.txt		     \
+	libsbml-doxygen.html				     \
+        libsbml-example.txt				     \
+        libsbml-example-files.txt			     \
+        libsbml-extension-support-classes.txt		     \
+        libsbml-features.html				     \
+        libsbml-features.txt				     \
+	libsbml-group-comp-intro.html.in		     \
+	libsbml-group-comp-intro.txt			     \
+	libsbml-group-core-intro.html.in		     \
+	libsbml-group-core-intro.txt			     \
+	libsbml-group-fbc-intro.html.in			     \
+	libsbml-group-fbc-intro.txt			     \
+	libsbml-group-layout-intro.html.in		     \
+	libsbml-group-layout-intro.txt			     \
+	libsbml-group-qual-intro.html.in		     \
+	libsbml-group-qual-intro.txt			     \
+        libsbml-howto-implement-extension.txt		     \
+        libsbml-installation.html.in			     \
+        libsbml-installation.txt			     \
+        libsbml-issues.html				     \
+        libsbml-issues.txt				     \
+        libsbml-java-bottom.html			     \
+	libsbml-java-example-bottom.html		     \
+	libsbml-java-example-files.html			     \
+	libsbml-java-example-footer.html		     \
+	libsbml-java-example-top.html			     \
+        libsbml-java-fake-overview.html			     \
+        libsbml-java-footer.html			     \
+        libsbml-java-math.html				     \
+	libsbml-java-misc.html				     \
+        libsbml-java-overview.html			     \
+        libsbml-java-reading.html			     \
+        libsbml-java-top.html				     \
+        libsbml-java-verb-bottom.html			     \
+        libsbml-java-verb-top.html			     \
+        libsbml-license.txt				     \
+        libsbml-mainpage.txt				     \
+        libsbml-math.txt				     \
+        libsbml-matlab-mainpage.txt			     \
+        libsbml-matlab-reading-files.txt		     \
+        libsbml-news.txt				     \
+        libsbml-octave-mainpage.txt			     \
+        libsbml-octave-reading-files.txt		     \
+        libsbml-old-news.txt				     \
+        libsbml-other.txt				     \
+        libsbml-papers.html				     \
+        libsbml-papers.txt				     \
+        libsbml-programming.txt				     \
+	libsbml-programming-csharp.txt			     \
+	libsbml-programming-python.txt			     \
+        libsbml-python-creating-model.txt		     \
+        libsbml-python-example-files.txt		     \
+        libsbml-python-mainpage.txt			     \
+        libsbml-python-math.txt				     \
+        libsbml-python-reading-files.txt		     \
+        libsbml-reading-files.txt			     \
+        libsbml-release-info.txt			     \
+        plain-font-off.html				     \
+        plain-font-on.html				     \
+	prettify/README.txt				     \
+	prettify/prettify.css				     \
+	prettify/prettify.js				     \
+        python-substitutions/ASTNodeList.py		     \
+        python-substitutions/CVTermList.py		     \
+        python-substitutions/CompPkgNamespaces.py	     \
+        python-substitutions/DateList.py		     \
+        python-substitutions/FbcPkgNamespaces.py	     \
+        python-substitutions/ISBMLExtensionNamespaces.py     \
+        python-substitutions/LayoutPkgNamespaces.py	     \
+        python-substitutions/libsbml.py			     \
+        python-substitutions/ModelCreatorList.py	     \
+        python-substitutions/QualPkgNamespaces.py	     \
+        python-substitutions/SBMLExtension.py		     \
+        python-substitutions/SBMLNamespacesList.py	     \
+        python-substitutions/SBMLTransforms.py		     \
+        python-substitutions/SBaseExtensionPoint.py	     \
+        python-substitutions/SBaseList.py		     \
+        python-substitutions/string.py			     \
+        python-substitutions/SwigPyIterator.py		     \
+        python-substitutions/XMLInputStream.py		     \
+        python-substitutions/XMLOutputStream.py		     \
+        pythondocfilter.py				     \
+        pythondocpreprocessor.py			     \
+        sbml.js						     \
+        templates/c++.txt				     \
+        templates/c.txt					     \
+        templates/m4.txt				     \
+        templates/makefile.txt                               \
         templates/python.txt
 
 # Additional odds and ends.
 
-logo-files = graphics/official-sbml-supported-32.jpg \
-	     graphics/official-sbml-supported-40.jpg \
-	     graphics/official-sbml-supported-70.png
+logo-files = common-graphics/official-sbml-supported-32.jpg \
+	     common-graphics/official-sbml-supported-40.jpg \
+	     common-graphics/official-sbml-supported-70.png
 
 # Error msg used below.  Do not put a period on the last sentence because
 # one will be added automatically.
@@ -435,13 +446,40 @@ doxygen-config-matlab.txt:  $(doxygen-matlab-conf) $(TOP_SRCDIR)/VERSION.txt
 doxygen-config-octave.txt:  $(doxygen-octave-conf) $(TOP_SRCDIR)/VERSION.txt
 	cd $(TOP_BUILDDIR) && $(SHELL) ./config.status $(thisdir)/$@
 
-libsbml-installation.html: libsbml-installation.html.in
+%.html: %.html.in
 	cd $(TOP_BUILDDIR) && $(SHELL) ./config.status $(thisdir)/$@
 
+expanded-html-files =		  \
+  libsbml-group-comp-intro.html	  \
+  libsbml-group-core-intro.html	  \
+  libsbml-group-fbc-intro.html	  \
+  libsbml-group-layout-intro.html \
+  libsbml-group-qual-intro.html   \
+  libsbml-installation.html
+
 core-sources = \
-  $(wildcard ../../src/*/*.[cpp,h] ../../src/*/*/.[cpp,h]) \
+  $(wildcard ../../src/*/*.[cpp,h] ../../src/*/*.[cpp,h]) \
+  $(wildcard ../../src/*/*/*.[cpp,h] ../../src/*/*/*.[cpp,h]) \
+  $(wildcard ../../src/sbml/packages/*/*.[cpp,h] ../../src/sbml/packages/*/*.[cpp,h]) \
   $(wildcard libsbml-*.txt) \
-  $(wildcard libsbml-*.html)
+  $(wildcard libsbml-*.html) \
+  $(expanded-html-files)
+
+css/libsbml-package-stylesheet.css: css/generate-pkg-stylesheet.py \
+  $(core-sources) css/libsbml-javadoc-stylesheet.css
+	css/generate-pkg-stylesheet.py $(TOP_SRCDIR)/src/sbml/packages > $@
+
+css-files =			     \
+  css/libsbml-base-stylesheet.css    \
+  css/libsbml-doxygen-navtree.css    \
+  css/libsbml-doxygen-stylesheet.css \
+  css/libsbml-doxygen-tabs.css	     \
+  css/libsbml-javadoc-stylesheet.css \
+  css/libsbml-package-stylesheet.css \
+  css/libsbml-reset-stylesheet.css	
+
+# If this copy of libSBML hasn't been configured with Doxygen support, we
+# throw an error in the "else" clause of the next conditional.
 
 ifneq "$(USE_DOXYGEN)" ""
 
@@ -455,42 +493,103 @@ define preprocess_doxygen
   fi
 endef
 
-define postprocess_doxygen
-  cp $(logo-files) $(1)
-  cp graphics/*.gif $(1)
-  cp graphics/*.png $(1)
-  cp common-text/simple-ast.svg $(1)
-  cp sbml.js $(1)
-  cp -rf doxygen-tabs.css $(1)/tabs.css
-  cp -rf doxygen-navtree.css $(1)/navtree.css
+# The use of @addindex in the next block of code is a hack, used only because
+# it's a Doxygen command that takes an argument but otherwise has no effect
+# on the output we generate.  We ultimately need to use @ingroup, but when
+# it's used for grouping classes, Doxygen (at least in version 1.8.5) fails
+# to include the classes in the table of contents for the navigation panel
+# along the left-hand side of the documentation pages.  To work around this
+# problem, we do a first Doxygen pass where we hide the use of @ingroup,
+# using this hack of redefining @sbmlpackage as @addindex (which is a no-op
+# for us).  In the second (final) pass, we expose the @ingroup command by
+# defining @sbmlpackage to be @ingroup.  This results in the table of
+# contents lacking all the classes flagged with @ingroup.  To solve that,
+# we copy over the index files created from the first Doxygen pass.
+
+define doxygen_indexing_pass
+  @echo "-----------------------------------------------------------------"
+  @echo "Running Doxygen pass 1 of 2: generate corrected table of contents"
+  @echo "-----------------------------------------------------------------"
+  rm -f doxygen-config.txt
+  cp $(1) doxygen-config.txt
+  echo 'ALIASES += sbmlpackage{1}="@addindex \1"' >> doxygen-config.txt
+  if test -n $(3); then \
+    $(DOXYGEN) doxygen-config.txt 2>&1 | egrep -v $(3); \
+  else \
+    $(DOXYGEN) doxygen-config.txt; \
+  fi
+  cp -f $(2)/navtreeindex*.js .
+  cp -f $(2)/navtree.js .
+  cp -f $(2)/files.js .
 endef
 
-cpp-manual $(cpp-manual): doxygen-config-cpp.txt $(core-sources)
+define run_doxygen
+  $(call doxygen_indexing_pass,$(1),$(2),$(3))
+  $(call doxygen_final_pass,$(1),$(2),$(3))
+endef
+
+define doxygen_final_pass
+  @echo "-----------------------------------------------------------------"
+  @echo "Running Doxygen pass 2 of 2: generate final output"
+  @echo "-----------------------------------------------------------------"
+  rm -f doxygen-config.txt
+  cp $(1) doxygen-config.txt
+  echo 'ALIASES += sbmlpackage{1}="@ingroup \1"' >> doxygen-config.txt
+  if test -n $(3); then \
+    $(DOXYGEN) doxygen-config.txt 2>&1 | egrep -v $(3); \
+  else \
+    $(DOXYGEN) doxygen-config.txt; \
+  fi
+  cp -f navtreeindex*.js $(2)
+  cp -f navtree.js $(2)
+  cp -f files.js $(2)
+  rm navtreeindex*.js
+  rm navtree.js
+  rm files.js
+endef
+
+define postprocess_doxygen
+  cp $(logo-files) $(1)
+  cp common-graphics/*.txt $(1)
+  cp common-graphics/*.gif $(1)
+  cp common-graphics/*.png $(1)
+  cp common-graphics/*.jpg $(1)
+  cp common-graphics/*.svg $(1)
+  cp sbml.js $(1)
+  cp -rf css/libsbml-reset-stylesheet.css $(1)
+  cp -rf css/libsbml-base-stylesheet.css $(1)
+  cp -rf css/libsbml-package-stylesheet.css $(1)
+  cp -rf css/libsbml-doxygen-tabs.css $(1)/tabs.css
+  cp -rf css/libsbml-doxygen-navtree.css $(1)/navtree.css
+endef
+
+cpp-manual $(cpp-manual): doxygen-config-cpp.txt $(core-sources) $(css-files)
 	mkdir -p $(cpp-manual)
 	$(call preprocess_doxygen)
-	$(DOXYGEN) doxygen-config-cpp.txt
+	$(call run_doxygen,doxygen-config-cpp.txt,$(cpp-manual),"")
 	$(call postprocess_doxygen,$(cpp-manual))
 
-c-manual $(c-manual): doxygen-config-c.txt $(core-sources)
+c-manual $(c-manual): doxygen-config-c.txt $(core-sources) $(css-files)
 	mkdir -p $(c-manual)
 	$(call preprocess_doxygen)
-	$(DOXYGEN) doxygen-config-c.txt
+	$(call run_doxygen,doxygen-config-c.txt,$(c-manual),"")
 	$(call postprocess_doxygen,$(c-manual))
 
 ifdef USE_PYTHON
-python-sources   = ../../src/bindings/python/libsbml-doxygen.py
+python-input     = ../../src/bindings/python/libsbml-doxygen.py
 python-subst-dir = python-substitutions
 
 # Certain things like parameters will never match up in Doxygen.
 # Ignore those warnings to avoid confusing people.
 
-python-ignorable-warnings = "is not found in the argument list|The following parameters of libsbml|parameter 'args'"
+python-ignorable-warnings = \
+  "is not found in the argument list|The following parameters of libsbml|parameter 'args'"
 
 python-manual $(python-manual): doxygen-config-python.txt $(python-sources)
 	mkdir -p $(python-manual)
-	./pythondocpreprocessor.py $(python-sources) libsbml.py $(wildcard $(python-subst-dir)/*.py)
+	./pythondocpreprocessor.py $(python-input) libsbml.py $(wildcard $(python-subst-dir)/*.py)
 	$(call preprocess_doxygen)
-	$(DOXYGEN) doxygen-config-python.txt 2>&1 | egrep -v $(python-ignorable-warnings)
+	$(call run_doxygen,doxygen-config-python.txt,$(python-manual),$(python-ignorable-warnings))
 	$(call postprocess_doxygen,$(python-manual))
 endif
 
@@ -500,12 +599,13 @@ perl-sources = ../../src/bindings/perl/LibSBML.pm
 perl-manual $(perl-manual): doxygen-config-perl.txt $(perl-sources)
 	mkdir -p $(perl-manual)
 	$(call preprocess_doxygen)
-	$(DOXYGEN) doxygen-config-perl.txt
+	$(call run_doxygen,doxygen-config-perl.txt,$(c-manual),"")
 	$(call postprocess_doxygen,$(perl-manual))
 endif
 
 ifdef USE_MATLAB
-matlab-sources = $(wildcard ../../src/bindings/matlab/*.m ../../src/bindings/matlab/*.c)
+matlab-sources = \
+  $(wildcard ../../src/bindings/matlab/*.m ../../src/bindings/matlab/*.c)
 
 matlab-manual $(matlab-manual): doxygen-config-matlab.txt $(matlab-sources)
 	mkdir -p $(matlab-manual)
@@ -515,7 +615,8 @@ matlab-manual $(matlab-manual): doxygen-config-matlab.txt $(matlab-sources)
 endif
 
 ifdef USE_OCTAVE
-octave-sources = $(wildcard ../../src/bindings/octave/*.m ../../src/bindings/octave/*.c)
+octave-sources = \
+  $(wildcard ../../src/bindings/octave/*.m ../../src/bindings/octave/*.c)
 
 octave-manual $(octave-manual): doxygen-config-octave.txt $(octave-sources)
 	mkdir -p $(octave-manual)
@@ -529,12 +630,14 @@ ifdef USE_CSHARP
 # Some differences are just really hard to deal with.  Let's ignore warnings
 # we can't currently do anything about, and that are harmless.
 
-cs-ignorable-warnings = "is not found in the argument list of|explicit link request to 'GO' could not be resolved"
+cs-ignorable-warnings = \
+  "is not found in the argument list of|explicit link request to 'GO' could not be resolved"
 
-csharp-manual $(csharp-manual): doxygen-config-csharp.txt $(core-sources)
+csharp-manual $(csharp-manual): doxygen-config-csharp.txt $(core-sources) \
+  $(css-files)
 	mkdir -p $(csharp-manual)
 	$(call preprocess_doxygen)
-	$(DOXYGEN) doxygen-config-csharp.txt 2>&1 | egrep -v $(cs-ignorable-warnings)
+	$(call run_doxygen,doxygen-config-csharp.txt,$(csharp-manual),$(cs-ignorable-warnings))
 	$(call postprocess_doxygen,$(csharp-manual))
 endif
 
@@ -573,20 +676,62 @@ javadoc-header      = "<B>@PACKAGE_NAME@<BR>@PACKAGE_VERSION@</B>"
 javadoc-footer      = "`cat libsbml-java-footer.html`"
 javadoc-windowtitle = "LibSBML Java API"
 
+define substitute_version
+  perl -i -pe 's/%%version%%/@PACKAGE_VERSION@/g' $(java-manual)/$(java-class-path)/*.html
+endef
+
 define merge_html
-  cat libsbml-java-top.html $(1) libsbml-java-bottom.html libsbml-java-footer.html \
-  | perl -pe 's/%%title%%/$(3)/g;s/%%version%%/@PACKAGE_VERSION@/g' > $(2)
+  cat libsbml-java-top.html $(1) libsbml-java-bottom.html \
+  libsbml-java-footer.html \
+  | perl -pe 's/%%title%%/$(3)/g;s/%%version%%/@PACKAGE_VERSION@/g' \
+  > $(java-manual)/$(2)
 endef
 
 define merge_html_verb
   cat libsbml-java-top.html libsbml-java-verb-top.html $(1) \
-  libsbml-java-verb-bottom.html libsbml-java-bottom.html libsbml-java-footer.html \
-  | perl -pe 's/%%title%%/$(3)/g;s/%%version%%/@PACKAGE_VERSION@/g' > $(2)
+  libsbml-java-verb-bottom.html libsbml-java-bottom.html \
+  libsbml-java-footer.html \
+  | perl -pe 's/%%title%%/$(3)/g;s/%%version%%/@PACKAGE_VERSION@/g' \
+  > $(java-manual)/$(2)
+endef
+
+define merge_java_example
+  $(shell cat libsbml-java-example-top.html $(1) \
+  libsbml-java-example-bottom.html libsbml-java-example-footer.html \
+  | perl -pe 's/%%title%%/$(notdir $(1))/g;s/%%version%%/@PACKAGE_VERSION@/g' \
+  > $(java-manual)/examples/$(notdir $(1)).html)
 endef
 
 define insert_javascript
-  sed -i "" -e 's:<SCRIPT type="text/javascript">:<script src="../../../sbml.js"></script><SCRIPT type="text/javascript">:g' $(wildcard $(1)/*.html)
+  perl -i -pe 's|<SCRIPT type="text/javascript">|<script src="../../../sbml.js"></script><SCRIPT type="text/javascript">|g' $(wildcard $(1)/*.html)
 endef
+
+define rewrite_links
+  perl -i -pe 's|<FONT CLASS="NavBarFont1"><B>Package|<FONT CLASS="NavBarFont1"><B>org.sbml.libsbml|g' $(wildcard $(1)/*.html)
+  perl -i -pe 's|<FONT CLASS="NavBarFont1 top-level"><B>Package|<FONT CLASS="NavBarFont1 top-level"><B>org.sbml.libsbml|g' $(wildcard $(1)/*.html)
+  perl -i -pe 's|org.sbml.libsbml</B></FONT></A>&nbsp;</TD>|org.sbml.libsbml</B></FONT></A>&nbsp;</TD>\n  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="$(2)extensions-summary.html"><FONT CLASS="NavBarFont1"><B>Level 3 Extensions</B></FONT></A>&nbsp;</TD>|g' $(wildcard $(1)/*.html)
+endef
+
+define adjust_frameset_in_file
+  perl -i -pe 's/20%,80%/22%,78%/' $(1)
+endef
+
+define fix_broken_highlighting
+  perl -i -pe 's|<FONT CLASS="NavBarFont1"><B>org.sbml.libsbml|<FONT CLASS="NavBarFont1 selected"><B>org.sbml.libsbml|g' \
+    $(java-manual)/index.html
+  perl -i -pe 's|<FONT CLASS="NavBarFont1"><B>org.sbml.libsbml|<FONT CLASS="NavBarFont1 selected"><B>org.sbml.libsbml|g' \
+    $(java-manual)/$(java-class-path)/package-summary.html
+  perl -i -pe 's|CLASS="NavBarFont1"><B>Level 3 Extensions|CLASS="NavBarFont1 selected"><B>Level 3 Extensions|g' \
+    $(java-manual)/extensions-summary.html
+  perl -i -pe 's|NavBarFont1 top-level|NavBarFont1|g' \
+    $(java-manual)/extensions-summary.html
+endef
+
+define create_extensions_page
+  ./generate-extensions-summary.py $(1) > java-extensions-list.html
+  $(call merge_html,java-extensions-list.html,extensions-summary.html,extensions for SBML Level 3 packages)
+endef
+
 
 # Compile the SBMLDoclet class file if needed.
 
@@ -616,50 +761,73 @@ java-local-dir  = java-files
 java-subst-dir  = java-substitutions
 java-class-path = org/sbml/libsbml
 
-java-manual $(java-manual): $(core-sources) SBMLDoclet.class
+java-manual $(java-manual): $(core-sources) $(css-files) SBMLDoclet.class
 	rm -rf $(java-local-dir)
 	mkdir -p $(java-local-dir)/$(java-class-path)
 	cp -rp $(java-source-dir)/$(java-class-path)/* $(java-local-dir)/$(java-class-path)
 	cp -rp $(java-subst-dir)/* $(java-local-dir)/$(java-class-path)
 	$(JAVA) -cp $(JAVADOC_JAR):. SBMLDoclet -excludefile java-skip.txt \
-	    -use -public -version -author -sourcetab 4 -keywords \
+	    -use -public -version -author -sourcetab 4 -keywords -nohelp \
 	    -link http://java.sun.com/j2se/1.5.0/docs/api \
 	    -header $(javadoc-header) \
 	    -bottom $(javadoc-footer) \
 	    -windowtitle $(javadoc-windowtitle) \
 	    -doctitle $(javadoc-doctitle) \
 	    -overview libsbml-java-fake-overview.html \
-	    -stylesheetfile doxygen-base-stylesheet.css \
+	    -stylesheetfile css/libsbml-javadoc-stylesheet.css \
 	    -d $(java-manual) \
-	    -tag ingroup:a:"" \
 	    -tag note:a:"Note:" \
 	    -tag warning:a:"Warning:" \
 	    -sourcepath $(java-local-dir) org.sbml.libsbml \
         2>&1 | egrep -v $(java-ignorable-warnings)
-	cp -f doxygen-base-stylesheet.css $(java-manual)
+	cp -f $(css-files) $(java-manual)
+	cp -f $(css-files) $(java-manual)/$(java-class-path)
+	cp -f prettify/prettify.js prettify/prettify.css $(java-manual)
 	cp -f $(logo-files) $(java-manual)
 	cp -f $(logo-files) $(java-manual)/$(java-class-path)/
-	cp -f graphics/*.png $(java-manual)
-	cp -f graphics/*.jpg $(java-manual)/$(java-class-path)/
-	cp -f common-text/*.svg $(java-manual)/$(java-class-path)/
+	cp -f common-graphics/*.gif $(java-manual)
+	cp -f common-graphics/*.png $(java-manual)
+	cp -f common-graphics/*.png $(java-manual)/$(java-class-path)/
+	cp -f common-graphics/*.png $(java-manual)/$(java-class-path)/class-use
+	cp -f common-graphics/*.svg $(java-manual)
+	cp -f common-graphics/*.svg $(java-manual)/$(java-class-path)/
+	cp -f common-graphics/*.svg $(java-manual)/$(java-class-path)/class-use
+	cp -f common-graphics/*.jpg $(java-manual)
+	cp -f common-graphics/*.jpg $(java-manual)/$(java-class-path)/
+	cp -f common-graphics/*.jpg $(java-manual)/$(java-class-path)/class-use
 	cp -f sbml.js $(java-manual)
-	cp common-text/simple-ast.svg $(java-manual)
-	$(call merge_html,libsbml-java-overview.html,$(java-manual)/overview-summary.html,Java @PACKAGE_VERSION@ API)
-	$(call merge_html,libsbml-installation.html,$(java-manual)/libsbml-installation.html,installation)
-	$(call merge_html,libsbml-accessing.html,$(java-manual)/libsbml-accessing.html,accessibility to your software)
-	$(call merge_html,libsbml-features.html,$(java-manual)/libsbml-features.html,features)
-	$(call merge_html,libsbml-communications.html,$(java-manual)/libsbml-communications.html,bug reports and other communications)
-	$(call merge_html,libsbml-java-reading.html,$(java-manual)/libsbml-java-reading.html,basic facilities for reading and writing SBML content)
-	$(call merge_html,libsbml-java-math.html,$(java-manual)/libsbml-java-math.html,facilities for manipulating mathematical expressions)
-	$(call merge_html,libsbml-issues.html,$(java-manual)/libsbml-issues.html,known issues and pitfalls)
-	$(call merge_html,libsbml-java-misc.html,$(java-manual)/libsbml-java-misc.html,Miscellaneous Java-specific information)
-	$(call merge_html,../../LICENSE.html,$(java-manual)/libsbml-license.html,license)
-	$(call merge_html_verb,../../NEWS.txt,$(java-manual)/libsbml-news.html,news)
-	$(call merge_html_verb,../../OLD_NEWS.txt,$(java-manual)/libsbml-old-news.html,old-news)
-	${MAKE} insert-js
+	cp -f sbml.js $(java-manual)/$(java-class-path)/
+	$(call merge_html,libsbml-java-overview.html,overview-summary.html,Java @PACKAGE_VERSION@ API)
+	$(call merge_html,libsbml-installation.html,libsbml-installation.html,installation)
+	$(call merge_html,libsbml-accessing.html,libsbml-accessing.html,accessibility for your software)
+	$(call merge_html,libsbml-features.html,libsbml-features.html,features)
+	$(call merge_html,libsbml-communications.html,libsbml-communications.html,bug reports and other communications)
+	$(call merge_html,libsbml-java-reading.html,libsbml-java-reading.html,basic facilities for reading and writing SBML content)
+	$(call merge_html,libsbml-java-math.html,libsbml-java-math.html,facilities for manipulating mathematical expressions)
+	$(call merge_html,libsbml-issues.html,libsbml-issues.html,known issues and pitfalls)
+	$(call merge_html,libsbml-java-misc.html,libsbml-java-misc.html,miscellaneous Java-specific information)
+	$(call merge_html,libsbml-java-example-files.html,libsbml-java-example-files.html,example programs in Java)
+	$(call merge_html,libsbml-core-versus-packages.html,libsbml-core-versus-packages.html,&ldquo;core&rdquo; and libSBML extensions)
+	$(call merge_html,../../LICENSE.html,libsbml-license.html,license)
+	$(call merge_html_verb,../../NEWS.txt,libsbml-news.html,news)
+	$(call merge_html_verb,../../OLD_NEWS.txt,libsbml-old-news.html,old-news)
+	mkdir -p $(java-manual)/examples
+	${MAKE} postprocess_javadoc
+	${MAKE} create_java_examples
 
-insert-js :
+postprocess_javadoc:;
+	$(call create_extensions_page,$(java-manual)/$(java-class-path)/package-summary.html)
 	$(call insert_javascript,$(java-manual)/$(java-class-path))
+	$(call rewrite_links,$(java-manual),)
+	$(call rewrite_links,$(java-manual)/$(java-class-path),../../../)
+	$(call rewrite_links,$(java-manual)/$(java-class-path)/class-use,../../../../)
+	$(call adjust_frameset_in_file,$(java-manual)/index.html)
+	$(call fix_broken_highlighting)
+	$(call substitute_version)
+
+create_java_examples:;
+	$(foreach file,$(wildcard ../../examples/java/*.java),$(call merge_java_example,$(file)))
+	$(foreach file,$(wildcard ../../examples/java/*/*.java),$(call merge_java_example,$(file)))
 
 endif
 
@@ -778,7 +946,7 @@ include @top_srcdir@/config/makefile-common-actions.mk
 #	$(shell [ -d $(doxygen-output-dir) ] || mkdir $(doxygen-output-dir))
 #	doxygen Doxyfile
 #	cp -rf tabs.css $(doxygen-output-dir)
-#	cp graphics/sbml-logo-long-124x56.gif $(doxygen-output-dir)
+#	cp common-graphics/sbml-logo-long-124x56.gif $(doxygen-output-dir)
 #	cp libsbml-api-ref.html.tmpl libsbml-api-ref.html
 #	cp -rf libsbml-api-ref $(formatted)
 
@@ -788,7 +956,7 @@ include @top_srcdir@/config/makefile-common-actions.mk
 
 #manual_html_dir = libsbml-manual
 
-#epsfiles        = $(wildcard graphics/*.eps)
+#epsfiles        = $(wildcard common-graphics/*.eps)
 #pdffiles        = $(epsfiles:.eps=.pdf)
 
 #latex-env := TEXINPUTS=".:tex//:../tex//:${TEXINPUTS}::"

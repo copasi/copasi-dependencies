@@ -4,53 +4,26 @@
  * @author  Ralph Gauges
  * 
  * <!--------------------------------------------------------------------------
- * Description : SBML Layout CompartmentGlyph C++ Header
- * Organization: European Media Laboratories Research gGmbH
- * Created     : 2004-07-15
+ * This file is part of libSBML.  Please visit http://sbml.org for more
+ * information about SBML, and the latest version of libSBML.
  *
- * Copyright 2004 European Media Laboratories Research gGmbH
- *
+ * Copyright (C) 2009-2013 jointly by the following organizations: 
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ *  
+ * Copyright (C) 2004-2008 by European Media Laboratories Research gGmbH,
+ *     Heidelberg, Germany
+ * 
  * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation; either version 2.1 of the License, or
- * any later version.
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.  A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as http://sbml.org/software/libsbml/license.html
+ * ------------------------------------------------------------------------ -->
  *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
- * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
- * documentation provided hereunder is on an "as is" basis, and the
- * European Media Laboratories Research gGmbH have no obligations to
- * provide maintenance, support, updates, enhancements or modifications.
- * In no event shall the European Media Laboratories Research gGmbH be
- * liable to any party for direct, indirect, special, incidental or
- * consequential damages, including lost profits, arising out of the use of
- * this software and its documentation, even if the European Media
- * Laboratories Research gGmbH have been advised of the possibility of such
- * damage.  See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *
- * The original code contained here was initially developed by:
- *
- *     Ralph Gauges
- *     Bioinformatics Group
- *     European Media Laboratories Research gGmbH
- *     Schloss-Wolfsbrunnenweg 31c
- *     69118 Heidelberg
- *     Germany
- *
- *     http://www.eml-research.de/english/Research/BCB/
- *     mailto:ralph.gauges@eml-r.villa-bosch.de
- *
- * Contributor(s):
- *
- *     Akiya Jouraku <jouraku@bio.keio.ac.jp>
- *     Modified this file for package extension in libSBML5
- *
+ * @class CompartmentGlyph
+ * @sbmlbrief{layout} Representation of a compartment glyph.
  */
-
 
 #ifndef CompartmentGlyph_H__
 #define CompartmentGlyph_H__
@@ -69,10 +42,6 @@
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
-/**
- * @ingroup Layout
- * @brief Representation of a compartment glyph.
- */
 class LIBSBML_EXTERN CompartmentGlyph : public GraphicalObject
 {
 protected:
@@ -196,7 +165,7 @@ public:
    * @param oldid the old identifier
    * @param newid the new identifier
    */
-  virtual void renameSIdRefs(std::string oldid, std::string newid);
+  virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
   /**
    * Calls initDefaults from GraphicalObject.
@@ -225,34 +194,22 @@ public:
   virtual const std::string& getElementName () const ;
 
   /**
+   * Creates and returns a deep copy of this CompartmentGlyph.
+   * 
    * @return a (deep) copy of this CompartmentGlyph.
    */
   virtual CompartmentGlyph* clone () const;
 
 
   /**
-   * Returns the libSBML type code for this object.
+   * Returns the libSBML type code of this object instance.
    *
-   * This method MAY return the typecode of this SBML object or it MAY
-   * return SBML_UNKNOWN.  That is, subclasses of SBase are not required to
-   * implement this method to return a typecode.  This method is meant
-   * primarily for the LibSBML C interface where class and subclass
-   * information is not readily available.
+   * @copydetails doc_what_are_typecodes
    *
-   * @note In libSBML 5, the type of return value has been changed from
-   *       SBMLTypeCode_t to int. The return value is one of enum values defined
-   *       for each package. For example, return values will be one of
-   *       SBMLTypeCode_t if this object is defined in SBML core package,
-   *       return values will be one of SBMLLayoutTypeCode_t if this object is
-   *       defined in Layout extension (i.e. similar enum types are defined in
-   *       each pacakge extension for each SBase subclass)
-   *       The value of each typecode can be duplicated between those of
-   *       different packages. Thus, to distinguish the typecodes of different
-   *       packages, not only the return value of getTypeCode() but also that of
-   *       getPackageName() must be checked.
+   * @return the SBML type code for this object:
+   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_COMPARTMENTGLYPH SBML_LAYOUT_COMPARTMENTGLYPH@endlink
    *
-   * @return the typecode (int value) of this SBML object or SBML_UNKNOWN
-   * (default).
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
    * @see getPackageName()
@@ -268,6 +225,8 @@ public:
 protected:
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */

@@ -1,4 +1,4 @@
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /**
  * @file:   GroupsIdentifierConsistencyValidator.h
@@ -43,12 +43,12 @@ class GroupsIdentifierConsistencyValidator: public GroupsValidator
 {
 public:
 
-	GroupsIdentifierConsistencyValidator () :
-		GroupsValidator(LIBSBML_CAT_IDENTIFIER_CONSISTENCY) { }
+  GroupsIdentifierConsistencyValidator () :
+    GroupsValidator(LIBSBML_CAT_IDENTIFIER_CONSISTENCY) { }
 
-	virtual ~GroupsIdentifierConsistencyValidator () { }
+  virtual ~GroupsIdentifierConsistencyValidator () { }
 
-	 virtual void init ();
+  virtual void init ();
 };
 
 LIBSBML_CPP_NAMESPACE_END
@@ -57,6 +57,6 @@ LIBSBML_CPP_NAMESPACE_END
 #endif  /* GroupsIdentifierConsistencyValidator_H__ */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 

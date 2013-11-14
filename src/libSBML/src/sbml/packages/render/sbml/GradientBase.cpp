@@ -57,7 +57,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string ListOfGradientDefinitions::ELEMENT_NAME="listOfGradientDefinitions";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GradientBase object with the given SBML level
  * and SBML version.
@@ -77,7 +77,7 @@ GradientBase::GradientBase (unsigned int level, unsigned int version, unsigned i
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GradientBase object with the given SBMLNamespaces.
  *
@@ -100,7 +100,7 @@ GradientBase::GradientBase (RenderPkgNamespaces* renderns):
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GradientBase object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -155,7 +155,7 @@ GradientBase::GradientBase(const XMLNode& node, unsigned int l2version)
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a GradientBase with no gradient stops.
  * The spreadMethod attribute is set to GradientBase::PAD and the id is
@@ -189,7 +189,21 @@ GradientBase::GradientBase(RenderPkgNamespaces* renderns, const std::string& id)
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+List*
+GradientBase::getAllElements(ElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mGradientStops, filter);
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the spreadmethod of the gradient.
  * Valid values are GradientBase::PAD, GradientBase::REFLECT
@@ -203,7 +217,7 @@ GradientBase::SPREADMETHOD GradientBase::getSpreadMethod() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the spread method.
  * Valid values are GradientBase::PAD, GradientBase::REFLECT
@@ -217,7 +231,7 @@ void GradientBase::setSpreadMethod(GradientBase::SPREADMETHOD method)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of gradient stops.
  * A valid gradient needs at least two gradient stops
@@ -230,7 +244,7 @@ unsigned int GradientBase::getNumGradientStops() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the gradient stop vector.
  *
@@ -243,7 +257,7 @@ ListOfGradientStops* GradientBase::getListOfGradientStops()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the gradient stop vector.
  *
@@ -256,7 +270,7 @@ const ListOfGradientStops* GradientBase::getListOfGradientStops() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the gradient stop with the given index or NULL
  * if the index is invalid.
@@ -273,7 +287,7 @@ GradientStop* GradientBase::getGradientStop(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the gradient stop with the given index or NULL
  * if the index is invalid.
@@ -290,7 +304,7 @@ const GradientStop* GradientBase::getGradientStop(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GradientStop. The new GradientStop object is automatically
  * added to the gradient and the gradient own the object-
@@ -323,7 +337,7 @@ GradientStop* GradientBase::createGradientStop()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of the given GradientStop object to the end
  * of the list of gradient stops.
@@ -380,7 +394,7 @@ int GradientBase::addGradientStop(const GradientStop* pStop)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the ListOfGradientDefinitions object.
  *
@@ -392,7 +406,7 @@ ListOfGradientDefinitions* ListOfGradientDefinitions::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor. Creates a copy of this ListOfGradientDefinitions object.
  */
@@ -401,7 +415,7 @@ ListOfGradientDefinitions::ListOfGradientDefinitions(const ListOfGradientDefinit
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfGradientDefinitions objects..
  */
@@ -415,7 +429,7 @@ ListOfGradientDefinitions& ListOfGradientDefinitions::operator=(const ListOfGrad
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., GradientDefinition objects, if the list is non-empty).
@@ -454,7 +468,7 @@ bool ListOfGradientDefinitions::isValidTypeForList(SBase * item)
     );
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfGradientDefinitions, is always @c "listOfGradientDefinitions".
@@ -490,7 +504,7 @@ ListOfGradientDefinitions::ListOfGradientDefinitions(unsigned int level, unsigne
 {
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
 };
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfGradientDefinitions object.
  *
@@ -503,7 +517,7 @@ XMLNode ListOfGradientDefinitions::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -519,7 +533,7 @@ SBase* GradientBase::createObject (XMLInputStream& stream)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -546,7 +560,7 @@ SBase* ListOfGradientDefinitions::createObject (XMLInputStream& stream)
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -568,7 +582,7 @@ void GradientBase::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 GradientBase::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -579,7 +593,7 @@ GradientBase::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GradientBase::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
 
@@ -597,7 +611,7 @@ void GradientBase::readAttributes (const XMLAttributes& attributes, const Expect
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -612,7 +626,7 @@ const std::string& GradientBase::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Converts the given string into a spread method.
  * If the string does not represnt a valid spread method, PAD is
@@ -634,7 +648,7 @@ GradientBase::SPREADMETHOD GradientBase::getSpreadMethodForString(const std::str
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -663,7 +677,7 @@ void GradientBase::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the attribute string for the spread method set on the
  * gradient.
@@ -687,7 +701,7 @@ std::string GradientBase::getSpreadMethodString() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor.
  *
@@ -701,7 +715,7 @@ bool GradientBase::accept (SBMLVisitor& v) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ListOfGradientDefinitions object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -754,7 +768,7 @@ ListOfGradientDefinitions::ListOfGradientDefinitions(const XMLNode& node, unsign
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * This method is used when writing out gradietns to XML.
  * I writes out the attributes and children that re common to linear and radial gradient.
@@ -793,7 +807,7 @@ void GradientBase::addGradientAttributesAndChildren(const GradientBase& gradient
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the value of the "id" attribute of this GradientBase object.
  *
@@ -806,7 +820,7 @@ const std::string& GradientBase::getId () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether this
  * GradientBase's "id" attribute has been set.
@@ -820,7 +834,7 @@ bool GradientBase::isSetId () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the value of the "id" attribute of this GradientBase.
  *
@@ -843,7 +857,7 @@ int GradientBase::setId (const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Unsets the value of the "id" attribute of this GradientBase.
  */
@@ -862,7 +876,7 @@ int GradientBase::unsetId ()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the GradientBase with the given index or NULL if
  * the index is invalid.
@@ -877,7 +891,7 @@ GradientBase* ListOfGradientDefinitions::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the GradientBase with the given index or NULL if
  * the index is invalid.
@@ -892,7 +906,7 @@ const GradientBase* ListOfGradientDefinitions::get(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Used by ListOf::get() to lookup an SBase based by its id.
  */
@@ -907,7 +921,7 @@ struct IdEqGradientBase : public std::unary_function<SBase*, bool>
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the GradientBase with the given @p id or @c NULL if
  * the id is invalid.
@@ -924,7 +938,7 @@ GradientBase* ListOfGradientDefinitions::get(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the GradientBase with the given @p id or @c NULL if
  * the id is invalid.
@@ -942,7 +956,7 @@ const GradientBase* ListOfGradientDefinitions::get(const std::string& id) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes the nth item from this list */
     GradientBase*
 ListOfGradientDefinitions::remove (unsigned int n)
@@ -952,7 +966,7 @@ ListOfGradientDefinitions::remove (unsigned int n)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes item in this list by id */
     GradientBase*
 ListOfGradientDefinitions::remove (const std::string& sid)
@@ -972,7 +986,7 @@ ListOfGradientDefinitions::remove (const std::string& sid)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -1016,7 +1030,7 @@ GradientBase::enablePackageInternal(const std::string& pkgURI,
 
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBML object of this SBML object.
  *
@@ -1029,7 +1043,7 @@ GradientBase::setParentSBMLObject (SBase* sb)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -1042,7 +1056,7 @@ bool GradientBase::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

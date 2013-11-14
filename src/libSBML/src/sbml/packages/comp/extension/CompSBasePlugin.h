@@ -18,15 +18,14 @@
  *------------------------------------------------------------------------- -->
  *
  * @class CompSBasePlugin
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * Implementation of the 'comp' package extention to the %SBase construct.
+ * @sbmlbrief{comp} Implementation of the &ldquo;comp&rdquo; package
+ * extention to the %SBase construct.
  *
  * The CompSBasePlugin class inherits from the SBasePlugin class, 
  * and codifies the extentions to the SBase class defined in the
- * @ref Comp "Hierarchical Model Composition" package ('comp').
- * This extention allows the modeler to
- * define one or more submodel elements which the parent SBase object replaces,
+ * @ref comp @if java "Hierarchical %Model Composition"@endif@~ 
+ * package (&ldquo;comp&rdquo;).  This extention allows the modeler to define
+ * one or more submodel elements which the parent SBase object replaces,
  * and/or a single submodel element which replaces the parent SBase object.
 
  * This is accomplished through the addition of an optional ListOfReplacedElements
@@ -112,6 +111,8 @@ public:
  
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or @c NULL if the token was not recognized.
    */
@@ -136,7 +137,7 @@ public:
    *
    * @return a pointer to the SBase element with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
@@ -148,7 +149,7 @@ public:
    *
    * @return a pointer to the SBase element with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
   
 
   /**
@@ -239,9 +240,7 @@ public:
    * be added to the list of replaced elements.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
@@ -326,9 +325,7 @@ public:
    * @param replacedBy the ReplacedBy object instance to use.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * @li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
@@ -351,9 +348,7 @@ public:
    * Unsets the child ReplacedBy of this SBase.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -410,7 +405,7 @@ public:
    * addXXX, createXXX, and connectToChild functions of the
    * parent element).
    *
-   * @param sb the SBML object to use
+   * @param parent the SBML object to use
    */
   void connectToParent (SBase* parent);
   /** @endcond */

@@ -28,8 +28,8 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLErrorLog
- * @ingroup Core
- * @brief Log of errors and other events encountered during SBML processing.
+ * @sbmlbrief{core} Log of errors and other events encountered during SBML
+ * processing.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -65,6 +65,30 @@
  * @see XMLErrorLog
  * @see XMLError
  */
+
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ *
+ * @class doc_errorlog_what_are_severities
+ *
+ * @par
+ * LibSBML associates severity levels with every SBMLError object to
+ * provide an indication of how serious the problem is.  Severities range
+ * from informational diagnostics to fatal (irrecoverable) errors.  Given
+ * an SBMLError object instance, a caller can interrogate it for its
+ * severity level using methods such as SBMLError::getSeverity(),
+ * SBMLError::isFatal(), and so on.  The present method encapsulates
+ * iteration and interrogation of all objects in an SBMLErrorLog, making
+ * it easy to check for the presence of error objects with specific
+ * severity levels.
+ *
+ */
+
 
 #ifndef SBMLErrorLog_h
 #define SBMLErrorLog_h
@@ -111,15 +135,7 @@ public:
    * Returns the number of errors that have been logged with the given
    * severity code.
    *
-   * LibSBML associates severity levels with every SBMLError object to
-   * provide an indication of how serious the problem is.  Severities range
-   * from informational diagnostics to fatal (irrecoverable) errors.  Given
-   * an SBMLError object instance, a caller can interrogate it for its
-   * severity level using methods such as SBMLError::getSeverity(),
-   * SBMLError::isFatal(), and so on.  The present method encapsulates
-   * iteration and interrogation of all objects in an SBMLErrorLog, making
-   * it easy to check for the presence of error objects with specific
-   * severity levels.
+   * @class doc_errorlog_what_are_severities
    *
    * @if clike @param severity a value from
    * #SBMLErrorSeverity_t @endif@if java @param severity a
@@ -135,19 +151,12 @@ public:
    */
   unsigned int getNumFailsWithSeverity(unsigned int severity);
 
+
    /**
    * Returns the number of errors that have been logged with the given
    * severity code.
    *
-   * LibSBML associates severity levels with every SBMLError object to
-   * provide an indication of how serious the problem is.  Severities range
-   * from informational diagnostics to fatal (irrecoverable) errors.  Given
-   * an SBMLError object instance, a caller can interrogate it for its
-   * severity level using methods such as SBMLError::getSeverity(),
-   * SBMLError::isFatal(), and so on.  The present method encapsulates
-   * iteration and interrogation of all objects in an SBMLErrorLog, making
-   * it easy to check for the presence of error objects with specific
-   * severity levels.
+   * @class doc_errorlog_what_are_severities
    *
    * @if clike @param severity a value from
    * #SBMLErrorSeverity_t @endif@if java @param severity a
@@ -170,6 +179,18 @@ public:
    * Creates a new, empty SBMLErrorLog.
    */
   SBMLErrorLog ();
+
+
+  /**
+   * Copy Constructor
+   */
+  SBMLErrorLog (const SBMLErrorLog& other);
+
+
+  /**
+   * Assignment operator for SBMLErrorLog
+   */
+  SBMLErrorLog& operator=(const SBMLErrorLog& other);
 
 
   /**

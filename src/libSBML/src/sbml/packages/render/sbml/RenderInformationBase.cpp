@@ -42,7 +42,7 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderInformationBase object with the given SBML level
  * and SBML version.
@@ -68,7 +68,7 @@ RenderInformationBase::RenderInformationBase (unsigned int level, unsigned int v
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderInformationBase object with the given SBMLNamespaces.
  *
@@ -97,7 +97,25 @@ RenderInformationBase::RenderInformationBase (RenderPkgNamespaces* renderns)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+
+List*
+RenderInformationBase::getAllElements(ElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mListOfColorDefinitions, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfGradientDefinitions, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfLineEndings, filter);
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+
+
+/** @cond doxygenLibsbmlInternal */
 void
 RenderInformationBase::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -113,7 +131,7 @@ RenderInformationBase::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void RenderInformationBase::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
   SBase::readAttributes(attributes, expectedAttributes);
@@ -130,7 +148,7 @@ void RenderInformationBase::readAttributes (const XMLAttributes& attributes, con
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Parses the xml information in the given node and sets the attributes.
  * This method should never be called by the user. It is only used to read render 
@@ -182,7 +200,7 @@ void RenderInformationBase::parseXML(const XMLNode& node)
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a RenderInformationBase object
  * empty color definition, gradient definition
@@ -220,7 +238,7 @@ RenderInformationBase::RenderInformationBase(RenderPkgNamespaces* renderns, cons
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the program name that created the render information.
  *
@@ -232,7 +250,7 @@ const std::string& RenderInformationBase::getProgramName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the name of the program that created the render information.
  *
@@ -244,7 +262,7 @@ void RenderInformationBase::setProgramName(const std::string& name)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the version of the program that created the render information.
  *
@@ -256,7 +274,7 @@ const std::string& RenderInformationBase::getProgramVersion() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the version string of the program that created the render information.
  *
@@ -268,7 +286,7 @@ void RenderInformationBase::setProgramVersion(const std::string& version)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the id of the referenced render information object.
  * RenderInfromation objects can reference other render information objects
@@ -288,7 +306,7 @@ const std::string& RenderInformationBase::getReferenceRenderInformationId() cons
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the id of the referenced render information object.
  * The user has to make sure that render infromation referencing 
@@ -302,7 +320,7 @@ void RenderInformationBase::setReferenceRenderInformationId(const std::string& i
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of color definitions.
  *
@@ -314,7 +332,7 @@ unsigned int RenderInformationBase::getNumColorDefinitions() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the list of color definitions.
  *
@@ -326,7 +344,7 @@ ListOfColorDefinitions* RenderInformationBase::getListOfColorDefinitions()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the list of color definitions.
  *
@@ -338,7 +356,7 @@ const ListOfColorDefinitions* RenderInformationBase::getListOfColorDefinitions()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the color definition with the given index, or @c NULL
  * if the index is invalid.
@@ -353,7 +371,7 @@ ColorDefinition* RenderInformationBase::getColorDefinition(unsigned int index)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the color definition with the given index, or @c NULL
  *if the index is invalid.
@@ -368,7 +386,7 @@ const ColorDefinition* RenderInformationBase::getColorDefinition(unsigned int in
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the color definition with the given @p id, or @c NULL
  * if there is no color definition with that id.
@@ -384,7 +402,7 @@ ColorDefinition* RenderInformationBase::getColorDefinition(const std::string& id
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the color definition with the given @p id, or @c NULL
  * if there is no color definition with that id.
@@ -400,7 +418,7 @@ const ColorDefinition* RenderInformationBase::getColorDefinition(const std::stri
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new color definition object without an id.
  * For the object to be valid an id has to be set that is unique
@@ -437,7 +455,7 @@ ColorDefinition* RenderInformationBase::createColorDefinition()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the color definition with the given index from the list of color definitions.
  * If the index is valid, the object is removed and a pointer to the removed object 
@@ -460,7 +478,7 @@ ColorDefinition* RenderInformationBase::removeColorDefinition(unsigned int index
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of the given color definition to the end of the list of
  * color definitions.
@@ -525,7 +543,7 @@ int RenderInformationBase::addColorDefinition(const ColorDefinition* cd)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of gradient definitions in the render information.
  *
@@ -537,7 +555,7 @@ unsigned int RenderInformationBase::getNumGradientDefinitions() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the list of gradient definitions.
  *
@@ -549,7 +567,7 @@ ListOfGradientDefinitions* RenderInformationBase::getListOfGradientDefinitions()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the list of gradient definitions.
  *
@@ -561,7 +579,7 @@ const ListOfGradientDefinitions* RenderInformationBase::getListOfGradientDefinit
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the gradient definition with the given index, or @c NULL
  * if the index is invalid.
@@ -576,7 +594,7 @@ GradientBase* RenderInformationBase::getGradientDefinition(unsigned int index)
     return (index < this->mListOfGradientDefinitions.size())?static_cast<GradientBase*>(this->mListOfGradientDefinitions.get(index)):NULL;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the gradient definition with the given index, or @c NULL
  *if the index is invalid.
@@ -592,7 +610,7 @@ const GradientBase* RenderInformationBase::getGradientDefinition(unsigned int in
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the gradient definition with the given @p id, or @c NULL
  * if there is no gradient definition with that id.
@@ -608,7 +626,7 @@ GradientBase* RenderInformationBase::getGradientDefinition(const std::string& id
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the gradient definition with the given @p id, or @c NULL
  * if there is no gradient definition with that id.
@@ -624,7 +642,7 @@ const GradientBase* RenderInformationBase::getGradientDefinition(const std::stri
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new radial gradient definition.
  * The newly created object is added to the render 
@@ -661,7 +679,7 @@ RadialGradient* RenderInformationBase::createRadialGradientDefinition()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new linear gradient definition.
  * The newly created object is added to the render 
@@ -698,7 +716,7 @@ LinearGradient* RenderInformationBase::createLinearGradientDefinition()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the gradient definition with the given index.
  * If the index is valid, the object is removed and a pointer to the removed object 
@@ -721,7 +739,7 @@ GradientBase* RenderInformationBase::removeGradientDefinition(unsigned int index
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of the given gradient definition to the end of the list of
  * gradient definitions.
@@ -788,7 +806,7 @@ int RenderInformationBase::addGradientDefinition(const GradientBase* gradient)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of line endings for the render information.
  *
@@ -800,7 +818,7 @@ unsigned int RenderInformationBase::getNumLineEndings() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the list of line endings.
  *
@@ -811,7 +829,7 @@ ListOfLineEndings* RenderInformationBase::getListOfLineEndings()
     return &(this->mListOfLineEndings);
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the list of line endings.
  *
@@ -823,7 +841,7 @@ const ListOfLineEndings* RenderInformationBase::getListOfLineEndings() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the line ending with the given index, or @c NULL
  * if the index is invalid.
@@ -838,7 +856,7 @@ LineEnding* RenderInformationBase::getLineEnding(unsigned int index)
     return (index < this->mListOfLineEndings.size())?static_cast<LineEnding*>(this->mListOfLineEndings.get(index)):NULL;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the line ending with the given index, or @c NULL
  * if the index is invalid.
@@ -854,7 +872,7 @@ const LineEnding* RenderInformationBase::getLineEnding(unsigned int index) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the line ending with the given @p id, or @c NULL
  * if there is no line ending with that id.
@@ -870,7 +888,7 @@ LineEnding* RenderInformationBase::getLineEnding(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the line ending with the given @p id, or @c NULL
  * if there is no line ending with that id.
@@ -888,7 +906,7 @@ const LineEnding* RenderInformationBase::getLineEnding(const std::string& id) co
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new line ending.
  * The new line ending object is added to and owned by the 
@@ -924,7 +942,7 @@ LineEnding* RenderInformationBase::createLineEnding()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the line ending with the given index.
  * If the index is valid, the object is removed and a pointer to the removed object 
@@ -947,7 +965,7 @@ LineEnding* RenderInformationBase::removeLineEnding(unsigned int index)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of the given line ending to the end of the list of line
  * endings.
@@ -1010,7 +1028,7 @@ int RenderInformationBase::addLineEnding(const LineEnding* le)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -1049,7 +1067,7 @@ void RenderInformationBase::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds the RenderInformationBase specific attributes to the given XMLAttributes object.
  */
@@ -1079,7 +1097,7 @@ void RenderInformationBase::addRenderInformationBaseAttributes(const RenderInfor
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the background color which is either the id of a color in the
  * list of color definitions, or a color value.
@@ -1092,7 +1110,7 @@ const std::string& RenderInformationBase::getBackgroundColor() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the background color to either the id of a color in the list of
  * color definitions, or a color value.
@@ -1104,7 +1122,7 @@ void RenderInformationBase::setBackgroundColor(const std::string& bg)
     this->mBackgroundColor=bg;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the value of the "id" attribute of this RenderInformationBase.
  *
@@ -1117,7 +1135,7 @@ const std::string& RenderInformationBase::getId () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether this
  * RenderInformationBase's "id" attribute has been set.
@@ -1131,7 +1149,7 @@ bool RenderInformationBase::isSetId () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the value of the "id" attribute of this RenderInformationBase.
  *
@@ -1154,7 +1172,7 @@ int RenderInformationBase::setId (const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Unsets the value of the "id" attribute of this RenderInformationBase.
  */
@@ -1172,7 +1190,7 @@ int RenderInformationBase::unsetId ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the value of the "name" attribute of this RenderInformationBase.
  *
@@ -1185,7 +1203,7 @@ const std::string& RenderInformationBase::getName () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether this
  * RenderInformationBase's "name" attribute has been set.
@@ -1199,7 +1217,7 @@ bool RenderInformationBase::isSetName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the value of the "name" attribute of this RenderInformationBase.
  *
@@ -1215,7 +1233,7 @@ int RenderInformationBase::setName (const std::string& name)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Unsets the value of the "name" attribute of this RenderInformationBase.
  */
@@ -1233,7 +1251,7 @@ int RenderInformationBase::unsetName ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -1281,7 +1299,7 @@ RenderInformationBase::enablePackageInternal(const std::string& pkgURI,
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBML object of this SBML object.
  *
@@ -1294,7 +1312,7 @@ RenderInformationBase::setParentSBMLObject (SBase* sb)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -1307,7 +1325,7 @@ bool RenderInformationBase::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */
@@ -1319,7 +1337,7 @@ bool RenderInformationBase::hasRequiredElements() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -1349,7 +1367,7 @@ void RenderInformationBase::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.

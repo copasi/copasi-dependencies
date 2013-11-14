@@ -23,7 +23,7 @@ substances, controlled vocabularies, and more).
 File authors: M. Hucka
 Last Modified: $Date: 2011-02-08 19:49:42 +0100 (Tue, 08 Feb 2011) $
 Last Modified By: $Author: luciansmith $
-$HeadURL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/examples/sample-models/from-spec/level-2/README.txt $
+$HeadURL: https://svn.code.sf.net/p/sbml/code/trunk/libsbml/examples/sample-models/from-spec/level-2/README.txt $
 -------------------------------------------
 
 # The following is for [X]Emacs users.  Please leave in place.

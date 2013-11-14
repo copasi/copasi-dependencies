@@ -59,13 +59,13 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 /*------------------ (START) ----------------------------------*/
 
 /*
-/* Returns the package name of this extension.
+ * Returns the package name of this extension.
  */
 const std::string&
 GroupsExtension::getPackageName ()
 {
-	static const std::string pkgName = "groups";
-	return pkgName;
+  static const std::string pkgName = "groups";
+  return pkgName;
 }
 
 
@@ -75,7 +75,7 @@ GroupsExtension::getPackageName ()
 unsigned int
 GroupsExtension::getDefaultLevel ()
 {
-	return 3;
+  return 3;
 }
 
 
@@ -85,7 +85,7 @@ GroupsExtension::getDefaultLevel ()
 unsigned int
 GroupsExtension::getDefaultVersion ()
 {
-	return 1;
+  return 1;
 }
 
 
@@ -95,7 +95,7 @@ GroupsExtension::getDefaultVersion ()
 unsigned int
 GroupsExtension::getDefaultPackageVersion ()
 {
-	return 1;
+  return 1;
 }
 
 
@@ -105,8 +105,8 @@ GroupsExtension::getDefaultPackageVersion ()
 const std::string&
 GroupsExtension::getXmlnsL3V1V1 ()
 {
-	static const std::string xmlns = "http://www.sbml.org/sbml/level3/version1/groups/version1";
-	return xmlns;
+  static const std::string xmlns = "http://www.sbml.org/sbml/level3/version1/groups/version1";
+  return xmlns;
 }
 
 
@@ -121,9 +121,9 @@ static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegistry;
 static
 const char* SBML_GROUPS_TYPECODE_STRINGS[] =
 {
-	  "Member"
-	, "MemberConstraint"
-	, "Group"
+    "Member"
+  , "MemberConstraint"
+  , "Group"
 };
 
 
@@ -373,7 +373,7 @@ GroupsExtension::init()
   SBaseExtensionPoint sbmldocExtPoint("core",SBML_DOCUMENT);
   SBaseExtensionPoint modelExtPoint("core",SBML_MODEL);
 
-	SBasePluginCreator<GroupsSBMLDocumentPlugin, GroupsExtension> sbmldocPluginCreator(sbmldocExtPoint, packageURIs);
+  SBasePluginCreator<GroupsSBMLDocumentPlugin, GroupsExtension> sbmldocPluginCreator(sbmldocExtPoint, packageURIs);
   SBasePluginCreator<GroupsModelPlugin,   GroupsExtension> modelPluginCreator(modelExtPoint,packageURIs);
 
   //--------------------------------------------------------------------------------------
@@ -400,7 +400,7 @@ GroupsExtension::init()
 }
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Return error table entry. 
@@ -408,13 +408,13 @@ GroupsExtension::init()
 packageErrorTableEntry
 GroupsExtension::getErrorTable(unsigned int index) const
 {
-	return groupsErrorTable[index];
+  return groupsErrorTable[index];
 }
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Return error table index for this id. 
@@ -422,26 +422,26 @@ GroupsExtension::getErrorTable(unsigned int index) const
 unsigned int
 GroupsExtension::getErrorTableIndex(unsigned int errorId) const
 {
-	unsigned int tableSize = sizeof(groupsErrorTable)/sizeof(groupsErrorTable[0]);
-	unsigned int index = 0;
+  unsigned int tableSize = sizeof(groupsErrorTable)/sizeof(groupsErrorTable[0]);
+  unsigned int index = 0;
 
-	for(unsigned int i = 0; i < tableSize; i++)
-	{
-		if (errorId == groupsErrorTable[i].code)
-		{
-			index = i;
-			break;
-		}
+  for(unsigned int i = 0; i < tableSize; i++)
+  {
+    if (errorId == groupsErrorTable[i].code)
+    {
+      index = i;
+      break;
+    }
 
-	}
+  }
 
-	return index;
+  return index;
 }
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Return error offset. 
@@ -449,10 +449,10 @@ GroupsExtension::getErrorTableIndex(unsigned int errorId) const
 unsigned int
 GroupsExtension::getErrorIdOffset() const
 {
-	return 4000000;
+  return 4000000;
 }
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 

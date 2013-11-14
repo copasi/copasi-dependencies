@@ -51,7 +51,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 const std::string ListOfLocalStyles::ELEMENT_NAME="listOfStyles";
 const std::string LocalStyle::ELEMENT_NAME="style";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LocalStyle object with the given SBML level
  * and SBML version.
@@ -68,7 +68,7 @@ LocalStyle::LocalStyle (unsigned int level, unsigned int version, unsigned int p
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LocalStyle object with the given SBMLNamespaces.
  *
@@ -90,7 +90,7 @@ LocalStyle::LocalStyle (RenderPkgNamespaces* renderns):
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LocalStyle object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -117,7 +117,7 @@ LocalStyle::LocalStyle(const XMLNode& node, unsigned int l2version):Style(node, 
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a LocalStyle with an empty group
  * and empty id, role and type list.
@@ -145,7 +145,7 @@ LocalStyle::LocalStyle(RenderPkgNamespaces* renderns, const std::string& id):Sty
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of ids in the id set.
  *
@@ -157,7 +157,7 @@ unsigned int LocalStyle::getNumIds() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the id list.
  *
@@ -170,7 +170,7 @@ void LocalStyle::setIdList(const std::set<std::string>& idList)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the id list.
  *
@@ -182,7 +182,7 @@ const std::set<std::string>& LocalStyle::getIdList() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the id list.
  *
@@ -200,7 +200,7 @@ LocalStyle::createIdString() const
   return createStringFromSet(mIdList);
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds another id to the set.
  *
@@ -212,7 +212,7 @@ void LocalStyle::addId(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes an id from the set.
  *
@@ -225,7 +225,7 @@ void LocalStyle::removeId(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the ListOfLocalStyles object.
  *
@@ -237,7 +237,7 @@ ListOfLocalStyles* ListOfLocalStyles::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor for ListOfLocalStyles objects.
  */
@@ -246,7 +246,7 @@ ListOfLocalStyles::ListOfLocalStyles(const ListOfLocalStyles& source):ListOf(sou
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfLocalStyles objects.
  */
@@ -260,7 +260,7 @@ ListOfLocalStyles& ListOfLocalStyles::operator=(const ListOfLocalStyles& source)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., GradientDefinition objects, if the list is non-empty).
@@ -288,7 +288,7 @@ int ListOfLocalStyles::getItemTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfLocalStyles, is always @c "listOfStyles".
@@ -302,7 +302,7 @@ const std::string& ListOfLocalStyles::getElementName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfLocalStyles object.
  *
@@ -316,7 +316,7 @@ XMLNode ListOfLocalStyles::toXML() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -337,7 +337,7 @@ SBase* ListOfLocalStyles::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ListOfLocalStyles object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -379,7 +379,7 @@ ListOfLocalStyles::ListOfLocalStyles(const XMLNode& node)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 LocalStyle::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -389,7 +389,7 @@ LocalStyle::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void LocalStyle::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
     Style::readAttributes(attributes, expectedAttributes);
@@ -405,7 +405,7 @@ void LocalStyle::readAttributes(const XMLAttributes& attributes, const ExpectedA
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this LocalStyle object.
  * 
@@ -417,7 +417,7 @@ LocalStyle* LocalStyle::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -432,7 +432,7 @@ const std::string& LocalStyle::getElementName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -458,7 +458,7 @@ int LocalStyle::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Checks whether a given @p id is in the id list.
  *
@@ -472,7 +472,7 @@ bool LocalStyle::isInIdList(const std::string& id) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * This method adds the attribute for the list of ids to
  * the given XMLnode.
@@ -489,7 +489,7 @@ void LocalStyle::addListOfIds(XMLToken& node) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -508,7 +508,7 @@ void LocalStyle::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this LocalStyle object.
  *
@@ -521,7 +521,7 @@ XMLNode LocalStyle::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the LocalStyle with the given index or NULL if
  * the index is invalid.
@@ -536,7 +536,7 @@ LocalStyle* ListOfLocalStyles::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the LocalStyle with the given index or NULL if
  * the index is invalid.
@@ -551,7 +551,7 @@ const LocalStyle* ListOfLocalStyles::get(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Used by ListOf::get() to lookup an SBase based by its id.
  */
@@ -566,7 +566,7 @@ struct IdEqLocalStyle : public std::unary_function<SBase*, bool>
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the LocalStyle with the given @p id or @c NULL if
  * the id is invalid.
@@ -583,7 +583,7 @@ LocalStyle* ListOfLocalStyles::get(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the LocalStyle with the given @p id or @c NULL if
  * the id is invalid.
@@ -601,7 +601,7 @@ const LocalStyle* ListOfLocalStyles::get(const std::string& id) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes the nth item from this list */
     LocalStyle*
 ListOfLocalStyles::remove (unsigned int n)
@@ -611,7 +611,7 @@ ListOfLocalStyles::remove (unsigned int n)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes item in this list by id */
     LocalStyle*
 ListOfLocalStyles::remove (const std::string& sid)
@@ -631,7 +631,7 @@ ListOfLocalStyles::remove (const std::string& sid)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -658,7 +658,7 @@ int ListOfLocalStyles::getTypeCode() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Writes the id list to an XML stream.
  */

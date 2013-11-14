@@ -59,7 +59,7 @@ the BioModels Database (http://www.ebi.ac.uk/biomodels/).
 File authors: M. Hucka, B. Bornstein
 Last Modified: $Date: 2009-01-04 11:26:05 +0900#$
 Last Modified By: $Author: luciansmith $
-$HeadURL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/examples/README.txt $
+$HeadURL: https://svn.code.sf.net/p/sbml/code/trunk/libsbml/examples/README.txt $
 -------------------------------------------
 
 # The following is for [X]Emacs users.  Please leave in place.

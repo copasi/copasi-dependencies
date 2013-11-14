@@ -1,5 +1,5 @@
 /**
- * @cond doxygen-libsbml-internal
+ * @cond doxygenLibsbmlInternal
  *
  * @file    ResultExceedsMaximum.h
  * @brief   Checks rule ordering for l2v1 and l1

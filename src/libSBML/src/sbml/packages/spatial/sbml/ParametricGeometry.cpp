@@ -349,9 +349,10 @@ ParametricGeometry::getNumSpatialPoints () const
   */
 void
 ParametricGeometry::connectToChild()
-{	
-	mParametricObjects.connectToParent(this);
-	mSpatialPoints.connectToParent(this);
+{
+  GeometryDefinition::connectToChild();
+  mParametricObjects.connectToParent(this);
+  mSpatialPoints.connectToParent(this);
 }
 
 /**
@@ -548,7 +549,7 @@ ParametricGeometry::enablePackageInternal(const std::string& pkgURI,
 
 
 
-/** @cond doxygen-c-only */
+/** @cond doxygenCOnly */
 
 /**
  * Creates and returns a deep copy of a given ParametricGeometry_t structure.

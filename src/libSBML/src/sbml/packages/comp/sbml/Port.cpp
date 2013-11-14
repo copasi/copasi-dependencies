@@ -330,7 +330,7 @@ Port::saveReferencedElement()
 }
 
 void
-Port::renameSIdRefs(std::string oldid, std::string newid)
+Port::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (mIdRef==oldid) mIdRef=newid;
   SBaseRef::renameSIdRefs(oldid, newid);
@@ -338,7 +338,7 @@ Port::renameSIdRefs(std::string oldid, std::string newid)
 
 
 void
-Port::renameUnitSIdRefs(std::string oldid, std::string newid)
+Port::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (mUnitRef==oldid) mUnitRef=newid;
   SBaseRef::renameUnitSIdRefs(oldid, newid);
@@ -346,7 +346,7 @@ Port::renameUnitSIdRefs(std::string oldid, std::string newid)
 
 
 void
-Port::renameMetaIdRefs(std::string oldid, std::string newid)
+Port::renameMetaIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (mMetaIdRef==oldid) mMetaIdRef=newid;
   SBaseRef::renameMetaIdRefs(oldid, newid);
@@ -379,7 +379,7 @@ Port_t *
 Port_create(unsigned int level, unsigned int version,
             unsigned int pkgVersion)
 {
-	return new Port(level, version, pkgVersion);
+  return new Port(level, version, pkgVersion);
 }
 
 
@@ -390,8 +390,8 @@ LIBSBML_EXTERN
 void
 Port_free(Port_t * p)
 {
-	if (p != NULL)
-		delete p;
+  if (p != NULL)
+    delete p;
 }
 
 
@@ -402,14 +402,14 @@ LIBSBML_EXTERN
 Port_t *
 Port_clone(Port_t * p)
 {
-	if (p != NULL)
-	{
-		return static_cast<Port_t*>(p->clone());
-	}
-	else
-	{
-		return NULL;
-	}
+  if (p != NULL)
+  {
+    return static_cast<Port_t*>(p->clone());
+  }
+  else
+  {
+    return NULL;
+  }
 }
 
 
@@ -420,10 +420,10 @@ LIBSBML_EXTERN
 char *
 Port_getId(Port_t * p)
 {
-	if (p == NULL)
-		return NULL;
+  if (p == NULL)
+    return NULL;
 
-	return p->getId().empty() ? NULL : safe_strdup(p->getId().c_str());
+  return p->getId().empty() ? NULL : safe_strdup(p->getId().c_str());
 }
 
 
@@ -434,10 +434,10 @@ LIBSBML_EXTERN
 char *
 Port_getName(Port_t * p)
 {
-	if (p == NULL)
-		return NULL;
+  if (p == NULL)
+    return NULL;
 
-	return p->getName().empty() ? NULL : safe_strdup(p->getName().c_str());
+  return p->getName().empty() ? NULL : safe_strdup(p->getName().c_str());
 }
 
 
@@ -448,7 +448,7 @@ LIBSBML_EXTERN
 int
 Port_isSetId(Port_t * p)
 {
-	return (p != NULL) ? static_cast<int>(p->isSetId()) : 0;
+  return (p != NULL) ? static_cast<int>(p->isSetId()) : 0;
 }
 
 
@@ -459,7 +459,7 @@ LIBSBML_EXTERN
 int
 Port_isSetName(Port_t * p)
 {
-	return (p != NULL) ? static_cast<int>(p->isSetName()) : 0;
+  return (p != NULL) ? static_cast<int>(p->isSetName()) : 0;
 }
 
 
@@ -470,7 +470,7 @@ LIBSBML_EXTERN
 int
 Port_setId(Port_t * p, const char * id)
 {
-	return (p != NULL) ? p->setId(id) : LIBSBML_INVALID_OBJECT;
+  return (p != NULL) ? p->setId(id) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -481,7 +481,7 @@ LIBSBML_EXTERN
 int
 Port_setName(Port_t * p, const char * name)
 {
-	return (p != NULL) ? p->setName(name) : LIBSBML_INVALID_OBJECT;
+  return (p != NULL) ? p->setName(name) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -492,7 +492,7 @@ LIBSBML_EXTERN
 int
 Port_unsetId(Port_t * p)
 {
-	return (p != NULL) ? p->unsetId() : LIBSBML_INVALID_OBJECT;
+  return (p != NULL) ? p->unsetId() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -503,7 +503,7 @@ LIBSBML_EXTERN
 int
 Port_unsetName(Port_t * p)
 {
-	return (p != NULL) ? p->unsetName() : LIBSBML_INVALID_OBJECT;
+  return (p != NULL) ? p->unsetName() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -514,7 +514,7 @@ LIBSBML_EXTERN
 int
 Port_hasRequiredAttributes(Port_t * p)
 {
-	return (p != NULL) ? static_cast<int>(p->hasRequiredAttributes()) : 0;
+  return (p != NULL) ? static_cast<int>(p->hasRequiredAttributes()) : 0;
 }
 
 
@@ -525,10 +525,10 @@ LIBSBML_EXTERN
 Port_t *
 ListOfPorts_getById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfPorts *>(lo)->get(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfPorts *>(lo)->get(sid) : NULL;
 }
 
 
@@ -539,10 +539,10 @@ LIBSBML_EXTERN
 Port_t *
 ListOfPorts_removeById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfPorts *>(lo)->remove(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfPorts *>(lo)->remove(sid) : NULL;
 }
 
 

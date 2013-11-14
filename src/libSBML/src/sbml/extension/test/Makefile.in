@@ -59,6 +59,7 @@ test_sources =                    \
   TestSBMLExtension.cpp           \
   TestSBMLExtensionNamespaces.cpp \
   TestSBMLExtensionRegistry.cpp   \
+  TestUnknownPackage.cpp          \
   TestPackage.cpp                 \
   TestPackage.h                   \
   TestRunner.c
@@ -101,7 +102,10 @@ endif
 # `distfiles_exclude' is used to filter out specific items, so that even if
 # they appear in `distfiles', they will not be copied in the distribution.
 
-distfiles = $(test_sources) Makefile.in CMakeLists.txt
+test_data_files = $(wildcard test-data/*.xml) $(wildcard test-data/*.txt)
+
+
+distfiles = $(test_sources) $(test_data_files) Makefile.in CMakeLists.txt
 
 
 # -----------------------------------------------------------------------------
@@ -132,7 +136,26 @@ otherdirs     = .. ../.. ../../util ../../xml ../../annotation \
 
 ifdef USE_LAYOUT
   otherdirs +=	../../packages/layout/extension ../../packages/layout/sbml \
-				../../packages/layout/common  ../../packages/layout/util 
+				../../packages/layout/common  ../../packages/layout/util \
+				../../packages/layout/validator ../../packages/layout/validator/constraints
+endif
+
+ifdef USE_FBC
+  otherdirs +=	../../packages/fbc/extension ../../packages/fbc/sbml \
+				../../packages/fbc/common  ../../packages/fbc/util \
+				../../packages/fbc/validator ../../packages/fbc/validator/constraints
+endif
+
+ifdef USE_QUAL
+  otherdirs +=	../../packages/qual/extension ../../packages/qual/sbml \
+				../../packages/qual/common\
+				../../packages/qual/validator ../../packages/qual/validator/constraints
+endif
+
+ifdef USE_COMP
+  otherdirs +=	../../packages/comp/extension ../../packages/comp/sbml \
+				../../packages/comp/common  ../../packages/comp/util \
+				../../packages/comp/validator ../../packages/comp/validator/constraints
 endif
 
 

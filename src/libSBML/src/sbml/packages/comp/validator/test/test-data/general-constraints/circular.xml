@@ -6,6 +6,6 @@
     </comp:listOfSubmodels>
   </model>
   <comp:listOfExternalModelDefinitions>
-    <comp:externalModelDefinition comp:id="EM1" comp:source="1020310-fail-01-01.xml" comp:modelRef="BaseModel"/>
+    <comp:externalModelDefinition comp:id="EM1" comp:source="1020617-fail-01-04.xml" comp:modelRef="BaseModel"/>
   </comp:listOfExternalModelDefinitions>
 </sbml>

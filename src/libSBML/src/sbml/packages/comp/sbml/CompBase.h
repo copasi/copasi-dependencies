@@ -18,18 +18,19 @@
  *------------------------------------------------------------------------- -->
  *
  * @class CompBase
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * A convenience subclass of 'comp' package SBase-derived classes
+ * @sbmlbrief{comp} A convenience subclass of &ldquo;comp&rdquo; package
+ * SBase-derived classes
  *
  * The CompBase class derives from SBase, and defines a few functions
  * and features common to all SBase-derived classes in the SBML Level&nbsp;3
- * @ref Comp "Hierarchical Model Composition" package ('comp').
+ * @ref comp @if java "Hierarchical %Model Composition"@endif@~ package
+ * (&ldquo;comp&rdquo;).
  */
 
 #ifndef CompBase_h
 #define CompBase_h
 
+#include <set>
 
 #include <sbml/common/sbmlfwd.h>
 #include <sbml/extension/SBMLExtension.h>
@@ -92,14 +93,6 @@ public:
    * @return the URI of the package extension of this plugin object.
    */
   const std::string& getPackageURI() const;
-
-
-  /**
-   * Returns the prefix of the package extension of this plugin object.
-   *
-   * @return the prefix of the package extension of this plugin object.
-   */
-  const std::string& getPrefix() const;
 
 
   /**
@@ -207,7 +200,7 @@ protected:
    * object's level/version and namespace values correspond to a valid
    * SBML specification.
    *
-   * The valid combination of SBML Level and Version, 'comp' package version, and Namespace as of this
+   * The valid combination of SBML Level and Version, &ldquo;comp&rdquo; package version, and Namespace as of this
    * release of libSBML is the following:
    * <ul>
    * <li> Level&nbsp;3 Version&nbsp;1 Package&nbsp;Version&nbsp;1: <code>"http://www.sbml.org/sbml/level3/version1/comp/version1"</code>
@@ -225,7 +218,7 @@ protected:
   bool hasValidLevelVersionNamespaceCombination();
   /** @endcond */
 
-
+protected:
   /** @cond doxygenLibsbmlInternal */
   /**
    * Remove the given SBase object, and any Ports that point to it.
@@ -234,7 +227,20 @@ protected:
    * it happens, we need to not actually crash.  This function finds and 
    * deletes all such invalid ports before deleting the object.
    */
-  static int removeFromParentAndPorts(SBase* todelete);
+  static int removeFromParentAndPorts(SBase* todelete, std::set<SBase*>* removed);
+  friend class CompModelPlugin;
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * DEPRECATED FUNCTION:  DO NOT USE
+   *
+   * Remove the given SBase object, and any Ports that point to it.  Unsafe,
+   * because the program might later attempt to delete any removed Port.
+   */
+  int removeFromParentAndPorts(SBase* todelete);
+
   /** @endcond */
 
 private:

@@ -26,6 +26,9 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class SBasePluginCreator
+ * @sbmlpackage{core} Template class of %SBasePlugin.
  */
 
 #ifndef SBasePluginCreator_h
@@ -40,9 +43,6 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-/**
- * @ingroup Core
- */
 template<class SBasePluginType, class SBMLExtensionType>
 class LIBSBML_EXTERN SBasePluginCreator : public SBasePluginCreatorBase
 {

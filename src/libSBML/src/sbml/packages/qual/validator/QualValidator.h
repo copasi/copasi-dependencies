@@ -26,9 +26,8 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class QualValidator
- * @ingroup QUAL
- * @brief @htmlinclude pkg-marker-fbc.html
- * Entry point for libSBML's implementation of SBML validation rules for 'qual'.
+ * @sbmlbrief{qual} Entry point for libSBML's implementation of SBML
+ * validation rules for 'qual'.
  * 
  * @htmlinclude not-sbml-warning.html
  *
@@ -60,7 +59,7 @@
 #ifdef __cplusplus
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 #include <list>
 #include <string>
@@ -145,7 +144,7 @@ public:
 
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   QualValidatorConstraints* mQualConstraints;
 

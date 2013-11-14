@@ -26,9 +26,7 @@
  * ---------------------------------------------------------------------- -->
  *
  * @class CompFlatteningConverter
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * Flattening converter for the 'comp' package.
+ * @sbmlbrief{comp} Flattening converter for the &ldquo;comp&rdquo; package.
  */
 
 #ifndef CompFlatteningConverter_h
@@ -109,9 +107,22 @@ public:
    * The properties for the CompFlatteningConverter are:
    * @li "flatten comp": the name of this converter
    * @li "basePath": the base directory to find external references in
-   * @li "leavePorts": unused ports should be listed in the flattened model
-   * @li "listModelDefinitions": the model definitions should be listed in the flattened model
-   * @li "ignorePackages": packages that cannot be flattened should be removed 
+   * @li "leavePorts": boolean indicating whether unused ports 
+   *   should be listed in the flattened model; default = false
+   * @li "listModelDefinitions": boolean indicating whether the model 
+   *   definitions should be listed in the flattened model; default = false
+   * @li "stripUnflattenablePackages": boolean indicating whether packages 
+   *   that cannot be flattened should be removed; default = true
+   * @li "performValidation": boolean indicating whether validation should be 
+   *   performed. When @c true either an invalid source document or 
+   *   an invalid flattened document will cause flattening to fail; default = true
+   * @li "abortIfUnflattenable": string indicating the required status of
+   *   any unflattenable packages that should cause flattening to fail.
+   *   Possible values are "none", "requiredOnly" and "all"; default = requiredOnly
+   *
+   * @note previously there was an "ignorePackages" option; whose name
+   * proved to be very misleading. This option has been deprecated and 
+   * replaced by the "stripUnflattenablePackages" but will still work.
    *
    * @return the ConversionProperties object describing the default properties
    * for this converter.
@@ -120,7 +131,12 @@ public:
 
 private:
 
-  int reconstructDocument(Model* flatmodel, SBMLDocument &dummyDoc);
+  int reconstructDocument(Model* flatmodel); 
+
+  int reconstructDocument(Model* flatmodel, 
+                          SBMLDocument &dummyDoc,  bool dummyRecon = false);
+
+  void stripUnflattenablePackages();
 
   bool getLeavePorts() const;
 
@@ -128,9 +144,46 @@ private:
 
   bool getIgnorePackages() const;
 
+  bool getStripUnflattenablePackages() const;
+
   bool getPerformValidation() const;
 
-  bool canBeFlattened() const;
+  bool getAbortForAll() const;
+
+  bool getAbortForRequired() const;
+
+  bool getAbortForNone() const;
+
+  bool canBeFlattened();
+
+  void restoreNamespaces();
+
+  std::set<std::pair<std::string, std::string> > mDisabledPackages;
+
+
+#ifndef SWIG
+  typedef std::vector<bool>                     ValueSet;
+  typedef std::map<const std::string, ValueSet> PackageValueMap;
+  typedef PackageValueMap::iterator             PackageValueIter;
+#endif
+
+  PackageValueMap mPackageValues;
+
+  void analyseDocument();
+
+  bool getRequiredStatus(const std::string & package);
+
+  bool getKnownStatus(const std::string& package);
+
+  bool getFlattenableStatus(const std::string& package);
+
+  bool haveUnknownRequiredPackages();
+
+  bool haveUnknownUnrequiredPackages();
+
+  bool haveUnflattenableRequiredPackages();
+
+  bool haveUnflattenableUnrequiredPackages();
 
 };
 

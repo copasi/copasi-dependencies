@@ -70,160 +70,160 @@ protected:
   std::string   mName;
   GroupKind_t   mKind;
   ListOfMembers mMembers;
-	ListOfMemberConstraints   mMemberConstraints;
+  ListOfMemberConstraints   mMemberConstraints;
 
 public:
 
-	/**
-	 * Creates a new Group with the given level, version, and package version.
-	 *
-	 * @param level an unsigned int, the SBML Level to assign to this Group
-	 *
-	 * @param version an unsigned int, the SBML Version to assign to this Group
-	 *
-	 * @param pkgVersion an unsigned int, the SBML Groups Version to assign to this Group
-	 */
-	Group(unsigned int level      = GroupsExtension::getDefaultLevel(),
-	      unsigned int version    = GroupsExtension::getDefaultVersion(),
-	      unsigned int pkgVersion = GroupsExtension::getDefaultPackageVersion());
+  /**
+   * Creates a new Group with the given level, version, and package version.
+   *
+   * @param level an unsigned int, the SBML Level to assign to this Group
+   *
+   * @param version an unsigned int, the SBML Version to assign to this Group
+   *
+   * @param pkgVersion an unsigned int, the SBML Groups Version to assign to this Group
+   */
+  Group(unsigned int level      = GroupsExtension::getDefaultLevel(),
+        unsigned int version    = GroupsExtension::getDefaultVersion(),
+        unsigned int pkgVersion = GroupsExtension::getDefaultPackageVersion());
 
 
-	/**
-	 * Creates a new Group with the given GroupsPkgNamespaces object.
-	 *
-	 * @param groupsns the GroupsPkgNamespaces object
-	 */
-	Group(GroupsPkgNamespaces* groupsns);
+  /**
+   * Creates a new Group with the given GroupsPkgNamespaces object.
+   *
+   * @param groupsns the GroupsPkgNamespaces object
+   */
+  Group(GroupsPkgNamespaces* groupsns);
 
 
- 	/**
-	 * Copy constructor for Group.
-	 *
-	 * @param orig; the Group instance to copy.
-	 */
-	Group(const Group& orig);
+  /**
+   * Copy constructor for Group.
+   *
+   * @param orig; the Group instance to copy.
+   */
+  Group(const Group& orig);
 
 
- 	/**
-	 * Assignment operator for Group.
-	 *
-	 * @param rhs; the object whose values are used as the basis
-	 * of the assignment
-	 */
-	Group& operator=(const Group& rhs);
+  /**
+   * Assignment operator for Group.
+   *
+   * @param rhs; the object whose values are used as the basis
+   * of the assignment
+   */
+  Group& operator=(const Group& rhs);
 
 
- 	/**
-	 * Creates and returns a deep copy of this Group object.
-	 *
-	 * @return a (deep) copy of this Group object.
-	 */
-	virtual Group* clone () const;
+  /**
+   * Creates and returns a deep copy of this Group object.
+   *
+   * @return a (deep) copy of this Group object.
+   */
+  virtual Group* clone () const;
 
 
- 	/**
-	 * Destructor for Group.
-	 */
-	virtual ~Group();
+  /**
+   * Destructor for Group.
+   */
+  virtual ~Group();
 
 
- 	/**
-	 * Returns the value of the "id" attribute of this Group.
-	 *
-	 * @return the value of the "id" attribute of this Group as a string.
-	 */
-	virtual const std::string& getId() const;
+  /**
+   * Returns the value of the "id" attribute of this Group.
+   *
+   * @return the value of the "id" attribute of this Group as a string.
+   */
+  virtual const std::string& getId() const;
 
 
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * Group's "id" attribute has been set.
-	 *
-	 * @return @c true if this Group's "id" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetId() const;
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * Group's "id" attribute has been set.
+   *
+   * @return @c true if this Group's "id" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetId() const;
 
 
-	/**
-	 * Sets the value of the "id" attribute of this Group.
-	 *
-	 * @param id; const std::string& value of the "id" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setId(const std::string& id);
+  /**
+   * Sets the value of the "id" attribute of this Group.
+   *
+   * @param id; const std::string& value of the "id" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setId(const std::string& id);
 
 
-	/**
-	 * Unsets the value of the "id" attribute of this Group.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetId();
+  /**
+   * Unsets the value of the "id" attribute of this Group.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetId();
 
 
-	/**
-	 * Returns the value of the "name" attribute of this Group.
-	 *
-	 * @return the value of the "name" attribute of this Group as a string.
-	 */
-	virtual const std::string& getName() const;
+  /**
+   * Returns the value of the "name" attribute of this Group.
+   *
+   * @return the value of the "name" attribute of this Group as a string.
+   */
+  virtual const std::string& getName() const;
 
 
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * Group's "name" attribute has been set.
-	 *
-   * @htmlinclude libsbml-comment-set-methods.html
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * Group's "name" attribute has been set.
+   *
+   * @htmlinclude comment-set-methods.html
    * 
-	 * @return @c true if this Group's "name" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetName() const;
+   * @return @c true if this Group's "name" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetName() const;
 
   /**
    * Sets the value of the "name" attribute of this Group.
    *
    * The string in @p name is copied.
    *
-   * @htmlinclude libsbml-comment-set-methods.html
+   * @htmlinclude comment-set-methods.html
    *
-	 * @param name; const std::string& value of the "name" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setName(const std::string& name);
+   * @param name; const std::string& value of the "name" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setName(const std::string& name);
 
 
-	/**
-	 * Unsets the value of the "name" attribute of this Group.
-	 *
-   * @htmlinclude libsbml-comment-set-methods.html
+  /**
+   * Unsets the value of the "name" attribute of this Group.
    *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetName();
+   * @htmlinclude comment-set-methods.html
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetName();
 
 
   /**
@@ -234,16 +234,16 @@ public:
   const GroupKind_t getKind () const;
 
 
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * Group's "kind" attribute has been set.
-	 *
-   * @htmlinclude libsbml-comment-set-methods.html
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * Group's "kind" attribute has been set.
+   *
+   * @htmlinclude comment-set-methods.html
    * 
-	 * @return @c true if this Group's "kind" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetKind() const;
+   * @return @c true if this Group's "kind" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetKind() const;
 
 
   /**
@@ -251,31 +251,31 @@ public:
    *
    * The string in @p kind is copied.
    *
-   * @htmlinclude libsbml-comment-set-methods.html
+   * @htmlinclude comment-set-methods.html
    *
    * @param kind the new kind for the Group
    *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
   int setKind (const GroupKind_t kind);
 
 
-	/**
-	 * Unsets the value of the "kind" attribute of this Group.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetKind();
+  /**
+   * Unsets the value of the "kind" attribute of this Group.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetKind();
 
 
   /**
@@ -392,143 +392,143 @@ public:
   Member* removeMember(const std::string& symbol);
 
 
-	/**
-	 * Returns the  "ListOfMemberConstraints" in this Group object.
-	 *
-	 * @return the "ListOfMemberConstraints" attribute of this Group.
-	 */
-	const ListOfMemberConstraints* getListOfMemberConstraints() const;
+  /**
+   * Returns the  "ListOfMemberConstraints" in this Group object.
+   *
+   * @return the "ListOfMemberConstraints" attribute of this Group.
+   */
+  const ListOfMemberConstraints* getListOfMemberConstraints() const;
 
 
-	/**
-	 * Returns the  "ListOfMemberConstraints" in this Group object.
-	 *
-	 * @return the "ListOfMemberConstraints" attribute of this Group.
-	 */
-	ListOfMemberConstraints* getListOfMemberConstraints();
+  /**
+   * Returns the  "ListOfMemberConstraints" in this Group object.
+   *
+   * @return the "ListOfMemberConstraints" attribute of this Group.
+   */
+  ListOfMemberConstraints* getListOfMemberConstraints();
 
 
-	/**
-	 * Get a MemberConstraint from the ListOfMemberConstraints.
-	 *
-	 * @param n the index number of the MemberConstraint to get.
-	 *
-	 * @return the nth MemberConstraint in the ListOfMemberConstraints within this Group.
-	 *
-	 * @see getNumMemberConstraints()
-	 */
-	MemberConstraint* getMemberConstraint(unsigned int n);
+  /**
+   * Get a MemberConstraint from the ListOfMemberConstraints.
+   *
+   * @param n the index number of the MemberConstraint to get.
+   *
+   * @return the nth MemberConstraint in the ListOfMemberConstraints within this Group.
+   *
+   * @see getNumMemberConstraints()
+   */
+  MemberConstraint* getMemberConstraint(unsigned int n);
 
 
-	/**
-	 * Get a MemberConstraint from the ListOfMemberConstraints.
-	 *
-	 * @param n the index number of the MemberConstraint to get.
-	 *
-	 * @return the nth MemberConstraint in the ListOfMemberConstraints within this Group.
-	 *
-	 * @see getNumMemberConstraints()
-	 */
-	const MemberConstraint* getMemberConstraint(unsigned int n) const;
+  /**
+   * Get a MemberConstraint from the ListOfMemberConstraints.
+   *
+   * @param n the index number of the MemberConstraint to get.
+   *
+   * @return the nth MemberConstraint in the ListOfMemberConstraints within this Group.
+   *
+   * @see getNumMemberConstraints()
+   */
+  const MemberConstraint* getMemberConstraint(unsigned int n) const;
 
 
-	/**
-	 * Get a MemberConstraint from the ListOfMemberConstraints
-	 * based on its identifier.
-	 *
-	 * @param sid a string representing the identifier
-	 * of the MemberConstraint to get.
-	 *
-	 * @return the MemberConstraint in the ListOfMemberConstraints
-	 * with the given id or NULL if no such
-	 * MemberConstraint exists.
-	 *
-	 * @see getMemberConstraint(unsigned int n)
-	 *
-	 * @see getNumMemberConstraints()
-	 */
-	MemberConstraint* getMemberConstraint(const std::string& sid);
+  /**
+   * Get a MemberConstraint from the ListOfMemberConstraints
+   * based on its identifier.
+   *
+   * @param sid a string representing the identifier
+   * of the MemberConstraint to get.
+   *
+   * @return the MemberConstraint in the ListOfMemberConstraints
+   * with the given id or NULL if no such
+   * MemberConstraint exists.
+   *
+   * @see getMemberConstraint(unsigned int n)
+   *
+   * @see getNumMemberConstraints()
+   */
+  MemberConstraint* getMemberConstraint(const std::string& sid);
 
 
-	/**
-	 * Get a MemberConstraint from the ListOfMemberConstraints
-	 * based on its identifier.
-	 *
-	 * @param sid a string representing the identifier
-	 * of the MemberConstraint to get.
-	 *
-	 * @return the MemberConstraint in the ListOfMemberConstraints
-	 * with the given id or NULL if no such
-	 * MemberConstraint exists.
-	 *
-	 * @see getMemberConstraint(unsigned int n)
-	 *
-	 * @see getNumMemberConstraints()
-	 */
-	const MemberConstraint* getMemberConstraint(const std::string& sid) const;
+  /**
+   * Get a MemberConstraint from the ListOfMemberConstraints
+   * based on its identifier.
+   *
+   * @param sid a string representing the identifier
+   * of the MemberConstraint to get.
+   *
+   * @return the MemberConstraint in the ListOfMemberConstraints
+   * with the given id or NULL if no such
+   * MemberConstraint exists.
+   *
+   * @see getMemberConstraint(unsigned int n)
+   *
+   * @see getNumMemberConstraints()
+   */
+  const MemberConstraint* getMemberConstraint(const std::string& sid) const;
 
 
-	/**
-	 * Adds a copy the given "MemberConstraint" to this Group.
-	 *
-	 * @param mc; the MemberConstraint object to add
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	int addMemberConstraint(const MemberConstraint* mc);
+  /**
+   * Adds a copy the given "MemberConstraint" to this Group.
+   *
+   * @param mc; the MemberConstraint object to add
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  int addMemberConstraint(const MemberConstraint* mc);
 
 
-	/**
-	 * Get the number of MemberConstraint objects in this Group.
-	 *
-	 * @return the number of MemberConstraint objects in this Group
-	 */
-	unsigned int getNumMemberConstraints() const;
+  /**
+   * Get the number of MemberConstraint objects in this Group.
+   *
+   * @return the number of MemberConstraint objects in this Group
+   */
+  unsigned int getNumMemberConstraints() const;
 
 
-	/**
-	 * Creates a new MemberConstraint object, adds it to this Groups
-	 * ListOfMemberConstraints and returns the MemberConstraint object created. 
-	 *
-	 * @return a new MemberConstraint object instance
-	 *
-	 * @see addMemberConstraint(const MemberConstraint* mc)
-	 */
-	MemberConstraint* createMemberConstraint();
+  /**
+   * Creates a new MemberConstraint object, adds it to this Groups
+   * ListOfMemberConstraints and returns the MemberConstraint object created. 
+   *
+   * @return a new MemberConstraint object instance
+   *
+   * @see addMemberConstraint(const MemberConstraint* mc)
+   */
+  MemberConstraint* createMemberConstraint();
 
 
-	/**
-	 * Removes the nth MemberConstraint from the ListOfMemberConstraints within this Group.
-	 * and returns a pointer to it.
-	 *
-	 * The caller owns the returned item and is responsible for deleting it.
-	 *
-	 * @param n the index of the MemberConstraint to remove.
-	 *
-	 * @see getNumMemberConstraints()
-	 */
-	MemberConstraint* removeMemberConstraint(unsigned int n);
+  /**
+   * Removes the nth MemberConstraint from the ListOfMemberConstraints within this Group.
+   * and returns a pointer to it.
+   *
+   * The caller owns the returned item and is responsible for deleting it.
+   *
+   * @param n the index of the MemberConstraint to remove.
+   *
+   * @see getNumMemberConstraints()
+   */
+  MemberConstraint* removeMemberConstraint(unsigned int n);
 
 
-	/**
-	 * Removes the MemberConstraint with the given identifier from the ListOfMemberConstraints within this Group
-	 * and returns a pointer to it.
-	 *
-	 * The caller owns the returned item and is responsible for deleting it.
-	 * If none of the items in this list have the identifier @p sid, then
-	 * @c NULL is returned.
-	 *
-	 * @param sid the identifier of the MemberConstraint to remove.
-	 *
-	 * @return the MemberConstraint removed. As mentioned above, the caller owns the
-	 * returned item.
-	 */
-	MemberConstraint* removeMemberConstraint(const std::string& sid);
+  /**
+   * Removes the MemberConstraint with the given identifier from the ListOfMemberConstraints within this Group
+   * and returns a pointer to it.
+   *
+   * The caller owns the returned item and is responsible for deleting it.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
+   *
+   * @param sid the identifier of the MemberConstraint to remove.
+   *
+   * @return the MemberConstraint removed. As mentioned above, the caller owns the
+   * returned item.
+   */
+  MemberConstraint* removeMemberConstraint(const std::string& sid);
 
 
 
@@ -550,7 +550,7 @@ public:
   int getTypeCode () const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write out their contained
    * SBML objects as XML elements.  Be sure to call your parents
@@ -572,10 +572,10 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBMLDocument of this SBML object.
    *
@@ -609,26 +609,26 @@ public:
    */
   virtual void enablePackageInternal(const std::string& pkgURI,
                                      const std::string& pkgPrefix, bool flag);
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /* function returns true if component has all the required
    * attributes
    * needs to be overloaded for each component
    */
   virtual bool hasRequiredAttributes() const ;
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /* function returns true if component has all the required
    * elements
    * needs to be overloaded for each component
    */
   virtual bool hasRequiredElements() const ;
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
     
 protected:

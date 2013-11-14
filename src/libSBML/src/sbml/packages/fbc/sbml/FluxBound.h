@@ -17,19 +17,11 @@
  *------------------------------------------------------------------------- -->
  *
  * @class FluxBound
- * @ingroup FBC
- * @brief @htmlinclude pkg-marker-fbc.html
- * Implementation of the 'fbc' package %FluxBound construct.
+ * @sbmlbrief{fbc} Implementation of the 'fbc' package %FluxBound construct.
  *
- * <!-- leave this next break as-is to work around some doxygen bug -->
+ * The FluxBound object holds a single (in)equality that provides the maximum
+ * or minimum value that a reaction flux can obtain at steady state.
  */ 
-/**
- * @class ListOfFluxBounds
- * @ingroup FBC
- * @brief @htmlinclude pkg-marker-fbc.html
- * Implementation of the 'fbc' package %ListOfFluxBounds construct.
- */
-
 
 #ifndef FluxBound_H__
 #define FluxBound_H__
@@ -41,14 +33,22 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
+  /**
+   * The FluxBoundOperation_t enumeration contains the possible values for
+   * the FluxBound 'operation' attribute.  The possible legal values are less
+   * than or equal to, greater than or equal to, or equal to.  The two
+   * options 'less than' and 'greater than' are not legal values for the
+   * FluxBound 'operation' attribute, but are provided to allow backwards
+   * compatibility with an earlier version of the draft specification.
+   */
 typedef enum
 {
-    FLUXBOUND_OPERATION_LESS_EQUAL
-  , FLUXBOUND_OPERATION_GREATER_EQUAL
-  , FLUXBOUND_OPERATION_LESS
-  , FLUXBOUND_OPERATION_GREATER
-  , FLUXBOUND_OPERATION_EQUAL
-  , FLUXBOUND_OPERATION_UNKNOWN
+    FLUXBOUND_OPERATION_LESS_EQUAL /** Less than or equal to. */ 
+  , FLUXBOUND_OPERATION_GREATER_EQUAL /** Greater than or equal to.*/ 
+  , FLUXBOUND_OPERATION_LESS /** Less than. NOTE:  ILLEGAL VALUE */ 
+  , FLUXBOUND_OPERATION_GREATER /** Greater than. NOTE:  ILLEGAL VALUE*/ 
+  , FLUXBOUND_OPERATION_EQUAL /** Equal to. */ 
+  , FLUXBOUND_OPERATION_UNKNOWN  /** Unknown operation. */
 } FluxBoundOperation_t;
 
 LIBSBML_CPP_NAMESPACE_END
@@ -132,11 +132,9 @@ public:
    * Sets the value of the "id" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setId (const std::string& id);
 
@@ -145,11 +143,9 @@ public:
    * Unsets the value of the "id" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetId ();
   
@@ -176,11 +172,9 @@ public:
    * Sets the value of the "name" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setName (const std::string& name);
   
@@ -189,15 +183,13 @@ public:
    * Unsets the value of the "name" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetName ();
 
-   /**
+  /**
    * Returns the value of the "reaction" attribute of this FluxBound.
    *
    * @return the value of the "reaction" attribute of this FluxBound.
@@ -219,11 +211,9 @@ public:
    * Sets the value of the "reaction" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setReaction (const std::string& reaction);
 
@@ -232,16 +222,14 @@ public:
    * Unsets the value of the "reaction" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetReaction ();
 
 
-   /**
+  /**
    * Returns the value of the "operation" attribute of this FluxBound.
    *
    * @return the value of the "operation" attribute of this FluxBound.
@@ -249,7 +237,7 @@ public:
   const std::string& getOperation ();
 
 
-   /**
+  /**
    * Returns the value of the "operation" attribute of this FluxBound.
    *
    * @return the value of the "operation" attribute of this FluxBound.
@@ -271,11 +259,9 @@ public:
    * Sets the value of the "operation" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setOperation (const std::string& operation);
 
@@ -284,11 +270,9 @@ public:
    * Sets the value of the "operation" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setOperation (FluxBoundOperation_t operation);
 
@@ -297,15 +281,13 @@ public:
    * Unsets the value of the "operation" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetOperation ();
 
-   /**
+  /**
    * Returns the value of the "value" attribute of this FluxBound.
    *
    * @return the value of the "value" attribute of this FluxBound.
@@ -327,11 +309,9 @@ public:
    * Sets the value of the "value" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setValue (const double value);
 
@@ -340,13 +320,26 @@ public:
    * Unsets the value of the "value" attribute of this FluxBound.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetValue ();
+
+
+  /**
+   * Renames all the @c SIdRef attributes on this element, including any
+   * found in MathML content (if such exists).
+   *
+   * This method works by looking at all attributes and (if appropriate)
+   * mathematical formulas, comparing the identifiers to the value of @p
+   * oldid.  If any matches are found, the matching identifiers are replaced
+   * with @p newid.  The method does @em not descend into child elements.
+   *
+   * @param oldid the old identifier
+   * @param newid the new identifier
+   */
+   virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /**
@@ -359,18 +352,27 @@ public:
 
 
   /**
+   * Creates and returns a deep copy of this FluxBound.
+   * 
    * @return a (deep) copy of this FluxBound.
    */
   virtual FluxBound* clone () const;
 
 
   /**
-   * @return the typecode (int) of this SBML object or SBML_UNKNOWN
-   * (default).
+   * Returns the libSBML type code of this object instance.
+   *
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for this object:
+   * @link SBMLFbcTypeCode_t#SBML_FBC_FLUXBOUND SBML_FBC_FLUXBOUND@endlink
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
-  int getTypeCode () const;
+  virtual int getTypeCode () const;
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -410,23 +412,6 @@ public:
 
   /** @cond doxygenLibsbmlInternal */
   /**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor, assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */
-  virtual void connectToChild ();
-  /** @endcond */
-
-
-  /** @cond doxygenLibsbmlInternal */
-  /**
    * Enables/Disables the given package with this element and child
    * elements (if any).
    * (This is an internal implementation for enablePakcage function)
@@ -451,6 +436,8 @@ public:
 protected:
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */
@@ -496,11 +483,23 @@ protected:
   /** @endcond */
 };
 
+
+/**
+ * @class ListOfFluxBounds
+ * @sbmlbrief{fbc} Implementation of the %ListOfFluxBounds construct from the
+ * 'fbc' package.
+ * 
+ * The ListOfFluxBounds is a container for the FluxBound elements of a Model.
+ * 
+ * @copydetails doc_what_is_listof
+ */
 class LIBSBML_EXTERN ListOfFluxBounds : public ListOf
 {
 public:
 
   /**
+   * Creates and returns a deep copy of this ListOfFluxBounds.
+   * 
    * @return a (deep) copy of this ListOfFluxBounds.
    */
   virtual ListOfFluxBounds* clone () const;
@@ -607,8 +606,16 @@ public:
 
 
   /**
-   * @return the typecode (int) of SBML objects contained in this ListOf or
-   * SBML_UNKNOWN (default).
+   * Returns the libSBML type code for the SBML objects
+   * contained in this ListOf object.
+   * 
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for objects contained in this list:
+   * @link SBMLTypeCode_t#SBML_FBC_FLUXBOUND SBML_FBC_FLUXBOUND@endlink (default).
+   *
+   * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
@@ -625,6 +632,8 @@ protected:
 
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */

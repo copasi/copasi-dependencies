@@ -49,7 +49,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string Text::ELEMENT_NAME="text";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Text object with the given SBML level
  * and SBML version.
@@ -76,7 +76,7 @@ Text::Text (unsigned int level, unsigned int version, unsigned int pkgVersion) :
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Text object with the given SBMLNamespaces.
  *
@@ -109,7 +109,7 @@ Text::Text (RenderPkgNamespaces* renderns)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Text object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -145,7 +145,7 @@ Text::Text(const XMLNode& node, unsigned int l2version):GraphicalPrimitive1D(nod
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Text::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -164,7 +164,7 @@ Text::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Text::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
     GraphicalPrimitive1D::readAttributes(attributes,expectedAttributes);
@@ -269,7 +269,7 @@ Text::setElementText(const std::string &text)
 }
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Instantiates a new Text object with the given @p id and position offset.
  * The position offset coordinates can be omitted and will be set to 0 in
@@ -317,7 +317,7 @@ Text::Text(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVect
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the position of the text within the viewport.
  * This is like an offset that is applied after alignment.
@@ -335,7 +335,7 @@ void Text::setCoordinates(const RelAbsVector& x,const RelAbsVector& y,const RelA
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the x position of the text within the viewport.
  * This is like an offset that is applied after alignment.
@@ -348,7 +348,7 @@ void Text::setX(const RelAbsVector& coord)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the y position of the text within the viewport.
  * This is like an offset that is applied after alignment.
@@ -361,7 +361,7 @@ void Text::setY(const RelAbsVector& coord)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the z position of the text within the viewport.
  * This is like an offset that is applied after alignment.
@@ -374,7 +374,7 @@ void Text::setZ(const RelAbsVector& coord)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x position offset as a const reference.
  * This offset is applied after alignment.
@@ -387,7 +387,7 @@ const RelAbsVector& Text::getX() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y position offset as a const reference.
  * This offset is applied after alignment.
@@ -400,7 +400,7 @@ const RelAbsVector& Text::getY() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z position offset as a const reference.
  * This offset is applied after alignment.
@@ -413,7 +413,7 @@ const RelAbsVector& Text::getZ() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x position offset as a reference.
  * This offset is applied after alignment.
@@ -426,7 +426,7 @@ RelAbsVector& Text::getX()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y position offset as a reference.
  * This offset is applied after alignment.
@@ -439,7 +439,7 @@ RelAbsVector& Text::getY()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z position offset as a reference.
  * This offset is applied after alignment.
@@ -452,7 +452,7 @@ RelAbsVector& Text::getZ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the font family.
  *
@@ -464,7 +464,7 @@ void Text::setFontFamily(const std::string& family)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the font size.
  * Normally this is an absolute value, e.g. 18 for a 18pt font.
@@ -480,7 +480,7 @@ void Text::setFontSize(const RelAbsVector& size)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the font weight.
  * Valid values are Text::WEIGHT_UNSET, Text::WEIGHT_NORMAL or
@@ -494,7 +494,7 @@ void Text::setFontWeight(Text::FONT_WEIGHT weight)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the font style.
  * Valid values are Text::STYLE_UNSET, Text::STYLE_NORMAL or
@@ -508,7 +508,7 @@ void Text::setFontStyle(Text::FONT_STYLE style)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the text anchor.
  * This is defines the horizontal text position.
@@ -535,7 +535,7 @@ void Text::setTextAnchor(Text::TEXT_ANCHOR anchor)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the vertical text anchor.
  * This is defines the vertical text position.
@@ -551,7 +551,7 @@ void Text::setVTextAnchor(Text::TEXT_ANCHOR anchor)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font family.
  *
@@ -563,7 +563,7 @@ const std::string& Text::getFontFamily() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font size as a reference.
  *
@@ -575,7 +575,7 @@ RelAbsVector& Text::getFontSize()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font size as a const reference.
  *
@@ -587,7 +587,7 @@ const RelAbsVector& Text::getFontSize() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font weight.
  *
@@ -599,7 +599,7 @@ Text::FONT_WEIGHT Text::getFontWeight() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font style.
  *
@@ -611,7 +611,7 @@ Text::FONT_STYLE Text::getFontStyle() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the text anchor.
  *
@@ -623,7 +623,7 @@ Text::TEXT_ANCHOR Text::getTextAnchor() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the vertical text anchor.
  *
@@ -635,7 +635,7 @@ Text::TEXT_ANCHOR Text::getVTextAnchor() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -664,7 +664,7 @@ int Text::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor for this instance of Group.
  *
@@ -678,7 +678,7 @@ bool Text::accept(SBMLVisitor& /*visitor*/) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this Text object.
  * 
@@ -690,7 +690,7 @@ Text* Text::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * Text, is always @c "text".
@@ -704,7 +704,7 @@ const std::string& Text::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the text for the Text object.
  *
@@ -716,7 +716,7 @@ const std::string& Text::getText() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the text for the text element.
  *
@@ -728,7 +728,7 @@ void Text::setText(const std::string& text)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the text is set to something else than the empty string.
  *
@@ -741,7 +741,7 @@ bool Text::isSetText() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the font family has been set or false otherwise.
  *
@@ -753,7 +753,7 @@ bool Text::isSetFontFamily() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the font size has been set or false otherwise.
  *
@@ -766,7 +766,7 @@ bool Text::isSetFontSize() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the font weight has been set or false otherwise.
  *
@@ -778,7 +778,7 @@ bool Text::isSetFontWeight() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the font style has been set or false otherwise.
  *
@@ -790,7 +790,7 @@ bool Text::isSetFontStyle() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the horizonal alignment attribute has been set.
  *
@@ -802,7 +802,7 @@ bool Text::isSetTextAnchor() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the vertical alignment attribute has been set.
  *
@@ -816,7 +816,7 @@ bool Text::isSetVTextAnchor() const
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds the text rendering attributes of the given Text object
  * to the given XMLAttributes object.
@@ -909,7 +909,7 @@ void Text::addTextAttributes(const Text& text,XMLAttributes& att)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -1024,7 +1024,7 @@ void Text::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Writes (serializes) this SBML object by writing it to XMLOutputStream.
  */
@@ -1043,7 +1043,7 @@ Text::write (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an Text object from this Group object.
  *
@@ -1056,7 +1056,7 @@ XMLNode Text::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -1075,7 +1075,7 @@ void Text::writeElements (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -1098,7 +1098,7 @@ bool Text::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

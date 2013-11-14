@@ -60,7 +60,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 class LIBSBML_EXTERN RenderPoint : public SBase
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   RelAbsVector mXOffset;
   RelAbsVector mYOffset;
   RelAbsVector mZOffset;
@@ -222,7 +222,7 @@ public:
    */ 
   void initDefaults ();
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write out their contained
    * SBML objects as XML elements.  Be sure to call your parents
@@ -302,7 +302,7 @@ public:
    */
   virtual XMLNode toXML(const std::string& name) const;
     
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /* function returns true if component has all the required
    * attributes
    */
@@ -310,7 +310,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /* function returns true if component has all the required
    * elements
    */
@@ -318,7 +318,7 @@ public:
   /** @endcond */
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -326,7 +326,7 @@ protected:
   virtual SBase* createObject (XMLInputStream& stream);
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
@@ -335,7 +335,7 @@ protected:
   virtual void readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes);
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -346,7 +346,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation

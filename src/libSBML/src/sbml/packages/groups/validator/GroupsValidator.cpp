@@ -30,11 +30,11 @@
 #include <sbml/packages/groups/common/GroupsExtensionTypes.h>
 #include <sbml/packages/groups/validator/GroupsValidator.h>
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 using namespace std;
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -133,9 +133,9 @@ struct GroupsValidatorConstraints
 {
   ConstraintSet<SBMLDocument>             mSBMLDocument;
   ConstraintSet<Model>                    mModel;
-	ConstraintSet<Member>      mMember;
-	ConstraintSet<MemberConstraint>      mMemberConstraint;
-	ConstraintSet<Group>      mGroup;
+  ConstraintSet<Member>      mMember;
+  ConstraintSet<MemberConstraint>      mMemberConstraint;
+  ConstraintSet<Group>      mGroup;
   map<VConstraint*,bool> ptrMap;
 
   ~GroupsValidatorConstraints ();
@@ -185,23 +185,23 @@ GroupsValidatorConstraints::add (VConstraint* c)
     mModel.add( static_cast< TConstraint<Model>* >(c) );
     return;
   }
-	if (dynamic_cast< TConstraint<Member>* >(c) != NULL)
-	{
-		mMember.add( static_cast< TConstraint<Member>* >(c) );
-		return;
-	}
+  if (dynamic_cast< TConstraint<Member>* >(c) != NULL)
+  {
+    mMember.add( static_cast< TConstraint<Member>* >(c) );
+    return;
+  }
 
-	if (dynamic_cast< TConstraint<MemberConstraint>* >(c) != NULL)
-	{
-		mMemberConstraint.add( static_cast< TConstraint<MemberConstraint>* >(c) );
-		return;
-	}
+  if (dynamic_cast< TConstraint<MemberConstraint>* >(c) != NULL)
+  {
+    mMemberConstraint.add( static_cast< TConstraint<MemberConstraint>* >(c) );
+    return;
+  }
 
-	if (dynamic_cast< TConstraint<Group>* >(c) != NULL)
-	{
-		mGroup.add( static_cast< TConstraint<Group>* >(c) );
-		return;
-	}
+  if (dynamic_cast< TConstraint<Group>* >(c) != NULL)
+  {
+    mGroup.add( static_cast< TConstraint<Group>* >(c) );
+    return;
+  }
 
 }
 
@@ -227,53 +227,53 @@ class GroupsValidatingVisitor: public SBMLVisitor
 public:
 
   GroupsValidatingVisitor (GroupsValidator& v, const Model& m) : v(v), m(m) { }
-	bool visit (const Member &x)
-	{
-		v.mGroupsConstraints->mMember.applyTo(m, x);
-		return !v.mGroupsConstraints->mMember.empty();
-	}
+  bool visit (const Member &x)
+  {
+    v.mGroupsConstraints->mMember.applyTo(m, x);
+    return !v.mGroupsConstraints->mMember.empty();
+  }
 
-	bool visit (const MemberConstraint &x)
-	{
-		v.mGroupsConstraints->mMemberConstraint.applyTo(m, x);
-		return !v.mGroupsConstraints->mMemberConstraint.empty();
-	}
+  bool visit (const MemberConstraint &x)
+  {
+    v.mGroupsConstraints->mMemberConstraint.applyTo(m, x);
+    return !v.mGroupsConstraints->mMemberConstraint.empty();
+  }
 
-	bool visit (const Group &x)
-	{
-		v.mGroupsConstraints->mGroup.applyTo(m, x);
-		return !v.mGroupsConstraints->mGroup.empty();
-	}
+  bool visit (const Group &x)
+  {
+    v.mGroupsConstraints->mGroup.applyTo(m, x);
+    return !v.mGroupsConstraints->mGroup.empty();
+  }
 
-	virtual bool visit(const SBase &x)
-	{
-		if (&x == NULL || x.getPackageName() != "groups")
-		{
-			return SBMLVisitor::visit(x);
-		}
+  virtual bool visit(const SBase &x)
+  {
+    if (&x == NULL || x.getPackageName() != "groups")
+    {
+      return SBMLVisitor::visit(x);
+    }
 
-		int code = x.getTypeCode();
+    int code = x.getTypeCode();
 
-		const ListOf* list = dynamic_cast<const ListOf*>(&x);
+    const ListOf* list = dynamic_cast<const ListOf*>(&x);
 
-		if (list != NULL)
-		{
-			return SBMLVisitor::visit(x);
-		}
-		else
-		{
-			if (code == SBML_GROUPS_MEMBER)
-			{
-				return visit((const Member&)x);
-			}
-			else if (code == SBML_GROUPS_MEMBER_CONSTRAINT)
-			{
-				return visit((const MemberConstraint&)x);
-			}
-			else if (code == SBML_GROUPS_GROUP)
-			{
-				return visit((const Group&)x);
-			}
+    if (list != NULL)
+    {
+      return SBMLVisitor::visit(x);
+    }
+    else
+    {
+      if (code == SBML_GROUPS_MEMBER)
+      {
+        return visit((const Member&)x);
+      }
+      else if (code == SBML_GROUPS_MEMBER_CONSTRAINT)
+      {
+        return visit((const MemberConstraint&)x);
+      }
+      else if (code == SBML_GROUPS_GROUP)
+      {
+        return visit((const Group&)x);
+      }
       else 
       {
         return SBMLVisitor::visit(x);

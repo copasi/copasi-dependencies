@@ -66,7 +66,7 @@ class RenderCubicBezier;
 class LIBSBML_EXTERN Polygon : public GraphicalPrimitive2D
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   ListOfCurveElements mListOfElements;
   static const std::string ELEMENT_NAME;
   /** @endcond */
@@ -210,6 +210,16 @@ public:
    */
   int addElement(const RenderPoint* cs);
 
+
+  /**
+   * Returns a List of all child SBase objects, including those nested to an
+   * arbitrary depth
+   *
+   * @return a List* of pointers to all children objects.
+   */
+  virtual List* getAllElements(ElementFilter* filter=NULL);
+
+
   /**
    * Accepts the given SBMLVisitor.
    *
@@ -263,7 +273,7 @@ public:
    */
   XMLNode toXML() const;
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBMLDocument of this SBML object.
    *
@@ -273,7 +283,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets this SBML object to child SBML objects (if any).
    * (Creates a child-parent relationship by the parent)
@@ -290,7 +300,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Enables/Disables the given package with this element and child
    * elements (if any).
@@ -312,7 +322,7 @@ public:
 
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
@@ -322,7 +332,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -333,7 +343,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -347,7 +357,7 @@ protected:
   virtual void writeAttributes (XMLOutputStream& stream) const;
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
@@ -355,7 +365,7 @@ protected:
   virtual SBase* createObject (XMLInputStream& stream);
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write out their contained
    * SBML objects as XML elements.  Be sure to call your parents

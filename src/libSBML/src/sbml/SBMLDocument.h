@@ -26,9 +26,8 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLDocument
- * @ingroup Core
- * @brief Container for an SBML document and interface for global operations
- * on SBML documents.
+ * @sbmlbrief{core} Container for an SBML document and interface for global
+ * operations on SBML documents.
  *
  * @if clike LibSBML uses the class SBMLDocument as a
  * top-level container for storing SBML content and data associated with it
@@ -197,14 +196,13 @@
  * Version of SBML within a Level, the following methods allow for prior
  * assessment of whether there is sufficient compatibility to make a
  * translation possible:
- * <ul>
- * <li> SBMLDocument::checkL1Compatibility(),
- * <li> SBMLDocument::checkL2v1Compatibility(),
- * <li> SBMLDocument::checkL2v2Compatibility(),
- * <li> SBMLDocument::checkL2v3Compatibility(), 
- * <li> SBMLDocument::checkL2v4Compatibility(), and
- * <li> SBMLDocument::checkL3v1Compatibility().
- * </ul>
+ *
+ * @li SBMLDocument::checkL1Compatibility(),
+ * @li SBMLDocument::checkL2v1Compatibility(),
+ * @li SBMLDocument::checkL2v2Compatibility(),
+ * @li SBMLDocument::checkL2v3Compatibility(), 
+ * @li SBMLDocument::checkL2v4Compatibility(), and
+ * @li SBMLDocument::checkL3v1Compatibility().
  * 
  * Some changes between Versions of SBML Level&nbsp;2 may lead to
  * unexpected behaviors when attempting conversions in either direction.
@@ -246,6 +244,34 @@
  * @if clike An example of using the error facility is
  * provided in this manual in the
  * section @ref libsbml-example. @endif@~
+ * 
+ */
+
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ *
+ * @class doc_sbmldocument_default_level
+ *
+ * @par
+ * This "default Level" corresponds to the most recent SBML specification
+ * Level available at the time libSBML version @htmlinclude
+ * libsbml-version.html was released.  The default Level is used by
+ * SBMLDocument if no Level is explicitly specified at the time of the
+ * construction of an SBMLDocument instance.
+ *
+ * @class doc_sbmldocument_default_version
+ *
+ * @par
+ * This "default Version" corresponds to the most recent Version within the
+ * most recent Level of SBML available at the time libSBML version
+ * @htmlinclude libsbml-version.html was released.  The default Version is
+ * used by SBMLDocument if no Version is explicitly specified at the time of
+ * the construction of an SBMLDocument instance.
  * 
  */
 
@@ -306,11 +332,7 @@ public:
   /**
    * The default SBML Level of new SBMLDocument objects.
    *
-   * This "default Level" corresponds to the most recent SBML specification
-   * Level available at the time libSBML version @htmlinclude libsbml-version.html
-   * was released.  For this copy of libSBML, the value is <code>3</code>.
-   * The default Level is used by SBMLDocument if no Level is explicitly
-   * specified at the time of the construction of an SBMLDocument instance.
+   * @copydetails doc_sbmldocument_default_level
    *
    * @return an integer indicating the most recent SBML specification Level
    *
@@ -329,13 +351,7 @@ public:
   /**
    * The default Version of new SBMLDocument objects.
    *
-   * This "default Version" corresponds to the most recent Version
-   * within the most recent Level of SBML available at the time libSBML
-   * version @htmlinclude libsbml-version.html
-   * was released.  For this copy of libSBML, the value is <code>1</code>
-   * (where the default Level of SBML is <code>3</code>).  The default
-   * Version is used by SBMLDocument if no Version is explicitly specified
-   * at the time of the construction of an SBMLDocument instance.
+   * @copydetails doc_sbmldocument_default_version 
    *
    * @return an integer indicating the most recent SBML specification
    * Version
@@ -395,12 +411,7 @@ public:
    * Creates a new SBMLDocument using the given SBMLNamespaces object 
    * @p sbmlns.
    *
-   * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
-   * information.  It is used to communicate the SBML Level, Version, and
-   * (in Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.
-   * A common approach to using this class constructor is to create an
-   * SBMLNamespaces object somewhere in a program, once, then pass it to
-   * object constructors such as this one when needed.
+   * @copydetails doc_what_are_sbmlnamespaces 
    *
    * @param sbmlns an SBMLNamespaces object.
    *
@@ -492,27 +503,31 @@ public:
 
 
   /**
-   * Returns the first child element found that has the given @p id in the model-wide SId namespace, or @c NULL if no such object is found.
+   * Returns the first child element found that has the given @p id in the
+   * model-wide SId namespace, or @c NULL if no such object is found.
    *
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
-   * Returns the first child element it can find with the given @p metaid, or itself if it has the given @p metaid, or @c NULL if no such object is found.
+   * Returns the first child element it can find with the given @p metaid, or
+   * itself if it has the given @p metaid, or @c NULL if no such object is
+   * found.
    *
    * @param metaid string representing the metaid of objects to find
    *
    * @return pointer to the first element found with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
   
   
   /**
-   * Returns a List of all child SBase objects, including those nested to an arbitrary depth
+   * Returns a List of all child SBase objects, including those nested to an
+   * arbitrary depth
    *
    * @return a List of pointers to all children objects.
    */
@@ -696,23 +711,32 @@ public:
    */
   Model* createModel (const std::string& sid = "");
 
+
   /**
-   * Sets the location of this SBMLDocument.  Called automatically when
-   * readSBMLFromFile is used, but may be set manually as well.
+   * Sets the location of this SBMLDocument.
+   *
+   * Called automatically when readSBMLFromFile is used, but may be set
+   * manually as well.
    */
   void setLocationURI (const std::string& uri);
 
+
   /**
-   * Get the location of this SBMLDocument.  If this document was 
-   * read from a file or had its location set manually, that filename
-   * or set location will be returned, otherwise, an empty string is returned.
+   * Get the location of this SBMLDocument.
+   *
+   * If this document was read from a file or had its location set manually,
+   * that filename or set location will be returned, otherwise, an empty
+   * string is returned.
    */
   std::string getLocationURI() const;
 
+
   /**
-   * Get the location of this SBMLDocument.  If this document was 
-   * read from a file or had its location set manually, that filename
-   * or set location will be returned, otherwise, an empty string is returned.
+   * Get the location of this SBMLDocument.
+   *
+   * If this document was read from a file or had its location set manually,
+   * that filename or set location will be returned, otherwise, an empty
+   * string is returned.
    */
   std::string getLocationURI();
 
@@ -946,7 +970,8 @@ public:
    *
    * @see SBMLDocument::checkInternalConsistency()
    */
-  unsigned int checkConsistency (bool overrideCompFlattening = false);
+  unsigned int checkConsistency ();
+
 
   /**
    * Performs consistency checking and validation on this SBML document.
@@ -966,6 +991,7 @@ public:
    * @see SBMLDocument::checkConsistency()
    */
   unsigned int validateSBML ();
+
 
   /**
    * Performs consistency checking on libSBML's internal representation of 
@@ -1095,6 +1121,7 @@ public:
    */
   unsigned int getNumErrors () const;
 
+
   /**
    * Returns the number of errors or warnings encountered with the given 
    * severity during parsing,
@@ -1194,31 +1221,15 @@ public:
   /**
    * Returns the libSBML type code for this %SBML object.
    * 
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
+   * @copydetails doc_what_are_typecodes
    *
-   * @return the SBML type code for this object, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @return the SBML type code for this object:
+   * @link SBMLTypeCode_t#SBML_DOCUMENT SBML_DOCUMENT@endlink (default).
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see SBMLDocument::getElementName()
+   * @see getPackageName()
    */
   virtual int getTypeCode () const;
 
@@ -1366,6 +1377,23 @@ public:
   
   
   /**
+   * Returns @c true if the given package extension is one of an ignored
+   * packages that has been disabled, otherwise returns @c false.
+   *
+   * An ignored package is one that is defined to be used in this SBML
+   * document, but the package is not enabled in this copy of libSBML.
+   * It may have been disabled to avoid reproducing the package
+   * information when writing out the file.
+   *
+   * @param pkgURI the URI of the package extension.
+   *
+   * @return a Boolean, @c true if the package is being ignored and
+   * @c false otherwise.
+   */
+  bool isDisabledIgnoredPackage(const std::string& pkgURI);
+  
+  
+  /**
    * Sets the value of the <code>required</code> attribute for the given
    * package.
    *
@@ -1442,6 +1470,8 @@ public:
 
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Return the position of this element.
+   *
    * @return the ordinal position of the element with respect to its
    * siblings or -1 (default) to indicate the position is not significant.
    */
@@ -1518,6 +1548,8 @@ protected:
 
 
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or @c NULL if the token was not recognized.
    */
@@ -1572,6 +1604,8 @@ protected:
 
   //PkgRequiredMap           mPkgRequiredMap;
   XMLAttributes            mRequiredAttrOfUnknownPkg;
+  XMLAttributes            mRequiredAttrOfUnknownDisabledPkg;
+
   PkgUseDefaultNSMap       mPkgUseDefaultNSMap;
 
   friend class SBase;

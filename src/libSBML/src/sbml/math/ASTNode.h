@@ -26,8 +26,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class ASTNode
- * @ingroup Core
- * @brief Abstract Syntax Tree (AST) representation of a
+ * @sbmlbrief{core} Abstract Syntax Tree (AST) representation of a
  * mathematical expression.
  *
  * @htmlinclude not-sbml-warning.html
@@ -43,103 +42,13 @@
  * in-memory representation for all mathematical formulas regardless of
  * their original format (which might be MathML or might be text strings).
  *
- * An AST @em node in libSBML is a recursive structure containing a pointer
- * to the node's value (which might be, for example, a number or a symbol)
- * and a list of children nodes.  Each ASTNode node may have none, one,
- * two, or more children depending on its type.  The following diagram
- * illustrates an example of how the mathematical expression <code>"1 +
- * 2"</code> is represented as an AST with one @em plus node having two @em
- * integer children nodes for the numbers <code>1</code> and
- * <code>2</code>.  The figure also shows the corresponding MathML
- * representation:
- *
- * @htmlinclude astnode-illustration.html
- *
- * The following are other noteworthy points about the AST representation
- * in libSBML:
- * <ul>
- * <li> A numerical value represented in MathML as a real number with an
- * exponent is preserved as such in the AST node representation, even if
- * the number could be stored in a @c double data type.  This is done
- * so that when an SBML model is read in and then written out again, the
- * amount of change introduced by libSBML to the SBML during the round-trip
- * activity is minimized.
- *  
- * <li> Rational numbers are represented in an AST node using separate
- * numerator and denominator values.  These can be retrieved using the
- * methods ASTNode::getNumerator() and ASTNode::getDenominator().
- * 
- * <li> The children of an ASTNode are other ASTNode objects.  The list of
- * children is empty for nodes that are leaf elements, such as numbers.
- * For nodes that are actually roots of expression subtrees, the list of
- * children points to the parsed objects that make up the rest of the
- * expression.
- * </ul>
- *
+ * @copydetails doc_what_is_astnode
  *
  * @if clike <h3><a class="anchor" name="ASTNodeType_t">
  * ASTNodeType_t</a></h3> @else <h3><a class="anchor"
  * name="ASTNodeType_t">The set of possible %ASTNode types</a></h3> @endif@~
  *
- * Every ASTNode has an associated type code to indicate,
- * for example, whether it holds a number or stands for an arithmetic
- * operator.
- * @if clike The type is recorded as a value drawn from the enumeration 
- * @link ASTNode.h::ASTNodeType_t ASTNodeType_t@endlink.@endif
- * @if java The type is recorded as a value drawn from a
- * set of static integer constants defined in the class {@link
- * libsbmlConstants}. Their names begin with the characters @c AST_.@endif
- * @if python The type is recorded as a value drawn from a
- * set of static integer constants defined in the class {@link
- * libsbml}. Their names begin with the characters @c AST_.@endif
- * @if csharp The type is recorded as a value drawn from a
- * set of static integer constants defined in the class {@link
- * libsbml}. Their names begin with the characters @c AST_.@endif
- * The list of possible types is quite long, because it covers all the
- * mathematical functions that are permitted in SBML. The values are shown
- * in the following table:
- *
- * @htmlinclude astnode-types.html
- *
- * The types have the following meanings:
- * <ul>
- * <li> If the node is basic mathematical operator (e.g., @c "+"), then the
- * node's type will be @c AST_PLUS, @c AST_MINUS, @c AST_TIMES, @c AST_DIVIDE,
- * or @c AST_POWER, as appropriate.
- *
- * <li> If the node is a predefined function or operator from %SBML Level&nbsp;1
- * (in the string-based formula syntax used in Level&nbsp;1) or %SBML Levels&nbsp;2 and&nbsp;3
- * (in the subset of MathML used in SBML Levels&nbsp;2 and&nbsp;3), then the node's type
- * will be either <code>AST_FUNCTION_</code><em><span
- * class="placeholder">X</span></em>, <code>AST_LOGICAL_</code><em><span
- * class="placeholder">X</span></em>, or
- * <code>AST_RELATIONAL_</code><em><span class="placeholder">X</span></em>,
- * as appropriate.  (Examples: @c AST_FUNCTION_LOG, @c AST_RELATIONAL_LEQ.)
- *
- * <li> If the node refers to a user-defined function, the node's type will
- * be @c AST_FUNCTION (because it holds the name of the function).
- *
- * <li> If the node is a lambda expression, its type will be @c AST_LAMBDA.
- * 
- * <li> If the node is a predefined constant (@c "ExponentialE", @c "Pi", 
- * @c "True" or @c "False"), then the node's type will be @c AST_CONSTANT_E,
- * @c AST_CONSTANT_PI, @c AST_CONSTANT_TRUE, or @c AST_CONSTANT_FALSE.
- * 
- * <li> (Levels&nbsp;2 and&nbsp;3 only) If the node is the special MathML csymbol @c time,
- * the value of the node will be @c AST_NAME_TIME.  (Note, however, that the
- * MathML csymbol @c delay is translated into a node of type
- * @c AST_FUNCTION_DELAY.  The difference is due to the fact that @c time is a
- * single variable, whereas @c delay is actually a function taking
- * arguments.)
- *
- * <li> (Level&nbsp;3 only) If the node is the special MathML csymbol @c avogadro,
- * the value of the node will be @c AST_NAME_AVOGADRO.
- * 
- * <li> If the node contains a numerical value, its type will be
- * @c AST_INTEGER, @c AST_REAL, @c AST_REAL_E, or @c AST_RATIONAL,
- * as appropriate.
- * </ul>
- *
+ * @copydetails doc_astnode_types
  * 
  * <h3><a class="anchor" name="math-convert">Converting between ASTs and text strings</a></h3>
  * 
@@ -205,7 +114,7 @@
  * 
  * @htmlinclude math-functions.html
  * 
- * @warning @htmlinclude L1-math-syntax-warning.html
+ * @copydetails doc_warning_L1_math_string_syntax
  *
  * @if clike @see SBML_parseL3Formula()@endif@~
  * @if csharp @see SBML_parseL3Formula()@endif@~
@@ -238,134 +147,85 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  * @enum  ASTNodeType_t
  * @brief ASTNodeType_t is the enumeration of possible ASTNode types.
  *
- * Each ASTNode has a type whose value is one of the elements of this
- * enumeration.  The types have the following meanings:
- * <ul>
- *
- * <li> If the node is basic mathematical operator (e.g., @c "+"), then the
- * node's type will be @link ASTNodeType_t#AST_PLUS AST_PLUS@endlink, @link
- * ASTNodeType_t#AST_MINUS AST_MINUS@endlink, @link ASTNodeType_t#AST_TIMES
- * AST_TIMES@endlink, @link ASTNodeType_t#AST_DIVIDE AST_DIVIDE@endlink, or
- * @link ASTNodeType_t#AST_POWER AST_POWER@endlink, as appropriate.
- *
- * <li> If the node is a predefined function or operator from %SBML Level&nbsp;1
- * (in the string-based formula syntax used in Level&nbsp;1) or %SBML Level&nbsp;2 and&nbsp;3
- * (in the subset of MathML used in SBML Levels&nbsp;2 and&nbsp;3), then the node's type
- * will be either @c AST_FUNCTION_<em><span
- * class="placeholder">X</span></em>, @c AST_LOGICAL_<em><span
- * class="placeholder">X</span></em>, or @c AST_RELATIONAL_<em><span
- * class="placeholder">X</span></em>, as appropriate.  (Examples: @link
- * ASTNodeType_t#AST_FUNCTION_LOG AST_FUNCTION_LOG@endlink, @link
- * ASTNodeType_t#AST_RELATIONAL_LEQ AST_RELATIONAL_LEQ@endlink.)
- *
- * <li> If the node refers to a user-defined function, the node's type will
- * be @link ASTNodeType_t#AST_FUNCTION AST_FUNCTION@endlink (because it holds the
- * name of the function).
- *
- * <li> If the node is a lambda expression, its type will be @link
- * ASTNodeType_t#AST_LAMBDA AST_LAMBDA@endlink.
- * 
- * <li> If the node is a predefined constant (@c "ExponentialE", @c "Pi",
- * @c "True" or @c "False"), then the node's type will be @link
- * ASTNodeType_t#AST_CONSTANT_E AST_CONSTANT_E@endlink, @link
- * ASTNodeType_t#AST_CONSTANT_PI AST_CONSTANT_PI@endlink, @link
- * ASTNodeType_t#AST_CONSTANT_TRUE AST_CONSTANT_TRUE@endlink, or @link
- * ASTNodeType_t#AST_CONSTANT_FALSE AST_CONSTANT_FALSE@endlink.
- * 
- * <li> (Levels&nbsp;2 and&nbsp;3 only) If the node is the special MathML csymbol @c time,
- * the value of the node will be @link ASTNodeType_t#AST_NAME_TIME
- * AST_NAME_TIME@endlink.  (Note, however, that the MathML csymbol @c delay
- * is translated into a node of type @link ASTNodeType_t#AST_FUNCTION_DELAY
- * AST_FUNCTION_DELAY@endlink.  The difference is due to the fact that @c
- * time is a single variable, whereas @c delay is actually a function
- * taking arguments.)
- *
- * <li> (Level&nbsp;3 only) If the node is the special MathML csymbol @c avogadro,
- * the value of the node will be @c AST_NAME_AVOGADRO.
- *
- * <li> If the node contains a numerical value, its type will be @link
- * ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink, @link
- * ASTNodeType_t#AST_REAL AST_REAL@endlink, @link ASTNodeType_t#AST_REAL_E
- * AST_REAL_E@endlink, or @link ASTNodeType_t#AST_RATIONAL
- * AST_RATIONAL@endlink, as appropriate.  </ul>
+ * @copydetails doc_astnode_types
  * 
  * @see ASTNode::getType()
  * @see ASTNode::canonicalize()
  */
 typedef enum
 {
-    AST_PLUS    = 43 /* '+' */
-  , AST_MINUS   = 45 /* '-' */
-  , AST_TIMES   = 42 /* '*' */
-  , AST_DIVIDE  = 47 /* '/' */
-  , AST_POWER   = 94 /* '^' */  
+    AST_PLUS    = 43 /*!< Plus (MathML <code>&lt;plus&gt;</code>) */
+  , AST_MINUS   = 45 /*!< Minus (MathML <code>&lt;minus&gt;</code>) */
+  , AST_TIMES   = 42 /*!< Times (MathML <code>&lt;times&gt;</code>) */
+  , AST_DIVIDE  = 47 /*!< Divide (MathML <code>&lt;divide&gt;</code>) */
+  , AST_POWER   = 94 /*!< Power (MathML <code>&lt;power&gt;</code>) */
 
-  , AST_INTEGER = 256
-  , AST_REAL
-  , AST_REAL_E
-  , AST_RATIONAL
+  , AST_INTEGER = 256 /*!< Integer (MathML <code>&lt;cn type="integer"&gt;</code>) */
+  , AST_REAL /*!< Real (MathML <code>&lt;cn&gt;</code>) */
+  , AST_REAL_E /*!< Real number with e-notation (MathML <code>&lt;cn type="e-notation"&gt; [number] &lt;sep/&gt; [number] &lt;/cn&gt;</code>) */
+  , AST_RATIONAL /*!< Rational (MathML <code>&lt;cn type="rational"&gt; [number] &lt;sep/&gt; [number] &lt;cn&gt;</code>) */
 
-  , AST_NAME
-  , AST_NAME_AVOGADRO
-  , AST_NAME_TIME
+  , AST_NAME /*!< A named node (MathML <code>&lt;ci&gt;</code>) */
+  , AST_NAME_AVOGADRO /*!< Avogadro (MathML <code>&lt;ci encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"&gt;</code>) */
+  , AST_NAME_TIME /*!< Time (MathML <code>&lt;ci encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"&gt;</code>) */
 
-  , AST_CONSTANT_E
-  , AST_CONSTANT_FALSE
-  , AST_CONSTANT_PI
-  , AST_CONSTANT_TRUE
+  , AST_CONSTANT_E /*!< Exponential E (MathML <code>&lt;exponentiale&gt;</code>) */
+  , AST_CONSTANT_FALSE /*!< False (MathML <code>&lt;false&gt;</code>) */
+  , AST_CONSTANT_PI /*!< Pi (MathML <code>&lt;pi&gt;</code>) */
+  , AST_CONSTANT_TRUE /*!< True (MathML <code>&lt;true&gt;</code>) */
 
-  , AST_LAMBDA
+  , AST_LAMBDA /*!< Lambda (MathML <code>&lt;lambda&gt;</code>) */
 
-  , AST_FUNCTION
-  , AST_FUNCTION_ABS
-  , AST_FUNCTION_ARCCOS
-  , AST_FUNCTION_ARCCOSH
-  , AST_FUNCTION_ARCCOT
-  , AST_FUNCTION_ARCCOTH
-  , AST_FUNCTION_ARCCSC
-  , AST_FUNCTION_ARCCSCH
-  , AST_FUNCTION_ARCSEC
-  , AST_FUNCTION_ARCSECH
-  , AST_FUNCTION_ARCSIN
-  , AST_FUNCTION_ARCSINH
-  , AST_FUNCTION_ARCTAN
-  , AST_FUNCTION_ARCTANH
-  , AST_FUNCTION_CEILING
-  , AST_FUNCTION_COS
-  , AST_FUNCTION_COSH
-  , AST_FUNCTION_COT
-  , AST_FUNCTION_COTH
-  , AST_FUNCTION_CSC
-  , AST_FUNCTION_CSCH
-  , AST_FUNCTION_DELAY
-  , AST_FUNCTION_EXP
-  , AST_FUNCTION_FACTORIAL
-  , AST_FUNCTION_FLOOR
-  , AST_FUNCTION_LN
-  , AST_FUNCTION_LOG
-  , AST_FUNCTION_PIECEWISE
-  , AST_FUNCTION_POWER
-  , AST_FUNCTION_ROOT
-  , AST_FUNCTION_SEC
-  , AST_FUNCTION_SECH
-  , AST_FUNCTION_SIN
-  , AST_FUNCTION_SINH
-  , AST_FUNCTION_TAN
-  , AST_FUNCTION_TANH
+  , AST_FUNCTION /*!< User-defined function (MathML <code>&lt;apply&gt;</code>) */
+  , AST_FUNCTION_ABS /*!< Absolute value (MathML <code>&lt;abs&gt;</code>) */
+  , AST_FUNCTION_ARCCOS /*!< Arccosine (MathML <code>&lt;arccos&gt;</code>) */
+  , AST_FUNCTION_ARCCOSH /*!< Hyperbolic arccosine (MathML <code>&lt;arccosh&gt;</code>) */
+  , AST_FUNCTION_ARCCOT /*!< Arccotangent (MathML <code>&lt;arccot&gt;</code>) */
+  , AST_FUNCTION_ARCCOTH /*!< Hyperbolic arccotangent (MathML <code>&lt;arccoth&gt;</code>) */
+  , AST_FUNCTION_ARCCSC /*!< Arccosecant (MathML <code>&lt;arccsc&gt;</code>) */
+  , AST_FUNCTION_ARCCSCH /*!< Hyperbolic arccosecant (MathML <code>&lt;arccsch&gt;</code>) */
+  , AST_FUNCTION_ARCSEC /*!< Arcsecant (MathML <code>&lt;arcsec&gt;</code>) */
+  , AST_FUNCTION_ARCSECH /*!< Hyperbolic arcsecant (MathML <code>&lt;arcsech&gt;</code>) */
+  , AST_FUNCTION_ARCSIN /*!< Arcsine (MathML <code>&lt;arcsin&gt;</code>) */
+  , AST_FUNCTION_ARCSINH /*!< Hyperbolic arcsine (MathML <code>&lt;arcsinh&gt;</code>) */
+  , AST_FUNCTION_ARCTAN /*!< Arctangent (MathML <code>&lt;arctan&gt;</code>) */
+  , AST_FUNCTION_ARCTANH /*!< Hyperbolic arctangent (MathML <code>&lt;arctanh&gt;</code>) */
+  , AST_FUNCTION_CEILING /*!< Ceiling (MathML <code>&lt;ceiling&gt;</code>) */
+  , AST_FUNCTION_COS /*!< Cosine (MathML <code>&lt;cosine&gt;</code>) */
+  , AST_FUNCTION_COSH /*!< Hyperbolic cosine (MathML <code>&lt;cosh&gt;</code>) */
+  , AST_FUNCTION_COT /*!< Cotangent (MathML <code>&lt;cot&gt;</code>) */
+  , AST_FUNCTION_COTH /*!< Hyperbolic cotangent (MathML <code>&lt;coth&gt;</code>) */
+  , AST_FUNCTION_CSC /*!< Cosecant (MathML <code>&lt;csc&gt;</code>) */
+  , AST_FUNCTION_CSCH /*!< Hyperbolic cosecant (MathML <code>&lt;csch&gt;</code>) */
+  , AST_FUNCTION_DELAY /*!< %Delay (MathML <code>&lt;csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/delay"&gt;</code>) */
+  , AST_FUNCTION_EXP /*!< Exponential (MathML <code>&lt;exp&gt;</code>) */
+  , AST_FUNCTION_FACTORIAL /*!< Factorial (MathML <code>&lt;factorial&gt;</code>) */
+  , AST_FUNCTION_FLOOR /*!< Floor (MathML <code>&lt;floor&gt;</code>) */
+  , AST_FUNCTION_LN /*!< Natural Log (MathML <code>&lt;ln&gt;</code>) */
+  , AST_FUNCTION_LOG /*!< Log (MathML <code>&lt;log&gt;</code>) */
+  , AST_FUNCTION_PIECEWISE /*!< Piecewise (MathML <code>&lt;piecewise&gt;</code>) */
+  , AST_FUNCTION_POWER /*!< Power (MathML <code>&lt;power&gt;</code>) */
+  , AST_FUNCTION_ROOT /*!< Root (MathML <code>&lt;root&gt;</code>) */
+  , AST_FUNCTION_SEC /*!< Secant (MathML <code>&lt;sec&gt;</code>) */
+  , AST_FUNCTION_SECH /*!< Hyperbolic secant (MathML <code>&lt;sech&gt;</code>) */
+  , AST_FUNCTION_SIN /*!< Sine (MathML <code>&lt;sin&gt;</code>) */
+  , AST_FUNCTION_SINH /*!< Hyperbolic sine (MathML <code>&lt;sinh&gt;</code>) */
+  , AST_FUNCTION_TAN /*!< Tangent (MathML <code>&lt;tan&gt;</code>) */
+  , AST_FUNCTION_TANH /*!< Hyperbolic tangent (MathML <code>&lt;tanh&gt;</code>) */
 
-  , AST_LOGICAL_AND
-  , AST_LOGICAL_NOT
-  , AST_LOGICAL_OR
-  , AST_LOGICAL_XOR
+  , AST_LOGICAL_AND /*!< Logical and (MathML <code>&lt;and&gt;</code>) */
+  , AST_LOGICAL_NOT /*!< Logical not (MathML <code>&lt;not&gt;</code>) */
+  , AST_LOGICAL_OR /*!< Logical or (MathML <code>&lt;or&gt;</code>) */
+  , AST_LOGICAL_XOR /*!< Logical exclusive or (MathML <code>&lt;xor&gt;</code>) */
 
-  , AST_RELATIONAL_EQ
-  , AST_RELATIONAL_GEQ
-  , AST_RELATIONAL_GT
-  , AST_RELATIONAL_LEQ
-  , AST_RELATIONAL_LT
-  , AST_RELATIONAL_NEQ
+  , AST_RELATIONAL_EQ /*!< Equal (MathML <code>&lt;eq&gt;</code>) */
+  , AST_RELATIONAL_GEQ /*!< Greater than or equal (MathML <code>&lt;geq&gt;</code>) */
+  , AST_RELATIONAL_GT /*!< Greater than (MathML <code>&lt;gt&gt;</code>) */
+  , AST_RELATIONAL_LEQ /*!< Less than or equal (MathML <code>&lt;leq&gt;</code>) */
+  , AST_RELATIONAL_LT /*!< Less than (MathML <code>&lt;lt&gt;</code>) */
+  , AST_RELATIONAL_NEQ /*!< Not equal (MathML <code>&lt;neq&gt;</code>) */
 
-  , AST_UNKNOWN
+  , AST_UNKNOWN /*!< Unknown node:  will not produce any MathML */
 } ASTNodeType_t;
 
 
@@ -668,9 +528,9 @@ public:
    * right child.  If
    * @if clike getNumChildren()@else ASTNode::getNumChildren()@endif@~
    * <code>&gt; 1</code>, then this is equivalent to:
-   * @code
-   * getChild( getNumChildren() - 1 );
-   * @endcode
+   * @verbatim
+getChild( getNumChildren() - 1 );
+@endverbatim
    */
   LIBSBML_EXTERN
   ASTNode* getRightChild () const;
@@ -751,9 +611,9 @@ public:
    * is passed in as a pointer to a function.  @if clike The function
    * definition must have the type @link ASTNode::ASTNodePredicate
    * ASTNodePredicate @endlink, which is defined as
-   * @code
-   * int (*ASTNodePredicate) (const ASTNode_t *node);
-   * @endcode
+   * @verbatim
+int (*ASTNodePredicate) (const ASTNode_t *node);
+@endverbatim
    * where a return value of non-zero represents @c true and zero
    * represents @c false. @endif
    *
@@ -782,9 +642,9 @@ public:
    * is passed in as a pointer to a function.  The function definition must
    * have the type @link ASTNode.h::ASTNodePredicate ASTNodePredicate
    * @endlink, which is defined as
-   * @code
-   * int (*ASTNodePredicate) (const ASTNode_t *node);
-   * @endcode
+   * @verbatim
+int (*ASTNodePredicate) (const ASTNode_t *node);
+@endverbatim
    * where a return value of non-zero represents @c true and zero
    * represents @c false.
    *
@@ -1162,9 +1022,9 @@ public:
    * Predicate returning @c true (non-zero) if this node contains a number,
    * @c false (zero) otherwise.  This is functionally equivalent to the
    * following code:
-   * @code
-   *   isInteger() || isReal()
-   * @endcode
+   * @verbatim
+ isInteger() || isReal()
+ @endverbatim
    * 
    * @return @c true if this ASTNode is a number, @c false otherwise.
    */
@@ -1285,8 +1145,8 @@ public:
 
 
   /**
-  * Predicate returning @c true if this node is of type @param type,
-  * and has the number of children @param numchildren.  Designed
+  * Predicate returning @c true if this node is of type @param type
+  * and has @param numchildren number of children.  Designed
   * for use in cases where it is useful to discover if the node is
   * a unary not or unary minus, or a times node with no children, etc.
   *
@@ -1502,9 +1362,9 @@ public:
    * the node type to @link ASTNodeType_t#AST_REAL AST_REAL@endlink.
    *
    * This is functionally equivalent to:
-   * @code
-   * setValue(value, 0);
-   * @endcode
+   * @verbatim
+setValue(value, 0);
+@endverbatim
    *
    * @param value the @c double format number to which this node's value
    * should be set
@@ -1855,11 +1715,24 @@ public:
   bool isBvar() const { return mIsBvar; };
   void setBvar() { mIsBvar = true; };
 
+  //LIBSBML_EXTERN
+  //bool containsVariable(const std::string id) const;
+
+  //LIBSBML_EXTERN
+  //unsigned int getNumVariablesWithUndeclaredUnits(Model * m = NULL) const;
+
   /** @endcond */
 
 protected:
   /** @cond doxygenLibsbmlInternal */
 
+  LIBSBML_EXTERN
+  bool containsVariable(const std::string id) const;
+
+  LIBSBML_EXTERN
+  unsigned int getNumVariablesWithUndeclaredUnits(Model * m = NULL) const;
+
+  friend class UnitFormulaFormatter;
   /**
    * Internal helper function for canonicalize().
    */
@@ -2316,9 +2189,9 @@ ASTNode_isNegInfinity (const ASTNode_t *node);
  * otherwise.
  *
  * This is functionally equivalent to:
- * @code
- *   ASTNode_isInteger(node) || ASTNode_isReal(node).
- * @endcode
+ * @verbatim
+ASTNode_isInteger(node) || ASTNode_isReal(node).
+@endverbatim
  */
 LIBSBML_EXTERN
 int
@@ -2497,9 +2370,9 @@ ASTNode_setRational (ASTNode_t *node, long numerator, long denominator);
  * node type to @c AST_REAL.
  *
  * This is functionally equivalent to:
- * @code
- *   ASTNode_setRealWithExponent(node, value, 0);
- * @endcode
+ * @verbatim
+ASTNode_setRealWithExponent(node, value, 0);
+@endverbatim
  */
 LIBSBML_EXTERN
 int

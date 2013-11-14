@@ -26,8 +26,8 @@
  * ---------------------------------------------------------------------- -->
  * 
  * @class FormulaTokenizer
- * @ingroup Core
- * @brief Tokenizes a mathematical formula string in SBML Level 1 syntax.
+ * @sbmlbrief{core} Tokenizes a mathematical formula string in SBML Level 1
+ * syntax.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -55,7 +55,7 @@
  * tokenizer system, such as FormulaTokenizer_createFromFormula() and
  * FormulaTokenizer_getName().
  * 
- * @warning @htmlinclude L1-math-syntax-warning.html
+ * @copydetails doc_warning_L1_math_string_syntax
  */
 
 #ifndef FormulaTokenizer_h
@@ -70,8 +70,7 @@ BEGIN_C_DECLS
 
 /**
  * @struct FormulaTokenizer_t
- * @ingroup Core
- * Structure used to track the state of tokenizing a string.
+ * @sbmlbrief{core} used to track the state of tokenizing a string.
  *
  * SBML Level 1 uses a simple text-string representation of mathematical
  * formulas, rather than the MathML-based representation used in SBML
@@ -112,27 +111,26 @@ typedef struct
  */
 typedef enum
 {
-    TT_PLUS    = '+'
-  , TT_MINUS   = '-'
-  , TT_TIMES   = '*'
-  , TT_DIVIDE  = '/'
-  , TT_POWER   = '^'
-  , TT_LPAREN  = '('
-  , TT_RPAREN  = ')'
-  , TT_COMMA   = ','
-  , TT_END     = '\0'
-  , TT_NAME    = 256
-  , TT_INTEGER
-  , TT_REAL
-  , TT_REAL_E
-  , TT_UNKNOWN
+    TT_PLUS    = '+' /*!< The '+' token */
+  , TT_MINUS   = '-' /*!< The '-' token */
+  , TT_TIMES   = '*' /*!< The '*' token */
+  , TT_DIVIDE  = '/' /*!< The '/' token */
+  , TT_POWER   = '^' /*!< The '^' token */
+  , TT_LPAREN  = '(' /*!< The '(' token */
+  , TT_RPAREN  = ')' /*!< The ')' token */
+  , TT_COMMA   = ',' /*!< The ',' token */
+  , TT_END     = '\0'/*!< The end-of-input token */
+  , TT_NAME    = 256/*!< The token for a name*/
+  , TT_INTEGER /*!< The token for an integer */
+  , TT_REAL /*!< The token for a real number (number with a decimal point) */
+  , TT_REAL_E /*!< The token for a real number using e-notation*/
+  , TT_UNKNOWN /*!< An unknown token */
 } TokenType_t;
 
 
 /**
  * @struct Token_t
- * @ingroup Core
- * Structure used to store a token returned by
+ * @sbmlbrief{core} Structure used to store a token returned by
  * FormulaTokenizer_nextToken().
  * 
  * A Token_t token has a @c type and a @c value.  The @c value field is a
@@ -210,7 +208,7 @@ typedef struct
  * @see FormulaTokenizer_nextToken()
  * @see FormulaTokenizer_free()
  *
- * @warning @htmlinclude L1-math-syntax-warning.html
+ * @copydetails doc_warning_L1_math_string_syntax
  */
 LIBSBML_EXTERN
 FormulaTokenizer_t *
@@ -257,7 +255,7 @@ FormulaTokenizer_free (FormulaTokenizer_t *ft);
  * @see FormulaTokenizer_free()
  * @see FormulaTokenizer_createFromFormula()
  *
- * @warning @htmlinclude L1-math-syntax-warning.html
+ * @copydetails doc_warning_L1_math_string_syntax
  */
 LIBSBML_EXTERN
 Token_t *

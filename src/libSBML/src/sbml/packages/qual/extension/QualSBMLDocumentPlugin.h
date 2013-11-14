@@ -24,6 +24,20 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class QualSBMLDocumentPlugin
+ * @sbmlbrief{qual} Implementation of the 'qual' package extention to the
+ * %SBMLDocument construct.
+ *
+ * The QualSBMLDocumentPlugin class inherits from the SBMLDocumentPlugin
+ * class, and codifies the extentions to the SBMLDocument class defined in
+ * the SBML Level&nbsp;3 @ref qual "Qualitative Models" package ('qual').
+ *
+ * The QualSBMLDocumentPlugin defines a
+ * required flag named <code>required</code>, which indicates whether the
+ * 'qual' constructs can be used to change the core mathematics of the
+ * <code>&lt;model&gt;</code> child of the <code>&lt;sbml&gt;</code> element.
+ * Because they can not, this attribute must be set @c false.
  */
 
 
@@ -48,101 +62,99 @@ class LIBSBML_EXTERN QualSBMLDocumentPlugin : public SBMLDocumentPlugin
 {
 public:
 
-	/**
-	 * Creates a new QualSBMLDocumentPlugin
-	 */
-	QualSBMLDocumentPlugin(const std::string& uri, const std::string& prefix, 
-	                               QualPkgNamespaces* qualns);
+  /**
+   * Creates a new QualSBMLDocumentPlugin
+   */
+  QualSBMLDocumentPlugin(const std::string& uri, const std::string& prefix, 
+                                 QualPkgNamespaces* qualns);
 
 
-	/**
-	 * Copy constructor for QualSBMLDocumentPlugin.
-	 *
-	 * @param orig; the QualSBMLDocumentPlugin instance to copy.
-	 */
-	QualSBMLDocumentPlugin(const QualSBMLDocumentPlugin& orig);
+  /**
+   * Copy constructor for QualSBMLDocumentPlugin.
+   *
+   * @param orig; the QualSBMLDocumentPlugin instance to copy.
+   */
+  QualSBMLDocumentPlugin(const QualSBMLDocumentPlugin& orig);
 
 
- 	/**
-	 * Assignment operator for QualSBMLDocumentPlugin.
-	 *
-	 * @param rhs; the object whose values are used as the basis
-	 * of the assignment
-	 */
-	QualSBMLDocumentPlugin& operator=(const QualSBMLDocumentPlugin& rhs);
+  /**
+   * Assignment operator for QualSBMLDocumentPlugin.
+   *
+   * @param rhs; the object whose values are used as the basis
+   * of the assignment
+   */
+  QualSBMLDocumentPlugin& operator=(const QualSBMLDocumentPlugin& rhs);
 
 
- 	/**
-	 * Creates and returns a deep copy of this QualSBMLDocumentPlugin object.
-	 *
-	 * @return a (deep) copy of this QualSBMLDocumentPlugin object.
-	 */
-	virtual QualSBMLDocumentPlugin* clone () const;
+  /**
+   * Creates and returns a deep copy of this QualSBMLDocumentPlugin object.
+   *
+   * @return a (deep) copy of this QualSBMLDocumentPlugin object.
+   */
+  virtual QualSBMLDocumentPlugin* clone () const;
 
 
- 	/**
-	 * Destructor for QualSBMLDocumentPlugin.
-	 */
-	virtual ~QualSBMLDocumentPlugin();
+  /**
+   * Destructor for QualSBMLDocumentPlugin.
+   */
+  virtual ~QualSBMLDocumentPlugin();
 
 
  #ifndef SWIG
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-	/**
-	 * Reads the attributes of corresponding package in SBMLDocument element
-	 */
-	virtual void readAttributes (const XMLAttributes& attributes, 
-	                             const ExpectedAttributes& expectedAttributes);
+  /**
+   * Reads the attributes of corresponding package in SBMLDocument element
+   */
+  virtual void readAttributes (const XMLAttributes& attributes, 
+                               const ExpectedAttributes& expectedAttributes);
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond */
 
 
 #endif // SWIG
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-	/**
-	 * Returns boolean based on whether flattening of a comp model has been implemented.
-	 *
-	 * @returns @c true if flattening for composed models has been implemented,
-	 * false otherwise.
-	 */
-	virtual bool isFlatteningImplemented() const;
-
-
-	/** @endcond doxygen-libsbml-internal */
+  /**
+   * Returns boolean based on whether flattening of a comp model has been implemented.
+   *
+   * @returns @c true if flattening for composed models has been implemented,
+   * false otherwise.
+   */
+  virtual bool isCompFlatteningImplemented() const;
+  /** @endcond */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-	/**
-	 * Check consistency function.
-	 */
-	virtual unsigned int checkConsistency();
-
-
-	/** @endcond doxygen-libsbml-internal */
+  /**
+   * Check consistency function.
+   */
+  virtual unsigned int checkConsistency();
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Accepts the SBMLVisitor.
-	 */
-	virtual bool accept(SBMLVisitor& v) const;
+  /** @endcond */
 
 
- 	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Accepts the SBMLVisitor.
+   */
+  virtual bool accept(SBMLVisitor& v) const;
+
+
+  /** @endcond */
 
 
 protected:
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond */
 
 
 };

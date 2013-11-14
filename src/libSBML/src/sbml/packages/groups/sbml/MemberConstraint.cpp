@@ -41,14 +41,14 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  * Creates a new MemberConstraint with the given level, version, and package version.
  */
 MemberConstraint::MemberConstraint (unsigned int level, unsigned int version, unsigned int pkgVersion)
-	: SBase(level, version)
-	 ,mId ("")
-	 ,mName ("")
-	 ,mDistinctAttribute ("")
-	 ,mIdenticalAttribute ("")
+  : SBase(level, version)
+   ,mId ("")
+   ,mName ("")
+   ,mDistinctAttribute ("")
+   ,mIdenticalAttribute ("")
 {
-	// set an SBMLNamespaces derived object of this package
-	setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion));
+  // set an SBMLNamespaces derived object of this package
+  setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion));
 }
 
 
@@ -56,17 +56,17 @@ MemberConstraint::MemberConstraint (unsigned int level, unsigned int version, un
  * Creates a new MemberConstraint with the given GroupsPkgNamespaces object.
  */
 MemberConstraint::MemberConstraint (GroupsPkgNamespaces* groupsns)
-	: SBase(groupsns)
-	 ,mId ("")
-	 ,mName ("")
-	 ,mDistinctAttribute ("")
-	 ,mIdenticalAttribute ("")
+  : SBase(groupsns)
+   ,mId ("")
+   ,mName ("")
+   ,mDistinctAttribute ("")
+   ,mIdenticalAttribute ("")
 {
-	// set the element namespace of this object
-	setElementNamespace(groupsns->getURI());
+  // set the element namespace of this object
+  setElementNamespace(groupsns->getURI());
 
-	// load package extensions bound with this object (if any) 
-	loadPlugins(groupsns);
+  // load package extensions bound with this object (if any) 
+  loadPlugins(groupsns);
 }
 
 
@@ -74,19 +74,19 @@ MemberConstraint::MemberConstraint (GroupsPkgNamespaces* groupsns)
  * Copy constructor for MemberConstraint.
  */
 MemberConstraint::MemberConstraint (const MemberConstraint& orig)
-	: SBase(orig)
+  : SBase(orig)
 {
-	if (&orig == NULL)
-	{
-		throw SBMLConstructorException("Null argument to copy constructor");
-	}
-	else
-	{
-		mId  = orig.mId;
-		mName  = orig.mName;
-		mDistinctAttribute  = orig.mDistinctAttribute;
-		mIdenticalAttribute  = orig.mIdenticalAttribute;
-	}
+  if (&orig == NULL)
+  {
+    throw SBMLConstructorException("Null argument to copy constructor");
+  }
+  else
+  {
+    mId  = orig.mId;
+    mName  = orig.mName;
+    mDistinctAttribute  = orig.mDistinctAttribute;
+    mIdenticalAttribute  = orig.mIdenticalAttribute;
+  }
 }
 
 
@@ -96,19 +96,19 @@ MemberConstraint::MemberConstraint (const MemberConstraint& orig)
 MemberConstraint&
 MemberConstraint::operator=(const MemberConstraint& rhs)
 {
-	if (&rhs == NULL)
-	{
-		throw SBMLConstructorException("Null argument to assignment");
-	}
-	else if (&rhs != this)
-	{
-		SBase::operator=(rhs);
-		mId  = rhs.mId;
-		mName  = rhs.mName;
-		mDistinctAttribute  = rhs.mDistinctAttribute;
-		mIdenticalAttribute  = rhs.mIdenticalAttribute;
-	}
-	return *this;
+  if (&rhs == NULL)
+  {
+    throw SBMLConstructorException("Null argument to assignment");
+  }
+  else if (&rhs != this)
+  {
+    SBase::operator=(rhs);
+    mId  = rhs.mId;
+    mName  = rhs.mName;
+    mDistinctAttribute  = rhs.mDistinctAttribute;
+    mIdenticalAttribute  = rhs.mIdenticalAttribute;
+  }
+  return *this;
 }
 
 
@@ -118,7 +118,7 @@ MemberConstraint::operator=(const MemberConstraint& rhs)
 MemberConstraint*
 MemberConstraint::clone () const
 {
-	return new MemberConstraint(*this);
+  return new MemberConstraint(*this);
 }
 
 
@@ -136,7 +136,7 @@ MemberConstraint::~MemberConstraint ()
 const std::string&
 MemberConstraint::getId() const
 {
-	return mId;
+  return mId;
 }
 
 
@@ -146,7 +146,7 @@ MemberConstraint::getId() const
 const std::string&
 MemberConstraint::getName() const
 {
-	return mName;
+  return mName;
 }
 
 
@@ -156,7 +156,7 @@ MemberConstraint::getName() const
 const std::string&
 MemberConstraint::getDistinctAttribute() const
 {
-	return mDistinctAttribute;
+  return mDistinctAttribute;
 }
 
 
@@ -166,7 +166,7 @@ MemberConstraint::getDistinctAttribute() const
 const std::string&
 MemberConstraint::getIdenticalAttribute() const
 {
-	return mIdenticalAttribute;
+  return mIdenticalAttribute;
 }
 
 
@@ -176,7 +176,7 @@ MemberConstraint::getIdenticalAttribute() const
 bool
 MemberConstraint::isSetId() const
 {
-	return (mId.empty() == false);
+  return (mId.empty() == false);
 }
 
 
@@ -186,7 +186,7 @@ MemberConstraint::isSetId() const
 bool
 MemberConstraint::isSetName() const
 {
-	return (mName.empty() == false);
+  return (mName.empty() == false);
 }
 
 
@@ -196,7 +196,7 @@ MemberConstraint::isSetName() const
 bool
 MemberConstraint::isSetDistinctAttribute() const
 {
-	return (mDistinctAttribute.empty() == false);
+  return (mDistinctAttribute.empty() == false);
 }
 
 
@@ -206,7 +206,7 @@ MemberConstraint::isSetDistinctAttribute() const
 bool
 MemberConstraint::isSetIdenticalAttribute() const
 {
-	return (mIdenticalAttribute.empty() == false);
+  return (mIdenticalAttribute.empty() == false);
 }
 
 
@@ -216,7 +216,7 @@ MemberConstraint::isSetIdenticalAttribute() const
 int
 MemberConstraint::setId(const std::string& id)
 {
-	return SyntaxChecker::checkAndSetSId(id, mId);
+  return SyntaxChecker::checkAndSetSId(id, mId);
 }
 
 
@@ -226,15 +226,15 @@ MemberConstraint::setId(const std::string& id)
 int
 MemberConstraint::setName(const std::string& name)
 {
-	if (&(name) == NULL)
-	{
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-	}
-	else
-	{
-		mName = name;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  if (&(name) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mName = name;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -244,15 +244,15 @@ MemberConstraint::setName(const std::string& name)
 int
 MemberConstraint::setDistinctAttribute(const std::string& distinctAttribute)
 {
-	if (&(distinctAttribute) == NULL)
-	{
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-	}
-	else
-	{
-		mDistinctAttribute = distinctAttribute;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  if (&(distinctAttribute) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mDistinctAttribute = distinctAttribute;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -262,15 +262,15 @@ MemberConstraint::setDistinctAttribute(const std::string& distinctAttribute)
 int
 MemberConstraint::setIdenticalAttribute(const std::string& identicalAttribute)
 {
-	if (&(identicalAttribute) == NULL)
-	{
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-	}
-	else
-	{
-		mIdenticalAttribute = identicalAttribute;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  if (&(identicalAttribute) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mIdenticalAttribute = identicalAttribute;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -280,16 +280,16 @@ MemberConstraint::setIdenticalAttribute(const std::string& identicalAttribute)
 int
 MemberConstraint::unsetId()
 {
-	mId.erase();
+  mId.erase();
 
-	if (mId.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mId.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -299,16 +299,16 @@ MemberConstraint::unsetId()
 int
 MemberConstraint::unsetName()
 {
-	mName.erase();
+  mName.erase();
 
-	if (mName.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mName.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -318,16 +318,16 @@ MemberConstraint::unsetName()
 int
 MemberConstraint::unsetDistinctAttribute()
 {
-	mDistinctAttribute.erase();
+  mDistinctAttribute.erase();
 
-	if (mDistinctAttribute.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mDistinctAttribute.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -337,16 +337,16 @@ MemberConstraint::unsetDistinctAttribute()
 int
 MemberConstraint::unsetIdenticalAttribute()
 {
-	mIdenticalAttribute.erase();
+  mIdenticalAttribute.erase();
 
-	if (mIdenticalAttribute.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mIdenticalAttribute.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -356,8 +356,8 @@ MemberConstraint::unsetIdenticalAttribute()
 const std::string&
 MemberConstraint::getElementName () const
 {
-	static const string name = "memberConstraint";
-	return name;
+  static const string name = "memberConstraint";
+  return name;
 }
 
 
@@ -367,7 +367,7 @@ MemberConstraint::getElementName () const
 int
 MemberConstraint::getTypeCode () const
 {
-	return SBML_GROUPS_MEMBER_CONSTRAINT;
+  return SBML_GROUPS_MEMBER_CONSTRAINT;
 }
 
 
@@ -377,13 +377,13 @@ MemberConstraint::getTypeCode () const
 bool
 MemberConstraint::hasRequiredAttributes () const
 {
-	bool allPresent = true;
+  bool allPresent = true;
 
-	return allPresent;
+  return allPresent;
 }
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * write contained elements
@@ -391,16 +391,16 @@ MemberConstraint::hasRequiredAttributes () const
 void
 MemberConstraint::writeElements (XMLOutputStream& stream) const
 {
-	SBase::writeElements(stream);
+  SBase::writeElements(stream);
 
-	SBase::writeExtensionElements(stream);
+  SBase::writeExtensionElements(stream);
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Accepts the given SBMLVisitor.
@@ -408,14 +408,14 @@ MemberConstraint::writeElements (XMLOutputStream& stream) const
 bool
 MemberConstraint::accept (SBMLVisitor& v) const
 {
-	return v.visit(*this);
+  return v.visit(*this);
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Sets the parent SBMLDocument.
@@ -423,14 +423,14 @@ MemberConstraint::accept (SBMLVisitor& v) const
 void
 MemberConstraint::setSBMLDocument (SBMLDocument* d)
 {
-	SBase::setSBMLDocument(d);
+  SBase::setSBMLDocument(d);
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Enables/Disables the given package with this element.
@@ -439,14 +439,14 @@ void
 MemberConstraint::enablePackageInternal(const std::string& pkgURI,
              const std::string& pkgPrefix, bool flag)
 {
-	SBase::enablePackageInternal(pkgURI, pkgPrefix, flag);
+  SBase::enablePackageInternal(pkgURI, pkgPrefix, flag);
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Get the list of expected attributes for this element.
@@ -454,19 +454,19 @@ MemberConstraint::enablePackageInternal(const std::string& pkgURI,
 void
 MemberConstraint::addExpectedAttributes(ExpectedAttributes& attributes)
 {
-	SBase::addExpectedAttributes(attributes);
+  SBase::addExpectedAttributes(attributes);
 
-	attributes.add("id");
-	attributes.add("name");
-	attributes.add("distinctAttribute");
-	attributes.add("identicalAttribute");
+  attributes.add("id");
+  attributes.add("name");
+  attributes.add("distinctAttribute");
+  attributes.add("identicalAttribute");
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Read values from the given XMLAttributes set into their specific fields.
@@ -475,183 +475,183 @@ void
 MemberConstraint::readAttributes (const XMLAttributes& attributes,
                              const ExpectedAttributes& expectedAttributes)
 {
-	const unsigned int sbmlLevel   = getLevel  ();
-	const unsigned int sbmlVersion = getVersion();
+  const unsigned int sbmlLevel   = getLevel  ();
+  const unsigned int sbmlVersion = getVersion();
 
-	unsigned int numErrs;
+  unsigned int numErrs;
 
-	/* look to see whether an unknown attribute error was logged
-	 * during the read of the listOfMemberConstraints - which will have
-	 * happened immediately prior to this read
-	*/
+  /* look to see whether an unknown attribute error was logged
+   * during the read of the listOfMemberConstraints - which will have
+   * happened immediately prior to this read
+  */
 
-	if (getErrorLog() != NULL &&
-	    static_cast<ListOfMemberConstraints*>(getParentSBMLObject())->size() < 2)
-	{
-		numErrs = getErrorLog()->getNumErrors();
-		for (int n = numErrs-1; n >= 0; n--)
-		{
-			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
-			{
-				const std::string details =
-				      getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownPackageAttribute);
-				getErrorLog()->logPackageError("groups", GroupsUnknownError,
-				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
-			{
-				const std::string details =
-				           getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownCoreAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-		}
-	}
+  if (getErrorLog() != NULL &&
+      static_cast<ListOfMemberConstraints*>(getParentSBMLObject())->size() < 2)
+  {
+    numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details =
+              getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("groups", GroupsUnknownError,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details =
+                   getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+    }
+  }
 
-	SBase::readAttributes(attributes, expectedAttributes);
+  SBase::readAttributes(attributes, expectedAttributes);
 
-	// look to see whether an unknown attribute error was logged
-	if (getErrorLog() != NULL)
-	{
-		numErrs = getErrorLog()->getNumErrors();
-		for (int n = numErrs-1; n >= 0; n--)
-		{
-			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
-			{
-				const std::string details =
-				                  getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownPackageAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
-			{
-				const std::string details =
-				                  getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownCoreAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-		}
-	}
+  // look to see whether an unknown attribute error was logged
+  if (getErrorLog() != NULL)
+  {
+    numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details =
+                          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details =
+                          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+    }
+  }
 
-	bool assigned = false;
+  bool assigned = false;
 
-	//
-	// id SId  ( use = "optional" )
-	//
-	assigned = attributes.readInto("id", mId);
+  //
+  // id SId  ( use = "optional" )
+  //
+  assigned = attributes.readInto("id", mId);
 
- 	if (assigned == true)
-	{
-		// check string is not empty and correct syntax
+   if (assigned == true)
+  {
+    // check string is not empty and correct syntax
 
-		if (mId.empty() == true)
-		{
-			logEmptyString(mId, getLevel(), getVersion(), "<MemberConstraint>");
-		}
-		else if (SyntaxChecker::isValidSBMLSId(mId) == false)
-		{
-			logError(InvalidIdSyntax);
-		}
-	}
+    if (mId.empty() == true)
+    {
+      logEmptyString(mId, getLevel(), getVersion(), "<MemberConstraint>");
+    }
+    else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+    {
+      logError(InvalidIdSyntax);
+    }
+  }
 
-	//
-	// name string   ( use = "optional" )
-	//
-	assigned = attributes.readInto("name", mName);
+  //
+  // name string   ( use = "optional" )
+  //
+  assigned = attributes.readInto("name", mName);
 
-	if (assigned == true)
-	{
-		// check string is not empty
+  if (assigned == true)
+  {
+    // check string is not empty
 
-		if (mName.empty() == true)
-		{
-			logEmptyString(mName, getLevel(), getVersion(), "<MemberConstraint>");
-		}
-	}
+    if (mName.empty() == true)
+    {
+      logEmptyString(mName, getLevel(), getVersion(), "<MemberConstraint>");
+    }
+  }
 
-	//
-	// distinctAttribute string   ( use = "optional" )
-	//
-	assigned = attributes.readInto("distinctAttribute", mDistinctAttribute);
+  //
+  // distinctAttribute string   ( use = "optional" )
+  //
+  assigned = attributes.readInto("distinctAttribute", mDistinctAttribute);
 
-	if (assigned == true)
-	{
-		// check string is not empty
+  if (assigned == true)
+  {
+    // check string is not empty
 
-		if (mDistinctAttribute.empty() == true)
-		{
-			logEmptyString(mDistinctAttribute, getLevel(), getVersion(), "<MemberConstraint>");
-		}
-	}
+    if (mDistinctAttribute.empty() == true)
+    {
+      logEmptyString(mDistinctAttribute, getLevel(), getVersion(), "<MemberConstraint>");
+    }
+  }
 
-	//
-	// identicalAttribute string   ( use = "optional" )
-	//
-	assigned = attributes.readInto("identicalAttribute", mIdenticalAttribute);
+  //
+  // identicalAttribute string   ( use = "optional" )
+  //
+  assigned = attributes.readInto("identicalAttribute", mIdenticalAttribute);
 
-	if (assigned == true)
-	{
-		// check string is not empty
+  if (assigned == true)
+  {
+    // check string is not empty
 
-		if (mIdenticalAttribute.empty() == true)
-		{
-			logEmptyString(mIdenticalAttribute, getLevel(), getVersion(), "<MemberConstraint>");
-		}
-	}
+    if (mIdenticalAttribute.empty() == true)
+    {
+      logEmptyString(mIdenticalAttribute, getLevel(), getVersion(), "<MemberConstraint>");
+    }
+  }
 
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Write values of XMLAttributes to the output stream.
  */
-	void
+  void
 MemberConstraint::writeAttributes (XMLOutputStream& stream) const
 {
-	SBase::writeAttributes(stream);
+  SBase::writeAttributes(stream);
 
-	if (isSetId() == true)
-		stream.writeAttribute("id", getPrefix(), mId);
+  if (isSetId() == true)
+    stream.writeAttribute("id", getPrefix(), mId);
 
-	if (isSetName() == true)
-		stream.writeAttribute("name", getPrefix(), mName);
+  if (isSetName() == true)
+    stream.writeAttribute("name", getPrefix(), mName);
 
-	if (isSetDistinctAttribute() == true)
-		stream.writeAttribute("distinctAttribute", getPrefix(), mDistinctAttribute);
+  if (isSetDistinctAttribute() == true)
+    stream.writeAttribute("distinctAttribute", getPrefix(), mDistinctAttribute);
 
-	if (isSetIdenticalAttribute() == true)
-		stream.writeAttribute("identicalAttribute", getPrefix(), mIdenticalAttribute);
+  if (isSetIdenticalAttribute() == true)
+    stream.writeAttribute("identicalAttribute", getPrefix(), mIdenticalAttribute);
 
-	SBase::writeExtensionAttributes(stream);
+  SBase::writeExtensionAttributes(stream);
 
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 /*
  * Constructor 
  */
 ListOfMemberConstraints::ListOfMemberConstraints(unsigned int level, 
-	                        unsigned int version, 
-	                        unsigned int pkgVersion)
+                          unsigned int version, 
+                          unsigned int pkgVersion)
  : ListOf(level, version)
-	 ,mId ("")
-	 ,mName ("")
-	 ,mMembersShareType (false)
+   ,mId ("")
+   ,mName ("")
+   ,mMembersShareType (false)
    ,mIsSetMembersShareType (false)
 {
-	setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion)); 
+  setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion)); 
 }
 
 
@@ -660,12 +660,12 @@ ListOfMemberConstraints::ListOfMemberConstraints(unsigned int level,
  */
 ListOfMemberConstraints::ListOfMemberConstraints(GroupsPkgNamespaces* groupsns)
   : ListOf(groupsns)
-	 ,mId ("")
-	 ,mName ("")
-	 ,mMembersShareType (false)
+   ,mId ("")
+   ,mName ("")
+   ,mMembersShareType (false)
    ,mIsSetMembersShareType (false)
 {
-	setElementNamespace(groupsns->getURI());
+  setElementNamespace(groupsns->getURI());
 }
 
 
@@ -675,7 +675,7 @@ ListOfMemberConstraints::ListOfMemberConstraints(GroupsPkgNamespaces* groupsns)
 ListOfMemberConstraints* 
 ListOfMemberConstraints::clone () const
  {
-	return new ListOfMemberConstraints(*this);
+  return new ListOfMemberConstraints(*this);
 }
 
 
@@ -685,7 +685,7 @@ ListOfMemberConstraints::clone () const
 MemberConstraint*
 ListOfMemberConstraints::get(unsigned int n)
 {
-	return static_cast<MemberConstraint*>(ListOf::get(n));
+  return static_cast<MemberConstraint*>(ListOf::get(n));
 }
 
 
@@ -695,7 +695,7 @@ ListOfMemberConstraints::get(unsigned int n)
 const MemberConstraint*
 ListOfMemberConstraints::get(unsigned int n) const
 {
-	return static_cast<const MemberConstraint*>(ListOf::get(n));
+  return static_cast<const MemberConstraint*>(ListOf::get(n));
 }
 
 
@@ -705,8 +705,8 @@ ListOfMemberConstraints::get(unsigned int n) const
 MemberConstraint*
 ListOfMemberConstraints::get(const std::string& sid)
 {
-	return const_cast<MemberConstraint*>(
-	  static_cast<const ListOfMemberConstraints&>(*this).get(sid));
+  return const_cast<MemberConstraint*>(
+    static_cast<const ListOfMemberConstraints&>(*this).get(sid));
 }
 
 
@@ -716,10 +716,10 @@ ListOfMemberConstraints::get(const std::string& sid)
 const MemberConstraint*
 ListOfMemberConstraints::get(const std::string& sid) const
 {
-	vector<SBase*>::const_iterator result;
+  vector<SBase*>::const_iterator result;
 
-	result = find_if( mItems.begin(), mItems.end(), IdEq<MemberConstraint>(sid) );
-	return (result == mItems.end()) ? 0 : static_cast <MemberConstraint*> (*result);
+  result = find_if( mItems.begin(), mItems.end(), IdEq<MemberConstraint>(sid) );
+  return (result == mItems.end()) ? 0 : static_cast <MemberConstraint*> (*result);
 }
 
 
@@ -729,7 +729,7 @@ ListOfMemberConstraints::get(const std::string& sid) const
 MemberConstraint*
 ListOfMemberConstraints::remove(unsigned int n)
 {
-	return static_cast<MemberConstraint*>(ListOf::remove(n));
+  return static_cast<MemberConstraint*>(ListOf::remove(n));
 }
 
 
@@ -739,18 +739,18 @@ ListOfMemberConstraints::remove(unsigned int n)
 MemberConstraint*
 ListOfMemberConstraints::remove(const std::string& sid)
 {
-	SBase* item = NULL;
-	vector<SBase*>::iterator result;
+  SBase* item = NULL;
+  vector<SBase*>::iterator result;
 
-	result = find_if( mItems.begin(), mItems.end(), IdEq<MemberConstraint>(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEq<MemberConstraint>(sid) );
 
-	if (result != mItems.end())
-	{
-		item = *result;
-		mItems.erase(result);
-	}
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
+  }
 
-	return static_cast <MemberConstraint*> (item);
+  return static_cast <MemberConstraint*> (item);
 }
 
 
@@ -760,7 +760,7 @@ ListOfMemberConstraints::remove(const std::string& sid)
 const std::string&
 ListOfMemberConstraints::getId() const
 {
-	return mId;
+  return mId;
 }
 
 
@@ -770,7 +770,7 @@ ListOfMemberConstraints::getId() const
 const std::string&
 ListOfMemberConstraints::getName() const
 {
-	return mName;
+  return mName;
 }
 
 
@@ -780,7 +780,7 @@ ListOfMemberConstraints::getName() const
 bool
 ListOfMemberConstraints::getMembersShareType() const
 {
-	return mMembersShareType;
+  return mMembersShareType;
 }
 
 
@@ -790,7 +790,7 @@ ListOfMemberConstraints::getMembersShareType() const
 bool
 ListOfMemberConstraints::isSetId() const
 {
-	return (mId.empty() == false);
+  return (mId.empty() == false);
 }
 
 
@@ -800,7 +800,7 @@ ListOfMemberConstraints::isSetId() const
 bool
 ListOfMemberConstraints::isSetName() const
 {
-	return (mName.empty() == false);
+  return (mName.empty() == false);
 }
 
 
@@ -810,7 +810,7 @@ ListOfMemberConstraints::isSetName() const
 bool
 ListOfMemberConstraints::isSetMembersShareType() const
 {
-	return mIsSetMembersShareType;
+  return mIsSetMembersShareType;
 }
 
 
@@ -820,7 +820,7 @@ ListOfMemberConstraints::isSetMembersShareType() const
 int
 ListOfMemberConstraints::setId(const std::string& id)
 {
-	return SyntaxChecker::checkAndSetSId(id, mId);
+  return SyntaxChecker::checkAndSetSId(id, mId);
 }
 
 
@@ -830,15 +830,15 @@ ListOfMemberConstraints::setId(const std::string& id)
 int
 ListOfMemberConstraints::setName(const std::string& name)
 {
-	if (&(name) == NULL)
-	{
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-	}
-	else
-	{
-		mName = name;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  if (&(name) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mName = name;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -848,9 +848,9 @@ ListOfMemberConstraints::setName(const std::string& name)
 int
 ListOfMemberConstraints::setMembersShareType(bool membersShareType)
 {
-	mMembersShareType = membersShareType;
+  mMembersShareType = membersShareType;
   mIsSetMembersShareType = true;
-	return LIBSBML_OPERATION_SUCCESS;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -860,16 +860,16 @@ ListOfMemberConstraints::setMembersShareType(bool membersShareType)
 int
 ListOfMemberConstraints::unsetId()
 {
-	mId.erase();
+  mId.erase();
 
-	if (mId.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mId.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -879,16 +879,16 @@ ListOfMemberConstraints::unsetId()
 int
 ListOfMemberConstraints::unsetName()
 {
-	mName.erase();
+  mName.erase();
 
-	if (mName.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mName.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -898,9 +898,9 @@ ListOfMemberConstraints::unsetName()
 int
 ListOfMemberConstraints::unsetMembersShareType()
 {
-	mMembersShareType = false;
+  mMembersShareType = false;
   mIsSetMembersShareType = false;
-	return LIBSBML_OPERATION_FAILED;
+  return LIBSBML_OPERATION_FAILED;
 }
 
 
@@ -910,8 +910,8 @@ ListOfMemberConstraints::unsetMembersShareType()
 const std::string&
 ListOfMemberConstraints::getElementName () const
 {
-	static const string name = "listOfMemberConstraints";
-	return name;
+  static const string name = "listOfMemberConstraints";
+  return name;
 }
 
 
@@ -921,7 +921,7 @@ ListOfMemberConstraints::getElementName () const
 int
 ListOfMemberConstraints::getTypeCode () const
 {
-	return SBML_LIST_OF;
+  return SBML_LIST_OF;
 }
 
 
@@ -931,11 +931,11 @@ ListOfMemberConstraints::getTypeCode () const
 int
 ListOfMemberConstraints::getItemTypeCode () const
 {
-	return SBML_GROUPS_MEMBER_CONSTRAINT;
+  return SBML_GROUPS_MEMBER_CONSTRAINT;
 }
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Creates a new MemberConstraint in this ListOfMemberConstraints
@@ -943,24 +943,24 @@ ListOfMemberConstraints::getItemTypeCode () const
 SBase*
 ListOfMemberConstraints::createObject(XMLInputStream& stream)
 {
-	const std::string& name   = stream.peek().getName();
-	SBase* object = NULL;
+  const std::string& name   = stream.peek().getName();
+  SBase* object = NULL;
 
-	if (name == "memberConstraint")
-	{
-		GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
-		object = new MemberConstraint(groupsns);
-		appendAndOwn(object);
-	}
+  if (name == "memberConstraint")
+  {
+    GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
+    object = new MemberConstraint(groupsns);
+    appendAndOwn(object);
+  }
 
-	return object;
+  return object;
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Get the list of expected attributes for this element.
@@ -968,18 +968,18 @@ ListOfMemberConstraints::createObject(XMLInputStream& stream)
 void
 ListOfMemberConstraints::addExpectedAttributes(ExpectedAttributes& attributes)
 {
-	SBase::addExpectedAttributes(attributes);
+  SBase::addExpectedAttributes(attributes);
 
-	attributes.add("id");
-	attributes.add("name");
-	attributes.add("membersShareType");
+  attributes.add("id");
+  attributes.add("name");
+  attributes.add("membersShareType");
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Read values from the given XMLAttributes set into their specific fields.
@@ -988,107 +988,107 @@ void
 ListOfMemberConstraints::readAttributes (const XMLAttributes& attributes,
                              const ExpectedAttributes& expectedAttributes)
 {
-	const unsigned int sbmlLevel   = getLevel  ();
-	const unsigned int sbmlVersion = getVersion();
+  const unsigned int sbmlLevel   = getLevel  ();
+  const unsigned int sbmlVersion = getVersion();
 
-	unsigned int numErrs;
+  unsigned int numErrs;
 
-	SBase::readAttributes(attributes, expectedAttributes);
+  SBase::readAttributes(attributes, expectedAttributes);
 
-	// look to see whether an unknown attribute error was logged
-	if (getErrorLog() != NULL)
-	{
-		numErrs = getErrorLog()->getNumErrors();
-		for (int n = numErrs-1; n >= 0; n--)
-		{
-			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
-			{
-				const std::string details =
-				                  getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownPackageAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
-			{
-				const std::string details =
-				                  getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownCoreAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-		}
-	}
+  // look to see whether an unknown attribute error was logged
+  if (getErrorLog() != NULL)
+  {
+    numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details =
+                          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details =
+                          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+    }
+  }
 
-	bool assigned = false;
+  bool assigned = false;
 
-	//
-	// id SId  ( use = "optional" )
-	//
-	assigned = attributes.readInto("id", mId);
+  //
+  // id SId  ( use = "optional" )
+  //
+  assigned = attributes.readInto("id", mId);
 
- 	if (assigned == true)
-	{
-		// check string is not empty and correct syntax
+  if (assigned == true)
+  {
+    // check string is not empty and correct syntax
 
-		if (mId.empty() == true)
-		{
-			logEmptyString(mId, getLevel(), getVersion(), "<ListOfMemberConstraints>");
-		}
-		else if (SyntaxChecker::isValidSBMLSId(mId) == false)
-		{
-			logError(InvalidIdSyntax);
-		}
-	}
+    if (mId.empty() == true)
+    {
+      logEmptyString(mId, getLevel(), getVersion(), "<ListOfMemberConstraints>");
+    }
+    else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+    {
+      logError(InvalidIdSyntax);
+    }
+  }
 
-	//
-	// name string   ( use = "optional" )
-	//
-	assigned = attributes.readInto("name", mName);
+  //
+  // name string   ( use = "optional" )
+  //
+  assigned = attributes.readInto("name", mName);
 
-	if (assigned == true)
-	{
-		// check string is not empty
+  if (assigned == true)
+  {
+    // check string is not empty
 
-		if (mName.empty() == true)
-		{
-			logEmptyString(mName, getLevel(), getVersion(), "<ListOfMemberConstraints>");
-		}
-	}
+    if (mName.empty() == true)
+    {
+      logEmptyString(mName, getLevel(), getVersion(), "<ListOfMemberConstraints>");
+    }
+  }
 
-	//
-	// constant bool   ( use = "required" )
-	//
-	numErrs = getErrorLog()->getNumErrors();
-	mIsSetMembersShareType = attributes.readInto("membersShareType", mMembersShareType);
+  //
+  // constant bool   ( use = "required" )
+  //
+  numErrs = getErrorLog()->getNumErrors();
+  mIsSetMembersShareType = attributes.readInto("membersShareType", mMembersShareType);
 
-	if (mIsSetMembersShareType == false)
-	{
-		if (getErrorLog() != NULL)
-		{
-			if (getErrorLog()->getNumErrors() == numErrs + 1 &&
-			        getErrorLog()->contains(XMLAttributeTypeMismatch))
-			{
-				getErrorLog()->remove(XMLAttributeTypeMismatch);
-				getErrorLog()->logPackageError("groups", GroupsUnknownError,
-				             getPackageVersion(), sbmlLevel, sbmlVersion);
-			}
+  if (mIsSetMembersShareType == false)
+  {
+    if (getErrorLog() != NULL)
+    {
+      if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+              getErrorLog()->contains(XMLAttributeTypeMismatch))
+      {
+        getErrorLog()->remove(XMLAttributeTypeMismatch);
+        getErrorLog()->logPackageError("groups", GroupsUnknownError,
+                     getPackageVersion(), sbmlLevel, sbmlVersion);
+      }
       else
       {
-		  std::string message = "Groups attribute 'membersShareType' is missing.";
-		  getErrorLog()->logPackageError("groups", GroupsUnknownError,
-		                 getPackageVersion(), sbmlLevel, sbmlVersion, message);
+      std::string message = "Groups attribute 'membersShareType' is missing.";
+      getErrorLog()->logPackageError("groups", GroupsUnknownError,
+                     getPackageVersion(), sbmlLevel, sbmlVersion, message);
       }
-		}
-	}
+    }
+  }
 
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Write values of XMLAttributes to the output stream.
@@ -1096,27 +1096,27 @@ ListOfMemberConstraints::readAttributes (const XMLAttributes& attributes,
 void
 ListOfMemberConstraints::writeAttributes (XMLOutputStream& stream) const
 {
-	SBase::writeAttributes(stream);
+  SBase::writeAttributes(stream);
 
-	if (isSetId() == true)
-		stream.writeAttribute("id", getPrefix(), mId);
+  if (isSetId() == true)
+    stream.writeAttribute("id", getPrefix(), mId);
 
-	if (isSetName() == true)
-		stream.writeAttribute("name", getPrefix(), mName);
+  if (isSetName() == true)
+    stream.writeAttribute("name", getPrefix(), mName);
 
-	if (isSetMembersShareType() == true)
-		stream.writeAttribute("membersShareType", getPrefix(), mMembersShareType);
+  if (isSetMembersShareType() == true)
+    stream.writeAttribute("membersShareType", getPrefix(), mMembersShareType);
 
-	SBase::writeExtensionAttributes(stream);
+  SBase::writeExtensionAttributes(stream);
 
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Write the namespace for the Groups package.
@@ -1124,23 +1124,23 @@ ListOfMemberConstraints::writeAttributes (XMLOutputStream& stream) const
 void
 ListOfMemberConstraints::writeXMLNS(XMLOutputStream& stream) const
 {
-	XMLNamespaces xmlns;
+  XMLNamespaces xmlns;
 
-	std::string prefix = getPrefix();
+  std::string prefix = getPrefix();
 
-	if (prefix.empty())
-	{
-		if (getNamespaces()->hasURI(GroupsExtension::getXmlnsL3V1V1()))
-		{
-			xmlns.add(GroupsExtension::getXmlnsL3V1V1(),prefix);
-		}
-	}
+  if (prefix.empty())
+  {
+    if (getNamespaces()->hasURI(GroupsExtension::getXmlnsL3V1V1()))
+    {
+      xmlns.add(GroupsExtension::getXmlnsL3V1V1(),prefix);
+    }
+  }
 
-	stream << xmlns;
+  stream << xmlns;
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 /**
@@ -1151,7 +1151,7 @@ MemberConstraint_t *
 MemberConstraint_create(unsigned int level, unsigned int version,
                         unsigned int pkgVersion)
 {
-	return new MemberConstraint(level, version, pkgVersion);
+  return new MemberConstraint(level, version, pkgVersion);
 }
 
 
@@ -1162,8 +1162,8 @@ LIBSBML_EXTERN
 void
 MemberConstraint_free(MemberConstraint_t * mc)
 {
-	if (mc != NULL)
-		delete mc;
+  if (mc != NULL)
+    delete mc;
 }
 
 
@@ -1174,14 +1174,14 @@ LIBSBML_EXTERN
 MemberConstraint_t *
 MemberConstraint_clone(MemberConstraint_t * mc)
 {
-	if (mc != NULL)
-	{
-		return static_cast<MemberConstraint_t*>(mc->clone());
-	}
-	else
-	{
-		return NULL;
-	}
+  if (mc != NULL)
+  {
+    return static_cast<MemberConstraint_t*>(mc->clone());
+  }
+  else
+  {
+    return NULL;
+  }
 }
 
 
@@ -1192,10 +1192,10 @@ LIBSBML_EXTERN
 char *
 MemberConstraint_getId(MemberConstraint_t * mc)
 {
-	if (mc == NULL)
-		return NULL;
+  if (mc == NULL)
+    return NULL;
 
-	return mc->getId().empty() ? NULL : safe_strdup(mc->getId().c_str());
+  return mc->getId().empty() ? NULL : safe_strdup(mc->getId().c_str());
 }
 
 
@@ -1206,10 +1206,10 @@ LIBSBML_EXTERN
 char *
 MemberConstraint_getName(MemberConstraint_t * mc)
 {
-	if (mc == NULL)
-		return NULL;
+  if (mc == NULL)
+    return NULL;
 
-	return mc->getName().empty() ? NULL : safe_strdup(mc->getName().c_str());
+  return mc->getName().empty() ? NULL : safe_strdup(mc->getName().c_str());
 }
 
 
@@ -1220,10 +1220,10 @@ LIBSBML_EXTERN
 char *
 MemberConstraint_getDistinctAttribute(MemberConstraint_t * mc)
 {
-	if (mc == NULL)
-		return NULL;
+  if (mc == NULL)
+    return NULL;
 
-	return mc->getDistinctAttribute().empty() ? NULL : safe_strdup(mc->getDistinctAttribute().c_str());
+  return mc->getDistinctAttribute().empty() ? NULL : safe_strdup(mc->getDistinctAttribute().c_str());
 }
 
 
@@ -1234,10 +1234,10 @@ LIBSBML_EXTERN
 char *
 MemberConstraint_getIdenticalAttribute(MemberConstraint_t * mc)
 {
-	if (mc == NULL)
-		return NULL;
+  if (mc == NULL)
+    return NULL;
 
-	return mc->getIdenticalAttribute().empty() ? NULL : safe_strdup(mc->getIdenticalAttribute().c_str());
+  return mc->getIdenticalAttribute().empty() ? NULL : safe_strdup(mc->getIdenticalAttribute().c_str());
 }
 
 
@@ -1248,7 +1248,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_isSetId(MemberConstraint_t * mc)
 {
-	return (mc != NULL) ? static_cast<int>(mc->isSetId()) : 0;
+  return (mc != NULL) ? static_cast<int>(mc->isSetId()) : 0;
 }
 
 
@@ -1259,7 +1259,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_isSetName(MemberConstraint_t * mc)
 {
-	return (mc != NULL) ? static_cast<int>(mc->isSetName()) : 0;
+  return (mc != NULL) ? static_cast<int>(mc->isSetName()) : 0;
 }
 
 
@@ -1270,7 +1270,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_isSetDistinctAttribute(MemberConstraint_t * mc)
 {
-	return (mc != NULL) ? static_cast<int>(mc->isSetDistinctAttribute()) : 0;
+  return (mc != NULL) ? static_cast<int>(mc->isSetDistinctAttribute()) : 0;
 }
 
 
@@ -1281,7 +1281,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_isSetIdenticalAttribute(MemberConstraint_t * mc)
 {
-	return (mc != NULL) ? static_cast<int>(mc->isSetIdenticalAttribute()) : 0;
+  return (mc != NULL) ? static_cast<int>(mc->isSetIdenticalAttribute()) : 0;
 }
 
 
@@ -1292,7 +1292,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_setId(MemberConstraint_t * mc, const char * id)
 {
-	return (mc != NULL) ? mc->setId(id) : LIBSBML_INVALID_OBJECT;
+  return (mc != NULL) ? mc->setId(id) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1303,7 +1303,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_setName(MemberConstraint_t * mc, const char * name)
 {
-	return (mc != NULL) ? mc->setName(name) : LIBSBML_INVALID_OBJECT;
+  return (mc != NULL) ? mc->setName(name) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1314,7 +1314,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_setDistinctAttribute(MemberConstraint_t * mc, const char * distinctAttribute)
 {
-	return (mc != NULL) ? mc->setDistinctAttribute(distinctAttribute) : LIBSBML_INVALID_OBJECT;
+  return (mc != NULL) ? mc->setDistinctAttribute(distinctAttribute) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1325,7 +1325,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_setIdenticalAttribute(MemberConstraint_t * mc, const char * identicalAttribute)
 {
-	return (mc != NULL) ? mc->setIdenticalAttribute(identicalAttribute) : LIBSBML_INVALID_OBJECT;
+  return (mc != NULL) ? mc->setIdenticalAttribute(identicalAttribute) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1336,7 +1336,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_unsetId(MemberConstraint_t * mc)
 {
-	return (mc != NULL) ? mc->unsetId() : LIBSBML_INVALID_OBJECT;
+  return (mc != NULL) ? mc->unsetId() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1347,7 +1347,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_unsetName(MemberConstraint_t * mc)
 {
-	return (mc != NULL) ? mc->unsetName() : LIBSBML_INVALID_OBJECT;
+  return (mc != NULL) ? mc->unsetName() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1358,7 +1358,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_unsetDistinctAttribute(MemberConstraint_t * mc)
 {
-	return (mc != NULL) ? mc->unsetDistinctAttribute() : LIBSBML_INVALID_OBJECT;
+  return (mc != NULL) ? mc->unsetDistinctAttribute() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1369,7 +1369,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_unsetIdenticalAttribute(MemberConstraint_t * mc)
 {
-	return (mc != NULL) ? mc->unsetIdenticalAttribute() : LIBSBML_INVALID_OBJECT;
+  return (mc != NULL) ? mc->unsetIdenticalAttribute() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1380,7 +1380,7 @@ LIBSBML_EXTERN
 int
 MemberConstraint_hasRequiredAttributes(MemberConstraint_t * mc)
 {
-	return (mc != NULL) ? static_cast<int>(mc->hasRequiredAttributes()) : 0;
+  return (mc != NULL) ? static_cast<int>(mc->hasRequiredAttributes()) : 0;
 }
 
 
@@ -1391,10 +1391,10 @@ LIBSBML_EXTERN
 MemberConstraint_t *
 ListOfMemberConstraints_getById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfMemberConstraints *>(lo)->get(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfMemberConstraints *>(lo)->get(sid) : NULL;
 }
 
 
@@ -1405,10 +1405,10 @@ LIBSBML_EXTERN
 MemberConstraint_t *
 ListOfMemberConstraints_removeById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfMemberConstraints *>(lo)->remove(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfMemberConstraints *>(lo)->remove(sid) : NULL;
 }
 
 

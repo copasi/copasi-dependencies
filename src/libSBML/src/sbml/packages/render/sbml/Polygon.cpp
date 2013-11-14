@@ -48,7 +48,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string Polygon::ELEMENT_NAME="polygon";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Polygon object with the given SBML level
  * and SBML version.
@@ -67,7 +67,7 @@ Polygon::Polygon (unsigned int level, unsigned int version, unsigned int pkgVers
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Polygon object with the given SBMLNamespaces.
  *
@@ -91,7 +91,7 @@ Polygon::Polygon (RenderPkgNamespaces* renderns)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Polygon object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -203,7 +203,7 @@ Polygon::Polygon(const XMLNode& node, unsigned int l2version)
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Instanciates a polygon with the given @p id and no elements.
  * All attributes inherited from GraphicalPrimitive are set as described
@@ -234,7 +234,21 @@ Polygon::Polygon(RenderPkgNamespaces* renderns, const std::string& id)
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+List*
+Polygon::getAllElements(ElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mListOfElements, filter);
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of segments.
  *
@@ -246,7 +260,7 @@ unsigned int Polygon::getNumElements() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the list of segments.
  *
@@ -258,7 +272,7 @@ ListOfCurveElements* Polygon::getListOfElements()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the list of segments.
  *
@@ -270,7 +284,7 @@ const ListOfCurveElements* Polygon::getListOfElements() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new point element.
  * The element is added to and owned by the polygon.
@@ -303,7 +317,7 @@ RenderPoint* Polygon::createPoint()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new bezier element.
  * The element is added to and owned by the polygon.
@@ -336,7 +350,7 @@ RenderCubicBezier* Polygon::createCubicBezier()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the segment with the given index or NULL if
  * the id is invalid.
@@ -352,7 +366,7 @@ RenderPoint* Polygon::getElement(unsigned int index)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the segment with the given index or NULL if
  * the id is invalid.
@@ -368,7 +382,7 @@ const RenderPoint* Polygon::getElement(unsigned int index) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of the given segment to the end of the list of
  * segments.
@@ -426,7 +440,7 @@ int Polygon::addElement(const RenderPoint* ls)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -452,7 +466,7 @@ int Polygon::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor.
  *
@@ -466,7 +480,7 @@ bool Polygon::accept(SBMLVisitor& /*visitor*/) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * Polygon, is always @c "polygon".
@@ -480,7 +494,7 @@ const std::string& Polygon::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the Polygon object.
  *
@@ -492,7 +506,7 @@ Polygon* Polygon::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Polygon::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -501,14 +515,14 @@ Polygon::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Polygon::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
     this->GraphicalPrimitive2D::readAttributes(attributes,expectedAttributes);
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -527,7 +541,7 @@ SBase* Polygon::createObject (XMLInputStream& stream)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -545,7 +559,7 @@ void Polygon::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this Polygon object.
  *
@@ -558,7 +572,7 @@ XMLNode Polygon::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -577,7 +591,7 @@ void Polygon::writeElements (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -599,7 +613,7 @@ Polygon::setSBMLDocument (SBMLDocument* d)
 void
 Polygon::connectToChild()
 {
-  SBase::connectToChild();
+  GraphicalPrimitive2D::connectToChild();
   mListOfElements.connectToParent(this);
 }
 
@@ -619,7 +633,7 @@ Polygon::enablePackageInternal(const std::string& pkgURI,
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBML object of this SBML object.
  *

@@ -445,7 +445,8 @@ CSGObject::createCSGHomogeneousTransformation ()
   */
 void
 CSGObject::connectToChild()
-{	
+{
+  SBase::connectToChild();
 	if (mCSGNodeRoot) mCSGNodeRoot->connectToParent(this);
 }
 
@@ -763,7 +764,7 @@ CSGObject::enablePackageInternal(const std::string& pkgURI,
 }
 
 
-/** @cond doxygen-c-only */
+/** @cond doxygenCOnly */
 
 /**
  * Creates and returns a deep copy of a given CSGObject_t structure.

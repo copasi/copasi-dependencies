@@ -1,5 +1,5 @@
 /**
- * @cond doxygen-libsbml-internal
+ * @cond doxygenLibsbmlInternal
  *
  * @file    IdentifierConsistencyConstraints.cpp
  * @brief   IdentifierConsistency check constraints.  See SBML Wiki
@@ -39,7 +39,7 @@
 
 #include <sbml/validator/ConstraintMacros.h>
 
-/** @cond doxygen-ignored */
+/** @cond doxygenIgnored */
 
 using namespace std;
 
@@ -48,6 +48,6 @@ using namespace std;
 // 10301
 EXTERN_CONSTRAINT(QualDuplicateComponentId, QualUniqueModelWideIds);
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond */
 
 

@@ -25,6 +25,16 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class QualModelPlugin
+ * @sbmlbrief{qual} Implementation of the 'qual' package extention to the
+ * %Model construct.  The extension of SBML Level 3 Core's Model class is
+ * relatively straightforward: the Qualitative Models Package adds two lists,
+ * one for holding qualitativeSpecies (ListOfQualitativeSpecies), and the
+ * other for holding transitions (ListOfTransitions).  The Model element may
+ * contain at most one ListOfQualitativeSpecies, which must contain at least
+ * one QualitativeSpecies. It may also contain at most one ListOfTransitions
+ * which must contain at least one Transition.
  */
 
 #ifndef QualModelPlugin_h
@@ -85,7 +95,7 @@ public:
   //
   // --------------------------------------------------------
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /**
    * Subclasses must override this method to create, store, and then
@@ -123,7 +133,24 @@ public:
    *
    * ------------------------------------------------------------------
    */
-  
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  int appendFrom(const Model* model);
+
+  /** @endcond */
+
+
+  /**
+   * Returns a List of all child SBase objects, including those nested to an
+   * arbitary depth.
+   *
+   * @return a List* of pointers to all child objects.
+   */
+   virtual List* getAllElements(ElementFilter * filter = NULL);
+
+
   /**
    * Returns the ListOfQualitativeSpecies in this plugin object.
    *
@@ -171,8 +198,8 @@ public:
    * @return QualitativeSpecies in the ListOfQualitativeSpecies with the given id
    * or NULL if no such QualitativeSpecies exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getQualitativeSpecies(unsigned int n)
+   * @see getListOfQualitativeSpecies()
    */
   QualitativeSpecies* getQualitativeSpecies (const std::string& sid);
 
@@ -186,10 +213,11 @@ public:
    * @return QualitativeSpecies in the ListOfQualitativeSpecies with the given id 
    * or NULL if no such QualitativeSpecies exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getQualitativeSpecies(unsigned int n)
+   * @see getListOfQualitativeSpecies()
    */
   const QualitativeSpecies* getQualitativeSpecies (const std::string& sid) const;
+
 
   /**
    * Adds a copy of the given QualitativeSpecies object to the list of qual.
@@ -197,10 +225,8 @@ public:
    * @param qualitativeSpecies the QualitativeSpecies object to be added to the list of qual.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    */ 
   int addQualitativeSpecies (const QualitativeSpecies* qualitativeSpecies);
 
@@ -300,8 +326,8 @@ public:
    * @return Transition in the ListOfTransitions with the given id
    * or NULL if no such Transition exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getTransition(unsigned int n)
+   * @see getListOfTransitions()
    */
   Transition* getTransition (const std::string& sid);
 
@@ -315,21 +341,20 @@ public:
    * @return Transition in the ListOfTransitions with the given id 
    * or NULL if no such Transition exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getTransition(unsigned int n)
+   * @see getListOfTransitions()
    */
   const Transition* getTransition (const std::string& sid) const;
+
 
   /**
    * Adds a copy of the given Transition object to the list of qual.
    *
-   * @param qualitativeSpecies the Transition object to be added to the list of qual.
+   * @param transition the Transition object to be added to the list of qual.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    */ 
   int addTransition (const Transition* transition);
 
@@ -389,8 +414,7 @@ public:
   //
   // ---------------------------------------------------------
 
-  /** @cond doxygen-libsbml-internal */
-
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBMLDocument of this plugin object.
    *
@@ -403,8 +427,22 @@ public:
    * @see enablePackageInternal
    */
   virtual void setSBMLDocument (SBMLDocument* d);
+  /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Sets the *parent* of this SBML object to child SBML objects (if any).
+   * (Creates a child-parent relationship by the parent)
+   *
+   * @see setSBMLDocument
+   * @see enablePackageInternal
+   */
+  virtual void connectToChild ();
+  /** @endcond */
+
+
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBML object of this plugin object to
    * this object and child elements (if any).
@@ -422,13 +460,15 @@ public:
    * @see enablePackageInternal
    */
   virtual void connectToParent (SBase *sbase);
+  /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Enables/Disables the given package with child elements in this plugin
    * object (if any).
    * (This is an internal implementation invoked from
-   *  SBase::enablePakcageInternal() function)
+   *  SBase::enablePackageInternal() function)
    *
    * @note Subclasses in which one or more SBase derived elements are
    * defined must override this function.
@@ -438,23 +478,27 @@ public:
    */
   virtual void enablePackageInternal(const std::string& pkgURI,
                                      const std::string& pkgPrefix, bool flag);
+  /** @endcond */
 
-	/**
-	 * Accepts the given SBMLVisitor.
-	 */
-	virtual bool accept (SBMLVisitor& v) const;
 
-  /** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Accepts the given SBMLVisitor.
+   */
+  virtual bool accept (SBMLVisitor& v) const;
+
+  /** @endcond */
+
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /*-- data members --*/
 
   ListOfQualitativeSpecies mQualitativeSpecies;
   ListOfTransitions mTransitions;
 
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond */
 };
 
 LIBSBML_CPP_NAMESPACE_END

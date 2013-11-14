@@ -44,7 +44,7 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GraphicalPrimitive1D object with the given SBML level
  * and SBML version.
@@ -63,7 +63,7 @@ GraphicalPrimitive1D::GraphicalPrimitive1D (unsigned int level, unsigned int ver
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GraphicalPrimitive1D object with the given SBMLNamespaces.
  *
@@ -98,7 +98,7 @@ GraphicalPrimitive1D::GraphicalPrimitive1D(const GraphicalPrimitive1D& other)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GraphicalPrimitive1D object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -141,7 +141,7 @@ GraphicalPrimitive1D::GraphicalPrimitive1D(const XMLNode& node, unsigned int l2v
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 GraphicalPrimitive1D::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -154,7 +154,7 @@ GraphicalPrimitive1D::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void GraphicalPrimitive1D::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
   Transformation2D::readAttributes(attributes, expectedAttributes);
@@ -181,7 +181,7 @@ void GraphicalPrimitive1D::readAttributes (const XMLAttributes& attributes, cons
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a GraphicalPrimitive1D.
  * The transformation properties are not set, neither is the stroke or the stroke width.
@@ -214,7 +214,7 @@ GraphicalPrimitive1D::GraphicalPrimitive1D(RenderPkgNamespaces* renderns, const 
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the stroke color to the given color definition id or color value string.
  * (@see ColorDefinition)
@@ -227,7 +227,7 @@ void GraphicalPrimitive1D::setStroke(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the stroke width.
  *
@@ -239,7 +239,7 @@ void GraphicalPrimitive1D::setStrokeWidth(double width)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the dasharray to the values in the given array.
  *
@@ -251,7 +251,7 @@ void GraphicalPrimitive1D::setDashArray(const std::vector<unsigned int>& array)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the stroke color.
  *
@@ -263,7 +263,7 @@ const std::string& GraphicalPrimitive1D::getStroke() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the stroke width.
  *
@@ -275,7 +275,7 @@ double GraphicalPrimitive1D::getStrokeWidth() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const reference to the stroke dasharray.
  *
@@ -287,7 +287,7 @@ const std::vector<unsigned int>& GraphicalPrimitive1D::getDashArray() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a reference to the stroke dasharray.
  *
@@ -299,7 +299,7 @@ std::vector<unsigned int>& GraphicalPrimitive1D::getDashArray()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true is the stroke width has been set or false otherwise.
  * The stroke width is considered set if it is not NaN.
@@ -312,7 +312,7 @@ bool GraphicalPrimitive1D::isSetStrokeWidth() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true is the stroke has been set or false otherwise.
  * The stroke color is considered set if the string is not empty.
@@ -325,7 +325,7 @@ bool GraphicalPrimitive1D::isSetStroke() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true is the dash array has been set or false otherwise.
  * The array is considered set if it is not empty and if the first entry is
@@ -415,7 +415,7 @@ GraphicalPrimitive1D::insertDash(unsigned int index, unsigned int dash)
 
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -462,7 +462,7 @@ void GraphicalPrimitive1D::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds all set attributes specific to the given GraphicalPrimitive1D objects to the given
  * XMLAttributes object.
@@ -502,7 +502,7 @@ void GraphicalPrimitive1D::addGraphicalPrimitive1DAttributes(const GraphicalPrim
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  *  This method parses a dasharray string into the given vector.
  *  The vector is first cleared.
@@ -572,7 +572,7 @@ bool GraphicalPrimitive1D::parseDashArray(const std::string& s,std::vector<unsig
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the dasharray from the given string.
  * If the string is not a valid dasharray string, false
@@ -598,7 +598,7 @@ bool GraphicalPrimitive1D::setDashArray(const std::string& arrayString)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the value of the "id" attribute of this GraphicalPrimitive.
  *
@@ -611,7 +611,7 @@ const std::string& GraphicalPrimitive1D::getId () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether this
  * GraphicalPrimitive's "id" attribute has been set.
@@ -625,7 +625,7 @@ bool GraphicalPrimitive1D::isSetId () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the value of the "id" attribute of this GraphicalPrimitive.
  *
@@ -648,7 +648,7 @@ int GraphicalPrimitive1D::setId (const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Unsets the value of the "id" attribute of this GraphicalPrimitive.
  */

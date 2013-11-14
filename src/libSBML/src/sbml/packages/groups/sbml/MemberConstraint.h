@@ -55,386 +55,386 @@ class LIBSBML_EXTERN MemberConstraint : public SBase
 
 protected:
 
-	std::string   mId;
-	std::string   mName;
-	std::string   mDistinctAttribute;
-	std::string   mIdenticalAttribute;
+  std::string   mId;
+  std::string   mName;
+  std::string   mDistinctAttribute;
+  std::string   mIdenticalAttribute;
 
 
 public:
 
-	/**
-	 * Creates a new MemberConstraint with the given level, version, and package version.
-	 *
-	 * @param level an unsigned int, the SBML Level to assign to this MemberConstraint
-	 *
-	 * @param version an unsigned int, the SBML Version to assign to this MemberConstraint
-	 *
-	 * @param pkgVersion an unsigned int, the SBML Groups Version to assign to this MemberConstraint
-	 */
-	MemberConstraint(unsigned int level      = GroupsExtension::getDefaultLevel(),
-	                 unsigned int version    = GroupsExtension::getDefaultVersion(),
-	                 unsigned int pkgVersion = GroupsExtension::getDefaultPackageVersion());
-
-
-	/**
-	 * Creates a new MemberConstraint with the given GroupsPkgNamespaces object.
-	 *
-	 * @param groupsns the GroupsPkgNamespaces object
-	 */
-	MemberConstraint(GroupsPkgNamespaces* groupsns);
-
-
- 	/**
-	 * Copy constructor for MemberConstraint.
-	 *
-	 * @param orig; the MemberConstraint instance to copy.
-	 */
-	MemberConstraint(const MemberConstraint& orig);
-
-
- 	/**
-	 * Assignment operator for MemberConstraint.
-	 *
-	 * @param rhs; the object whose values are used as the basis
-	 * of the assignment
-	 */
-	MemberConstraint& operator=(const MemberConstraint& rhs);
-
-
- 	/**
-	 * Creates and returns a deep copy of this MemberConstraint object.
-	 *
-	 * @return a (deep) copy of this MemberConstraint object.
-	 */
-	virtual MemberConstraint* clone () const;
-
-
- 	/**
-	 * Destructor for MemberConstraint.
-	 */
-	virtual ~MemberConstraint();
-
-
- 	/**
-	 * Returns the value of the "id" attribute of this MemberConstraint.
-	 *
-	 * @return the value of the "id" attribute of this MemberConstraint as a string.
-	 */
-	virtual const std::string& getId() const;
-
-
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * MemberConstraint's "id" attribute has been set.
-	 *
-	 * @return @c true if this MemberConstraint's "id" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetId() const;
-
-
-	/**
-	 * Sets the value of the "id" attribute of this MemberConstraint.
-	 *
-	 * @param id; const std::string& value of the "id" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setId(const std::string& id);
-
-
-	/**
-	 * Unsets the value of the "id" attribute of this MemberConstraint.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetId();
-
-
-	/**
-	 * Returns the value of the "name" attribute of this MemberConstraint.
-	 *
-	 * @return the value of the "name" attribute of this MemberConstraint as a string.
-	 */
-	virtual const std::string& getName() const;
-
-
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * MemberConstraint's "name" attribute has been set.
-	 *
-	 * @return @c true if this MemberConstraint's "name" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetName() const;
-
-
-	/**
-	 * Sets the value of the "name" attribute of this MemberConstraint.
-	 *
-	 * @param name; const std::string& value of the "name" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setName(const std::string& name);
-
-
-	/**
-	 * Unsets the value of the "name" attribute of this MemberConstraint.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetName();
-
-
-	/**
-	 * Returns the value of the "distinctAttribute" attribute of this MemberConstraint.
-	 *
-	 * @return the value of the "distinctAttribute" attribute of this MemberConstraint as a string.
-	 */
-	virtual const std::string& getDistinctAttribute() const;
-
-
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * MemberConstraint's "distinctAttribute" attribute has been set.
-	 *
-	 * @return @c true if this MemberConstraint's "distinctAttribute" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetDistinctAttribute() const;
-
-
-	/**
-	 * Sets the value of the "distinctAttribute" attribute of this MemberConstraint.
-	 *
-	 * @param distinctAttribute; const std::string& value of the "distinctAttribute" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setDistinctAttribute(const std::string& distinctAttribute);
-
-
-	/**
-	 * Unsets the value of the "distinctAttribute" attribute of this MemberConstraint.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetDistinctAttribute();
-
-
-	/**
-	 * Returns the value of the "identicalAttribute" attribute of this MemberConstraint.
-	 *
-	 * @return the value of the "identicalAttribute" attribute of this MemberConstraint as a string.
-	 */
-	virtual const std::string& getIdenticalAttribute() const;
-
-
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * MemberConstraint's "identicalAttribute" attribute has been set.
-	 *
-	 * @return @c true if this MemberConstraint's "identicalAttribute" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetIdenticalAttribute() const;
-
-
-	/**
-	 * Sets the value of the "identicalAttribute" attribute of this MemberConstraint.
-	 *
-	 * @param identicalAttribute; const std::string& value of the "identicalAttribute" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setIdenticalAttribute(const std::string& identicalAttribute);
-
-
-	/**
-	 * Unsets the value of the "identicalAttribute" attribute of this MemberConstraint.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetIdenticalAttribute();
-
-
-	/**
-	 * Returns the XML element name of this object, which for MemberConstraint, is
-	 * always @c "memberConstraint".
-	 *
-	 * @return the name of this element, i.e. @c "memberConstraint".
-	 */
-	virtual const std::string& getElementName () const;
-
-
-	/**
-	 * Returns the libSBML type code for this SBML object.
-	 * 
-	 * @if clike LibSBML attaches an identifying code to every kind of SBML
-	 * object.  These are known as <em>SBML type codes</em>.  The set of
-	 * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-	 * The names of the type codes all begin with the characters @c
-	 * SBML_. @endif@if java LibSBML attaches an identifying code to every
-	 * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-	 * other languages, the set of type codes is stored in an enumeration; in
-	 * the Java language interface for libSBML, the type codes are defined as
-	 * static integer constants in the interface class {@link
-	 * libsbmlConstants}.  The names of the type codes all begin with the
-	 * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-	 * code to every kind of SBML object.  These are known as <em>SBML type
-	 * codes</em>.  In the Python language interface for libSBML, the type
-	 * codes are defined as static integer constants in the interface class
-	 * @link libsbml@endlink.  The names of the type codes all begin with the
-	 * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-	 * code to every kind of SBML object.  These are known as <em>SBML type
-	 * codes</em>.  In the C# language interface for libSBML, the type codes
-	 * are defined as static integer constants in the interface class @link
-	 * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-	 * the characters @c SBML_. @endif
-	 *
-	 * @return the SBML type code for this object, or
-	 * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
-	 *
-	 * @see getElementName()
-	 */
-	virtual int getTypeCode () const;
-
-
-	/**
-	 * Predicate returning @c true if all the required attributes
-	 * for this MemberConstraint object have been set.
-	 *
-	 * @note The required attributes for a MemberConstraint object are:
-	 *
-	 * @return a boolean value indicating whether all the required
-	 * attributes for this object have been defined.
-	 */
-	virtual bool hasRequiredAttributes() const;
-
-
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Subclasses should override this method to write out their contained
-	 * SBML objects as XML elements.  Be sure to call your parents
-	 * implementation of this method as well.
-	 */
-	virtual void writeElements (XMLOutputStream& stream) const;
-
-
-	/** @endcond doxygen-libsbml-internal */
-
-
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Accepts the given SBMLVisitor.
-	 */
-	virtual bool accept (SBMLVisitor& v) const;
-
-
-	/** @endcond doxygen-libsbml-internal */
-
-
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Sets the parent SBMLDocument.
-	 */
-	virtual void setSBMLDocument (SBMLDocument* d);
-
-
-	/** @endcond doxygen-libsbml-internal */
-
-
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Enables/Disables the given package with this element.
-	 */
-	virtual void enablePackageInternal(const std::string& pkgURI,
-	             const std::string& pkgPrefix, bool flag);
-
-
-	/** @endcond doxygen-libsbml-internal */
+  /**
+   * Creates a new MemberConstraint with the given level, version, and package version.
+   *
+   * @param level an unsigned int, the SBML Level to assign to this MemberConstraint
+   *
+   * @param version an unsigned int, the SBML Version to assign to this MemberConstraint
+   *
+   * @param pkgVersion an unsigned int, the SBML Groups Version to assign to this MemberConstraint
+   */
+  MemberConstraint(unsigned int level      = GroupsExtension::getDefaultLevel(),
+                   unsigned int version    = GroupsExtension::getDefaultVersion(),
+                   unsigned int pkgVersion = GroupsExtension::getDefaultPackageVersion());
+
+
+  /**
+   * Creates a new MemberConstraint with the given GroupsPkgNamespaces object.
+   *
+   * @param groupsns the GroupsPkgNamespaces object
+   */
+  MemberConstraint(GroupsPkgNamespaces* groupsns);
+
+
+  /**
+   * Copy constructor for MemberConstraint.
+   *
+   * @param orig; the MemberConstraint instance to copy.
+   */
+  MemberConstraint(const MemberConstraint& orig);
+
+
+  /**
+   * Assignment operator for MemberConstraint.
+   *
+   * @param rhs; the object whose values are used as the basis
+   * of the assignment
+   */
+  MemberConstraint& operator=(const MemberConstraint& rhs);
+
+
+  /**
+   * Creates and returns a deep copy of this MemberConstraint object.
+   *
+   * @return a (deep) copy of this MemberConstraint object.
+   */
+  virtual MemberConstraint* clone () const;
+
+
+  /**
+   * Destructor for MemberConstraint.
+   */
+  virtual ~MemberConstraint();
+
+
+  /**
+   * Returns the value of the "id" attribute of this MemberConstraint.
+   *
+   * @return the value of the "id" attribute of this MemberConstraint as a string.
+   */
+  virtual const std::string& getId() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * MemberConstraint's "id" attribute has been set.
+   *
+   * @return @c true if this MemberConstraint's "id" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetId() const;
+
+
+  /**
+   * Sets the value of the "id" attribute of this MemberConstraint.
+   *
+   * @param id; const std::string& value of the "id" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setId(const std::string& id);
+
+
+  /**
+   * Unsets the value of the "id" attribute of this MemberConstraint.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetId();
+
+
+  /**
+   * Returns the value of the "name" attribute of this MemberConstraint.
+   *
+   * @return the value of the "name" attribute of this MemberConstraint as a string.
+   */
+  virtual const std::string& getName() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * MemberConstraint's "name" attribute has been set.
+   *
+   * @return @c true if this MemberConstraint's "name" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetName() const;
+
+
+  /**
+   * Sets the value of the "name" attribute of this MemberConstraint.
+   *
+   * @param name; const std::string& value of the "name" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setName(const std::string& name);
+
+
+  /**
+   * Unsets the value of the "name" attribute of this MemberConstraint.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetName();
+
+
+  /**
+   * Returns the value of the "distinctAttribute" attribute of this MemberConstraint.
+   *
+   * @return the value of the "distinctAttribute" attribute of this MemberConstraint as a string.
+   */
+  virtual const std::string& getDistinctAttribute() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * MemberConstraint's "distinctAttribute" attribute has been set.
+   *
+   * @return @c true if this MemberConstraint's "distinctAttribute" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetDistinctAttribute() const;
+
+
+  /**
+   * Sets the value of the "distinctAttribute" attribute of this MemberConstraint.
+   *
+   * @param distinctAttribute; const std::string& value of the "distinctAttribute" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setDistinctAttribute(const std::string& distinctAttribute);
+
+
+  /**
+   * Unsets the value of the "distinctAttribute" attribute of this MemberConstraint.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetDistinctAttribute();
+
+
+  /**
+   * Returns the value of the "identicalAttribute" attribute of this MemberConstraint.
+   *
+   * @return the value of the "identicalAttribute" attribute of this MemberConstraint as a string.
+   */
+  virtual const std::string& getIdenticalAttribute() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * MemberConstraint's "identicalAttribute" attribute has been set.
+   *
+   * @return @c true if this MemberConstraint's "identicalAttribute" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetIdenticalAttribute() const;
+
+
+  /**
+   * Sets the value of the "identicalAttribute" attribute of this MemberConstraint.
+   *
+   * @param identicalAttribute; const std::string& value of the "identicalAttribute" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setIdenticalAttribute(const std::string& identicalAttribute);
+
+
+  /**
+   * Unsets the value of the "identicalAttribute" attribute of this MemberConstraint.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetIdenticalAttribute();
+
+
+  /**
+   * Returns the XML element name of this object, which for MemberConstraint, is
+   * always @c "memberConstraint".
+   *
+   * @return the name of this element, i.e. @c "memberConstraint".
+   */
+  virtual const std::string& getElementName () const;
+
+
+  /**
+   * Returns the libSBML type code for this SBML object.
+   * 
+   * @if clike LibSBML attaches an identifying code to every kind of SBML
+   * object.  These are known as <em>SBML type codes</em>.  The set of
+   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
+   * The names of the type codes all begin with the characters @c
+   * SBML_. @endif@if java LibSBML attaches an identifying code to every
+   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
+   * other languages, the set of type codes is stored in an enumeration; in
+   * the Java language interface for libSBML, the type codes are defined as
+   * static integer constants in the interface class {@link
+   * libsbmlConstants}.  The names of the type codes all begin with the
+   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
+   * code to every kind of SBML object.  These are known as <em>SBML type
+   * codes</em>.  In the Python language interface for libSBML, the type
+   * codes are defined as static integer constants in the interface class
+   * @link libsbml@endlink.  The names of the type codes all begin with the
+   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
+   * code to every kind of SBML object.  These are known as <em>SBML type
+   * codes</em>.  In the C# language interface for libSBML, the type codes
+   * are defined as static integer constants in the interface class @link
+   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
+   * the characters @c SBML_. @endif
+   *
+   * @return the SBML type code for this object, or
+   * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   *
+   * @see getElementName()
+   */
+  virtual int getTypeCode () const;
+
+
+  /**
+   * Predicate returning @c true if all the required attributes
+   * for this MemberConstraint object have been set.
+   *
+   * @note The required attributes for a MemberConstraint object are:
+   *
+   * @return a boolean value indicating whether all the required
+   * attributes for this object have been defined.
+   */
+  virtual bool hasRequiredAttributes() const;
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Subclasses should override this method to write out their contained
+   * SBML objects as XML elements.  Be sure to call your parents
+   * implementation of this method as well.
+   */
+  virtual void writeElements (XMLOutputStream& stream) const;
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Accepts the given SBMLVisitor.
+   */
+  virtual bool accept (SBMLVisitor& v) const;
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the parent SBMLDocument.
+   */
+  virtual void setSBMLDocument (SBMLDocument* d);
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Enables/Disables the given package with this element.
+   */
+  virtual void enablePackageInternal(const std::string& pkgURI,
+               const std::string& pkgPrefix, bool flag);
+
+
+  /** @endcond doxygenLibsbmlInternal */
 
 
 protected:
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-	/**
-	 * Get the list of expected attributes for this element.
-	 */
-	virtual void addExpectedAttributes(ExpectedAttributes& attributes);
-
-
-	/** @endcond doxygen-libsbml-internal */
+  /**
+   * Get the list of expected attributes for this element.
+   */
+  virtual void addExpectedAttributes(ExpectedAttributes& attributes);
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Read values from the given XMLAttributes set into their specific fields.
-	 */
-	virtual void readAttributes (const XMLAttributes& attributes,
-	                             const ExpectedAttributes& expectedAttributes);
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Read values from the given XMLAttributes set into their specific fields.
+   */
+  virtual void readAttributes (const XMLAttributes& attributes,
+                               const ExpectedAttributes& expectedAttributes);
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Write values of XMLAttributes to the output stream.
-	 */
-	virtual void writeAttributes (XMLOutputStream& stream) const;
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Write values of XMLAttributes to the output stream.
+   */
+  virtual void writeAttributes (XMLOutputStream& stream) const;
+
+
+  /** @endcond doxygenLibsbmlInternal */
 
 
 
@@ -445,362 +445,362 @@ class LIBSBML_EXTERN ListOfMemberConstraints : public ListOf
 
 public:
 
-	/**
-	 * Creates a new ListOfMemberConstraints with the given level, version, and package version.
-	 *
-	 * @param level an unsigned int, the SBML Level to assign to this ListOfMemberConstraints
-	 *
-	 * @param version an unsigned int, the SBML Version to assign to this ListOfMemberConstraints
-	 *
-	 * @param pkgVersion an unsigned int, the SBML Groups Version to assign to this ListOfMemberConstraints
-	 */
-	ListOfMemberConstraints(unsigned int level      = GroupsExtension::getDefaultLevel(),
-	                        unsigned int version    = GroupsExtension::getDefaultVersion(),
-	                        unsigned int pkgVersion = GroupsExtension::getDefaultPackageVersion());
+  /**
+   * Creates a new ListOfMemberConstraints with the given level, version, and package version.
+   *
+   * @param level an unsigned int, the SBML Level to assign to this ListOfMemberConstraints
+   *
+   * @param version an unsigned int, the SBML Version to assign to this ListOfMemberConstraints
+   *
+   * @param pkgVersion an unsigned int, the SBML Groups Version to assign to this ListOfMemberConstraints
+   */
+  ListOfMemberConstraints(unsigned int level      = GroupsExtension::getDefaultLevel(),
+                          unsigned int version    = GroupsExtension::getDefaultVersion(),
+                          unsigned int pkgVersion = GroupsExtension::getDefaultPackageVersion());
 
 
-	/**
-	 * Creates a new ListOfMemberConstraints with the given GroupsPkgNamespaces object.
-	 *
-	 * @param groupsns the GroupsPkgNamespaces object
-	 */
-	ListOfMemberConstraints(GroupsPkgNamespaces* groupsns);
+  /**
+   * Creates a new ListOfMemberConstraints with the given GroupsPkgNamespaces object.
+   *
+   * @param groupsns the GroupsPkgNamespaces object
+   */
+  ListOfMemberConstraints(GroupsPkgNamespaces* groupsns);
 
 
- 	/**
-	 * Creates and returns a deep copy of this ListOfMemberConstraints object.
-	 *
-	 * @return a (deep) copy of this ListOfMemberConstraints object.
-	 */
-	virtual ListOfMemberConstraints* clone () const;
+  /**
+   * Creates and returns a deep copy of this ListOfMemberConstraints object.
+   *
+   * @return a (deep) copy of this ListOfMemberConstraints object.
+   */
+  virtual ListOfMemberConstraints* clone () const;
 
 
- 	/**
-	 * Get a MemberConstraint from the ListOfMemberConstraints.
-	 *
-	 * @param n the index number of the MemberConstraint to get.
-	 *
-	 * @return the nth MemberConstraint in this ListOfMemberConstraints.
-	 *
-	 * @see size()
-	 */
-	virtual MemberConstraint* get(unsigned int n);
+  /**
+   * Get a MemberConstraint from the ListOfMemberConstraints.
+   *
+   * @param n the index number of the MemberConstraint to get.
+   *
+   * @return the nth MemberConstraint in this ListOfMemberConstraints.
+   *
+   * @see size()
+   */
+  virtual MemberConstraint* get(unsigned int n);
 
 
-	/**
-	 * Get a MemberConstraint from the ListOfMemberConstraints.
-	 *
-	 * @param n the index number of the MemberConstraint to get.
-	 *
-	 * @return the nth MemberConstraint in this ListOfMemberConstraints.
-	 *
-	 * @see size()
-	 */
-	virtual const MemberConstraint* get(unsigned int n) const;
+  /**
+   * Get a MemberConstraint from the ListOfMemberConstraints.
+   *
+   * @param n the index number of the MemberConstraint to get.
+   *
+   * @return the nth MemberConstraint in this ListOfMemberConstraints.
+   *
+   * @see size()
+   */
+  virtual const MemberConstraint* get(unsigned int n) const;
 
 
-	/**
-	 * Get a MemberConstraint from the ListOfMemberConstraints
-	 * based on its identifier.
-	 *
-	 * @param sid a string representing the identifier
-	 * of the MemberConstraint to get.
-	 *
-	 * @return MemberConstraint in this ListOfMemberConstraints
-	 * with the given id or NULL if no such
-	 * MemberConstraint exists.
-	 *
-	 * @see get(unsigned int n)	 *
-	 * @see size()
-	 */
-	virtual MemberConstraint* get(const std::string& sid);
+  /**
+   * Get a MemberConstraint from the ListOfMemberConstraints
+   * based on its identifier.
+   *
+   * @param sid a string representing the identifier
+   * of the MemberConstraint to get.
+   *
+   * @return MemberConstraint in this ListOfMemberConstraints
+   * with the given id or NULL if no such
+   * MemberConstraint exists.
+   *
+   * @see get(unsigned int n)   *
+   * @see size()
+   */
+  virtual MemberConstraint* get(const std::string& sid);
 
 
-	/**
-	 * Get a MemberConstraint from the ListOfMemberConstraints
-	 * based on its identifier.
-	 *
-	 * @param sid a string representing the identifier
-	 * of the MemberConstraint to get.
-	 *
-	 * @return MemberConstraint in this ListOfMemberConstraints
-	 * with the given id or NULL if no such
-	 * MemberConstraint exists.
-	 *
-	 * @see get(unsigned int n)	 *
-	 * @see size()
-	 */
-	virtual const MemberConstraint* get(const std::string& sid) const;
+  /**
+   * Get a MemberConstraint from the ListOfMemberConstraints
+   * based on its identifier.
+   *
+   * @param sid a string representing the identifier
+   * of the MemberConstraint to get.
+   *
+   * @return MemberConstraint in this ListOfMemberConstraints
+   * with the given id or NULL if no such
+   * MemberConstraint exists.
+   *
+   * @see get(unsigned int n)   *
+   * @see size()
+   */
+  virtual const MemberConstraint* get(const std::string& sid) const;
 
 
-	/**
-	 * Removes the nth MemberConstraint from this ListOfMemberConstraints
-	 * and returns a pointer to it.
-	 *
-	 * The caller owns the returned item and is responsible for deleting it.
-	 *
-	 * @param n the index of the MemberConstraint to remove.
-	 *
-	 * @see size()
-	 */
-	virtual MemberConstraint* remove(unsigned int n);
+  /**
+   * Removes the nth MemberConstraint from this ListOfMemberConstraints
+   * and returns a pointer to it.
+   *
+   * The caller owns the returned item and is responsible for deleting it.
+   *
+   * @param n the index of the MemberConstraint to remove.
+   *
+   * @see size()
+   */
+  virtual MemberConstraint* remove(unsigned int n);
 
 
-	/**
-	 * Removes the MemberConstraint from this ListOfMemberConstraints with the given identifier
-	 * and returns a pointer to it.
-	 *
-	 * The caller owns the returned item and is responsible for deleting it.
-	 * If none of the items in this list have the identifier @p sid, then
-	 * @c NULL is returned.
-	 *
-	 * @param sid the identifier of the MemberConstraint to remove.
-	 *
-	 * @return the MemberConstraint removed. As mentioned above, the caller owns the
-	 * returned item.
-	 */
-	virtual MemberConstraint* remove(const std::string& sid);
+  /**
+   * Removes the MemberConstraint from this ListOfMemberConstraints with the given identifier
+   * and returns a pointer to it.
+   *
+   * The caller owns the returned item and is responsible for deleting it.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
+   *
+   * @param sid the identifier of the MemberConstraint to remove.
+   *
+   * @return the MemberConstraint removed. As mentioned above, the caller owns the
+   * returned item.
+   */
+  virtual MemberConstraint* remove(const std::string& sid);
 
 
- 	/**
-	 * Returns the value of the "id" attribute of this ListOfMemberConstraints.
-	 *
-	 * @return the value of the "id" attribute of this ListOfMemberConstraints as a string.
-	 */
-	virtual const std::string& getId() const;
+  /**
+   * Returns the value of the "id" attribute of this ListOfMemberConstraints.
+   *
+   * @return the value of the "id" attribute of this ListOfMemberConstraints as a string.
+   */
+  virtual const std::string& getId() const;
 
 
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * ListOfMemberConstraints' "id" attribute has been set.
-	 *
-	 * @return @c true if this ListOfMemberConstraints' "id" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetId() const;
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * ListOfMemberConstraints' "id" attribute has been set.
+   *
+   * @return @c true if this ListOfMemberConstraints' "id" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetId() const;
 
 
-	/**
-	 * Sets the value of the "id" attribute of this ListOfMemberConstraints.
-	 *
-	 * @param id; const std::string& value of the "id" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setId(const std::string& id);
+  /**
+   * Sets the value of the "id" attribute of this ListOfMemberConstraints.
+   *
+   * @param id; const std::string& value of the "id" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setId(const std::string& id);
 
 
-	/**
-	 * Unsets the value of the "id" attribute of this ListOfMemberConstraints.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetId();
+  /**
+   * Unsets the value of the "id" attribute of this ListOfMemberConstraints.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetId();
 
 
-	/**
-	 * Returns the value of the "name" attribute of this ListOfMemberConstraints.
-	 *
-	 * @return the value of the "name" attribute of this ListOfMemberConstraints as a string.
-	 */
-	virtual const std::string& getName() const;
+  /**
+   * Returns the value of the "name" attribute of this ListOfMemberConstraints.
+   *
+   * @return the value of the "name" attribute of this ListOfMemberConstraints as a string.
+   */
+  virtual const std::string& getName() const;
 
 
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * ListOfMemberConstraints' "name" attribute has been set.
-	 *
-	 * @return @c true if this ListOfMemberConstraints' "name" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetName() const;
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * ListOfMemberConstraints' "name" attribute has been set.
+   *
+   * @return @c true if this ListOfMemberConstraints' "name" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetName() const;
 
 
-	/**
-	 * Sets the value of the "name" attribute of this ListOfMemberConstraints.
-	 *
-	 * @param name; const std::string& value of the "name" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setName(const std::string& name);
+  /**
+   * Sets the value of the "name" attribute of this ListOfMemberConstraints.
+   *
+   * @param name; const std::string& value of the "name" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setName(const std::string& name);
 
 
-	/**
-	 * Unsets the value of the "name" attribute of this ListOfMemberConstraints.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetName();
+  /**
+   * Unsets the value of the "name" attribute of this ListOfMemberConstraints.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetName();
 
 
-	/**
-	 * Returns the value of the "membersShareType" attribute of this ListOfMemberConstraints.
-	 *
-	 * @return the value of the "membersShareType" attribute of this ListOfMemberConstraints as a string.
-	 */
-	virtual bool getMembersShareType() const;
+  /**
+   * Returns the value of the "membersShareType" attribute of this ListOfMemberConstraints.
+   *
+   * @return the value of the "membersShareType" attribute of this ListOfMemberConstraints as a string.
+   */
+  virtual bool getMembersShareType() const;
 
 
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * ListOfMemberConstraints's "membersShareType" attribute has been set.
-	 *
-	 * @return @c true if this ListOfMemberConstraints's "membersShareType" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetMembersShareType() const;
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * ListOfMemberConstraints's "membersShareType" attribute has been set.
+   *
+   * @return @c true if this ListOfMemberConstraints's "membersShareType" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetMembersShareType() const;
 
 
-	/**
-	 * Sets the value of the "membersShareType" attribute of this ListOfMemberConstraints.
-	 *
-	 * @param membersShareType; const std::string& value of the "membersShareType" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setMembersShareType(bool membersShareType);
+  /**
+   * Sets the value of the "membersShareType" attribute of this ListOfMemberConstraints.
+   *
+   * @param membersShareType; const std::string& value of the "membersShareType" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setMembersShareType(bool membersShareType);
 
 
-	/**
-	 * Unsets the value of the "membersShareType" attribute of this ListOfMemberConstraints.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetMembersShareType();
+  /**
+   * Unsets the value of the "membersShareType" attribute of this ListOfMemberConstraints.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetMembersShareType();
 
 
-	/**
-	 * Returns the XML element name of this object, which for ListOfMemberConstraints, is
-	 * always @c "listOfMemberConstraints".
-	 *
-	 * @return the name of this element, i.e. @c "listOfMemberConstraints".
-	 */
-	virtual const std::string& getElementName () const;
+  /**
+   * Returns the XML element name of this object, which for ListOfMemberConstraints, is
+   * always @c "listOfMemberConstraints".
+   *
+   * @return the name of this element, i.e. @c "listOfMemberConstraints".
+   */
+  virtual const std::string& getElementName () const;
 
 
-	/**
-	 * Returns the libSBML type code for this SBML object.
-	 * 
-	 * @if clike LibSBML attaches an identifying code to every kind of SBML
-	 * object.  These are known as <em>SBML type codes</em>.  The set of
-	 * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-	 * The names of the type codes all begin with the characters @c
-	 * SBML_. @endif@if java LibSBML attaches an identifying code to every
-	 * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-	 * other languages, the set of type codes is stored in an enumeration; in
-	 * the Java language interface for libSBML, the type codes are defined as
-	 * static integer constants in the interface class {@link
-	 * libsbmlConstants}.  The names of the type codes all begin with the
-	 * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-	 * code to every kind of SBML object.  These are known as <em>SBML type
-	 * codes</em>.  In the Python language interface for libSBML, the type
-	 * codes are defined as static integer constants in the interface class
-	 * @link libsbml@endlink.  The names of the type codes all begin with the
-	 * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-	 * code to every kind of SBML object.  These are known as <em>SBML type
-	 * codes</em>.  In the C# language interface for libSBML, the type codes
-	 * are defined as static integer constants in the interface class @link
-	 * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-	 * the characters @c SBML_. @endif
-	 *
-	 * @return the SBML type code for this object, or
-	 * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
-	 *
-	 * @see getElementName()
-	 */
-	virtual int getTypeCode () const;
+  /**
+   * Returns the libSBML type code for this SBML object.
+   * 
+   * @if clike LibSBML attaches an identifying code to every kind of SBML
+   * object.  These are known as <em>SBML type codes</em>.  The set of
+   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
+   * The names of the type codes all begin with the characters @c
+   * SBML_. @endif@if java LibSBML attaches an identifying code to every
+   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
+   * other languages, the set of type codes is stored in an enumeration; in
+   * the Java language interface for libSBML, the type codes are defined as
+   * static integer constants in the interface class {@link
+   * libsbmlConstants}.  The names of the type codes all begin with the
+   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
+   * code to every kind of SBML object.  These are known as <em>SBML type
+   * codes</em>.  In the Python language interface for libSBML, the type
+   * codes are defined as static integer constants in the interface class
+   * @link libsbml@endlink.  The names of the type codes all begin with the
+   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
+   * code to every kind of SBML object.  These are known as <em>SBML type
+   * codes</em>.  In the C# language interface for libSBML, the type codes
+   * are defined as static integer constants in the interface class @link
+   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
+   * the characters @c SBML_. @endif
+   *
+   * @return the SBML type code for this object, or
+   * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   *
+   * @see getElementName()
+   */
+  virtual int getTypeCode () const;
 
 
-	/**
-	 * Returns the libSBML type code for the SBML objects
-	 * contained in this ListOf object
-	 * 
-	 * @if clike LibSBML attaches an identifying code to every kind of SBML
-	 * object.  These are known as <em>SBML type codes</em>.  The set of
-	 * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-	 * The names of the type codes all begin with the characters @c
-	 * SBML_. @endif@if java LibSBML attaches an identifying code to every
-	 * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-	 * other languages, the set of type codes is stored in an enumeration; in
-	 * the Java language interface for libSBML, the type codes are defined as
-	 * static integer constants in the interface class {@link
-	 * libsbmlConstants}.  The names of the type codes all begin with the
-	 * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-	 * code to every kind of SBML object.  These are known as <em>SBML type
-	 * codes</em>.  In the Python language interface for libSBML, the type
-	 * codes are defined as static integer constants in the interface class
-	 * @link libsbml@endlink.  The names of the type codes all begin with the
-	 * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-	 * code to every kind of SBML object.  These are known as <em>SBML type
-	 * codes</em>.  In the C# language interface for libSBML, the type codes
-	 * are defined as static integer constants in the interface class @link
-	 * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-	 * the characters @c SBML_. @endif
-	 *
-	 * @return the SBML type code for the objects in this ListOf instance, or
-	 * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
-	 *
-	 * @see getElementName()
-	 */
-	virtual int getItemTypeCode () const;
+  /**
+   * Returns the libSBML type code for the SBML objects
+   * contained in this ListOf object
+   * 
+   * @if clike LibSBML attaches an identifying code to every kind of SBML
+   * object.  These are known as <em>SBML type codes</em>.  The set of
+   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
+   * The names of the type codes all begin with the characters @c
+   * SBML_. @endif@if java LibSBML attaches an identifying code to every
+   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
+   * other languages, the set of type codes is stored in an enumeration; in
+   * the Java language interface for libSBML, the type codes are defined as
+   * static integer constants in the interface class {@link
+   * libsbmlConstants}.  The names of the type codes all begin with the
+   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
+   * code to every kind of SBML object.  These are known as <em>SBML type
+   * codes</em>.  In the Python language interface for libSBML, the type
+   * codes are defined as static integer constants in the interface class
+   * @link libsbml@endlink.  The names of the type codes all begin with the
+   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
+   * code to every kind of SBML object.  These are known as <em>SBML type
+   * codes</em>.  In the C# language interface for libSBML, the type codes
+   * are defined as static integer constants in the interface class @link
+   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
+   * the characters @c SBML_. @endif
+   *
+   * @return the SBML type code for the objects in this ListOf instance, or
+   * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   *
+   * @see getElementName()
+   */
+  virtual int getItemTypeCode () const;
 
 
 
 protected:
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-	/**
-	 * Creates a new MemberConstraint in this ListOfMemberConstraints
-	 */
-	virtual SBase* createObject(XMLInputStream& stream);
-
-
-	/** @endcond doxygen-libsbml-internal */
+  /**
+   * Creates a new MemberConstraint in this ListOfMemberConstraints
+   */
+  virtual SBase* createObject(XMLInputStream& stream);
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Write the namespace for the Groups package.
-	 */
-	virtual void writeXMLNS(XMLOutputStream& stream) const;
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-  /** @cond doxygen-libsbml-internal */
+  /**
+   * Write the namespace for the Groups package.
+   */
+  virtual void writeXMLNS(XMLOutputStream& stream) const;
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -811,7 +811,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Reads the attributes of corresponding package in SBMLDocument element.
    */
@@ -820,7 +820,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Writes the attributes of corresponding package in SBMLDocument element.
    */

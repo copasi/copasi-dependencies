@@ -125,15 +125,16 @@ int
   {
     Species* current = model->getSpecies(i);
     if (current->isSetCharge())
-	{
+    {
       chargeMap[current->getId()] = current->getCharge();
-	  // need to unset the charge here, as it the call will 
-	  // not work once this is an L3 model
+      // need to unset the charge here, as it the call will 
+      // not work once this is an L3 model
       current->unsetCharge();
-	}
+    }
     if (current->isSetNotes())
     {
-      string notes = current->getNotesString();
+      string originalNotes = current->getNotesString();
+	  string notes(originalNotes);
       std::transform(notes.begin(), notes.end(), notes.begin(), ::toupper);
       size_t pos = notes.find("FORMULA:");
       if (pos != string::npos)
@@ -141,9 +142,13 @@ int
         size_t end = notes.find("</", pos+9);
         if (end != string::npos)
         {
-          string formula = notes.substr(pos + 9, end-(pos+9));
+          string formula = originalNotes.substr(pos + 9, end-(pos+9));
           if (formula[0] != '<' &&  formula[0] != '/' )
+          {
+            size_t pos = formula.find_first_not_of(" \n\t\r");
+            if (pos != std::string::npos)
             formulaMap[current->getId()] = formula;
+          }
         }
       }
     }
@@ -158,7 +163,7 @@ int
   prop.addOption("setLevelAndVersion", true, "convert the document to the given level and version");
   int conversionResult = mDocument->convert(prop);
   if (conversionResult != LIBSBML_OPERATION_SUCCESS)
-	  return conversionResult;
+    return conversionResult;
 
   
   mDocument->enablePackage("http://www.sbml.org/sbml/level3/version1/fbc/version1", "fbc",true);
@@ -216,7 +221,8 @@ int
 
     if (reaction->isSetNotes())
     {
-      string notes = reaction->getNotesString();
+      string originalNotes = reaction->getNotesString();
+      string notes(originalNotes);
       std::transform(notes.begin(), notes.end(), notes.begin(), ::toupper);
       size_t pos = notes.find("ASSOCIATION:");
       if (pos != string::npos)
@@ -224,7 +230,7 @@ int
         size_t end = notes.find("</", pos+12);
         if (end != string::npos)
         {
-          string geneAssociation = notes.substr(pos + 12, end-(pos+12));
+          string geneAssociation = originalNotes.substr(pos + 12, end-(pos+12));
           Association* association = Association::parseInfixAssociation(geneAssociation);
           if (association != NULL)
           {

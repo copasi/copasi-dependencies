@@ -45,6 +45,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
   , mObjectives(fbcns)
   , mAssociations(fbcns)
 {
+  // connect child elements to this element.
+  connectToChild();
 }
 
 
@@ -57,6 +59,8 @@ FbcModelPlugin::FbcModelPlugin(const FbcModelPlugin& orig)
   , mObjectives(orig.mObjectives)
   , mAssociations(orig.mAssociations)
 {
+  // connect child elements to this element.
+  connectToChild();
 }
 
 
@@ -77,6 +81,9 @@ FbcModelPlugin&
     mBounds       = orig.mBounds;
     mObjectives   = orig.mObjectives;
     mAssociations = orig.mAssociations;
+
+    // connect child elements to this element.
+    connectToChild();
   }    
   return *this;
 }
@@ -313,10 +320,40 @@ FbcModelPlugin::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
+
+/** @cond doxygenLibsbmlInternal */
+void 
+FbcModelPlugin::parseAnnotation(SBase *parentObject, XMLNode *pAnnotation)
+{
+  mAssociations.setSBMLDocument(mSBML); 
+  // don't read if we have an invalid node or already a gene associations object
+  if (pAnnotation == NULL || mAssociations.size() > 0)
+    return;
+
+  // annotation element has been parsed by the parent element
+  // (Model) of this plugin object, thus the annotation element 
+  // set to the above pAnnotation variable is parsed in this block.
+  
+  XMLNode& listOfGeneAssociations = pAnnotation->getChild("listOfGeneAssociations");
+  if (listOfGeneAssociations.getNumChildren() == 0)
+    return;
+ 
+  // read the xml node, overriding that all errors are flagged as 
+  // warnings
+  mAssociations.read(listOfGeneAssociations, LIBSBML_OVERRIDE_WARNING);
+  // remove listOfLayouts annotation  
+  parentObject->removeTopLevelAnnotationElement("listOfGeneAssociations", "", false);
+}
+/** @endcond */
+
+
 /** @cond doxygenLibsbmlInternal */
 bool
 FbcModelPlugin::readOtherXML (SBase* parentObject, XMLInputStream& stream)
 {
+#ifndef ANNOATION
+  return false;
+#else
   bool readAnnotationFromStream = false;
   const string& name = stream.peek().getName();
   
@@ -403,13 +440,14 @@ FbcModelPlugin::readOtherXML (SBase* parentObject, XMLInputStream& stream)
   }
   catch(...)
   {
-	// an exception occured, most likely becase a namespace constructor
-	// threw an exception, catching this here, and return false, to indicate
-	// that the annotation wasn't read. 
-	readAnnotationFromStream = false;
+    // an exception occured, most likely becase a namespace constructor
+    // threw an exception, catching this here, and return false, to indicate
+    // that the annotation wasn't read. 
+    readAnnotationFromStream = false;
   }
   
   return readAnnotationFromStream;
+#endif
 }
 /** @endcond */
 
@@ -437,7 +475,7 @@ bool
 /** @endcond */
 
 SBase* 
-FbcModelPlugin::getElementBySId(std::string id)
+FbcModelPlugin::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   SBase* obj = mBounds.getElementBySId(id);
@@ -450,7 +488,7 @@ FbcModelPlugin::getElementBySId(std::string id)
 
 
 SBase*
-FbcModelPlugin::getElementByMetaId(std::string metaid)
+FbcModelPlugin::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   if (mBounds.getMetaId() == metaid) return &mBounds;
@@ -478,6 +516,49 @@ FbcModelPlugin::getAllElements(ElementFilter *filter)
  
   return ret;
 }
+
+
+/** @cond doxygenLibsbmlInternal */
+int 
+FbcModelPlugin::appendFrom(const Model* model)
+{
+  int ret = LIBSBML_OPERATION_SUCCESS;
+
+  if (model==NULL)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+
+  const FbcModelPlugin* modplug = 
+    static_cast<const FbcModelPlugin*>(model->getPlugin(getPrefix()));
+  
+  if (modplug==NULL)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+
+  Model* parent = static_cast<Model*>(getParentSBMLObject());
+
+  if (parent==NULL) 
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  
+  ret = mBounds.appendFrom(modplug->getListOfFluxBounds());
+
+  if (ret != LIBSBML_OPERATION_SUCCESS)
+  {
+    return ret;
+  }
+
+  ret = mObjectives.appendFrom(modplug->getListOfObjectives());
+  
+  return ret;
+}
+/** @endcond */
+
+
+
 
 
 /*
@@ -1207,6 +1288,15 @@ void
   mBounds.setSBMLDocument(d);  
   mAssociations.setSBMLDocument(d);  
   mObjectives.setSBMLDocument(d);  
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+void
+FbcModelPlugin::connectToChild()
+{
+  connectToParent(getParentSBMLObject());
 }
 /** @endcond */
 

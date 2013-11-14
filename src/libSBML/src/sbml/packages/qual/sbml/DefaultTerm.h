@@ -24,6 +24,12 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class DefaultTerm
+ * @sbmlbrief{qual} The DefaultTerm class for the Qualitative Models package.
+ *
+ * The DefaultTerm defines the default result of a Transition. This term is used if there are no other FunctionTerm 
+elements or if none of the Math elements of the FunctionTerm elements evaluates to @c true.
  */
 
 
@@ -55,246 +61,225 @@ class LIBSBML_EXTERN DefaultTerm : public SBase
 
 protected:
 
-	int           mResultLevel;
-	bool          mIsSetResultLevel;
+  int           mResultLevel;
+  bool          mIsSetResultLevel;
 
 
 public:
 
-	/**
-	 * Creates a new DefaultTerm with the given level, version, and package version.
-	 *
-	 * @param level an unsigned int, the SBML Level to assign to this DefaultTerm
-	 *
-	 * @param version an unsigned int, the SBML Version to assign to this DefaultTerm
-	 *
-	 * @param pkgVersion an unsigned int, the SBML Qual Version to assign to this DefaultTerm
-	 */
-	DefaultTerm(unsigned int level      = QualExtension::getDefaultLevel(),
-	            unsigned int version    = QualExtension::getDefaultVersion(),
-	            unsigned int pkgVersion = QualExtension::getDefaultPackageVersion());
+  /**
+   * Creates a new DefaultTerm with the given level, version, and package version.
+   *
+   * @param level an unsigned int, the SBML Level to assign to this DefaultTerm
+   *
+   * @param version an unsigned int, the SBML Version to assign to this DefaultTerm
+   *
+   * @param pkgVersion an unsigned int, the SBML Qual Version to assign to this DefaultTerm
+   */
+  DefaultTerm(unsigned int level      = QualExtension::getDefaultLevel(),
+              unsigned int version    = QualExtension::getDefaultVersion(),
+              unsigned int pkgVersion = QualExtension::getDefaultPackageVersion());
 
 
-	/**
-	 * Creates a new DefaultTerm with the given QualPkgNamespaces object.
-	 *
-	 * @param qualns the QualPkgNamespaces object
-	 */
-	DefaultTerm(QualPkgNamespaces* qualns);
+  /**
+   * Creates a new DefaultTerm with the given QualPkgNamespaces object.
+   *
+   * @param qualns the QualPkgNamespaces object
+   */
+  DefaultTerm(QualPkgNamespaces* qualns);
 
 
- 	/**
-	 * Copy constructor for DefaultTerm.
-	 *
-	 * @param orig; the DefaultTerm instance to copy.
-	 */
-	DefaultTerm(const DefaultTerm& orig);
+  /**
+   * Copy constructor for DefaultTerm.
+   *
+   * @param orig the DefaultTerm instance to copy.
+   */
+  DefaultTerm(const DefaultTerm& orig);
 
 
- 	/**
-	 * Assignment operator for DefaultTerm.
-	 *
-	 * @param rhs; the object whose values are used as the basis
-	 * of the assignment
-	 */
-	DefaultTerm& operator=(const DefaultTerm& rhs);
+  /**
+   * Assignment operator for DefaultTerm.
+   *
+   * @param rhs the object whose values are used as the basis
+   * of the assignment
+   */
+  DefaultTerm& operator=(const DefaultTerm& rhs);
 
 
- 	/**
-	 * Creates and returns a deep copy of this DefaultTerm object.
-	 *
-	 * @return a (deep) copy of this DefaultTerm object.
-	 */
-	virtual DefaultTerm* clone () const;
+  /**
+   * Creates and returns a deep copy of this DefaultTerm object.
+   *
+   * @return a (deep) copy of this DefaultTerm object.
+   */
+  virtual DefaultTerm* clone () const;
 
 
- 	/**
-	 * Destructor for DefaultTerm.
-	 */
-	virtual ~DefaultTerm();
+  /**
+   * Destructor for DefaultTerm.
+   */
+  virtual ~DefaultTerm();
 
 
- 	/**
-	 * Returns the value of the "resultLevel" attribute of this DefaultTerm.
-	 *
-	 * @return the value of the "resultLevel" attribute of this DefaultTerm as a integer.
-	 */
-	virtual const int getResultLevel() const;
+  /**
+   * Returns the value of the "resultLevel" attribute of this DefaultTerm.
+   *
+   * @return the value of the "resultLevel" attribute of this DefaultTerm as a integer.
+   */
+  virtual const int getResultLevel() const;
 
 
-	/**
-	 * Predicate returning @c true or @c false depending on whether this
-	 * DefaultTerm's "resultLevel" attribute has been set.
-	 *
-	 * @return @c true if this DefaultTerm's "resultLevel" attribute has been set,
-	 * otherwise @c false is returned.
-	 */
-	virtual bool isSetResultLevel() const;
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * DefaultTerm's "resultLevel" attribute has been set.
+   *
+   * @return @c true if this DefaultTerm's "resultLevel" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetResultLevel() const;
 
 
-	/**
-	 * Sets the value of the "resultLevel" attribute of this DefaultTerm.
-	 *
-	 * @param resultLevel; int value of the "resultLevel" attribute to be set
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-	 */
-	virtual int setResultLevel(int resultLevel);
+  /**
+   * Sets the value of the "resultLevel" attribute of this DefaultTerm.
+   *
+   * @param resultLevel int value of the "resultLevel" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   */
+  virtual int setResultLevel(int resultLevel);
 
 
-	/**
-	 * Unsets the value of the "resultLevel" attribute of this DefaultTerm.
-	 *
-	 * @return integer value indicating success/failure of the
-	 * function.  @if clike The value is drawn from the
-	 * enumeration #OperationReturnValues_t. @endif The possible values
-	 * returned by this function are:
-	 * @li LIBSBML_OPERATION_SUCCESS
-	 * @li LIBSBML_OPERATION_FAILED
-	 */
-	virtual int unsetResultLevel();
+  /**
+   * Unsets the value of the "resultLevel" attribute of this DefaultTerm.
+   *
+   * @return integer value indicating success/failure of the
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   */
+  virtual int unsetResultLevel();
 
 
-	/**
-	 * Returns the XML element name of this object, which for DefaultTerm, is
-	 * always @c "defaultTerm".
-	 *
-	 * @return the name of this element, i.e. @c "defaultTerm".
-	 */
-	virtual const std::string& getElementName () const;
+  /**
+   * Returns the XML element name of this object, which for DefaultTerm, is
+   * always @c "defaultTerm".
+   *
+   * @return the name of this element, i.e. @c "defaultTerm".
+   */
+  virtual const std::string& getElementName () const;
 
 
-	/**
-	 * Returns the libSBML type code for this SBML object.
-	 * 
-	 * @if clike LibSBML attaches an identifying code to every kind of SBML
-	 * object.  These are known as <em>SBML type codes</em>.  The set of
-	 * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-	 * The names of the type codes all begin with the characters @c
-	 * SBML_. @endif@if java LibSBML attaches an identifying code to every
-	 * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-	 * other languages, the set of type codes is stored in an enumeration; in
-	 * the Java language interface for libSBML, the type codes are defined as
-	 * static integer constants in the interface class {@link
-	 * libsbmlConstants}.  The names of the type codes all begin with the
-	 * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-	 * code to every kind of SBML object.  These are known as <em>SBML type
-	 * codes</em>.  In the Python language interface for libSBML, the type
-	 * codes are defined as static integer constants in the interface class
-	 * @link libsbml@endlink.  The names of the type codes all begin with the
-	 * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-	 * code to every kind of SBML object.  These are known as <em>SBML type
-	 * codes</em>.  In the C# language interface for libSBML, the type codes
-	 * are defined as static integer constants in the interface class @link
-	 * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-	 * the characters @c SBML_. @endif
-	 *
-	 * @return the SBML type code for this object, or
-	 * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
-	 *
-	 * @see getElementName()
-	 */
-	virtual int getTypeCode () const;
+  /**
+   * Returns the libSBML type code of this object instance.
+   *
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for this object:
+   * @link SBMLQualTypeCode_t#SBML_QUAL_DEFAULT_TERM SBML_QUAL_DEFAULT_TERM@endlink
+   *
+   * @copydetails doc_warning_typecodes_not_unique
+   *
+   * @see getElementName()
+   * @see getPackageName()
+   */
+  virtual int getTypeCode () const;
 
 
-	/**
-	 * Predicate returning @c true if all the required attributes
-	 * for this DefaultTerm object have been set.
-	 *
-	 * @note The required attributes for a DefaultTerm object are:
-	 *
-	 * @return a boolean value indicating whether all the required
-	 * attributes for this object have been defined.
-	 */
-	virtual bool hasRequiredAttributes() const;
+  /**
+   * Predicate returning @c true if all the required attributes
+   * for this DefaultTerm object have been set.
+   *
+   * @note The required attributes for a DefaultTerm object are:
+   *
+   * @return a boolean value indicating whether all the required
+   * attributes for this object have been defined.
+   */
+  virtual bool hasRequiredAttributes() const;
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-	/**
-	 * Subclasses should override this method to write out their contained
-	 * SBML objects as XML elements.  Be sure to call your parents
-	 * implementation of this method as well.
-	 */
-	virtual void writeElements (XMLOutputStream& stream) const;
-
-
-	/** @endcond doxygen-libsbml-internal */
+  /**
+   * Subclasses should override this method to write out their contained
+   * SBML objects as XML elements.  Be sure to call your parents
+   * implementation of this method as well.
+   */
+  virtual void writeElements (XMLOutputStream& stream) const;
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Accepts the given SBMLVisitor.
-	 */
-	virtual bool accept (SBMLVisitor& v) const;
+  /** @endcond */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Accepts the given SBMLVisitor.
+   */
+  virtual bool accept (SBMLVisitor& v) const;
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Sets the parent SBMLDocument.
-	 */
-	virtual void setSBMLDocument (SBMLDocument* d);
+  /** @endcond */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the parent SBMLDocument.
+   */
+  virtual void setSBMLDocument (SBMLDocument* d);
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Enables/Disables the given package with this element.
-	 */
-	virtual void enablePackageInternal(const std::string& pkgURI,
-	             const std::string& pkgPrefix, bool flag);
+  /** @endcond */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Enables/Disables the given package with this element.
+   */
+  virtual void enablePackageInternal(const std::string& pkgURI,
+               const std::string& pkgPrefix, bool flag);
+
+
+  /** @endcond */
 
 
 protected:
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-	/**
-	 * Get the list of expected attributes for this element.
-	 */
-	virtual void addExpectedAttributes(ExpectedAttributes& attributes);
-
-
-	/** @endcond doxygen-libsbml-internal */
+  /**
+   * Get the list of expected attributes for this element.
+   */
+  virtual void addExpectedAttributes(ExpectedAttributes& attributes);
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Read values from the given XMLAttributes set into their specific fields.
-	 */
-	virtual void readAttributes (const XMLAttributes& attributes,
-	                             const ExpectedAttributes& expectedAttributes);
+  /** @endcond */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Read values from the given XMLAttributes set into their specific fields.
+   */
+  virtual void readAttributes (const XMLAttributes& attributes,
+                               const ExpectedAttributes& expectedAttributes);
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Write values of XMLAttributes to the output stream.
-	 */
-	virtual void writeAttributes (XMLOutputStream& stream) const;
+  /** @endcond */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Write values of XMLAttributes to the output stream.
+   */
+  virtual void writeAttributes (XMLOutputStream& stream) const;
+
+
+  /** @endcond */
 
 
 

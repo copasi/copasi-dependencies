@@ -42,6 +42,7 @@ CompModelPlugin::CompModelPlugin (const std::string &uri, const std::string &pre
   , mListOfSubmodels(compns)
   , mListOfPorts(compns)
   , mDivider("__")
+  , mRemoved()
 {
   connectToChild();
 }
@@ -52,6 +53,7 @@ CompModelPlugin::CompModelPlugin(const CompModelPlugin& orig)
   , mListOfSubmodels(orig.mListOfSubmodels)
   , mListOfPorts(orig.mListOfPorts)
   , mDivider("__")
+  , mRemoved() //If we're making a copy, the list of things we've removed is new.
 {
   connectToChild();
 }
@@ -70,6 +72,7 @@ CompModelPlugin::operator=(const CompModelPlugin& orig)
     mListOfSubmodels = orig.mListOfSubmodels;
     mListOfPorts = orig.mListOfPorts;
     mDivider = orig.mDivider;
+    mRemoved.clear(); //If we're making a copy, the list of things we've removed is new.
     connectToChild();
   }
   return *this;
@@ -158,7 +161,7 @@ CompModelPlugin::writeElements (XMLOutputStream& stream) const
 /** @endcond */
 
 SBase* 
-CompModelPlugin::getElementBySId(std::string id)
+CompModelPlugin::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   SBase* obj = mListOfSubmodels.getElementBySId(id);
@@ -170,7 +173,7 @@ CompModelPlugin::getElementBySId(std::string id)
 
 
 SBase*
-CompModelPlugin::getElementByMetaId(std::string metaid)
+CompModelPlugin::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   if (mListOfSubmodels.getMetaId() == metaid) return &mListOfSubmodels;
@@ -682,9 +685,13 @@ CompModelPlugin::instantiateSubmodels()
     return ret;
   }
 
-  // Perform deletions (top-down):  
+  mRemoved.clear();
+  set<SBase*> toremove;
+
+  // Collect deletions (top-down):  
   // need to do this before renaming in case we delete a local parameter.
-  ret = performDeletions();
+  ret = collectDeletionsAndDeleteSome(&mRemoved, &toremove);
+
   if (ret != LIBSBML_OPERATION_SUCCESS) {
     return ret;
   }
@@ -695,8 +702,29 @@ CompModelPlugin::instantiateSubmodels()
     return ret;
   }
 
-  //Perform replacements and conversions (top-down)
-  return performReplacementsAndConversions();
+  //Perform replacements and conversions (top-down) and collect them.
+  ret = collectRenameAndConvertReplacements(&mRemoved, &toremove);
+
+  if (ret != LIBSBML_OPERATION_SUCCESS) {
+    return ret;
+  }
+
+  //Finally, actually remove the collected elements from the model--they are
+  // all now redundant.  Have to wait until now to do this, because of the
+  // possibility of nested constructs:  replacing the child of a replaced
+  // element, for example, or even replacing the child of a deleted
+  // element.
+  removeCollectedElements(&mRemoved, &toremove);
+
+  mRemoved.clear();
+
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+int CompModelPlugin::saveAllReferencedElements()
+{
+  set<SBase*> norefs;
+  return saveAllReferencedElements(norefs, norefs);
 }
 
 int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase*> replacedBys)
@@ -714,7 +742,7 @@ int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase
 
   //Get a list of everything, pull out anything that's a deletion, replacement, or port, and save what they're pointing to.
   //At the same time, make sure that no two things point to the same thing.
-  set<SBase*> RE_deletions = std::set<SBase*>(); //Deletions only point to things in the same model.
+  set<SBase*> RE_deletions = set<SBase*>(); //Deletions only point to things in the same model.
   List* allElements = model->getAllElements();
   string modname = "the main model in the document";
   if (model->isSetId()) {
@@ -731,8 +759,67 @@ int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase
           SBaseRef* reference = static_cast<SBaseRef*>(element);
           ReplacedElement* re = static_cast<ReplacedElement*>(element);
           ret = reference->saveReferencedElement();
-          if (ret != LIBSBML_OPERATION_SUCCESS) {
-            return ret;
+          if (ret != LIBSBML_OPERATION_SUCCESS) 
+          {
+            if (type != SBML_COMP_REPLACEDBY && doc) 
+            {
+              SBMLErrorLog* errlog = doc->getErrorLog();
+              SBMLError* lasterr = const_cast<SBMLError*>
+                (doc->getErrorLog()->getError(doc->getNumErrors()-1));
+              if ( (errlog->contains(UnrequiredPackagePresent) || 
+                    errlog->contains(RequiredPackagePresent))) 
+              {
+                if ( lasterr->getErrorId() == CompIdRefMustReferenceObject)
+                {
+                   //Change the error into a warning
+                   string fullmsg = lasterr->getMessage() 
+                     + "  However, this may be because of the unrecognized "
+                     + "package present in this document:  ignoring this "
+                     + "element and flattening anyway.";
+                   errlog->remove(lasterr->getErrorId());
+                   errlog->logPackageError("comp", 
+                     CompIdRefMayReferenceUnknownPackage, getPackageVersion(), 
+                     getLevel(), getVersion(), fullmsg, element->getLine(), 
+                     element->getColumn(), LIBSBML_SEV_WARNING);
+                    element->removeFromParentAndDelete();
+                    continue;
+                }
+                else if ( lasterr->getErrorId() == CompMetaIdRefMustReferenceObject)
+                {
+                   //Change the error into a warning
+                   string fullmsg = lasterr->getMessage() 
+                     + "  However, this may be because of the unrecognized "
+                     + "package present in this document:  ignoring this "
+                     + "element and flattening anyway.";
+                   errlog->remove(lasterr->getErrorId());
+                   errlog->logPackageError("comp", 
+                     CompMetaIdRefMayReferenceUnknownPkg, getPackageVersion(), 
+                     getLevel(), getVersion(), fullmsg, element->getLine(), 
+                     element->getColumn(), LIBSBML_SEV_WARNING);
+                    element->removeFromParentAndDelete();
+                    continue;
+                }
+                else if (lasterr->getErrorId() == 
+                                  CompIdRefMayReferenceUnknownPackage)
+                {
+                  element->removeFromParentAndDelete();
+                  continue;
+                }
+                else if (lasterr->getErrorId() == 
+                                  CompMetaIdRefMayReferenceUnknownPkg)
+                {
+                  element->removeFromParentAndDelete();
+                  continue;
+                }
+              }
+              else 
+              {
+                return ret;
+              }
+            }
+            else {
+              return ret;
+            }
           }
           SBase* direct = reference->getDirectReference();
           bool adddirect = true;
@@ -740,15 +827,15 @@ int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase
             SBase* rbParent = reference->getParentSBMLObject();
             if (uniqueRefs.insert(rbParent).second == false) {
               if (doc) {
-                string error = "Error discovered in CompModelPlugin::saveAllReferencedElements when checking " + modname + ": a <" + direct->getElementName() + "> ";
+                string error = "Error discovered in CompModelPlugin::saveAllReferencedElements when checking " + modname + ": a <" + rbParent->getElementName() + "> ";
                 if (direct->isSetId()) {
-                  error += "with the id '" + direct->getId() + "'";
-                  if (direct->isSetMetaId()) {
-                    error += ", and the metaid '" + direct->getMetaId() + "'";
+                  error += "with the id '" + rbParent->getId() + "'";
+                  if (rbParent->isSetMetaId()) {
+                    error += ", and the metaid '" + rbParent->getMetaId() + "'";
                   }
                 }
-                else if (direct->isSetMetaId()) {
-                  error += "with the metaId '" + direct->getMetaId() + "'";
+                else if (rbParent->isSetMetaId()) {
+                  error += "with the metaId '" + rbParent->getMetaId() + "'";
                 }
                 error += " has a <replacedBy> child and is also pointed to by a <port>, <deletion>, <replacedElement>, or one or more <replacedBy> objects.";
                 doc->getErrorLog()->logPackageError("comp", CompNoMultipleReferences, getPackageVersion(), getLevel(), getVersion(), error);
@@ -964,16 +1051,16 @@ public:
   {
     // if there is nothing to do return ... 
     if (element == NULL) 
-	  return LIBSBML_OPERATION_SUCCESS;
-	
-	// prefix meta id if we have one ... 
+    return LIBSBML_OPERATION_SUCCESS;
+  
+    // prefix meta id if we have one ... 
     if (element->isSetMetaId())
     {
       if (element->setMetaId(mPrefix + element->getMetaId()) != LIBSBML_OPERATION_SUCCESS)
         return LIBSBML_OPERATION_FAILED;
     }
-	
-	// prefix other ids (unitsid, or sid) ...
+
+    // prefix other ids (unitsid, or sid) ...
     // skip local parameters
     if (element->isSetId() && element->getTypeCode() != SBML_LOCAL_PARAMETER)
     {
@@ -1042,14 +1129,14 @@ void CompModelPlugin::renameIDs(List* allElements, const string& prefix)
 }
 /** @endcond */
 
-int CompModelPlugin::performDeletions()
+int CompModelPlugin::collectDeletionsAndDeleteSome(set<SBase*>* removed, set<SBase*>* toremove)
 {
   int ret = LIBSBML_OPERATION_SUCCESS;
   SBMLDocument* doc = getSBMLDocument();
   Model* model = static_cast<Model*>(getParentSBMLObject());
   if (model==NULL) {
     if (doc) {
-      string error = "Unable to attempt to perform deletions in CompModelPlugin::performDeletions: no parent model could be found for the given 'comp' model plugin element.";
+      string error = "Unable to attempt to perform deletions in CompModelPlugin::collectDeletionsAndDeleteSome: no parent model could be found for the given 'comp' model plugin element.";
       doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
     }
     return LIBSBML_OPERATION_FAILED;
@@ -1061,12 +1148,26 @@ int CompModelPlugin::performDeletions()
     //First perform any deletions
     for (unsigned int d=0; d<submodel->getNumDeletions(); d++) {
       Deletion* deletion = submodel->getDeletion(d);
-      ret = deletion->performDeletion();
-      if (ret!=LIBSBML_OPERATION_SUCCESS) {
-        return ret;
+      SBase* todel = deletion->getReferencedElement();
+      if (todel && (todel->getTypeCode() == SBML_COMP_DELETION ||
+                    todel->getTypeCode() == SBML_COMP_REPLACEDBY ||
+                    todel->getTypeCode() == SBML_COMP_REPLACEDELEMENT ||
+                    todel->getTypeCode() == SBML_LOCAL_PARAMETER) )
+      {
+        //Go ahead and delete it!
+        set<SBase*> newToRemove;
+        newToRemove.insert(todel);
+        removeCollectedElements(removed, &newToRemove);
+      }
+      else {
+        //Otherwise, just collect it.
+        ret = deletion->collectDeletions(removed, toremove);
+        if (ret!=LIBSBML_OPERATION_SUCCESS) {
+          return ret;
+        }
       }
     }
-    //Next perform any deletions in that instantiated submodel (some of which may have just been deleted)
+    //Next collect any deletions in that instantiated submodel (any that weren't just deleted)
     Model* mod = submodel->getInstantiation();
     if (mod==NULL) {
       //getInstantiation sets its own error messages.
@@ -1076,24 +1177,43 @@ int CompModelPlugin::performDeletions()
     if (modplug==NULL) {
       if (doc) {
         //Shouldn't happen:  'getInstantiation' turns on the comp plugin.
-        string error = "Unable to rename elements in CompModelPlugin::performDeletions: no valid 'comp' plugin for the model instantiated from submodel " + submodel->getId();
+        string error = "Unable to rename elements in CompModelPlugin::collectDeletionsAndDeleteSome: no valid 'comp' plugin for the model instantiated from submodel " + submodel->getId();
         doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
       }
       return LIBSBML_OPERATION_FAILED;
     }
-    modplug->performDeletions();
+    modplug->collectDeletionsAndDeleteSome(removed, toremove);
   }
   return ret;
 }
 
-int CompModelPlugin::performReplacementsAndConversions()
+
+/** @cond doxygenLibsbmlInternal */
+int CompModelPlugin::performDeletions()
+{
+  SBMLDocument* doc = getSBMLDocument();
+  if (doc) {
+    doc->getErrorLog()->logPackageError("comp", CompDeprecatedDeleteFunction, getPackageVersion(), getLevel(), getVersion());
+  }
+
+  set<SBase*> toremove;
+  //We have to assume that mRemoved has been set properly, though there's no guarantee that this has happened.
+  int ret = collectDeletionsAndDeleteSome(&mRemoved, &toremove);
+  if (ret != LIBSBML_OPERATION_SUCCESS) {
+    return ret;
+  }
+  return removeCollectedElements(&mRemoved, &toremove);
+}
+/** @endcond */
+
+int CompModelPlugin::collectRenameAndConvertReplacements(set<SBase*>* removed, set<SBase*>* toremove)
 {
   int ret = LIBSBML_OPERATION_SUCCESS;
   SBMLDocument* doc = getSBMLDocument();
   Model* model = static_cast<Model*>(getParentSBMLObject());
   if (model==NULL) {
     if (doc) {
-      string error = "Unable to perform replacements in CompModelPlugin::performDeletions: no parent model could be found for the given 'comp' model plugin element.";
+      string error = "Unable to perform replacements in CompModelPlugin::collectRenameAndConvertReplacements: no parent model could be found for the given 'comp' model plugin element.";
       doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
     }
     return LIBSBML_OPERATION_FAILED;
@@ -1114,10 +1234,10 @@ int CompModelPlugin::performReplacementsAndConversions()
       rbs.push_back(reference);
     }
   }
-    
+
   //ReplacedElement replacements
   for (size_t re=0; re<res.size(); re++) {
-    ret = res[re]->performReplacement();
+    ret = res[re]->performReplacementAndCollect(removed, toremove);
     if (ret != LIBSBML_OPERATION_SUCCESS) {
       return ret;
     }
@@ -1133,20 +1253,60 @@ int CompModelPlugin::performReplacementsAndConversions()
     //'left behind' converions (not LaHaye-style)
     ret = submodel->convertTimeAndExtent();
     if (ret != LIBSBML_OPERATION_SUCCESS) return ret;
-    ret = modplug->performReplacementsAndConversions();
+    ret = modplug->collectRenameAndConvertReplacements(removed, toremove);
     if (ret != LIBSBML_OPERATION_SUCCESS) return ret;
   }
 
   //Perform ReplacedBy replacements *after* the submodels are done, so that the topmost-level names take precedence.
   for (size_t rb=0; rb<rbs.size(); rb++) {
-    ret = rbs[rb]->performReplacement();
-    if (ret != LIBSBML_OPERATION_SUCCESS) return ret;
+    ret = rbs[rb]->performReplacementAndCollect(removed, toremove);
+    if (ret != LIBSBML_OPERATION_SUCCESS) {
+      return ret;
+    }
   }
 
   return ret;
 }
 
 /** @cond doxygenLibsbmlInternal */
+//Deprecated function
+int CompModelPlugin::performReplacementsAndConversions()
+{
+  SBMLDocument* doc = getSBMLDocument();
+  if (doc) {
+    doc->getErrorLog()->logPackageError("comp", CompDeprecatedReplaceFunction, getPackageVersion(), getLevel(), getVersion());
+  }
+
+  set<SBase*> toremove;
+  //We have to assume that mRemoved has been set properly, though there's no guarantee that this has happened.
+  int ret = collectRenameAndConvertReplacements(&mRemoved, &toremove);
+  if (ret != LIBSBML_OPERATION_SUCCESS) {
+    return ret;
+  }
+  return removeCollectedElements(&mRemoved, &toremove);
+}
+/** @endcond */
+
+int CompModelPlugin::removeCollectedElements(set<SBase*>* removed, set<SBase*>* toremove)
+{
+  while (toremove->size() > 0) {
+    SBase* removeme = *(toremove->begin());
+    if (removed->insert(removeme).second == true) {
+      //Need to remove the element.
+      List* children = removeme->getAllElements();
+      for (unsigned int el=0; el<children->getSize(); el++) {
+        SBase* element = static_cast<SBase*>(children->get(el));
+        removed->insert(element);
+      }
+      CompBase::removeFromParentAndPorts(removeme, removed);
+    }
+    toremove->erase(removeme);
+  }
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+  
+  /** @cond doxygenLibsbmlInternal */
 
 bool 
 CompModelPlugin::accept(SBMLVisitor& v) const
@@ -1170,6 +1330,13 @@ CompModelPlugin::accept(SBMLVisitor& v) const
 
 /** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
+std::set<SBase*>* 
+CompModelPlugin::getRemovedSet() 
+{ 
+  return &mRemoved; 
+}
+/** @endcond */
 
 LIBSBML_EXTERN
 Submodel_t *

@@ -192,7 +192,7 @@ public:
   virtual const char* getStringFromTypeCode(int typeCode) const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Initializes layout extension by creating an object of this class with 
    * required SBasePlugin derived objects and registering the object 

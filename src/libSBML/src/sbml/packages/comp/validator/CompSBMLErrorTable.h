@@ -182,6 +182,21 @@ static const packageErrorTableEntry compErrorTable[] =
     }
   },
 
+  // 1010501
+  { CompReplacedUnitsShouldMatch, 
+    "Units of replaced elements should match replacement units.",
+    LIBSBML_CAT_UNITS_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "If one element replaces another, whether it is the target of "
+    "a <replacedBy> element, or whether it has a child <replacedElement>, "
+    "the units of the replaced element, multiplied by the units of any "
+    "applicable conversion factor, should equal the units of the "
+    "replacement element.",
+    { "L3V1 Comp V1 Section 3.6.5"
+    }
+  },
+
+
   // 1020101
   { CompOneListOfReplacedElements, 
     "Only one <listOfReplacedElements> allowed.",
@@ -1128,6 +1143,17 @@ static const packageErrorTableEntry compErrorTable[] =
     }
   },
 
+  // 1021011
+  { CompReplacedElementNoDelAndConvFact, 
+    "No <replacedElement> with deletion and conversionfactor",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "If a <replacedElement> uses the 'comp:deletion' attribute, then it "
+    "should not also use the 'comp:conversionFactor' attribute.",
+    { "L3V1 Comp V1 Section 3.6.2"
+    }
+  },
+
   // 1021101
   { CompReplacedByMustRefObject, 
     "ReplacedBy must reference an object",
@@ -1186,7 +1212,15 @@ static const packageErrorTableEntry compErrorTable[] =
     "Replaced classes must match.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
-    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, the SBML class of the replacement element must match the SBML class of the replaced element, with two exceptions: an element of a derived class may replace an object of its base class (for base classes other than SBase), and any SBML class with mathematical meaning may replace a <parameter>. A base class may not replace a derived class, however, nor may a <parameter> replace some other SBML element with mathematical meaning.",
+    "If one element replaces another, whether it is the target of a "
+    "<replacedBy> element, or whether it has a child <replacedElement>, "
+    "the SBML class of the replacement element must match the SBML class "
+    "of the replaced element, with two exceptions: an element of a derived "
+    "class may replace an object of its base class (for base classes other "
+    "than SBase), and any SBML class with mathematical meaning may "
+    "replace a <parameter>. A base class may not replace a derived class, "
+    "however, nor may a <parameter> replace some other SBML element with "
+    "mathematical meaning.",
     { "L3V1 Comp V1 Section 3.6.5"
     }
   },
@@ -1196,7 +1230,10 @@ static const packageErrorTableEntry compErrorTable[] =
     "Replaced IDs must be replaced with IDs.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
-    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, if the replaced element has the 'id' attribute set, the replacement element must also have the 'id' attribute set.",
+    "If one element replaces another, whether it is the target of a "
+    "<replacedBy> element, or whether it has a child <replacedElement>, "
+    "if the replaced element has the 'id' attribute set, the replacement !"
+    "element must also have the 'id' attribute set.",
     { "L3V1 Comp V1 Section 3.6.5"
     }
   },
@@ -1206,7 +1243,10 @@ static const packageErrorTableEntry compErrorTable[] =
     "Replaced metaids must be replaced with metaids.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
-    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, if the replaced element has the 'metaid' attribute set, the replacement element must also have the 'metaid' attribute set.",
+    "If one element replaces another, whether it is the target of a "
+    "<replacedBy> element, or whether it has a child <replacedElement>, "
+    "if the replaced element has the 'metaid' attribute set, the replacement "
+    "element must also have the 'metaid' attribute set.",
     { "L3V1 Comp V1 Section 3.6.5"
     }
   },
@@ -1216,21 +1256,14 @@ static const packageErrorTableEntry compErrorTable[] =
     "Replaced package IDs must be replaced with package IDs.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
-    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, if the replaced element has an identifier attribute from some other SBML package set, the replacement element must also have that same identifier attribute set.",
+    "If one element replaces another, whether it is the target of a "
+    "<replacedBy> element, or whether it has a child <replacedElement>, "
+    "if the replaced element has an identifier attribute from some other "
+    "SBML package set, the replacement element must also have that same "
+    "identifier attribute set.",
     { "L3V1 Comp V1 Section 3.6.5"
     }
   },
-
-  // 1021205
-  { CompReplacedUnitsShouldMatch, 
-    "Units of replaced elements should match replacement units.",
-    LIBSBML_CAT_GENERAL_CONSISTENCY, 
-    LIBSBML_SEV_WARNING,
-    "If one element replaces another, whether it is the target of a <replacedBy> element, or whether it has a child <replacedElement>, the units of the replaced element, multiplied by the units of any applicable conversion factor, should equal the units of the replacement element.",
-    { "L3V1 Comp V1 Section 3.6.5"
-    }
-  },
-
 
   // 1090101
   { CompUnresolvedReference, 
@@ -1300,22 +1333,22 @@ static const packageErrorTableEntry compErrorTable[] =
   },
 
     // 1090107
-  { CompFlatteningNotRecognisedNotReqd,
-    "Flattening not implemented for unrequired package.",
+  { CompFlatteningNotRecognisedReqd,
+    "Flattening not implemented for required package.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_WARNING,
-    "The CompFlatteningConverter has encountered an unrequired package for "
+    "The CompFlatteningConverter has encountered a required package for "
     "which libSBML does not recognize the information.",
     { ""
     }
   },
 
     // 1090108
-  { CompFlatteningNotRecognisedReqd,
-    "Flattening not implemented for required package.",
+  { CompFlatteningNotRecognisedNotReqd,
+    "Flattening not implemented for unrequired package.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_WARNING,
-    "The CompFlatteningConverter has encountered a required package for "
+    "The CompFlatteningConverter has encountered an unrequired package for "
     "which libSBML does not recognize the information.",
     { ""
     }
@@ -1344,7 +1377,100 @@ static const packageErrorTableEntry compErrorTable[] =
     "" ,
     { ""
     }
+  },
+
+  // 1090111
+  { CompFlatteningWarning,
+    "Flattening reference may come from package.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "The CompFlatteningConverter has encountered an unknown reference which may "
+    "be due to the presence of an unknown package."
+    "" ,
+    { ""
+    }
+  },
+
+  // 1090112
+  { CompDeprecatedDeleteFunction,
+    "The performDeletions functions is deprecated.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "The software used to process this hierarchical model used the deprecated "
+    "function performDeletions to do so.  Unfortunately, it is "
+    "impossible to properly use this function "
+    "as it was originally designed, "
+    "without some models either causing the program to crash, or causing them "
+    "to be interpreted incorrectly.  Instead, the software should use "
+    "collectDeletionsAndDeleteCompConstructs, in conjunction with "
+    "collectRenameAndConvertReplacements and removeCollectedElements "
+    "to properly process hierarchical models."
+    "" ,
+    { ""
+    }
+  },
+
+  // 1090113
+  { CompDeprecatedReplaceFunction,
+    "The performReplacementsAndConversions fuctions is deprecated.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "The software used to process this hierarchical model used the deprecated "
+    "function performReplacementsAndConversions to do so.  Unfortunately, it is "
+    "impossible to properly use this function "
+    "as it was originally designed, "
+    "without some models either causing the program to crash, or causing them "
+    "to be interpreted incorrectly.  Instead, the software should use "
+    "collectDeletionsAndDeleteCompConstructs, in conjunction with "
+    "collectRenameAndConvertReplacements and removeCollectedElements "
+    "to properly process hierarchical models."
+    "" ,
+    { ""
+    }
+  },
+
+  // 1090114
+  { CompDeletedReplacement,
+    "Element deleted before a subelement could be replaced.",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_ERROR,
+    "The model contained a deletion whose subelement was replaced.  This "
+    "is perfectly legal, but unfortunately, the subroutine used to implement "
+    "this actually removed the deleted element and all of its children before "
+    "replacing the child, making it impossible to discover any IDs that need to "
+    "be replaced."
+    "" ,
+    { ""
+    }
+  },
+
+  // 1090115
+  { CompIdRefMayReferenceUnknownPackage,
+    "The 'comp:idRef' attribute must be the 'id' of a model element",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "The value of a 'comp:idRef' attribute on an <sBaseRef> object must "
+    "be the identifier of an object contained in (that is, within the "
+    "SId namespace of) the <model> referenced by that <sBaseRef>. This "
+    "includes objects with 'id' attributes defined in packages other "
+    "than SBML Level 3 Core or the Hierarchical Model Composition "
+    "package.",
+    { ""
+    }
+  },
+
+  // 1090116
+  { CompMetaIdRefMayReferenceUnknownPkg,
+    "The 'comp:metaIdRef' attribute must be the 'metaid' of a model element",
+    LIBSBML_CAT_GENERAL_CONSISTENCY, 
+    LIBSBML_SEV_WARNING,
+    "The value of a 'comp:metaIdRef' attribute on an <sBaseRef> object "
+    "must be the value of a 'comp:metaid' attribute on an element contained "
+    "in the <model> referenced by that <sBaseRef>.",
+    { ""
+    }
   }
+
 
 
 };
@@ -1353,4 +1479,3 @@ LIBSBML_CPP_NAMESPACE_END
 
 #endif
 /** @endcond */
-

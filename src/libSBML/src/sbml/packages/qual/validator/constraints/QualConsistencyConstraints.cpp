@@ -1,5 +1,5 @@
 /**
- * @cond doxygen-libsbml-internal
+ * @cond doxygenLibsbmlInternal
  *
  * @file    QualConsistencyConstraints.cpp
  * @brief   QualConsistency check constraints.  See SBML Wiki
@@ -45,7 +45,7 @@
 
 #include <sbml/validator/ConstraintMacros.h>
 
-/** @cond doxygen-ignored */
+/** @cond doxygenIgnored */
 
 using namespace std;
 
@@ -127,7 +127,7 @@ START_CONSTRAINT (QualTransitionLOElements, ListOfFunctionTerms, loft)
 {
   bool fail = false;
 
-  if (loft.size() == 0)
+  if (loft.size() == 0 && loft.isSetDefaultTerm() == false)
   {
     fail = true;
   }
@@ -311,6 +311,6 @@ END_CONSTRAINT
 
 // 20805 - 20806 - caught at read
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond */
 
 

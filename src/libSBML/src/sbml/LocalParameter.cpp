@@ -161,51 +161,7 @@ LocalParameter::clone () const
 UnitDefinition *
 LocalParameter::getDerivedUnitDefinition()
 {
-  /* if we have the whole model but it is not in a document
-   * it is still possible to determine the units
-   */
-  Model * m = static_cast <Model *> (getAncestorOfType(SBML_MODEL));
-
-  if (m != NULL)
-  {
-    if (!m->isPopulatedListFormulaUnitsData())
-    {
-      m->populateListFormulaUnitsData();
-    }
-
-    UnitDefinition *ud = NULL;
-    const char * units = getUnits().c_str();
-    if (!strcmp(units, ""))
-    {
-      ud   = new UnitDefinition(getSBMLNamespaces());
-      return ud;
-    }
-    else
-    {
-      if (UnitKind_isValidUnitKindString(units, 
-                                getLevel(), getVersion()))
-      {
-        Unit * unit = new Unit(getSBMLNamespaces());
-        unit->setKind(UnitKind_forName(units));
-        unit->initDefaults();
-        ud   = new UnitDefinition(getSBMLNamespaces());
-        
-        ud->addUnit(unit);
-
-        delete unit;
-      }
-      else
-      {
-        /* must be a unit definition */
-        ud = static_cast <Model *> (getAncestorOfType(SBML_MODEL))->getUnitDefinition(units);
-      }
-      return ud;
-    }
-  }
-  else
-  {
-    return NULL;
-  }
+  return Parameter::getDerivedUnitDefinition();
 }
 
 
@@ -419,7 +375,7 @@ ListOfLocalParameters::get (const std::string& sid) const
 
 
 SBase*
-ListOfLocalParameters::getElementBySId(std::string id)
+ListOfLocalParameters::getElementBySId(const std::string& id)
 {
   for (unsigned int i = 0; i < size(); i++)
   {

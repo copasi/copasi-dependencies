@@ -46,7 +46,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string Rectangle::ELEMENT_NAME="rectangle";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Rectangle object with the given SBML level
  * and SBML version.
@@ -70,7 +70,7 @@ Rectangle::Rectangle (unsigned int level, unsigned int version, unsigned int pkg
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Rectangle object with the given SBMLNamespaces.
  *
@@ -100,7 +100,7 @@ Rectangle::Rectangle (RenderPkgNamespaces* renderns):
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Rectangle object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -125,7 +125,7 @@ Rectangle::Rectangle(const XMLNode& node, unsigned int l2version)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Rectangle::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -141,7 +141,7 @@ Rectangle::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Rectangle::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
   this->GraphicalPrimitive2D::readAttributes(attributes, expectedAttributes);
@@ -197,7 +197,7 @@ void Rectangle::readAttributes (const XMLAttributes& attributes, const ExpectedA
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Instantiates a new Rectangle object.
  * All attributes are set as described for the default constructor
@@ -237,7 +237,7 @@ Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id):
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Instantiates a new Rectangle object.
  * All attributes are set as described for the default constructor
@@ -283,7 +283,7 @@ Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id,const 
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Instantiates a new Rectangle object.
  * All attributes are set as described for the default constructor
@@ -327,7 +327,7 @@ Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id,const 
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the position and the size of the Rectangle within the viewport.
  *
@@ -344,7 +344,7 @@ void Rectangle::setCoordinatesAndSize(const RelAbsVector& x,const RelAbsVector& 
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the position of the Rectangle within the viewport.
  *
@@ -360,7 +360,7 @@ void Rectangle::setCoordinates(const RelAbsVector& x,const RelAbsVector& y,const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the size of the Rectangle 
  *
@@ -374,7 +374,7 @@ void Rectangle::setSize(const RelAbsVector& w,const RelAbsVector& h)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the two corner radii of the rectangle
  *
@@ -388,7 +388,7 @@ void Rectangle::setRadii(const RelAbsVector& rx,const RelAbsVector& ry)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate of the rectangles position
  *
@@ -400,7 +400,7 @@ const RelAbsVector& Rectangle::getX() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate of the rectangles position
  *
@@ -412,7 +412,7 @@ const RelAbsVector& Rectangle::getY() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate of the rectangles position
  *
@@ -424,7 +424,7 @@ const RelAbsVector& Rectangle::getZ() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the with of the rectangle
  *
@@ -436,7 +436,7 @@ const RelAbsVector& Rectangle::getWidth() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the height of the rectangle
  *
@@ -448,7 +448,7 @@ const RelAbsVector& Rectangle::getHeight() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the corner radius along the x axis
  *
@@ -461,7 +461,7 @@ const RelAbsVector& Rectangle::getRadiusX() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the corner radius along the y axis
  *
@@ -473,7 +473,7 @@ const RelAbsVector& Rectangle::getRadiusY() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate of the rectangles position
  *
@@ -485,7 +485,7 @@ RelAbsVector& Rectangle::getX()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate of the rectangles position
  *
@@ -497,7 +497,7 @@ RelAbsVector& Rectangle::getY()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate of the rectangles position
  *
@@ -509,7 +509,7 @@ RelAbsVector& Rectangle::getZ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the with of the rectangle
  *
@@ -521,7 +521,7 @@ RelAbsVector& Rectangle::getWidth()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the height of the rectangle
  *
@@ -533,7 +533,7 @@ RelAbsVector& Rectangle::getHeight()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the corner radius along the x axis
  *
@@ -546,7 +546,7 @@ RelAbsVector& Rectangle::getRadiusX()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the corner radius along the y axis
  *
@@ -558,7 +558,7 @@ RelAbsVector& Rectangle::getRadiusY()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -584,7 +584,7 @@ int Rectangle::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor for this instance of Rectangle.
  *
@@ -598,7 +598,7 @@ bool Rectangle::accept(SBMLVisitor& /*visitor*/) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -613,7 +613,7 @@ const std::string& Rectangle::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this Rectangle object.
  * 
@@ -625,7 +625,7 @@ Rectangle* Rectangle::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -674,7 +674,7 @@ void Rectangle::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this Rectangle object.
  *
@@ -687,7 +687,7 @@ XMLNode Rectangle::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the siwidth of the Rectangle 
  *
@@ -700,7 +700,7 @@ void Rectangle::setWidth(const RelAbsVector& w)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the height of the Rectangle 
  *
@@ -712,7 +712,7 @@ void Rectangle::setHeight(const RelAbsVector& h)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the corner radius along the x axis
  *
@@ -724,7 +724,7 @@ void Rectangle::setRadiusX(const RelAbsVector& rx)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the corner radius along the y axis
  *
@@ -736,7 +736,7 @@ void Rectangle::setRadiusY(const RelAbsVector& ry)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the x position of the Rectangle within the viewport.
  *
@@ -748,7 +748,7 @@ void Rectangle::setX(const RelAbsVector& x)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the y position of the Rectangle within the viewport.
  *
@@ -760,7 +760,7 @@ void Rectangle::setY(const RelAbsVector& y)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the z position of the Rectangle within the viewport.
  *
@@ -772,7 +772,7 @@ void Rectangle::setZ(const RelAbsVector& z)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -808,7 +808,7 @@ bool Rectangle::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

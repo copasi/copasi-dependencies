@@ -45,7 +45,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string Image::ELEMENT_NAME="image";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Image object with the given SBML level
  * and SBML version.
@@ -69,7 +69,7 @@ Image::Image (unsigned int level, unsigned int version, unsigned int pkgVersion)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Image object with the given SBMLNamespaces.
  *
@@ -98,7 +98,7 @@ Image::Image (RenderPkgNamespaces* renderns):
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Image object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -129,7 +129,7 @@ Image::Image(const XMLNode& node, unsigned int l2version):Transformation2D(node,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Image::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -145,7 +145,7 @@ Image::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Image::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
     this->Transformation2D::readAttributes(attributes, expectedAttributes);
@@ -175,7 +175,7 @@ void Image::readAttributes (const XMLAttributes& attributes, const ExpectedAttri
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Instantiates an Image object with the given @p id.
  * The image reference is unset, the position and the dimensions
@@ -213,7 +213,7 @@ void Image::readAttributes (const XMLAttributes& attributes, const ExpectedAttri
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the dimensions of the image.
  * The dimensions can be set as relative values or absolute values, or 
@@ -229,7 +229,7 @@ void Image::setDimensions(const RelAbsVector& width,const RelAbsVector& height)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the width of the image when rendered.
  * The width can be set as relative values or absolute values, or 
@@ -243,7 +243,7 @@ void Image::setWidth(const RelAbsVector& width)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the height of the image when rendered.
  * The height can be set as relative values or absolute values, or 
@@ -257,7 +257,7 @@ void Image::setHeight(const RelAbsVector& height)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a reference to the width of the image.
  *
@@ -269,7 +269,7 @@ RelAbsVector& Image::getWidth()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a reference to the height of the image.
  *
@@ -281,7 +281,7 @@ RelAbsVector& Image::getHeight()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const reference to the width of the image.
  *
@@ -293,7 +293,7 @@ const RelAbsVector& Image::getWidth() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const reference to the height of the image.
  *
@@ -306,7 +306,7 @@ const RelAbsVector& Image::getHeight() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the reference to the image location.
  * Relative paths are relative to the document that contains the render information.
@@ -321,7 +321,7 @@ void Image::setImageReference(const std::string& ref)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the image reference URL string.
  *
@@ -334,7 +334,7 @@ const std::string& Image::getImageReference() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the position of the image relative to its viewport.
  * The position can either be specified in relative or in absolut coordinates
@@ -353,7 +353,7 @@ void Image::setCoordinates(const RelAbsVector& x,const RelAbsVector& y,const Rel
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the x coordinate of the image position.
  * The position can either be specified in relative or in absolut coordinates
@@ -367,7 +367,7 @@ void Image::setX(const RelAbsVector& coord)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the y coordinate of the image position.
  * The position can either be specified in relative or in absolut coordinates
@@ -381,7 +381,7 @@ void Image::setY(const RelAbsVector& coord)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the z coordinate of the image position.
  * The position can either be specified in relative or in absolut coordinates
@@ -395,7 +395,7 @@ void Image::setZ(const RelAbsVector& coord)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const reference to the x coordinate of the image position.
  *
@@ -407,7 +407,7 @@ const RelAbsVector& Image::getX() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const reference to the y coordinate of the image position.
  *
@@ -419,7 +419,7 @@ const RelAbsVector& Image::getY() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const reference to the z coordinate of the image position.
  *
@@ -431,7 +431,7 @@ const RelAbsVector& Image::getZ() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a reference to the x coordinate of the image position.
  *
@@ -443,7 +443,7 @@ RelAbsVector& Image::getX()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a reference to the y coordinate of the image position.
  *
@@ -455,7 +455,7 @@ RelAbsVector& Image::getY()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a reference to the z coordinate of the image position.
  *
@@ -467,7 +467,7 @@ RelAbsVector& Image::getZ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -493,7 +493,7 @@ int Image::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor.
  *
@@ -507,7 +507,7 @@ bool Image::accept(SBMLVisitor& /*visitor*/) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * Image, is always @c "image".
@@ -521,7 +521,7 @@ const std::string& Image::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this Image object.
  *
@@ -533,7 +533,7 @@ Image* Image::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -575,7 +575,7 @@ void Image::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this Image object.
  *
@@ -588,7 +588,7 @@ XMLNode Image::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the image reference has been set.
  * The image reference is considered set if the string does not
@@ -604,7 +604,7 @@ bool Image::isSetImageReference() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the value of the "id" attribute of this Image.
  *
@@ -617,7 +617,7 @@ const std::string& Image::getId () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether this
  * Image's "id" attribute has been set.
@@ -631,7 +631,7 @@ bool Image::isSetId () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the value of the "id" attribute of this Image.
  *
@@ -654,7 +654,7 @@ int Image::setId (const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Unsets the value of the "id" attribute of this Image.
  */
@@ -672,7 +672,7 @@ int Image::unsetId ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -702,7 +702,7 @@ bool Image::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

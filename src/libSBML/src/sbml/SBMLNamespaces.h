@@ -26,8 +26,8 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLNamespaces
- * @ingroup Core
- * @brief Class to store SBML level, version and namespace information.
+ * @sbmlbrief{core} Class to store SBML level, version and namespace
+ * information.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -56,6 +56,37 @@
  * thereby allowing the constructor to produce the proper combination of
  * attributes and other internal data structures for the given SBML Level
  * and Version.
+ */
+
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ *
+ * @class doc_sbmlnamespaces_what_is_it
+ *
+ * @par
+ * SBMLNamespaces objects are used in libSBML to communicate SBML Level and
+ * Version data between constructors and other methods.  The SBMLNamespaces
+ * object class holds triples consisting of SBML Level, Version, and the
+ * corresponding SBML XML namespace.  Most constructors for SBML objects in
+ * libSBML take a SBMLNamespaces object as an argument, thereby allowing
+ * the constructor to produce the proper combination of attributes and
+ * other internal data structures for the given SBML Level and Version.
+ *
+ * The plural name (SBMLNamespaces) is not a mistake, because in SBML
+ * Level&nbsp;3, objects may have extensions added by Level&nbsp;3 packages
+ * used by a given model and therefore may have multiple namespaces
+ * associated with them.  In SBML Levels below Level&nbsp;3, the
+ * SBMLNamespaces object only records one SBML Level/Version/namespace
+ * combination at a time.  Most constructors for SBML objects in libSBML
+ * take a SBMLNamespaces object as an argument, thereby allowing the
+ * constructor to produce the proper combination of attributes and other
+ * internal data structures for the given SBML Level and Version.
+ *
  */
 
 #ifndef SBMLNamespaces_h
@@ -101,25 +132,7 @@ public:
    * Creates a new SBMLNamespaces object corresponding to the given SBML
    * @p level and @p version.
    *
-   * SBMLNamespaces objects are used in libSBML to communicate SBML Level
-   * and Version data between constructors and other methods.  The
-   * SBMLNamespaces object class tracks 3-tuples (triples) consisting of
-   * SBML Level, Version, and the corresponding SBML XML namespace.  Most
-   * constructors for SBML objects in libSBML take a SBMLNamespaces object
-   * as an argument, thereby allowing the constructor to produce the proper
-   * combination of attributes and other internal data structures for the
-   * given SBML Level and Version.
-   *
-   * The plural name (SBMLNamespaces) is not a mistake, because in SBML
-   * Level&nbsp;3, objects may have extensions added by Level&nbsp;3
-   * packages used by a given model and therefore may have multiple
-   * namespaces associated with them; however, until the introduction of
-   * SBML Level&nbsp;3, the SBMLNamespaces object only records one SBML
-   * Level/Version/namespace combination at a time.  Most constructors for
-   * SBML objects in libSBML take a SBMLNamespaces object as an argument,
-   * thereby allowing the constructor to produce the proper combination of
-   * attributes and other internal data structures for the given SBML Level
-   * and Version.
+   * @copydetails doc_sbmlnamespaces_what_is_it 
    *
    * @param level the SBML level
    * @param version the SBML version
@@ -131,24 +144,22 @@ public:
 
 
   /**
-   * (For Extension)
+   * (For extensions) Creates a new SBMLNamespaces object corresponding to
+   * the combination of (1) the given SBML @p level and @p version, and (2)
+   * the given @p package with the @p package @p version.
    *
-   * Creates a new SBMLNamespaces object corresponding to the combination of 
-   * (1) the given SBML @p level and @p version, and (2) the given @p package 
-   * with the @p package @p version.
+   * @copydetails doc_sbmlnamespaces_what_is_it 
    *
-   * @note SBMLExtensionException will be thrown if the extension module
-   *       that supports the combination of the given sbml level, sbml version, 
-   *       package name, and package version has not been registered.
-   * 
-   * @param level   the SBML level
-   * @param version the SBML version
+   * @param level   the SBML Level
+   * @param version the SBML Version
    * @param pkgName the string of package name (e.g. "layout", "multi")
    * @param pkgVersion the package version
    * @param pkgPrefix the prefix of the package namespace (e.g. "layout", "multi") to be added.
    *        The package's name will be used if the given string is empty (default).
    *
-   *
+   * @throws SBMLExtensionException if the extension module that supports the
+   * combination of the given SBML Level, SBML Version, package name, and
+   * package version has not been registered with libSBML.
    */
   SBMLNamespaces(unsigned int level, unsigned int version, const std::string &pkgName,
                  unsigned int pkgVersion, const std::string& pkgPrefix = ""); 
@@ -207,6 +218,7 @@ public:
    */
   static std::string getSBMLNamespaceURI(unsigned int level,
                                          unsigned int version);
+
   
   /**
    * Returns a list of all supported SBMLNamespaces in this version of 
@@ -268,14 +280,8 @@ public:
 
   /**
    * Get the XML namespaces list for this SBMLNamespaces object.
-   * 
-   * The plural is not a mistake, because in SBML Level&nbsp;3, objects may
-   * have extensions added by Level&nbsp;3 packages used by a given model,
-   * and therefore there may be multiple XML namespaces involved too.
-   * However, until the introduction of SBML Level&nbsp;3, the
-   * SBMLNamespaces object only records one SBML Level/Version/namespace
-   * combination at a time, and so this method will also only return
-   * a list of one item.
+   *
+   * @copydetails doc_sbmlnamespaces_what_is_it
    *
    * @return the XML namespaces of this SBMLNamespaces object.
    */
@@ -285,13 +291,7 @@ public:
   /**
    * Get the XML namespaces list for this SBMLNamespaces object.
    * 
-   * The plural is not a mistake, because in SBML Level&nbsp;3, objects may
-   * have extensions added by Level&nbsp;3 packages used by a given model,
-   * and therefore there may be multiple XML namespaces involved too.
-   * However, until the introduction of SBML Level&nbsp;3, the
-   * SBMLNamespaces object only records one SBML Level/Version/namespace
-   * combination at a time, and so this method will also only return
-   * a list of one item.
+   * @copydetails doc_sbmlnamespaces_what_is_it
    *
    * @return the XML namespaces of this SBMLNamespaces object.
    */
@@ -451,12 +451,8 @@ else
   /**
    * Add an XML namespace (a pair of URI and prefix) of a package extension
    * to the set of namespaces within this SBMLNamespaces object.
-   * The SBML Level and SBML Version of this object is used.
    *
-   * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link
-   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
-   * will be returned).
+   * The SBML Level and SBML Version of this object is used.
    * 
    * @param pkgName the string of package name (e.g. "layout", "multi")
    * @param pkgVersion the package version
@@ -470,6 +466,11 @@ else
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    *
+   * @note An XML namespace of a non-registered package extension can't be
+   * added by this function (@link
+   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * will be returned).
+   *
    * @see addNamespace(@if java String uri, String prefix@endif)
    */
   int addPackageNamespace(const std::string &pkgName, unsigned int pkgVersion, 
@@ -477,14 +478,9 @@ else
 
 
   /**
-   * Add the XML namespaces of package extensions in the given 
-   * XMLNamespace object to the set of namespaces within this 
-   * SBMLNamespaces object (Non-package XML namespaces are not added
-   * by this function).
-   *
-   * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * will be returned if the given xmlns is null.
+   * Add the XML namespaces of package extensions in the given XMLNamespace
+   * object to the set of namespaces within this SBMLNamespaces object
+   * (Non-package XML namespaces are not added by this function).
    * 
    * @param xmlns the XML namespaces to be added.
    *
@@ -494,6 +490,12 @@ else
    * returned by this function are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   *
+   * @note XML namespaces of a non-registered package extensions are not
+   * added (just ignored) by this function. @link
+   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+   * xmlns is null.
    */
   int addPackageNamespaces(const XMLNamespaces* xmlns);
 
@@ -523,12 +525,8 @@ else
   /**
    * Add an XML namespace (a pair of URI and prefix) of a package extension
    * to the set of namespaces within this SBMLNamespaces object.
+   * 
    * The SBML Level and SBML Version of this object is used.
-   *
-   * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link
-   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
-   * will be returned).
    * 
    * @param pkgName the string of package name (e.g. "layout", "multi")
    * @param pkgVersion the package version
@@ -542,6 +540,11 @@ else
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    *
+   * @note An XML namespace of a non-registered package extension can't be
+   * added by this function (@link
+   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * will be returned).
+   *
    * @see addNamespace(@if java String uri, String prefix@endif)
    */
   int addPkgNamespace(const std::string &pkgName, unsigned int pkgVersion, 
@@ -549,14 +552,10 @@ else
 
 
   /**
-   * Add the XML namespaces of package extensions in the given 
-   * XMLNamespace object to the set of namespaces within this 
-   * SBMLNamespaces object (Non-package XML namespaces are not added
-   * by this function).
-   *
-   * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * will be returned if the given xmlns is null.
+   * Add the XML namespaces of package extensions in the given XMLNamespace
+   * object to the set of namespaces within this SBMLNamespaces object.
+   * 
+   * Non-package XML namespaces are not added by this function.
    * 
    * @param xmlns the XML namespaces to be added.
    *
@@ -566,13 +565,19 @@ else
    * returned by this function are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   *
+   * @note XML namespaces of a non-registered package extensions are not
+   * added (just ignored) by this function. @link
+   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+   * xmlns is null.
    */
   int addPkgNamespaces(const XMLNamespaces* xmlns);
 
 
   /**
-   * Removes an XML namespace of a package extension from the set of namespaces 
-   * within this SBMLNamespaces object.
+   * Removes an XML namespace of a package extension from the set of
+   * namespaces within this SBMLNamespaces object.
    *
    * @param level   the SBML level
    * @param version the SBML version
@@ -593,8 +598,8 @@ else
   /** @endcond */
 
   /**
-   * Predicate returning @c true if the given
-   * URL is one of SBML XML namespaces.
+   * Predicate returning @c true if the given URL is one of SBML XML
+   * namespaces.
    *
    * @param uri the URI of namespace
    *
@@ -611,8 +616,8 @@ else
 
 
   /**
-   * Predicate returning @c true if the given
-   * set of namespaces represent a valid set
+   * Predicate returning @c true if the given set of namespaces represent a
+   * valid set
    *
    * @return @c true if the set of namespaces is valid, @c false otherwise.
    */

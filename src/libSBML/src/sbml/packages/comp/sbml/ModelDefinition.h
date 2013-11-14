@@ -17,12 +17,11 @@
  *------------------------------------------------------------------------- -->
  *
  * @class ModelDefinition
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * Implementation of the %ModelDefinition construct from the 'comp' package.
+ * @sbmlbrief{comp} Implementation of the %ModelDefinition construct from the
+ * &ldquo;comp&rdquo; package.
  *
- * The @ref Comp "Hierarchical Model Composition" package ('comp')
- * allows multiple Model objects
+ * The @ref comp @if java "Hierarchical %Model Composition"@endif@~ 
+ * package (&ldquo;comp&rdquo;) allows multiple Model objects
  * to be defined in a single SBMLDocument.  While these new Model objects are
  * not new SBML classes, they are given a new name,
  * <code>&lt;modelDefinition&gt;</code>, and reside in ListOfModelDefinition
@@ -116,18 +115,19 @@ public:
 
 
   /**
-   * Returns the libSBML type code for this SBML object.
-   * 
-   * LibSBML attaches an identifying code to every kind of SBML object.
-   * These are known as <em>SBML type codes</em>.  @if clike The set of
-   * possible type codes for the 'comp' package is defined in the enumeration
-   * #SBMLCompTypeCode_t.  The names of the type codes all begin with the
-   * characters <code>SBML_COMP</code>. @endif@~
-   * @return SBML_COMP_MODELDEFINITION
+   * Returns the libSBML type code of this object instance.
+   *
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for this object:
+   * @link SBMLCompTypeCode_t#SBML_COMP_MODELDEFINITION SBML_COMP_MODELDEFINITION@endlink
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
-  int getTypeCode () const;
+  virtual int getTypeCode () const;
 
 
   /**
@@ -138,9 +138,7 @@ public:
    * class overrides it, but that's actually what we want to happen here.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */

@@ -63,7 +63,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 const std::string RenderGroup::ELEMENT_NAME="g";
 const std::string ListOfDrawables::ELEMENT_NAME="listOfDrawables";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderGroup object with the given SBML level
  * and SBML version.
@@ -90,7 +90,7 @@ RenderGroup::RenderGroup (unsigned int level, unsigned int version, unsigned int
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderGroup object with the given SBMLNamespaces.
  *
@@ -122,7 +122,21 @@ RenderGroup::RenderGroup (RenderPkgNamespaces* renderns):
 /** @endcond */
 
     
-/** @cond doxygen-libsbml-internal */
+List*
+RenderGroup::getAllElements(ElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mElements, filter);
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to get the list of
  * expected attributes.
@@ -145,7 +159,7 @@ RenderGroup::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
@@ -236,7 +250,7 @@ void RenderGroup::readAttributes (const XMLAttributes& attributes, const Expecte
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderGroup object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -334,7 +348,7 @@ RenderGroup::RenderGroup(const XMLNode& node, unsigned int l2version)
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Instantiates a new RenderGroup object.
  * All attributes are set as described for the default constructor
@@ -386,7 +400,7 @@ void RenderGroup::setFontFamily(const std::string& family)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the font size.
  * Normally this is an absolute value, e.g. 18 for a 18pt font.
@@ -402,7 +416,7 @@ void RenderGroup::setFontSize(const RelAbsVector& size)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the font weight.
  * Valid values are Text::WEIGHT_UNSET, Text::WEIGHT_NORMAL or
@@ -416,7 +430,7 @@ void RenderGroup::setFontWeight(Text::FONT_WEIGHT weight)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the font style.
  * Valid values are Text::STYLE_UNSET, Text::STYLE_NORMAL or
@@ -430,7 +444,7 @@ void RenderGroup::setFontStyle(Text::FONT_STYLE style)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the text anchor.
  * This is defines the horizontal text position.
@@ -457,7 +471,7 @@ void RenderGroup::setTextAnchor(Text::TEXT_ANCHOR anchor)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the vertical text anchor.
  * This is defines the vertical text position.
@@ -473,7 +487,7 @@ void RenderGroup::setVTextAnchor(Text::TEXT_ANCHOR anchor)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the id of the start head.
  *
@@ -485,7 +499,7 @@ void RenderGroup::setStartHead(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the id of the end head.
  *
@@ -497,7 +511,7 @@ void RenderGroup::setEndHead(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font family.
  *
@@ -509,7 +523,7 @@ const std::string& RenderGroup::getFontFamily() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font size as a reference.
  *
@@ -521,7 +535,7 @@ RelAbsVector& RenderGroup::getFontSize()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font size as a const reference.
  *
@@ -533,7 +547,7 @@ const RelAbsVector& RenderGroup::getFontSize() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font weight.
  *
@@ -545,7 +559,7 @@ Text::FONT_WEIGHT RenderGroup::getFontWeight() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the font style.
  *
@@ -557,7 +571,7 @@ Text::FONT_STYLE RenderGroup::getFontStyle() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the text anchor.
  *
@@ -569,7 +583,7 @@ Text::TEXT_ANCHOR RenderGroup::getTextAnchor() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the vertical text anchor.
  *
@@ -581,7 +595,7 @@ Text::TEXT_ANCHOR RenderGroup::getVTextAnchor() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the id of the LineEnding object to be applied to the start of the curve.
  *
@@ -593,7 +607,7 @@ const std::string& RenderGroup::getStartHead() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the id of the LineEnding object to be applied to the end of the curve.
  *
@@ -605,7 +619,7 @@ const std::string& RenderGroup::getEndHead() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this RenderGroup object.
  * 
@@ -617,7 +631,7 @@ RenderGroup* RenderGroup::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * RenderGroup, is always @c "g".
@@ -631,7 +645,7 @@ const std::string& RenderGroup::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor for this instance of RenderGroup.
  *
@@ -645,7 +659,7 @@ bool RenderGroup::accept(SBMLVisitor& visitor) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of children in the group.
  *
@@ -657,7 +671,7 @@ unsigned int RenderGroup::getNumElements() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the list of  elements.
  *
@@ -669,7 +683,7 @@ const ListOfDrawables* RenderGroup::getListOfElements() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the name of this element.
  * 
@@ -683,7 +697,7 @@ const std::string& ListOfDrawables::getElementName() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the list of  elements.
  *
@@ -696,7 +710,7 @@ ListOfDrawables* RenderGroup::getListOfElements()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns pointer to the element with the given @p id.
  * If there is no such element, @c NULL is returned.
@@ -714,7 +728,7 @@ Transformation2D* RenderGroup::getElement(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns const pointer to the element with given index.
  * If there is no such element, @c NULL is returned.
@@ -733,7 +747,7 @@ const Transformation2D* RenderGroup::getElement(const std::string& id) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns pointer to the element with index n.
  * If there is no such element, @c NULL is returned.
@@ -757,7 +771,7 @@ Transformation2D* RenderGroup::getElement(unsigned int n)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns const pointer to the element with index n.
  * If there is no such element, @c NULL is returned.
@@ -780,7 +794,7 @@ const Transformation2D* RenderGroup::getElement(unsigned int n) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an image object and adds it to the end of the list of child
  * elements. The new element is owned by the group.
@@ -813,7 +827,7 @@ Image* RenderGroup::createImage()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an group object and adds it to the end of the list of child
  * elements The new element is owned by the group..
@@ -846,7 +860,7 @@ RenderGroup* RenderGroup::createGroup()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a rectangle object and adds it to the end of the list of child
  * elements The new element is owned by the group..
@@ -879,7 +893,7 @@ Rectangle* RenderGroup::createRectangle()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an ellipse object and adds it to the end of the list of child
  * elements The new element is owned by the group..
@@ -912,7 +926,7 @@ Ellipse* RenderGroup::createEllipse()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a curve object and adds it to the end of the list of child
  * elements The new element is owned by the group..
@@ -945,7 +959,7 @@ RenderCurve* RenderGroup::createCurve()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a polygon object and adds it to the end of the list of child
  * elements The new element is owned by the group..
@@ -978,7 +992,7 @@ Polygon* RenderGroup::createPolygon()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a text object and adds it to the end of the list of child
  * elements The new element is owned by the group..
@@ -1011,7 +1025,7 @@ Text* RenderGroup::createText()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of the given element to the end of the list of children elements.
  *
@@ -1070,7 +1084,7 @@ int RenderGroup::addChildElement(const Transformation2D* pChild)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Destroys the RenderGroup object and all it's children.
  */
@@ -1080,7 +1094,7 @@ RenderGroup::~RenderGroup()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the start head is set or false otherwise.
  * The start decoration is considered set if the string is not empty and if
@@ -1094,7 +1108,7 @@ bool RenderGroup::isSetStartHead() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the end head is set or false otherwise.
  * The end decoration is considered set if the string is not empty and if
@@ -1109,7 +1123,7 @@ bool RenderGroup::isSetEndHead() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the font family has been set or false otherwise.
  *
@@ -1121,7 +1135,7 @@ bool RenderGroup::isSetFontFamily() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the font size has been set or false otherwise.
  *
@@ -1134,7 +1148,7 @@ bool RenderGroup::isSetFontSize() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the font weight has been set or false otherwise.
  *
@@ -1146,7 +1160,7 @@ bool RenderGroup::isSetFontWeight() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the font style has been set or false otherwise.
  *
@@ -1158,7 +1172,7 @@ bool RenderGroup::isSetFontStyle() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -1249,7 +1263,7 @@ void RenderGroup::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this RenderGroup object.
  *
@@ -1262,7 +1276,7 @@ XMLNode RenderGroup::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -1284,7 +1298,7 @@ void RenderGroup::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds the text rendering attributes of the given RenderGroup object
  * to the given XMLAttributes object.
@@ -1367,7 +1381,7 @@ void RenderGroup::addTextAttributes(const RenderGroup& group,XMLAttributes& att)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * This methods imports a curve in the old format into the new format.
  * Since the old curves could have gaps, the original curve might have to be
@@ -1545,7 +1559,7 @@ void RenderGroup::importOldCurve(const XMLNode& node)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the horizonal alignment attribute has been set.
  *
@@ -1557,7 +1571,7 @@ bool RenderGroup::isSetTextAnchor() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the vertical alignment attribute has been set.
  *
@@ -1570,7 +1584,7 @@ bool RenderGroup::isSetVTextAnchor() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the ListOfDrawables object.
  *
@@ -1582,7 +1596,7 @@ ListOfDrawables* ListOfDrawables::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor. Creates a copy of this ListOfDrawables object.
  */
@@ -1592,7 +1606,7 @@ ListOfDrawables::ListOfDrawables(const ListOfDrawables& source)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfColroDefinitions objects.
  */
@@ -1607,7 +1621,7 @@ ListOfDrawables& ListOfDrawables::operator=(const ListOfDrawables& source)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the Transformation2D with the given index or NULL if
  * the index is invalid.
@@ -1622,7 +1636,7 @@ Transformation2D* ListOfDrawables::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the Transformation2D with the given index or NULL if
  * the index is invalid.
@@ -1637,7 +1651,7 @@ const Transformation2D* ListOfDrawables::get(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Used by ListOf::get() to lookup an SBase based by its id.
  */
@@ -1667,7 +1681,7 @@ struct IdEqTransformation2D : public std::unary_function<SBase*, bool>
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the Transformation2D with the given @p id or @c NULL if
  * the id is invalid.
@@ -1684,7 +1698,7 @@ Transformation2D* ListOfDrawables::get(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the Transformation2D with the given @p id or @c NULL if
  * the id is invalid.
@@ -1702,7 +1716,7 @@ const Transformation2D* ListOfDrawables::get(const std::string& id) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes the nth item from this list */
     Transformation2D*
 ListOfDrawables::remove (unsigned int n)
@@ -1734,7 +1748,7 @@ ListOfDrawables::ListOfDrawables(unsigned int level, unsigned int version, unsig
 {
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
 };
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes item in this list by id */
     Transformation2D*
 ListOfDrawables::remove (const std::string& sid)
@@ -1754,7 +1768,7 @@ ListOfDrawables::remove (const std::string& sid)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -1776,7 +1790,7 @@ RenderGroup::setSBMLDocument (SBMLDocument* d)
 void
 RenderGroup::connectToChild()
 {
-  SBase::connectToChild();
+  GraphicalPrimitive2D::connectToChild();
   mElements.connectToParent(this);
 }
 
@@ -1797,7 +1811,7 @@ RenderGroup::enablePackageInternal(const std::string& pkgURI,
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBML object of this SBML object.
  *
@@ -1810,7 +1824,7 @@ RenderGroup::setParentSBMLObject (SBase* sb)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -1856,7 +1870,7 @@ SBase* ListOfDrawables::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -1869,7 +1883,7 @@ SBase* RenderGroup::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -1896,7 +1910,7 @@ RenderGroup::getTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., GradientDefinition objects, if the list is non-empty).

@@ -4,53 +4,23 @@
  * @author  Ralph Gauges
  * 
  * <!--------------------------------------------------------------------------
- * Description : SBML Layout Layout source
- * Organization: European Media Laboratories Research gGmbH
- * Created     : 2004-07-15
+ * This file is part of libSBML.  Please visit http://sbml.org for more
+ * information about SBML, and the latest version of libSBML.
  *
- * Copyright 2004 European Media Laboratories Research gGmbH
- *
+ * Copyright (C) 2009-2013 jointly by the following organizations: 
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ *  
+ * Copyright (C) 2004-2008 by European Media Laboratories Research gGmbH,
+ *     Heidelberg, Germany
+ * 
  * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation; either version 2.1 of the License, or
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
- * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
- * documentation provided hereunder is on an "as is" basis, and the
- * European Media Laboratory Research gGmbH have no obligations to provide
- * maintenance, support, updates, enhancements or modifications.  In no
- * event shall the European Media Laboratories Research gGmbH be liable to
- * any party for direct, indirect, special, incidental or consequential
- * damages, including lost profits, arising out of the use of this software
- * and its documentation, even if the European Media Laboratory Research
- * gGmbH have been advised of the possibility of such damage.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *
- * The original code contained here was initially developed by:
- *
- *     Ralph Gauges
- *     Bioinformatics Group
- *     European Media Laboratories Research gGmbH
- *     Schloss-Wolfsbrunnenweg 31c
- *     69118 Heidelberg
- *     Germany
- *
- *     http://www.eml-research.de/english/Research/BCB/
- *     mailto:ralph.gauges@eml-r.villa-bosch.de
- *
- * Contributor(s):
- *
- *     Akiya Jouraku <jouraku@bio.keio.ac.jp>
- *     Modified this file for package extension in libSBML5
- *
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.  A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as http://sbml.org/software/libsbml/license.html
+ * ------------------------------------------------------------------------ -->
  */
-
 
 #include <climits> 
 #include <iostream>
@@ -823,6 +793,8 @@ Layout::getGeneralGlyph (unsigned int index) const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
+/** @cond doxygenLibsbmlInternal */
 const GraphicalObject*
 Layout::getObjectWithId (const ListOf* list,const std::string& id) const
 {
@@ -838,7 +810,9 @@ Layout::getObjectWithId (const ListOf* list,const std::string& id) const
   }    
   return object;
 }
+/** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 GraphicalObject*
 Layout::getObjectWithId (ListOf* list,const std::string& id) 
 {
@@ -854,7 +828,9 @@ Layout::getObjectWithId (ListOf* list,const std::string& id)
   }    
   return object;
 }
+/** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 GraphicalObject*
 Layout::removeObjectWithId (ListOf* list,const std::string& id)
 {
@@ -871,6 +847,7 @@ Layout::removeObjectWithId (ListOf* list,const std::string& id)
   }    
   return object;
 }
+/** @endcond */
 
 /*
  * Removes the compartment glyph with the given index from the layout.
@@ -1730,6 +1707,7 @@ Layout::accept (SBMLVisitor& v) const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  */
@@ -1745,8 +1723,10 @@ Layout::setSBMLDocument (SBMLDocument* d)
   mTextGlyphs.setSBMLDocument(d);
   mAdditionalGraphicalObjects.setSBMLDocument(d);
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets this SBML object to child SBML objects (if any).
  * (Creates a child-parent relationship by the parent)
@@ -1754,6 +1734,7 @@ Layout::setSBMLDocument (SBMLDocument* d)
 void
 Layout::connectToChild()
 {
+  SBase::connectToChild();
   mDimensions.connectToParent(this);
   mCompartmentGlyphs.connectToParent(this);
   mSpeciesGlyphs.connectToParent(this);
@@ -1761,8 +1742,10 @@ Layout::connectToChild()
   mTextGlyphs.connectToParent(this);
   mAdditionalGraphicalObjects.connectToParent(this);
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Enables/Disables the given package with this element and child
  * elements (if any).
@@ -1781,6 +1764,7 @@ Layout::enablePackageInternal(const std::string& pkgURI,
   mTextGlyphs.enablePackageInternal(pkgURI,pkgPrefix,flag);
   mAdditionalGraphicalObjects.enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
+/** @endcond */
 
 
 /*

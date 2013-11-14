@@ -17,30 +17,16 @@
  *------------------------------------------------------------------------- -->
  *
  * @class ListOfModelDefinitions
- * @ingroup Comp
- * @brief  @htmlinclude pkg-marker-comp.html
- * Implementation of the %ListOfModelDefinitions construct from the 'comp' package.
+ * @sbmlbrief{comp} Implementation of the %ListOfModelDefinitions construct
+ * from the &ldquo;comp&rdquo; package.
  * 
  * The ListOfModelDefinitions is a container for the extended 
  * SBMLDocument that allows one to define multiple Models in a single file
  * for use in Submodel objects.
  * 
- * The various ListOf___ classes in SBML are merely containers used for
- * organizing the main components of an SBML model.  All are derived from
- * the abstract class SBase, and inherit the various attributes and
- * subelements of SBase, such as "metaid" as and "annotation".  The
- * ListOf___ classes do not add any attributes of their own.
+ * @copydetails doc_what_is_listof
  *
- * Readers may wonder about the motivations for using the ListOf___
- * containers.  A simpler approach in XML might be to place the components
- * all directly at the top level of the model definition.  The choice made
- * in SBML is to group them within XML elements named after
- * ListOf<em>Classname</em>, in part because it helps organize the
- * components.  More importantly, the fact that the container classes are
- * derived from SBase means that software tools can add information @em about
- * the lists themselves into each list container's "annotation".
- *
- * @see ModelDefinitions
+ * @see ModelDefinition
  * @see ListOfDeletions
  * @see ListOfExternalModelDefinitions
  * @see ListOfPorts
@@ -187,14 +173,13 @@ public:
    * Returns the libSBML type code for the objects contained in this ListOf
    * (i.e., ModelDefinition objects, if the list is non-empty).
    * 
-   * LibSBML attaches an identifying code to every kind of SBML object.
-   * These are known as <em>SBML type codes</em>.  @if clike The set of
-   * possible type codes for the 'comp' package is defined in the enumeration
-   * #SBMLCompTypeCode_t.  The names of the type codes all begin with the
-   * characters <code>SBML_COMP</code>. @endif@~
-   * 
-   * @return the SBML type code for the objects contained in this ListOf
-   * instance, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for objects contained in this list:
+   * @link SBMLTypeCode_t#SBML_COMP_MODELDEFINITION SBML_COMP_MODELDEFINITION@endlink (default).
+   *
+   * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
@@ -212,6 +197,8 @@ protected:
 
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */

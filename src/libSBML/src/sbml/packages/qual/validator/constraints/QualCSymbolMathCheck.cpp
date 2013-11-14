@@ -1,5 +1,5 @@
 /**
- * @cond doxygen-libsbml-internal
+ * @cond doxygenLibsbmlInternal
  *
  * @file    QualCSymbolMathCheck.cpp
  * @brief   checks <ci> element is the id of a component
@@ -31,7 +31,7 @@
 #include "QualCSymbolMathCheck.h"
 
 #include <sbml/packages/qual/extension/QualModelPlugin.h>
-/** @cond doxygen-ignored */
+/** @cond doxygenIgnored */
 
 using namespace std;
 

@@ -47,7 +47,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string RadialGradient::ELEMENT_NAME="radialGradient";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RadialGradient object with the given SBML level
  * and SBML version.
@@ -72,7 +72,7 @@ RadialGradient::RadialGradient (unsigned int level, unsigned int version, unsign
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RadialGradient object with the given SBMLNamespaces.
  *
@@ -102,7 +102,7 @@ RadialGradient::RadialGradient (RenderPkgNamespaces* renderns):
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RadialGradient object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -126,7 +126,7 @@ RadialGradient::RadialGradient(const XMLNode& node, unsigned int l2version):Grad
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 RadialGradient::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -142,7 +142,7 @@ RadialGradient::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void RadialGradient::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
     this->GradientBase::readAttributes(attributes, expectedAttributes);
@@ -214,7 +214,7 @@ void RadialGradient::readAttributes (const XMLAttributes& attributes, const Expe
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a RadialGradient with no gradient stops.
  * The id is set to the given value.
@@ -254,7 +254,7 @@ RadialGradient::RadialGradient(RenderPkgNamespaces* renderns, const std::string&
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the 3D coordinates for the center and the focal
  * point as well as the radius.
@@ -278,7 +278,7 @@ void RadialGradient::setCoordinates(const RelAbsVector& x,const RelAbsVector& y,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the 2D coordinates for the center and the focal
  * point as well as the radius.
@@ -298,7 +298,7 @@ void RadialGradient::setCoordinates(const RelAbsVector& x,const RelAbsVector& y,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the coordinates for the center point.
  *
@@ -315,7 +315,7 @@ void RadialGradient::setCenter(const RelAbsVector& x,const RelAbsVector& y,const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the coordinates for the focal point.
  *
@@ -332,7 +332,7 @@ void RadialGradient::setFocalPoint(const RelAbsVector& x,const RelAbsVector& y,c
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the radius of the radial gradient.
  *
@@ -344,7 +344,7 @@ void RadialGradient::setRadius(const RelAbsVector& r)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the center point as a const reference.
  *
@@ -356,7 +356,7 @@ const RelAbsVector& RadialGradient::getCenterX() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the center point as a const reference.
  *
@@ -368,7 +368,7 @@ const RelAbsVector& RadialGradient::getCenterY() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the center point as a const reference.
  *
@@ -380,7 +380,7 @@ const RelAbsVector& RadialGradient::getCenterZ() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the focal point as a const reference.
  *
@@ -392,7 +392,7 @@ const RelAbsVector& RadialGradient::getFocalPointX() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the focal point as a const reference.
  *
@@ -404,7 +404,7 @@ const RelAbsVector& RadialGradient::getFocalPointY() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the focal point as a const reference.
  *
@@ -416,7 +416,7 @@ const RelAbsVector& RadialGradient::getFocalPointZ() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the radius as a const reference.
  *
@@ -428,7 +428,7 @@ const RelAbsVector& RadialGradient::getRadius() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the center point as a reference.
  *
@@ -440,7 +440,7 @@ RelAbsVector& RadialGradient::getCenterX()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the center point as a reference.
  *
@@ -452,7 +452,7 @@ RelAbsVector& RadialGradient::getCenterY()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the center point as a reference.
  *
@@ -464,7 +464,7 @@ RelAbsVector& RadialGradient::getCenterZ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the focal point as a reference.
  *
@@ -476,7 +476,7 @@ RelAbsVector& RadialGradient::getFocalPointX()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the focal point as a reference.
  *
@@ -488,7 +488,7 @@ RelAbsVector& RadialGradient::getFocalPointY()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the focal point as a reference.
  *
@@ -500,7 +500,7 @@ RelAbsVector& RadialGradient::getFocalPointZ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the radius as a reference.
  *
@@ -512,7 +512,7 @@ RelAbsVector& RadialGradient::getRadius()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -538,7 +538,7 @@ int RadialGradient::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor for this instance of RadialGradient.
  *
@@ -552,7 +552,7 @@ bool RadialGradient::accept(SBMLVisitor& /*visitor*/) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -567,7 +567,7 @@ const std::string& RadialGradient::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this RadialGradient object.
  * 
@@ -579,7 +579,7 @@ RadialGradient* RadialGradient::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -640,7 +640,7 @@ void RadialGradient::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this RadialGradient object.
  *

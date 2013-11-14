@@ -588,23 +588,35 @@ ExternalModelDefinition::accept (SBMLVisitor& v) const
 Model*
 ExternalModelDefinition::getReferencedModel()
 {
+  set<pair<string, string> > parents;
+  return getReferencedModel(NULL, parents);
+}
+
+/* Internal getReferencedModel call sets the errordoc and parents
+ */
+Model*
+ExternalModelDefinition::getReferencedModel(SBMLDocument* errordoc, set<pair<string, string> > parents)
+{
   SBMLDocument* origdoc = getSBMLDocument();
+  if (errordoc == NULL) {
+    errordoc = origdoc;
+  }
 
   CompSBMLDocumentPlugin* csdp = static_cast<CompSBMLDocumentPlugin*>(origdoc->getPlugin(getPrefix()));
   if (csdp == NULL) 
   {
-    if (origdoc) {
+    if (errordoc) {
       string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': no 'comp' plugin found.";
-      origdoc->getErrorLog()->logPackageError("comp", CompUnresolvedReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      errordoc->getErrorLog()->logPackageError("comp", CompUnresolvedReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
     }
     return NULL;
   }
 
   if (!isSetSource()) 
   {
-    if (origdoc) {
+    if (errordoc) {
       string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the 'source' attribute was not set.";
-      origdoc->getErrorLog()->logPackageError("comp", CompExtModDefAllowedAttributes, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      errordoc->getErrorLog()->logPackageError("comp", CompExtModDefAllowedAttributes, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
     }
     return NULL;
   }
@@ -615,9 +627,9 @@ ExternalModelDefinition::getReferencedModel()
     // resolving the document failed, add to the error log a notice so that 
     // other operations are informed, and for example flattening will fail
     // with error
-    if (origdoc) {
+    if (errordoc) {
       string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': could not the resolve 'source' attribute '" + getSource() + "' as a valid SBML Document.";
-      origdoc->getErrorLog()->logPackageError("comp", CompUnresolvedReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      errordoc->getErrorLog()->logPackageError("comp", CompUnresolvedReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
     }
     return NULL;
   }
@@ -626,9 +638,9 @@ ExternalModelDefinition::getReferencedModel()
   {
     // comp v1 ONLY allows L3v1 models. All other levels and versions are not supported. 
     // 
-    if (origdoc) {
+    if (errordoc) {
       string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the SBML document found at source '" + getSource() + "' was not SBML Level 3 Version 1.";
-      origdoc->getErrorLog()->logPackageError("comp", CompReferenceMustBeL3, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      errordoc->getErrorLog()->logPackageError("comp", CompReferenceMustBeL3, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
     }
     return NULL;
   }
@@ -640,16 +652,16 @@ ExternalModelDefinition::getReferencedModel()
     if (csdp == NULL || (csdp->getNumExternalModelDefinitions()==0 && csdp->getNumModelDefinitions()==0)) 
     {
       if (model==NULL) {
-        if (origdoc) {
+        if (errordoc) {
           string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the SBML document found at source '" + getSource() + "' had no resolvable models at all.";
-          origdoc->getErrorLog()->logPackageError("comp", CompNoModelInReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+          errordoc->getErrorLog()->logPackageError("comp", CompNoModelInReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
         }
         return NULL;
       }
       else if (model->getId() != getModelRef()) {
-        if (origdoc) {
+        if (errordoc) {
           string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the SBML document found at source '" + getSource() + "' had no 'comp' model definitions, and the single model's ID ('" + model->getId() + "') did not match the modelRef '" + getModelRef() + "'.";
-          origdoc->getErrorLog()->logPackageError("comp", CompModReferenceMustIdOfModel, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+          errordoc->getErrorLog()->logPackageError("comp", CompModReferenceMustIdOfModel, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
         }
         return NULL;
       }
@@ -660,14 +672,15 @@ ExternalModelDefinition::getReferencedModel()
       SBase* referencedmod = csdp->getModel(getModelRef());
       if (referencedmod == NULL) 
       {
-        if (origdoc) {
+        if (errordoc) {
           string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the SBML document found at source '" + getSource() + "' did not have any model with the id '" + getModelRef() + "'.";
-          origdoc->getErrorLog()->logPackageError("comp", CompModReferenceMustIdOfModel, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+          errordoc->getErrorLog()->logPackageError("comp", CompModReferenceMustIdOfModel, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
         }
         return NULL;
       }
 
       ExternalModelDefinition* subextmod;
+      pair<string, string> child;
 
       switch(referencedmod->getTypeCode()) 
       {
@@ -677,12 +690,18 @@ ExternalModelDefinition::getReferencedModel()
 
       case SBML_COMP_EXTERNALMODELDEFINITION:
         subextmod = static_cast<ExternalModelDefinition*>(referencedmod);
-        model = subextmod->getReferencedModel();
-        if (model==NULL) {
-          if (origdoc) {
-            string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the external model definition it referenced ('" + getModelRef() + "', from the document at '" + getSource() + "') could not be resolved.";
-            origdoc->getErrorLog()->logPackageError("comp", CompUnresolvedReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+        //Before we call this recursively, make sure we aren't in a loop:
+        child = make_pair(subextmod->getSource(), subextmod->getModelRef());
+        if (parents.insert(child).second == false) {
+          if (errordoc) {
+            string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the external model definition it referenced ('" + getModelRef() + "', from the document at '" + getSource() + "') was already referenced in this external model definition chain.";
+            errordoc->getErrorLog()->logPackageError("comp", CompCircularExternalModelReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
           }
+          return NULL;
+        }
+        model = subextmod->getReferencedModel(errordoc, parents);
+        if (model==NULL) {
+          //The recursive call will set its own error message.
           return NULL;
         }
         return model;
@@ -698,9 +717,9 @@ ExternalModelDefinition::getReferencedModel()
           //
           // assert(false); 
 
-          if (origdoc) {
+          if (errordoc) {
             string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the model object discovered at in the SBML document found at source '" + getSource() + "' was not of the type 'model' 'modelDefinition', or 'externalModelDefinition'.  The most likely cause of this situation is if some other package extended one of those three types, but the external model definition code was not updated.";
-            origdoc->getErrorLog()->logPackageError("comp", CompUnresolvedReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+            errordoc->getErrorLog()->logPackageError("comp", CompUnresolvedReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
           }
           return NULL;
         }
@@ -709,9 +728,9 @@ ExternalModelDefinition::getReferencedModel()
   }
   if (model==NULL) 
   {
-    if (origdoc) {
+    if (errordoc) {
       string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the SBML document found at source '" + getSource() + "' did not have a model child of the SBML Document, and no 'modelRef' attribute was set to discover any other model in that document.";
-      origdoc->getErrorLog()->logPackageError("comp", CompNoModelInReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      errordoc->getErrorLog()->logPackageError("comp", CompNoModelInReference, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
     }
   }
 
@@ -726,7 +745,7 @@ ExternalModelDefinition_t *
 ExternalModelDefinition_create(unsigned int level, unsigned int version,
                                unsigned int pkgVersion)
 {
-	return new ExternalModelDefinition(level, version, pkgVersion);
+  return new ExternalModelDefinition(level, version, pkgVersion);
 }
 
 
@@ -737,8 +756,8 @@ LIBSBML_EXTERN
 void
 ExternalModelDefinition_free(ExternalModelDefinition_t * emd)
 {
-	if (emd != NULL)
-		delete emd;
+  if (emd != NULL)
+    delete emd;
 }
 
 
@@ -749,14 +768,14 @@ LIBSBML_EXTERN
 ExternalModelDefinition_t *
 ExternalModelDefinition_clone(ExternalModelDefinition_t * emd)
 {
-	if (emd != NULL)
-	{
-		return static_cast<ExternalModelDefinition_t*>(emd->clone());
-	}
-	else
-	{
-		return NULL;
-	}
+  if (emd != NULL)
+  {
+    return static_cast<ExternalModelDefinition_t*>(emd->clone());
+  }
+  else
+  {
+    return NULL;
+  }
 }
 
 
@@ -767,10 +786,10 @@ LIBSBML_EXTERN
 char *
 ExternalModelDefinition_getId(ExternalModelDefinition_t * emd)
 {
-	if (emd == NULL)
-		return NULL;
+  if (emd == NULL)
+    return NULL;
 
-	return emd->getId().empty() ? NULL : safe_strdup(emd->getId().c_str());
+  return emd->getId().empty() ? NULL : safe_strdup(emd->getId().c_str());
 }
 
 
@@ -781,10 +800,10 @@ LIBSBML_EXTERN
 char *
 ExternalModelDefinition_getSource(ExternalModelDefinition_t * emd)
 {
-	if (emd == NULL)
-		return NULL;
+  if (emd == NULL)
+    return NULL;
 
-	return emd->getSource().empty() ? NULL : safe_strdup(emd->getSource().c_str());
+  return emd->getSource().empty() ? NULL : safe_strdup(emd->getSource().c_str());
 }
 
 
@@ -795,10 +814,10 @@ LIBSBML_EXTERN
 char *
 ExternalModelDefinition_getName(ExternalModelDefinition_t * emd)
 {
-	if (emd == NULL)
-		return NULL;
+  if (emd == NULL)
+    return NULL;
 
-	return emd->getName().empty() ? NULL : safe_strdup(emd->getName().c_str());
+  return emd->getName().empty() ? NULL : safe_strdup(emd->getName().c_str());
 }
 
 
@@ -809,10 +828,10 @@ LIBSBML_EXTERN
 char *
 ExternalModelDefinition_getModelRef(ExternalModelDefinition_t * emd)
 {
-	if (emd == NULL)
-		return NULL;
+  if (emd == NULL)
+    return NULL;
 
-	return emd->getModelRef().empty() ? NULL : safe_strdup(emd->getModelRef().c_str());
+  return emd->getModelRef().empty() ? NULL : safe_strdup(emd->getModelRef().c_str());
 }
 
 
@@ -823,7 +842,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_isSetId(ExternalModelDefinition_t * emd)
 {
-	return (emd != NULL) ? static_cast<int>(emd->isSetId()) : 0;
+  return (emd != NULL) ? static_cast<int>(emd->isSetId()) : 0;
 }
 
 
@@ -834,7 +853,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_isSetSource(ExternalModelDefinition_t * emd)
 {
-	return (emd != NULL) ? static_cast<int>(emd->isSetSource()) : 0;
+  return (emd != NULL) ? static_cast<int>(emd->isSetSource()) : 0;
 }
 
 
@@ -845,7 +864,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_isSetName(ExternalModelDefinition_t * emd)
 {
-	return (emd != NULL) ? static_cast<int>(emd->isSetName()) : 0;
+  return (emd != NULL) ? static_cast<int>(emd->isSetName()) : 0;
 }
 
 
@@ -856,7 +875,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_isSetModelRef(ExternalModelDefinition_t * emd)
 {
-	return (emd != NULL) ? static_cast<int>(emd->isSetModelRef()) : 0;
+  return (emd != NULL) ? static_cast<int>(emd->isSetModelRef()) : 0;
 }
 
 
@@ -867,7 +886,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_setId(ExternalModelDefinition_t * emd, const char * id)
 {
-	return (emd != NULL) ? emd->setId(id) : LIBSBML_INVALID_OBJECT;
+  return (emd != NULL) ? emd->setId(id) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -878,7 +897,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_setSource(ExternalModelDefinition_t * emd, const char * source)
 {
-	return (emd != NULL) ? emd->setSource(source) : LIBSBML_INVALID_OBJECT;
+  return (emd != NULL) ? emd->setSource(source) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -889,7 +908,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_setName(ExternalModelDefinition_t * emd, const char * name)
 {
-	return (emd != NULL) ? emd->setName(name) : LIBSBML_INVALID_OBJECT;
+  return (emd != NULL) ? emd->setName(name) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -900,7 +919,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_setModelRef(ExternalModelDefinition_t * emd, const char * modelRef)
 {
-	return (emd != NULL) ? emd->setModelRef(modelRef) : LIBSBML_INVALID_OBJECT;
+  return (emd != NULL) ? emd->setModelRef(modelRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -911,7 +930,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_unsetId(ExternalModelDefinition_t * emd)
 {
-	return (emd != NULL) ? emd->unsetId() : LIBSBML_INVALID_OBJECT;
+  return (emd != NULL) ? emd->unsetId() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -922,7 +941,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_unsetSource(ExternalModelDefinition_t * emd)
 {
-	return (emd != NULL) ? emd->unsetSource() : LIBSBML_INVALID_OBJECT;
+  return (emd != NULL) ? emd->unsetSource() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -933,7 +952,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_unsetName(ExternalModelDefinition_t * emd)
 {
-	return (emd != NULL) ? emd->unsetName() : LIBSBML_INVALID_OBJECT;
+  return (emd != NULL) ? emd->unsetName() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -944,7 +963,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_unsetModelRef(ExternalModelDefinition_t * emd)
 {
-	return (emd != NULL) ? emd->unsetModelRef() : LIBSBML_INVALID_OBJECT;
+  return (emd != NULL) ? emd->unsetModelRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -955,7 +974,7 @@ LIBSBML_EXTERN
 int
 ExternalModelDefinition_hasRequiredAttributes(ExternalModelDefinition_t * emd)
 {
-	return (emd != NULL) ? static_cast<int>(emd->hasRequiredAttributes()) : 0;
+  return (emd != NULL) ? static_cast<int>(emd->hasRequiredAttributes()) : 0;
 }
 
 
@@ -966,10 +985,10 @@ LIBSBML_EXTERN
 ExternalModelDefinition_t *
 ListOfExternalModelDefinitions_getById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfExternalModelDefinitions *>(lo)->get(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfExternalModelDefinitions *>(lo)->get(sid) : NULL;
 }
 
 
@@ -980,10 +999,10 @@ LIBSBML_EXTERN
 ExternalModelDefinition_t *
 ListOfExternalModelDefinitions_removeById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfExternalModelDefinitions *>(lo)->remove(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfExternalModelDefinitions *>(lo)->remove(sid) : NULL;
 }
 
 

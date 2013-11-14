@@ -251,7 +251,7 @@ Event::clone () const
 
 
 SBase*
-Event::getElementBySId(std::string id)
+Event::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   SBase* obj = NULL;
@@ -278,7 +278,7 @@ Event::getElementBySId(std::string id)
 
 
 SBase*
-Event::getElementByMetaId(std::string metaid)
+Event::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   SBase* obj = NULL;
@@ -1142,6 +1142,7 @@ Event::setSBMLDocument (SBMLDocument* d)
 void
 Event::connectToChild()
 {
+  SBase::connectToChild();
   mEventAssignments.connectToParent(this);
   if (mTrigger != NULL) mTrigger->connectToParent(this);
   if (mDelay != NULL)   mDelay->connectToParent(this);

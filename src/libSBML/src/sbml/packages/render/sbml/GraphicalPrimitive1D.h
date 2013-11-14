@@ -64,7 +64,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 class LIBSBML_EXTERN GraphicalPrimitive1D : public Transformation2D
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
    std::string mId;
    std::string mStroke;
    double mStrokeWidth;
@@ -295,7 +295,7 @@ public:
   virtual int unsetId ();
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 	/**
 	 * Subclasses should override this method to read values from the given
 	 * XMLAttributes set into their specific fields.  Be sure to call your
@@ -305,7 +305,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -316,7 +316,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Adds all set attributes specific to the given GraphicalPrimitive1D objects to the given
    * XMLAttributes object.
@@ -324,7 +324,7 @@ protected:
   static void addGraphicalPrimitive1DAttributes(const GraphicalPrimitive1D& primitive,XMLAttributes& attributes);
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    *  This method parses a dasharray string into the given vector.
    *  The vector is first cleared.
@@ -333,7 +333,7 @@ protected:
   static bool parseDashArray(const std::string& s,std::vector<unsigned int>& array);
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 	/**
 	 * Subclasses should override this method to write their XML attributes
 	 * to the XMLOutputStream.  Be sure to call your parents implementation

@@ -87,7 +87,7 @@ public:
   //
   // --------------------------------------------------------
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Checks if this plugin object has all the required elements.
    *
@@ -99,6 +99,13 @@ public:
    */
   virtual bool hasRequiredElements() const ;
   /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+  int appendFrom(const Model* model);
+
+  /** @endcond */
+
 
   /** ------------------------------------------------------------------
    *
@@ -182,6 +189,16 @@ public:
    */
   GlobalRenderInformation* removeGlobalRenderInformation(const std::string& id); 
 
+
+  /**
+   * Returns a List of all child SBase objects, including those nested to an
+   * arbitrary depth
+   *
+   * @return a List* of pointers to all children objects.
+   */
+  virtual List* getAllElements(ElementFilter* filter=NULL);
+
+
   /**
    * Sets the value of the "annotation" subelement of this SBML object to a
    * copy of @p annotation.
@@ -261,7 +278,7 @@ public:
   //
   // ---------------------------------------------------------
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBMLDocument of this plugin object.
    *
@@ -277,7 +294,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBML object of this plugin object to
    * this object and child elements (if any).
@@ -298,7 +315,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Enables/Disables the given package with child elements in this plugin
    * object (if any).
@@ -320,12 +337,12 @@ public:
 protected:
   /*-- data members --*/
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   ListOfGlobalRenderInformation mGlobalRenderInformation; 
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Synchronizes the annotation of this SBML object.
    *
@@ -339,7 +356,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /** 
    * Parse L2 annotation if supported
    *
@@ -348,7 +365,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read (and store) XHTML,
    * MathML, etc. directly from the XMLInputStream.
@@ -359,7 +376,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses must override this method to create, store, and then
    * return an SBML object corresponding to the next XMLToken in the
@@ -372,7 +389,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses must override this method to write out their contained
    * SBML objects as XML elements if they have their specific elements.
@@ -381,7 +398,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Serialize the render information as L2 annotation
    */

@@ -49,13 +49,13 @@ Group::Group (unsigned int level, unsigned int version, unsigned int pkgVersion)
    ,mName("")
    ,mKind(GROUP_KIND_UNKNOWN)
    ,mMembers(level,version,pkgVersion)
-	 ,mMemberConstraints (level, version, pkgVersion)
+   ,mMemberConstraints (level, version, pkgVersion)
 {
-	// set an SBMLNamespaces derived object of this package
-	setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion));
+  // set an SBMLNamespaces derived object of this package
+  setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion));
 
-	// connect to child objects
-	connectToChild();
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -68,16 +68,16 @@ Group::Group(GroupsPkgNamespaces* groupsns)
   ,mName("")
   ,mKind(GROUP_KIND_UNKNOWN)
   ,mMembers(groupsns)
-	 ,mMemberConstraints (groupsns)
+   ,mMemberConstraints (groupsns)
 {
-	// set the element namespace of this object
-	setElementNamespace(groupsns->getURI());
+  // set the element namespace of this object
+  setElementNamespace(groupsns->getURI());
 
-	// connect to child objects
-	connectToChild();
+  // connect to child objects
+  connectToChild();
 
-	// load package extensions bound with this object (if any) 
-	loadPlugins(groupsns);
+  // load package extensions bound with this object (if any) 
+  loadPlugins(groupsns);
 }
 
 
@@ -85,23 +85,23 @@ Group::Group(GroupsPkgNamespaces* groupsns)
  * Copy constructor for Group.
  */
 Group::Group (const Group& orig)
-	: SBase(orig)
+  : SBase(orig)
 {
-	if (&orig == NULL)
-	{
-		throw SBMLConstructorException("Null argument to copy constructor");
-	}
-	else
-	{
-		mId  = orig.mId;
-		mName  = orig.mName;
-		mKind  = orig.mKind;
-		mMembers  = orig.mMembers;
-		mMemberConstraints  = orig.mMemberConstraints;
+  if (&orig == NULL)
+  {
+    throw SBMLConstructorException("Null argument to copy constructor");
+  }
+  else
+  {
+    mId  = orig.mId;
+    mName  = orig.mName;
+    mKind  = orig.mKind;
+    mMembers  = orig.mMembers;
+    mMemberConstraints  = orig.mMemberConstraints;
 
-		// connect to child objects
-		connectToChild();
-	}
+    // connect to child objects
+    connectToChild();
+  }
 }
 
 
@@ -111,23 +111,23 @@ Group::Group (const Group& orig)
 Group&
 Group::operator=(const Group& rhs)
 {
-	if (&rhs == NULL)
-	{
-		throw SBMLConstructorException("Null argument to assignment");
-	}
-	else if (&rhs != this)
-	{
-		SBase::operator=(rhs);
-		mId  = rhs.mId;
-		mName  = rhs.mName;
-		mKind  = rhs.mKind;
-		mMembers  = rhs.mMembers;
-		mMemberConstraints  = rhs.mMemberConstraints;
+  if (&rhs == NULL)
+  {
+    throw SBMLConstructorException("Null argument to assignment");
+  }
+  else if (&rhs != this)
+  {
+    SBase::operator=(rhs);
+    mId  = rhs.mId;
+    mName  = rhs.mName;
+    mKind  = rhs.mKind;
+    mMembers  = rhs.mMembers;
+    mMemberConstraints  = rhs.mMemberConstraints;
 
-		// connect to child objects
-		connectToChild();
-	}
-	return *this;
+    // connect to child objects
+    connectToChild();
+  }
+  return *this;
 }
 
 
@@ -137,7 +137,7 @@ Group::operator=(const Group& rhs)
 Group*
 Group::clone () const
 {
-	return new Group(*this);
+  return new Group(*this);
 }
 
 
@@ -203,15 +203,15 @@ Group::unsetId ()
 int
 Group::setName (const std::string& name)
 {
-	if (&(name) == NULL)
-	{
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-	}
-	else
-	{
-		mName = name;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  if (&(name) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mName = name;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -261,16 +261,16 @@ Group::unsetName ()
 int
 Group::setKind(const GroupKind_t kind)
 {
-	if (GroupKind_isValidGroupKind(kind) == 0)
-	{
+  if (GroupKind_isValidGroupKind(kind) == 0)
+  {
     mKind = GROUP_KIND_UNKNOWN;
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
-	else
-	{
-		mKind = kind;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  else
+  {
+    mKind = kind;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -405,11 +405,11 @@ Group::addMember (const Member* member)
     // an object with this id already exists
     return LIBSBML_DUPLICATE_OBJECT_ID;
   }
-	else if (matchesRequiredSBMLNamespacesForAddition
+  else if (matchesRequiredSBMLNamespacesForAddition
     (static_cast<const SBase *>(member)) == false)
-	{
-		return LIBSBML_NAMESPACES_MISMATCH;
-	}
+  {
+    return LIBSBML_NAMESPACES_MISMATCH;
+  }
   else
   {
     mMembers.append(member);
@@ -437,28 +437,28 @@ Group::getNumMembers () const
 Member*
 Group::createMember ()
 {
-	Member* m = NULL;
+  Member* m = NULL;
 
-	try
-	{
-		GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
-		m = new Member(groupsns);
-	}
-	catch (...)
-	{
-		/* here we do not create a default object as the level/version must
-		 * match the parent object
-		 *
-		 * do nothing
-		 */
-	}
+  try
+  {
+    GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
+    m = new Member(groupsns);
+  }
+  catch (...)
+  {
+    /* here we do not create a default object as the level/version must
+     * match the parent object
+     *
+     * do nothing
+     */
+  }
 
-	if(m != NULL)
-	{
-		mMembers.appendAndOwn(m);
-	}
+  if(m != NULL)
+  {
+    mMembers.appendAndOwn(m);
+  }
 
-	return m;
+  return m;
 }
 
 
@@ -468,7 +468,7 @@ Group::createMember ()
 const ListOfMemberConstraints*
 Group::getListOfMemberConstraints() const
 {
-	return &mMemberConstraints;
+  return &mMemberConstraints;
 }
 
 
@@ -478,7 +478,7 @@ Group::getListOfMemberConstraints() const
 ListOfMemberConstraints*
 Group::getListOfMemberConstraints()
 {
-	return &mMemberConstraints;
+  return &mMemberConstraints;
 }
 
 
@@ -488,7 +488,7 @@ Group::getListOfMemberConstraints()
 MemberConstraint*
 Group::removeMemberConstraint(unsigned int n)
 {
-	return mMemberConstraints.remove(n);
+  return mMemberConstraints.remove(n);
 }
 
 
@@ -498,7 +498,7 @@ Group::removeMemberConstraint(unsigned int n)
 MemberConstraint*
 Group::removeMemberConstraint(const std::string& sid)
 {
-	return mMemberConstraints.remove(sid);
+  return mMemberConstraints.remove(sid);
 }
 
 
@@ -508,7 +508,7 @@ Group::removeMemberConstraint(const std::string& sid)
 MemberConstraint*
 Group::getMemberConstraint(unsigned int n)
 {
-	return mMemberConstraints.get(n);
+  return mMemberConstraints.get(n);
 }
 
 
@@ -518,7 +518,7 @@ Group::getMemberConstraint(unsigned int n)
 const MemberConstraint*
 Group::getMemberConstraint(unsigned int n) const
 {
-	return mMemberConstraints.get(n);
+  return mMemberConstraints.get(n);
 }
 
 
@@ -528,7 +528,7 @@ Group::getMemberConstraint(unsigned int n) const
 MemberConstraint*
 Group::getMemberConstraint(const std::string& sid)
 {
-	return mMemberConstraints.get(sid);
+  return mMemberConstraints.get(sid);
 }
 
 
@@ -538,7 +538,7 @@ Group::getMemberConstraint(const std::string& sid)
 const MemberConstraint*
 Group::getMemberConstraint(const std::string& sid) const
 {
-	return mMemberConstraints.get(sid);
+  return mMemberConstraints.get(sid);
 }
 
 
@@ -548,32 +548,32 @@ Group::getMemberConstraint(const std::string& sid) const
 int
 Group::addMemberConstraint(const MemberConstraint* mc)
 {
-	if (mc == NULL)
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
-	else if (mc->hasRequiredAttributes() == false)
-	{
-		return LIBSBML_INVALID_OBJECT;
-	}
-	else if (getLevel() != mc->getLevel())
-	{
-		return LIBSBML_LEVEL_MISMATCH;
-	}
-	else if (getVersion() != mc->getVersion())
-	{
-		return LIBSBML_VERSION_MISMATCH;
-	}
-	else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const SBase *>(mc)) == false)
-	{
-		return LIBSBML_NAMESPACES_MISMATCH;
-	}
-	else
-	{
-		mMemberConstraints.append(mc);
+  if (mc == NULL)
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+  else if (mc->hasRequiredAttributes() == false)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  else if (getLevel() != mc->getLevel())
+  {
+    return LIBSBML_LEVEL_MISMATCH;
+  }
+  else if (getVersion() != mc->getVersion())
+  {
+    return LIBSBML_VERSION_MISMATCH;
+  }
+  else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const SBase *>(mc)) == false)
+  {
+    return LIBSBML_NAMESPACES_MISMATCH;
+  }
+  else
+  {
+    mMemberConstraints.append(mc);
 
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -583,7 +583,7 @@ Group::addMemberConstraint(const MemberConstraint* mc)
 unsigned int
 Group::getNumMemberConstraints() const
 {
-	return mMemberConstraints.size();
+  return mMemberConstraints.size();
 }
 
 
@@ -593,28 +593,28 @@ Group::getNumMemberConstraints() const
 MemberConstraint*
 Group::createMemberConstraint()
 {
-	MemberConstraint* mc = NULL;
+  MemberConstraint* mc = NULL;
 
-	try
-	{
-		GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
-		mc = new MemberConstraint(groupsns);
-	}
-	catch (...)
-	{
-		/* here we do not create a default object as the level/version must
-		 * match the parent object
-		 *
-		 * do nothing
-		 */
-	}
+  try
+  {
+    GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
+    mc = new MemberConstraint(groupsns);
+  }
+  catch (...)
+  {
+    /* here we do not create a default object as the level/version must
+     * match the parent object
+     *
+     * do nothing
+     */
+  }
 
-	if(mc != NULL)
-	{
-		mMemberConstraints.appendAndOwn(mc);
-	}
+  if(mc != NULL)
+  {
+    mMemberConstraints.appendAndOwn(mc);
+  }
 
-	return mc;
+  return mc;
 }
 
 
@@ -645,10 +645,10 @@ Group::createObject (XMLInputStream& stream)
   {
     object = &mMembers;
   }
-	else if (name == "listOfMemberConstraints")
-	{
-		object = &mMemberConstraints;
-	}
+  else if (name == "listOfMemberConstraints")
+  {
+    object = &mMemberConstraints;
+  }
 
   return object;
 }
@@ -679,119 +679,119 @@ void
 Group::readAttributes (const XMLAttributes& attributes,
                         const ExpectedAttributes& expectedAttributes)
 {
-	const unsigned int sbmlLevel   = getLevel  ();
-	const unsigned int sbmlVersion = getVersion();
+  const unsigned int sbmlLevel   = getLevel  ();
+  const unsigned int sbmlVersion = getVersion();
 
-	unsigned int numErrs;
+  unsigned int numErrs;
 
-	/* look to see whether an unknown attribute error was logged
-	 * during the read of the listOfGroups - which will have
-	 * happened immediately prior to this read
-	*/
+  /* look to see whether an unknown attribute error was logged
+   * during the read of the listOfGroups - which will have
+   * happened immediately prior to this read
+  */
 
-	if (getErrorLog() != NULL &&
-	    static_cast<ListOfGroups*>(getParentSBMLObject())->size() < 2)
-	{
-		numErrs = getErrorLog()->getNumErrors();
-		for (int n = numErrs-1; n >= 0; n--)
-		{
-			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
-			{
-				const std::string details =
-				      getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownPackageAttribute);
-				getErrorLog()->logPackageError("groups", GroupsUnknownError,
-				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
-			{
-				const std::string details =
-				           getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownCoreAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-		}
-	}
+  if (getErrorLog() != NULL &&
+      static_cast<ListOfGroups*>(getParentSBMLObject())->size() < 2)
+  {
+    numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details =
+              getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("groups", GroupsUnknownError,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details =
+                   getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+    }
+  }
 
-	SBase::readAttributes(attributes, expectedAttributes);
+  SBase::readAttributes(attributes, expectedAttributes);
 
-	// look to see whether an unknown attribute error was logged
-	if (getErrorLog() != NULL)
-	{
-		numErrs = getErrorLog()->getNumErrors();
-		for (int n = numErrs-1; n >= 0; n--)
-		{
-			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
-			{
-				const std::string details =
-				                  getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownPackageAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
-			{
-				const std::string details =
-				                  getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownCoreAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-		}
-	}
+  // look to see whether an unknown attribute error was logged
+  if (getErrorLog() != NULL)
+  {
+    numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details =
+                          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details =
+                          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+    }
+  }
 
-	bool assigned = false;
+  bool assigned = false;
 
-	//
-	// id SId  ( use = "optional" )
-	//
-	assigned = attributes.readInto("id", mId);
+  //
+  // id SId  ( use = "optional" )
+  //
+  assigned = attributes.readInto("id", mId);
 
- 	if (assigned == true)
-	{
-		// check string is not empty and correct syntax
+   if (assigned == true)
+  {
+    // check string is not empty and correct syntax
 
-		if (mId.empty() == true)
-		{
-			logEmptyString(mId, getLevel(), getVersion(), "<Group>");
-		}
-		else if (SyntaxChecker::isValidSBMLSId(mId) == false)
-		{
-			logError(InvalidIdSyntax);
-		}
-	}
+    if (mId.empty() == true)
+    {
+      logEmptyString(mId, getLevel(), getVersion(), "<Group>");
+    }
+    else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+    {
+      logError(InvalidIdSyntax);
+    }
+  }
 
-	//
-	// name string   ( use = "optional" )
-	//
-	assigned = attributes.readInto("name", mName);
+  //
+  // name string   ( use = "optional" )
+  //
+  assigned = attributes.readInto("name", mName);
 
-	if (assigned == true)
-	{
-		// check string is not empty
+  if (assigned == true)
+  {
+    // check string is not empty
 
-		if (mName.empty() == true)
-		{
-			logEmptyString(mName, getLevel(), getVersion(), "<Group>");
-		}
-	}
+    if (mName.empty() == true)
+    {
+      logEmptyString(mName, getLevel(), getVersion(), "<Group>");
+    }
+  }
 
 
-	//
-	// kind string   ( use = "required" )
-	//
+  //
+  // kind string   ( use = "required" )
+  //
   std::string kind;
-	assigned = attributes.readInto("kind", kind);
+  assigned = attributes.readInto("kind", kind);
 
-	if (assigned == true)
-	{
-		// check string is not empty
+  if (assigned == true)
+  {
+    // check string is not empty
 
-		if (kind.empty() == true)
-		{
-			logEmptyString(kind, getLevel(), getVersion(), "<Group>");
-		}
+    if (kind.empty() == true)
+    {
+      logEmptyString(kind, getLevel(), getVersion(), "<Group>");
+    }
     else 
     {
        mKind = GroupKind_fromString( kind.c_str() );
@@ -801,13 +801,13 @@ Group::readAttributes (const XMLAttributes& attributes,
            "Invalid group kind.");
        }
     }
-	}
-	else
-	{
-		std::string message = "Groups attribute 'kind' is missing.";
-		getErrorLog()->logPackageError("groups", UnknownError,
-		               getPackageVersion(), sbmlLevel, sbmlVersion, message);
-	}
+  }
+  else
+  {
+    std::string message = "Groups attribute 'kind' is missing.";
+    getErrorLog()->logPackageError("groups", UnknownError,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+  }
 }
 
 
@@ -821,11 +821,11 @@ Group::writeAttributes (XMLOutputStream& stream) const
 {
   SBase::writeAttributes(stream);
 
-	if (isSetId() == true)
+  if (isSetId() == true)
     stream.writeAttribute("id",   getPrefix(), mId);
-	if (isSetName() == true)
+  if (isSetName() == true)
     stream.writeAttribute("name", getPrefix(), mName);
-	if (isSetKind() == true)
+  if (isSetKind() == true)
     stream.writeAttribute("kind", getPrefix(), 
                           GroupKind_toString(mKind));
 
@@ -851,10 +851,10 @@ Group::writeElements (XMLOutputStream& stream) const
     mMembers.write(stream);
   }
 
-	if (getNumMemberConstraints() > 0)
-	{
-		mMemberConstraints.write(stream);
-	}
+  if (getNumMemberConstraints() > 0)
+  {
+    mMemberConstraints.write(stream);
+  }
 
   //
   // (EXTENSION)
@@ -882,13 +882,13 @@ Group::getTypeCode () const
 bool
 Group::accept (SBMLVisitor& v) const
 {
-	v.visit(*this);
+  v.visit(*this);
 
 /* VISIT CHILDREN */
 
-	v.leave(*this);
+  v.leave(*this);
 
-	return true;
+  return true;
 }
 
 
@@ -901,7 +901,7 @@ Group::setSBMLDocument (SBMLDocument* d)
   SBase::setSBMLDocument(d);
 
   mMembers.setSBMLDocument(d);
-	mMemberConstraints.setSBMLDocument(d);
+  mMemberConstraints.setSBMLDocument(d);
 }
 
 
@@ -912,8 +912,9 @@ Group::setSBMLDocument (SBMLDocument* d)
 void
 Group::connectToChild()
 {
+  SBase::connectToChild();
   mMembers.connectToParent(this);
-	mMemberConstraints.connectToParent(this);
+  mMemberConstraints.connectToParent(this);
 }
 
 
@@ -929,12 +930,12 @@ Group::enablePackageInternal(const std::string& pkgURI,
   SBase::enablePackageInternal(pkgURI,pkgPrefix,flag);
 
   mMembers.enablePackageInternal(pkgURI,pkgPrefix,flag);
-	mMemberConstraints.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  mMemberConstraints.enablePackageInternal(pkgURI, pkgPrefix, flag);
 }
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 bool
 Group::hasRequiredAttributes() const
 {
@@ -948,10 +949,10 @@ Group::hasRequiredAttributes() const
   
   return allPresent;
 }
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygenLibsbmlInternal */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* default for components that have no required elements */
 bool
 Group::hasRequiredElements() const
@@ -966,7 +967,7 @@ Group::hasRequiredElements() const
   
   return allPresent;
 }
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygenLibsbmlInternal */
 
 
 /*

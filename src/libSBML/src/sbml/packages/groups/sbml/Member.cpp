@@ -41,14 +41,14 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  * Creates a new Member with the given level, version, and package version.
  */
 Member::Member (unsigned int level, unsigned int version, unsigned int pkgVersion)
-	: SBase(level, version)
-	 ,mId ("")
-	 ,mName ("")
-	 ,mIdRef ("")
-	 ,mMetaIdRef ("")
+  : SBase(level, version)
+   ,mId ("")
+   ,mName ("")
+   ,mIdRef ("")
+   ,mMetaIdRef ("")
 {
-	// set an SBMLNamespaces derived object of this package
-	setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion));
+  // set an SBMLNamespaces derived object of this package
+  setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion));
 }
 
 
@@ -56,17 +56,17 @@ Member::Member (unsigned int level, unsigned int version, unsigned int pkgVersio
  * Creates a new Member with the given GroupsPkgNamespaces object.
  */
 Member::Member (GroupsPkgNamespaces* groupsns)
-	: SBase(groupsns)
-	 ,mId ("")
-	 ,mName ("")
-	 ,mIdRef ("")
-	 ,mMetaIdRef ("")
+  : SBase(groupsns)
+   ,mId ("")
+   ,mName ("")
+   ,mIdRef ("")
+   ,mMetaIdRef ("")
 {
-	// set the element namespace of this object
-	setElementNamespace(groupsns->getURI());
+  // set the element namespace of this object
+  setElementNamespace(groupsns->getURI());
 
-	// load package extensions bound with this object (if any) 
-	loadPlugins(groupsns);
+  // load package extensions bound with this object (if any) 
+  loadPlugins(groupsns);
 }
 
 
@@ -74,19 +74,19 @@ Member::Member (GroupsPkgNamespaces* groupsns)
  * Copy constructor for Member.
  */
 Member::Member (const Member& orig)
-	: SBase(orig)
+  : SBase(orig)
 {
-	if (&orig == NULL)
-	{
-		throw SBMLConstructorException("Null argument to copy constructor");
-	}
-	else
-	{
-		mId  = orig.mId;
-		mName  = orig.mName;
-		mIdRef  = orig.mIdRef;
-		mMetaIdRef  = orig.mMetaIdRef;
-	}
+  if (&orig == NULL)
+  {
+    throw SBMLConstructorException("Null argument to copy constructor");
+  }
+  else
+  {
+    mId  = orig.mId;
+    mName  = orig.mName;
+    mIdRef  = orig.mIdRef;
+    mMetaIdRef  = orig.mMetaIdRef;
+  }
 }
 
 
@@ -96,19 +96,19 @@ Member::Member (const Member& orig)
 Member&
 Member::operator=(const Member& rhs)
 {
-	if (&rhs == NULL)
-	{
-		throw SBMLConstructorException("Null argument to assignment");
-	}
-	else if (&rhs != this)
-	{
-		SBase::operator=(rhs);
-		mId  = rhs.mId;
-		mName  = rhs.mName;
-		mIdRef  = rhs.mIdRef;
-		mMetaIdRef  = rhs.mMetaIdRef;
-	}
-	return *this;
+  if (&rhs == NULL)
+  {
+    throw SBMLConstructorException("Null argument to assignment");
+  }
+  else if (&rhs != this)
+  {
+    SBase::operator=(rhs);
+    mId  = rhs.mId;
+    mName  = rhs.mName;
+    mIdRef  = rhs.mIdRef;
+    mMetaIdRef  = rhs.mMetaIdRef;
+  }
+  return *this;
 }
 
 
@@ -118,7 +118,7 @@ Member::operator=(const Member& rhs)
 Member*
 Member::clone () const
 {
-	return new Member(*this);
+  return new Member(*this);
 }
 
 
@@ -136,7 +136,7 @@ Member::~Member ()
 const std::string&
 Member::getId() const
 {
-	return mId;
+  return mId;
 }
 
 
@@ -146,7 +146,7 @@ Member::getId() const
 const std::string&
 Member::getName() const
 {
-	return mName;
+  return mName;
 }
 
 
@@ -156,7 +156,7 @@ Member::getName() const
 const std::string&
 Member::getIdRef() const
 {
-	return mIdRef;
+  return mIdRef;
 }
 
 
@@ -166,7 +166,7 @@ Member::getIdRef() const
 const std::string&
 Member::getMetaIdRef() const
 {
-	return mMetaIdRef;
+  return mMetaIdRef;
 }
 
 
@@ -176,7 +176,7 @@ Member::getMetaIdRef() const
 bool
 Member::isSetId() const
 {
-	return (mId.empty() == false);
+  return (mId.empty() == false);
 }
 
 
@@ -186,7 +186,7 @@ Member::isSetId() const
 bool
 Member::isSetName() const
 {
-	return (mName.empty() == false);
+  return (mName.empty() == false);
 }
 
 
@@ -196,7 +196,7 @@ Member::isSetName() const
 bool
 Member::isSetIdRef() const
 {
-	return (mIdRef.empty() == false);
+  return (mIdRef.empty() == false);
 }
 
 
@@ -206,7 +206,7 @@ Member::isSetIdRef() const
 bool
 Member::isSetMetaIdRef() const
 {
-	return (mMetaIdRef.empty() == false);
+  return (mMetaIdRef.empty() == false);
 }
 
 
@@ -216,7 +216,7 @@ Member::isSetMetaIdRef() const
 int
 Member::setId(const std::string& id)
 {
-	return SyntaxChecker::checkAndSetSId(id, mId);
+  return SyntaxChecker::checkAndSetSId(id, mId);
 }
 
 
@@ -226,15 +226,15 @@ Member::setId(const std::string& id)
 int
 Member::setName(const std::string& name)
 {
-	if (&(name) == NULL)
-	{
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-	}
-	else
-	{
-		mName = name;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  if (&(name) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mName = name;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -244,19 +244,19 @@ Member::setName(const std::string& name)
 int
 Member::setIdRef(const std::string& idRef)
 {
-	if (&(idRef) == NULL)
-	{
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-	}
-	else if (!(SyntaxChecker::isValidInternalSId(idRef)))
-	{
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-	}
-	else
-	{
-		mIdRef = idRef;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  if (&(idRef) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else if (!(SyntaxChecker::isValidInternalSId(idRef)))
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mIdRef = idRef;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -266,15 +266,15 @@ Member::setIdRef(const std::string& idRef)
 int
 Member::setMetaIdRef(const std::string& metaIdRef)
 {
-	if (&(metaIdRef) == NULL)
-	{
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-	}
-	else
-	{
-		mMetaIdRef = metaIdRef;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  if (&(metaIdRef) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mMetaIdRef = metaIdRef;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -284,16 +284,16 @@ Member::setMetaIdRef(const std::string& metaIdRef)
 int
 Member::unsetId()
 {
-	mId.erase();
+  mId.erase();
 
-	if (mId.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mId.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -303,16 +303,16 @@ Member::unsetId()
 int
 Member::unsetName()
 {
-	mName.erase();
+  mName.erase();
 
-	if (mName.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mName.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -322,16 +322,16 @@ Member::unsetName()
 int
 Member::unsetIdRef()
 {
-	mIdRef.erase();
+  mIdRef.erase();
 
-	if (mIdRef.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mIdRef.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -341,16 +341,16 @@ Member::unsetIdRef()
 int
 Member::unsetMetaIdRef()
 {
-	mMetaIdRef.erase();
+  mMetaIdRef.erase();
 
-	if (mMetaIdRef.empty() == true)
-	{
-		return LIBSBML_OPERATION_SUCCESS;
-	}
-	else
-	{
-		return LIBSBML_OPERATION_FAILED;
-	}
+  if (mMetaIdRef.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
 }
 
 
@@ -360,8 +360,8 @@ Member::unsetMetaIdRef()
 const std::string&
 Member::getElementName () const
 {
-	static const string name = "member";
-	return name;
+  static const string name = "member";
+  return name;
 }
 
 
@@ -371,7 +371,7 @@ Member::getElementName () const
 int
 Member::getTypeCode () const
 {
-	return SBML_GROUPS_MEMBER;
+  return SBML_GROUPS_MEMBER;
 }
 
 
@@ -381,13 +381,13 @@ Member::getTypeCode () const
 bool
 Member::hasRequiredAttributes () const
 {
-	bool allPresent = true;
+  bool allPresent = true;
 
-	return allPresent;
+  return allPresent;
 }
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * write contained elements
@@ -395,16 +395,16 @@ Member::hasRequiredAttributes () const
 void
 Member::writeElements (XMLOutputStream& stream) const
 {
-	SBase::writeElements(stream);
+  SBase::writeElements(stream);
 
-	SBase::writeExtensionElements(stream);
+  SBase::writeExtensionElements(stream);
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Accepts the given SBMLVisitor.
@@ -412,14 +412,14 @@ Member::writeElements (XMLOutputStream& stream) const
 bool
 Member::accept (SBMLVisitor& v) const
 {
-	return v.visit(*this);
+  return v.visit(*this);
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Sets the parent SBMLDocument.
@@ -427,14 +427,14 @@ Member::accept (SBMLVisitor& v) const
 void
 Member::setSBMLDocument (SBMLDocument* d)
 {
-	SBase::setSBMLDocument(d);
+  SBase::setSBMLDocument(d);
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Enables/Disables the given package with this element.
@@ -443,14 +443,14 @@ void
 Member::enablePackageInternal(const std::string& pkgURI,
              const std::string& pkgPrefix, bool flag)
 {
-	SBase::enablePackageInternal(pkgURI, pkgPrefix, flag);
+  SBase::enablePackageInternal(pkgURI, pkgPrefix, flag);
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Get the list of expected attributes for this element.
@@ -458,19 +458,19 @@ Member::enablePackageInternal(const std::string& pkgURI,
 void
 Member::addExpectedAttributes(ExpectedAttributes& attributes)
 {
-	SBase::addExpectedAttributes(attributes);
+  SBase::addExpectedAttributes(attributes);
 
-	attributes.add("id");
-	attributes.add("name");
-	attributes.add("idRef");
-	attributes.add("metaIdRef");
+  attributes.add("id");
+  attributes.add("name");
+  attributes.add("idRef");
+  attributes.add("metaIdRef");
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Read values from the given XMLAttributes set into their specific fields.
@@ -479,183 +479,183 @@ void
 Member::readAttributes (const XMLAttributes& attributes,
                              const ExpectedAttributes& expectedAttributes)
 {
-	const unsigned int sbmlLevel   = getLevel  ();
-	const unsigned int sbmlVersion = getVersion();
+  const unsigned int sbmlLevel   = getLevel  ();
+  const unsigned int sbmlVersion = getVersion();
 
-	unsigned int numErrs;
+  unsigned int numErrs;
 
-	/* look to see whether an unknown attribute error was logged
-	 * during the read of the listOfMembers - which will have
-	 * happened immediately prior to this read
-	*/
+  /* look to see whether an unknown attribute error was logged
+   * during the read of the listOfMembers - which will have
+   * happened immediately prior to this read
+  */
 
-	if (getErrorLog() != NULL &&
-	    static_cast<ListOfMembers*>(getParentSBMLObject())->size() < 2)
-	{
-		numErrs = getErrorLog()->getNumErrors();
-		for (int n = numErrs-1; n >= 0; n--)
-		{
-			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
-			{
-				const std::string details =
-				      getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownPackageAttribute);
-				getErrorLog()->logPackageError("groups", GroupsUnknownError,
-				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
-			{
-				const std::string details =
-				           getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownCoreAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				          getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-		}
-	}
+  if (getErrorLog() != NULL &&
+      static_cast<ListOfMembers*>(getParentSBMLObject())->size() < 2)
+  {
+    numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details =
+              getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("groups", GroupsUnknownError,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details =
+                   getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+    }
+  }
 
-	SBase::readAttributes(attributes, expectedAttributes);
+  SBase::readAttributes(attributes, expectedAttributes);
 
-	// look to see whether an unknown attribute error was logged
-	if (getErrorLog() != NULL)
-	{
-		numErrs = getErrorLog()->getNumErrors();
-		for (int n = numErrs-1; n >= 0; n--)
-		{
-			if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
-			{
-				const std::string details =
-				                  getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownPackageAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-			else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
-			{
-				const std::string details =
-				                  getErrorLog()->getError(n)->getMessage();
-				getErrorLog()->remove(UnknownCoreAttribute);
-				getErrorLog()->logPackageError("groups", UnknownError,
-				               getPackageVersion(), sbmlLevel, sbmlVersion, details);
-			}
-		}
-	}
+  // look to see whether an unknown attribute error was logged
+  if (getErrorLog() != NULL)
+  {
+    numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details =
+                          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details =
+                          getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("groups", UnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+      }
+    }
+  }
 
-	bool assigned = false;
+  bool assigned = false;
 
-	//
-	// id SId  ( use = "optional" )
-	//
-	assigned = attributes.readInto("id", mId);
+  //
+  // id SId  ( use = "optional" )
+  //
+  assigned = attributes.readInto("id", mId);
 
- 	if (assigned == true)
-	{
-		// check string is not empty and correct syntax
+   if (assigned == true)
+  {
+    // check string is not empty and correct syntax
 
-		if (mId.empty() == true)
-		{
-			logEmptyString(mId, getLevel(), getVersion(), "<Member>");
-		}
-		else if (SyntaxChecker::isValidSBMLSId(mId) == false)
-		{
-			logError(InvalidIdSyntax);
-		}
-	}
+    if (mId.empty() == true)
+    {
+      logEmptyString(mId, getLevel(), getVersion(), "<Member>");
+    }
+    else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+    {
+      logError(InvalidIdSyntax);
+    }
+  }
 
-	//
-	// name string   ( use = "optional" )
-	//
-	assigned = attributes.readInto("name", mName);
+  //
+  // name string   ( use = "optional" )
+  //
+  assigned = attributes.readInto("name", mName);
 
-	if (assigned == true)
-	{
-		// check string is not empty
+  if (assigned == true)
+  {
+    // check string is not empty
 
-		if (mName.empty() == true)
-		{
-			logEmptyString(mName, getLevel(), getVersion(), "<Member>");
-		}
-	}
+    if (mName.empty() == true)
+    {
+      logEmptyString(mName, getLevel(), getVersion(), "<Member>");
+    }
+  }
 
-	//
-	// idRef SIdRef   ( use = "optional" )
-	//
-	assigned = attributes.readInto("idRef", mIdRef);
+  //
+  // idRef SIdRef   ( use = "optional" )
+  //
+  assigned = attributes.readInto("idRef", mIdRef);
 
-	if (assigned == true)
-	{
-		// check string is not empty and correct syntax
+  if (assigned == true)
+  {
+    // check string is not empty and correct syntax
 
-		if (mIdRef.empty() == true)
-		{
-			logEmptyString(mIdRef, getLevel(), getVersion(), "<Member>");
-		}
-		else if (SyntaxChecker::isValidSBMLSId(mIdRef) == false)
-		{
-			logError(InvalidIdSyntax);
-		}
-	}
+    if (mIdRef.empty() == true)
+    {
+      logEmptyString(mIdRef, getLevel(), getVersion(), "<Member>");
+    }
+    else if (SyntaxChecker::isValidSBMLSId(mIdRef) == false)
+    {
+      logError(InvalidIdSyntax);
+    }
+  }
 
-	//
-	// metaIdRef string   ( use = "optional" )
-	//
-	assigned = attributes.readInto("metaIdRef", mMetaIdRef);
+  //
+  // metaIdRef string   ( use = "optional" )
+  //
+  assigned = attributes.readInto("metaIdRef", mMetaIdRef);
 
-	if (assigned == true)
-	{
-		// check string is not empty
+  if (assigned == true)
+  {
+    // check string is not empty
 
-		if (mMetaIdRef.empty() == true)
-		{
-			logEmptyString(mMetaIdRef, getLevel(), getVersion(), "<Member>");
-		}
-	}
+    if (mMetaIdRef.empty() == true)
+    {
+      logEmptyString(mMetaIdRef, getLevel(), getVersion(), "<Member>");
+    }
+  }
 
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Write values of XMLAttributes to the output stream.
  */
-	void
+  void
 Member::writeAttributes (XMLOutputStream& stream) const
 {
-	SBase::writeAttributes(stream);
+  SBase::writeAttributes(stream);
 
-	if (isSetId() == true)
-		stream.writeAttribute("id", getPrefix(), mId);
+  if (isSetId() == true)
+    stream.writeAttribute("id", getPrefix(), mId);
 
-	if (isSetName() == true)
-		stream.writeAttribute("name", getPrefix(), mName);
+  if (isSetName() == true)
+    stream.writeAttribute("name", getPrefix(), mName);
 
-	if (isSetIdRef() == true)
-		stream.writeAttribute("idRef", getPrefix(), mIdRef);
+  if (isSetIdRef() == true)
+    stream.writeAttribute("idRef", getPrefix(), mIdRef);
 
-	if (isSetMetaIdRef() == true)
-		stream.writeAttribute("metaIdRef", getPrefix(), mMetaIdRef);
+  if (isSetMetaIdRef() == true)
+    stream.writeAttribute("metaIdRef", getPrefix(), mMetaIdRef);
 
-	SBase::writeExtensionAttributes(stream);
+  SBase::writeExtensionAttributes(stream);
 
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 /*
  * Constructor 
  */
 ListOfMembers::ListOfMembers(unsigned int level, 
-	              unsigned int version, 
-	              unsigned int pkgVersion)
+                unsigned int version, 
+                unsigned int pkgVersion)
  : ListOf(level, version)
 {
-	setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion)); 
+  setSBMLNamespacesAndOwn(new GroupsPkgNamespaces(level, version, pkgVersion)); 
 }
 
 
@@ -665,7 +665,7 @@ ListOfMembers::ListOfMembers(unsigned int level,
 ListOfMembers::ListOfMembers(GroupsPkgNamespaces* groupsns)
   : ListOf(groupsns)
 {
-	setElementNamespace(groupsns->getURI());
+  setElementNamespace(groupsns->getURI());
 }
 
 
@@ -675,7 +675,7 @@ ListOfMembers::ListOfMembers(GroupsPkgNamespaces* groupsns)
 ListOfMembers* 
 ListOfMembers::clone () const
  {
-	return new ListOfMembers(*this);
+  return new ListOfMembers(*this);
 }
 
 
@@ -685,7 +685,7 @@ ListOfMembers::clone () const
 Member*
 ListOfMembers::get(unsigned int n)
 {
-	return static_cast<Member*>(ListOf::get(n));
+  return static_cast<Member*>(ListOf::get(n));
 }
 
 
@@ -695,7 +695,7 @@ ListOfMembers::get(unsigned int n)
 const Member*
 ListOfMembers::get(unsigned int n) const
 {
-	return static_cast<const Member*>(ListOf::get(n));
+  return static_cast<const Member*>(ListOf::get(n));
 }
 
 
@@ -705,8 +705,8 @@ ListOfMembers::get(unsigned int n) const
 Member*
 ListOfMembers::get(const std::string& sid)
 {
-	return const_cast<Member*>(
-	  static_cast<const ListOfMembers&>(*this).get(sid));
+  return const_cast<Member*>(
+    static_cast<const ListOfMembers&>(*this).get(sid));
 }
 
 
@@ -716,10 +716,10 @@ ListOfMembers::get(const std::string& sid)
 const Member*
 ListOfMembers::get(const std::string& sid) const
 {
-	vector<SBase*>::const_iterator result;
+  vector<SBase*>::const_iterator result;
 
-	result = find_if( mItems.begin(), mItems.end(), IdEq<Member>(sid) );
-	return (result == mItems.end()) ? 0 : static_cast <Member*> (*result);
+  result = find_if( mItems.begin(), mItems.end(), IdEq<Member>(sid) );
+  return (result == mItems.end()) ? 0 : static_cast <Member*> (*result);
 }
 
 
@@ -729,7 +729,7 @@ ListOfMembers::get(const std::string& sid) const
 Member*
 ListOfMembers::remove(unsigned int n)
 {
-	return static_cast<Member*>(ListOf::remove(n));
+  return static_cast<Member*>(ListOf::remove(n));
 }
 
 
@@ -739,18 +739,18 @@ ListOfMembers::remove(unsigned int n)
 Member*
 ListOfMembers::remove(const std::string& sid)
 {
-	SBase* item = NULL;
-	vector<SBase*>::iterator result;
+  SBase* item = NULL;
+  vector<SBase*>::iterator result;
 
-	result = find_if( mItems.begin(), mItems.end(), IdEq<Member>(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEq<Member>(sid) );
 
-	if (result != mItems.end())
-	{
-		item = *result;
-		mItems.erase(result);
-	}
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
+  }
 
-	return static_cast <Member*> (item);
+  return static_cast <Member*> (item);
 }
 
 
@@ -760,8 +760,8 @@ ListOfMembers::remove(const std::string& sid)
 const std::string&
 ListOfMembers::getElementName () const
 {
-	static const string name = "listOfMembers";
-	return name;
+  static const string name = "listOfMembers";
+  return name;
 }
 
 
@@ -771,7 +771,7 @@ ListOfMembers::getElementName () const
 int
 ListOfMembers::getTypeCode () const
 {
-	return SBML_LIST_OF;
+  return SBML_LIST_OF;
 }
 
 
@@ -781,11 +781,11 @@ ListOfMembers::getTypeCode () const
 int
 ListOfMembers::getItemTypeCode () const
 {
-	return SBML_GROUPS_MEMBER;
+  return SBML_GROUPS_MEMBER;
 }
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Creates a new Member in this ListOfMembers
@@ -793,24 +793,24 @@ ListOfMembers::getItemTypeCode () const
 SBase*
 ListOfMembers::createObject(XMLInputStream& stream)
 {
-	const std::string& name   = stream.peek().getName();
-	SBase* object = NULL;
+  const std::string& name   = stream.peek().getName();
+  SBase* object = NULL;
 
-	if (name == "member")
-	{
-		GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
-		object = new Member(groupsns);
-		appendAndOwn(object);
-	}
+  if (name == "member")
+  {
+    GROUPS_CREATE_NS(groupsns, getSBMLNamespaces());
+    object = new Member(groupsns);
+    appendAndOwn(object);
+  }
 
-	return object;
+  return object;
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
 /*
  * Write the namespace for the Groups package.
@@ -818,23 +818,23 @@ ListOfMembers::createObject(XMLInputStream& stream)
 void
 ListOfMembers::writeXMLNS(XMLOutputStream& stream) const
 {
-	XMLNamespaces xmlns;
+  XMLNamespaces xmlns;
 
-	std::string prefix = getPrefix();
+  std::string prefix = getPrefix();
 
-	if (prefix.empty())
-	{
-		if (getNamespaces()->hasURI(GroupsExtension::getXmlnsL3V1V1()))
-		{
-			xmlns.add(GroupsExtension::getXmlnsL3V1V1(),prefix);
-		}
-	}
+  if (prefix.empty())
+  {
+    if (getNamespaces()->hasURI(GroupsExtension::getXmlnsL3V1V1()))
+    {
+      xmlns.add(GroupsExtension::getXmlnsL3V1V1(),prefix);
+    }
+  }
 
-	stream << xmlns;
+  stream << xmlns;
 }
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 /**
@@ -845,7 +845,7 @@ Member_t *
 Member_create(unsigned int level, unsigned int version,
               unsigned int pkgVersion)
 {
-	return new Member(level, version, pkgVersion);
+  return new Member(level, version, pkgVersion);
 }
 
 
@@ -856,8 +856,8 @@ LIBSBML_EXTERN
 void
 Member_free(Member_t * m)
 {
-	if (m != NULL)
-		delete m;
+  if (m != NULL)
+    delete m;
 }
 
 
@@ -868,14 +868,14 @@ LIBSBML_EXTERN
 Member_t *
 Member_clone(Member_t * m)
 {
-	if (m != NULL)
-	{
-		return static_cast<Member_t*>(m->clone());
-	}
-	else
-	{
-		return NULL;
-	}
+  if (m != NULL)
+  {
+    return static_cast<Member_t*>(m->clone());
+  }
+  else
+  {
+    return NULL;
+  }
 }
 
 
@@ -886,10 +886,10 @@ LIBSBML_EXTERN
 char *
 Member_getId(Member_t * m)
 {
-	if (m == NULL)
-		return NULL;
+  if (m == NULL)
+    return NULL;
 
-	return m->getId().empty() ? NULL : safe_strdup(m->getId().c_str());
+  return m->getId().empty() ? NULL : safe_strdup(m->getId().c_str());
 }
 
 
@@ -900,10 +900,10 @@ LIBSBML_EXTERN
 char *
 Member_getName(Member_t * m)
 {
-	if (m == NULL)
-		return NULL;
+  if (m == NULL)
+    return NULL;
 
-	return m->getName().empty() ? NULL : safe_strdup(m->getName().c_str());
+  return m->getName().empty() ? NULL : safe_strdup(m->getName().c_str());
 }
 
 
@@ -914,10 +914,10 @@ LIBSBML_EXTERN
 char *
 Member_getIdRef(Member_t * m)
 {
-	if (m == NULL)
-		return NULL;
+  if (m == NULL)
+    return NULL;
 
-	return m->getIdRef().empty() ? NULL : safe_strdup(m->getIdRef().c_str());
+  return m->getIdRef().empty() ? NULL : safe_strdup(m->getIdRef().c_str());
 }
 
 
@@ -928,10 +928,10 @@ LIBSBML_EXTERN
 char *
 Member_getMetaIdRef(Member_t * m)
 {
-	if (m == NULL)
-		return NULL;
+  if (m == NULL)
+    return NULL;
 
-	return m->getMetaIdRef().empty() ? NULL : safe_strdup(m->getMetaIdRef().c_str());
+  return m->getMetaIdRef().empty() ? NULL : safe_strdup(m->getMetaIdRef().c_str());
 }
 
 
@@ -942,7 +942,7 @@ LIBSBML_EXTERN
 int
 Member_isSetId(Member_t * m)
 {
-	return (m != NULL) ? static_cast<int>(m->isSetId()) : 0;
+  return (m != NULL) ? static_cast<int>(m->isSetId()) : 0;
 }
 
 
@@ -953,7 +953,7 @@ LIBSBML_EXTERN
 int
 Member_isSetName(Member_t * m)
 {
-	return (m != NULL) ? static_cast<int>(m->isSetName()) : 0;
+  return (m != NULL) ? static_cast<int>(m->isSetName()) : 0;
 }
 
 
@@ -964,7 +964,7 @@ LIBSBML_EXTERN
 int
 Member_isSetIdRef(Member_t * m)
 {
-	return (m != NULL) ? static_cast<int>(m->isSetIdRef()) : 0;
+  return (m != NULL) ? static_cast<int>(m->isSetIdRef()) : 0;
 }
 
 
@@ -975,7 +975,7 @@ LIBSBML_EXTERN
 int
 Member_isSetMetaIdRef(Member_t * m)
 {
-	return (m != NULL) ? static_cast<int>(m->isSetMetaIdRef()) : 0;
+  return (m != NULL) ? static_cast<int>(m->isSetMetaIdRef()) : 0;
 }
 
 
@@ -986,7 +986,7 @@ LIBSBML_EXTERN
 int
 Member_setId(Member_t * m, const char * id)
 {
-	return (m != NULL) ? m->setId(id) : LIBSBML_INVALID_OBJECT;
+  return (m != NULL) ? m->setId(id) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -997,7 +997,7 @@ LIBSBML_EXTERN
 int
 Member_setName(Member_t * m, const char * name)
 {
-	return (m != NULL) ? m->setName(name) : LIBSBML_INVALID_OBJECT;
+  return (m != NULL) ? m->setName(name) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1008,7 +1008,7 @@ LIBSBML_EXTERN
 int
 Member_setIdRef(Member_t * m, const char * idRef)
 {
-	return (m != NULL) ? m->setIdRef(idRef) : LIBSBML_INVALID_OBJECT;
+  return (m != NULL) ? m->setIdRef(idRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1019,7 +1019,7 @@ LIBSBML_EXTERN
 int
 Member_setMetaIdRef(Member_t * m, const char * metaIdRef)
 {
-	return (m != NULL) ? m->setMetaIdRef(metaIdRef) : LIBSBML_INVALID_OBJECT;
+  return (m != NULL) ? m->setMetaIdRef(metaIdRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1030,7 +1030,7 @@ LIBSBML_EXTERN
 int
 Member_unsetId(Member_t * m)
 {
-	return (m != NULL) ? m->unsetId() : LIBSBML_INVALID_OBJECT;
+  return (m != NULL) ? m->unsetId() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1041,7 +1041,7 @@ LIBSBML_EXTERN
 int
 Member_unsetName(Member_t * m)
 {
-	return (m != NULL) ? m->unsetName() : LIBSBML_INVALID_OBJECT;
+  return (m != NULL) ? m->unsetName() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1052,7 +1052,7 @@ LIBSBML_EXTERN
 int
 Member_unsetIdRef(Member_t * m)
 {
-	return (m != NULL) ? m->unsetIdRef() : LIBSBML_INVALID_OBJECT;
+  return (m != NULL) ? m->unsetIdRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1063,7 +1063,7 @@ LIBSBML_EXTERN
 int
 Member_unsetMetaIdRef(Member_t * m)
 {
-	return (m != NULL) ? m->unsetMetaIdRef() : LIBSBML_INVALID_OBJECT;
+  return (m != NULL) ? m->unsetMetaIdRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1074,7 +1074,7 @@ LIBSBML_EXTERN
 int
 Member_hasRequiredAttributes(Member_t * m)
 {
-	return (m != NULL) ? static_cast<int>(m->hasRequiredAttributes()) : 0;
+  return (m != NULL) ? static_cast<int>(m->hasRequiredAttributes()) : 0;
 }
 
 
@@ -1085,10 +1085,10 @@ LIBSBML_EXTERN
 Member_t *
 ListOfMembers_getById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfMembers *>(lo)->get(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfMembers *>(lo)->get(sid) : NULL;
 }
 
 
@@ -1099,10 +1099,10 @@ LIBSBML_EXTERN
 Member_t *
 ListOfMembers_removeById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfMembers *>(lo)->remove(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfMembers *>(lo)->remove(sid) : NULL;
 }
 
 

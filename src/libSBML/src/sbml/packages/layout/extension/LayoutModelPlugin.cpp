@@ -55,6 +55,54 @@ LayoutModelPlugin::getAllElements(ElementFilter *filter)
 }
 
 
+/** @cond doxygenLibsbmlInternal */
+int 
+LayoutModelPlugin::appendFrom(const Model* model)
+{
+  int ret = LIBSBML_OPERATION_SUCCESS;
+
+  if (model==NULL)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+
+  const LayoutModelPlugin* modplug = 
+    static_cast<const LayoutModelPlugin*>(model->getPlugin(getPrefix()));
+  
+  if (modplug==NULL)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+
+  Model* parent = static_cast<Model*>(getParentSBMLObject());
+
+  if (parent==NULL) 
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  
+  ret = mLayouts.appendFrom(modplug->getListOfLayouts());
+  
+  if (ret != LIBSBML_OPERATION_SUCCESS)
+  {
+    return ret;
+  }
+
+
+  for (unsigned int i = 0; i < mLayouts.SBase::getNumPlugins(); i++) 
+  {
+    ret = mLayouts.getPlugin(i)->appendFrom(model);
+    if (ret != LIBSBML_OPERATION_SUCCESS) 
+    {
+      return ret;
+    }
+  }
+
+  return ret;
+}
+/** @endcond */
+
+
 
 /*
  * 
@@ -198,6 +246,7 @@ LayoutModelPlugin::writeElements (XMLOutputStream& stream) const
 /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /* default for components that have no required elements */
 bool
 LayoutModelPlugin::hasRequiredElements() const
@@ -211,8 +260,10 @@ LayoutModelPlugin::hasRequiredElements() const
   
   return allPresent;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /* 
  * Parse L2 annotation if supported
  *
@@ -241,6 +292,7 @@ LayoutModelPlugin::parseAnnotation(SBase *parentObject, XMLNode *pAnnotation)
  
 
 }
+/** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -450,6 +502,7 @@ LayoutModelPlugin::removeLayout (unsigned int n)
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -462,8 +515,10 @@ LayoutModelPlugin::setSBMLDocument (SBMLDocument* d)
 
   mLayouts.setSBMLDocument(d);  
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBML object of this plugin object to
  * this object and child elements (if any).
@@ -476,8 +531,10 @@ LayoutModelPlugin::connectToParent (SBase* sbase)
 
   mLayouts.connectToParent(sbase);
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Enables/Disables the given package with child elements in this plugin
  * object (if any).
@@ -488,8 +545,10 @@ LayoutModelPlugin::enablePackageInternal(const std::string& pkgURI,
 {
   mLayouts.enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accept the SBMLVisitor.
  */
@@ -508,6 +567,7 @@ LayoutModelPlugin::accept(SBMLVisitor& v) const
 
 	return true;
 }
+/** @endcond */
 
 
 

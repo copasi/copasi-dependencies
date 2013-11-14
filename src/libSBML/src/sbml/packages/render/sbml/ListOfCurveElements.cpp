@@ -45,7 +45,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string ListOfCurveElements::ELEMENT_NAME="listOfElements";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ListOfCurveElements object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -108,7 +108,7 @@ ListOfCurveElements::ListOfCurveElements(const XMLNode& node, unsigned int l2ver
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the ListOfCurveElements object.
  *
@@ -120,7 +120,7 @@ ListOfCurveElements* ListOfCurveElements::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor for ListOfCurveElements objects.
  */
@@ -129,7 +129,7 @@ ListOfCurveElements::ListOfCurveElements(const ListOfCurveElements& source):List
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfCurveElements objects.
  */
@@ -143,7 +143,7 @@ ListOfCurveElements& ListOfCurveElements::operator=(const ListOfCurveElements& s
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., GradientDefinition objects, if the list is non-empty).
@@ -183,7 +183,7 @@ bool ListOfCurveElements::isValidTypeForList(SBase * item)
   return false;
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfCurveElements, is always @c "listOfCurveElements".
@@ -224,7 +224,7 @@ ListOfCurveElements::ListOfCurveElements(unsigned int level, unsigned int versio
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
 };
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfCurveElements object.
  *
@@ -238,7 +238,7 @@ XMLNode ListOfCurveElements::toXML() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -283,7 +283,7 @@ SBase* ListOfCurveElements::createObject (XMLInputStream& stream)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the RenderPoint with the given index and returns a pointer to the 
  * removed object. The caller is responsible for freeing the associated memory.
@@ -300,7 +300,7 @@ RenderPoint* ListOfCurveElements::remove(unsigned int i)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the RenderPoint with the given index or NULL if
  * the index is invalid.
@@ -315,7 +315,7 @@ RenderPoint* ListOfCurveElements::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the RenderPoint with the given index or NULL if
  * the index is invalid.

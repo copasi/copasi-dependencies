@@ -17,17 +17,12 @@
  *------------------------------------------------------------------------- -->
  *
  * @class FluxObjective
- * @ingroup FBC
- * @brief @htmlinclude pkg-marker-fbc.html
- * Implementation of the 'fbc' package %FluxObjective construct.
+ * @sbmlbrief{fbc} Implementation of the 'fbc' package %FluxObjective
+ * construct.
+ *
+ * An integral component in a complete description of a steady-state model is the so-called 'objective function' which generally consists of a linear combination of model variables (fluxes) and a sense (direction). In the FBC package this concept is succinctly captured in the Objective class.
  * <!-- leave this next break as-is to work around some doxygen bug -->
  */ 
-/**
- * @class ListOfFluxObjectives
- * @ingroup FBC
- * @brief @htmlinclude pkg-marker-fbc.html
- * Implementation of the 'fbc' package %ListOfFluxObjectives construct.
- */
 
 
 #ifndef FluxObjective_H__
@@ -114,11 +109,9 @@ public:
    * Sets the value of the "id" attribute of this FluxObjective.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setId (const std::string& id);
   
@@ -127,11 +120,9 @@ public:
    * Unsets the value of the "id" attribute of this FluxObjective.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetId ();
   
@@ -158,11 +149,9 @@ public:
    * Sets the value of the "name" attribute of this FluxObjective.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setName (const std::string& name);
   
@@ -171,11 +160,9 @@ public:
    * Unsets the value of the "name" attribute of this FluxObjective.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetName ();
 
@@ -203,11 +190,9 @@ public:
    * @param reaction a SIdRef string to be set.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setReaction (const std::string& reaction);
 
@@ -216,11 +201,9 @@ public:
    * Unsets the value of the "id" attribute of this FluxObjective.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetReaction ();
 
@@ -249,11 +232,9 @@ public:
    * @param coefficient a double coefficient to be set.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setCoefficient (const double coefficient);
 
@@ -262,13 +243,27 @@ public:
    * Unsets the value of the "id" attribute of this FluxObjective.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetCoefficient ();
+
+
+  /**
+   * Renames all the @c SIdRef attributes on this element, including any
+   * found in MathML content (if such exists).
+   *
+   * This method works by looking at all attributes and (if appropriate)
+   * mathematical formulas, comparing the identifiers to the value of @p
+   * oldid.  If any matches are found, the matching identifiers are replaced
+   * with @p newid.  The method does @em not descend into child elements.
+   *
+   * @param oldid the old identifier
+   * @param newid the new identifier
+   */
+   virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
+
 
   /**
    * Returns the XML element name of
@@ -280,18 +275,27 @@ public:
 
 
   /**
+   * Creates and returns a deep copy of this FluxObjective.
+   * 
    * @return a (deep) copy of this FluxObjective.
    */
   virtual FluxObjective* clone () const;
 
 
   /**
-   * @return the typecode (int) of this SBML object or SBML_UNKNOWN
-   * (default).
+   * Returns the libSBML type code of this object instance.
+   *
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for this object:
+   * @link SBMLFbcTypeCode_t#SBML_FBC_FLUXOBJECTIVE SBML_FBC_FLUXOBJECTIVE@endlink
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
-  int getTypeCode () const;
+  virtual int getTypeCode () const;
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -323,6 +327,8 @@ public:
 protected:
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */
@@ -368,11 +374,24 @@ protected:
   /** @endcond */
 };
 
+/**
+ * @class ListOfFluxObjectives
+ * @sbmlbrief{fbc} Implementation of the 'fbc' package %ListOfFluxObjectives
+ * construct.
+ * 
+ * The ListOfFluxObjectives is a container for the FluxObjective elements of a Model annotation.
+ * 
+ * @copydetails doc_what_is_listof
+ *
+ * @see FluxObjective
+ */
 class LIBSBML_EXTERN ListOfFluxObjectives : public ListOf
 {
 public:
 
   /**
+   * Creates and returns a deep copy of this ListOfFluxObjectives.
+   * 
    * @return a (deep) copy of this ListOfFluxObjectives.
    */
   virtual ListOfFluxObjectives* clone () const;
@@ -480,8 +499,16 @@ public:
 
 
   /**
-   * @return the typecode (int) of SBML objects contained in this ListOf or
-   * SBML_UNKNOWN (default).
+   * Returns the libSBML type code for the SBML objects
+   * contained in this ListOf object.
+   * 
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for objects contained in this list:
+   * @link SBMLTypeCode_t#SBML_FBC_FLUXOBJECTIVE SBML_FBC_FLUXOBJECTIVE@endlink (default).
+   *
+   * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
@@ -498,6 +525,8 @@ protected:
 
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */

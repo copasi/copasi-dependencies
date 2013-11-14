@@ -1,7 +1,7 @@
 ###############################################################################
 #
-# $URL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/src/layout-package.cmake $
-# $Id: layout-package.cmake 18293 2013-08-05 08:43:49Z sarahkeating $
+# $URL: https://svn.code.sf.net/p/sbml/code/trunk/libsbml/src/layout-package.cmake $
+# $Id: layout-package.cmake 18464 2013-09-26 21:23:47Z luciansmith $
 #
 # Description       : CMake include file for SBML Level 3 Layout package
 # Original author(s): Frank Bergmann <fbergman@caltech.edu>
@@ -44,6 +44,19 @@ foreach(dir common extension sbml util validator validator/constraints)
 	                  ${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/layout/${dir}/*.c
 	                  ${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/layout/${dir}/*.h)
 	
+        # set the *Constraints.cpp files to be 'header' files so they won't be compiled--
+        #  they are #included directly, instead.
+        if ("${dir}" STREQUAL "validator/constraints")
+            foreach(tempFile ${current})
+                if ("${tempFile}" MATCHES ".*Constraints.cpp")
+                    set_source_files_properties(
+                        ${tempFile}
+                        PROPERTIES HEADER_FILE_ONLY true
+                        )
+                endif()
+            endforeach()
+        endif()
+
 	# add sources 
 	set(LAYOUT_SOURCES ${LAYOUT_SOURCES} ${current})
 

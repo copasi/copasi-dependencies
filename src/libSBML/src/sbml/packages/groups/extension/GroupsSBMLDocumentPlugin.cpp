@@ -33,11 +33,11 @@
 
 #ifdef __cplusplus
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 using namespace std;
 
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygenLibsbmlInternal */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
@@ -82,7 +82,7 @@ GroupsSBMLDocumentPlugin::~GroupsSBMLDocumentPlugin ()
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 
 void 
 GroupsSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
@@ -99,7 +99,7 @@ GroupsSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
     if (getErrorLog()->getNumErrors() == numErrs + 1 && 
         getErrorLog()->contains(XMLAttributeTypeMismatch))
     {
-			getErrorLog()->remove(XMLAttributeTypeMismatch);
+      getErrorLog()->remove(XMLAttributeTypeMismatch);
       getErrorLog()->logPackageError("groups", GroupsUnknownError,
         getPackageVersion(), getLevel(), getVersion());
     }
@@ -112,7 +112,7 @@ GroupsSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
   else
   {
     mIsSetRequired = true;
-	/* LOG ERROR RELATING TO EXPECTED VALUE */
+    /* LOG ERROR RELATING TO EXPECTED VALUE */
     //if (mRequired == true)
     //{
     //  getErrorLog()->logPackageError("groups", ERROR,
@@ -121,11 +121,11 @@ GroupsSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
   }
 }
 
-/** @endcond doxygen-libsbml-internal*/
+/** @endcond doxygenLibsbmlInternal*/
 
 
 bool
-GroupsSBMLDocumentPlugin::isFlatteningImplemented() const
+GroupsSBMLDocumentPlugin::isCompFlatteningImplemented() const
 {
   return false;
 }
@@ -175,7 +175,7 @@ GroupsSBMLDocumentPlugin::checkConsistency()
     if (nerrors > 0) 
     {
       log->add(validator.getFailures() );
-	  // DO NOT NEED THIS IN LAST CALL
+      // DO NOT NEED THIS IN LAST CALL
       // /* only want to bail if errors not warnings */
       // if (log->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) > 0)
       // {

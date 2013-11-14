@@ -53,7 +53,7 @@ const std::string ColorDefinition::ELEMENT_NAME="colorDefinition";
   
 const std::string ListOfColorDefinitions::ELEMENT_NAME="listOfColorDefinitions";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ColorDefinition object with the given SBML level
  * and SBML version.
@@ -82,7 +82,7 @@ ColorDefinition::ColorDefinition (unsigned int level, unsigned int version, unsi
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ColorDefinition object with the given SBMLNamespaces.
  *
@@ -111,7 +111,7 @@ ColorDefinition::ColorDefinition (RenderPkgNamespaces* renderns) :
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ColorDefinition object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -154,7 +154,7 @@ ColorDefinition::ColorDefinition(const XMLNode& node, unsigned int l2version)
 /** @endcond */
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which sets the ColorDefinition to completely opaque
  * black and sets the id to the given string.
@@ -192,7 +192,7 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::strin
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which sets the ColorDefinition to the given RGBA values
  * and sets the id.
@@ -236,7 +236,7 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::strin
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which sets the ColorDefinition to the given RGBA values.
  *
@@ -275,7 +275,7 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, unsigned char r,
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Destroys this ColorDefinition object.
  */
@@ -283,7 +283,7 @@ ColorDefinition::~ColorDefinition(){}
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the red color component.
  *
@@ -295,7 +295,7 @@ unsigned char ColorDefinition::getRed() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the green color component.
  *
@@ -307,7 +307,7 @@ unsigned char ColorDefinition::getGreen() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the blue color component.
  *
@@ -319,7 +319,7 @@ unsigned char ColorDefinition::getBlue() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the alpha color component.
  *
@@ -331,7 +331,7 @@ unsigned char ColorDefinition::getAlpha() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the red color component.
  *
@@ -343,7 +343,7 @@ void ColorDefinition::setRed(unsigned char c)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the green color component.
  *
@@ -355,7 +355,7 @@ void ColorDefinition::setGreen(unsigned char c)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the blue color component.
  *
@@ -367,7 +367,7 @@ void ColorDefinition::setBlue(unsigned char c)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets alpha red color component.
  *
@@ -379,7 +379,7 @@ void ColorDefinition::setAlpha(unsigned char c)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the red green, blue and alpha color component.
  * The alpha value is optional and defaults to 255 if not given.
@@ -398,7 +398,7 @@ void ColorDefinition::setRGBA(unsigned char r,unsigned char g,unsigned char b,un
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this ColorDefinition object.
  * 
@@ -412,7 +412,7 @@ ColorDefinition::clone () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the color value from a given value string.
  * If the string is not a valid value string, the color value is set to
@@ -467,7 +467,7 @@ bool ColorDefinition::setColorValue(const std::string& valueString)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a string the represents the current color value.
  *
@@ -485,7 +485,7 @@ std::string ColorDefinition::createValueString() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 ColorDefinition::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -496,7 +496,7 @@ ColorDefinition::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void ColorDefinition::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
   SBase::readAttributes(attributes,expectedAttributes);
@@ -507,7 +507,7 @@ void ColorDefinition::readAttributes (const XMLAttributes& attributes, const Exp
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -525,7 +525,7 @@ void ColorDefinition::writeElements (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -544,7 +544,7 @@ void ColorDefinition::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -571,7 +571,7 @@ ColorDefinition::getTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfColorDefinitions, is always @c "colorDefinition".
@@ -585,7 +585,7 @@ const std::string& ColorDefinition::getElementName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfColorDefinitions object.
  *
@@ -598,7 +598,7 @@ XMLNode ColorDefinition::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to create, store, and then
  * return an SBML object corresponding to the next XMLToken in the
@@ -614,7 +614,7 @@ ColorDefinition::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor for this instance of ColorDefinition.
  *
@@ -628,7 +628,7 @@ bool ColorDefinition::accept (SBMLVisitor& v) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ListOfColorDefinitions object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -671,7 +671,7 @@ ListOfColorDefinitions::ListOfColorDefinitions(const XMLNode& node)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the ListOfColorDefinitions object.
  *
@@ -683,7 +683,7 @@ ListOfColorDefinitions* ListOfColorDefinitions::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor. Creates a copy of this ListOfColorDefinitions object.
  */
@@ -713,7 +713,7 @@ ListOfColorDefinitions::ListOfColorDefinitions(RenderPkgNamespaces* renderns)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfColorDefinitions objects.
  */
@@ -727,7 +727,7 @@ ListOfColorDefinitions& ListOfColorDefinitions::operator=(const ListOfColorDefin
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., ColorDefinition objects, if the list is non-empty).
@@ -755,7 +755,7 @@ int ListOfColorDefinitions::getItemTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfColorDefinitions, is always @c "listOfColorDefinitions".
@@ -770,7 +770,7 @@ const std::string& ListOfColorDefinitions::getElementName () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfColorDefinitions object.
  *
@@ -784,7 +784,7 @@ XMLNode ListOfColorDefinitions::toXML() const
 /** @endcond */
  
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -817,7 +817,7 @@ const std::string& ColorDefinition::getId () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether this
  * GraphicalPrimitive's "id" attribute has been set.
@@ -831,7 +831,7 @@ bool ColorDefinition::isSetId () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the value of the "id" attribute of this GraphicalPrimitive.
  *
@@ -854,7 +854,7 @@ int ColorDefinition::setId (const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Unsets the value of the "id" attribute of this ColorDefinition.
  */
@@ -872,7 +872,7 @@ int ColorDefinition::unsetId ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the ColorDefinition with the given index or NULL if
  * the index is invalid.
@@ -887,7 +887,7 @@ ColorDefinition* ListOfColorDefinitions::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the ColorDefinition with the given index or NULL if
  * the index is invalid.
@@ -902,7 +902,7 @@ const ColorDefinition* ListOfColorDefinitions::get(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Used by ListOf::get() to lookup an SBase based by its id.
  */
@@ -917,7 +917,7 @@ struct IdEqColorDefinition : public std::unary_function<SBase*, bool>
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the ColorDefinition with the given @p id or @c NULL if
  * the id is invalid.
@@ -934,7 +934,7 @@ ColorDefinition* ListOfColorDefinitions::get(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the ColorDefinition with the given @p id or @c NULL if
  * the id is invalid.
@@ -952,7 +952,7 @@ const ColorDefinition* ListOfColorDefinitions::get(const std::string& id) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes the nth item from this list */
 ColorDefinition*
 ListOfColorDefinitions::remove (unsigned int n)
@@ -962,7 +962,7 @@ ListOfColorDefinitions::remove (unsigned int n)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the nth item from this ListOfColorDefinitions items and returns a pointer to
  * it.
@@ -991,7 +991,7 @@ ListOfColorDefinitions::remove (const std::string& sid)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -1010,7 +1010,7 @@ bool ColorDefinition::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

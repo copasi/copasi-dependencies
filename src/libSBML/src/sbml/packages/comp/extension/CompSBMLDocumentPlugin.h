@@ -18,19 +18,19 @@
  *------------------------------------------------------------------------- -->
  *
  * @class CompSBMLDocumentPlugin
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * Implementation of the 'comp' package extention to the %SBMLDocument construct.
+ * @sbmlbrief{comp} Implementation of the &ldquo;comp&rdquo; package
+ * extention to the %SBMLDocument construct.
  *
  * The CompSBMLDocumentPlugin class inherits from the SBMLDocumentPlugin
  * class, and codifies the extentions to the SBMLDocument class defined in
- * the SBML Level&nbsp;3 @ref Comp "Hierarchical Model Composition" package ('comp').
- * This extention allows multiple Model objects to be defined in a single
- * SBMLDocument, stored in an optional child ListOfModelDefinitions object,
- * as well as define references to Model objects in other files, stored in
- * the optional child ListOfExternalModelDefinitions object.  These model
- * definitions, if present, allow Submodel objects to reference other Models
- * to instantiate.
+ * the SBML Level&nbsp;3 @ref comp
+ * @if java "Hierarchical %Model Composition"@endif@~ 
+ * package (&ldquo;comp&rdquo;).  This extention allows multiple Model
+ * objects to be defined in a single SBMLDocument, stored in an optional
+ * child ListOfModelDefinitions object, as well as define references to Model
+ * objects in other files, stored in the optional child
+ * ListOfExternalModelDefinitions object.  These model definitions, if
+ * present, allow Submodel objects to reference other Models to instantiate.
  *
  * The presence of ModelDefinitions and ExternalModelDefinitions in an
  * SBMLDocument does not change the default Model in the file.  If a
@@ -39,11 +39,10 @@
  * that should be simulated.
  *
  * In addition, as all packages do, the CompSBMLDocumentPlugin defines a
- * required flag named <code>required</code>, which indicates whether the
- * 'comp' constructs in the document change the mathematics of the
+ * required flag named <code>required</code>, which indicates whether 
+ * &ldquo;comp&rdquo; constructs can be used to change the core mathematics of the
  * <code>&lt;model&gt;</code> child of the <code>&lt;sbml&gt;</code> element.
- * If they do, this attribute must be set @c true, and if not, this attribute
- * must be set @c false.
+ * Because they can, this attribute must be set @c true.
  */
 
 #ifndef CompSBMLDocumentPlugin_h
@@ -136,7 +135,7 @@ public:
    * ever call this function&mdash;instead, call the function on the child
    * ModelDefinition objects.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
@@ -148,7 +147,7 @@ public:
    *
    * @return a pointer to the SBase element with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
   
   
   /**
@@ -162,6 +161,8 @@ public:
   
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or @c NULL if the token was not recognized.
    */
@@ -201,10 +202,17 @@ public:
 
 #endif //SWIG
  
-  virtual bool isFlatteningImplemented() const;
+  /** @cond doxygenLibsbmlInternal */
+  virtual bool isCompFlatteningImplemented() const;
+  /** @endcond */
 
 
-  virtual unsigned int checkConsistency(bool overrideFlattening = false); 
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Check consistency function.
+   */
+  virtual unsigned int checkConsistency();
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -259,8 +267,8 @@ public:
    * @return ModelDefinition in the ListOfModelDefinitions with the given @p sid
    * or @c NULL if no such ModelDefinition exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getModelDefinition(unsigned int n)
+   * @see getListOfModelDefinitions()
    */
   ModelDefinition* getModelDefinition (const std::string& sid);
 
@@ -274,8 +282,8 @@ public:
    * @return ModelDefinition in the ListOfModelDefinitions with the given @p sid
    * or @c NULL if no such ModelDefinition exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getModelDefinition(unsigned int n)
+   * @see getListOfModelDefinitions()
    */
   const ModelDefinition* getModelDefinition (const std::string& sid) const;
 
@@ -290,9 +298,7 @@ public:
    * be added to the list of replaced elements.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
@@ -391,8 +397,8 @@ public:
    * @return ExternalModelDefinition in the ListOfExternalModelDefinitions with the given @p sid
    * or @c NULL if no such ExternalModelDefinition exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getExternalModelDefinition(unsigned int n)
+   * @see getListOfExternalModelDefinitions()
    */
   ExternalModelDefinition* getExternalModelDefinition (const std::string& sid);
 
@@ -406,8 +412,8 @@ public:
    * @return ExternalModelDefinition in the ListOfExternalModelDefinitions with the given @p sid
    * or @c NULL if no such ExternalModelDefinition exists.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @see getExternalModelDefinition(unsigned int n)
+   * @see getListOfExternalModelDefinitions()
    */
   const ExternalModelDefinition* getExternalModelDefinition (const std::string& sid) const;
 
@@ -468,9 +474,7 @@ public:
    * list of external model definitions.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
@@ -572,7 +576,7 @@ public:
    * addXXX, createXXX, and connectToChild functions of the
    * parent element).
    *
-   * @param sb the SBML object to use
+   * @param parent the SBML object to use
    */
   void connectToParent (SBase* parent);
   /** @endcond */
@@ -595,6 +599,22 @@ public:
   /** @endcond */
 
   friend class ExternalModelDefinition; //So that it can call 'getSBMLDocumentFromURI' but nothing else can.
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /* retrieve the override flattening flag */
+  bool getOverrideCompFlattening() const;
+
+  /** @endcond */
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /* retrieve the override flattening flag */
+  void setOverrideCompFlattening(bool overrideCompFlattening);
+
+  /** @endcond */
+
 
 private:
 
@@ -632,8 +652,11 @@ private:
   /** variables and functions for consistency checking **/
 
   /** @cond doxygenLibsbmlInternal */
+  
   bool mCheckingDummyDoc;
   bool mFlattenAndCheck;
+  bool mOverrideCompFlattening;
+
   /** @endcond */
 };
 

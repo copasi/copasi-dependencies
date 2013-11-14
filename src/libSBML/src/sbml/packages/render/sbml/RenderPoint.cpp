@@ -54,7 +54,7 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderPoint object with the given SBML level
  * and SBML version.
@@ -82,7 +82,7 @@ RenderPoint::RenderPoint (unsigned int level, unsigned int version, unsigned int
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderPoint object with the given SBMLNamespaces.
  *
@@ -109,7 +109,7 @@ RenderPoint::RenderPoint (RenderPkgNamespaces* renderns):
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor for RenderPoint objects.
  */
@@ -122,7 +122,7 @@ RenderPoint::RenderPoint(const RenderPoint& orig):SBase(orig)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for RenderPoint objects.
  */
@@ -141,7 +141,7 @@ RenderPoint& RenderPoint::operator=(const RenderPoint& orig)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new point with the given ccordinates.
  *
@@ -169,7 +169,7 @@ RenderPoint::RenderPoint(RenderPkgNamespaces* renderns, const RelAbsVector& x, c
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the Z offset to 0.0.
  */
@@ -179,7 +179,7 @@ void RenderPoint::initDefaults ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RenderPoint object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -225,7 +225,7 @@ RenderPoint::RenderPoint(const XMLNode& node, unsigned int l2version) : SBase(2,
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Destroys the RenderPoint object.
  */ 
@@ -235,7 +235,7 @@ RenderPoint::~RenderPoint()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the coordinates of the RenderPoint to the given values.
  *
@@ -253,7 +253,7 @@ RenderPoint::setCoordinates (const RelAbsVector& x, const RelAbsVector& y, const
 /** @endcond */
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the coordinates of the RenderPoint to the given values.
  * This method is deprecated, please use setCoordinates. 
@@ -275,7 +275,7 @@ RenderPoint::setOffsets (const RelAbsVector& x, const RelAbsVector& y, const Rel
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the x ccordiante of the RenderPoint object.
  *
@@ -289,7 +289,7 @@ RenderPoint::setX (const RelAbsVector& x)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the y ccordiante of the RenderPoint object.
  *
@@ -303,7 +303,7 @@ RenderPoint::setY (const RelAbsVector& y)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the z ccordiante of the RenderPoint object.
  *
@@ -317,7 +317,7 @@ RenderPoint::setZ (const RelAbsVector& z)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate of the RenderPoint as a const reference.
  *
@@ -331,7 +331,7 @@ RenderPoint::x() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate of the RenderPoint as a const reference.
  *
@@ -345,7 +345,7 @@ RenderPoint::y() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate of the RenderPoint as a const reference.
  *
@@ -359,7 +359,7 @@ RenderPoint::z() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate of the RenderPoint as a reference.
  *
@@ -373,7 +373,7 @@ RenderPoint::x()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate of the RenderPoint as a reference.
  *
@@ -387,7 +387,7 @@ RenderPoint::y()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate of the RenderPoint as a reference.
  *
@@ -401,7 +401,7 @@ RenderPoint::z()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -418,7 +418,7 @@ void RenderPoint::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the element name which is returned by getElementName.
  * RenderPoint objects can have different element names depending on context.
@@ -431,7 +431,7 @@ void RenderPoint::setElementName(const std::string& name)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * RenderPoint, depends on the context.
@@ -447,7 +447,7 @@ const std::string& RenderPoint::getElementName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this RenderPoint object.
  * 
@@ -461,7 +461,7 @@ RenderPoint::clone () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 SBase*
 RenderPoint::createObject (XMLInputStream& stream)
 {
@@ -471,7 +471,7 @@ RenderPoint::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 RenderPoint::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -484,7 +484,7 @@ RenderPoint::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 RenderPoint::writeXMLNS (XMLOutputStream& stream) const
 {
@@ -494,7 +494,7 @@ RenderPoint::writeXMLNS (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void RenderPoint::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
   SBase::readAttributes(attributes, expectedAttributes);
@@ -526,7 +526,7 @@ void RenderPoint::readAttributes (const XMLAttributes& attributes, const Expecte
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void RenderPoint::writeAttributes (XMLOutputStream& stream) const
 {
     SBase::writeAttributes(stream);
@@ -547,7 +547,7 @@ void RenderPoint::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 XMLNode RenderPoint::toXML(const std::string& name) const
 {
   return getXmlNodeForSBase(this);
@@ -569,7 +569,7 @@ bool RenderPoint::accept (SBMLVisitor& v) const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Comparison operator for RenderPoint objects.
  */
@@ -579,7 +579,7 @@ bool RenderPoint::operator==(const RenderPoint& left) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -601,7 +601,7 @@ bool RenderPoint::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

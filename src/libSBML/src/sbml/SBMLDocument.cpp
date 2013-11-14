@@ -130,6 +130,8 @@ SBMLDocument::SBMLDocument (unsigned int level, unsigned int version) :
  , mVersion ( version )
  , mModel   ( NULL       )
  , mLocationURI     ("")
+ , mRequiredAttrOfUnknownPkg()
+ , mRequiredAttrOfUnknownDisabledPkg()
 {
 
   mInternalValidator = new SBMLInternalValidator();
@@ -163,6 +165,8 @@ SBMLDocument::SBMLDocument (SBMLNamespaces* sbmlns) :
    SBase  (sbmlns)
  , mModel ( NULL       )
  , mLocationURI ("")
+ , mRequiredAttrOfUnknownPkg()
+ , mRequiredAttrOfUnknownDisabledPkg()
 {
 
   mInternalValidator = new SBMLInternalValidator();
@@ -263,6 +267,8 @@ SBMLDocument::SBMLDocument (const SBMLDocument& orig) :
     mInternalValidator->setDocument(this);
     mInternalValidator->setApplicableValidators(orig.getApplicableValidators());
     mInternalValidator->setConversionValidators(orig.getConversionValidators());
+    mRequiredAttrOfUnknownPkg = orig.mRequiredAttrOfUnknownPkg;
+    mRequiredAttrOfUnknownDisabledPkg = orig.mRequiredAttrOfUnknownDisabledPkg;
 
     if (orig.mModel != NULL) 
     {
@@ -302,6 +308,8 @@ SBMLDocument& SBMLDocument::operator=(const SBMLDocument& rhs)
 
     mInternalValidator = (SBMLInternalValidator*)rhs.mInternalValidator->clone();
     mInternalValidator->setDocument(this);
+    mRequiredAttrOfUnknownPkg = rhs.mRequiredAttrOfUnknownPkg;
+    mRequiredAttrOfUnknownDisabledPkg = rhs.mRequiredAttrOfUnknownDisabledPkg;
 
     if (rhs.mModel != NULL) 
     {
@@ -360,7 +368,7 @@ SBMLDocument::getModel ()
 
 
 SBase* 
-SBMLDocument::getElementBySId(std::string id)
+SBMLDocument::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   if (mModel != NULL) {
@@ -373,7 +381,7 @@ SBMLDocument::getElementBySId(std::string id)
 
 
 SBase*
-SBMLDocument::getElementByMetaId(std::string metaid)
+SBMLDocument::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   if (getMetaId()==metaid) return this;
@@ -698,7 +706,7 @@ SBMLDocument::setConsistencyChecksForConversion(SBMLErrorCategory_t category,
  * @return the number of failed checks (errors) encountered.
  */
 unsigned int
-SBMLDocument::checkConsistency (bool overrideCompFlattening)
+SBMLDocument::checkConsistency ()
 {
   //  XMLLogOverride(getErrorLog(), LIBSBML_OVERRIDE_DISABLED);
   // keep a copy of the override status
@@ -707,12 +715,12 @@ SBMLDocument::checkConsistency (bool overrideCompFlattening)
                                   getErrorLog()->getSeverityOverride();
   getErrorLog()->setSeverityOverride(LIBSBML_OVERRIDE_DISABLED);
 
-  unsigned int numErrors = mInternalValidator->checkConsistency(false);
+  unsigned int numErrors = mInternalValidator->checkConsistency();
 
   for (unsigned int i = 0; i < getNumPlugins(); i++)
   {
     numErrors += static_cast<SBMLDocumentPlugin*>
-                      (getPlugin(i))->checkConsistency(overrideCompFlattening);
+                      (getPlugin(i))->checkConsistency();
   }
 
   list<SBMLValidator*>::iterator it;
@@ -758,7 +766,7 @@ unsigned int SBMLDocument::validateSBML ()
                                   getErrorLog()->getSeverityOverride();
   getErrorLog()->setSeverityOverride(LIBSBML_OVERRIDE_DISABLED);
 
-  unsigned int numErrors = mInternalValidator->checkConsistency(true);
+  unsigned int numErrors = mInternalValidator->checkConsistency();
 
   list<SBMLValidator*>::iterator it;
   for (it = mValidators.begin(); it != mValidators.end(); it++)
@@ -950,7 +958,8 @@ SBMLDocument::setSBMLDocument (SBMLDocument* d)
 void
 SBMLDocument::connectToChild()
 {
-	if (mModel) mModel->connectToParent(this);
+  SBase::connectToChild();
+  if (mModel) mModel->connectToParent(this);
   connectToParent(this);
 }
 
@@ -1060,7 +1069,7 @@ SBMLDocument::getNamespaces() const
 
 
 /*
- * @return the SBMLErrorLog used to log errors during while reading and
+ * @return the SBMLErrorLog used to log errors while reading and
  * validating SBML.
  */
 SBMLErrorLog*
@@ -1071,7 +1080,7 @@ SBMLDocument::getErrorLog ()
 
 
 /*
- * @return the SBMLErrorLog used to log errors during while reading and
+ * @return the SBMLErrorLog used to log errors while reading and
  * validating SBML.
  */
 const SBMLErrorLog*
@@ -1257,6 +1266,28 @@ SBMLDocument::isIgnoredPackage(const std::string& pkgURI)
 {
   if (isSetPackageRequired(pkgURI) && !isPackageURIEnabled(pkgURI))
     return true;
+
+  return false;
+}
+
+/*
+ * Returnes @c true if the given package extension is one of ignored
+ * packages (i.e. the package is defined in this document but the package
+ * is not available), otherwise returns @c false.
+ */
+bool 
+SBMLDocument::isDisabledIgnoredPackage(const std::string& pkgURI)
+{
+  if (!isPackageURIEnabled(pkgURI))
+  {
+    std::string req = 
+            mRequiredAttrOfUnknownDisabledPkg.getValue("required", pkgURI);
+    
+    if (!req.empty()) 
+    {
+      return true;
+    }
+  }
 
   return false;
 }
@@ -1769,12 +1800,36 @@ SBMLDocument::enablePackageInternal(const std::string& pkgURI, const std::string
 //      xmlns->remove(xmlns->getIndex(pkgURI));
 //    }
 
+    /* before we remove the unknown package keep a copy
+     * in case we try to re-enable it later
+     */
     for (int i = 0; i < mRequiredAttrOfUnknownPkg.getLength(); i++)
     {
       if (pkgURI == mRequiredAttrOfUnknownPkg.getURI(i)
         && pkgPrefix == mRequiredAttrOfUnknownPkg.getPrefix(i))
       {
+        mRequiredAttrOfUnknownDisabledPkg.add(
+          mRequiredAttrOfUnknownPkg.getName(i), 
+          mRequiredAttrOfUnknownPkg.getValue(i), pkgURI, pkgPrefix);
         mRequiredAttrOfUnknownPkg.remove(i);
+        break;
+      }
+    }
+  }
+  else
+  {
+    /* check whether we are trying to reenable an unknown package
+     * that we previously disabled
+     */
+    for (int i = 0; i < mRequiredAttrOfUnknownDisabledPkg.getLength(); i++)
+    {
+      if (pkgURI == mRequiredAttrOfUnknownDisabledPkg.getURI(i)
+        && pkgPrefix == mRequiredAttrOfUnknownDisabledPkg.getPrefix(i))
+      {
+        mRequiredAttrOfUnknownPkg.add(
+          mRequiredAttrOfUnknownDisabledPkg.getName(i), 
+          mRequiredAttrOfUnknownDisabledPkg.getValue(i), pkgURI, pkgPrefix);
+        mRequiredAttrOfUnknownDisabledPkg.remove(i);
         break;
       }
     }

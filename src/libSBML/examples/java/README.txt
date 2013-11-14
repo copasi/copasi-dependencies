@@ -71,7 +71,7 @@ available in ../sample-models/.  For example:
 File authors: B. Bornstein, Mike Hucka
 Last Modified: $Date: 2011-02-08 19:49:42 +0100 (Tue, 08 Feb 2011) $
 Last Modified By: $Author: luciansmith $
-$HeadURL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/examples/java/README.txt $
+$HeadURL: https://svn.code.sf.net/p/sbml/code/trunk/libsbml/examples/java/README.txt $
 -------------------------------------------
 
 # The following is for [X]Emacs users.  Please leave in place.

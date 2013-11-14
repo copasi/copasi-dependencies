@@ -117,7 +117,7 @@ SBaseRef::~SBaseRef ()
 
 
 SBase* 
-SBaseRef::getElementBySId(std::string id)
+SBaseRef::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   if (mSBaseRef != NULL) {
@@ -129,7 +129,7 @@ SBaseRef::getElementBySId(std::string id)
 
 
 SBase*
-SBaseRef::getElementByMetaId(std::string metaid)
+SBaseRef::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   if (mSBaseRef != NULL) {
@@ -496,7 +496,7 @@ SBaseRef::hasRequiredAttributes() const
 }
 
 void
-SBaseRef::renameSIdRefs(std::string oldid, std::string newid)
+SBaseRef::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (mPortRef==oldid) mPortRef=newid;
   if (mIdRef==oldid) mIdRef=newid;
@@ -784,7 +784,19 @@ SBaseRef::getReferencedElementFrom(Model* model)
     referent = model->getElementBySId(getIdRef());
     if (referent == NULL && doc) {
       string error = "In SBaseRef::getReferencedElementFrom, unable to find referenced element: no such SId in the model: '" + getIdRef() + "'.";
-      doc->getErrorLog()->logPackageError("comp", CompIdRefMustReferenceObject, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      if (doc->getErrorLog()->contains(UnrequiredPackagePresent) 
+        || doc->getErrorLog()->contains(RequiredPackagePresent))
+      {
+        doc->getErrorLog()->logPackageError("comp", 
+          CompIdRefMayReferenceUnknownPackage, getPackageVersion(), 
+          getLevel(), getVersion(), error, getLine(), getColumn());
+      }
+      else
+      {
+        doc->getErrorLog()->logPackageError("comp", 
+          CompIdRefMustReferenceObject, getPackageVersion(), 
+          getLevel(), getVersion(), error, getLine(), getColumn());
+      }
     }
   }
   else if (isSetUnitRef()) {
@@ -798,7 +810,19 @@ SBaseRef::getReferencedElementFrom(Model* model)
     referent = model->getElementByMetaId(getMetaIdRef());
     if (referent == NULL && doc) {
       string error = "In SBaseRef::getReferencedElementFrom, unable to find referenced element: no such metaid in the model: '" + getMetaIdRef() + "'.";
-      doc->getErrorLog()->logPackageError("comp", CompMetaIdRefMustReferenceObject, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      if (doc->getErrorLog()->contains(UnrequiredPackagePresent) 
+        || doc->getErrorLog()->contains(RequiredPackagePresent))
+      {
+        doc->getErrorLog()->logPackageError("comp", 
+          CompIdRefMayReferenceUnknownPackage, getPackageVersion(), 
+          getLevel(), getVersion(), error, getLine(), getColumn());
+      }
+      else
+      {
+        doc->getErrorLog()->logPackageError("comp", 
+          CompMetaIdRefMustReferenceObject, getPackageVersion(), 
+          getLevel(), getVersion(), error, getLine(), getColumn());
+      }
     }
   }
   else {
@@ -903,22 +927,60 @@ void SBaseRef::clearReferencedElement()
   mReferencedElement = NULL;
 }
 
-int SBaseRef::performDeletion()
+int SBaseRef::collectDeletions(set<SBase*>* removed, set<SBase*>* toremove)
 {
   SBase* todelete = getReferencedElement();
   if (todelete==NULL) {
     return LIBSBML_INVALID_OBJECT;
   }
+  if (removed) {
+    if (removed->find(todelete) != removed->end()) {
+      //Already deleted or replaced.
+      return LIBSBML_OPERATION_SUCCESS;
+    }
+  }
+
+  if (toremove) {
+    toremove->insert(todelete);
+  }
+
   CompSBasePlugin* todplug = static_cast<CompSBasePlugin*>(todelete->getPlugin(getPrefix()));
   if (todplug != NULL) {
     for (unsigned long re=0; re<todplug->getNumReplacedElements(); re++) {
-      todplug->getReplacedElement(re)->performDeletion();
+      todplug->getReplacedElement(re)->collectDeletions(removed, toremove);
     }
     if (todplug->isSetReplacedBy()) {
-      todplug->getReplacedBy()->performDeletion();
+      todplug->getReplacedBy()->collectDeletions(removed, toremove);
     }
   }
-  return CompBase::removeFromParentAndPorts(todelete);
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+//Deprecated function
+int SBaseRef::performDeletion()
+{
+  set<SBase*> toremove;
+  set<SBase*>* removed;
+  CompModelPlugin* cmp = NULL;
+  SBase* parent = getParentSBMLObject();
+  while (parent != NULL && parent->getTypeCode() != SBML_DOCUMENT) {
+    if (parent->getTypeCode() == SBML_COMP_MODELDEFINITION ||
+        parent->getTypeCode() == SBML_MODEL) {
+          cmp = static_cast<CompModelPlugin*>(parent->getPlugin("comp"));
+          if (cmp != NULL) {
+            removed = cmp->getRemovedSet();
+          }
+    }
+    parent = parent->getParentSBMLObject();
+  }
+  int ret = collectDeletions(removed, &toremove);
+  if (ret != LIBSBML_OPERATION_SUCCESS) {
+    return ret;
+  }
+  if (cmp == NULL) {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  return cmp->removeCollectedElements(removed, &toremove);
 }
 
 int SBaseRef::removeFromParentAndDelete()
@@ -945,10 +1007,12 @@ int SBaseRef::removeFromParentAndDelete()
   }
 }
 
+/** @cond doxygenLibsbmlInternal */
 SBase* SBaseRef::getDirectReference()
 {
   return mDirectReference;
 }
+/** @endcond */
 
 /**
  * 
@@ -958,7 +1022,7 @@ SBaseRef_t *
 SBaseRef_create(unsigned int level, unsigned int version,
                 unsigned int pkgVersion)
 {
-	return new SBaseRef(level, version, pkgVersion);
+  return new SBaseRef(level, version, pkgVersion);
 }
 
 
@@ -969,8 +1033,8 @@ LIBSBML_EXTERN
 void
 SBaseRef_free(SBaseRef_t * sbr)
 {
-	if (sbr != NULL)
-		delete sbr;
+  if (sbr != NULL)
+    delete sbr;
 }
 
 
@@ -981,14 +1045,14 @@ LIBSBML_EXTERN
 SBaseRef_t *
 SBaseRef_clone(SBaseRef_t * sbr)
 {
-	if (sbr != NULL)
-	{
-		return static_cast<SBaseRef_t*>(sbr->clone());
-	}
-	else
-	{
-		return NULL;
-	}
+  if (sbr != NULL)
+  {
+    return static_cast<SBaseRef_t*>(sbr->clone());
+  }
+  else
+  {
+    return NULL;
+  }
 }
 
 
@@ -999,10 +1063,10 @@ LIBSBML_EXTERN
 char *
 SBaseRef_getPortRef(SBaseRef_t * sbr)
 {
-	if (sbr == NULL)
-		return NULL;
+  if (sbr == NULL)
+    return NULL;
 
-	return sbr->getPortRef().empty() ? NULL : safe_strdup(sbr->getPortRef().c_str());
+  return sbr->getPortRef().empty() ? NULL : safe_strdup(sbr->getPortRef().c_str());
 }
 
 
@@ -1013,10 +1077,10 @@ LIBSBML_EXTERN
 char *
 SBaseRef_getIdRef(SBaseRef_t * sbr)
 {
-	if (sbr == NULL)
-		return NULL;
+  if (sbr == NULL)
+    return NULL;
 
-	return sbr->getIdRef().empty() ? NULL : safe_strdup(sbr->getIdRef().c_str());
+  return sbr->getIdRef().empty() ? NULL : safe_strdup(sbr->getIdRef().c_str());
 }
 
 
@@ -1027,10 +1091,10 @@ LIBSBML_EXTERN
 char *
 SBaseRef_getUnitRef(SBaseRef_t * sbr)
 {
-	if (sbr == NULL)
-		return NULL;
+  if (sbr == NULL)
+    return NULL;
 
-	return sbr->getUnitRef().empty() ? NULL : safe_strdup(sbr->getUnitRef().c_str());
+  return sbr->getUnitRef().empty() ? NULL : safe_strdup(sbr->getUnitRef().c_str());
 }
 
 
@@ -1041,10 +1105,10 @@ LIBSBML_EXTERN
 char *
 SBaseRef_getMetaIdRef(SBaseRef_t * sbr)
 {
-	if (sbr == NULL)
-		return NULL;
+  if (sbr == NULL)
+    return NULL;
 
-	return sbr->getMetaIdRef().empty() ? NULL : safe_strdup(sbr->getMetaIdRef().c_str());
+  return sbr->getMetaIdRef().empty() ? NULL : safe_strdup(sbr->getMetaIdRef().c_str());
 }
 
 
@@ -1055,10 +1119,10 @@ LIBSBML_EXTERN
 SBaseRef_t*
 SBaseRef_getSBaseRef(SBaseRef_t * sbr)
 {
-	if (sbr == NULL)
-		return NULL;
+  if (sbr == NULL)
+    return NULL;
 
-	return sbr->getSBaseRef();
+  return sbr->getSBaseRef();
 }
 
 
@@ -1069,7 +1133,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_isSetPortRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? static_cast<int>(sbr->isSetPortRef()) : 0;
+  return (sbr != NULL) ? static_cast<int>(sbr->isSetPortRef()) : 0;
 }
 
 
@@ -1080,7 +1144,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_isSetIdRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? static_cast<int>(sbr->isSetIdRef()) : 0;
+  return (sbr != NULL) ? static_cast<int>(sbr->isSetIdRef()) : 0;
 }
 
 
@@ -1091,7 +1155,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_isSetUnitRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? static_cast<int>(sbr->isSetUnitRef()) : 0;
+  return (sbr != NULL) ? static_cast<int>(sbr->isSetUnitRef()) : 0;
 }
 
 
@@ -1102,7 +1166,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_isSetMetaIdRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? static_cast<int>(sbr->isSetMetaIdRef()) : 0;
+  return (sbr != NULL) ? static_cast<int>(sbr->isSetMetaIdRef()) : 0;
 }
 
 
@@ -1113,7 +1177,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_isSetSBaseRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? static_cast<int>(sbr->isSetSBaseRef()) : 0;
+  return (sbr != NULL) ? static_cast<int>(sbr->isSetSBaseRef()) : 0;
 }
 
 
@@ -1124,7 +1188,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_setPortRef(SBaseRef_t * sbr, const char * portRef)
 {
-	return (sbr != NULL) ? sbr->setPortRef(portRef) : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->setPortRef(portRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1135,7 +1199,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_setIdRef(SBaseRef_t * sbr, const char * idRef)
 {
-	return (sbr != NULL) ? sbr->setIdRef(idRef) : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->setIdRef(idRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1146,7 +1210,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_setUnitRef(SBaseRef_t * sbr, const char * unitRef)
 {
-	return (sbr != NULL) ? sbr->setUnitRef(unitRef) : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->setUnitRef(unitRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1157,7 +1221,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_setMetaIdRef(SBaseRef_t * sbr, const char * metaIdRef)
 {
-	return (sbr != NULL) ? sbr->setMetaIdRef(metaIdRef) : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->setMetaIdRef(metaIdRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1168,7 +1232,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_setSBaseRef(SBaseRef_t * sbr, SBaseRef_t * sBaseRef)
 {
-	return (sbr != NULL) ? sbr->setSBaseRef(sBaseRef) : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->setSBaseRef(sBaseRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1179,7 +1243,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_unsetPortRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? sbr->unsetPortRef() : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->unsetPortRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1190,7 +1254,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_unsetIdRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? sbr->unsetIdRef() : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->unsetIdRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1201,7 +1265,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_unsetUnitRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? sbr->unsetUnitRef() : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->unsetUnitRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1212,7 +1276,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_unsetMetaIdRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? sbr->unsetMetaIdRef() : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->unsetMetaIdRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1223,7 +1287,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_unsetSBaseRef(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? sbr->unsetSBaseRef() : LIBSBML_INVALID_OBJECT;
+  return (sbr != NULL) ? sbr->unsetSBaseRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1234,7 +1298,7 @@ LIBSBML_EXTERN
 int
 SBaseRef_hasRequiredAttributes(SBaseRef_t * sbr)
 {
-	return (sbr != NULL) ? static_cast<int>(sbr->hasRequiredAttributes()) : 0;
+  return (sbr != NULL) ? static_cast<int>(sbr->hasRequiredAttributes()) : 0;
 }
 
 

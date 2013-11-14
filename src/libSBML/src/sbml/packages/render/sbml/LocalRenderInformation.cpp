@@ -50,7 +50,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 const std::string ListOfLocalRenderInformation::ELEMENT_NAME="listOfRenderInformation";
 const std::string LocalRenderInformation::ELEMENT_NAME="renderInformation";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LocalRenderInformation object with the given SBML level
  * and SBML version.
@@ -70,7 +70,7 @@ LocalRenderInformation::LocalRenderInformation (unsigned int level, unsigned int
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LocalRenderInformation object with the given SBMLNamespaces.
  *
@@ -95,7 +95,7 @@ LocalRenderInformation::LocalRenderInformation (RenderPkgNamespaces* renderns)
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a LocalRenderInformation with the given @p id
  * and all lists empty.
@@ -125,7 +125,21 @@ LocalRenderInformation::LocalRenderInformation(RenderPkgNamespaces* renderns, co
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+List*
+LocalRenderInformation::getAllElements(ElementFilter* filter)
+{
+  List* ret = RenderInformationBase::getAllElements(filter);
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mListOfStyles, filter);
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+
+/** @cond doxygenLibsbmlInternal */
 /*
  * Parses the xml information in the given node and sets the attributes.
  * This method should never be called by the user. It is only used to read render 
@@ -157,7 +171,7 @@ void LocalRenderInformation::parseXML(const XMLNode& node)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -175,7 +189,7 @@ void LocalRenderInformation::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this LocalRenderInformation object.
  *
@@ -190,7 +204,7 @@ XMLNode LocalRenderInformation::toXML() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -213,7 +227,7 @@ void LocalRenderInformation::writeElements (XMLOutputStream& stream) const
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of styles.
  *
@@ -225,7 +239,7 @@ unsigned int LocalRenderInformation::getNumStyles() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the ListOfLocalStyles object.
  *
@@ -237,7 +251,7 @@ ListOfLocalStyles* LocalRenderInformation::getListOfStyles()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the ListOfLocalStyles object.
  *
@@ -249,7 +263,7 @@ const ListOfLocalStyles* LocalRenderInformation::getListOfStyles() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the style with the given index.
  * If the index is invalid, @c NULL is returned.
@@ -264,7 +278,7 @@ LocalStyle* LocalRenderInformation::getStyle(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the style with the given index.
  * If the index is invalid, @c NULL is returned.
@@ -279,7 +293,7 @@ const LocalStyle* LocalRenderInformation::getStyle(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the style with the given @p id.
  * If the id is invalid, @c NULL is returned.
@@ -294,7 +308,7 @@ LocalStyle* LocalRenderInformation::getStyle(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the style with the given @p id.
  * If the id is invalid, @c NULL is returned.
@@ -310,7 +324,7 @@ const LocalStyle* LocalRenderInformation::getStyle(const std::string& id) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LocalStyle object. The object is added to and owned
  * by the LocalRenderInformation object.
@@ -346,7 +360,7 @@ LocalStyle* LocalRenderInformation::createStyle(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a copy of a LocalStyle to the GlobalRenderInformation object.
  * The style is only added if it is valid, i.e. it has to have an id and
@@ -411,7 +425,7 @@ int LocalRenderInformation::addStyle(const LocalStyle* pStyle)
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the ListOfLocalRenderInformation object.
  *
@@ -425,7 +439,7 @@ ListOfLocalRenderInformation* ListOfLocalRenderInformation::clone () const
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor for ListOfLocalRenderInformation objects.
  */
@@ -437,7 +451,7 @@ ListOfLocalRenderInformation::ListOfLocalRenderInformation(const ListOfLocalRend
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfLocalRenderInformation objects.
  */
@@ -453,7 +467,7 @@ ListOfLocalRenderInformation& ListOfLocalRenderInformation::operator=(const List
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., LocalRenderInformation objects, if the list is non-empty).
@@ -481,7 +495,7 @@ int ListOfLocalRenderInformation::getItemTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfLocalRenderInformation, is always @c "listOfRenderInformation".
@@ -495,7 +509,7 @@ const std::string& ListOfLocalRenderInformation::getElementName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -535,7 +549,7 @@ ListOfLocalRenderInformation::writeXMLNS (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfGradientDefinitions object.
  *
@@ -548,7 +562,7 @@ XMLNode ListOfLocalRenderInformation::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -573,7 +587,7 @@ SBase* LocalRenderInformation::createObject (XMLInputStream& stream)
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -595,7 +609,7 @@ SBase* ListOfLocalRenderInformation::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 LocalRenderInformation::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -604,7 +618,7 @@ LocalRenderInformation::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void LocalRenderInformation::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
    ExpectedAttributes ea;
@@ -613,7 +627,7 @@ void LocalRenderInformation::readAttributes (const XMLAttributes& attributes, co
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * LocalRenderInformation, is always @c "renderInformation".
@@ -627,7 +641,7 @@ const std::string& LocalRenderInformation::getElementName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -653,7 +667,7 @@ int LocalRenderInformation::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor.
  *
@@ -667,7 +681,7 @@ bool LocalRenderInformation::accept(SBMLVisitor& /*visitor*/) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this LocalRenderInformation object.
  *
@@ -679,7 +693,7 @@ LocalRenderInformation* LocalRenderInformation::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the version of the render information list.
  * The version consists of a major and a minor version number.
@@ -694,7 +708,7 @@ void ListOfLocalRenderInformation::setVersion(unsigned int major,unsigned int mi
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the major version of the render information list.
  *
@@ -707,7 +721,7 @@ unsigned int ListOfLocalRenderInformation::getMajorVersion() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the minor version of the render information list.
  *
@@ -720,7 +734,7 @@ unsigned int ListOfLocalRenderInformation::getMinorVersion() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the version as a string.
  *
@@ -735,7 +749,7 @@ std::string ListOfLocalRenderInformation::getVersionString() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the LocalRenderInformation with the given index or NULL if
  * the index is invalid.
@@ -750,7 +764,7 @@ LocalRenderInformation* ListOfLocalRenderInformation::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the LocalRenderInformation with the given index or NULL if
  * the index is invalid.
@@ -765,7 +779,7 @@ const LocalRenderInformation* ListOfLocalRenderInformation::get(unsigned int i) 
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Used by ListOf::get() to lookup an SBase based by its id.
  */
@@ -780,7 +794,7 @@ struct IdEqLocalRenderInformation : public std::unary_function<SBase*, bool>
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the LocalRenderInformation with the given @p id or @c NULL if
  * the id is invalid.
@@ -797,7 +811,7 @@ LocalRenderInformation* ListOfLocalRenderInformation::get(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the LocalRenderInformation with the given @p id or @c NULL if
  * the id is invalid.
@@ -815,7 +829,7 @@ const LocalRenderInformation* ListOfLocalRenderInformation::get(const std::strin
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes the nth item from this list */
     LocalRenderInformation*
 ListOfLocalRenderInformation::remove (unsigned int n)
@@ -825,7 +839,7 @@ ListOfLocalRenderInformation::remove (unsigned int n)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes item in this list by id */
     LocalRenderInformation*
 ListOfLocalRenderInformation::remove (const std::string& sid)
@@ -845,7 +859,7 @@ ListOfLocalRenderInformation::remove (const std::string& sid)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -867,7 +881,7 @@ LocalRenderInformation::setSBMLDocument (SBMLDocument* d)
 void
 LocalRenderInformation::connectToChild()
 {
-  SBase::connectToChild();
+  RenderInformationBase::connectToChild();
   mListOfStyles.connectToParent(this);
 }
 

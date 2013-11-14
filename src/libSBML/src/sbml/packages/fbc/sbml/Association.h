@@ -17,9 +17,14 @@
  *------------------------------------------------------------------------- -->
  *
  * @class Association
- * @ingroup FBC
- * @brief @htmlinclude pkg-marker-fbc.html
- * Implementation of the 'fbc' package %Association construct.
+ * @sbmlbrief{fbc} Implementation of the 'fbc' proposed package %Association
+ * construct.
+ *
+ * The Association class is not part of the official Flux Balance
+ * specification, but is instead a proposed future development of the
+ * package.  If adopted, it would be a child of a GeneAssociation that would
+ * describe a single 'and' or 'or' relationship between two or more genes or
+ * other associations.
  */
 
 #ifndef Association_H__
@@ -41,13 +46,17 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-enum AssociationTypeCode_t
+/**
+ * @enum  AssociationTypeCode_t
+ * @brief AssociationTypeCode_t is the enumeration of possible association children of the proposed GeneAssociation class.  This class is not part of Version&nbsp;1 of the Flux Balance Constraints specification.
+ */
+typedef enum
 {
-    GENE_ASSOCIATION      = 0
-   , AND_ASSOCIATION      = 1
-   , OR_ASSOCIATION       = 2
-   , UNKNOWN_ASSOCIATION       = 3
-};
+     GENE_ASSOCIATION     = 0 /*!< A 'gene' association (<code>&lt;fbc:gene&gt;</code>) */
+   , AND_ASSOCIATION      = 1 /*!< An 'and' association (<code>&lt;fbc:and&gt;</code>) */
+   , OR_ASSOCIATION       = 2 /*!< An 'or' association (<code>&lt;fbc:or&gt;</code>) */
+   , UNKNOWN_ASSOCIATION  = 3 /*!< An unknown or unset association (no legal XML) */
+} AssociationTypeCode_t;
 
 
 class LIBSBML_EXTERN Association : public SBase
@@ -119,11 +128,9 @@ public:
    * @param type a SIdRef string to be set.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setType (const AssociationTypeCode_t type);
 
@@ -132,11 +139,9 @@ public:
    * Unsets the value of the "id" attribute of this Association.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetType ();
 
@@ -165,11 +170,9 @@ public:
    * @param reference a SIdRef string to be set.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setReference (const std::string& reference);
 
@@ -178,24 +181,55 @@ public:
    * Unsets the value of the "id" attribute of this Association.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetReference ();
 
+  /**
+   * Add a gene with the given @p id to the association.
+   */
   virtual int addGene(const std::string& id);
+
+  /**
+   * Returns the number of child Associations of this Association.
+   */
   virtual unsigned int getNumAssociations();
+
+  /**
+   * Adds a child Association to this Association.
+   */
   virtual int addAssociation(Association &association);
+
+  /**
+   * Removes the child Associations with the given @p index from this Association.
+   */
   virtual int removeAssociation(int index);
+
+  /**
+   * Returns the number of child Associations of this Association.
+   */
   virtual int clearAssociations();
 
+  /**
+   * Creates and returns a new Association of type 'and'.  Does not actually add the created Association as a child of this Association or do anything else with it--the returning pointer is now owned by the caller.
+   */
   virtual Association* createAnd();
+
+  /**
+   * Creates and returns a new Association of type 'or'.  Does not actually add the created Association as a child of this Association or do anything else with it--the returning pointer is now owned by the caller.
+   */
   virtual Association* createOr();
+
+  /**
+   * Creates and returns a new Association of type 'and', and with the gene reference @p reference.  Does not actually add the created Association as a child of this Association or do anything else with it--the returning pointer is now owned by the caller.
+   */
   virtual Association* createGene(const std::string reference = "" );
 
+  /**
+   * Creates an XMLNode object from this.
+   */
   XMLNode toXML() const;
   
   /**
@@ -208,18 +242,27 @@ public:
 
 
   /**
+   * Creates and returns a deep copy of this Association.
+   * 
    * @return a (deep) copy of this Association.
    */
   virtual Association* clone () const;
 
 
   /**
-   * @return the typecode (int) of this SBML object or SBML_UNKNOWN
-   * (default).
+   * Returns the libSBML type code of this object instance.
+   *
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for this object:
+   * @link SBMLFbcTypeCode_t#SBML_FBC_ASSOCIATION SBML_FBC_ASSOCIATION@endlink
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
-  int getTypeCode () const;
+  virtual int getTypeCode () const;
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -267,6 +310,8 @@ public:
 protected:
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */

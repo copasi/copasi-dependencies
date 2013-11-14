@@ -1,4 +1,4 @@
-                        l i b S B M L   5.1.0
+                        l i b S B M L   5.9.0
 		   SBML Level 3 extension packages
 
 This directory contains beta releases of libSBML extensions to

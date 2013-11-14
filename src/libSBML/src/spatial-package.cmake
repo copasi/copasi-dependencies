@@ -25,6 +25,19 @@ foreach(dir common extension sbml)
 		${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/spatial/${dir}/*.h
 	)
 	
+        # Set the *Constraints.cpp files to be 'header' files so they won't be compiled--
+        #  they are #included directly, instead.
+        if ("${dir}" STREQUAL "validator/constraints")
+            foreach(tempFile ${current})
+                if ("${tempFile}" MATCHES ".*Constraints.cpp")
+                    set_source_files_properties(
+                        ${tempFile}
+                        PROPERTIES HEADER_FILE_ONLY true
+                        )
+                endif()
+            endforeach()
+        endif()
+
 	# add sources 
 	set(SPATIAL_SOURCES ${SPATIAL_SOURCES} ${current})
 	

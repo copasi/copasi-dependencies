@@ -88,7 +88,64 @@ RenderListOfLayoutsPlugin*
 }
 
 
-/** @cond doxygen-libsbml-internal */
+List*
+RenderListOfLayoutsPlugin::getAllElements(ElementFilter *filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mGlobalRenderInformation, filter);
+
+  return ret;
+}
+
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+int 
+RenderListOfLayoutsPlugin::appendFrom(const Model* model)
+{
+  int ret = LIBSBML_OPERATION_SUCCESS;
+
+  if (model==NULL)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+
+  const LayoutModelPlugin* layPlug = dynamic_cast<const LayoutModelPlugin*>
+    (model->getPlugin("layout"));
+
+  if (layPlug == NULL)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  
+  const RenderListOfLayoutsPlugin* lolplug = 
+    dynamic_cast<const RenderListOfLayoutsPlugin*>
+               (layPlug->getListOfLayouts()->getPlugin("render"));
+  
+  if (lolplug == NULL)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+
+  ListOfLayouts* parent = dynamic_cast<ListOfLayouts*>(getParentSBMLObject());
+
+  if (parent==NULL) 
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  
+  ret = mGlobalRenderInformation.appendFrom(lolplug->getListOfGlobalRenderInformation());
+ 
+  return ret;
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
 SBase*
   RenderListOfLayoutsPlugin::createObject(XMLInputStream& stream)
 {
@@ -121,7 +178,7 @@ SBase*
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
   RenderListOfLayoutsPlugin::writeElements (XMLOutputStream& stream) const
 {
@@ -131,7 +188,7 @@ void
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 RenderListOfLayoutsPlugin::writeAttributes (XMLOutputStream& stream) const
 {
@@ -211,7 +268,7 @@ void
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to read (and store) XHTML,
  * MathML, etc. directly from the XMLInputStream.
@@ -245,7 +302,7 @@ RenderListOfLayoutsPlugin::parseAnnotation(SBase *parentObject, XMLNode *annotat
   parseGlobalRenderAnnotation(annotation,(ListOfLayouts*)parentObject);  
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Synchronizes the annotation of this SBML object.
  */

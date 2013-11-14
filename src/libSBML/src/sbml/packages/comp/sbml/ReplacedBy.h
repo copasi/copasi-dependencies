@@ -17,17 +17,16 @@
  *------------------------------------------------------------------------- -->
  *
  * @class ReplacedBy
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * Implementation of the %ReplacedBy construct from the 'comp' package.
+ * @sbmlbrief{comp} Implementation of the %ReplacedBy construct from the
+ * &ldquo;comp&rdquo; package.
  *
- * The ReplacedBy class was introduced by the SBML Level&nbsp;3 
- * @ref Comp "Hierarchical Model Composition" package ('comp')
- * to allow submodel elements to be
- * 'canonical' versions of the element while still allowing the parent model
- * to reference those elements.  Whereas a ReplacedElement object indicates
- * that the containing object replaces another, a ReplacedBy object indicates
- * the converse: the parent object is to be replaced by another object.
+ * The ReplacedBy class was introduced by the SBML Level&nbsp;3 @ref comp
+ * @if java "Hierarchical %Model Composition"@endif@~ 
+ * package (&ldquo;comp&rdquo;) to allow submodel elements to be 'canonical'
+ * versions of the element while still allowing the parent model to reference
+ * those elements.  Whereas a ReplacedElement object indicates that the
+ * containing object replaces another, a ReplacedBy object indicates the
+ * converse: the parent object is to be replaced by another object.
 
  * As is the case with ReplacedElement, the ReplacedBy class inherits from SBaseRef.  
  * It additionally defines one required attribute ("submodelRef"), defined in 
@@ -115,41 +114,31 @@ public:
 
 
   /**
-   * Returns the libSBML type code for this SBML object.
-   * 
-   * LibSBML attaches an identifying code to every kind of SBML object.
-   * These are known as <em>SBML type codes</em>.  @if clike The set of
-   * possible type codes for the 'comp' package is defined in the enumeration
-   * #SBMLCompTypeCode_t.  The names of the type codes all begin with the
-   * characters <code>SBML_COMP</code>. @endif@~
-   * 
-   * @return the typecode (int) of this SBML object or SBML_UNKNOWN
-   * (default).
+   * Returns the libSBML type code of this object instance.
+   *
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for this object:
+   * @link SBMLCompTypeCode_t#SBML_COMP_REPLACEDBY SBML_COMP_REPLACEDBY@endlink
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
-  int getTypeCode () const;
+  virtual int getTypeCode () const;
 
 
   /**
-   * Finds this ReplacedBy's SBase parent, gets the 'comp' plugin from it,
+   * Finds this ReplacedBy's SBase parent, gets the &ldquo;comp&rdquo; plugin from it,
    * and tells that to remove this.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int removeFromParentAndDelete();
-
-
-  /**
-   * Removes the redundant element from instantiated submodels, and points
-   * all old references to the remaining element.
-   */
-  virtual int performReplacement();
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -164,9 +153,7 @@ public:
    * any references to @p oldnames should now point.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    */
@@ -175,7 +162,6 @@ public:
 
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Accepts the given SBMLVisitor.
    *
@@ -184,8 +170,23 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
-
   /** @endcond */
+
+  protected:
+  /**
+   * Updates all IDs and references to those IDs.  Does not actually
+   * remove the now-redundant element!  The elements to be removed is instead 
+   * added to 'toremove', allowing one to remove the element carefully
+   * to prevent double-deletion of elements, and to allow the correct
+   * interpretation of 'nested' replacements and deletions.
+   *
+   * The 'removed' argument is present to ensure that the replaced element was
+   * not already removed, which would make it impossible to check it for its
+   * old IDs.  In normal comp flattening, 'removed' will only contain comp elements,
+   * which should usually not be replaced, only deleted.
+   */
+  virtual int performReplacementAndCollect(std::set<SBase*>* removed, std::set<SBase*>* toremove);
+  friend class CompModelPlugin;
 
 };
 

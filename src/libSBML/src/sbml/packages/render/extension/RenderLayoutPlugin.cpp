@@ -92,7 +92,19 @@ RenderLayoutPlugin*
 }
 
 
-/** @cond doxygen-libsbml-internal */
+List*
+RenderLayoutPlugin::getAllElements(ElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_LIST(ret, sublist, mLocalRenderInformation, filter);
+
+  return ret;
+}
+
+
+/** @cond doxygenLibsbmlInternal */
 SBase*
   RenderLayoutPlugin::createObject(XMLInputStream& stream)
 {
@@ -125,7 +137,7 @@ SBase*
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 RenderLayoutPlugin::writeAttributes (XMLOutputStream& stream) const
 {
@@ -143,7 +155,7 @@ RenderLayoutPlugin::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
   RenderLayoutPlugin::writeElements (XMLOutputStream& stream) const
 {
@@ -164,7 +176,7 @@ RenderLayoutPlugin::parseAnnotation(SBase *parentObject, XMLNode *annotation)
   parseLocalRenderAnnotation(annotation,(Layout*)parentObject);
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Synchronizes the annotation of this SBML object.
  */
@@ -211,7 +223,7 @@ RenderLayoutPlugin::syncAnnotation (SBase *parentObject, XMLNode *pAnnotation)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to read (and store) XHTML,
  * MathML, etc. directly from the XMLInputStream.
@@ -458,7 +470,7 @@ LocalRenderInformation* RenderLayoutPlugin::removeLocalRenderInformation(const s
 
 #ifdef ANNOTATION
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to read (and store) XHTML,
  * MathML, etc. directly from the XMLInputStream.
@@ -573,7 +585,7 @@ RenderLayoutPlugin::appendAnnotation (const XMLNode* annotation)
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Synchronizes the annotation of this SBML object.
  */

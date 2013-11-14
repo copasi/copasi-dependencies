@@ -17,18 +17,17 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class ReplacedElement
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * Implementation of the %ReplacedElement construct from the 'comp' package.
+ * @sbmlbrief{comp} Implementation of the %ReplacedElement construct from the
+ * &ldquo;comp&rdquo; package.
  *
  * The ReplacedElement class was introduced by the SBML Level&nbsp;3
- * @ref Comp "Hierarchical Model Composition" package ('comp')
- * to allow submodel elements
- * to be replaced, but still allow references to those elements to be valid.
- * A ReplacedElement object is essentially a pointer to a submodel object
- * that should be considered 'replaced'.  The object holding the
- * ReplacedElement instance is the one doing the replacing; the object
- * pointed to by the ReplacedElement object is the object being replaced.
+ * @ref comp @if java "Hierarchical %Model Composition"@endif@~  package
+ * (&ldquo;comp&rdquo;) to allow submodel elements to be replaced, but still
+ * allow references to those elements to be valid.  A ReplacedElement object
+ * is essentially a pointer to a submodel object that should be considered
+ * 'replaced'.  The object holding the ReplacedElement instance is the one
+ * doing the replacing; the object pointed to by the ReplacedElement object
+ * is the object being replaced.
  *
  * A replacement implies that dependencies involving the replaced object
  * must be updated: all references to the replaced object elsewhere in the
@@ -204,9 +203,7 @@ public:
    * Sets the value of the "conversionFactor" attribute of this ReplacedElement.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
@@ -217,9 +214,7 @@ public:
    * Unsets the value of the "conversionFactor" attribute of this ReplacedElement.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -257,9 +252,7 @@ public:
    * unitRef, or metaIdRef.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
@@ -271,9 +264,7 @@ public:
    * Unsets the value of the "deletion" attribute of this ReplacedElement.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -301,34 +292,26 @@ public:
 
 
   /**
-   * Returns the libSBML type code for this SBML object.
-   * 
-   * LibSBML attaches an identifying code to every kind of SBML object.
-   * These are known as <em>SBML type codes</em>.  @if clike The set of
-   * possible type codes for the 'comp' package is defined in the enumeration
-   * #SBMLCompTypeCode_t.  The names of the type codes all begin with the
-   * characters <code>SBML_COMP</code>. @endif@~
+   * Returns the libSBML type code of this object instance.
    *
-   * @return the typecode (int) of this SBML object or SBML_UNKNOWN
-   * (default).
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for this object:
+   * @link SBMLCompTypeCode_t#SBML_COMP_REPLACEDELEMENT SBML_COMP_REPLACEDELEMENT@endlink
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
-  int getTypeCode () const;
+  virtual int getTypeCode () const;
 
 
   /**
    * Renames all the SIdRef attributes on this element if they match
    * @p oldid, but not any found in child or plugin elements.
    */
-  virtual void renameSIdRefs(std::string oldid, std::string newid);
-
-
-  /**
-   * Removes the referenced element from instantiated submodels, and points
-   * all old references to that element to the replacement element.
-   */
-  virtual int performReplacement();
+  virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /**
@@ -403,6 +386,21 @@ protected:
   virtual void writeAttributes (XMLOutputStream& stream) const;
   /** @endcond */
 
+  /**
+   * Updates all IDs and references to those IDs, as well as performing all
+   * necessary conversions based on the conversion factors.  Does not actually
+   * remove the now-redundant element!  The elements to be removed is instead 
+   * added to 'toremove', allowing one to remove the element carefully
+   * to prevent double-deletion of elements, and to allow the correct
+   * interpretation of 'nested' replacements and deletions.
+   *
+   * The 'removed' argument is present to ensure that the replaced element was
+   * not already removed, which would make it impossible to check it for its
+   * old IDs.  In normal comp flattening, 'removed' will only contain comp elements,
+   * which should usually not be replaced, only deleted.
+   */
+  virtual int performReplacementAndCollect(std::set<SBase*>* removed, std::set<SBase*>* toremove);
+  friend class CompModelPlugin;
 };
 
 

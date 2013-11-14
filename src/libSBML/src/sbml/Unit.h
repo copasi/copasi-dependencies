@@ -26,8 +26,7 @@
  * ---------------------------------------------------------------------- -->
  *
  * @class Unit
- * @ingroup Core
- * @brief Implementation of SBML's %Unit construct.
+ * @sbmlbrief{core} Implementation of SBML's %Unit construct.
  *
  * The SBML unit definition facility uses two classes of objects,
  * UnitDefinition and Unit.  The approach to defining units in %SBML is
@@ -46,7 +45,7 @@
  * Its value must be one of the text strings listed below; this list
  * corresponds to SBML Level&nbsp;3 Version&nbsp;1 Core:
  *
- * @htmlinclude base-units.html
+ * @copydetails doc_base_units
  *
  * A few small differences exist between the Level&nbsp;3 list of base
  * units and the list defined in other Level/Version combinations of SBML.
@@ -157,20 +156,48 @@
  *
  * @htmlinclude unitkind-table.html
  * 
- * <!-- leave this next break as-is to work around some doxygen bug -->
- */ 
-/**
+ * <!-- ------------------------------------------------------------------- -->
  * @class ListOfUnits
- * @ingroup Core
- * @brief Implementation of SBML's %ListOfUnits construct.
+ * @sbmlbrief{core} Implementation of SBML's %ListOfUnits construct.
  * 
- * The various ListOf___ classes in %SBML are merely containers used for
- * organizing the main components of an %SBML model.  All are derived from
- * the abstract class SBase, and inherit the various attributes and
- * subelements of SBase, such as "metaid" as and "annotation".  The
- * ListOf___ classes do not add any attributes of their own.
- *
  * ListOfUnits is entirely contained within UnitDefinition.
+ *
+ * @copydetails doc_what_is_listof
+ */
+
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ *
+ * @class doc_note_unit_setting_lv
+ * 
+ * @note Upon the addition of a Unit object to an SBMLDocument, the SBML
+ * Level, SBML Version and XML namespace of the document @em
+ * override the values used when creating the Unit object via this
+ * constructor.  This is necessary to ensure that an SBML document is a
+ * consistent structure.  Nevertheless, the ability to supply the values
+ * at the time of creation of a Unit is an important aid to producing
+ * valid SBML.  Knowledge of the intented SBML Level and Version
+ * determine whether it is valid to assign a particular value to an
+ * attribute, or whether it is valid to add an object to an existing
+ * SBMLDocument.
+ *
+ * @class doc_warning_unit_offset_only_l2v1
+ * 
+ * @warning <span class="warning">The "offset" attribute is only available in
+ * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+ * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+ * these later specifications, modelers and software tools need to account
+ * for units with offsets explicitly.  The %SBML specification document
+ * offers a number of suggestions for how to achieve this.  LibSBML methods
+ * such as this one related to "offset" are retained for compatibility with
+ * earlier versions of SBML Level&nbsp;2, but their use is strongly
+ * discouraged.</span>
+ * 
  */
 
 #ifndef Unit_h
@@ -216,17 +243,8 @@ public:
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
-   * 
-   * @note Upon the addition of a Unit object to an SBMLDocument, the SBML
-   * Level, SBML Version and XML namespace of the document @em
-   * override the values used when creating the Unit object via this
-   * constructor.  This is necessary to ensure that an SBML document is a
-   * consistent structure.  Nevertheless, the ability to supply the values
-   * at the time of creation of a Unit is an important aid to producing
-   * valid SBML.  Knowledge of the intented SBML Level and Version
-   * determine whether it is valid to assign a particular value to an
-   * attribute, or whether it is valid to add an object to an existing
-   * SBMLDocument.
+   *
+   * @copydetails doc_note_unit_setting_lv
    */
   Unit (unsigned int level, unsigned int version);
 
@@ -235,13 +253,8 @@ public:
    * Creates a new Unit using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
-   * information.  It is used to communicate the SBML Level, Version, and
-   * (in Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.
-   * A common approach to using this class constructor is to create an
-   * SBMLNamespaces object somewhere in a program, once, then pass it to
-   * object constructors such as this one when needed.
-   *
+   * @copydetails doc_what_are_sbmlnamespaces
+   * 
    * @param sbmlns an SBMLNamespaces object.
    *
    * @throws @if python ValueError @else SBMLConstructorException @endif@~
@@ -249,15 +262,7 @@ public:
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @note Upon the addition of a Unit object to an SBMLDocument, the SBML
-   * XML namespace of the document @em overrides the value used when
-   * creating the Unit object via this constructor.  This is necessary to
-   * ensure that an SBML document is a consistent structure.  Nevertheless,
-   * the ability to supply the values at the time of creation of a Unit is
-   * an important aid to producing valid SBML.  Knowledge of the intented
-   * SBML Level and Version determine whether it is valid to assign a
-   * particular value to an attribute, or whether it is valid to add an
-   * object to an existing SBMLDocument.
+   * @copydetails doc_note_unit_setting_lv
    */
   Unit (SBMLNamespaces* sbmlns);
 
@@ -386,18 +391,10 @@ public:
 
   /**
    * Returns the value of the "offset" attribute of this Unit.
-   *
-   * @warning The "offset" attribute is only available in SBML Level&nbsp;2
-   * Version&nbsp;1.  This attribute is not present in SBML Level&nbsp;2
-   * Version&nbsp;2 or above.  When producing SBML models using these later
-   * specifications, modelers and software tools need to account for units
-   * with offsets explicitly.  The %SBML specification document offers a
-   * number of suggestions for how to achieve this.  LibSBML methods such
-   * as this one related to "offset" are retained for compatibility with
-   * earlier versions of SBML Level&nbsp;2, but their use is strongly
-   * discouraged.
    * 
    * @return the "offset" value of this Unit, as a double.
+   *
+   * @copydetails doc_warning_unit_offset_only_l2v1
    */
   double getOffset () const;
 
@@ -447,12 +444,12 @@ public:
    * @return @c true if the kind of this Unit is @c Celsius, @c false
    * otherwise. 
    *
-   * @warning The predefined unit @c Celsius was removed from the list of
-   * predefined units in SBML Level&nbsp;2 Version&nbsp;2 at the same time
-   * that the "offset" attribute was removed from Unit definitions.
-   * LibSBML methods such as this one related to @c Celsius are retained in
-   * order to support SBML Level&nbsp;2 Version&nbsp;1, but their use is
-   * strongly discouraged.
+   * @warning <span class="warning">The predefined unit @c Celsius was
+   * removed from the list of predefined units in SBML Level&nbsp;2
+   * Version&nbsp;2 at the same time that the "offset" attribute was removed
+   * from Unit definitions.  LibSBML methods such as this one related to @c
+   * Celsius are retained in order to support SBML Level&nbsp;2
+   * Version&nbsp;1, but their use is strongly discouraged.</span>
    */
   bool isCelsius () const;
 
@@ -852,15 +849,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
    *
-   * @warning The "offset" attribute is only available in SBML Level&nbsp;2
-   * Version&nbsp;1.  This attribute is not present in SBML Level&nbsp;2
-   * Version&nbsp;2 or above.  When producing SBML models using these later
-   * specifications, modelers and software tools need to account for units
-   * with offsets explicitly.  The %SBML specification document offers a
-   * number of suggestions for how to achieve this.  LibSBML methods such
-   * as this one related to "offset" are retained for compatibility with
-   * earlier versions of SBML Level&nbsp;2, but their use is strongly
-   * discouraged.
+   * @copydetails doc_warning_unit_offset_only_l2v1
    */
   int setOffset (double value);
 
@@ -868,30 +857,14 @@ public:
   /**
    * Returns the libSBML type code of this object instance.
    *
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
+   * @copydetails doc_what_are_typecodes
    *
-   * @return the SBML type code for this object, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @return the SBML type code for this object:
+   * @link SBMLTypeCode_t#SBML_UNIT SBML_UNIT@endlink (default).
    *
+   * @copydetails doc_warning_typecodes_not_unique
+   *
+   * @see getPackageName()
    * @see getElementName()
    */
   virtual int getTypeCode () const;
@@ -1323,67 +1296,16 @@ public:
 
 
   /**
-   * Returns the libSBML type code for this %SBML object.
-   * 
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
-   *
-   * @return the SBML type code for this object, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
-   *
-   * @see getElementName()
-   */
-  virtual int getTypeCode () const { return SBML_LIST_OF; };
-
-
-  /**
    * Returns the libSBML type code for the objects contained in this ListOf
    * (i.e., Unit objects, if the list is non-empty).
    * 
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
-   * 
-   * @return the SBML type code for the objects contained in this ListOf
-   * instance, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for objects contained in this list:
+   * @link SBMLTypeCode_t#SBML_UNIT SBML_UNIT@endlink (default).
    *
    * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 

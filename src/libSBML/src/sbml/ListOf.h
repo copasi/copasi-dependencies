@@ -26,16 +26,9 @@
  * ---------------------------------------------------------------------- -->
  *
  * @class ListOf
- * @ingroup Core
- * @brief Parent class for the various SBML "ListOfXYZ" classes.
+ * @sbmlbrief{core} Parent class for the various SBML "ListOfXYZ" classes.
  *
  * @htmlinclude not-sbml-warning.html
- *
- * SBML defines various ListOf___ classes that are containers used for
- * organizing the main components of an SBML model.  All are derived from
- * the abstract class SBase, and inherit the attributes and subelements of
- * SBase, such as "metaid" as and "annotation".  The ListOf___ classes do
- * not add any attributes of their own.
  *
  * The ListOf class in libSBML is a utility class that serves as the parent
  * class for implementing the ListOf__ classes.  It provides methods for
@@ -44,18 +37,7 @@
  * @if clike C&#43;&#43; @endif@if java Java@endif@if python Python@endif@~ lists,
  * so that it can provide the methods and features associated with SBase.
  *
- * @see ListOfFunctionDefinitions
- * @see ListOfUnitDefinitions
- * @see ListOfCompartmentTypes
- * @see ListOfSpeciesTypes
- * @see ListOfCompartments
- * @see ListOfSpecies
- * @see ListOfParameters
- * @see ListOfInitialAssignments
- * @see ListOfRules
- * @see ListOfConstraints
- * @see ListOfReactions
- * @see ListOfEvents
+ * @copydetails doc_what_is_listof 
  */
 
 
@@ -196,13 +178,16 @@ public:
 
 
   /**
-   * Adds a clone of all items in the provided ListOf to this object.  This means that when this ListOf is destroyed, the original items will not be destroyed.
+   * Adds a clone of all items in the provided ListOf to this object.
+   *
+   * This means that when this ListOf is destroyed, the original items will
+   * not be destroyed.
    *
    * @param list A list of items to be added.
    *
    * @see append(const SBase* item)
    */
-  int appendFrom(const ListOf* list);
+  virtual int appendFrom(const ListOf* list);
   
 
   /** 
@@ -260,26 +245,30 @@ public:
 
 
   /**
-   * Returns the first child element found that has the given @p id in the model-wide SId namespace, or @c NULL if no such object is found.
+   * Returns the first child element found that has the given @p id in the
+   * model-wide SId namespace, or @c NULL if no such object is found.
    *
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
-   * Returns the first child element it can find with the given @p metaid, or @c NULL if no such object is found.
+   * Returns the first child element it can find with the given @p metaid, or
+   * @c NULL if no such object is found.
    *
    * @param metaid string representing the metaid of objects to find
    *
    * @return pointer to the first element found with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
+
   
   /**
-   * Returns a List of all child SBase objects, including those nested to an arbitrary depth
+   * Returns a List of all child SBase objects, including those nested to an
+   * arbitrary depth
    *
    * @return a List of pointers to all children objects.
    */
@@ -337,7 +326,12 @@ public:
 
 
   /**
-   * Because ListOf objects typically live as object children of their parent object and not as pointer children, this function clears itself, but does not attempt to do anything else.  If a particular ListOf subclass does indeed exist as a pointer only, this function will need to be overridden.
+   * Because ListOf objects typically live as object children of their parent
+   * object and not as pointer children, this function clears itself, but
+   * does not attempt to do anything else.
+   *
+   * If a particular ListOf subclass does indeed exist as a pointer only,
+   * this function will need to be overridden.
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -347,6 +341,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int removeFromParentAndDelete();
+
 
   /**
    * Removes the <em>n</em>th item from this ListOf items and returns a
@@ -385,8 +380,8 @@ public:
    */
   unsigned int size () const;
 
-  /** @cond doxygenLibsbmlInternal */
 
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBMLDocument of this SBML object.
    *
@@ -394,8 +389,10 @@ public:
    * ListOf.
    */
   virtual void setSBMLDocument (SBMLDocument* d);
+  /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets this SBML object to child SBML objects (if any).
    * (Creates a child-parent relationship by the parent)
@@ -405,43 +402,33 @@ public:
    * Basically, this function needs to be called in
    * constructor, copy constructor and assignment operator.
    *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
+   * @if cpp 
+   * @see setSBMLDocument()
+   * @see enablePackageInternal()
+   * @endif
    */
   virtual void connectToChild ();
-
-
   /** @endcond */
 
+
   /**
-   * Returns the libSBML type code for this object, namely, @c
-   * SBML_LIST_OF.
+   * Returns the libSBML type code for this object, namely,
+   * @link SBMLTypeCode_t#SBML_LIST_OF SBML_LIST_OF@endlink.
    * 
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
+   * @copydetails doc_what_are_typecodes
    *
-   * @return the SBML type code for this object, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @return the SBML type code for this object:
+   * @link SBMLTypeCode_t#SBML_LIST_OF SBML_LIST_OF@endlink (default).
    *
+   * @note The various ListOf classes mostly differ from each other in what they
+   * contain.  Hence, one must call getItemTypeCode() to fully determine the
+   * class of this SBML object.
+   *
+   * @copydetails doc_warning_typecodes_not_unique
+   *
+   * @see getItemTypeCode()
    * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getTypeCode () const;
 
@@ -449,30 +436,18 @@ public:
   /**
    * Get the type code of the objects contained in this ListOf.
    * 
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
+   * @copydetails doc_what_are_typecodes
+   *
+   * Classes that inherit from the ListOf class should 
+   * override this function to return the SBML type code for 
+   * the objects contained in this ListOf.  If they do not, 
+   * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink is returned.
    * 
-   * @return the SBML type code for the objects contained in this ListOf
-   * instance, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @return The ListOf class itself contains no SBML objects, and 
+   * therefore returns @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink.
+   *
+   * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 

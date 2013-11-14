@@ -43,7 +43,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 const std::string ListOfGlobalStyles::ELEMENT_NAME="listOfStyles";
 const std::string GlobalStyle::ELEMENT_NAME="style";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GlobalStyle object with the given SBML level
  * and SBML version.
@@ -60,7 +60,7 @@ GlobalStyle::GlobalStyle (unsigned int level, unsigned int version, unsigned int
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GlobalStyle object with the given SBMLNamespaces.
  *
@@ -82,7 +82,7 @@ GlobalStyle::GlobalStyle (RenderPkgNamespaces* renderns):
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new GlobalStyle object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -100,7 +100,7 @@ GlobalStyle::GlobalStyle(const XMLNode& node, unsigned int l2version)
 /** @endcond */
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a GlobalStyle with the given @p id
  * and all lists empty.
@@ -130,7 +130,7 @@ GlobalStyle::GlobalStyle(RenderPkgNamespaces* renderns, const std::string& id):S
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the ListOfGlobalStyles object.
  *
@@ -142,7 +142,7 @@ ListOfGlobalStyles* ListOfGlobalStyles::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor for ListOfGlobalStyles objects.
  */
@@ -151,7 +151,7 @@ ListOfGlobalStyles::ListOfGlobalStyles(const ListOfGlobalStyles& source):ListOf(
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfGlobalStyles objects.
  */
@@ -165,7 +165,7 @@ ListOfGlobalStyles& ListOfGlobalStyles::operator=(const ListOfGlobalStyles& sour
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., GradientDefinition objects, if the list is non-empty).
@@ -193,7 +193,7 @@ int ListOfGlobalStyles::getItemTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfGlobalStyles, is always @c "listOfStyles".
@@ -208,7 +208,7 @@ const std::string& ListOfGlobalStyles::getElementName () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfGlobalStyles object.
  *
@@ -222,7 +222,7 @@ XMLNode ListOfGlobalStyles::toXML() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -266,7 +266,7 @@ ListOfGlobalStyles::ListOfGlobalStyles(unsigned int level, unsigned int version,
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
 };
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ListOfGlobalStyles object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -308,7 +308,7 @@ ListOfGlobalStyles::ListOfGlobalStyles(const XMLNode& node)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this GlobalStyle object.
  *
@@ -320,7 +320,7 @@ GlobalStyle* GlobalStyle::clone() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * GlobalStyle, is always @c "renderInformation".
@@ -334,7 +334,7 @@ const std::string& GlobalStyle::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -363,7 +363,7 @@ int GlobalStyle::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the GlobalStyle with the given index or NULL if
  * the index is invalid.
@@ -378,7 +378,7 @@ GlobalStyle* ListOfGlobalStyles::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the GlobalStyle with the given index or NULL if
  * the index is invalid.
@@ -393,7 +393,7 @@ const GlobalStyle* ListOfGlobalStyles::get(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Used by ListOf::get() to lookup an SBase based by its id.
  */
@@ -408,7 +408,7 @@ struct IdEqGlobalStyle : public std::unary_function<SBase*, bool>
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the GlobalStyle with the given @p id or @c NULL if
  * the id is invalid.
@@ -425,7 +425,7 @@ GlobalStyle* ListOfGlobalStyles::get(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the GlobalStyle with the given @p id or @c NULL if
  * the id is invalid.
@@ -443,7 +443,7 @@ const GlobalStyle* ListOfGlobalStyles::get(const std::string& id) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes the nth item from this list */
     GlobalStyle*
 ListOfGlobalStyles::remove (unsigned int n)
@@ -453,7 +453,7 @@ ListOfGlobalStyles::remove (unsigned int n)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes item in this list by id */
     GlobalStyle*
 ListOfGlobalStyles::remove (const std::string& sid)
@@ -473,7 +473,7 @@ ListOfGlobalStyles::remove (const std::string& sid)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 

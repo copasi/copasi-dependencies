@@ -26,8 +26,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class Event
- * @ingroup Core
- * @brief Implementation of SBML's %Event construct.
+ * @sbmlbrief{core} Implementation of SBML's %Event construct.
  * 
  * An SBML Event object defines when the event can occur, the variables
  * that are affected by it, how the variables are affected, and the event's
@@ -203,46 +202,87 @@
  * @see EventAssignment
  * 
  *
- * <!-- leave this next break as-is to work around some doxygen bug -->
- */ 
-/**
+ * <!-- ------------------------------------------------------------------- -->
  * @class ListOfEvents
- * @ingroup Core
- * @brief Implementation of SBML's %ListOfEvents construct.
+ * @sbmlbrief{core} Implementation of SBML's %ListOfEvents construct.
  * 
- * The various ListOf___ classes in SBML are merely containers used for
- * organizing the main components of an SBML model.  All are derived from
- * the abstract class SBase, and inherit the various attributes and
- * subelements of SBase, such as "metaid" as and "annotation".  The
- * ListOf___ classes do not add any attributes of their own.
+ * @copydetails doc_what_is_listof
+ */
+
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ * 
+ * @class doc_event_setting_lv
  *
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
+ * @note Upon the addition of an Event object to an SBMLDocument (e.g., using
+ * Model::addEvent(@if java Event e@endif)), the SBML Level, SBML Version and
+ * XML namespace of the document @em override the values used when creating
+ * the Event object via this constructor.  This is necessary to ensure that
+ * an SBML document is a consistent structure.  Nevertheless, the ability to
+ * supply the values at the time of creation of an Event is an important aid
+ * to producing valid SBML.  Knowledge of the intented SBML Level and Version
+ * determine whether it is valid to assign a particular value to an
+ * attribute, or whether it is valid to add an object to an existing
+ * SBMLDocument.
  *
- * @image html listof-illustration.jpg "ListOf___ elements in an SBML Model"
- * @image latex listof-illustration.jpg "ListOf___ elements in an SBML Model"
+ * @class doc_warning_event_timeUnits
  *
- * Readers may wonder about the motivations for using the ListOf___
- * containers.  A simpler approach in XML might be to place the components
- * all directly at the top level of the model definition.  The choice made
- * in SBML is to group them within XML elements named after
- * ListOf<em>Classname</em>, in part because it helps organize the
- * components.  More importantly, the fact that the container classes are
- * derived from SBase means that software tools can add information @em about
- * the lists themselves into each list container's "annotation".
+ * @warning <span class="warning">Definitions of Event in SBML Level 2
+ * Versions&nbsp;1 and&nbsp;2 included the additional attribute called
+ * "timeUnits", but it was removed in SBML Level&nbsp;2 Version&nbsp;3.
+ * LibSBML supports this attribute for compatibility with previous versions
+ * of SBML Level&nbsp;2, but its use is discouraged since models in
+ * Level&nbsp;2 Versions&nbsp;3 and&nbsp;4 cannot contain it.  If a
+ * Version&nbsp;3 or&nbsp;4 model sets the attribute, the
+ * consistency-checking method SBMLDocument::checkConsistency() will report
+ * an error.</span>
  *
- * @see ListOfFunctionDefinitions
- * @see ListOfUnitDefinitions
- * @see ListOfCompartmentTypes
- * @see ListOfSpeciesTypes
- * @see ListOfCompartments
- * @see ListOfSpecies
- * @see ListOfParameters
- * @see ListOfInitialAssignments
- * @see ListOfRules
- * @see ListOfConstraints
- * @see ListOfReactions
- * @see ListOfEvents
+ * @class doc_warning_useValuesFromTriggerTime
+ *
+ * @warning <span class="warning">The attribute "useValuesFromTriggerTime"
+ * was introduced in SBML Level&nbsp;2 Version&nbsp;4.  It is not valid in
+ * models defined using SBML Level&nbsp;2 versions prior to Version&nbsp;4.
+ * If a Level&nbsp;2 Version&nbsp;1&ndash;3 model sets the attribute, the
+ * consistency-checking method SBMLDocument::checkConsistency() will report
+ * an error.</span>
+ *
+ * @class doc_event_using_useValuesFromTriggerTime
+ *
+ * @par
+ * The optional Delay on Event means there are two times to consider when
+ * computing the results of an event: the time at which the event is
+ * <em>triggered</em>, and the time at which assignments are
+ * <em>executed</em>.  It is also possible to distinguish between the
+ * time at which the EventAssignment's expression is calculated, and the
+ * time at which the assignment is made: the expression could be
+ * evaluated at the same time the assignments are performed, i.e., when
+ * the event is <em>executed</em>, but it could also be defined to be
+ * evaluated at the time the event is <em>triggered</em>.
+ * 
+ * In SBML Level&nbsp;2 versions prior to Version&nbsp;4, the semantics
+ * of Event time delays were defined such that the expressions in the
+ * event's assignments were always evaluated at the time the event was
+ * <em>triggered</em>.  This definition made it difficult to define an
+ * event whose assignment formulas were meant to be evaluated at the time
+ * the event was <em>executed</em> (i.e., after the time period defined
+ * by the value of the Delay element).  In SBML Level&nbsp;2
+ * Version&nbsp;4, the attribute "useValuesFromTriggerTime" on Event
+ * allows a model to indicate the time at which the event's assignments
+ * are intended to be evaluated.  In SBML Level&nbsp;2, the attribute has
+ * a default value of @c true, which corresponds to the interpretation of
+ * event assignments prior to Version&nbsp;4: the values of the
+ * assignment formulas are computed at the moment the event is triggered,
+ * not after the delay.  If "useValuesFromTriggerTime"=@c false, it means
+ * that the formulas in the event's assignments are to be computed after
+ * the delay, at the time the event is executed.  In SBML Level&nbsp;3,
+ * the attribute is mandatory, not optional, and all events must specify
+ * a value for it.
+ *
  */
 
 #ifndef Event_h
@@ -289,31 +329,16 @@ public:
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    * 
-   * @note Upon the addition of an Event object to an SBMLDocument (e.g.,
-   * using Model::addEvent(@if java Event e@endif)), the SBML Level, SBML Version and XML
-   * namespace of the document @em override the values used when creating
-   * the Event object via this constructor.  This is necessary to ensure
-   * that an SBML document is a consistent structure.  Nevertheless, the
-   * ability to supply the values at the time of creation of an Event is an
-   * important aid to producing valid SBML.  Knowledge of the intented SBML
-   * Level and Version determine whether it is valid to assign a particular
-   * value to an attribute, or whether it is valid to add an object to an
-   * existing SBMLDocument.
+   * @copydetails doc_event_setting_lv
    */
   Event (unsigned int level, unsigned int version);
-
 
 
   /**
    * Creates a new Event using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
-   * information.  It is used to communicate the SBML Level, Version, and
-   * (in Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.
-   * A common approach to using this class constructor is to create an
-   * SBMLNamespaces object somewhere in a program, once, then pass it to
-   * object constructors such as this one when needed.
+   * @copydetails doc_what_are_sbmlnamespaces 
    * 
    * @param sbmlns an SBMLNamespaces object.
    *
@@ -322,16 +347,7 @@ public:
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @note Upon the addition of an Event object to an SBMLDocument (e.g.,
-   * using Model::addEvent(@if java Event e@endif)), the SBML XML namespace of the document @em
-   * overrides the value used when creating the Event object via this
-   * constructor.  This is necessary to ensure that an SBML document is a
-   * consistent structure.  Nevertheless, the ability to supply the values
-   * at the time of creation of a Event is an important aid to producing
-   * valid SBML.  Knowledge of the intented SBML Level and Version
-   * determine whether it is valid to assign a particular value to an
-   * attribute, or whether it is valid to add an object to an existing
-   * SBMLDocument.
+   * @copydetails doc_event_setting_lv
    */
   Event (SBMLNamespaces* sbmlns);
 
@@ -354,7 +370,7 @@ public:
 
 
   /**
-   * Assignment operator
+   * Assignment operator for Event.
    *
    * @param rhs The object whose values are used as the basis of the
    * assignment.
@@ -386,34 +402,37 @@ public:
 
 
   /**
-   * Returns the first child element found that has the given @p id in the model-wide SId namespace, or @c NULL if no such object is found.
+   * Returns the first child element found that has the given @p id in the
+   * model-wide SId namespace, or @c NULL if no such object is found.
    *
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
-   * Returns the first child element it can find with the given @p metaid, or @c NULL if no such object is found.
+   * Returns the first child element it can find with the given @p metaid, or
+   * @c NULL if no such object is found.
    *
    * @param metaid string representing the metaid of objects to find
    *
    * @return pointer to the first element found with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
   
 
- /**
-   * Returns a List of all child SBase objects, including those nested to an arbitrary depth.
+  /**
+   * Returns a List of all child SBase objects, including those nested to an
+   * arbitrary depth.
    *
    * @return a List of pointers to all children objects.
    */
   virtual List* getAllElements(ElementFilter* filter=NULL);
   
   
-/**
+  /**
    * Returns the value of the "id" attribute of this Event.
    * 
    * @return the id of this Event.
@@ -491,59 +510,20 @@ public:
    * Get the value of the "timeUnits" attribute of this Event, if it has one.
    * 
    * @return the value of the attribute "timeUnits" as a string.
-   * 
-   * @warning Definitions of Event in SBML Level 2 Versions&nbsp;1
-   * and&nbsp;2 included the additional attribute called "timeUnits", but
-   * it was removed in SBML Level&nbsp;2 Version&nbsp;3.  LibSBML supports
-   * this attribute for compatibility with previous versions of SBML
-   * Level&nbsp;2, but its use is discouraged since models in Level 2
-   * Versions&nbsp;3 and&nbsp;4 cannot contain it.  If a Version&nbsp;3
-   * or&nbsp;4 model sets the attribute, the consistency-checking method
-   * SBMLDocument::checkConsistency() will report an error.
+   *
+   * @copydetails doc_warning_event_timeUnits
    */
   const std::string& getTimeUnits () const;
 
 
   /**
    * Get the value of the "useValuesFromTriggerTime" attribute of this Event.
-   * 
-   * The optional Delay on Event means there are two times to consider when
-   * computing the results of an event: the time at which the event is
-   * <em>triggered</em>, and the time at which assignments are
-   * <em>executed</em>.  It is also possible to distinguish between the
-   * time at which the EventAssignment's expression is calculated, and the
-   * time at which the assignment is made: the expression could be
-   * evaluated at the same time the assignments are performed, i.e., when
-   * the event is <em>executed</em>, but it could also be defined to be
-   * evaluated at the time the event is <em>triggered</em>.
-   * 
-   * In SBML Level&nbsp;2 versions prior to Version&nbsp;4, the semantics
-   * of Event time delays were defined such that the expressions in the
-   * event's assignments were always evaluated at the time the event was
-   * <em>triggered</em>.  This definition made it difficult to define an
-   * event whose assignment formulas were meant to be evaluated at the time
-   * the event was <em>executed</em> (i.e., after the time period defined
-   * by the value of the Delay element).  In SBML Level&nbsp;2
-   * Version&nbsp;4, the attribute "useValuesFromTriggerTime" on Event
-   * allows a model to indicate the time at which the event's assignments
-   * are intended to be evaluated.  In SBML Level&nbsp;2, the attribute has
-   * a default value of @c true, which corresponds to the interpretation of
-   * event assignments prior to Version&nbsp;4: the values of the
-   * assignment formulas are computed at the moment the event is triggered,
-   * not after the delay.  If "useValuesFromTriggerTime"=@c false, it means
-   * that the formulas in the event's assignments are to be computed after
-   * the delay, at the time the event is executed.  In SBML Level&nbsp;3,
-   * the attribute is mandatory, not optional, and all events must specify
-   * a value for it.
+   *
+   * @copydetails doc_event_using_useValuesFromTriggerTime
    * 
    * @return the value of the attribute "useValuesFromTriggerTime" as a boolean.
    *
-   * @warning The attribute "useValuesFromTriggerTime" was introduced in
-   * SBML Level&nbsp;2 Version&nbsp;4.  It is not valid in models defined
-   * using SBML Level&nbsp;2 versions prior to Version&nbsp;4.  If a
-   * Level&nbsp;2 Version&nbsp;1&ndash;3 model sets the attribute, the
-   * consistency-checking method SBMLDocument::checkConsistency() will
-   * report an error.
+   * @copydetails doc_warning_useValuesFromTriggerTime 
    */
   bool getUseValuesFromTriggerTime () const;
 
@@ -606,14 +586,7 @@ public:
    * @return @c true if the "timeUnits" attribute of this Event is
    * set, @c false otherwise.
    *
-   * @warning Definitions of Event in SBML Level 2 Versions&nbsp;1
-   * and&nbsp;2 included the additional attribute called "timeUnits", but
-   * it was removed in SBML Level&nbsp;2 Version&nbsp;3.  LibSBML supports
-   * this attribute for compatibility with previous versions of SBML
-   * Level&nbsp;2, but its use is discouraged since models in Level 2
-   * Versions&nbsp;3 and&nbsp;4 cannot contain it.  If a Version&nbsp;3
-   * or&nbsp;4 model sets the attribute, the consistency-checking method
-   * SBMLDocument::checkConsistency() will report an error.
+   * @copydetails doc_warning_event_timeUnits
    */
   bool isSetTimeUnits () const;
 
@@ -635,8 +608,9 @@ public:
   /**
    * Sets the value of the "id" attribute of this Event.
    *
-   * The string @p sid is copied.  Note that SBML has strict requirements
-   * for the syntax of identifiers.  @htmlinclude id-syntax.html
+   * The string @p sid is copied.
+   *
+   * @copydetails doc_id_syntax
    *
    * @param sid the string to use as the identifier of this Event
    *
@@ -727,15 +701,6 @@ public:
    *
    * @param sid the identifier of the time units to use.
    *
-   * @warning Definitions of Event in SBML Level 2 Versions&nbsp;1
-   * and&nbsp;2 included the additional attribute called "timeUnits", but
-   * it was removed in SBML Level&nbsp;2 Version&nbsp;3.  LibSBML supports
-   * this attribute for compatibility with previous versions of SBML
-   * Level&nbsp;2, but its use is discouraged since models in Level 2
-   * Versions&nbsp;3 and&nbsp;4 cannot contain it.  If a Version&nbsp;3
-   * or&nbsp;4 model sets the attribute, the consistency-checking method
-   * SBMLDocument::checkConsistency() will report an error.
-   *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
@@ -743,6 +708,9 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   *
+   * @copydetails doc_warning_event_timeUnits
+   *
    */
   int setTimeUnits (const std::string& sid);
 
@@ -750,34 +718,7 @@ public:
   /**
    * Sets the "useValuesFromTriggerTime" attribute of this Event to a @p value.
    * 
-   * The optional Delay on Event means there are two times to consider when
-   * computing the results of an event: the time at which the event is
-   * <em>triggered</em>, and the time at which assignments are
-   * <em>executed</em>.  It is also possible to distinguish between the
-   * time at which the EventAssignment's expression is calculated, and the
-   * time at which the assignment is made: the expression could be
-   * evaluated at the same time the assignments are performed, i.e., when
-   * the event is <em>executed</em>, but it could also be defined to be
-   * evaluated at the time the event is <em>triggered</em>.
-   * 
-   * In SBML Level&nbsp;2 versions prior to Version&nbsp;4, the semantics
-   * of Event time delays were defined such that the expressions in the
-   * event's assignments were always evaluated at the time the event was
-   * <em>triggered</em>.  This definition made it difficult to define an
-   * event whose assignment formulas were meant to be evaluated at the time
-   * the event was <em>executed</em> (i.e., after the time period defined
-   * by the value of the Delay element).  In SBML Level&nbsp;2
-   * Version&nbsp;4, the attribute "useValuesFromTriggerTime" on Event
-   * allows a model to indicate the time at which the event's assignments
-   * are intended to be evaluated.  In SBML Level&nbsp;2, the attribute has
-   * a default value of @c true, which corresponds to the interpretation of
-   * event assignments prior to Version&nbsp;4: the values of the
-   * assignment formulas are computed at the moment the event is triggered,
-   * not after the delay.  If "useValuesFromTriggerTime"=@c false, it means
-   * that the formulas in the event's assignments are to be computed after
-   * the delay, at the time the event is executed.  In SBML Level&nbsp;3,
-   * the attribute is mandatory, not optional, and all events must specify
-   * a value for it.
+   * @copydetails doc_event_using_useValuesFromTriggerTime
    *
    * @param value the value of useValuesFromTriggerTime to use.
    *
@@ -788,12 +729,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
    *
-   * @warning The attribute "useValuesFromTriggerTime" was introduced in
-   * SBML Level&nbsp;2 Version&nbsp;4.  It is not valid in models defined
-   * using SBML Level&nbsp;2 versions prior to Version&nbsp;4.  If a
-   * Version&nbsp;1&ndash;&nbsp;3 model sets the attribute, the
-   * consistency-checking method SBMLDocument::checkConsistency() will
-   * report an error.
+   * @copydetails doc_warning_useValuesFromTriggerTime
    */
   int setUseValuesFromTriggerTime (bool value);
 
@@ -880,14 +816,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    *
-   * @warning Definitions of Event in SBML Level&nbsp;2 Versions 1 and 2
-   * included the attribute called "timeUnits", but it was removed in SBML
-   * Level&nbsp;2 Version&nbsp;3.  LibSBML supports this attribute for
-   * compatibility with previous versions of SBML Level&nbsp;2, but its use
-   * is discouraged since models in Level&nbsp;2 Version&nbsp;3 and
-   * Version&nbsp;4 cannot contain it.  If a Version&nbsp;3 or&nbsp;4 model
-   * sets this attribute, the consistency-checking method
-   * SBMLDocument::checkConsistency() will report an error.
+   * @copydetails doc_warning_event_timeUnits
    */
   int unsetTimeUnits ();
 
@@ -907,15 +836,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    *
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Event.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Event</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Event::createEventAssignment()
-   * for a method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createEventAssignment()
    */
@@ -1105,31 +1026,15 @@ public:
   /**
    * Returns the libSBML type code of this object instance.
    *
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
+   * @copydetails doc_what_are_typecodes
    *
-   * @return the SBML type code for this object, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @return the SBML type code for this object:
+   * @link SBMLTypeCode_t#SBML_EVENT SBML_EVENT@endlink (default).
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getTypeCode () const;
 
@@ -1187,6 +1092,8 @@ protected:
   /** @cond doxygenLibsbmlInternal */
 
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or @c NULL if the token was not recognized.
    */
@@ -1301,67 +1208,16 @@ public:
 
 
   /**
-   * Returns the libSBML type code for this SBML object.
-   *
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
-   *
-   * @return the SBML type code for this object, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
-   *
-   * @see getElementName()
-   */
-  virtual int getTypeCode () const { return SBML_LIST_OF; };
-
-
-  /**
    * Returns the libSBML type code for the objects contained in this ListOf
    * (i.e., Event objects, if the list is non-empty).
    *
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
-   * 
-   * @return the SBML type code for the objects contained in this ListOf
-   * instance, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for the objects contained in this ListOf:
+   * @link SBMLTypeCode_t#SBML_EVENT SBML_EVENT@endlink (default).
    *
    * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
@@ -1486,6 +1342,8 @@ protected:
   /** @cond doxygenLibsbmlInternal */
 
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or @c NULL if the token was not recognized.
    */

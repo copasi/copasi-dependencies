@@ -24,24 +24,37 @@
  * the Free Software Foundation.  A copy of the license agreement is provided
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
- *----------------------------------------------------------------------- -->*/
-
- 
-/**
- * Metaclass to convert getX/setX methods into python properties.
- * This is attached to SBase and automatically applies for all classes
- * which inherit from it.
- * 
- * This does not remove or alter the getX/setX methods.
+ *----------------------------------------------------------------------- -->
+ *
+ * @class AutoProperty
+ * @sbmlbrief{core} Metaclass to convert getX/setX methods into Python
+ * properties.
+ *
+ * This class is attached to SBase and automatically applies for all classes
+ * which inherit from it.  Its purpose is to make libSBML more convenient to
+ * use from Python.  It is a metaclass for automatically detecting getX/setX
+ * methods at class creation time (not instantiation), and adding properties
+ * (directly calling C methods where possible) to the class dictionary.
+ *
+ * @note Currently this class only works for Python 2.x, but should not break
+ * in Python 3.
  */
 
 %pythoncode %{
 
 class AutoProperty(type):
     """
-    A metaclass for automatically detecting getX/setX methods at class creation
-    time (not instantiation), and adding properties (directly calling C methods
-    where possible) to the class dictionary.
+    Metaclass for automatically detecting getX/setX methods and adding
+    properties to the class dictionary.
+
+    This class is attached to SBase and automatically applies for all classes
+    which inherit from it.  Its purpose is to make libSBML more convenient to
+    use from Python.  It works by analyzing classes at class creation time
+    (not at instantiation) and adding corresponding properties (directly
+    calling C methods where possible) to the class dictionary.
+
+    @note Currently this class only works for Python 2.x, but should not break
+    in Python 3.
     """
     def __new__(cls, classname, bases, classdict):
         """

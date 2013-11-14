@@ -44,7 +44,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const double Transformation::IDENTITY3D[12]={1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0};
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Transformation object with the given SBML level
  * and SBML version.
@@ -65,7 +65,7 @@ Transformation::Transformation (unsigned int level, unsigned int version, unsign
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Transformation object with the given SBMLNamespaces.
  *
@@ -99,7 +99,7 @@ Transformation::Transformation(const Transformation& other)
   setMatrix(other.getMatrix());
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Transformation object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -128,7 +128,7 @@ Transformation::Transformation(const XMLNode& node, unsigned int l2version)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the matrix to the values given in the array.
  *
@@ -144,7 +144,7 @@ void Transformation::setMatrix(const double m[12])
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the matrix which is an array of double values of length 12.
  *
@@ -156,7 +156,7 @@ const double* Transformation::getMatrix() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a 3D identity matrix.
  * The matrix contains 12 double values.
@@ -169,7 +169,7 @@ const double* Transformation::getIdentityMatrix()
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns true if the matrix has been set or false otherwise.
  * The matrix is considered as set if none of the values in the matrix is NaN.

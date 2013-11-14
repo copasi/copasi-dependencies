@@ -278,7 +278,7 @@ Reaction::clone () const
 
 
 SBase*
-Reaction::getElementBySId(std::string id)
+Reaction::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   if (mReactants.getId() == id) return &mReactants;
@@ -301,7 +301,7 @@ Reaction::getElementBySId(std::string id)
 
 
 SBase*
-Reaction::getElementByMetaId(std::string metaid)
+Reaction::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   if (mReactants.getMetaId() == metaid) return &mReactants;
@@ -341,7 +341,7 @@ Reaction::getAllElements(ElementFilter *filter)
 }
 
 void
-Reaction::renameSIdRefs(std::string oldid, std::string newid)
+Reaction::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (mCompartment == oldid) {
     setCompartment(newid);
@@ -1310,6 +1310,7 @@ Reaction::setSBMLDocument (SBMLDocument* d)
 void
 Reaction::connectToChild()
 {
+  SBase::connectToChild();
   mReactants.connectToParent(this);
   mProducts .connectToParent(this);
   mModifiers.connectToParent(this);

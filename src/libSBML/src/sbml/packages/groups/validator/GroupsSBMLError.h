@@ -39,7 +39,7 @@ BEGIN_C_DECLS
 
 typedef enum
 {
-	GroupsUnknownError               = 4010100
+  GroupsUnknownError               = 4010100
 
 
 }  GroupsSBMLErrorCode_t;

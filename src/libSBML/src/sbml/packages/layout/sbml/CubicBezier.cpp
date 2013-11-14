@@ -4,53 +4,23 @@
  * @author  Ralph Gauges
  * 
  * <!--------------------------------------------------------------------------
- * Description : SBML Layout CubicBezier source
- * Organization: European Media Laboratories Research gGmbH
- * Created     : 2004-07-15
+ * This file is part of libSBML.  Please visit http://sbml.org for more
+ * information about SBML, and the latest version of libSBML.
  *
- * Copyright 2004 European Media Laboratories Research gGmbH
- *
+ * Copyright (C) 2009-2013 jointly by the following organizations: 
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ *  
+ * Copyright (C) 2004-2008 by European Media Laboratories Research gGmbH,
+ *     Heidelberg, Germany
+ * 
  * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation; either version 2.1 of the License, or
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
- * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
- * documentation provided hereunder is on an "as is" basis, and the
- * European Media Laboratories Research gGmbH have no obligations to
- * provide maintenance, support, updates, enhancements or modifications.
- * In no event shall the European Media Laboratories Research gGmbH be
- * liable to any party for direct, indirect, special, incidental or
- * consequential damages, including lost profits, arising out of the use of
- * this software and its documentation, even if the European Media
- * Laboratories Research gGmbH have been advised of the possibility of such
- * damage.  See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *
- * The original code contained here was initially developed by:
- *
- *     Ralph Gauges
- *     Bioinformatics Group
- *     European Media Laboratories Research gGmbH
- *     Schloss-Wolfsbrunnenweg 31c
- *     69118 Heidelberg
- *     Germany
- *
- *     http://www.eml-research.de/english/Research/BCB/
- *     mailto:ralph.gauges@eml-r.villa-bosch.de
- *
- * Contributor(s):
- *
- *     Akiya Jouraku <jouraku@bio.keio.ac.jp>
- *     Modified this file for package extension in libSBML5
- *
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.  A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as http://sbml.org/software/libsbml/license.html
+ * ------------------------------------------------------------------------ -->
  */
-
 
 #include <sbml/packages/layout/sbml/CubicBezier.h>
 #include <sbml/packages/layout/util/LayoutUtilities.h>
@@ -493,19 +463,23 @@ CubicBezier::setBasePoint2 (double x, double y, double z)
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 bool
 CubicBezier::getBasePt1ExplicitlySet() const
 {
   return mBasePt1ExplicitlySet;
 }
+/** @endcond */
 
 
 
+/** @cond doxygenLibsbmlInternal */
 bool
 CubicBezier::getBasePt2ExplicitlySet() const
 {
   return mBasePt2ExplicitlySet;
 }
+/** @endcond */
 
 
 /*
@@ -650,6 +624,7 @@ CubicBezier::accept (SBMLVisitor& v) const
 
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  */
@@ -661,8 +636,10 @@ CubicBezier::setSBMLDocument (SBMLDocument* d)
   mBasePoint1.setSBMLDocument(d);
   mBasePoint2.setSBMLDocument(d);
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets this SBML object to child SBML objects (if any).
  * (Creates a child-parent relationship by the parent)
@@ -674,8 +651,10 @@ CubicBezier::connectToChild()
   mBasePoint1.connectToParent(this);
   mBasePoint2.connectToParent(this);
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Enables/Disables the given package with this element and child
  * elements (if any).
@@ -690,6 +669,7 @@ CubicBezier::enablePackageInternal(const std::string& pkgURI,
   mBasePoint1.enablePackageInternal(pkgURI,pkgPrefix,flag);
   mBasePoint2.enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
+/** @endcond */
 
 
 

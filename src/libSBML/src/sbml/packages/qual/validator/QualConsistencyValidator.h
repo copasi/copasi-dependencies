@@ -1,5 +1,5 @@
 /**
- * @cond doxygen-libsbml-internal
+ * @cond doxygenLibsbmlInternal
  *
  * @file    QualConsistencyValidator.h
  * @brief   Performs consistency checks on an SBML model

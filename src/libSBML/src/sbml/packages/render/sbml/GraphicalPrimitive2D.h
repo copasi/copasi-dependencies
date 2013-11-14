@@ -193,7 +193,7 @@ public:
   bool isSetFillRule() const;
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Adds all set attributes specific to the given GraphicalPrimitive2D objects to the given
    * XMLAttributes object.
@@ -201,7 +201,7 @@ protected:
   static void addGraphicalPrimitive2DAttributes(const GraphicalPrimitive2D& gp,XMLAttributes& attr);
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
@@ -211,7 +211,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -222,7 +222,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation

@@ -89,7 +89,7 @@ struct ClonePluginEntity : public unary_function<SBasePlugin*, SBasePlugin*>
 
 
 SBase*
-SBase::getElementBySId(std::string id)
+SBase::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   return getElementFromPluginsBySId(id);
@@ -97,7 +97,7 @@ SBase::getElementBySId(std::string id)
 
 
 SBase*
-SBase::getElementByMetaId(std::string metaid)
+SBase::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   return getElementFromPluginsByMetaId(metaid);
@@ -110,13 +110,13 @@ SBase::getAllElements(ElementFilter *filter)
 }
 
 void
-SBase::renameSIdRefs(std::string oldid, std::string newid)
+SBase::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
   //No SIdRefs in SBase
 }
 
 void
-SBase::renameMetaIdRefs(std::string oldid, std::string newid)
+SBase::renameMetaIdRefs(const std::string& oldid, const std::string& newid)
 {
   //The only thing in core that uses metaids is the annotation element.  If the metaid of an SBase object is changed, and the annotation was in the 'sbml-official' form, the rdf:about will be changed automatically, so this function doesn't need to do anything.  However, we do need the function itself so that packages can extend it for their own purposes (such as comp, with its 'metaIdRef' attributes, and annot, which one would imagine would use something similar).
 
@@ -137,7 +137,7 @@ SBase::renameMetaIdRefs(std::string oldid, std::string newid)
 }
 
 void
-SBase::renameUnitSIdRefs(std::string oldid, std::string newid)
+SBase::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
   //No UnitSIdRefs in SBase, either.
 }
@@ -222,6 +222,7 @@ SBase::prependStringToAllIdentifiers(const std::string& prefix)
   /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::transformIdentifiers(IdentifierTransformer* idTransformer)
 {
@@ -249,6 +250,7 @@ SBase::transformIdentifiers(IdentifierTransformer* idTransformer)
 
   return ret;
 }
+/** @endcond */
 
 List*
 SBase::getAllElementsFromPlugins(ElementFilter *filter)
@@ -289,6 +291,10 @@ SBase::SBase (unsigned int level, unsigned int version) :
  , mURI("")
  , mHistoryChanged (false)
  , mCVTermsChanged (false)
+ , mAttributesOfUnknownPkg()
+ , mAttributesOfUnknownDisabledPkg()
+ , mElementsOfUnknownPkg()
+ , mElementsOfUnknownDisabledPkg()
 {
   mSBMLNamespaces = new SBMLNamespaces(level, version);
 
@@ -328,6 +334,10 @@ SBase::SBase (SBMLNamespaces *sbmlns) :
  , mURI("")
  , mHistoryChanged (false)
  , mCVTermsChanged (false)
+ , mAttributesOfUnknownPkg()
+ , mAttributesOfUnknownDisabledPkg()
+ , mElementsOfUnknownPkg()
+ , mElementsOfUnknownDisabledPkg()
 {
   if (!sbmlns)
   {
@@ -385,6 +395,10 @@ SBase::SBase(const SBase& orig)
   this->mColumn     = orig.mColumn;
   this->mParentSBMLObject = NULL;
   this->mUserData   = orig.mUserData;
+  this->mAttributesOfUnknownPkg = orig.mAttributesOfUnknownPkg;
+  this->mAttributesOfUnknownDisabledPkg = orig.mAttributesOfUnknownDisabledPkg;
+  this->mElementsOfUnknownPkg = orig.mElementsOfUnknownPkg;
+  this->mElementsOfUnknownDisabledPkg = orig.mElementsOfUnknownDisabledPkg;
 
   /* if the object belongs to document that has had the level/version reset
    * the copy will end up with the wrong namespace information
@@ -492,6 +506,10 @@ SBase& SBase::operator=(const SBase& rhs)
     this->mColumn     = rhs.mColumn;
     this->mParentSBMLObject = rhs.mParentSBMLObject;
     this->mUserData   = rhs.mUserData;
+    this->mAttributesOfUnknownPkg = rhs.mAttributesOfUnknownPkg;
+    this->mAttributesOfUnknownDisabledPkg = rhs.mAttributesOfUnknownDisabledPkg;
+    this->mElementsOfUnknownPkg = rhs.mElementsOfUnknownPkg;
+    this->mElementsOfUnknownDisabledPkg = rhs.mElementsOfUnknownDisabledPkg;
 
     delete this->mSBMLNamespaces;
 
@@ -3012,58 +3030,80 @@ SBase::enablePackage(const std::string& pkgURI, const std::string& prefix, bool 
   // Checks if the package with the given URI is already enabled/disabled with
   // this element.
   //
+  int success = LIBSBML_OPERATION_SUCCESS;
+
   if (flag)
   {
     if (isPackageURIEnabled(pkgURI))
     {
-      return LIBSBML_OPERATION_SUCCESS;
+      return success;
+    }
+    else if (mSBML != NULL && mSBML->isIgnoredPackage(pkgURI) == true)
+    {
+      return success;
     }
   }
   else
   {
     if (!isPackageURIEnabled(pkgURI))
     {
-      return LIBSBML_OPERATION_SUCCESS;
+      if (mSBML == NULL)
+      {
+        return success;
+
+      }
+      else if (mSBML->isIgnoredPackage(pkgURI) == false)
+      {
+        return success;
+      }
     }
   }
 
+  // if we are dealing with an unknown package it will not be in the register
+  if (mSBML == NULL 
+    || (mSBML != NULL && mSBML->isIgnoredPackage(pkgURI) == false 
+   && mSBML->isDisabledIgnoredPackage(pkgURI) == false))
+  {
   //
   // Checks if the given pkgURI is registered in SBMLExtensionRegistry
   //
-  if (!SBMLExtensionRegistry::getInstance().isRegistered(pkgURI))
-  {
-    return LIBSBML_PKG_UNKNOWN;
-  }
+    if (!SBMLExtensionRegistry::getInstance().isRegistered(pkgURI))
+    {
+      return LIBSBML_PKG_UNKNOWN;
+    }
 
-  const SBMLExtension *sbmlext = SBMLExtensionRegistry::getInstance().getExtensionInternal(pkgURI);
+    const SBMLExtension *sbmlext = 
+          SBMLExtensionRegistry::getInstance().getExtensionInternal(pkgURI);
 
-  //
-  // Checks version conflicts of the given package
-  //
-  if (flag && isPackageEnabled(sbmlext->getName()))
-  {
-    return LIBSBML_PKG_CONFLICTED_VERSION;
-  }
+    //
+    // Checks version conflicts of the given package
+    //
+    if (flag && isPackageEnabled(sbmlext->getName()))
+    {
+      return LIBSBML_PKG_CONFLICTED_VERSION;
+    }
 
-  //
-  // Checks if the SBML Level and Version of the given pkgURI is
-  // consistent with those of this object.
-  //
-  /* if we happen to be using layout in L2 we cannot do the version
-   * check since the uri has no way of telling which sbml version is being used.
-   */
-  if (sbmlext->getName() == "layout" || sbmlext->getName() == "render" )
-  {
-    if (sbmlext->getLevel(pkgURI)   != getLevel() )
+    //
+    // Checks if the SBML Level and Version of the given pkgURI is
+    // consistent with those of this object.
+    //
+    /* if we happen to be using layout in L2 we cannot do the version
+     * check since the uri has no way of telling which sbml version is being used.
+     */
+    if (sbmlext->getName() == "layout" || sbmlext->getName() == "render" )
+    {
+      if (sbmlext->getLevel(pkgURI)   != getLevel() )
+      {
+        return LIBSBML_PKG_VERSION_MISMATCH;
+      }
+    }
+    else if ( (sbmlext->getLevel(pkgURI)   != getLevel()  ) ||
+         (sbmlext->getVersion(pkgURI) != getVersion())
+       )
     {
       return LIBSBML_PKG_VERSION_MISMATCH;
     }
-  }
-  else if ( (sbmlext->getLevel(pkgURI)   != getLevel()  ) ||
-       (sbmlext->getVersion(pkgURI) != getVersion())
-     )
-  {
-    return LIBSBML_PKG_VERSION_MISMATCH;
+
   }
 
   SBase* rootElement = getRootElement();
@@ -3109,6 +3149,35 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
       }
 
     }
+    /* check whether we are trying to reenable an unknown package
+     * that we previously disabled
+     */
+    for (int i = 0; i < mAttributesOfUnknownDisabledPkg.getLength();)
+    {
+      if (pkgURI == mAttributesOfUnknownDisabledPkg.getURI(i)
+        && pkgPrefix == mAttributesOfUnknownDisabledPkg.getPrefix(i))
+      {
+        mAttributesOfUnknownPkg.add(
+          mAttributesOfUnknownDisabledPkg.getName(i), 
+          mAttributesOfUnknownDisabledPkg.getValue(i), pkgURI, pkgPrefix);
+        mAttributesOfUnknownDisabledPkg.remove(i);
+      }
+      else {
+        i++;
+      }
+    }
+    for (unsigned int i = 0; i < mElementsOfUnknownDisabledPkg.getNumChildren();)
+    {
+      if (pkgURI == mElementsOfUnknownDisabledPkg.getChild(i).getURI()
+        && pkgPrefix == mElementsOfUnknownDisabledPkg.getChild(i).getPrefix())
+      {
+        mElementsOfUnknownPkg.addChild(mElementsOfUnknownDisabledPkg.getChild(i));
+        mElementsOfUnknownDisabledPkg.removeChild(i);
+      }
+      else {
+        i++;
+      }
+    }
   }
   else
   {
@@ -3127,6 +3196,36 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
     if (mSBMLNamespaces)
     {
       mSBMLNamespaces->removeNamespace(pkgURI);
+    }
+
+    /* before we remove the unknown package keep a copy
+     * in case we try to re-enable it later
+     */
+    for (int i = 0; i < mAttributesOfUnknownPkg.getLength();)
+    {
+      if (pkgURI == mAttributesOfUnknownPkg.getURI(i)
+        && pkgPrefix == mAttributesOfUnknownPkg.getPrefix(i))
+      {
+        mAttributesOfUnknownDisabledPkg.add(
+          mAttributesOfUnknownPkg.getName(i), 
+          mAttributesOfUnknownPkg.getValue(i), pkgURI, pkgPrefix);
+        mAttributesOfUnknownPkg.remove(i);
+      }
+      else {
+        i++;
+      }
+    }
+    for (unsigned int i = 0; i < mElementsOfUnknownPkg.getNumChildren();)
+    {
+      if (pkgURI == mElementsOfUnknownPkg.getChild(i).getURI()
+        && pkgPrefix == mElementsOfUnknownPkg.getChild(i).getPrefix())
+      {
+        mElementsOfUnknownDisabledPkg.addChild(mElementsOfUnknownPkg.getChild(i));
+        mElementsOfUnknownPkg.removeChild(i);
+      }
+      else {
+        i++;
+      }
     }
   }
 
@@ -4239,10 +4338,6 @@ SBase::getElementPosition () const
 
 
 /** @cond doxygenLibsbmlInternal */
-/*
- * @return the SBMLErrorLog used to log errors during while reading and
- * validating SBML.
- */
 SBMLErrorLog*
 SBase::getErrorLog ()
 {
@@ -5680,6 +5775,37 @@ SBase::checkListOfPopulated(SBase* object)
 }
 /** @endcond */
 
+
+/** @cond doxygenLibsbmlInternal */
+
+/* returns the derived units of the object
+ * needs to be on SBase so that comp can use it for unit checking
+ * but may also need to be implemented for other packages
+ */
+UnitDefinition* 
+SBase::getDerivedUnitDefinition() 
+{ 
+  return NULL; 
+}
+
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/* returns the derived units of the object
+ * needs to be on SBase so that comp can use it for unit checking
+ * but may also need to be implemented for other packages
+ */
+bool 
+SBase::containsUndeclaredUnits() 
+{ 
+  return false; 
+}
+
+/** @endcond */
+
+  
 //This assumes that the parent of the object is of the type ListOf.  If this is not the case, it will need to be overridden.
 int SBase::removeFromParentAndDelete()
 {
@@ -7646,9 +7772,9 @@ SBase_getModel (const SBase_t *sb)
  *       typecode (int) to int. The return value is one of enum values defined
  *       for each package. For example, return values will be one of
  *       typecode (int) if this object is defined in SBML core package,
- *       return values will be one of SBMLLayoutTypeCode_t if this object is
+ *       return values will be one of #SBMLLayoutTypeCode_t if this object is
  *       defined in Layout extension (i.e. similar enum types are defined in
- *       each pacakge extension for each SBase subclass)
+ *       each package extension for each SBase subclass)
  *       The value of each typecode can be duplicated between those of
  *       different packages. Thus, to distinguish the typecodes of different
  *       packages, not only the return value of getTypeCode() but also that of

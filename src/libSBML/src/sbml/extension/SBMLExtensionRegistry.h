@@ -26,6 +26,10 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class SBMLExtensionRegistry
+ * @sbmlbrief{core} Registry class in which extension packages are registered.
+ *
  */
 
 #ifndef SBMLExtensionRegistry_h
@@ -40,9 +44,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 #include <list>
 #include <map>
 
-/**
- * @ingroup Core
- */
+
 class LIBSBML_EXTERN SBMLExtensionRegistry
 {
 public:
@@ -137,6 +139,9 @@ public:
   #endif
   
   /**
+   * If the given @p package is enabled, returns @c true; otherwise,
+   * returns @c false.
+   *
    * @returns the status (enabled = <b>true</b>, disabled = <b>false</b> of the given package.
    */
   static bool isPackageEnabled(const std::string& package);

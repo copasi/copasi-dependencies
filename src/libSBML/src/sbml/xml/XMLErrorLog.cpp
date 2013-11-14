@@ -53,9 +53,37 @@ XMLErrorLog::XMLErrorLog ()
 }
 /** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
+/*
+* Copy Constructor
+*/
+XMLErrorLog::XMLErrorLog (const XMLErrorLog& other)
+  : mParser(NULL)
+  , mOverriddenSeverity(other.mOverriddenSeverity)
+{
+  add(other.mErrors);
+}
+/** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
+/*
+* Assignment operator
+*/
+XMLErrorLog& XMLErrorLog::operator=(const XMLErrorLog& other)  
+{
+  if (this != &other)
+  {
+    mOverriddenSeverity = other.mOverriddenSeverity;
+    mParser = NULL;
+    
+    mErrors.clear();
+    add(other.mErrors);
+  }
+  return *this;
+}
+/** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 /**
  * Used by the Destructor to delete each item in mErrors.
  */
@@ -63,8 +91,9 @@ struct Delete : public unary_function<XMLError*, void>
 {
   void operator() (XMLError* error) { delete error; }
 };
+/** @endcond */
 
-
+/** @cond doxygenLibsbmlInternal */
 /*
  * Destroys this XMLErrorLog.
  */
@@ -150,7 +179,22 @@ XMLErrorLog::add (const std::list<XMLError>& errors)
 /** @endcond */
 
 
-/**
+/** @cond doxygenLibsbmlInternal */
+/*
+ * Logs (copies) the XMLErrors in the given XMLError list to this
+ * XMLErrorLog.
+ */
+void
+XMLErrorLog::add (const std::vector<XMLError*>& errors)
+{
+  vector<XMLError*>::const_iterator end = errors.end();
+  vector<XMLError*>::const_iterator iter;
+
+  for (iter = errors.begin(); iter != end; ++iter) add( *(*iter) );
+}
+/** @endcond */
+
+/*
  * Returns a boolean indicating whether or not the severity is overriden   
  */
 bool 
@@ -159,7 +203,7 @@ XMLErrorLog::isSeverityOverridden() const
   return mOverriddenSeverity != LIBSBML_OVERRIDE_DISABLED;
 }
 
-/**
+/*
  * usets an existing override 
  */ 
 void 
@@ -168,7 +212,7 @@ XMLErrorLog::unsetSeverityOverride()
   setSeverityOverride(LIBSBML_OVERRIDE_DISABLED);
 }
 
-/**
+/*
  * Returns the current override
  */
 XMLErrorSeverityOverride_t 
@@ -177,7 +221,7 @@ XMLErrorLog::getSeverityOverride() const
   return mOverriddenSeverity;
 }
 
-/**
+/*
  * Set the severity override. 
  * 
  * If set to LIBSBML_OVERRIDE_DISABLED (default) all errors will be 

@@ -65,7 +65,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 class LIBSBML_EXTERN RelAbsVector
 {
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   double mAbs; // absolute coordinate value
   double mRel; // relative coordinate value 
   /** @endcond */
@@ -169,7 +169,7 @@ public:
    */
   RelAbsVector& operator=(const RelAbsVector& src);
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   friend std::ostream& operator<<(std::ostream& os,const RelAbsVector& v);
   /** @endcond */
 };

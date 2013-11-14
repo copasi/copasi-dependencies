@@ -24,6 +24,7 @@ foreach(example
 	convertSBML
 	createExampleSBML
 	echoSBML
+	inferUnits
 	inlineFunctionDefintions
 	getAllElementsWithNotes
 	printAnnotation
@@ -33,9 +34,11 @@ foreach(example
 	printRegisteredPackages
 	printSupported
 	printUnits
+	promoteParameters
 	readSBML
 	renameSId
 	setIdFromNames
+	setNamesFromIds
 	stripPackage
 	translateMath
 	translateL3Math

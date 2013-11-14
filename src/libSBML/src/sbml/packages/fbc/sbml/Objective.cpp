@@ -51,6 +51,9 @@ Objective::Objective (unsigned int level, unsigned int version, unsigned int pkg
 {
   // set an SBMLNamespaces derived object (FbcPkgNamespaces) of this package.
   setSBMLNamespacesAndOwn(new FbcPkgNamespaces(level,version,pkgVersion));  
+
+  // connect child elements to this element.
+  connectToChild();
 }
 
 
@@ -73,6 +76,9 @@ Objective::Objective(FbcPkgNamespaces* fbcns)
 
   // load package extensions bound with this object (if any) 
   loadPlugins(fbcns);
+
+  // connect child elements to this element.
+  connectToChild();
 }
 
 
@@ -87,6 +93,9 @@ Objective::Objective(const Objective& source) : SBase(source)
   this->mFluxes=source.mFluxes;
   this->mTypeString = source.mTypeString;
   this->mIsSetListOfFluxObjectives = source.mIsSetListOfFluxObjectives;
+
+  // connect child elements to this element.
+  connectToChild();
 }
 
 /*
@@ -103,6 +112,9 @@ Objective& Objective::operator=(const Objective& source)
     this->mFluxes= source.mFluxes;
     this->mTypeString = source.mTypeString;
     this->mIsSetListOfFluxObjectives = source.mIsSetListOfFluxObjectives;
+
+    // connect child elements to this element.
+    connectToChild();
   }
   
   return *this;
@@ -118,7 +130,7 @@ Objective::~Objective ()
 
 
 SBase* 
-Objective::getElementBySId(std::string id)
+Objective::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   SBase* obj = mFluxes.getElementBySId(id);
@@ -127,7 +139,7 @@ Objective::getElementBySId(std::string id)
 
 
 SBase*
-Objective::getElementByMetaId(std::string metaid)
+Objective::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   if (mFluxes.getMetaId() == metaid) return &mFluxes;
@@ -305,16 +317,16 @@ Objective::setType (const std::string& type)
 int 
 Objective::setType (ObjectiveType_t type)
 {
-	if (ObjectiveType_isValidObjectiveType(type) == 0)
-	{
+  if (ObjectiveType_isValidObjectiveType(type) == 0)
+  {
     mType = OBJECTIVE_TYPE_UNKNOWN;
-		return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
-	else
-	{
-		mType = type;
-		return LIBSBML_OPERATION_SUCCESS;
-	}
+  else
+  {
+    mType = type;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -630,20 +642,20 @@ Objective::readAttributes (const XMLAttributes& attributes,
 
   attributes.readInto("name", mName);
   
-	//
-	// type string   ( use = "required" )
-	//
+  //
+  // type string   ( use = "required" )
+  //
   std::string type;
   assigned = attributes.readInto("type", type);
 
-	if (assigned == true)
-	{
-		// check string is not empty
+  if (assigned == true)
+  {
+    // check string is not empty
 
-		if (type.empty() == true)
-		{
-			logEmptyString(type, sbmlLevel, sbmlVersion, "<Objective>");
-		}
+    if (type.empty() == true)
+    {
+      logEmptyString(type, sbmlLevel, sbmlVersion, "<Objective>");
+    }
     else 
     {
        mType = ObjectiveType_fromString( type.c_str() );
@@ -653,7 +665,7 @@ Objective::readAttributes (const XMLAttributes& attributes,
             getPackageVersion(), sbmlLevel, sbmlVersion);
        }
     }
-	}
+  }
   else
   {
     std::string message = "Fbc attribute 'type' is missing.";
@@ -675,8 +687,8 @@ Objective::writeAttributes (XMLOutputStream& stream) const
   if(isSetName())
     stream.writeAttribute("name",   getPrefix(), mName);
   
-	if (isSetType() == true)
-		stream.writeAttribute("type", getPrefix(), 
+  if (isSetType() == true)
+    stream.writeAttribute("type", getPrefix(), 
                      ObjectiveType_toString(mType));
 
   //
@@ -761,6 +773,7 @@ Objective::setSBMLDocument (SBMLDocument* d)
 void
 Objective::connectToChild()
 {
+  SBase::connectToChild();
   mFluxes.connectToParent(this);
 }
 /** @endcond */
@@ -935,6 +948,27 @@ ListOfObjectives::getElementName () const
 }
 
 
+int ListOfObjectives::appendFrom(const ListOf* list)
+{
+  int ret = ListOf::appendFrom(list);
+  if (ret != LIBSBML_OPERATION_SUCCESS) return ret;
+
+  const ListOfObjectives* objectives = static_cast<const ListOfObjectives*>(list);
+  if (objectives==NULL) return LIBSBML_INVALID_OBJECT;
+
+  if (!isSetActiveObjective()) {
+    setActiveObjective(objectives->getActiveObjective());
+  }
+  return ret;
+}
+
+void
+ListOfObjectives::renameSIdRefs(const std::string& oldid, const std::string& newid)
+{
+  if (mActiveObjective==oldid) mActiveObjective=newid;
+  ListOf::renameSIdRefs(oldid, newid);
+}
+
 /** @cond doxygenLibsbmlInternal */
 SBase*
 ListOfObjectives::createObject (XMLInputStream& stream)
@@ -946,14 +980,14 @@ ListOfObjectives::createObject (XMLInputStream& stream)
   if (name == "objective")
   {
     try
-	{
+    {
       FBC_CREATE_NS(fbcns, getSBMLNamespaces());
       object = new Objective(fbcns);
       appendAndOwn(object);
       //mItems.push_back(object);
-	}
-	catch(...)
-	{
+    }
+    catch(...)
+    {
       /* 
       * NULL will be returned if the mSBMLNS is invalid (basically this
       * should not happen) or some exception is thrown (e.g. std::bad_alloc)
@@ -961,7 +995,7 @@ ListOfObjectives::createObject (XMLInputStream& stream)
       * (Maybe this should be changed so that caller can detect what kind 
       *  of error happened in this function.)
       */
-	}
+    }
 
   }
 
@@ -977,7 +1011,7 @@ ListOfObjectives::addExpectedAttributes(ExpectedAttributes& attributes)
   //
   // required attribute is not defined for SBML Level 2 or lesser.
   //
-	if ( getLevel() > 2 )
+  if ( getLevel() > 2 )
   {    
     attributes.add("activeObjective");
   }
@@ -1023,7 +1057,7 @@ ListOfObjectives::writeAttributes (XMLOutputStream& stream) const
   //cout << "[DEBUG] SBMLDocumentPlugin::writeAttributes() " << endl;
   if ( isSetActiveObjective() ) 
   {
-	  stream.writeAttribute("activeObjective", getPrefix(), mActiveObjective);
+    stream.writeAttribute("activeObjective", getPrefix(), mActiveObjective);
   }
 }
 /** @endcond */
@@ -1039,6 +1073,10 @@ ListOfObjectives::isSetActiveObjective() const
 int 
 ListOfObjectives::setActiveObjective(const std::string &activeObjective)
 {
+  if (!SyntaxChecker::isValidSBMLSId(activeObjective)) 
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
   mActiveObjective = activeObjective;
   return LIBSBML_OPERATION_SUCCESS;
 }

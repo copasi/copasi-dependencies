@@ -55,8 +55,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string& QualExtension::getPackageName ()
 {
-	static const std::string pkgName = "qual";
-	return pkgName;
+  static const std::string pkgName = "qual";
+  return pkgName;
 }
 
 //
@@ -65,7 +65,7 @@ const std::string& QualExtension::getPackageName ()
 unsigned int
 QualExtension::getDefaultLevel ()
 {
-	return 3;
+  return 3;
 }  
 
 /*
@@ -74,7 +74,7 @@ QualExtension::getDefaultLevel ()
 unsigned int
 QualExtension::getDefaultVersion ()
 {
-	return 1; 
+  return 1; 
 }
 
 /*
@@ -83,7 +83,7 @@ QualExtension::getDefaultVersion ()
 unsigned int
 QualExtension::getDefaultPackageVersion ()
 {
-	return 1;
+  return 1;
 } 
 
 //
@@ -94,8 +94,8 @@ QualExtension::getDefaultPackageVersion ()
 const std::string&
 QualExtension::getXmlnsL3V1V1 ()
 {
-	static const std::string xmlns = "http://www.sbml.org/sbml/level3/version1/qual/version1";
-	return xmlns;
+  static const std::string xmlns = "http://www.sbml.org/sbml/level3/version1/qual/version1";
+  return xmlns;
 }
 
 //
@@ -157,11 +157,11 @@ QualExtension::~QualExtension ()
 QualExtension&
 QualExtension::operator=(const QualExtension& rhs)
  {
-	if (&rhs != this)
-	{
-		SBMLExtension::operator=(rhs);
-	}
-	return *this;
+  if (&rhs != this)
+  {
+    SBMLExtension::operator=(rhs);
+  }
+  return *this;
 }
 
 
@@ -277,7 +277,7 @@ QualExtension::getPackageVersion(const std::string &uri) const
 SBMLNamespaces*
 QualExtension::getSBMLExtensionNamespaces(const std::string &uri) const
 {
-  QualPkgNamespaces* pkgns = 0;
+  QualPkgNamespaces* pkgns = NULL;
   if ( uri == getXmlnsL3V1V1())
   {
     pkgns = new QualPkgNamespaces(3,1,1);    
@@ -305,6 +305,7 @@ QualExtension::getStringFromTypeCode(int typeCode) const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  *
  * Initialization function of qual extension module which is automatically invoked 
@@ -316,7 +317,7 @@ QualExtension::init()
 {
   //-------------------------------------------------------------------------
   //
-  // 1. Checks if the qual pacakge has already been registered.
+  // 1. Checks if the qual package has already been registered.
   //
   //-------------------------------------------------------------------------
 
@@ -391,14 +392,15 @@ QualExtension::init()
     std::cerr << "[Error] QualExtension::init() failed." << std::endl;
   }
 }
+/** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 packageErrorTableEntry
 QualExtension::getErrorTable(unsigned int index) const
 {
   return qualErrorTable[index];
 }
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 unsigned int 
 QualExtension::getErrorTableIndex(unsigned int errorId) const
 {
@@ -419,7 +421,7 @@ QualExtension::getErrorTableIndex(unsigned int errorId) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 unsigned int
 QualExtension::getErrorIdOffset() const
 {

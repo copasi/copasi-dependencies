@@ -49,19 +49,19 @@ class LIBSBML_EXTERN GroupsModelPlugin : public SBasePlugin
 {
 public:
 
-	/**
-	 * Creates a new GroupsModelPlugin
-	 */
-	GroupsModelPlugin(const std::string& uri, const std::string& prefix, 
-	                               GroupsPkgNamespaces* groupsns);
+  /**
+   * Creates a new GroupsModelPlugin
+   */
+  GroupsModelPlugin(const std::string& uri, const std::string& prefix, 
+                                 GroupsPkgNamespaces* groupsns);
 
 
-	/**
-	 * Copy constructor for GroupsModelPlugin.
-	 *
-	 * @param orig; the GroupsModelPlugin instance to copy.
-	 */
-	GroupsModelPlugin(const GroupsModelPlugin& orig);
+  /**
+   * Copy constructor for GroupsModelPlugin.
+   *
+   * @param orig; the GroupsModelPlugin instance to copy.
+   */
+  GroupsModelPlugin(const GroupsModelPlugin& orig);
 
 
   /**
@@ -91,7 +91,7 @@ public:
   //
   // --------------------------------------------------------
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /**
    * Subclasses must override this method to create, store, and then
@@ -257,7 +257,7 @@ public:
    *
    * @return the number of Group object in this plugin object.
    */
-	unsigned int getNumGroups () const;
+  unsigned int getNumGroups () const;
 
   // ---------------------------------------------------------
   //
@@ -266,7 +266,7 @@ public:
   //
   // ---------------------------------------------------------
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /**
    * Sets the parent SBMLDocument of this plugin object.
@@ -315,24 +315,24 @@ public:
    */
   virtual void enablePackageInternal(const std::string& pkgURI,
                                      const std::string& pkgPrefix, bool flag);
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
-	/** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
-	virtual bool accept (SBMLVisitor& v) const;
+  virtual bool accept (SBMLVisitor& v) const;
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /*-- data members --*/
 
-	ListOfGroups mGroups;
+  ListOfGroups mGroups;
 
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
 };
 
 LIBSBML_CPP_NAMESPACE_END

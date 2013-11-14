@@ -143,7 +143,7 @@ public:
    * Predicate returning @c true or @c false depending on whether this
    * CoordinateComponent's "unitSize" attribute has been set.
    *
-   * @htmlinclude libsbml-comment-set-methods.html
+   * @htmlinclude comment-set-methods.html
    * 
    * @return @c true if the "unitSize" attribute of this CoordinateComponent has
    * been set, @c false otherwise.
@@ -202,7 +202,7 @@ public:
    * Sets the "unitSize" attribute of this CoordinateComponent and marks the field
    * as set.
    *
-   * @htmlinclude libsbml-comment-set-methods.html
+   * @htmlinclude comment-set-methods.html
    *
    * @param value the value to which the "unitSize" attribute should
    * be set.
@@ -254,7 +254,7 @@ public:
   /**
    * Unsets the "unitSize" attribute value of this CoordinateComponent.
    *
-   * @htmlinclude libsbml-comment-set-methods.html
+   * @htmlinclude comment-set-methods.html
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -288,7 +288,7 @@ public:
   int getTypeCode () const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write out their contained
    * SBML objects as XML elements.  Be sure to call your parents
@@ -310,7 +310,7 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
     
 protected:
   /**
@@ -371,7 +371,7 @@ protected:
   friend class ModelingPracticeValidator;
   friend class OverdeterminedValidator;
 
- /** @endcond doxygen-libsbml-internal */
+ /** @endcond doxygenLibsbmlInternal */
 
 };
 
@@ -510,7 +510,7 @@ protected:
   virtual SBase* createObject (XMLInputStream& stream);
 };
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /**
  * Used by ListOfCompartmentMappings::get() to lookup an SBase based by its 
  * spatialId
@@ -526,7 +526,7 @@ struct IdEq<CompartmentMapping> : public std::unary_function<SBase*, bool>
        { return static_cast <CompartmentMapping*> (sb)->getSpatialId() == id; }
 };
 #endif
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygenLibsbmlInternal */
 
 LIBSBML_CPP_NAMESPACE_END
 

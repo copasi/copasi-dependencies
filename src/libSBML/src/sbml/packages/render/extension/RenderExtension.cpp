@@ -20,13 +20,13 @@
 #include <sbml/extension/SBMLExtensionRegister.h>
 #include <sbml/extension/SBMLExtensionRegistry.h>
 #include <sbml/extension/SBasePluginCreator.h>
-#include <sbml/extension/SBMLDocumentPluginNotRequired.h>
 
 #include <sbml/packages/render/extension/RenderExtension.h>
 #include <sbml/packages/layout/extension/LayoutExtension.h>
 #include <sbml/packages/layout/extension/LayoutModelPlugin.h>
 #include <sbml/packages/render/extension/RenderListOfLayoutsPlugin.h>
 #include <sbml/packages/render/extension/RenderGraphicalObjectPlugin.h>
+#include <sbml/packages/render/extension/RenderSBMLDocumentPlugin.h>
 #include <sbml/SBMLDocument.h>
 #include <sbml/packages/render/extension/RenderLayoutPlugin.h>
 #include <sbml/conversion/SBMLConverter.h>
@@ -418,7 +418,7 @@ RenderExtension::init()
   SBaseExtensionPoint clayoutExtPoint("core",SBML_LAYOUT_LAYOUT);
   SBaseExtensionPoint listOfLayoutsExtPoint("layout", SBML_LIST_OF);
 
-  SBasePluginCreator<SBMLDocumentPluginNotRequired, RenderExtension> sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
+  SBasePluginCreator<RenderSBMLDocumentPlugin, RenderExtension> sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
   SBasePluginCreator<RenderLayoutPlugin,   RenderExtension> layoutPluginCreator(layoutExtPoint,packageURIs);
   SBasePluginCreator<RenderLayoutPlugin,   RenderExtension> clayoutPluginCreator(clayoutExtPoint,packageURIs);
   SBasePluginCreator<RenderListOfLayoutsPlugin,   RenderExtension> lolPluginCreator(listOfLayoutsExtPoint,packageURIs);

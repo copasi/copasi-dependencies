@@ -26,8 +26,8 @@
  * ------------------------------------------------------------------------ -->
  * 
  * @class LocalParameter.
- * @ingroup Core
- * @brief Implementation of SBML Level&nbsp;3's %LocalParameter construct.
+ * @sbmlbrief{core} Implementation of SBML Level&nbsp;3's %LocalParameter
+ * construct.
  *
  * LocalParameter has been introduced in SBML Level&nbsp;3 to serve as the
  * object class for parameter definitions that are intended to be local to
@@ -75,61 +75,73 @@
  * As with all other major SBML components, LocalParameter is derived from
  * SBase, and the methods defined on SBase are available on LocalParameter.
  * 
- * @warning LibSBML derives LocalParameter from Parameter; however, this
- * does not precisely match the object hierarchy defined by SBML
- * Level&nbsp;3, where LocalParameter is derived directly from SBase and not
- * Parameter.  We believe this arrangement makes it easier for libSBML
- * users to program applications that work with both SBML Level&nbsp;2 and
- * SBML Level&nbsp;3, but programmers should also keep in mind this
- * difference exists.  A side-effect of libSBML's scheme is that certain
- * methods on LocalParameter that are inherited from Parameter do not
- * actually have relevance to LocalParameter objects.  An example of this
- * is the methods pertaining to Parameter's attribute "constant"
- * (i.e., isSetConstant(), setConstant(), and getConstant()).
+ * @warning <span class="warning">LibSBML derives LocalParameter from
+ * Parameter; however, this does not precisely match the object hierarchy
+ * defined by SBML Level&nbsp;3, where LocalParameter is derived directly
+ * from SBase and not Parameter.  We believe this arrangement makes it easier
+ * for libSBML users to program applications that work with both SBML
+ * Level&nbsp;2 and SBML Level&nbsp;3, but programmers should also keep in
+ * mind this difference exists.  A side-effect of libSBML's scheme is that
+ * certain methods on LocalParameter that are inherited from Parameter do not
+ * actually have relevance to LocalParameter objects.  An example of this is
+ * the methods pertaining to Parameter's attribute "constant" (i.e.,
+ * isSetConstant(), setConstant(), and getConstant()).</span>
  *
  * @see ListOfLocalParameters
  * @see KineticLaw
  * 
- * <!-- leave this next break as-is to work around some doxygen bug -->
- */ 
-/**
- * @class ListOfLocalParameters.
- * @ingroup Core
- * @brief Implementation of SBML Level&nbsp;3's %ListOfLocalParameters construct.
  * 
- * The various ListOf___ classes in SBML are merely containers used for
- * organizing the main components of an SBML model.  All are derived from
- * the abstract class SBase, and inherit the various attributes and
- * subelements of SBase, such as "metaid" as and "annotation".  The
- * ListOf___ classes do not add any attributes of their own.
+ * <!-- ------------------------------------------------------------------- -->
+ * @class ListOfLocalParameters
+ * @sbmlbrief{core} Implementation of SBML Level&nbsp;3's
+ * %ListOfLocalParameters construct.
+ * 
+ * @copydetails doc_what_is_listof
+ */
+
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
  *
- * ListOfLocalParameters is a subsidiary object class used only within
- * KineticLaw in SBML Level&nbsp;3.  It is not defined in SBML Levels
- * 1&ndash;2.  In Level&nbsp;3, a KineticLaw object can have a single
- * object of class ListOfLocalParameters containing a set of local
- * parameters used in that kinetic law definition.
+ * @class doc_note_localparameter_setting_lv
+ * 
+ * @note Upon the addition of a LocalParameter object to an SBMLDocument
+ * (e.g., using KineticLaw::addLocalParameter(@if java LocalParameter p@endif)), the SBML Level, SBML
+ * Version and XML namespace of the document @em override the
+ * values used when creating the LocalParameter object via this
+ * constructor.  This is necessary to ensure that an SBML document is a
+ * consistent structure.  Nevertheless, the ability to supply the values
+ * at the time of creation of a LocalParameter is an important aid to
+ * producing valid SBML.  Knowledge of the intented SBML Level and
+ * Version determine whether it is valid to assign a particular value to
+ * an attribute, or whether it is valid to add an object to an existing
+ * SBMLDocument.
+ * 
+ * @class doc_localparameter_units
  *
- * Readers may wonder about the motivations for using the ListOf___
- * containers.  A simpler approach in XML might be to place the components
- * all directly at the top level of the model definition.  The choice made
- * in SBML is to group them within XML elements named after
- * ListOf<em>Classname</em>, in part because it helps organize the
- * components.  More importantly, the fact that the container classes are
- * derived from SBase means that software tools can add information @em about
- * the lists themselves into each list container's "annotation".
+ * @par
+ * LocalParameters in SBML have an attribute ("units") for declaring the
+ * units of measurement intended for the parameter's value.  <b>No
+ * defaults are defined</b> by SBML in the absence of a definition for
+ * "units".  This method returns a UnitDefinition object based on the
+ * units declared for this LocalParameter using its "units" attribute, or
+ * it returns @c NULL if no units have been declared.
  *
- * @see ListOfFunctionDefinitions
- * @see ListOfUnitDefinitions
- * @see ListOfCompartmentTypes
- * @see ListOfSpeciesTypes
- * @see ListOfCompartments
- * @see ListOfSpecies
- * @see ListOfParameters
- * @see ListOfInitialAssignments
- * @see ListOfRules
- * @see ListOfConstraints
- * @see ListOfReactions
- * @see ListOfEvents
+ * Note that unit declarations for LocalParameter objects are specified
+ * in terms of the @em identifier of a unit (e.g., using setUnits()), but
+ * @em this method returns a UnitDefinition object, not a unit
+ * identifier.  It does this by constructing an appropriate
+ * UnitDefinition.  For SBML Level&nbsp;2 models, it will do this even
+ * when the value of the "units" attribute is one of the predefined SBML
+ * units @c "substance", @c "volume", @c "area", @c "length" or @c
+ * "time".  Callers may find this useful in conjunction with the helper
+ * methods provided by the UnitDefinition class for comparing different
+ * UnitDefinition objects.
+ *
  */
 
 #ifndef LocalParameter_h
@@ -172,18 +184,8 @@ public:
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
-   * 
-   * @note Upon the addition of a LocalParameter object to an SBMLDocument
-   * (e.g., using KineticLaw::addLocalParameter(@if java LocalParameter p@endif)), the SBML Level, SBML
-   * Version and XML namespace of the document @em override the
-   * values used when creating the LocalParameter object via this
-   * constructor.  This is necessary to ensure that an SBML document is a
-   * consistent structure.  Nevertheless, the ability to supply the values
-   * at the time of creation of a LocalParameter is an important aid to
-   * producing valid SBML.  Knowledge of the intented SBML Level and
-   * Version determine whether it is valid to assign a particular value to
-   * an attribute, or whether it is valid to add an object to an existing
-   * SBMLDocument.
+   *
+   * @copydetails doc_note_localparameter_setting_lv
    */
   LocalParameter (unsigned int level, unsigned int version);
 
@@ -192,12 +194,7 @@ public:
    * Creates a new LocalParameter object with the given SBMLNamespaces
    * object @p sbmlns.
    *
-   * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
-   * information.  It is used to communicate the SBML Level, Version, and
-   * (in Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.
-   * A common approach to using this class constructor is to create an
-   * SBMLNamespaces object somewhere in a program, once, then pass it to
-   * object constructors such as this one when needed.
+   * @copydetails doc_what_are_sbmlnamespaces 
    *
    * It is worth emphasizing that although this constructor does not take
    * an identifier argument, in SBML Level&nbsp;2 and beyond, the "id"
@@ -214,16 +211,7 @@ public:
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @note Upon the addition of a LocalParameter object to an SBMLDocument
-   * (e.g., using KineticLaw::addLocalParameter(@if java LocalParameter p@endif)), the SBML XML namespace of
-   * the document @em overrides the value used when creating the
-   * LocalParameter object via this constructor.  This is necessary to
-   * ensure that an SBML document is a consistent structure.  Nevertheless,
-   * the ability to supply the values at the time of creation of a
-   * LocalParameter is an important aid to producing valid SBML.  Knowledge
-   * of the intented SBML Level and Version determine whether it is valid
-   * to assign a particular value to an attribute, or whether it is valid
-   * to add an object to an existing SBMLDocument.
+   * @copydetails doc_note_compartment_setting_lv
    */
   LocalParameter (SBMLNamespaces* sbmlns);
 
@@ -295,24 +283,8 @@ public:
    * Constructs and returns a UnitDefinition that corresponds to the units
    * of this LocalParameter's value.
    *
-   * LocalParameters in SBML have an attribute ("units") for declaring the
-   * units of measurement intended for the parameter's value.  <b>No
-   * defaults are defined</b> by SBML in the absence of a definition for
-   * "units".  This method returns a UnitDefinition object based on the
-   * units declared for this LocalParameter using its "units" attribute, or
-   * it returns @c NULL if no units have been declared.
-   *
-   * Note that unit declarations for LocalParameter objects are specified
-   * in terms of the @em identifier of a unit (e.g., using setUnits()), but
-   * @em this method returns a UnitDefinition object, not a unit
-   * identifier.  It does this by constructing an appropriate
-   * UnitDefinition.  For SBML Level&nbsp;2 models, it will do this even
-   * when the value of the "units" attribute is one of the predefined SBML
-   * units @c "substance", @c "volume", @c "area", @c "length" or @c
-   * "time".  Callers may find this useful in conjunction with the helper
-   * methods provided by the UnitDefinition class for comparing different
-   * UnitDefinition objects.
-   *
+   * @copydetails doc_localparameter_units
+   * 
    * @return a UnitDefinition that expresses the units of this 
    * LocalParameter, or @c NULL if one cannot be constructed.
    *
@@ -330,23 +302,7 @@ public:
    * Constructs and returns a UnitDefinition that corresponds to the units
    * of this LocalParameter's value.
    *
-   * LocalParameters in SBML have an attribute ("units") for declaring the
-   * units of measurement intended for the parameter's value.  <b>No
-   * defaults are defined</b> by SBML in the absence of a definition for
-   * "units".  This method returns a UnitDefinition object based on the
-   * units declared for this LocalParameter using its "units" attribute, or
-   * it returns @c NULL if no units have been declared.
-   *
-   * Note that unit declarations for LocalParameter objects are specified
-   * in terms of the @em identifier of a unit (e.g., using setUnits()), but
-   * @em this method returns a UnitDefinition object, not a unit
-   * identifier.  It does this by constructing an appropriate
-   * UnitDefinition.  For SBML Level&nbsp;2 models, it will do this even
-   * when the value of the "units" attribute is one of the predefined SBML
-   * units @c "substance", @c "volume", @c "area", @c "length" or @c
-   * "time".  Callers may find this useful in conjunction with the helper
-   * methods provided by the UnitDefinition class for comparing different
-   * UnitDefinition objects.
+   * @copydetails doc_localparameter_units
    *
    * @return a UnitDefinition that expresses the units of this 
    * LocalParameter, or @c NULL if one cannot be constructed.
@@ -364,32 +320,15 @@ public:
   /**
    * Returns the libSBML type code for this SBML object.
    * 
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
+   * @copydetails doc_what_are_typecodes
    *
-   * @return the SBML type code for this object, or @link
-   * SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @return the SBML type code for this object:
+   * @link SBMLTypeCode_t#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getTypeCode () const;
 
@@ -404,9 +343,8 @@ public:
 
 
   /**
-   * Predicate returning @c true if
-   * all the required attributes for this LocalParameter object
-   * have been set.
+   * Predicate returning @c true if all the required attributes for this
+   * LocalParameter object have been set.
    *
    * @note The required attributes for a LocalParameter object are:
    * @li "id"
@@ -509,69 +447,16 @@ public:
 
 
   /**
-   * Returns the libSBML type code for this SBML object.
-   *
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
-   *
-   * @return the SBML type code for this object, or @link
-   * SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
-   *
-   * @see getElementName()
-   */
-  virtual int getTypeCode () const { return SBML_LIST_OF; };
-
-
-  /**
    * Returns the libSBML type code for the objects contained in this ListOf
    * (i.e., LocalParameter objects, if the list is non-empty).
    * 
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
-   * 
-   * @return the SBML type code for the objects contained in this ListOf
-   * instance, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink
-   * (default).
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for the objects contained in this ListOf:
+   * @link SBMLTypeCode_t#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
    *
    * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
@@ -650,13 +535,19 @@ public:
 
 
    /**
-   * Returns the first child element found that has the given @p id in the model-wide SId namespace, or @c NULL if no such object is found.  Note that LocalParameters, while they use the SId namespace, are not in the model-wide SId namespace, so no LocalParameter object will be returned from this function (and is the reason we override the base ListOf::getElementBySId function here).
+   * Returns the first child element found that has the given @p id in the
+   * model-wide SId namespace, or @c NULL if no such object is found.
+   *
+   * Note that LocalParameters, while they use the SId namespace, are not in
+   * the model-wide SId namespace, so no LocalParameter object will be
+   * returned from this function (and is the reason we override the base
+   * ListOf::getElementBySId function here).
    *
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
  /**

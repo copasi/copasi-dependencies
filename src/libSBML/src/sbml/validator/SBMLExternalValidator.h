@@ -48,12 +48,6 @@ class LIBSBML_EXTERN SBMLExternalValidator : public SBMLValidator
 {
 public:
 
-  /** @cond doxygenLibsbmlInternal */
-  
-
-  /** @endcond */
-
-
   /**
    * Constructor.
    */
@@ -73,7 +67,7 @@ public:
   virtual SBMLValidator* clone() const;
 
   
-  /** 
+  /**
    * the actual conversion 
    * 
    * @return status code represeting success/failure/conversion impossible
@@ -81,7 +75,9 @@ public:
   virtual unsigned int validate();
 
 
-  /** 
+  /**
+   * Returns the program name of the validator to be run
+   *
    * @return the program name of the validator to be run
    */
   const std::string& getProgram()  const;
@@ -96,7 +92,9 @@ public:
 
 
   /**
-   * @return the output file name (this is the file the external program will write)
+   * Returns the output file name (this is the file the external program will write)
+   *
+   * @return the output file name
    */
   const std::string& getOutputFileName()  const;
 
@@ -109,7 +107,7 @@ public:
   void setOutputFileName(std::string outputFileName);
 
 
-  /** 
+  /**
    * @return the name of the SBML file (the document of this validator will be written to it)
    */
   const std::string& getSBMLFileName()  const;
@@ -129,19 +127,21 @@ public:
   void clearArguments();
 
 
-  /** 
+  /**
    * Adds the given argument to the list of additional arguments 
    *
    * @param arg the argument
    */
   void addArgument(std::string arg);
 
-  /** 
+
+  /**
    * @return the number of arguments. 
    */
   unsigned int getNumArguments() const;
 
-  /** 
+
+  /**
    * Returns the argument for the given index. 
    * 
    * @param n the zero based index of the argument. 
@@ -150,13 +150,14 @@ public:
    */
   std::string getArgument(unsigned int n) const;
 
+
   /**
    * @return all arguments
    */
   const std::vector<std::string>& getArguments() const;
 
 
-  /** 
+  /**
    * Sets the additional arguments
    *
    * @param args teh additional arguments
@@ -172,10 +173,6 @@ protected:
 
 
 private:
-  /** @cond doxygenLibsbmlInternal */
-
-  /** @endcond */
-
 
 };
 
@@ -188,7 +185,6 @@ LIBSBML_CPP_NAMESPACE_END
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
-
 
 END_C_DECLS
 LIBSBML_CPP_NAMESPACE_END

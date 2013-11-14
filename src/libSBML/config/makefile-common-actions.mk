@@ -756,13 +756,13 @@ maintainer-clean-generic:
 ifeq "$(HOST_TYPE)" "darwin"
 
   define libsbmlrun
-	env DYLD_LIBRARY_PATH=".:$(RUN_LDPATH):$(DYLD_LIBRARY_PATH)" srcdir=. $(LIBTOOL) -dlopen $(TOP_BUILDDIR)/src/libsbml.la --mode=execute $(1)
+	env DYLD_LIBRARY_PATH=".:$(RUN_LDPATH):$(DYLD_LIBRARY_PATH)" srcdir=$(realpath .) $(LIBTOOL) -dlopen $(TOP_BUILDDIR)/src/libsbml.la --mode=execute $(1)
   endef
 
 else
 
   define libsbmlrun
-	env LD_LIBRARY_PATH=".:$(RUN_LDPATH):$(LD_LIBRARY_PATH)" srcdir=. $(LIBTOOL) -dlopen $(TOP_BUILDDIR)/src/libsbml.la --mode=execute $(1)
+	env LD_LIBRARY_PATH=".:$(RUN_LDPATH):$(LD_LIBRARY_PATH)" srcdir=$(realpath .) $(LIBTOOL) -dlopen $(TOP_BUILDDIR)/src/libsbml.la --mode=execute $(1)
   endef
 
 endif
@@ -790,6 +790,7 @@ $(TOP_SRCDIR)/config.status: $(TOP_SRCDIR)/configure $(TOP_SRCDIR)/VERSION.txt
 $(TOP_SRCDIR)/configure: \
 	     $(TOP_SRCDIR)/configure.ac \
 	     $(TOP_SRCDIR)/VERSION.txt \
+	     $(TOP_SRCDIR)/VERSION_PACKAGES.ac \
 	     $(ACLOCAL_M4) \
 	     $(wildcard $(TOP_SRCDIR)/config/*.m4)
 	cd $(TOP_SRCDIR) && $(AUTOCONF) -Wall --force

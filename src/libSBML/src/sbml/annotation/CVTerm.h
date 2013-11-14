@@ -26,8 +26,8 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class CVTerm.
- * @ingroup Core
- * @brief Representation of MIRIAM-compliant controlled vocabulary annotation.
+ * @sbmlbrief{core} Representation of MIRIAM-compliant controlled vocabulary
+ * annotation.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -36,15 +36,15 @@
  * terms and database identifiers that define and describe biological and
  * biochemical entities, and (b) describing the creator of a model and the
  * model's modification history.  This SBML format is a concrete syntax that
- * conforms to the guidelines of MIRIAM ("Minimum Information Requested in
- * the Annotation of biochemical Models", <i>Nature Biotechnology</i>,
- * vol. 23, no. 12, Dec. 2005).  The format uses a subset of W3C RDF (<a
- * target="_blank" href="http://www.w3.org/RDF/">Resource Description
- * Format</a>).  In order to help application developers work with
- * annotations in this format, libSBML provides several helper classes that
- * provide higher-level interfaces to the data elements; these classes
- * include CVTerm, ModelCreator, ModelHistory, RDFAnnotationParser, and
- * Date.
+ * conforms to the guidelines of MIRIAM (<a target="_blank"
+ * href="http://www.nature.com/nbt/journal/v23/n12/abs/nbt1156.html">"Minimum Information Requested in the Annotation of
+ * biochemical Models"</a>, <i>Nature Biotechnology</i>, vol. 23, no. 12,
+ * Dec. 2005).  The format uses a subset of W3C RDF (<a target="_blank"
+ * href="http://www.w3.org/RDF/">Resource Description Format</a>).  In order
+ * to help application developers work with annotations in this format,
+ * libSBML provides several helper classes that provide higher-level
+ * interfaces to the data elements; these classes include CVTerm,
+ * ModelCreator, ModelHistory, RDFAnnotationParser, and Date.
  *
  * @section annotation-parts Components of an SBML annotation
  *
@@ -101,18 +101,32 @@
  * is a creation and modification history; in libSBML, this is stored
  * using ModelHistory objects.
  *
- * The placeholder <span class="code" style="background-color: #bbb">RELATION_ELEMENT</span>
- * refers to a BioModels.net qualifier element name.  This is an element in
- * either the XML namespace
+ * The placeholder <span class="code" style="background-color:
+ * #bbb">RELATION_ELEMENT</span> refers to a BioModels.net qualifier element
+ * name.  This is an element in either the XML namespace
  * <code>"http://biomodels.net/model-qualifiers"</code> (for model
- * qualifiers) or <code>"http://biomodels.net/biology-qualifiers"</code>
- * (for biological qualifier).  The <span class="code" style="background-color: #d0d0ee">URI</span>
- * is a required data value that uniquely identifies a resource and
- * data within that resource to which the annotation refers.  (Since
- * a URI is only a label, not an address, applications will often
- * want a means of looking up the resource to which the URI refers.
- * Providing the facilities for doing this is the purpose of
- * <a target="_blank" href="http://biomodels.net/miriam">MIRIAM Resources</a>.)
+ * qualifiers) or <code>"http://biomodels.net/biology-qualifiers"</code> (for
+ * biological qualifier).  Note that these namespace URIs are only labels,
+ * and not actual Web locations, which means you cannot visit an address such
+ * as <code>"http://biomodels.net/model-qualifiers"</code> in your browser or
+ * try to have your application access it.  @if Refer instead to the enumerations
+ * #ModelQualifierType_t and #BiolQualifierType_t for a list of the available
+ * relationship elements that can be used for <span class="code"
+ * style="background-color: #bbb">RELATION_ELEMENT</span>.@endif@~
+ *
+ * The <span class="code" style="background-color: #d0d0ee">URI</span> is a
+ * required data value that uniquely identifies a resource and data within
+ * that resource to which the annotation refers.  Again, being URIs, these do
+ * not refer to physical Web locations; nevertheless, applications will often
+ * want a means of finding the resource to which a given <span class="code"
+ * style="background-color: #d0d0ee">URI</span> refers.  Providing the
+ * facilities for this task is the purpose of MIRIAM Resources, described in
+ * detail online at <a target="_blank"
+ * href="http://biomodels.net/miriam">http://biomodels.net/miriam</a>) and
+ * also in the paper <a target="_blank"
+ * href="http://www.biomedcentral.com/1752-0509/1/58">"MIRIAM Resources: tools to generate and
+ * resolve robust cross-references in Systems Biology"</a>, <i>BMC Systems
+ * Biology</i>, 58(1), 2007.
  *
  * The relation-resource pairs above are the "controlled vocabulary" terms
  * that which CVTerm is designed to store and manipulate.  The next section
@@ -160,6 +174,45 @@
  * href="http://biomodels.net/qualifiers">http://biomodels.net/qualifiers</a>.
  */
 
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ *
+ * @class doc_cvterm_common_description
+ *
+ * @par
+ * The RDF element used in the SBML format for referring to external entities
+ * is <code>&lt;rdf:Description&gt;</code>, with a
+ * <code>&lt;rdf:Bag&gt;</code> element inside of it containing one or more
+ * <code>&lt;rdf:li&gt;</code> elements.  The following template illustrates
+ * the structure:
+ * <pre class="fragment">
+ * &lt;rdf:Description rdf:about=&quot;#<span style="border-bottom: 1px solid black">meta id</span>&quot;&gt;
+ * &nbsp;&nbsp;<span style="background-color: #ddd; border-bottom: 2px dotted #888">HISTORY</span>
+ * &nbsp;&nbsp;&lt;<span style="background-color: #bbb">RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:Bag&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:li rdf:resource=&quot;<span style="background-color: #d0d0ee">resource URI</span>&quot; /&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: #edd">...</span>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/rdf:Bag&gt;
+ * &nbsp;&nbsp;&lt;/<span style="background-color: #bbb">RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;<span style="background-color: #edd">...</span>
+ * &lt;/rdf:Description&gt;
+ * </pre>
+ * In the template above, the placeholder <span class="code"
+ * style="border-bottom: 1px solid black">meta id</span> stands for the
+ * element's meta identifier, which is a field available on all SBML
+ * components derived from the SBase base object class.  The <span
+ * style="border-bottom: 2px dotted #888">dotted</span> portions are
+ * optional, and the ellipses <span class="code" style="background-color:
+ * #edd">...</span> are placeholders for zero or more elements of the same
+ * form as the immediately preceding element.
+ * 
+ */
+
 #ifndef CVTerm_h
 #define CVTerm_h
 
@@ -172,36 +225,158 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
+
+/**
+ * @enum QualifierType_t
+ *
+ * Enumeration used to indicate the type of <a target="_blank"
+ * href="http://biomodels.net/qualifiers/">BioModels.net</a> in a given
+ * CVTerm object.  The qualification of an annotation is important to convey
+ * the relationship between a given model component and the resource used to
+ * annotate it. This relationship is rarely one-to-one, and the information
+ * content of an annotation is greatly increased if one knows what it
+ * represents (as opposed to knowing only that the two "are related").
+ *
+ * In the SBML/MIRIAM/BioModels.net scheme of things, there are currently two
+ * kinds of qualifiers.  They are used for different purposes.  One purpose
+ * is in the refinement of the relationship between an annotation resource
+ * and the <em>modeling concept</em> represented by a model element.  The
+ * second purpose is in the refinement of the relationship between an
+ * annotation resource and the <em>biological object</em> represented by a
+ * model element.  In libSBML, each of these two categories of qualifiers
+ * have their own enumerations: #ModelQualifierType_t for the former type, and
+ * #BiolQualifierType_t for the latter.
+ *
+ * One can view the annotation of a model component as a statement in the
+ * form of a @em triple. The resource used in the annotation is the @em
+ * object, while the qualifier is the @em predicate.  In situations where a
+ * model qualifier is used, the @em subject of the relation is the modeling
+ * concept represented by the model component referenced by the annotation.
+ * The modeling concept may be the model itself, a mathematical construct,
+ * or a hypothesis that is proposed, changing the way we previously
+ * understood the model, etc.  Conversely, in situations where a biology
+ * qualifier is used, the @em subject of the relation is the biological or
+ * biochemical object represented by the enclosing model element.
+ */
 typedef enum
 {
-    MODEL_QUALIFIER
-  , BIOLOGICAL_QUALIFIER
-  , UNKNOWN_QUALIFIER
+    MODEL_QUALIFIER       /*!< The qualifier is a model qualifier. */
+  , BIOLOGICAL_QUALIFIER  /*!< The qualifier is a biological qualifier. */
+  , UNKNOWN_QUALIFIER     /*!< The qualifier has not been set or is unknown. */
 } QualifierType_t;
 
+
+/**
+ * @enum ModelQualifierType_t
+ *
+ * Enumeration of possible <em>model qualifiers</em> used for annotations.
+ * Annotations with this type of qualifier express a relationship between an
+ * annotation resource and the <em>modeling concept</em> represented by a
+ * given object in the model.  The diagram below illustrates the relationship
+ * in this case:
+ *
+ * @image html model-qualifiers.png "Relationship expressed by model qualifiers"
+ * @image latex model-qualifiers.png "Relationship expressed by model qualifiers"
+ * <br>
+ */
 typedef enum
 {
     BQM_IS
+    /*!< The modeling entity represented by the object in the model is
+     * identical to the subject of the referenced resource. */
+
   , BQM_IS_DESCRIBED_BY
+    /*!< The modeling entity represented by the object in the model is
+     * described by the subject of the referenced resource.  For example,
+     * this relationship could be used to link a model element to a
+     * document (such as a paper published in the literature) describing
+     * the element. */
+
   , BQM_IS_DERIVED_FROM
+    /*!< The modeling entity represented by the object in the model is
+     * derived from or adapted from the referenced resource.  This relation
+     * could be used, for instance, to express a refinement or adaptation in
+     * usage of a model component located elsewere. */
   , BQM_UNKNOWN
+    /*!< The relationship is unknown. */
+
 } ModelQualifierType_t;
 
+
+/**
+ * @enum BiolQualifierType_t
+ *
+ * Enumeration of possible <em>biological qualifiers</em> used for
+ * annotations.  Annotations with this type of qualifier express a
+ * relationship between an annotation resource and the <em>biological
+ * concept</em> represented by a given object in the model.  The diagram
+ * below illustrates the relationship in this case:
+ *
+ * @image html biology-qualifiers.png "Relationship expressed by biological qualifiers"
+ * @image latex biology-qualifiers.png "Relationship expressed by biological qualifiers"
+ * <br>
+ */
 typedef enum
 {
     BQB_IS
+    /*!< The biological entity represented by the object in the model is
+     * identical to the subject of the referenced resource. */
+
   , BQB_HAS_PART
+    /*!< The biological entity represented by the object in the model 
+     * includes the subject of the referenced resource. */
+
   , BQB_IS_PART_OF
+    /*!< The biological entity represented by the object in the model is a
+     * physical or logical part of the subject of the referenced resource.
+     * For example, this could be used to indicate that the molecular entity
+     * represented by a given object in the model is part of the referenced
+     * molecular complex. */
+
   , BQB_IS_VERSION_OF
+    /*!< The biological entity represented by the object in the model is a
+     * version or an instance of the subject of the referenced resource. */
+
   , BQB_HAS_VERSION
+    /*!< The subject of the referenced resource is a version or an instance
+     * of the biological entity represented by the model element. */
+
   , BQB_IS_HOMOLOG_TO
+    /*!< The biological entity represented by the object in the model is
+     * homologous to the subject of the referenced resource. */
+
   , BQB_IS_DESCRIBED_BY
+    /*!< The biological entity represented by the object in the model is
+     * described by the subject of the referenced resource.  This could be
+     * used, for example, to link a species or a parameter to the literature
+     * that describes the concentration of that species or the value of that
+     * parameter. */
+
   , BQB_IS_ENCODED_BY
+    /*!< The biological entity represented by the object in the model is
+     * encoded, directly or transitively, by the subject of the referenced
+     * resource. */
+
   , BQB_ENCODES
+    /*!< The biological entity represented by the object in the model encodes
+     * directly or transitively the subject of the referenced resource. */
+
   , BQB_OCCURS_IN
+    /*!< The biological entity represented by the object in the model is
+     * physically limited to a location.  The location is the subject of the
+     * referenced resource. */
+
   , BQB_HAS_PROPERTY
+    /*!< The subject of the referenced resource is a property of the
+     * biological entity represented by the model element. */
+
   , BQB_IS_PROPERTY_OF
+    /*!< The biological entity represented by the object in the model is
+     * a property of the referenced resource. */
+
   , BQB_UNKNOWN
+    /*!< The relationship is unknown. */
+
 } BiolQualifierType_t;
 
 LIBSBML_CPP_NAMESPACE_END
@@ -223,24 +398,10 @@ class LIBSBML_EXTERN CVTerm
 public:
 
   /**
-   * Creates an empty CVTerm, optionally with the given @if clike #QualifierType_t value@else qualifier@endif@~ @p type.
+   * Creates an empty CVTerm, optionally with the given
+   * @if clike #QualifierType_t value@else qualifier@endif@~ @p type.
    *
-   * The SBML Level&nbsp;2 and Level&nbsp;3 specifications define a simple
-   * format for annotating models when (a) referring to controlled
-   * vocabulary terms and database identifiers that define and describe
-   * biological and other entities, and (b) describing the creator of a
-   * model and the model's modification history.  The annotation content is
-   * stored in <code>&lt;annotation&gt;</code> elements attached to
-   * individual SBML elements.  The format for storing the content inside
-   * SBML <code>&lt;annotation&gt;</code> elements is a subset of W3C RDF
-   * (<a target="_blank" href="http://www.w3.org/RDF/">Resource Description
-   * Format</a>) expressed in XML.  The CVTerm class provides a programming
-   * interface for working directly with controlled vocabulary term ("CV
-   * term") objects without having to deal directly with the XML form.
-   * When libSBML reads in an SBML model containing RDF annotations, it
-   * parses those annotations into a list of CVTerm objects, and when
-   * writing a model, it parses the CVTerm objects back into the
-   * appropriate SBML <code>&lt;annotation&gt;</code> structure.
+   * @copydetails doc_what_are_cvterms 
    *
    * This method creates an empty CVTerm object.  The possible qualifier
    * types usable as values of @p type are @link
@@ -268,27 +429,12 @@ public:
   /**
    * Creates a new CVTerm from the given XMLNode.
    *
-   * The SBML Level&nbsp;2 and Level&nbsp;3 specifications define a simple
-   * format for annotating models when (a) referring to controlled
-   * vocabulary terms and database identifiers that define and describe
-   * biological and other entities, and (b) describing the creator of a
-   * model and the model's modification history.  The annotation content is
-   * stored in <code>&lt;annotation&gt;</code> elements attached to
-   * individual SBML elements.  The format for storing the content inside
-   * SBML <code>&lt;annotation&gt;</code> elements is a subset of W3C RDF
-   * (<a target="_blank" href="http://www.w3.org/RDF/">Resource Description
-   * Format</a>) expressed in XML.  The CVTerm class provides a programming
-   * interface for working directly with controlled vocabulary term ("CV
-   * term") objects without having to deal directly with the XML form.
-   * When libSBML reads in an SBML model containing RDF annotations, it
-   * parses those annotations into a list of CVTerm objects, and when
-   * writing a model, it parses the CVTerm objects back into the
-   * appropriate SBML <code>&lt;annotation&gt;</code> structure.
+   * @copydetails doc_what_are_cvterms 
    * 
-   * This method creates a CVTerm object from the XMLNode object @p node.
-   * Recall that XMLNode is a node in an XML tree of elements, and each
-   * such element can be placed in a namespace.  This constructor looks for
-   * the element to be in the XML namespaces
+   * This method creates a CVTerm object from the given XMLNode object @p
+   * node.  XMLNode is libSBML's representation of a node in an XML tree of
+   * elements, and each such element can be placed in a namespace.  This
+   * constructor looks for the element to be in the XML namespaces
    * <code>"http://biomodels.net/model-qualifiers"</code> (for
    * model qualifiers) and
    * <code>"http://biomodels.net/biology-qualifiers"</code> (for
@@ -343,7 +489,7 @@ public:
   /**
    * Returns the qualifier type of this CVTerm object.
    *
-   * @htmlinclude cvterm-common-description-text.html
+   * @copydetails doc_cvterm_common_description
    *
    * The placeholder <span class="code" style="background-color: #bbb">
    * RELATION_ELEMENT</span> refers to a BioModels.net qualifier
@@ -381,7 +527,7 @@ public:
   /**
    * Returns the model qualifier type of this CVTerm object.
    * 
-   * @htmlinclude cvterm-common-description-text.html
+   * @copydetails doc_cvterm_common_description
    *
    * The placeholder <span class="code" style="background-color: #bbb">
    * RELATION_ELEMENT</span> refers to a BioModels.net qualifier
@@ -391,9 +537,18 @@ public:
    * (for biological qualifier).  Callers will typically use
    * getQualifierType() to find out the type of qualifier relevant to this
    * particular CVTerm object, then if it is a @em model qualifier, use the
-   * present method to determine the specific qualifier.  The set of known
-   * model qualifiers is, at the time of this libSBML release, the
-   * following:
+   * present method to determine the specific qualifier.
+   *
+   * Annotations with model qualifiers express a relationship between an
+   * annotation resource and the <em>modeling concept</em> represented by a
+   * given object in the model.  The diagram below illustrates the
+   * relationship in this case:
+   *
+   * @image html model-qualifiers.png "Relationship expressed by model qualifiers"
+   * @image latex model-qualifiers.png "Relationship expressed by model qualifiers"
+   *
+   * <br> The set of known model qualifiers is, at the time of this libSBML
+   * release, the following:
    *
    * @li @link ModelQualifierType_t#BQM_IS BQM_IS@endlink
    * @li @link ModelQualifierType_t#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY@endlink
@@ -413,7 +568,7 @@ public:
   /**
    * Returns the biological qualifier type of this CVTerm object.
    * 
-   * @htmlinclude cvterm-common-description-text.html
+   * @copydetails doc_cvterm_common_description
    *
    * The placeholder <span class="code" style="background-color: #bbb">
    * RELATION_ELEMENT</span> refers to a BioModels.net qualifier
@@ -423,9 +578,18 @@ public:
    * (for biological qualifier).  Callers will typically use
    * getQualifierType() to find out the type of qualifier relevant to this
    * particular CVTerm object, then if it is a @em biological qualifier,
-   * use the present method to determine the specific qualifier.  The set
-   * of known biological qualifiers is, at the time of this libSBML
-   * release, the following:
+   * use the present method to determine the specific qualifier.
+   *
+   * Annotations with biological qualifiers express a relationship between an
+   * annotation resource and the <em>biological concept</em> represented by a
+   * given object in the model.    The diagram
+   * below illustrates the relationship in this case:
+   *
+   * @image html biology-qualifiers.png "Relationship expressed by biological qualifiers"
+   * @image latex biology-qualifiers.png "Relationship expressed by biological qualifiers"
+   *
+   * <br> The set of known biological qualifiers is, at the time of this
+   * libSBML release, the following:
    *
    * @li @link BiolQualifierType_t#BQB_IS BQB_IS@endlink
    * @li @link BiolQualifierType_t#BQB_HAS_PART BQB_HAS_PART@endlink
@@ -454,7 +618,7 @@ public:
   /**
    * Returns the resource references for this CVTerm object.
    *
-   * @htmlinclude cvterm-common-description-text.html
+   * @copydetails doc_cvterm_common_description
    *
    * The <span class="code" style="background-color: #d0d0ee">resource
    * URI</span> values shown in the template above are stored internally in
@@ -479,7 +643,7 @@ public:
   /**
    * Returns the resources for this CVTerm object.
    * 
-   * @htmlinclude cvterm-common-description-text.html
+   * @copydetails doc_cvterm_common_description
    *
    * The <span class="code" style="background-color: #d0d0ee">resource
    * URI</span> values shown in the template above are stored internally in
@@ -504,7 +668,7 @@ public:
   /**
    * Returns the number of resources for this CVTerm object.
    * 
-   * @htmlinclude cvterm-common-description-text.html
+   * @copydetails doc_cvterm_common_description
    *
    * The fragment above illustrates that there can be more than one
    * resource referenced by a given relationship annotation (i.e., the
@@ -525,7 +689,7 @@ public:
   /**
    * Returns the value of the <em>n</em>th resource for this CVTerm object.
    *
-   * @htmlinclude cvterm-common-description-text.html
+   * @copydetails doc_cvterm_common_description
    *
    * The fragment above illustrates that there can be more than one
    * resource referenced by a given relationship annotation (i.e., the
@@ -628,7 +792,8 @@ public:
 
 
   /**
-   * Sets the @if clike #BiolQualifierType_t@endif@if java biology qualifier type code@endif@~ of this CVTerm object.
+   * Sets the @if clike #BiolQualifierType_t@endif@if java biology qualifier
+   * type code@endif@~ of this CVTerm object.
    *
    * @param qualifier the string representing a biology qualifier
    *
@@ -652,13 +817,7 @@ public:
   /**
    * Adds a resource reference to this CVTerm object.
    *
-   * The SBML Level&nbsp;2 and Level&nbsp;3 specifications define a simple
-   * standardized format for annotating models with references to
-   * controlled vocabulary terms and database identifiers that define and
-   * describe biological or other entities.  This annotation format
-   * consists of RDF-based content placed inside an
-   * <code>&lt;annotation&gt;</code> element attached to an SBML component
-   * such as Species, Compartment, etc.
+   * @copydetails doc_what_are_cvterms 
    *
    * The specific RDF element used in this SBML format for referring to
    * external entities is <code>&lt;rdf:Description&gt;</code>, with a

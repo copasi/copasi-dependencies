@@ -112,74 +112,20 @@ SBMLFileResolver::resolve(const std::string &sUri, const std::string& sBaseUri/*
   delete uri;
 
   if (fileExists(fileName))
-		return readSBML(fileName.c_str());
+    return readSBML(fileName.c_str());
 
   return NULL;
 
 }
 
-
-SBMLUri* 
-SBMLFileResolver::resolveUri(const std::string &sUri, const std::string& sBaseUri/*=""*/) const
+void prefixFileIfNeeded(std::string& fileName)
 {
-  string fileName = sUri;
-
-  // greedily pick up the first file we see before trying more
-  // elaborate means
-	if (fileExists(fileName))
-    return new SBMLUri(fileName);
-
-	// filter scheme
-  SBMLUri uri(sUri);
-  SBMLUri baseUri(sBaseUri);
-
-  if (uri.getScheme() != "file" && baseUri.getScheme() != "file")
-    return NULL;
-
-  std::vector<std::string>::const_iterator it = mAdditionalDirs.begin();
-  while(it != mAdditionalDirs.end())
-  {
-    fileName = SBMLUri(*it).relativeTo(uri.getPath()).getPath();  
-    if (fileExists(fileName))
-		  return new SBMLUri(fileName);
-    // missing root? 
-    fileName = "/" + fileName;
-    if (fileExists(fileName))
-		  return new SBMLUri(fileName);
-    ++it;
-  }
-  
-  fileName = baseUri.relativeTo(uri.getPath()).getPath();  
-  if (fileExists(fileName))
-		return new SBMLUri(fileName);
-  // missing root?
+  if (fileName.length() == 0) return;
+  if (fileName[0] == '/') return;
   fileName = "/" + fileName;
-  if (fileExists(fileName))
-    return new SBMLUri(fileName);
-
-	
-  // adjust for baseUri, when invoked with *full* filename, rather than just the path
-  fileName = baseUri.getPath();
-  size_t pos = fileName.rfind('/');
-  if (pos != fileName.npos)
-  {
-    fileName = SBMLUri(fileName.substr(0, pos)).relativeTo(uri.getPath()).getPath();
-    if (fileExists(fileName))
-	  	return new SBMLUri(fileName);
-    // missing root?
-    fileName = "/" + fileName;
-    if (fileExists(fileName))
-		  return new SBMLUri(fileName);
-
-  }
-
-  // we could scramble a bit more by continuing to search but for now that 
-  // ought to be it.
-
-  return NULL;
 }
 
-#ifndef WIN32
+#if !defined(WIN32) || defined(CYGWIN)
 #include <dirent.h>
 bool directoryExists( const char* path )
 {
@@ -187,6 +133,7 @@ bool directoryExists( const char* path )
 
   bool result = false;
   DIR *dir = opendir (path);
+
 
   if (dir != NULL)
   {
@@ -198,10 +145,84 @@ bool directoryExists( const char* path )
 }
 #endif
 
+
+SBMLUri* 
+SBMLFileResolver::resolveUri(const std::string &sUri, const std::string& sBaseUri/*=""*/) const
+{
+  string fileName = sUri;
+
+
+  // filter scheme
+  SBMLUri uri(sUri);
+  SBMLUri baseUri(sBaseUri);
+
+  if (uri.getScheme() != "file" && baseUri.getScheme() != "file")
+    return NULL;
+
+  // greedily pick up the first file we see before trying more
+  // elaborate means
+  if (fileExists(fileName))
+    return new SBMLUri(fileName);
+    
+    
+  std::vector<std::string>::const_iterator it = mAdditionalDirs.begin();
+  while(it != mAdditionalDirs.end())
+  {
+    fileName = SBMLUri(*it).relativeTo(uri.getPath()).getPath();  
+    if (fileExists(fileName))
+      return new SBMLUri(fileName);
+    // missing root? 
+    prefixFileIfNeeded(fileName);
+    if (fileExists(fileName))
+      return new SBMLUri(fileName);
+    ++it;
+  }
+  
+  fileName = baseUri.relativeTo(uri.getPath()).getPath();  
+  if (fileExists(fileName))
+    return new SBMLUri(fileName);
+  // missing root?
+  prefixFileIfNeeded(fileName);
+  if (fileExists(fileName))
+    return new SBMLUri(fileName);
+
+
+  // adjust for baseUri, when invoked with *full* filename, rather than just the path
+  fileName = baseUri.getPath();
+  size_t pos = fileName.rfind('/');
+  if (pos != fileName.npos)
+  {
+    fileName = SBMLUri(fileName.substr(0, pos)).relativeTo(uri.getPath()).getPath();
+    if (fileExists(fileName))
+      return new SBMLUri(fileName);
+    // missing root?
+    prefixFileIfNeeded(fileName);
+    if (fileExists(fileName))
+      return new SBMLUri(fileName);
+
+  }
+
+  // we could scramble a bit more by continuing to search but for now that 
+  // ought to be it.
+
+  return NULL;
+}
+
 /** @cond doxygenLibsbmlInternal */
 bool
 SBMLFileResolver::fileExists(const std::string& fileName)
 {
+#if !defined(WIN32) || defined(CYGWIN)
+  // cygwin has an issue if the filename is actually a directory
+  // later attempts to create relative paths cause infinite loops
+  // in the attempts to create files/open directories
+  // thus if we are in cygwin - check if the name is a directory
+  // and get out now if it is
+  if (directoryExists(fileName.c_str()))
+  {
+    return false;
+  }
+#endif
   ifstream file(fileName.c_str());
   if (!file)
     return false;
@@ -209,7 +230,7 @@ SBMLFileResolver::fileExists(const std::string& fileName)
   // on linux we know that ther fileName exists, however 
   // it could be a directory (windows does not allow 
   // a directory be opened)
-  #ifndef WIN32
+  #if !defined(WIN32) || defined(CYGWIN)
   if (directoryExists(fileName.c_str()))
     return false;
   #endif

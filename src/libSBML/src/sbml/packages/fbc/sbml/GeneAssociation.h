@@ -17,19 +17,12 @@
  *------------------------------------------------------------------------- -->
  *
  * @class GeneAssociation
- * @ingroup FBC
- * @brief @htmlinclude pkg-marker-fbc.html
- * Implementation of the 'fbc' package %GeneAssociation construct.
+ * @sbmlbrief{fbc} Implementation of the 'fbc' package %GeneAssociation
+ * construct.
  *
+ * Gene associations are not part of the core FBC specification, but rather are a proposed annotation.
  * <!-- leave this next break as-is to work around some doxygen bug -->
  */ 
-/**
- * @class ListOfGeneAssociations
- * @ingroup FBC
- * @brief @htmlinclude pkg-marker-fbc.html
- * Implementation of the 'fbc' package %ListOfGeneAssociations construct.
- */
-
 
 #ifndef GeneAssociation_H__
 #define GeneAssociation_H__
@@ -63,30 +56,33 @@ protected:
 public:
 
   /**
-   * Creates a new GeneAssociation with the given level, version, and package version.
+   * Creates a new GeneAssociation with the given @p level, @p version, and @p pkgVersion.
    */
-   GeneAssociation(unsigned int level      = FbcExtension::getDefaultLevel(),
-          unsigned int version    = FbcExtension::getDefaultVersion(),
-          unsigned int pkgVersion = FbcExtension::getDefaultPackageVersion());
+  GeneAssociation(unsigned int level      = FbcExtension::getDefaultLevel(),
+                  unsigned int version    = FbcExtension::getDefaultVersion(),
+                  unsigned int pkgVersion = FbcExtension::getDefaultPackageVersion());
 
+  /**
+   * Creates a new GeneAssociation with the given @p node and FbcPkgNamespaces @p fbcns.
+   */
   GeneAssociation(const XMLNode& node, FbcPkgNamespaces* fbcns);
 
   /**
    * Creates a new GeneAssociation with the given FbcPkgNamespaces object.
    */
-   GeneAssociation(FbcPkgNamespaces* fbcns);
+  GeneAssociation(FbcPkgNamespaces* fbcns);
 
 
   /**
    * Copy constructor.
    */
-   GeneAssociation(const GeneAssociation& source);
+  GeneAssociation(const GeneAssociation& source);
 
 
   /**
    * Assignment operator.
    */
-   GeneAssociation& operator=(const GeneAssociation& source);
+  GeneAssociation& operator=(const GeneAssociation& source);
 
 
   /**
@@ -119,11 +115,9 @@ public:
    * @param id a SIdRef string to be set.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setId (const std::string& id);
 
@@ -132,11 +126,9 @@ public:
    * Unsets the value of the "id" attribute of this GeneAssociation.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetId ();
 
@@ -165,11 +157,9 @@ public:
    * @param reaction a SIdRef string to be set.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setReaction (const std::string& reaction);
 
@@ -178,11 +168,9 @@ public:
    * Unsets the value of the "id" attribute of this GeneAssociation.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetReaction ();
 
@@ -199,7 +187,7 @@ public:
    */
   virtual const Association* getAssociation () const;
 
-    /**
+  /**
    * Returns Association object of this GeneAssociation.
    *
    * @return Association object of this GeneAssociation.
@@ -223,11 +211,9 @@ public:
    * @param association a Association object to be set.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
   virtual int setAssociation (const Association* association);
 
@@ -236,11 +222,9 @@ public:
    * Unsets the Association object of this GeneAssociation.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
+   * operation. The possible return values are:
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
   virtual int unsetAssociation ();
 
@@ -255,18 +239,27 @@ public:
 
 
   /**
+   * Creates and returns a deep copy of this GeneAssociation.
+   *
    * @return a (deep) copy of this GeneAssociation.
    */
   virtual GeneAssociation* clone () const;
 
 
   /**
-   * @return the typecode (int) of this SBML object or SBML_UNKNOWN
-   * (default).
+   * Returns the libSBML type code of this object instance.
+   *
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for this object:
+   * @link SBMLFbcTypeCode_t#SBML_FBC_GENEASSOCIATION SBML_FBC_GENEASSOCIATION@endlink
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
-  int getTypeCode () const;
+  virtual int getTypeCode () const;
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -294,12 +287,18 @@ public:
   virtual bool accept (SBMLVisitor& v) const;
   
   
+  /**
+   * Creates an XMLNode object from this.
+   */
   XMLNode toXML() const;
 
   
 protected:
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Creates and returns an SBML object corresponding to the next
+   * XMLToken in the @p stream, or NULL if the token was not recognized.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */
@@ -345,11 +344,25 @@ protected:
   /** @endcond */
 };
 
+
+/**
+ * @class ListOfGeneAssociations
+ * @sbmlbrief{fbc} Implementation of the 'fbc' package suggested
+ * %ListOfGeneAssociations annotation construct.
+ * 
+ * The ListOfGeneAssociations is a container for the GeneAssociation elements of the proposed Model annotation, and is not part of the official FBC specification.
+ * 
+ * @copydetails doc_what_is_listof
+ *
+ * @see GeneAssociation
+ */
 class LIBSBML_EXTERN ListOfGeneAssociations : public ListOf
 {
 public:
 
   /**
+   * Creates and returns a deep copy of this ListOfGeneAssociations.
+   *
    * @return a (deep) copy of this ListOfGeneAssociations.
    */
   virtual ListOfGeneAssociations* clone () const;
@@ -457,8 +470,16 @@ public:
 
 
   /**
-   * @return the typecode (int) of SBML objects contained in this ListOf or
-   * SBML_UNKNOWN (default).
+   * Returns the libSBML type code for the SBML objects
+   * contained in this ListOf object.
+   * 
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for objects contained in this list:
+   * @link SBMLTypeCode_t#SBML_FBC_GENEASSOCIATION SBML_FBC_GENEASSOCIATION@endlink (default).
+   *
+   * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
@@ -475,6 +496,8 @@ protected:
 
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return a geneAssociation object, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */

@@ -152,7 +152,7 @@ public:
    */
   virtual XMLNode toXML() const = 0;
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
@@ -162,7 +162,7 @@ public:
   /** @endcond */
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -173,7 +173,7 @@ protected:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Tries to parse the numerical values from the given string
    * and fill the matrix with them. The method will accept strings
@@ -186,7 +186,7 @@ protected:
   void parseTransformation(const std::string& transformationString);
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Adds the transformation attribute to the given XMLAttributes object.
    *
@@ -209,7 +209,7 @@ protected:
    */
   virtual const std::string& getElementName () const;
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Returns the transformation array as a string for storage in an XML
    * attribute.
@@ -217,28 +217,28 @@ protected:
   std::string get2DTransformationString() const;
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the 3D matrix from the 2D matrix.
    */
   void updateMatrix3D();
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Fills the 2D matrix with data from the 3D matrix.
    */
   void updateMatrix2D();
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * the 2D matrix.
    */
   double mMatrix2D[6];
   /** @endcond */
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation

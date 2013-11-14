@@ -26,8 +26,8 @@
  * ---------------------------------------------------------------------- -->
  *
  * @class XMLHandler
- * @ingroup Core
- * @brief Class providing a unified interface to different XML parsers.
+ * @sbmlbrief{core} Class providing a unified interface to different XML
+ * parsers.
  *
  * @if notclike @internal @endif@~
  */
@@ -56,6 +56,12 @@ public:
    */
   XMLHandler ();
 
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Copy Constructor
+   */
+  XMLHandler (const XMLHandler& other);
+  /** @endcond */
 
   /**
    * Destroys this XMLHandler.

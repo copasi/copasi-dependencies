@@ -26,8 +26,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class Delay
- * @ingroup Core
- * @brief Implementation of %SBML's %Delay construct for %Event.
+ * @sbmlbrief{core} Implementation of %SBML's %Delay construct for %Event.
  *
  * An Event object defines when the event can occur, the variables that
  * are affected by the event, and how the variables are affected.  The
@@ -146,6 +145,60 @@
 @endverbatim
  */
 
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ *
+ * @class doc_delay_setting_lv
+ * 
+ * @note Upon the addition of a Delay object to an Event (e.g., using
+ * Event::setDelay(@if java Delay d@endif)), the SBML Level, SBML Version
+ * and XML namespace of the document @em override the values used when
+ * creating the Delay object via this constructor.  This is necessary to
+ * ensure that an SBML document is a consistent structure.  Nevertheless,
+ * the ability to supply the values at the time of creation of a Delay is
+ * an important aid to producing valid SBML.  Knowledge of the intented
+ * SBML Level and Version determine whether it is valid to assign a
+ * particular value to an attribute, or whether it is valid to add a
+ * particular Delay object to an existing Event.
+ *
+ *
+ * @class doc_delay_units
+ *
+ * @par
+ * Delay elements in SBML express a time delay for an Event.  Beginning
+ * with SBML Level&nbsp;2 Version&nbsp;2, the units of that time are
+ * calculated based on the mathematical expression and the model quantities
+ * referenced by <code>&lt;ci&gt;</code> elements used within that
+ * expression.  (In SBML Level &nbsp;2 Version&nbsp;1, there exists an
+ * attribute on Event called "timeUnits".  This attribute can be used to set
+ * the units of the Delay expression explicitly.)  The method
+ * Delay::getDerivedUnitDefinition() returns what libSBML computes the units
+ * to be, to the extent that libSBML can compute them.
+ *
+ *
+ * @class doc_warning_delay_math_literals
+ *
+ * @warning <span class="warning">Note that it is possible the "math"
+ * expression in the Delay contains literal numbers or parameters with
+ * undeclared units.  In those cases, it is not possible to calculate the
+ * units of the overall expression without making assumptions.  LibSBML does
+ * not make assumptions about the units, and
+ * Delay::getDerivedUnitDefinition() only returns the units as far as it is
+ * able to determine them.  For example, in an expression <em>X + Y</em>, if
+ * <em>X</em> has unambiguously-defined units and <em>Y</em> does not, it
+ * will return the units of <em>X</em>.  When using this method, <strong>it
+ * is critical that callers also invoke the method</strong>
+ * Delay::containsUndeclaredUnits() <strong>to determine whether this
+ * situation holds</strong>.  Callers should take suitable action in those
+ * situations.</span>
+ *
+ */
+
 #ifndef Delay_h
 #define Delay_h
 
@@ -184,17 +237,8 @@ public:
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
-   * 
-   * @note Upon the addition of a Delay object to an Event (e.g., using
-   * Event::setDelay(@if java Delay d@endif)), the SBML Level, SBML Version
-   * and XML namespace of the document @em override the values used when
-   * creating the Delay object via this constructor.  This is necessary to
-   * ensure that an SBML document is a consistent structure.  Nevertheless,
-   * the ability to supply the values at the time of creation of a Delay is
-   * an important aid to producing valid SBML.  Knowledge of the intented
-   * SBML Level and Version determine whether it is valid to assign a
-   * particular value to an attribute, or whether it is valid to add a
-   * particular Delay object to an existing Event.
+   *
+   * @copydetails doc_delay_setting_lv
    */
   Delay (unsigned int level, unsigned int version);
 
@@ -203,12 +247,7 @@ public:
    * Creates a new Delay using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
-   * information.  It is used to communicate the SBML Level, Version, and
-   * (in Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.
-   * A common approach to using this class constructor is to create an
-   * SBMLNamespaces object somewhere in a program, once, then pass it to
-   * object constructors such as this one when needed.
+   * @copydetails doc_what_are_sbmlnamespaces
    *
    * @param sbmlns an SBMLNamespaces object.
    *
@@ -217,16 +256,7 @@ public:
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @note Upon the addition of a Delay object to an Event (e.g., using
-   * Event::setDelay(@if java Delay d@endif)), the SBML XML namespace of
-   * the document @em overrides the value used when creating the Delay
-   * object via this constructor.  This is necessary to ensure that an SBML
-   * document is a consistent structure.  Nevertheless, the ability to
-   * supply the values at the time of creation of a Delay is an important
-   * aid to producing valid SBML.  Knowledge of the intented SBML Level and
-   * Version determine whether it is valid to assign a particular value to
-   * an attribute, or whether it is valid to add a particular Delay object
-   * to an existing Event.
+   * @copydetails doc_delay_setting_lv
    */
   Delay (SBMLNamespaces* sbmlns);
 
@@ -249,7 +279,7 @@ public:
 
 
   /**
-   * Assignment operator
+   * Assignment operator for Delay.
    *
    * @param rhs The object whose values are used as the basis of the
    * assignment.
@@ -316,38 +346,11 @@ public:
    * Calculates and returns a UnitDefinition that expresses the units
    * of measurement assumed for the "math" expression of this Delay.
    *
-   * Delay elements in SBML express a time delay for an Event.  Beginning
-   * with SBML Level&nbsp;2 Version&nbsp;2, the units of that time are
-   * calculated based on the mathematical expression and the model
-   * quantities referenced by <code>&lt;ci&gt;</code> elements used within
-   * that expression.  The Delay::getDerivedUnitDefinition() method returns
-   * what libSBML computes the units to be, to the extent that libSBML can
-   * compute them.
+   * @copydetails doc_delay_units
    *
-   * (Prior to SBML Level&nbsp;2 Version&nbsp;2, there existed an attribute
-   * on Event called "timeUnits".  This attribute could be used to set the
-   * intended units of the delay expression.  For such models, this will
-   * return a UnitDefinition object that corresponds to the declared
-   * "timeUnits" units.)
+   * @copydetails doc_note_unit_inference_depends_on_model 
    *
-   * Note that the functionality that facilitates unit analysis depends 
-   * on the model as a whole.  Thus, in cases where the object has not 
-   * been added to a model or the model itself is incomplete,
-   * unit analysis is not possible and this method will return @c NULL.
-   *
-   * @warning Note that it is possible the "math" expression in the Delay
-   * contains literal numbers or parameters with undeclared units.  In
-   * those cases, it is not possible to calculate the units of the overall
-   * expression without making assumptions.  LibSBML does not make
-   * assumptions about the units, and Delay::getDerivedUnitDefinition()
-   * only returns the units as far as it is able to determine them.  For
-   * example, in an expression <em>X + Y</em>, if <em>X</em> has
-   * unambiguously-defined units and <em>Y</em> does not, it will return
-   * the units of <em>X</em>.  When using this method, <strong>it is
-   * critical that callers also invoke the method</strong>
-   * Delay::containsUndeclaredUnits() <strong>to determine whether this
-   * situation holds</strong>.  Callers should take suitable action in
-   * those situations.
+   * @copydetails doc_warning_delay_math_literals
    * 
    * @return a UnitDefinition that expresses the units of the math 
    * expression of this Delay, or @c NULL if one cannot be constructed.
@@ -361,38 +364,11 @@ public:
    * Calculates and returns a UnitDefinition that expresses the units
    * of measurement assumed for the "math" expression of this Delay.
    *
-   * Delay elements in SBML express a time delay for an Event.  Beginning
-   * with SBML Level&nbsp;2 Version&nbsp;2, the units of that time are
-   * calculated based on the mathematical expression and the model
-   * quantities referenced by <code>&lt;ci&gt;</code> elements used within
-   * that expression.  The Delay::getDerivedUnitDefinition() method returns
-   * what libSBML computes the units to be, to the extent that libSBML can
-   * compute them.
+   * @copydetails doc_delay_units
    *
-   * (Prior to SBML Level&nbsp;2 Version&nbsp;2, there existed an attribute
-   * on Event called "timeUnits".  This attribute could be used to set the
-   * intended units of the delay expression.  For such models, this will
-   * return a UnitDefinition object that corresponds to the declared
-   * "timeUnits" units.)
+   * @copydetails doc_note_unit_inference_depends_on_model 
    *
-   * Note that the functionality that facilitates unit analysis depends 
-   * on the model as a whole.  Thus, in cases where the object has not 
-   * been added to a model or the model itself is incomplete,
-   * unit analysis is not possible and this method will return @c NULL.
-   *
-   * @warning Note that it is possible the "math" expression in the Delay
-   * contains literal numbers or parameters with undeclared units.  In
-   * those cases, it is not possible to calculate the units of the overall
-   * expression without making assumptions.  LibSBML does not make
-   * assumptions about the units, and Delay::getDerivedUnitDefinition()
-   * only returns the units as far as it is able to determine them.  For
-   * example, in an expression <em>X + Y</em>, if <em>X</em> has
-   * unambiguously-defined units and <em>Y</em> does not, it will return
-   * the units of <em>X</em>.  When using this method, <strong>it is
-   * critical that callers also invoke the method</strong>
-   * Delay::containsUndeclaredUnits() <strong>to determine whether this
-   * situation holds</strong>.  Callers should take suitable action in
-   * those situations.
+   * @copydetails doc_warning_delay_math_literals
    * 
    * @return a UnitDefinition that expresses the units of the math 
    * expression of this Delay, or @c NULL if one cannot be constructed.
@@ -403,22 +379,17 @@ public:
 
 
   /**
-   * Predicate returning @c true if 
-   * the "math" expression in this Delay instance contains
-   * parameters with undeclared units or literal numbers.
+   * Predicate returning @c true if the "math" expression in this Delay
+   * instance contains parameters with undeclared units or literal numbers.
    * 
-   * Delay elements in SBML express a time delay for an Event.  Beginning
-   * with SBML Level&nbsp;2 Version&nbsp;2, the units of that time are
-   * calculated based on the mathematical expression and the model
-   * quantities referenced by <code>&lt;ci&gt;</code> elements used within
-   * that expression.  The Delay::getDerivedUnitDefinition() method returns
-   * what libSBML computes the units to be, to the extent that libSBML can
-   * compute them.  However, if the expression contains literal numbers or
-   * parameters with undeclared units, libSBML may not be able to compute
-   * the full units of the expression and will only return what it can
-   * compute.  Callers should always use Delay::containsUndeclaredUnits()
-   * when using Delay::getDerivedUnitDefinition() to decide whether the
-   * returned units may be incomplete.
+   * @copydetails doc_delay_units
+   *
+   * If the expression contains literal numbers or parameters with undeclared
+   * units, <strong>libSBML may not be able to compute the full units of the
+   * expression</strong> and will only return what it can compute.  Callers
+   * should always use Delay::containsUndeclaredUnits() when using
+   * Delay::getDerivedUnitDefinition() to decide whether the returned units
+   * may be incomplete.
    * 
    * @return @c true if the math expression of this Delay includes
    * numbers/parameters with undeclared units, @c false otherwise.
@@ -433,23 +404,18 @@ public:
 
 
   /**
-   * Predicate returning @c true if 
-   * the "math" expression in this Delay instance contains
-   * parameters with undeclared units or literal numbers.
+   * Predicate returning @c true if the "math" expression in this Delay
+   * instance contains parameters with undeclared units or literal numbers.
    * 
-   * Delay elements in SBML express a time delay for an Event.  Beginning
-   * with SBML Level&nbsp;2 Version&nbsp;2, the units of that time are
-   * calculated based on the mathematical expression and the model
-   * quantities referenced by <code>&lt;ci&gt;</code> elements used within
-   * that expression.  The Delay::getDerivedUnitDefinition() method returns
-   * what libSBML computes the units to be, to the extent that libSBML can
-   * compute them.  However, if the expression contains literal numbers or
-   * parameters with undeclared units, libSBML may not be able to compute
-   * the full units of the expression and will only return what it can
-   * compute.  Callers should always use Delay::containsUndeclaredUnits()
-   * when using Delay::getDerivedUnitDefinition() to decide whether the
-   * returned units may be incomplete.
-   * 
+   * @copydetails doc_delay_units
+   *
+   * If the expression contains literal numbers or parameters with undeclared
+   * units, <strong>libSBML may not be able to compute the full units of the
+   * expression</strong> and will only return what it can compute.  Callers
+   * should always use Delay::containsUndeclaredUnits() when using
+   * Delay::getDerivedUnitDefinition() to decide whether the returned units
+   * may be incomplete.
+   *
    * @return @c true if the math expression of this Delay includes
    * numbers/parameters with undeclared units, @c false otherwise.
    *
@@ -465,31 +431,15 @@ public:
   /**
    * Returns the libSBML type code of this object instance.
    *
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
+   * @copydetails doc_what_are_typecodes
    *
-   * @return the SBML type code for this object, or @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @return the SBML type code for this object:
+   * @link SBMLTypeCode_t#SBML_DELAY SBML_DELAY@endlink (default).
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getTypeCode () const;
 
@@ -541,7 +491,10 @@ public:
 
 
   /**
-   * Finds this Delay's Event parent and calls unsetDelay() on it, indirectly deleting itself.  Overridden from the SBase function since the parent is not a ListOf.
+   * Finds this Delay's Event parent and calls unsetDelay() on it, indirectly
+   * deleting itself.
+   *
+   * Overridden from the SBase function since the parent is not a ListOf.
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -552,16 +505,39 @@ public:
    */
   virtual int removeFromParentAndDelete();
 
+
   /**
-   * Renames all the SIdRef attributes on this element, including any found in MathML
+   * Renames all the @c SIdRef attributes on this element, including any
+   * found in MathML.
+   *
+   * @copydetails doc_what_is_sidref
+   * 
+   * This method works by looking at all attributes and (if appropriate)
+   * mathematical formulas, comparing the identifiers to the value of @p
+   * oldid.  If any matches are found, the matching identifiers are replaced
+   * with @p newid.  The method does @em not descend into child elements.
+   *
+   * @param oldid the old identifier
+   * @param newid the new identifier
    */
-  virtual void renameSIdRefs(std::string oldid, std::string newid);
+  virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /**
-   * Renames all the UnitSIdRef attributes on this element
+   * Renames all the @c UnitSIdRef attributes on this element
+   *
+   * @copydetails doc_what_is_unitsidref
+   *
+   * This method works by looking at all unit identifier attribute values
+   * (including, if appropriate, inside mathematical formulas), comparing the
+   * unit identifiers to the value of @p oldid.  If any matches are found,
+   * the matching identifiers are replaced with @p newid.  The method does
+   * @em not descend into child elements.
+   * 
+   * @param oldid the old identifier
+   * @param newid the new identifier
    */
-  virtual void renameUnitSIdRefs(std::string oldid, std::string newid);
+  virtual void renameUnitSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -594,6 +570,8 @@ protected:
   virtual bool readOtherXML (XMLInputStream& stream);
 
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or @c NULL if the token was not recognized.
    */

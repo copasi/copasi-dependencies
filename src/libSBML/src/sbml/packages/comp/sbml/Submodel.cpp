@@ -121,7 +121,7 @@ Submodel::~Submodel ()
 
 
 SBase* 
-Submodel::getElementBySId(std::string id)
+Submodel::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   SBase* obj = mListOfDeletions.getElementBySId(id);
@@ -132,7 +132,7 @@ Submodel::getElementBySId(std::string id)
 
 
 SBase*
-Submodel::getElementByMetaId(std::string metaid)
+Submodel::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   if (mListOfDeletions.getMetaId()==metaid) return &mListOfDeletions;
@@ -737,7 +737,7 @@ Submodel::createObject(XMLInputStream& stream)
 
 
 void
-Submodel::renameSIdRefs(std::string oldid, std::string newid)
+Submodel::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (mTimeConversionFactor==oldid) mTimeConversionFactor=newid;
   if (mExtentConversionFactor==oldid) mExtentConversionFactor=newid;
@@ -874,6 +874,7 @@ Submodel::instantiate()
   SBMLDocument* origdoc = NULL;
   string newmodel = parentURI + "::" + getModelRef();
   
+  set<pair<string, string> > parents;
   switch(origmodel->getTypeCode()) 
   {
   case SBML_MODEL:
@@ -897,8 +898,7 @@ Submodel::instantiate()
       mInstantiationOriginalURI = "";
       return LIBSBML_OPERATION_FAILED;
     }
-
-    mInstantiatedModel = extmod->getReferencedModel();
+    mInstantiatedModel = extmod->getReferencedModel(rootdoc, parents);
     if (mInstantiatedModel == NULL) 
     {
       string error = "In Submodel::instantiate, unable to instantiate submodel '" + getId() + "' because the external model definition it referenced (model '" + getModelRef() +"') could not be resolved.";
@@ -972,13 +972,22 @@ Submodel::instantiate()
 int Submodel::performDeletions()
 {
   if (mInstantiatedModel == NULL) return LIBSBML_INVALID_OBJECT;
-  for (unsigned int i = 0; i < getNumDeletions(); i++)
-  {
-    SBase* todelete = getDeletion(i)->getReferencedElementFrom(mInstantiatedModel);
-    if (todelete == NULL) continue;
-    CompBase::removeFromParentAndPorts(todelete);
-  }
-  return LIBSBML_OPERATION_SUCCESS;
+
+  /* since we realised that we need a means of checking whether 
+   * an object has already been deleted before deleting it
+   * this function has become unstable
+   *
+   * it is being left in since it was part of the publiuc API
+   * but needs addressing
+   */
+
+  //for (unsigned int i = 0; i < getNumDeletions(); i++)
+  //{
+  //  SBase* todelete = getDeletion(i)->getReferencedElementFrom(mInstantiatedModel);
+  //  if (todelete == NULL) continue;
+  //  CompBase::removeFromParentAndPorts(todelete);
+  //}
+  return LIBSBML_OPERATION_FAILED;
 }
 
 int 
@@ -1348,7 +1357,7 @@ Submodel_t *
 Submodel_create(unsigned int level, unsigned int version,
                 unsigned int pkgVersion)
 {
-	return new Submodel(level, version, pkgVersion);
+  return new Submodel(level, version, pkgVersion);
 }
 
 
@@ -1359,8 +1368,8 @@ LIBSBML_EXTERN
 void
 Submodel_free(Submodel_t * s)
 {
-	if (s != NULL)
-		delete s;
+  if (s != NULL)
+    delete s;
 }
 
 
@@ -1371,14 +1380,14 @@ LIBSBML_EXTERN
 Submodel_t *
 Submodel_clone(Submodel_t * s)
 {
-	if (s != NULL)
-	{
-		return static_cast<Submodel_t*>(s->clone());
-	}
-	else
-	{
-		return NULL;
-	}
+  if (s != NULL)
+  {
+    return static_cast<Submodel_t*>(s->clone());
+  }
+  else
+  {
+    return NULL;
+  }
 }
 
 
@@ -1389,10 +1398,10 @@ LIBSBML_EXTERN
 char *
 Submodel_getId(Submodel_t * s)
 {
-	if (s == NULL)
-		return NULL;
+  if (s == NULL)
+    return NULL;
 
-	return s->getId().empty() ? NULL : safe_strdup(s->getId().c_str());
+  return s->getId().empty() ? NULL : safe_strdup(s->getId().c_str());
 }
 
 
@@ -1403,10 +1412,10 @@ LIBSBML_EXTERN
 char *
 Submodel_getName(Submodel_t * s)
 {
-	if (s == NULL)
-		return NULL;
+  if (s == NULL)
+    return NULL;
 
-	return s->getName().empty() ? NULL : safe_strdup(s->getName().c_str());
+  return s->getName().empty() ? NULL : safe_strdup(s->getName().c_str());
 }
 
 
@@ -1417,10 +1426,10 @@ LIBSBML_EXTERN
 char *
 Submodel_getModelRef(Submodel_t * s)
 {
-	if (s == NULL)
-		return NULL;
+  if (s == NULL)
+    return NULL;
 
-	return s->getModelRef().empty() ? NULL : safe_strdup(s->getModelRef().c_str());
+  return s->getModelRef().empty() ? NULL : safe_strdup(s->getModelRef().c_str());
 }
 
 
@@ -1431,10 +1440,10 @@ LIBSBML_EXTERN
 char *
 Submodel_getTimeConversionFactor(Submodel_t * s)
 {
-	if (s == NULL)
-		return NULL;
+  if (s == NULL)
+    return NULL;
 
-	return s->getTimeConversionFactor().empty() ? NULL : safe_strdup(s->getTimeConversionFactor().c_str());
+  return s->getTimeConversionFactor().empty() ? NULL : safe_strdup(s->getTimeConversionFactor().c_str());
 }
 
 
@@ -1445,10 +1454,10 @@ LIBSBML_EXTERN
 char *
 Submodel_getExtentConversionFactor(Submodel_t * s)
 {
-	if (s == NULL)
-		return NULL;
+  if (s == NULL)
+    return NULL;
 
-	return s->getExtentConversionFactor().empty() ? NULL : safe_strdup(s->getExtentConversionFactor().c_str());
+  return s->getExtentConversionFactor().empty() ? NULL : safe_strdup(s->getExtentConversionFactor().c_str());
 }
 
 
@@ -1459,7 +1468,7 @@ LIBSBML_EXTERN
 int
 Submodel_isSetId(Submodel_t * s)
 {
-	return (s != NULL) ? static_cast<int>(s->isSetId()) : 0;
+  return (s != NULL) ? static_cast<int>(s->isSetId()) : 0;
 }
 
 
@@ -1470,7 +1479,7 @@ LIBSBML_EXTERN
 int
 Submodel_isSetName(Submodel_t * s)
 {
-	return (s != NULL) ? static_cast<int>(s->isSetName()) : 0;
+  return (s != NULL) ? static_cast<int>(s->isSetName()) : 0;
 }
 
 
@@ -1481,7 +1490,7 @@ LIBSBML_EXTERN
 int
 Submodel_isSetModelRef(Submodel_t * s)
 {
-	return (s != NULL) ? static_cast<int>(s->isSetModelRef()) : 0;
+  return (s != NULL) ? static_cast<int>(s->isSetModelRef()) : 0;
 }
 
 
@@ -1492,7 +1501,7 @@ LIBSBML_EXTERN
 int
 Submodel_isSetTimeConversionFactor(Submodel_t * s)
 {
-	return (s != NULL) ? static_cast<int>(s->isSetTimeConversionFactor()) : 0;
+  return (s != NULL) ? static_cast<int>(s->isSetTimeConversionFactor()) : 0;
 }
 
 
@@ -1503,7 +1512,7 @@ LIBSBML_EXTERN
 int
 Submodel_isSetExtentConversionFactor(Submodel_t * s)
 {
-	return (s != NULL) ? static_cast<int>(s->isSetExtentConversionFactor()) : 0;
+  return (s != NULL) ? static_cast<int>(s->isSetExtentConversionFactor()) : 0;
 }
 
 
@@ -1514,7 +1523,7 @@ LIBSBML_EXTERN
 int
 Submodel_setId(Submodel_t * s, const char * id)
 {
-	return (s != NULL) ? s->setId(id) : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->setId(id) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1525,7 +1534,7 @@ LIBSBML_EXTERN
 int
 Submodel_setName(Submodel_t * s, const char * name)
 {
-	return (s != NULL) ? s->setName(name) : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->setName(name) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1536,7 +1545,7 @@ LIBSBML_EXTERN
 int
 Submodel_setModelRef(Submodel_t * s, const char * modelRef)
 {
-	return (s != NULL) ? s->setModelRef(modelRef) : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->setModelRef(modelRef) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1547,7 +1556,7 @@ LIBSBML_EXTERN
 int
 Submodel_setTimeConversionFactor(Submodel_t * s, const char * timeConversionFactor)
 {
-	return (s != NULL) ? s->setTimeConversionFactor(timeConversionFactor) : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->setTimeConversionFactor(timeConversionFactor) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1558,7 +1567,7 @@ LIBSBML_EXTERN
 int
 Submodel_setExtentConversionFactor(Submodel_t * s, const char * extentConversionFactor)
 {
-	return (s != NULL) ? s->setExtentConversionFactor(extentConversionFactor) : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->setExtentConversionFactor(extentConversionFactor) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1569,7 +1578,7 @@ LIBSBML_EXTERN
 int
 Submodel_unsetId(Submodel_t * s)
 {
-	return (s != NULL) ? s->unsetId() : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->unsetId() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1580,7 +1589,7 @@ LIBSBML_EXTERN
 int
 Submodel_unsetName(Submodel_t * s)
 {
-	return (s != NULL) ? s->unsetName() : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->unsetName() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1591,7 +1600,7 @@ LIBSBML_EXTERN
 int
 Submodel_unsetModelRef(Submodel_t * s)
 {
-	return (s != NULL) ? s->unsetModelRef() : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->unsetModelRef() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1602,7 +1611,7 @@ LIBSBML_EXTERN
 int
 Submodel_unsetTimeConversionFactor(Submodel_t * s)
 {
-	return (s != NULL) ? s->unsetTimeConversionFactor() : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->unsetTimeConversionFactor() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1613,7 +1622,7 @@ LIBSBML_EXTERN
 int
 Submodel_unsetExtentConversionFactor(Submodel_t * s)
 {
-	return (s != NULL) ? s->unsetExtentConversionFactor() : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->unsetExtentConversionFactor() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1624,7 +1633,7 @@ LIBSBML_EXTERN
 int
 Submodel_addDeletion(Submodel_t * s, Deletion_t * d)
 {
-	return (s != NULL) ? s->addDeletion(d) : LIBSBML_INVALID_OBJECT;
+  return (s != NULL) ? s->addDeletion(d) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -1712,7 +1721,7 @@ LIBSBML_EXTERN
 int
 Submodel_hasRequiredAttributes(Submodel_t * s)
 {
-	return (s != NULL) ? static_cast<int>(s->hasRequiredAttributes()) : 0;
+  return (s != NULL) ? static_cast<int>(s->hasRequiredAttributes()) : 0;
 }
 
 
@@ -1723,10 +1732,10 @@ LIBSBML_EXTERN
 Submodel_t *
 ListOfSubmodels_getById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfSubmodels *>(lo)->get(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfSubmodels *>(lo)->get(sid) : NULL;
 }
 
 
@@ -1737,10 +1746,10 @@ LIBSBML_EXTERN
 Submodel_t *
 ListOfSubmodels_removeById(ListOf_t * lo, const char * sid)
 {
-	if (lo == NULL)
-		return NULL;
+  if (lo == NULL)
+    return NULL;
 
-	return (sid != NULL) ? static_cast <ListOfSubmodels *>(lo)->remove(sid) : NULL;
+  return (sid != NULL) ? static_cast <ListOfSubmodels *>(lo)->remove(sid) : NULL;
 }
 
 

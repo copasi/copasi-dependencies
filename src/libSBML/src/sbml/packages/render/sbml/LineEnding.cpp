@@ -52,7 +52,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 const std::string ListOfLineEndings::ELEMENT_NAME="listOfLineEndings";
 const std::string LineEnding::ELEMENT_NAME="lineEnding";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LineEnding object with the given SBML level
  * and SBML version.
@@ -75,7 +75,7 @@ LineEnding::LineEnding (unsigned int level, unsigned int version, unsigned int p
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LineEnding object with the given SBMLNamespaces.
  *
@@ -103,7 +103,21 @@ LineEnding::LineEnding (RenderPkgNamespaces* renderns):
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+List*
+LineEnding::getAllElements(ElementFilter *filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_ELEMENT(ret, sublist, mBoundingBox, filter);  
+  ADD_FILTERED_ELEMENT(ret, sublist, mGroup, filter);  
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ListOfLineEndings object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -172,7 +186,7 @@ ListOfLineEndings::ListOfLineEndings(unsigned int level, unsigned int version, u
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
 };
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new LineEnding object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -232,7 +246,7 @@ LineEnding::LineEnding(const LineEnding& other) :
 }
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a LineEnding with an empty group object,
  * and a viewport with a size of 0.
@@ -271,7 +285,7 @@ LineEnding::LineEnding(RenderPkgNamespaces* renderns, const std::string& id) :
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets whether rotational mapping is to be done or not.
  * This flag determines whether the LineEnding is rotated
@@ -287,7 +301,7 @@ void LineEnding::setEnableRotationalMapping(bool enable)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns whether rotational mapping is enabled or not.
  *
@@ -300,7 +314,7 @@ bool LineEnding::getIsEnabledRotationalMapping() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the viewport for the LineEnding.
  *
@@ -312,7 +326,7 @@ void LineEnding::setBoundingBox(const BoundingBox* box)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the viewport bounding box.
  *
@@ -324,7 +338,7 @@ BoundingBox* LineEnding::getBoundingBox()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the viewport bounding box.
  *
@@ -336,7 +350,7 @@ const BoundingBox* LineEnding::getBoundingBox() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the group of the LineEnding to a copy of the given group.
  *
@@ -349,7 +363,7 @@ void LineEnding::setGroup(const RenderGroup* group)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the group object.
  *
@@ -362,7 +376,7 @@ RenderGroup* LineEnding::getGroup()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the group object.
  *
@@ -375,7 +389,7 @@ const RenderGroup* LineEnding::getGroup() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of the ListOfLineEndings object.
  *
@@ -387,7 +401,7 @@ ListOfLineEndings* ListOfLineEndings::clone () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Copy constructor. Creates a copy of this ListOfLineEndings object.
  */
@@ -395,7 +409,7 @@ ListOfLineEndings::ListOfLineEndings(const ListOfLineEndings& source):ListOf(sou
 {
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Assignment operator for ListOfLineEndings objects.
  */
@@ -409,7 +423,7 @@ ListOfLineEndings& ListOfLineEndings::operator=(const ListOfLineEndings& source)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for the objects contained in this ListOf
  * (i.e., LineEnding objects, if the list is non-empty).
@@ -437,7 +451,7 @@ int ListOfLineEndings::getItemTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object, which for
  * ListOfLineEndings, is always @c "listOfLineEndings".
@@ -452,7 +466,7 @@ const std::string& ListOfLineEndings::getElementName () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this ListOfLineEndings object.
  *
@@ -466,7 +480,7 @@ XMLNode ListOfLineEndings::toXML() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -496,7 +510,7 @@ LineEnding::writeXMLNS (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -519,7 +533,7 @@ SBase* LineEnding::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -540,7 +554,7 @@ SBase* ListOfLineEndings::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -563,7 +577,7 @@ void LineEnding::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this LineEnding object.
  *
@@ -576,7 +590,7 @@ XMLNode LineEnding::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 LineEnding::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -587,7 +601,7 @@ LineEnding::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void LineEnding::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
   GraphicalPrimitive2D::readAttributes(attributes, expectedAttributes);
@@ -599,7 +613,7 @@ void LineEnding::readAttributes(const XMLAttributes& attributes, const ExpectedA
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -625,7 +639,7 @@ int LineEnding::getTypeCode() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor for this instance of LineEnding.
  *
@@ -639,7 +653,7 @@ bool LineEnding::accept(SBMLVisitor& /*visitor*/) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -654,7 +668,7 @@ const std::string& LineEnding::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this LineEnding object.
  * 
@@ -665,7 +679,7 @@ LineEnding* LineEnding::clone() const
     return new LineEnding(*this);
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the value of the "id" attribute of this GraphicalPrimitive.
  *
@@ -678,7 +692,7 @@ const std::string& LineEnding::getId () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether this
  * GraphicalPrimitive's "id" attribute has been set.
@@ -692,7 +706,7 @@ bool LineEnding::isSetId () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the value of the "id" attribute of this GraphicalPrimitive.
  *
@@ -715,7 +729,7 @@ int LineEnding::setId (const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Unsets the value of the "id" attribute of this LineEnding.
  */
@@ -733,7 +747,7 @@ int LineEnding::unsetId ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the LineEnding with the given index or NULL if
  * the index is invalid.
@@ -748,7 +762,7 @@ LineEnding* ListOfLineEndings::get(unsigned int i)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the LineEnding with the given index or NULL if
  * the index is invalid.
@@ -763,7 +777,7 @@ const LineEnding* ListOfLineEndings::get(unsigned int i) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Used by ListOf::get() to lookup an SBase based by its id.
  */
@@ -778,7 +792,7 @@ struct IdEqLineEnding : public std::unary_function<SBase*, bool>
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the LineEnding with the given @p id or @c NULL if
  * the id is invalid.
@@ -795,7 +809,7 @@ LineEnding* ListOfLineEndings::get(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the LineEnding with the given @p id or @c NULL if
  * the id is invalid.
@@ -813,7 +827,7 @@ const LineEnding* ListOfLineEndings::get(const std::string& id) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes the nth item from this list */
     LineEnding*
 ListOfLineEndings::remove (unsigned int n)
@@ -823,7 +837,7 @@ ListOfLineEndings::remove (unsigned int n)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* Removes item in this list by id */
     LineEnding*
 ListOfLineEndings::remove (const std::string& sid)
@@ -843,7 +857,7 @@ ListOfLineEndings::remove (const std::string& sid)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -889,7 +903,7 @@ LineEnding::enablePackageInternal(const std::string& pkgURI,
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBML object of this SBML object.
  *
@@ -902,7 +916,7 @@ LineEnding::setParentSBMLObject (SBase* sb)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -920,7 +934,7 @@ bool LineEnding::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

@@ -38,12 +38,12 @@
 #include <sbml/SBMLTypeCodes.h>
 #include <string>
 
-/** @cond doxygen-ignored */
+/** @cond doxygenIgnored */
 
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE
 
-/** @endcond doxygen-ignored */
+/** @endcond doxygenIgnored */
 
 
 CK_CPPSTART
@@ -100,16 +100,16 @@ END_TEST
 START_TEST (test_GroupsExtension_getLevelVersion)
 {
   fail_unless(G->getLevel(GROUPS_XMLNS_L3V1V1) == 3);
-  fail_unless(G->getLevel(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(G->getLevel("")                          == 0);
+  fail_unless(G->getLevel(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(G->getLevel("")                  == 0);
 
   fail_unless(G->getVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(G->getVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(G->getVersion("")                          == 0);
+  fail_unless(G->getVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(G->getVersion("")                  == 0);
 
   fail_unless(G->getPackageVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(G->getPackageVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(G->getPackageVersion("")                          == 0);
+  fail_unless(G->getPackageVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(G->getPackageVersion("")                  == 0);
 }
 END_TEST
 
@@ -142,16 +142,16 @@ START_TEST(test_GroupsExtension_copy)
   fail_unless(g2->getURI(4,1,1) == "");
 
   fail_unless(g2->getLevel(GROUPS_XMLNS_L3V1V1) == 3);
-  fail_unless(g2->getLevel(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(g2->getLevel("")                          == 0);
+  fail_unless(g2->getLevel(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(g2->getLevel("")                  == 0);
 
   fail_unless(g2->getVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(g2->getVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(g2->getVersion("")                          == 0);
+  fail_unless(g2->getVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(g2->getVersion("")                  == 0);
 
   fail_unless(g2->getPackageVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(g2->getPackageVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(g2->getPackageVersion("")                          == 0);
+  fail_unless(g2->getPackageVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(g2->getPackageVersion("")                  == 0);
 
   delete g2;
 }
@@ -172,16 +172,16 @@ START_TEST(test_GroupsExtension_assignment)
   fail_unless(g2->getURI(4,1,1) == "");
 
   fail_unless(g2->getLevel(GROUPS_XMLNS_L3V1V1) == 3);
-  fail_unless(g2->getLevel(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(g2->getLevel("")                          == 0);
+  fail_unless(g2->getLevel(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(g2->getLevel("")                  == 0);
 
   fail_unless(g2->getVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(g2->getVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(g2->getVersion("")                          == 0);
+  fail_unless(g2->getVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(g2->getVersion("")                  == 0);
 
   fail_unless(g2->getPackageVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(g2->getPackageVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(g2->getPackageVersion("")                          == 0);
+  fail_unless(g2->getPackageVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(g2->getPackageVersion("")                  == 0);
 
   delete g2;
 }
@@ -200,16 +200,16 @@ START_TEST(test_GroupsExtension_clone)
   fail_unless(g2->getURI(4,1,1) == "");
 
   fail_unless(g2->getLevel(GROUPS_XMLNS_L3V1V1) == 3);
-  fail_unless(g2->getLevel(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(g2->getLevel("")                          == 0);
+  fail_unless(g2->getLevel(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(g2->getLevel("")                  == 0);
 
   fail_unless(g2->getVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(g2->getVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(g2->getVersion("")                          == 0);
+  fail_unless(g2->getVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(g2->getVersion("")                  == 0);
 
   fail_unless(g2->getPackageVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(g2->getPackageVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(g2->getPackageVersion("")                          == 0);
+  fail_unless(g2->getPackageVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(g2->getPackageVersion("")                  == 0);
 
   delete g2;
 }
@@ -230,16 +230,16 @@ START_TEST(test_GroupsExtension_registry)
   fail_unless(sbext->getURI(4,1,1) == "");
 
   fail_unless(sbext->getLevel(GROUPS_XMLNS_L3V1V1) == 3);
-  fail_unless(sbext->getLevel(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(sbext->getLevel("")                          == 0);
+  fail_unless(sbext->getLevel(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(sbext->getLevel("")                  == 0);
 
   fail_unless(sbext->getVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(sbext->getVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(sbext->getVersion("")                          == 0);
+  fail_unless(sbext->getVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(sbext->getVersion("")                  == 0);
 
   fail_unless(sbext->getPackageVersion(GROUPS_XMLNS_L3V1V1) == 1);
-  fail_unless(sbext->getPackageVersion(CORE_XMLNS_L2V4)             == 0);
-  fail_unless(sbext->getPackageVersion("")                          == 0);
+  fail_unless(sbext->getPackageVersion(CORE_XMLNS_L2V4)     == 0);
+  fail_unless(sbext->getPackageVersion("")                  == 0);
 }
 END_TEST
 

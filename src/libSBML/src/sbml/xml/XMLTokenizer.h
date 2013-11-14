@@ -26,8 +26,7 @@
  * ---------------------------------------------------------------------- -->
  *
  * @class XMLTokenizer
- * @ingroup Core
- * @brief Class implementing methods for turning XML into tokens.
+ * @sbmlbrief{core} Class implementing methods for turning XML into tokens.
  *
  * @if notclike @internal @endif@~
  */
@@ -57,6 +56,12 @@ public:
    */
   XMLTokenizer ();
 
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Copy Constructor
+   */
+  XMLTokenizer (const XMLTokenizer& other);
+  /** @endcond */
 
   /**
    * Destroys this XMLTokenizer.
@@ -65,24 +70,31 @@ public:
 
 
   /**
+   * Returns the encoding of the underlying XML document.
+   *
    * @return the encoding of the underlying XML document.
    */
   const std::string& getEncoding ();
 
 
   /**
+   * Returns the xml version of the underlying XML document.
+   *
    * @return the xml version of the underlying XML document.
    */
   const std::string& getVersion ();
 
 
   /**
-   * @return true if this XMLTokenizer has at least one XMLToken ready to
+   * Returns true if this XMLTokenizer has at least one XMLToken ready to
    * deliver, false otherwise.
    *
    * Note that hasNext() == false does not imply isEOF() == true.  The
    * XMLTokenizer may simply be waiting for the XMLParser to parse more of
    * the document.
+   *
+   * @return true if this XMLTokenizer has at least one XMLToken ready to
+   * deliver, false otherwise.
    */
   bool hasNext () const;
 

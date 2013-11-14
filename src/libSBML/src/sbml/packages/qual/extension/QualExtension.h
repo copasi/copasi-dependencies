@@ -24,6 +24,13 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class QualExtension
+ * @sbmlbrief{qual} The core module of the 'qual' package extension.
+ *
+ * @class QualPkgNamespaces
+ * @sbmlbrief{qual} Extension of SBMLNamespaces for the SBML Level&nbsp;3
+ * 'qual' package.
  */
 
 #ifndef QualExtension_h
@@ -99,7 +106,7 @@ public:
   /**
    * Copy constructor.
    */
-	QualExtension(const QualExtension& orig);
+  QualExtension(const QualExtension& orig);
 
 
   /**
@@ -111,7 +118,7 @@ public:
   /**
    * Assignment operator for QualExtension.
    */
-	QualExtension& operator=(const QualExtension& rhs);
+  QualExtension& operator=(const QualExtension& rhs);
 
 
   /**
@@ -125,85 +132,87 @@ public:
   /**
    * Returns the name of this package ("qual")
    *
-	 * @return a string representing the name of this package ("qual")
+   * @return a string representing the name of this package ("qual")
    */
   virtual const std::string& getName() const;
 
 
   /**
-   * Returns the URI (namespace) of the package corresponding to the combination of 
-   * the given sbml level, sbml version, and package version.
-   * Empty string will be returned if no corresponding URI exists.
+   * Returns the namespace URI corresponding to the combination of the given
+   * SBML Level, Version, and package version.
    *
    * @param sbmlLevel the level of SBML
    * @param sbmlVersion the version of SBML
    * @param pkgVersion the version of package
    *
-   * @return a string of the package URI
+   * @return a string of the package URI, or an empty string if no
+   * corresponding URI exists.
    */
-	virtual const std::string& getURI(unsigned int sbmlLevel,
-	                                  unsigned int sbmlVersion,
-	                                  unsigned int pkgVersion) const;
+  virtual const std::string& getURI(unsigned int sbmlLevel,
+                                    unsigned int sbmlVersion,
+                                    unsigned int pkgVersion) const;
 
 
   /**
-   * Returns the SBML level with the given URI of this package.
+   * Returns the SBML Level for the given URI of this package.
    *
-	 * @param uri the string of URI that represents one of versions of qual package
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;qual&rdquo; package
    *
-   * @return the SBML level with the given URI of this package. 0 will be returned
-   * if the given URI is invalid.
-   *
+   * @return the SBML Level with the given URI of this package, or @c 0 if
+   * the given URI is invalid.
    */
   virtual unsigned int getLevel(const std::string &uri) const;
 
 
   /**
-   * Returns the SBML version with the given URI of this package.
+   * Returns the SBML Version for the given URI of this package.
    *
-	 * @param uri the string of URI that represents one of versions of qual package
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;qual&rdquo; package
    *
-   * @return the SBML version with the given URI of this package. 0 will be returned
-   * if the given URI is invalid.
+   * @return the SBML version with the given URI of this package, or @c 0 if
+   * the given URI is invalid.
    */
   virtual unsigned int getVersion(const std::string &uri) const;
 
 
   /**
-   * Returns the package version with the given URI of this package.
+   * Returns the package version for the given URI of this package.
    *
-	 * @param uri the string of URI that represents one of versions of qual package
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;qual&rdquo; package
    *
-   * @return the package version with the given URI of this package. 0 will be returned
+   * @return the package version with the given URI of this package, or @c 0
    * if the given URI is invalid.
    */
   virtual unsigned int getPackageVersion(const std::string &uri) const;
 
 
   /**
-   * Returns an SBMLExtensionNamespaces<QualExtension> object whose alias type is 
-	 * QualPkgNamespace.
-	 * Null will be returned if the given uri is not defined in the qual package.
-	 *
-	 * @param uri the string of URI that represents one of versions of qual package
-	 *
-	 * @return an QualPkgNamespace object corresponding to the given uri. NULL will
-	 * be returned if the given URI is not defined in qual package.
+   * Returns an QualPkgNamespaces object.
+   *
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;qual&rdquo; package
+   *
+   * @return an QualPkgNamespace object corresponding to the given @p uri, or
+   * @c NULL if the URI is not defined in the Hierarchical %Model Qualosition
+   * package.
    */
   virtual SBMLNamespaces* getSBMLExtensionNamespaces(const std::string &uri) const;
 
 
   /**
-   * This method takes a type code of qual package and returns a string representing 
-   * the code.
+   * Takes a type code of the &ldquo;qual&rdquo; package and returns a string
+   * describing the code.
    */
   virtual const char* getStringFromTypeCode(int typeCode) const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   
   /**
-	 * Initializes qual extension by creating an object of this class with 
+   * Initializes qual extension by creating an object of this class with 
    * required SBasePlugin derived objects and registering the object 
    * to the SBMLExtensionRegistry class.
    *
@@ -216,50 +225,50 @@ public:
 
   static void init();
 
-  /** @endcond doxygen-libsbml-internal */
-	
+  /** @endcond */
   
-  /** @cond doxygen-libsbml-internal */
+  
+  /** @cond doxygenLibsbmlInternal */
 
-	/**
-	 * Return the entry in the error table at this index. 
-	 *
-	 * @param index an unsigned intgere representing the index of the error in the QualSBMLErrorTable
-	 *
-	 * @return packageErrorTableEntry object in the QualSBMLErrorTable corresponding to the index given.
-	 */
-	virtual packageErrorTableEntry getErrorTable(unsigned int index) const;
-
-
-	/** @endcond doxygen-libsbml-internal */
+  /**
+   * Return the entry in the error table at this index. 
+   *
+   * @param index an unsigned intgere representing the index of the error in the QualSBMLErrorTable
+   *
+   * @return packageErrorTableEntry object in the QualSBMLErrorTable corresponding to the index given.
+   */
+  virtual packageErrorTableEntry getErrorTable(unsigned int index) const;
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Return the index in the error table with the given errorId. 
-	 *
-	 * @param errorId an unsigned intgere representing the errorId of the error in the QualSBMLErrorTable
-	 *
-	 * @return unsigned integer representing the index in the QualSBMLErrorTable corresponding to the errorId given.
-	 */
-	virtual unsigned int getErrorTableIndex(unsigned int errorId) const;
+  /** @endcond */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Return the index in the error table with the given errorId. 
+   *
+   * @param errorId an unsigned intgere representing the errorId of the error in the QualSBMLErrorTable
+   *
+   * @return unsigned integer representing the index in the QualSBMLErrorTable corresponding to the errorId given.
+   */
+  virtual unsigned int getErrorTableIndex(unsigned int errorId) const;
 
 
-	/** @cond doxygen-libsbml-internal */
-
-	/**
-	 * Return the offset for the errorId range for the qual L3 package. 
-	 *
-	 * @return unsigned intege representing the  offset for errors QualSBMLErrorTable.
-	 */
-	virtual unsigned int getErrorIdOffset() const;
+  /** @endcond */
 
 
-	/** @endcond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Return the offset for the errorId range for the qual L3 package. 
+   *
+   * @return unsigned intege representing the  offset for errors QualSBMLErrorTable.
+   */
+  virtual unsigned int getErrorIdOffset() const;
+
+
+  /** @endcond */
 
 };
 
@@ -282,14 +291,22 @@ public:
 //
 typedef SBMLExtensionNamespaces<QualExtension> QualPkgNamespaces; 
 
+/**
+ * @enum  SBMLQualTypeCode_t
+ * @brief SBMLQualTypeCode_t is the enumeration of possible types from the 'qual' package.
+ *
+ * @copydetails doc_what_are_typecodes
+ *
+ * @copydetails doc_additional_typecode_details
+ */
 typedef enum
 {
-   SBML_QUAL_QUALITATIVE_SPECIES  = 1100
- , SBML_QUAL_TRANSITION           = 1101
- , SBML_QUAL_INPUT                = 1102
- , SBML_QUAL_OUTPUT               = 1103
- , SBML_QUAL_FUNCTION_TERM        = 1104
- , SBML_QUAL_DEFAULT_TERM         = 1105
+   SBML_QUAL_QUALITATIVE_SPECIES  = 1100 /*!< QualitativeSpecies */
+ , SBML_QUAL_TRANSITION           = 1101 /*!< Transition */
+ , SBML_QUAL_INPUT                = 1102 /*!< Input */
+ , SBML_QUAL_OUTPUT               = 1103 /*!< Output */
+ , SBML_QUAL_FUNCTION_TERM        = 1104 /*!< FunctionTerm */
+ , SBML_QUAL_DEFAULT_TERM         = 1105 /*!< DefaultTerm */
 } SBMLQualTypeCode_t;
 
 

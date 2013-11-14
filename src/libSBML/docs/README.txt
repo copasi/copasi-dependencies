@@ -51,7 +51,7 @@ The SBML Team.
 # -----------------------------------------------------------------------------
 # File author: M. Hucka, S. Keating
 # Last Modified: $Date: 2011-04-08 05:02:11 +0200 (Fri, 08 Apr 2011) $
-# $URL: https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental/docs/README.txt $
+# $URL: https://svn.code.sf.net/p/sbml/code/trunk/libsbml/docs/README.txt $
 # -----------------------------------------------------------------------------
 # The following is for [X]Emacs users.  Please leave in place.
 # Local Variables:

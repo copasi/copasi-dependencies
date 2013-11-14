@@ -194,7 +194,7 @@ KineticLaw::clone () const
 
 
 SBase*
-KineticLaw::getElementBySId(std::string id)
+KineticLaw::getElementBySId(const std::string& id)
 {
   if (id.empty()) return NULL;
   //Don't look in mParameters--they're only for L1, so their IDs are not appropriate, and they won't have L3 plugins on them.  We can't rely on ListOfParameters being overridden, either, as we can for ListOfLocalParameters.
@@ -206,7 +206,7 @@ KineticLaw::getElementBySId(std::string id)
 
 
 SBase*
-KineticLaw::getElementByMetaId(std::string metaid)
+KineticLaw::getElementByMetaId(const std::string& metaid)
 {
   if (metaid.empty()) return NULL;
   //Go ahead and check mParameters, since metaIDs are global.
@@ -877,7 +877,25 @@ KineticLaw::getDerivedUnitDefinition()
   /* if we have the whole model but it is not in a document
    * it is still possible to determine the units
    */
-  Model * m = static_cast <Model *> (getAncestorOfType(SBML_MODEL));
+  
+  /* VERY NASTY HACK THAT WILL WORK IF WE DONT KNOW ABOUT COMP
+   * but will identify if the parent model is a ModelDefinition
+   */
+  Model * m = NULL;
+  
+  if (this->isPackageEnabled("comp"))
+  {
+    m = static_cast <Model *> (getAncestorOfType(251, "comp"));
+  }
+
+  if (m == NULL)
+  {
+    m = static_cast <Model *> (getAncestorOfType(SBML_MODEL));
+  }
+
+  /* we should have a model by this point 
+   * OR the object is not yet a child of a model
+   */
 
   if (m != NULL)
   {
@@ -927,7 +945,26 @@ KineticLaw::containsUndeclaredUnits()
   /* if we have the whole model but it is not in a document
    * it is still possible to determine the units
    */
-  Model * m = static_cast <Model *> (getAncestorOfType(SBML_MODEL));
+  
+  /* VERY NASTY HACK THAT WILL WORK IF WE DONT KNOW ABOUT COMP
+   * but will identify if the parent model is a ModelDefinition
+   */
+  Model * m = NULL;
+  
+  if (this->isPackageEnabled("comp"))
+  {
+    m = static_cast <Model *> (getAncestorOfType(251, "comp"));
+  }
+
+  if (m == NULL)
+  {
+    m = static_cast <Model *> (getAncestorOfType(SBML_MODEL));
+  }
+
+  /* we should have a model by this point 
+   * OR the object is not yet a child of a model
+   */
+
 
   if (m != NULL)
   {
@@ -1031,14 +1068,9 @@ KineticLaw::setSBMLDocument (SBMLDocument* d)
 void
 KineticLaw::connectToChild()
 {
-  if (getLevel() < 3)
-  {
+  SBase::connectToChild();
   mParameters.connectToParent(this);
-  }
-  else
-  {
-	  mLocalParameters.connectToParent(this);
-  }
+  mLocalParameters.connectToParent(this);
 }
 
 
@@ -1118,6 +1150,7 @@ KineticLaw::hasRequiredElements() const
 
 int KineticLaw::removeFromParentAndDelete()
 {
+  if (mHasBeenDeleted) return LIBSBML_OPERATION_SUCCESS;
   SBase* parent = getParentSBMLObject();
   if (parent==NULL) return LIBSBML_OPERATION_FAILED;
   Reaction* parentReaction = static_cast<Reaction*>(parent);
@@ -1127,7 +1160,7 @@ int KineticLaw::removeFromParentAndDelete()
 
 
 void
-KineticLaw::renameSIdRefs(std::string oldid, std::string newid)
+KineticLaw::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
   //If the oldid is actually a local parameter, we should not rename it.
   if (getParameter(oldid) != NULL) return;
@@ -1138,7 +1171,7 @@ KineticLaw::renameSIdRefs(std::string oldid, std::string newid)
 }
 
 void 
-KineticLaw::renameUnitSIdRefs(std::string oldid, std::string newid)
+KineticLaw::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);

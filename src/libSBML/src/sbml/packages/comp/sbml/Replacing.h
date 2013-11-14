@@ -17,15 +17,13 @@
  *------------------------------------------------------------------------- -->
  *
  * @class Replacing
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * A convenience subclass of the %ReplacedElement and %ReplacedBy 
- * constructs from the 'comp' package.
+ * @sbmlbrief{comp} A convenience subclass of the %ReplacedElement and
+ * %ReplacedBy constructs from the &ldquo;comp&rdquo; package.
  *
- * The Replacing class does not exist officialy in the the
- * @ref Comp "Hierarchical Model Composition" package ('comp'),
- * but is implemented here as a convenience subclass of the
- * ReplacedElement and ReplacedBy classes, since both of those classes 
+ * The Replacing class does not exist officialy in the the @ref comp
+ * @if java "Hierarchical %Model Composition"@endif@~ package
+ * (&ldquo;comp&rdquo;), but is implemented here as a convenience subclass of
+ * the ReplacedElement and ReplacedBy classes, since both of those classes
  * define a 'submodelRef' attribute.
  *
  * The required attribute "submodelRef" takes a value of type
@@ -130,9 +128,7 @@ public:
    * if the id is not a valid syntax for an SIdRef.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    */
@@ -143,9 +139,7 @@ public:
    * Unsets the value of the "SubmodelRef" attribute of this SBaseRef.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -166,9 +160,7 @@ public:
    * 'getReferencedElementFrom' on that model, and storing the result.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
@@ -181,15 +173,21 @@ public:
    * Renames all the SIdRef attributes on this element if they match
    * @p oldid, but not any found in child or plugin elements.
    */
-  virtual void renameSIdRefs(std::string oldid, std::string newid);
+  virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /**
-   * Removes the redundant element from instantiated submodels, and points
-   * all old references to the remaining element (different for
-   * ReplacedElements and ReplacedBy elements.
+   * DEPRECATED FUNCTION:  DO NOT USE
+   * 
+   * To retain old functionality, this function calls performReplacementAndCollect,
+   * and then actually removes the now-redundant element.  However, this can lead
+   * to doubly-deleted elements, as well as the incorrect interpretation of some
+   * models.  The replacement function performReplacementAndCollect
+   * has been marked protected, in the hopes that people will instead simply
+   * use CompModelPlugin::instantiateSubmodels, which hides all the complexity while
+   * still allowing access to a non-flattened version of a hierarchical model.
    */
-  virtual int performReplacement() = 0;
+  virtual int performReplacement();
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -224,23 +222,6 @@ public:
    * @param d the SBMLDocument object to use
    */
   virtual void setSBMLDocument (SBMLDocument* d);
-  /** @endcond */
-
-
-  /** @cond doxygenLibsbmlInternal */
-  /**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor, assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */
-  virtual void connectToChild ();
   /** @endcond */
 
 
@@ -299,9 +280,7 @@ protected:
    * any references to @p oldnames should now point.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    */
@@ -320,9 +299,7 @@ protected:
    * MathML of elements that assign to the referenced object by the @p conversionFactor.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
@@ -337,6 +314,16 @@ protected:
    */
   virtual int convertConversionFactor(ASTNode*& conversionFactor);
   /** @endcond */
+
+
+  /**
+   * An internal flattening routine, necessarily overridden by any subclass, to 
+   * rename the necessary elements, perform any conversions, and add the now-redundant
+   * element to the 'toremove' list.
+   */
+  virtual int performReplacementAndCollect(std::set<SBase*>* removed, 
+                                           std::set<SBase*>* toremove) = 0;
+
 };
 
 

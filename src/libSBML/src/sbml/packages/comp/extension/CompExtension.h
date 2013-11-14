@@ -17,9 +17,12 @@
  *------------------------------------------------------------------------- -->
  *
  * @class CompExtension
- * @ingroup comp
- * @brief @htmlinclude pkg-marker-comp.html
- * The core module of the 'comp' package extension.
+ * @sbmlbrief{comp} The core module of the &ldquo;comp&rdquo; package
+ * extension.
+ *
+ * @class CompPkgNamespaces
+ * @sbmlbrief{comp} Extension of SBMLNamespaces for the SBML Level&nbsp;3
+ * 'comp' package.
  */
 
 #ifndef CompExtension_h
@@ -40,10 +43,13 @@
   EXTENSION_CREATE_NS(CompPkgNamespaces,variable,sbmlns);
 #endif
 
-
 #include <vector>
 
+#endif  /* __cplusplus */
+
 LIBSBML_CPP_NAMESPACE_BEGIN
+
+#ifdef __cplusplus
 
 class LIBSBML_EXTERN CompExtension : public SBMLExtension
 {
@@ -133,16 +139,15 @@ public:
 
 
   /**
-   * Returns the URI (namespace) of the package corresponding to the
-   * combination of the given SBML Level, SBML Version, and Level&nbsp;3
-   * package version.
+   * Returns the namespace URI corresponding to the combination of the given
+   * SBML Level, Version, and package version.
    *
    * @param sbmlLevel the level of SBML
    * @param sbmlVersion the version of SBML
    * @param pkgVersion the version of package
    *
-   * @return a string of the package URI.  An empty string will be returned
-   * if no corresponding URI exists.
+   * @return a string of the package URI, or an empty string if no
+   * corresponding URI exists.
    */
   virtual const std::string& getURI(unsigned int sbmlLevel,
                                     unsigned int sbmlVersion, 
@@ -150,59 +155,57 @@ public:
 
 
   /**
-   * Returns the SBML Level with the given URI of this package.
+   * Returns the SBML Level for the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of the comp
-   * package.
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;comp&rdquo; package
    *
-   * @return the SBML level with the given URI of this package. @c 0 will be returned
-   * if the given URI is invalid.
-   *
+   * @return the SBML Level with the given URI of this package, or @c 0 if
+   * the given URI is invalid.
    */
   virtual unsigned int getLevel(const std::string &uri) const;
 
 
   /**
-   * Returns the SBML version with the given URI of this package.
+   * Returns the SBML Version for the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of comp package.
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;comp&rdquo; package
    *
-   * @return the SBML version with the given URI of this package. @c 0 will
-   * be returned if the given URI is invalid.
+   * @return the SBML version with the given URI of this package, or @c 0 if
+   * the given URI is invalid.
    */
   virtual unsigned int getVersion(const std::string &uri) const;
 
 
   /**
-   * Returns the package version with the given URI of this package.
+   * Returns the package version for the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of comp package.
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;comp&rdquo; package
    *
-   * @return the package version with the given URI of this package. 0 will be returned
+   * @return the package version with the given URI of this package, or @c 0
    * if the given URI is invalid.
    */
   virtual unsigned int getPackageVersion(const std::string &uri) const;
 
 
   /**
-   * Returns an SBMLExtensionNamespaces&lt;CompExtension&gt; object whose alias
-   * type is CompPkgNamespace.
+   * Returns an CompPkgNamespaces object.
    *
-   * @param uri the string of URI that represents one of versions of comp package.
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;comp&rdquo; package
    *
-   * @return an CompPkgNamespace object corresponding to the given URI. @c
-   * NULL will be returned if the given URI is not defined in comp package.
+   * @return an CompPkgNamespace object corresponding to the given @p uri, or
+   * @c NULL if the URI is not defined in the Hierarchical %Model Composition
+   * package.
    */
   virtual SBMLNamespaces* getSBMLExtensionNamespaces(const std::string &uri) const;
 
 
   /**
-   * This method takes a type code of comp package and returns a string
-   * representing the code.
-   *
-   * @param typeCode the libSBML typecode in question.
-   *
-   * @return a string representing the libSBML type code.
+   * Takes a type code of the &ldquo;comp&rdquo; package and returns a string
+   * describing the code.
    */
   virtual const char* getStringFromTypeCode(int typeCode) const;
 
@@ -251,21 +254,33 @@ public:
 //
 typedef SBMLExtensionNamespaces<CompExtension> CompPkgNamespaces; 
 
+#endif  /* __cplusplus */
+
+BEGIN_C_DECLS
+
+/**
+ * @enum  SBMLCompTypeCode_t
+ * @brief SBMLCompTypeCode_t is the enumeration of possible types from the 'comp' package.
+ *
+ * @copydetails doc_what_are_typecodes
+ *
+ * @copydetails doc_additional_typecode_details
+ */
 typedef enum
   {
-    SBML_COMP_SUBMODEL                = 250
-  , SBML_COMP_MODELDEFINITION         = 251
-  , SBML_COMP_EXTERNALMODELDEFINITION = 252
-  , SBML_COMP_SBASEREF                = 253
-  , SBML_COMP_DELETION                = 254
-  , SBML_COMP_REPLACEDELEMENT         = 255
-  , SBML_COMP_REPLACEDBY              = 256
-  , SBML_COMP_PORT                    = 257
+    SBML_COMP_SUBMODEL                = 250 /*!< Submodel */
+  , SBML_COMP_MODELDEFINITION         = 251 /*!< ModelDefinition */
+  , SBML_COMP_EXTERNALMODELDEFINITION = 252 /*!< ExternalModelDefinition */
+  , SBML_COMP_SBASEREF                = 253 /*!< SBaseRef */
+  , SBML_COMP_DELETION                = 254 /*!< Deletion */
+  , SBML_COMP_REPLACEDELEMENT         = 255 /*!< ReplacedElement */
+  , SBML_COMP_REPLACEDBY              = 256 /*!< ReplacedBy */
+  , SBML_COMP_PORT                    = 257 /*!< Port */
 
   } SBMLCompTypeCode_t;
 
+END_C_DECLS
 
 LIBSBML_CPP_NAMESPACE_END
 
-#endif  /* __cplusplus */
 #endif  /* CompExtension_h */

@@ -26,8 +26,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class Model
- * @ingroup Core
- * @brief Implementation of %SBML's %Model construct.
+ * @sbmlbrief{core} Implementation of %SBML's %Model construct.
  *
  * In an SBML model definition, a single object of class Model serves as
  * the overall container for the lists of the various model components.
@@ -207,7 +206,7 @@ sp.setId("MySpecies");
  * class="placeholder"><em>Object</em></span>s&gt;</code> elements in the
  * finished XML rendition of SBML.)  In the example above,
  * Model::createSpecies() adds the created species directly to the
- * <code>&lt;listOfSpecies<i></i>&gt;</code> list in the model.  Subsequently,
+ * <code>&lt;listOfSpecies&gt;</code> list in the model.  Subsequently,
  * methods called on the species change the species in the model (which is
  * what is expected in most situations).
  *
@@ -363,6 +362,29 @@ sp.setId("MySpecies");
  * specification.
  */
 
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ *
+ * @class doc_note_model_setting_lv
+ * 
+ * @note Upon the addition of a Model object to an SBMLDocument
+ * (e.g., using SBMLDocument::setModel(@if java Model m@endif)), the SBML Level, SBML Version
+ * and XML namespace of the document @em override the values used
+ * when creating the Model object via this constructor.  This is
+ * necessary to ensure that an SBML document is a consistent structure.
+ * Nevertheless, the ability to supply the values at the time of creation
+ * of a Model is an important aid to producing valid SBML.  Knowledge
+ * of the intented SBML Level and Version determine whether it is valid
+ * to assign a particular value to an attribute, or whether it is valid
+ * to add an object to an existing SBMLDocument.
+ *
+ */
+
 #ifndef Model_h
 #define Model_h
 
@@ -426,17 +448,8 @@ public:
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
-   * 
-   * @note Upon the addition of a Model object to an SBMLDocument
-   * (e.g., using SBMLDocument::setModel(@if java Model m@endif)), the SBML Level, SBML Version
-   * and XML namespace of the document @em override the values used
-   * when creating the Model object via this constructor.  This is
-   * necessary to ensure that an SBML document is a consistent structure.
-   * Nevertheless, the ability to supply the values at the time of creation
-   * of a Model is an important aid to producing valid SBML.  Knowledge
-   * of the intented SBML Level and Version determine whether it is valid
-   * to assign a particular value to an attribute, or whether it is valid
-   * to add an object to an existing SBMLDocument.
+   *
+   * @copydetails doc_note_model_setting_lv
    */
   Model (unsigned int level, unsigned int version);
 
@@ -445,12 +458,7 @@ public:
    * Creates a new Model using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
-   * information.  It is used to communicate the SBML Level, Version, and
-   * (in Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.
-   * A common approach to using this class constructor is to create an
-   * SBMLNamespaces object somewhere in a program, once, then pass it to
-   * object constructors such as this one when needed.
+   * @copydetails doc_what_are_sbmlnamespaces 
    *
    * @param sbmlns an SBMLNamespaces object.
    *
@@ -459,16 +467,7 @@ public:
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @note Upon the addition of a Model object to an SBMLDocument (e.g.,
-   * using SBMLDocument::setModel(@if java Model m@endif)), the SBML XML namespace of the document @em
-   * overrides the value used when creating the Model object via this
-   * constructor.  This is necessary to ensure that an SBML document is a
-   * consistent structure.  Nevertheless, the ability to supply the values
-   * at the time of creation of a Model is an important aid to producing
-   * valid SBML.  Knowledge of the intented SBML Level and Version
-   * determine whether it is valid to assign a particular value to an
-   * attribute, or whether it is valid to add an object to an existing
-   * SBMLDocument.
+   * @copydetails doc_note_model_setting_lv
    */
   Model (SBMLNamespaces* sbmlns);
 
@@ -528,7 +527,7 @@ public:
    *
    * @return pointer to the first element found with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
@@ -539,7 +538,7 @@ public:
    *
    * @return pointer to the first element found with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
   
   
   /**
@@ -758,8 +757,9 @@ public:
   /**
    * Sets the value of the "id" attribute of this Model.
    *
-   * The string @p sid is copied.  Note that SBML has strict requirements
-   * for the syntax of identifiers.  @htmlinclude id-syntax.html
+   * The string @p sid is copied.
+   *
+   * @copydetails doc_id_syntax
    *
    * @param sid the string to use as the identifier of this Model
    *
@@ -1076,15 +1076,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createFunctionDefinition()
-   * for a method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createFunctionDefinition()
    */
@@ -1106,15 +1098,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createUnitDefinition() for
-   * a method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createUnitDefinition()
    */
@@ -1136,15 +1120,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createCompartmentType()
-   * for a method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @note The CompartmentType object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -1170,15 +1146,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createSpeciesType() for a
-   * method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @note The SpeciesType object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -1204,15 +1172,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    *
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createCompartment() for a
-   * method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createCompartment()
    */
@@ -1234,15 +1194,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createSpecies() for a
-   * method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createSpecies()
    */
@@ -1264,15 +1216,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createParameter() for a
-   * method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createParameter()
    */
@@ -1294,15 +1238,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createInitialAssignment()
-   * for a method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createInitialAssignment()
    */
@@ -1324,16 +1260,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see the methods
-   * Model::createAlgebraicRule(), Model::createAssignmentRule() and
-   * Model::createRateRule() for methods that do not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createAlgebraicRule()
    * @see createAssignmentRule()
@@ -1356,15 +1283,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createConstraint() for a
-   * method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createConstraint()
    */
@@ -1386,15 +1305,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createReaction() for a
-   * method that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createReaction()
    */
@@ -1416,15 +1327,7 @@ public:
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * 
-   * @note This method should be used with some caution.  The fact that
-   * this method @em copies the object passed to it means that the caller
-   * will be left holding a physically different object instance than the
-   * one contained in this Model.  Changes made to the original object
-   * instance (such as resetting attribute values) will <em>not affect the
-   * instance in the Model</em>.  In addition, the caller should make sure
-   * to free the original object if it is no longer being used, or else a
-   * memory leak will result.  Please see Model::createEvent() for a method
-   * that does not lead to these issues.
+   * @copydetails doc_note_object_is_copied 
    *
    * @see createEvent()
    */
@@ -2473,6 +2376,42 @@ public:
 
 
   /**
+   * Get a Rule object based on the variable to which it assigns a value.
+   * 
+   * @return the Rule in this Model with the given "variable" attribute
+   * value or @c NULL if no such Rule exists.
+   */
+  const AssignmentRule* getAssignmentRule (const std::string& variable) const;
+
+
+  /**
+   * Get a Rule object based on the variable to which it assigns a value.
+   * 
+   * @return the Rule in this Model with the given "variable" attribute
+   * value or @c NULL if no such Rule exists.
+   */
+  AssignmentRule* getAssignmentRule (const std::string& variable);
+
+
+  /**
+   * Get a Rule object based on the variable to which it assigns a value.
+   * 
+   * @return the Rule in this Model with the given "variable" attribute
+   * value or @c NULL if no such Rule exists.
+   */
+  const RateRule* getRateRule (const std::string& variable) const;
+
+
+  /**
+   * Get a Rule object based on the variable to which it assigns a value.
+   * 
+   * @return the Rule in this Model with the given "variable" attribute
+   * value or @c NULL if no such Rule exists.
+   */
+  RateRule* getRateRule (const std::string& variable);
+
+
+  /**
    * Get the nth Constraint object in this Model.
    * 
    * @return the nth Constraint of this Model.
@@ -2725,20 +2664,52 @@ public:
    */
   virtual int removeFromParentAndDelete();
 
+  /** @cond doxygenLibsbmlInternal */
+
   virtual int renameAllIds(IdentifierTransformer* idTransformer, ElementFilter* filter=NULL);
+  
+  /** @endcond */
+
+
+  /** @cond doxygenLibsbmlInternal */
   
   virtual void renameIDs(List* elements, IdentifierTransformer* idTransformer);
 
-  /**
-   * Renames all the SIdRef attributes on this element, including any found in MathML
-   */
-  virtual void renameSIdRefs(std::string oldid, std::string newid);
+  /** @endcond */
 
 
   /**
-   * Renames all the UnitSIdRef attributes on this element
+   * Renames all the @c SIdRef attributes on this element, including any
+   * found in MathML.
+   *
+   * @copydetails doc_what_is_sidref
+   * 
+   * This method works by looking at all attributes and (if appropriate)
+   * mathematical formulas, comparing the identifiers to the value of @p
+   * oldid.  If any matches are found, the matching identifiers are replaced
+   * with @p newid.  The method does @em not descend into child elements.
+   *
+   * @param oldid the old identifier
+   * @param newid the new identifier
    */
-  virtual void renameUnitSIdRefs(std::string oldid, std::string newid);
+  virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
+
+
+  /**
+   * Renames all the @c UnitSIdRef attributes on this element.
+   *
+   * @copydetails doc_what_is_unitsidref
+   *
+   * This method works by looking at all unit identifier attribute values
+   * (including, if appropriate, inside mathematical formulas), comparing the
+   * unit identifiers to the value of @p oldid.  If any matches are found,
+   * the matching identifiers are replaced with @p newid.  The method does
+   * @em not descend into child elements.
+   * 
+   * @param oldid the old identifier
+   * @param newid the new identifier
+   */
+  virtual void renameUnitSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -2963,32 +2934,15 @@ public:
   /**
    * Returns the libSBML type code for this %SBML object.
    * 
-   * @if clike LibSBML attaches an identifying code to every kind of SBML
-   * object.  These are known as <em>SBML type codes</em>.  The set of
-   * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
-   * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
-   * other languages, the set of type codes is stored in an enumeration; in
-   * the Java language interface for libSBML, the type codes are defined as
-   * static integer constants in the interface class {@link
-   * libsbmlConstants}.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if python LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the Python language interface for libSBML, the type
-   * codes are defined as static integer constants in the interface class
-   * @link libsbml@endlink.  The names of the type codes all begin with the
-   * characters @c SBML_. @endif@if csharp LibSBML attaches an identifying
-   * code to every kind of SBML object.  These are known as <em>SBML type
-   * codes</em>.  In the C# language interface for libSBML, the type codes
-   * are defined as static integer constants in the interface class @link
-   * libsbmlcs.libsbml@endlink.  The names of the type codes all begin with
-   * the characters @c SBML_. @endif@~
+   * @copydetails doc_what_are_typecodes
    *
-   * @return the SBML type code for this object, or
-   * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (default).
+   * @return the SBML type code for this object:
+   * @link SBMLTypeCode_t#SBML_MODEL SBML_MODEL@endlink (default).
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
   virtual int getTypeCode () const;
 
@@ -3005,6 +2959,8 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
+   * Return the position of this element.
+   *
    * @return the ordinal position of the element with respect to its
    * siblings or -1 (default) to indicate the position is not significant.
    */
@@ -3130,6 +3086,34 @@ public:
    */
   FormulaUnitsData* 
   getFormulaUnitsData(const std::string& sid, int);
+
+
+  /*
+   * Get a FormulaUnitsData variable object based on its unitReferenceId.
+   * 
+   * @return the FormulaUnitsData in this Model with the unitReferenceId @p sid 
+   * that corrsponds to a variable object or @c NULL
+   * if no such FormulaUnitsData exists.
+   *
+   * @note  This function restricts teh search to classes that can be varied
+   * Species, Compartment, Parameter, SpeciesReference.
+   */
+  FormulaUnitsData* 
+  getFormulaUnitsDataForVariable(const std::string& sid);
+
+
+  /*
+   * Get a FormulaUnitsData variable object based on its unitReferenceId.
+   * 
+   * @return the FormulaUnitsData in this Model with the unitReferenceId @p sid 
+   * that corrsponds to a variable object or @c NULL
+   * if no such FormulaUnitsData exists.
+   *
+   * @note  This function restricts teh search to classes that can be varied
+   * Species, Compartment, Parameter, SpeciesReference.
+   */
+  FormulaUnitsData* 
+  getFormulaUnitsDataForAssignment(const std::string& sid);
 
 
   /**
@@ -3558,8 +3542,10 @@ public:
 
   /**
    * Takes the contents of the passed-in Model, makes copies of everything,
-   * and appends those copies to the appropriate places in this Model.  Also
-   * calls 'appendFrom' on all plugin objects.
+   * and appends those copies to the appropriate places in this Model.
+   *
+   * This method also calls the <code>appendFrom</code> method on all libSBML
+   * plug-in objects.&nbsp; @copydetails doc_what_are_plugins
    *
    * @param model the Model to merge with this one.
    *
@@ -3593,6 +3579,8 @@ protected:
 
 
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or @c NULL if the token was not recognized.
    */

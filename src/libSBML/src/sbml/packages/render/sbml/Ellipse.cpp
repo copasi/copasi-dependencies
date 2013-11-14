@@ -55,7 +55,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const std::string Ellipse::ELEMENT_NAME="ellipse";
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Ellipse object with the given SBML level
  * and SBML version.
@@ -72,7 +72,7 @@ Ellipse::Ellipse (unsigned int level, unsigned int version, unsigned int pkgVers
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Ellipse object with the given SBMLNamespaces.
  *
@@ -87,7 +87,7 @@ Ellipse::Ellipse (RenderPkgNamespaces* renderns):
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RadialGradient object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -117,7 +117,7 @@ Ellipse::Ellipse(const XMLNode& node, unsigned int l2version):GraphicalPrimitive
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Instantiates a new ellipse object with the center set to 0,0,0
  * and the radii also set to 0.
@@ -149,7 +149,7 @@ Ellipse::Ellipse(const XMLNode& node, unsigned int l2version):GraphicalPrimitive
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with 2D center and radius.
  * instantiates a new ellipse object with the center.
@@ -184,7 +184,7 @@ Ellipse::Ellipse(const XMLNode& node, unsigned int l2version):GraphicalPrimitive
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with 2D center and radii.
  *
@@ -212,7 +212,7 @@ Ellipse::Ellipse(const XMLNode& node, unsigned int l2version):GraphicalPrimitive
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with 3D center and radii.
  * instantiates a new ellipse object with the center and radii.
@@ -248,7 +248,7 @@ Ellipse::Ellipse(const XMLNode& node, unsigned int l2version):GraphicalPrimitive
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with id, 2D center and radius.
  * instantiates a new ellipse object with the given @p id and center.
@@ -283,7 +283,7 @@ Ellipse::Ellipse(const XMLNode& node, unsigned int l2version):GraphicalPrimitive
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with id, 2D center and radii.
  * instantiates a new ellipse object with the given @p id, center and radii.
@@ -319,7 +319,7 @@ Ellipse::Ellipse(const XMLNode& node, unsigned int l2version):GraphicalPrimitive
 #endif // OMIT_DEPRECATED
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with id, 3D center and radii.
  * instantiates a new ellipse object with the given @p id, center and radii.
@@ -355,7 +355,7 @@ Ellipse::Ellipse(const XMLNode& node, unsigned int l2version):GraphicalPrimitive
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the center point as a const reference.
  *
@@ -367,7 +367,7 @@ const RelAbsVector& Ellipse::getCX() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the center point as a const reference.
  *
@@ -379,7 +379,7 @@ const RelAbsVector& Ellipse::getCY() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the center point as a const reference.
  *
@@ -391,7 +391,7 @@ const RelAbsVector& Ellipse::getCZ() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the radius along the x axis as a const reference.
  *
@@ -403,7 +403,7 @@ const RelAbsVector& Ellipse::getRX() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the radius along the y axis as a const reference.
  *
@@ -415,7 +415,7 @@ const RelAbsVector& Ellipse::getRY() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the center point as a reference.
  *
@@ -427,7 +427,7 @@ RelAbsVector& Ellipse::getCX()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the y coordinate for the center point as a reference.
  *
@@ -439,7 +439,7 @@ RelAbsVector& Ellipse::getCY()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the z coordinate for the center point as a reference.
  *
@@ -451,7 +451,7 @@ RelAbsVector& Ellipse::getCZ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the radius along the x axis as a reference.
  *
@@ -463,7 +463,7 @@ RelAbsVector& Ellipse::getRX()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the radius along the y axis as a reference.
  *
@@ -475,7 +475,7 @@ RelAbsVector& Ellipse::getRY()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the x coordinates for the center point.
  *
@@ -487,7 +487,7 @@ void Ellipse::setCX(const RelAbsVector& cx)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the y coordinates for the center point.
  *
@@ -499,7 +499,7 @@ void Ellipse::setCY(const RelAbsVector& cy)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the z coordinates for the center point.
  *
@@ -511,7 +511,7 @@ void Ellipse::setCZ(const RelAbsVector& cz)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the radius along the x axis
  *
@@ -523,7 +523,7 @@ void Ellipse::setRX(const RelAbsVector& rx)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the radius along the y axis
  *
@@ -535,7 +535,7 @@ void Ellipse::setRY(const RelAbsVector& ry)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the 2D coordinates for the center point.
  * The z coodintate is set to 50%
@@ -551,7 +551,7 @@ void Ellipse::setCenter2D(const RelAbsVector& cx,const RelAbsVector& cy)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the 3D coordinates for the center point.
  *
@@ -567,7 +567,7 @@ void Ellipse::setCenter3D(const RelAbsVector& cx,const RelAbsVector& cy,const Re
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the radii of the ellipse
  *
@@ -582,7 +582,7 @@ void Ellipse::setRadii(const RelAbsVector& rx,const RelAbsVector& ry)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -599,7 +599,7 @@ void Ellipse::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates and returns a deep copy of this Ellipse object.
  * 
@@ -613,7 +613,7 @@ Ellipse::clone () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -627,7 +627,7 @@ Ellipse::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Ellipse::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -642,7 +642,7 @@ Ellipse::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Ellipse::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
       ExpectedAttributes ea;
@@ -701,7 +701,7 @@ void Ellipse::readAttributes (const XMLAttributes& attributes, const ExpectedAtt
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -739,7 +739,7 @@ void Ellipse::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this Ellipse object.
  *
@@ -754,7 +754,7 @@ XMLNode Ellipse::toXML() const
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the libSBML type code for this %SBML object.
  * 
@@ -781,7 +781,7 @@ Ellipse::getTypeCode () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -796,7 +796,7 @@ const std::string& Ellipse::getElementName() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Accepts the given SBMLVisitor.
  *
@@ -811,7 +811,7 @@ bool Ellipse::accept (SBMLVisitor& v) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -840,7 +840,7 @@ bool Ellipse::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

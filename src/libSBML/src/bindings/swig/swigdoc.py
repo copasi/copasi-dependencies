@@ -37,111 +37,11 @@ import sys, string, os.path, re
 # Globally-scoped variables
 #
 
-language       = ''
-docincpath     = ''
-libsbmlclasses = ["AlgebraicRule",
-                  "ASTNode",
-                  "ASTNodeList",
-                  "AssignmentRule",
-                  "CVTerm",
-                  "CVTermList",
-                  "Compartment",
-                  "CompartmentType",
-                  "Constraint",
-                  "ConversionOption",
-                  "ConversionProperties",
-                  "Date",
-                  "DateList",
-                  "Delay",
-                  "Event",
-                  "EventAssignment",
-                  "FunctionDefinition",
-                  "InitialAssignment",
-                  "KineticLaw",
-                  "libsbml",
-                  "L3ParserSettings",
-                  "List",
-                  "ListOf",
-                  "ListOfCompartmentTypes",
-                  "ListOfCompartments",
-                  "ListOfConstraints",
-                  "ListOfEventAssignments",
-                  "ListOfEvents",
-                  "ListOfFunctionDefinitions",
-                  "ListOfInitialAssignments",
-                  "ListOfLocalParameters",
-                  "ListOfParameters",
-                  "ListOfReactions",
-                  "ListOfRules",
-                  "ListOfSpecies",
-                  "ListOfSpeciesReferences",
-                  "ListOfSpeciesTypes",
-                  "ListOfUnitDefinitions",
-                  "ListOfUnits",
-                  "LocalParameter",
-                  "Model",
-                  "ModelCreator",
-                  "ModelCreatorList",
-                  "ModelHistory",
-                  "ModifierSpeciesReference",
-                  "OFStream",
-                  "OStream",
-                  "OStringStream",
-                  "Parameter",
-                  "Priority",
-                  "RDFAnnotationParser",
-                  "RateRule",
-                  "Reaction",
-                  "Rule",
-                  "SBMLConstructorException",
-                  "SBMLConverter",
-                  "SBMLConverterRegistry",
-                  "SBMLDocument",
-                  "SBMLDocumentPlugin",
-                  "SBMLDocumentPluginNotRequired",
-                  "SBMLError",
-                  "SBMLErrorLog",
-                  "SBMLExtension",
-                  "SBMLExtensionException",
-                  "SBMLExtensionNamespaces",
-                  "SBMLExtensionRegister",
-                  "SBMLExtensionRegistry",
-                  "SBMLExternalValidator",
-                  "SBMLFunctionDefinitionConverter",
-                  "SBMLInitialAssignmentConverter",
-                  "SBMLLevelVersionConverter",
-                  "SBMLNamespaces",
-                  "SBMLNamespacesList",
-                  "SBMLReader",
-                  "SBMLRuleConverter",
-                  "SBMLStripPackageConverter",
-                  "SBMLUnitsConverter",
-                  "SBMLVisitor",
-                  "SBMLWriter",
-                  "SBO",
-                  "SBase",
-                  "SBaseExtensionPoint",
-                  "SBaseList",
-                  "SBasePlugin",
-                  "SBasePluginCreator",
-                  "SBasePluginCreatorBase",
-                  "SimpleSpeciesReference",
-                  "Species",
-                  "SpeciesReference",
-                  "SpeciesType",
-                  "StoichiometryMath",
-                  "SyntaxChecker",
-                  "Trigger",
-                  "Unit", 
-                  "UnitDefinition",
-                  "XMLAttributes",
-                  "XMLConstructorException",
-                  "XMLError",
-                  "XMLErrorLog",
-                  "XMLNamespaces",
-                  "XMLNode",
-                  "XMLToken",
-                  "XMLTriple" ]
+language         = ''
+doc_include_path = ''
+ignored_hfiles   = ['ListWrapper.h']
+ignored_ifiles   = ['std_string.i', 'javadoc.i', 'spatial-package.i']
+libsbmlclasses   = []
 
 # In some languages like C#, we have to be careful about the method declaration
 # that we put on the swig %{java|cs}methodmodifiers.  In particular, in C#, if
@@ -161,14 +61,17 @@ overriders = \
 'AssignmentRule'            : [ 'clone', 'hasRequiredAttributes' ],
 'Compartment'               : [ 'clone', 'getId', 'getName', 'isSetId', 'isSetName', 'getTypeCode', 'getElementName', 'hasRequiredAttributes', 'setId', 'setName', 'unsetId', 'unsetName' ],
 'CompartmentType'           : [ 'clone', 'getId', 'getName', 'isSetId', 'isSetName', 'getTypeCode', 'getElementName', 'hasRequiredAttributes', 'setId', 'setName', 'unsetId', 'unsetName' ],
+'CompExtension'             : [ 'clone', 'getErrorIdOffset' ],
 'Constraint'                : [ 'clone', 'getTypeCode', 'getElementName', 'hasRequiredElements' ],
 'Delay'                     : [ 'clone', 'getTypeCode', 'getElementName', 'hasRequiredElements' ],
 'Event'                     : [ 'clone', 'getId', 'getName', 'isSetId', 'isSetName', 'getTypeCode', 'getElementName', 'hasRequiredAttributes', 'hasRequiredElements', 'setId', 'setName', 'unsetId', 'unsetName', 'connectToChild', 'enablePackageInternal' ],
 'EventAssignment'           : [ 'clone', 'getTypeCode', 'getElementName', 'hasRequiredAttributes', 'hasRequiredElements', 'getId' ],
+'FbcExtension'              : [ 'clone', 'getErrorIdOffset' ],
 'FunctionDefinition'        : [ 'clone', 'getId', 'getName', 'isSetId', 'isSetName', 'getTypeCode', 'getElementName', 'hasRequiredAttributes', 'hasRequiredElements', 'setId', 'setName', 'unsetId', 'unsetName' ],
 'InitialAssignment'         : [ 'clone', 'getTypeCode', 'getElementName', 'hasRequiredAttributes', 'hasRequiredElements', 'getId' ],
 'ISBMLExtensionNamespaces'  : [ 'getURI', 'getPackageName' ],
 'KineticLaw'                : [ 'clone', 'getTypeCode', 'getElementName', 'hasRequiredAttributes', 'hasRequiredElements', 'connectToChild', 'enablePackageInternal' ],
+'LayoutExtension'           : [ 'clone', 'getErrorIdOffset' ],
 'ListOf'                    : [ 'clone', 'getTypeCode', 'getElementName', 'connectToChild', 'enablePackageInternal' ],
 'ListOfCompartmentTypes'    : [ 'clone', 'getTypeCode', 'getItemTypeCode', 'getElementName', 'get', 'remove' ],
 'ListOfCompartments'        : [ 'clone', 'getTypeCode', 'getItemTypeCode', 'getElementName', 'get', 'remove' ],
@@ -187,6 +90,7 @@ overriders = \
 'ListOfUnitDefinitions'     : [ 'clone', 'getTypeCode', 'getItemTypeCode', 'getElementName', 'get', 'remove' ],
 'ListOfUnits'               : [ 'clone', 'getTypeCode', 'getItemTypeCode', 'getElementName', 'get', 'remove' ],
 'Parameter'                 : [ 'clone', 'getId', 'getName', 'isSetId', 'isSetName', 'getTypeCode', 'getElementName', 'hasRequiredAttributes', 'setId', 'setName', 'unsetId', 'unsetName' ],
+'QualExtension'             : [ 'clone', 'getErrorIdOffset' ],
 'LocalParameter'            : [ 'clone', 'getTypeCode', 'getElementName', 'hasRequiredAttributes', 'getDerivedUnitDefinition' ],
 'Model'                     : [ 'clone', 'getId', 'getName', 'isSetId', 'isSetName', 'getTypeCode', 'getElementName', 'hasRequiredElements', 'setId', 'setName', 'unsetId', 'unsetName', 'setAnnotation', 'appendAnnotation', 'connectToChild', 'enablePackageInternal' ],
 'SimpleSpeciesReference'    : [ 'getId', 'getName', 'isSetId', 'isSetName', 'setId', 'setName', 'unsetId', 'unsetName' ],
@@ -209,6 +113,14 @@ overriders = \
 }
 
 #
+# Global variable for tracking all class docs, so that we can handle
+# cross-references like @copydetails that may refer to files other
+# than the file being processed at any given time.
+#
+
+allclassdocs = {}
+
+#
 # Classes and methods.
 #
 
@@ -226,6 +138,7 @@ class CHeader:
 
     Creates a new CHeader reading from the given stream.
     """
+
     self.classes   = [ ]
     self.functions = [ ]
     self.classDocs = [ ]
@@ -263,7 +176,7 @@ class CHeader:
       # remove them from the documentation.
 
       if (stripped.find('@cond doxygenLibsbmlInternal') >= 0): isInternal = True
-      if (stripped.find('@endcond') >= 0):                       isInternal = False
+      if (stripped.find('@endcond') >= 0):                     isInternal = False
 
       # Watch for class description, usually at top of file.
 
@@ -279,11 +192,28 @@ class CHeader:
         if stripped.startswith('* @brief'):
           docstring += ' * ' + stripped[9:].strip() + '\n'
           continue
+        elif stripped.startswith('* @sbmlbrief{'):
+          end = stripped.find('}')
+          pkg = stripped[13:end]
+          rest = stripped[end + 1:].strip()
+          marker = '@htmlinclude pkg-marker-' + pkg + '.html'
+
+          # In the case of Java, the output of swigdoc is fed to Javadoc and
+          # not Doxygen.  So, we do our own processing of our special Doxygen
+          # aliases.  If we're not doing this for Java, we leave them in.
+          if language == 'java':
+            docstring += ' * ' + marker + ' ' + rest + '\n'
+          else:
+            group = '@sbmlpackage{' + pkg + '}'
+            docstring += ' * \n * ' + group + '\n *\n' + marker + ' ' + rest + '\n'
+          continue
         elif not stripped.endswith('*/') and not stripped.startswith('* @class'):
           docstring += line
           continue
         else:
-          docstring = '/**\n' + docstring + ' */'
+          if not classname.startswith("doc_"):
+            docstring = '/**\n' + docstring + ' */'
+          docstring = removeHTMLcomments(docstring)
           doc = CClassDoc(docstring, classname, isInternal)
           self.classDocs.append(doc)
 
@@ -370,12 +300,21 @@ class CHeader:
               args     = lines[searchstart + stop : endparen + 1]
               isConst  = lines[endparen:].rfind('const')
 
+              if len(docstring) > 0:
+                # Remove embedded HTML comments before we store the doc string.
+                docstring = removeHTMLcomments(docstring)
+              else:
+                # We have an empty docstring.  Put in something so that later
+                # stages can do whatever postprocessing they need.
+                docstring = '/** */'
+
               # Swig doesn't seem to mind C++ argument lists, even though they
               # have "const", "&", etc. So I'm leaving the arg list unmodified.
               func = Method(isInternal, docstring, name, args, (isConst > 0))
 
               # Reset buffer for the next iteration, to skip the part seen.
               lines = lines[endparen + 2:]
+              docstring = ''
 
               if inClass:
                 c = self.classes[-1]
@@ -504,19 +443,102 @@ class CClassDoc:
 
 
 
-def getHeadersFromSWIG (filename):
-  """getHeadersFromSWIG (filename) -> (filename1, filename2, .., filenameN)
-
-  Reads the list of %include directives from the given SWIG (.i).  The
-  list of C/C++ headers (.h) included is returned.
+def get_swig_files (swig_file, included_files=[], parent_dirs=[]):
   """
-  stream = open(filename)
+  Builds a list of all the files %include'd recursively from the given
+  SWIG .i file.
+  """
+
+  # Record directories encountered.
+
+  dir = os.path.abspath(os.path.join(swig_file, os.pardir))
+  if dir not in parent_dirs:
+    parent_dirs.append(dir)
+
+  # Read the current file.
+
+  swig_file = os.path.normpath(os.path.abspath(os.path.join(dir, swig_file)))
+  stream = open(swig_file)
   lines  = stream.readlines()
   stream.close()
 
-  lines  = [line for line in lines if line.strip().startswith('%include')]
-  lines  = [line for line in lines if line.strip().endswith('.h')]
-  return [line.replace('%include', '').strip() for line in lines]
+  # Create list of %include statements found in the file.
+
+  includes = [line for line in lines if line.strip().startswith('%include')]
+  includes = [re.sub('["<>]', '', entry) for entry in includes]
+  includes = [entry.replace('%include', '').strip() for entry in includes]
+
+  # Look for %include's of .i files, and read those as additional files to
+  # search for .h files later below.
+
+  ifiles = [file for file in includes if file.strip().endswith('.i')]
+  ifiles = [file for file in ifiles if file not in ignored_ifiles]
+
+  # SWIG searches multiple paths for %include'd .i files.  We just look in
+  # the directories of the .i files we encounter.
+  found_ifiles = []
+  for ifilename in ifiles:
+    search_dirs = ['.'] + parent_dirs
+    for dir in search_dirs:
+      file = os.path.normpath(os.path.abspath(os.path.join(dir, ifilename)))
+      if os.path.isfile(file) and file not in included_files:
+        included_files.append(file)
+        found_ifiles.extend(get_swig_files(file, included_files, parent_dirs))
+        break
+
+  return [swig_file] + found_ifiles
+
+
+
+def extract_header_files (file):
+  """
+  Return a list of the .h files found in the given SWIG .i file.
+  """
+
+  stream = open(file)
+  lines  = stream.readlines()
+  stream.close()
+  
+  includes = [line for line in lines if line.strip().startswith('%include')]
+  includes = [re.sub('["<>]', '', entry) for entry in includes]
+  includes = [file for file in includes if file.strip().endswith('.h')]
+  includes = [entry.replace('%include', '').strip() for entry in includes]
+
+  return includes
+
+
+
+def get_header_files (swig_files, include_path):
+  """
+  Reads the list of %include directives from the given SWIG (.i) files, and
+  returns a list of C/C++ headers (.h) found.  This uses a recursive algorithm.
+  """
+
+  hfiles = []
+  for file in swig_files:
+    hfiles.extend(extract_header_files(file))
+
+  # Remove .h files we ignore.
+
+  hfiles = [file for file in hfiles if file not in ignored_hfiles]
+
+  # Convert the .h file names to absolute paths.  This is slightly tricky
+  # because the file might be in the current directory, or in the
+  # include_path we were given, or in the directory of one of the .i files we
+  # encountered.  So, we need to search them all.
+
+  search_dirs = [os.path.abspath('.')] + [os.path.abspath(include_path)]
+  for file in swig_files:
+    search_dirs.append(os.path.dirname(file))
+
+  abs_hfiles = []
+  for file in hfiles:
+    for dir in search_dirs:
+      abs_path = os.path.abspath(os.path.join(dir, file))
+      if os.path.isfile(abs_path) and abs_path not in abs_hfiles:
+        abs_hfiles.append(abs_path)
+
+  return abs_hfiles
 
 
 
@@ -536,22 +558,35 @@ def rewriteCommonReferences (docstring):
     target = ''
 
   if target != '':
-    docstring = re.sub(r'ConversionOptionType_t#',  target, docstring)
-    docstring = re.sub(r'OperationReturnValues_t#', target, docstring)
-    docstring = re.sub(r'SBMLTypeCode_t#',          target, docstring)
-    docstring = re.sub(r'ASTNodeType_t#',           target, docstring)
-    docstring = re.sub(r'RuleType_t#',              target, docstring)
-    docstring = re.sub(r'UnitKind_t#',              target, docstring)
-    docstring = re.sub(r'ModelQualifierType_t#',    target, docstring)
-    docstring = re.sub(r'BiolQualifierType_t#',     target, docstring)
-    docstring = re.sub(r'QualifierType_t#',         target, docstring)
-    docstring = re.sub(r'SBMLErrorCode_t#',         target, docstring)
-    docstring = re.sub(r'SBMLErrorCategory_t#',     target, docstring)
-    docstring = re.sub(r'SBMLErrorSeverity_t#',     target, docstring)
-    docstring = re.sub(r'XMLErrorCode_t#',          target, docstring)
-    docstring = re.sub(r'XMLErrorCategory_t#',      target, docstring)
-    docstring = re.sub(r'XMLErrorSeverity_t#',      target, docstring)
-    docstring = re.sub(r'ParseLogType_t#',          target, docstring)
+    docstring = re.sub(r'ASTNodeType_t#',              target, docstring)
+    docstring = re.sub(r'ASTNode_t#',                  target, docstring)
+    docstring = re.sub(r'BiolQualifierType_t#',        target, docstring)
+    docstring = re.sub(r'ConversionOptionType_t#',     target, docstring)
+    docstring = re.sub(r'ModelQualifierType_t#',       target, docstring)
+    docstring = re.sub(r'OperationReturnValues_t#',    target, docstring)
+    docstring = re.sub(r'ParseLogType_t#',             target, docstring)
+    docstring = re.sub(r'QualifierType_t#',            target, docstring)
+    docstring = re.sub(r'RuleType_t#',                 target, docstring)
+    docstring = re.sub(r'SBMLCompTypeCode_t#',         target, docstring)
+    docstring = re.sub(r'SBMLErrorCategory_t#',        target, docstring)
+    docstring = re.sub(r'SBMLErrorSeverity_t#',        target, docstring)
+    docstring = re.sub(r'SBMLFbcTypeCode_t#',          target, docstring)
+    docstring = re.sub(r'SBMLLayoutTypeCode_t#',       target, docstring)
+    docstring = re.sub(r'SBMLQualTypeCode_t#',         target, docstring)
+    docstring = re.sub(r'SBMLTypeCode_t#',             target, docstring)
+    docstring = re.sub(r'UnitKind_t#',                 target, docstring)
+    docstring = re.sub(r'XMLErrorCategory_t#',         target, docstring)
+    docstring = re.sub(r'XMLErrorCode_t#',             target, docstring)
+    docstring = re.sub(r'XMLErrorSeverityOverride_t#', target, docstring)
+    docstring = re.sub(r'XMLErrorSeverity_t#',         target, docstring)
+
+    docstring = re.sub(r'CompSBMLErrorCode_t#',        target, docstring)
+    docstring = re.sub(r'QualSBMLErrorCode_t#',        target, docstring)
+    docstring = re.sub(r'FbcSBMLErrorCode_t#',         target, docstring)
+    docstring = re.sub(r'LayoutSBMLErrorCode_t#',      target, docstring)
+
+    # Put this one last, so it doesn't match the XXXXSBMLErrorCode_t ones.
+    docstring = re.sub(r'SBMLErrorCode_t#',            target, docstring)
 
   return docstring
 
@@ -568,7 +603,7 @@ def translateVerbatim (match):
   text = text.replace('>', '&gt;')
 
   regexp = '@' + tagName + '[ \t]*'
-  text = re.sub(regexp, r"<div class='fragment'><pre>", text)
+  text = re.sub(regexp, r"<div class='fragment'><pre class='fragment'>", text)
 
   regexp = '(\s*\*\s*)*@end' + tagName
   p = re.compile(regexp, re.MULTILINE)
@@ -579,15 +614,36 @@ def translateVerbatim (match):
 
 
 def translateInclude (match):
-  global docincpath
+  global doc_include_path
 
-  file    = match.group(1)
-  ending  = match.group(2)
-  stream  = open(docincpath + '/common-text/' + file, 'r')
-  content = stream.read()
-  stream.close()
+  file    = match.group(2)
+  file    = re.sub('["\']', '', file)     
+  content = ''  
+  try:
+    stream  = open(doc_include_path + '/common-text/' + file, 'r')
+    content = stream.read()
+    stream.close()
+  except Exception, e:
+    print('Warning: cannot expand common-text: ' + file)
+    print e
 
-  return content + ending
+  content = removeHTMLcomments(content)
+
+  # Quote embedded double quotes.
+  content = re.sub('\"', '\\\"', content)
+
+  return content
+
+
+
+def translateCopydetails (match):
+  name = match.group(1)
+  if (name in allclassdocs):
+    text = allclassdocs[name]
+  else:
+    # If it's not found, just write out what we read in.
+    text = '@copydetails ' + name
+  return text
 
 
 
@@ -679,6 +735,7 @@ def rewriteList (match):
   ending = match.group(4);
 
   list = re.sub(r'@li\b', '<li>', list)
+  list = re.sub('r<p>', '', list)       # Remove embedded <p>'s.
   return lead + "<ul>\n" + lead + list + "\n" + lead + "</ul>" + space + ending;
 
 
@@ -698,9 +755,15 @@ def sanitizeForHTML (docstring):
   Performs HTML transformations on the C++/Doxygen docstring.
   """
 
-  # Remove @~, which we use as a hack in Doxygen 1.7-1.8
+  # Remove some things we use as hacks in Doxygen 1.7-1.8.
 
   docstring = docstring.replace(r'@~', '')
+  p = re.compile('^\s*\*\s+@par(\s)', re.MULTILINE)
+  docstring = p.sub(r'\1', docstring)
+
+  # Remove @ref's, since we currently have no way to deal with them.
+
+  docstring = re.sub('@ref\s+\w+', '', docstring)
 
   # First do conditional section inclusion based on the current language.
   # Our possible conditional elements and their meanings are:
@@ -735,12 +798,6 @@ def sanitizeForHTML (docstring):
   p = re.compile('^(?!\Z)$', re.MULTILINE)
   docstring = p.sub(r'<p>', docstring)
 
-  # Javadoc doesn't have an @htmlinclude command, so we process the file
-  # inclusion directly here.
-
-  p = re.compile('@htmlinclude\s+([^\s:;,(){}+|?"\'/]+)([\s:;,(){}+|?"\'/])', re.MULTILINE)
-  docstring = p.sub(translateInclude, docstring)
-
   # There's no Javadoc verbatim or @code/@endcode equivalent, so we have to
   # convert it to raw HTML and transform the content too.  This requires
   # helpers.  The following treats both @verbatim and @code the same way.
@@ -764,7 +821,7 @@ def sanitizeForHTML (docstring):
   # but ditch @image latex.
 
   p = re.compile('@image\s+html+\s+([^\s]+).*$', re.MULTILINE)
-  docstring = p.sub(r"<center><img src='\1'></center><br>", docstring)
+  docstring = p.sub(r"<center class='image'><img src='\1'></center>", docstring)
   p = re.compile('@image\s+latex+\s+([^\s]+).*$', re.MULTILINE)
   docstring = p.sub(r'', docstring)
 
@@ -782,18 +839,18 @@ def sanitizeForHTML (docstring):
   # of a line and the thing to be formatted starts on the next one after
   # the comment '*' character on the beginning of the line.
 
-  docstring = re.sub('@c *([^ ,;()/*\n\t]+)', r'<code>\1</code>', docstring)
-  docstring = re.sub('@c(\n[ \t]*\*[ \t]*)([^ ,;()/*\n\t]+)', r'\1<code>\2</code>', docstring)
-  docstring = re.sub('@p +([^ ,.:;()/*\n\t]+)', r'<code>\1</code>', docstring)
-  docstring = re.sub('@p(\n[ \t]*\*[ \t]+)([^ ,.:;()/*\n\t]+)', r'\1<code>\2</code>', docstring)
-  docstring = re.sub('@em *([^ ,.:;()/*\n\t]+)', r'<em>\1</em>', docstring)
-  docstring = re.sub('@em(\n[ \t]*\*[ \t]*)([^ ,.:;()/*\n\t]+)', r'\1<em>\2</em>', docstring)
+  docstring = re.sub('@c +([^ ,;()/*\n\t<]+)', r'<code>\1</code>', docstring)
+  docstring = re.sub('@c(\n[ \t]*\*[ \t]*)([^ ,;()/*\n\t<]+)', r'\1<code>\2</code>', docstring)
+  docstring = re.sub('@p +([^ ,.:;()/*\n\t<]+)', r'<code>\1</code>', docstring)
+  docstring = re.sub('@p(\n[ \t]*\*[ \t]+)([^ ,.:;()/*\n\t<]+)', r'\1<code>\2</code>', docstring)
+  docstring = re.sub('@em *([^ ,.:;()/*\n\t<]+)', r'<em>\1</em>', docstring)
+  docstring = re.sub('@em(\n[ \t]*\*[ \t]*)([^ ,.:;()/*\n\t<]+)', r'\1<em>\2</em>', docstring)
 
   # Convert @li into <li>, but also add <ul> ... </ul>.  This is a bit
   # simple-minded (I suppose like most of this code), but ought to work
   # for the cases we use in practice.
 
-  p = re.compile('^(\s+\*\s+)(@li\s+.*?)(\s+)(\*/|\*\s+@(?!li\s)|\*\s+<p>)', re.MULTILINE|re.DOTALL)
+  p = re.compile('^(\s+\*\s+)(@li\s+.*?)(\s+)(\*/|<p>\s+\*\s+(?!@li\s))', re.MULTILINE|re.DOTALL)
   docstring = p.sub(rewriteList, docstring)
 
   # Wrap @deprecated content with a class so that we can style it.
@@ -807,7 +864,7 @@ def sanitizeForHTML (docstring):
   # cross-links just for the Java case, let's automate.  This needs to be
   # done better (e.g., by not hard-wiring the class names).
 
-  p = re.compile(r'([^a-zA-Z0-9_.">])(' + '|'.join(libsbmlclasses) + r')\b([^:])', re.DOTALL)
+  p = re.compile(r'([^a-zA-Z0-9_.">])(' + '|'.join(libsbml_classes) + r')\b([^:])', re.DOTALL)
   if language == 'csharp':
     docstring = p.sub(translateClassRefCSharp, docstring)
   elif language == 'java':
@@ -822,19 +879,44 @@ def sanitizeForHTML (docstring):
     docstring = p.sub(translateJavaCrossRef, docstring)
 
   # Clean-up step needed because some of the procedures above are imperfect.
-  # This converts " * * @foo" lines into " * @foo":
+  # The first converts " * * @foo" lines into " * @foo".
+  # The 2nd converts * <p> * <p> * sequences into one <p>.
 
   p = re.compile('^(\s+)\*\s+\*\s+@', re.MULTILINE)
   docstring = p.sub(r'\1* @', docstring)
 
+  p = re.compile('^(\s*)\*\s*<p>', re.MULTILINE)
+  docstring = p.sub(r'\1<p>', docstring)
+  p = re.compile('^(\s*)\*?\s*<p>((\s+\*)+\s+<p>)+', re.MULTILINE)
+  docstring = p.sub(r'\1*', docstring)
+
+  # Merge separated @see's, or else the first gets lost in the javadoc output.
+
+  p = re.compile(r'(@see.+?)<p>.+?@see', re.DOTALL)
+  docstring = p.sub(r'\1@see', docstring)
+
+  # If the doc string ends with <p> followed by */, then javadoc parses it
+  # incorrectly.  Since we typically end class and method docs with a list of
+  # @see's, the consequence is that it omits the last entry of a list of
+  # @see's.  The behavior is totally baffling, but let's just deal with it.
+  # The two forms below are because, when we are processing method doc
+  # strings, they do not yet end with "*/" when we process them here, so we
+  # match against either the end of the string or a "*/".)
+
+  p = re.compile(r'(<p>\s*)+\*/', re.MULTILINE)
+  docstring = p.sub(r'*/', docstring)
+  p = re.compile(r'(<p>\s*)+\Z', re.MULTILINE)
+  docstring = p.sub(r'', docstring)
+
   # Take out any left-over Doxygen-style quotes, because Javadoc doesn't have
   # the %foo quoting mechanism.
 
-  docstring = re.sub('(\s)%(\w)', r'\1\2', docstring)
+  docstring = re.sub(r'(\s)%(\w)', r'\1\2', docstring)
 
-  # Currently, we don't handle @ingroup.
+  # Currently, we don't handle @ingroup or our pseudo-tag, @sbmlpackage.
 
-  docstring = re.sub('@ingroup \w+', '', docstring)
+  docstring = re.sub(r'@ingroup \w+', '', docstring)
+  docstring = re.sub(r'@sbmlpackage{\w+}', '', docstring)
 
   return docstring
 
@@ -844,6 +926,11 @@ def removeStar (match):
   text = match.group()
   text = text.replace('*', '')
   return text
+
+
+
+def removeHTMLcomments (docstring):
+  return re.sub(r'<!--.+?\s-->', '', docstring, re.DOTALL|re.MULTILINE)
 
 
 
@@ -869,12 +956,13 @@ def rewriteDocstringForJava (docstring):
   docstring = docstring.replace(r'const std::string ', 'String ')
   docstring = docstring.replace(r'std::string', 'String')
   docstring = docstring.replace(r'NULL', 'null')
+  docstring = re.sub(r'\bbool\b', 'boolean', docstring)
 
   # Also use Java syntax instead of "const XMLNode*" etc.
 
-  p = re.compile(r'const (%?)(' + '|'.join(libsbmlclasses) + r')( ?)(\*|&)', re.DOTALL)
+  p = re.compile(r'const (%?)(' + '|'.join(libsbml_classes) + r')( ?)(\*|&)', re.DOTALL)
   docstring = p.sub(rewriteClassRefAddingSpace, docstring)  
-  p = re.compile(r'(%?)(' + '|'.join(libsbmlclasses) + r')( ?)(\*|&)', re.DOTALL)
+  p = re.compile(r'(%?)(' + '|'.join(libsbml_classes) + r')( ?)(\*|&)', re.DOTALL)
   docstring = p.sub(rewriteClassRefAddingSpace, docstring)  
 
   # Do the big work.
@@ -882,9 +970,9 @@ def rewriteDocstringForJava (docstring):
   docstring = sanitizeForHTML(docstring)
 
   # Fix up for a problem introduced by sanitizeForHTML: it puts {@link ...}
-  # into the arguments of functions mentioned in @see's, if the function
-  # has more than one argument.  This gets rid of the @link's.  This should
-  # be fixed properly some day.
+  # into the arguments of functions mentioned in @see's, if the function has
+  # more than one argument.  The following gets rid of the @link's.  This
+  # should be fixed properly some day.
 
   p = re.compile(r'((@see|@throws)\s+[\w\\ ,.\'"=<>()#]*?){@link\s+([^}]+?)}')
   while re.search(p, docstring) != None:
@@ -937,11 +1025,19 @@ def rewriteDocstringForCSharp (docstring):
   C++/Doxygen docstring.
   """
 
+  # Remove some things we use as hacks in Doxygen 1.7-1.8.
+
+  docstring = docstring.replace(r'@~', '')
+  p = re.compile('@par(\s)', re.MULTILINE)
+  docstring = p.sub(r'\1', docstring)
+
+  # Rewrite some common things.
+
   docstring = rewriteCommonReferences(docstring)  
 
-  # Preliminary: rewrite some of the data type references to equivalent
-  # C# types.  (Note: this rewriting affects only the documentation
-  # comments inside classes & methods, not the actual method signatures.)
+  # Rewrite some of the data type references to equivalent C# types.  (Note:
+  # this rewriting affects only the documentation comments inside classes &
+  # methods, not the actual method signatures.)
 
   docstring = docstring.replace(r'const char *', 'string ')
   docstring = docstring.replace(r'const char* ', 'string ')
@@ -957,19 +1053,10 @@ def rewriteDocstringForCSharp (docstring):
 
   # Use C# syntax instead of "const XMLNode*" etc.
 
-  p = re.compile(r'const (%?)(' + '|'.join(libsbmlclasses) + r')( ?)(\*|&)', re.DOTALL)
+  p = re.compile(r'const (%?)(' + '|'.join(libsbml_classes) + r')( ?)(\*|&)', re.DOTALL)
   docstring = p.sub(rewriteClassRefAddingSpace, docstring)  
-  p = re.compile(r'(%?)(' + '|'.join(libsbmlclasses) + r')( ?)(\*|&)', re.DOTALL)
+  p = re.compile(r'(%?)(' + '|'.join(libsbml_classes) + r')( ?)(\*|&)', re.DOTALL)
   docstring = p.sub(rewriteClassRefAddingSpace, docstring)  
-
-  # <code> has its own special meaning in C#; we have to turn our input
-  # file's uses of <code> into <c>.  Conversely, we have to turn our
-  # uses of verbatim to <code>.
-
-  p = re.compile(r'<code>(.+?)</code>', re.DOTALL)
-  docstring = p.sub(r'<c>\1</c>', docstring)
-  p = re.compile('@verbatim(.+?)@endverbatim', re.DOTALL)
-  docstring = p.sub(r'<code>\1</code>', docstring)
 
   # Do replacements on some documentation text we sometimes use.
 
@@ -1001,16 +1088,6 @@ def rewriteDocstringForCSharp (docstring):
 
 
 
-def indentVerbatimForPython (match):
-  text = match.group()
-
-  p = re.compile('^(.)', re.MULTILINE)
-  text = p.sub(r'  \1', text)
-
-  return text
-
-
-
 def rewriteDocstringForPython (docstring):
   """rewriteDocstringForPython (docstring) -> docstring
 
@@ -1018,17 +1095,19 @@ def rewriteDocstringForPython (docstring):
   C++/Doxygen docstring.
 
   Note: this is not the only processing performed for the Python
-  documentation.  In docs/src, the doxygen-based code has an additional,
-  more elaborate filter that processes the output of *this* filter.
+  documentation.  In docs/src, the doxygen-based code has an additional
+  filter that processes the output of *this* filter.
   """
+
+  # Rewrite some common things.
 
   docstring = rewriteCommonReferences(docstring)  
 
   # Take out the C++ comment start and end.
 
   docstring = docstring.replace('/**', '').replace('*/', '')
-  p = re.compile('^(\s*)\*([ \t]*)', re.MULTILINE)
-  docstring = p.sub(r'\2', docstring)
+  p = re.compile(r'^\s*\*[ \t]*', re.MULTILINE)
+  docstring = p.sub(r'', docstring)
 
   # Rewrite some of the data type references to equivalent Python types.
   # (Note: this rewriting affects only the documentation comments inside
@@ -1047,9 +1126,9 @@ def rewriteDocstringForPython (docstring):
 
   # Also use Python syntax instead of "const XMLNode*" etc.
 
-  p = re.compile(r'const (%?)(' + '|'.join(libsbmlclasses) + r') ?(\*|&)', re.DOTALL)
+  p = re.compile(r'const (%?)(' + '|'.join(libsbml_classes) + r') ?(\*|&)', re.DOTALL)
   docstring = p.sub(rewriteClassRef, docstring)  
-  p = re.compile(r'(%?)(' + '|'.join(libsbmlclasses) + r') ?(\*|&)', re.DOTALL)
+  p = re.compile(r'(%?)(' + '|'.join(libsbml_classes) + r') ?(\*|&)', re.DOTALL)
   docstring = p.sub(rewriteClassRef, docstring)  
 
   # Need to escape the quotation marks:
@@ -1064,20 +1143,6 @@ def rewriteDocstringForPython (docstring):
   docstring = p.sub(translatePythonCrossRef, docstring)
   p = re.compile('(@see\s+)(\w+\s*)(\([^)]*?\))')
   docstring = p.sub(translatePythonSeeRef, docstring)
-
-  # Friggin' doxygen escapes HTML character codes, so the hack we have to
-  # do for Javadoc turns out doesn't work for the Python documentation.
-  # Kluge around it.
-
-  docstring = re.sub(r'\\f\$\\geq\\f\$', '>=', docstring)
-  docstring = re.sub(r'\\f\$\\leq\\f\$', '<=', docstring)
-  docstring = re.sub(r'\\f\$\\times\\f\$', '*', docstring)
-
-  # SWIG does some bizarre truncation of leading characters that
-  # happens to hit us because of how we have to format verbatim's.
-  # This tries to kluge around it:  
-  p = re.compile('@verbatim.+?@endverbatim', re.DOTALL)
-  docstring = p.sub(indentVerbatimForPython, docstring)
 
   return docstring
 
@@ -1115,18 +1180,18 @@ def rewriteDocstringForPerl (docstring):
   # of a line and the thing to be formatted starts on the next one after
   # the comment '*' character on the beginning of the line.
 
-  docstring = re.sub('@c *([^ ,.:;()/*\n\t]+)', r'C<\1>', docstring)
-  docstring = re.sub('@c(\n[ \t]*\*[ \t]*)([^ ,.:;()/*\n\t]+)', r'\1C<\2>', docstring)
-  docstring = re.sub('@p +([^ ,.:;()/*\n\t]+)', r'C<\1>', docstring)
-  docstring = re.sub('@p(\n[ \t]*\*[ \t]+)([^ ,.:;()/*\n\t]+)', r'\1C<\2>', docstring)
-  docstring = re.sub('@em *([^ ,.:;()/*\n\t]+)', r'I<\1>', docstring)
-  docstring = re.sub('@em(\n[ \t]*\*[ \t]*)([^ ,.:;()/*\n\t]+)', r'\1I<\2>', docstring)
+  docstring = re.sub('@c *([^ ,.:;()/*\n\t<]+)', r'C<\1>', docstring)
+  docstring = re.sub('@c(\n[ \t]*\*[ \t]*)([^ ,.:;()/*\n\t<]+)', r'\1C<\2>', docstring)
+  docstring = re.sub('@p +([^ ,.:;()/*\n\t<]+)', r'C<\1>', docstring)
+  docstring = re.sub('@p(\n[ \t]*\*[ \t]+)([^ ,.:;()/*\n\t<]+)', r'\1C<\2>', docstring)
+  docstring = re.sub('@em *([^ ,.:;()/*\n\t<]+)', r'I<\1>', docstring)
+  docstring = re.sub('@em(\n[ \t]*\*[ \t]*)([^ ,.:;()/*\n\t<]+)', r'\1I<\2>', docstring)
 
-  docstring = docstring.replace('<ul>', '\n=over\n')
-  docstring = docstring.replace('<li> ', '\n=item\n\n')
-  docstring = docstring.replace('</ul>', '\n=back\n')
+  docstring = docstring.replace('<ul>', r'\n=over\n')
+  docstring = docstring.replace('<li> ', r'\n=item\n\n')
+  docstring = docstring.replace('</ul>', r'\n=back\n')
 
-  docstring = docstring.replace('@return', 'Returns')
+  docstring = docstring.replace(r'@returns?', 'Returns')
   docstring = docstring.replace(' < ', ' E<lt> ').replace(' > ', ' E<gt> ')
   docstring = re.sub('<code>([^<]*)</code>', r'C<\1>', docstring)
   docstring = re.sub('<b>([^<]*)</b>', r'B<\1>', docstring)  
@@ -1171,8 +1236,8 @@ def processClassMethods(ostream, cclass):
           # The dictionary entries are keyed by method arguments (as strings).
           # The dictionary values are the 'func' objects we use.
           if re.search('@internal', argVariant.docstring) == None:
-            newdoc += "\n <hr>\n Method variant with the following"\
-                      + " signature:\n <pre class='signature'>" \
+            newdoc += "\n@par\n<hr>\n<span class='variant-sig-heading'>Method variant with the following"\
+                      + " signature</span>:\n <pre class='signature'>" \
                       + argVariant.name \
                       + rewriteDocstringForPython(argVariant.args) \
                       + "</pre>\n\n"
@@ -1226,7 +1291,7 @@ def formatMethodDocString (methodname, classname, docstring, isInternal, args=No
   if language == 'perl':
     output += '%s\n\n%s%s\n\n\n'   % (methodname, docstring.strip(), post)
   elif language == 'python':
-    output += '%s "\n %s%s\n";\n\n\n' % (methodname, docstring.strip(), post)
+    output += '%s "\n%s%s\n";\n\n\n' % (methodname, docstring.strip(), post)
   else:
     output += '%s%s "\n%s%s\n";\n\n\n' % (methodname, args, docstring.strip(), post)
 
@@ -1248,26 +1313,43 @@ def generateFunctionDocString (methodname, docstring, args, isInternal):
 
 
 def generateClassDocString (docstring, classname):
+  pretext   = ''
+  separator = ''
+  posttext  = ''
+  
   if language == 'java':
-    pre = '%typemap(javaimports) '
+    pretext   = '%typemap(javaimports) '
+    separator = ' "\n'
+    posttext  = '\n"\n\n\n'
     docstring = rewriteDocstringForJava(docstring).strip()
-    output = pre + classname + ' "\n' + docstring + '\n"\n\n\n'
 
   elif language == 'csharp':
-    pre = '%typemap(csimports) '
+    pretext   = '%typemap(csimports) '
+    separator = ' "\n using System;\n using System.Runtime.InteropServices;\n\n'
+    posttext  = '\n"\n\n\n'
     docstring = rewriteDocstringForCSharp(docstring).strip()
-    output = pre + classname + ' "\n using System;\n using System.Runtime.InteropServices;\n\n' + docstring + '\n"\n\n\n'
 
   elif language == 'python':
-    pre = '%feature("docstring") '
+    pretext   = '%feature("docstring") '
+    separator = ' "\n'
+    posttext  = '\n";\n\n\n'
     docstring = rewriteDocstringForPython(docstring).strip()
-    output = pre + classname + ' "\n ' + docstring + '\n";\n\n\n'
 
   elif language == 'perl':
+    pretext   = '=back\n\n=head2 '
+    separator = '\n\n'
+    posttext  = '\n\n=over\n\n\n'
     docstring = rewriteDocstringForPerl(docstring).strip()
-    output = '=back\n\n=head2 ' + classname + '\n\n' + docstring + '\n\n=over\n\n\n'
 
-  return output
+  # If this is one of our fake classes used for creating commonly-reused
+  # documentation strings, we don't write it to the output file; we only
+  # store the documentation string in a global variable to be used later.
+
+  if classname.startswith('doc_'):
+    allclassdocs[classname] = docstring
+    return ''
+  else:
+    return pretext + classname + separator + docstring + posttext
 
 
 
@@ -1310,6 +1392,91 @@ def processFile (filename, ostream):
 
 
 
+def postProcessOutputForPython(contents):
+  """Do post-processing on the final output for Python."""
+
+  # Friggin' doxygen escapes HTML character codes it doesn't understand, so
+  # the hack we have to do for Javadoc turns out doesn't work for the Python
+  # documentation.  Kluge around it.
+
+  contents = re.sub(r'\\f\$\\geq\\f\$', '>=', contents)
+  contents = re.sub(r'\\f\$\\leq\\f\$', '<=', contents)
+  contents = re.sub(r'\\f\$\\times\\f\$', '*', contents)
+  contents = re.sub(r'&quot;', '\\\"', contents)
+
+  # Doxygen understand <nobr>
+
+  contents = re.sub(r'</?nobr>', '', contents)
+
+  return contents
+
+
+
+def postProcessOutput(istream, ostream):
+  """postProcessOutput(instream, outstream)
+
+  Post-processes the output to perform final substitutions."""
+
+  contents = istream.read()
+
+  p = re.compile('@copydetails\s+(\w+)')
+  contents = p.sub(translateCopydetails, contents)
+    
+  # Do additional post-processing on a language-specific basis.
+
+  if language == 'python':  
+    contents = postProcessOutputForPython(contents)
+  elif language == 'java':
+    # Javadoc doesn't have an @htmlinclude command, so we process the file
+    # inclusion directly here.
+    p = re.compile('@htmlinclude\s+(\*\s+)*([-\w."\']+)', re.DOTALL)
+    contents = p.sub(translateInclude, contents)
+
+  ostream.write(contents)
+
+
+
+def classes_in_header_file(filename):
+    classes = []
+    stream = open(filename)
+    for line in stream.readlines():
+        start = line.find('@class')
+        if start < 0:
+            continue
+        name = re.sub(r'\.', '', line[start + 6:]).strip()
+        if name and (not (name.startswith("doc_") or name.startswith("is "))):
+          classes.append(name)
+
+    stream.close()
+    return classes
+
+
+
+def classes_in_swig_file(filename):
+    classes = []
+    stream = open(filename)
+    for line in stream.readlines():
+        start = line.find('%template(')
+        if start < 0:
+            continue
+        end = line.find(')')
+        name = line[start + 10:end].strip()
+        if name:
+          classes.append(name)
+
+    stream.close()
+    return classes
+
+
+
+def find_classes(files, func):
+    classes = []
+    for f in files:
+        classes += func(f)
+    return classes
+
+
+
 def main (args):
   """usage: swigdoc.py [java | python | perl | csharp] -Ipath -Dpath libsbml.i output.i
 
@@ -1319,29 +1486,50 @@ def main (args):
   output.i                       is the file to output the SWIG docstrings.
   """
 
+  global doc_include_path
+  global header_files
+  global language
+  global libsbml_classes
+
   if len(args) != 6:
     print((main.__doc__))
     sys.exit(1)
 
-  global docincpath
-  global language
+  language         = args[1]
+  h_include_path   = args[2].replace('-I', '')
+  doc_include_path = args[3].replace('-D', '')
+  main_swig_file   = os.path.abspath(args[4]) # libsbml.i
+  output_swig_file = args[5]
 
-  language    = args[1]
-  includepath = args[2].replace('-I', '')
-  docincpath  = args[3].replace('-D', '')
-  headers     = getHeadersFromSWIG(args[4])
-  stream      = open(args[5], 'w')
+  # We first write all our output to a temporary file.  Later, we open this
+  # file, post-process it, and write the final output to the real destination.
 
-  headers.append("bindings/swig/OStream.h")
+  tmpfilename = output_swig_file + ".tmp"
+  stream      = open(tmpfilename, 'w')
 
+  # Find all class names, by searching header files for @class declarations
+  # and SWIG .i files for %template declarations.  We need this list to
+  # recognize when class names are mentioned inside documentation text.
+
+  swig_files       = get_swig_files(main_swig_file)
+  header_files     = get_header_files(swig_files, h_include_path)
+  libsbml_classes  = find_classes(header_files, classes_in_header_file)
+  libsbml_classes += find_classes(swig_files, classes_in_swig_file)
+
+  try: 
+    libsbml_classes  = sorted(list(set(libsbml_classes)))
+  except Exception, e:
+    pass
+
+  # Now, do the main processing pass, writing the output as we go along.
+  
   if language == 'perl':
     infile = open(os.path.abspath('LibSBML.txt'), 'r')
     stream.write(infile.read())
     stream.write('=head1 FUNCTION INDEX\n\n=over 8\n\n')
 
-  for file in headers:
-    filename = os.path.normpath(os.path.join(includepath, file))
-    processFile(filename, stream)
+  for file in header_files:
+    processFile(file, stream)
 
   if os.path.exists('local-doc-extras.i'):
     stream.write('\n%include "local-doc-extras.i"\n')
@@ -1351,8 +1539,34 @@ def main (args):
 
   stream.close()
 
+  # Certain things can't be done until we have seen all the input.  So, now
+  # we reopen the file we wrote, post-process the contents, and write the
+  # results to the real destination (which is given as arg[5]).
+
+  tmpstream   = open(tmpfilename, 'r')
+  finalstream = open(output_swig_file, 'w')
+  postProcessOutput(tmpstream, finalstream)
+
+  try:
+    tmpstream.flush()
+    tmpstream.close()
+  except Exception, e:
+    #FB: not printing the warning below, as after all the documentation file
+    #    has been correctly created. 
+    pass
+    # print "\tWarning, error flushing stream \n\t\t'%s'. \n\tThis is not a serious error, but an issue with the python interpreter known to occur in python 2.7." % e
+  finalstream.flush()
+  finalstream.close()
+
+  os.remove(tmpfilename)
+
 
 if __name__ == '__main__':
   main(sys.argv)
  
 
+
+## The following is for Emacs users.  Please leave in place.
+## Local Variables: 
+## python-indent-offset: 2
+## End: 

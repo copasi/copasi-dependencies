@@ -26,8 +26,8 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class ConversionProperties
- * @ingroup Core
- * @brief Class of object that encapsulates the properties of an SBML converter.
+ * @sbmlbrief{core} Class of object that encapsulates the properties of an
+ * SBML converter.
  * 
  * @htmlinclude libsbml-facility-only-warning.html
  * 

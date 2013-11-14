@@ -35,7 +35,7 @@ include(${CMAKE_SOURCE_DIR}/distrib-package.cmake)
 set(DISTRIB_SOURCES)
 
 # go through all directories: common, extension and sbml
-foreach(dir common extension sbml validator validator/constraints)
+foreach(dir common extension sbml util validator validator/constraints)
 
 	# add to include directory
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/distrib/${dir})
@@ -44,6 +44,19 @@ foreach(dir common extension sbml validator validator/constraints)
 	file(GLOB current ${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/distrib/${dir}/*.cpp
 	                  ${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/distrib/${dir}/*.c
 	                  ${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/distrib/${dir}/*.h)
+
+        # Set the *Constraints.cpp files to be 'header' files so they won't be compiled--
+        #  they are #included directly, instead.
+        if ("${dir}" STREQUAL "validator/constraints")
+            foreach(tempFile ${current})
+                if ("${tempFile}" MATCHES ".*Constraints.cpp")
+                    set_source_files_properties(
+                        ${tempFile}
+                        PROPERTIES HEADER_FILE_ONLY true
+                        )
+                endif()
+            endforeach()
+        endif()
 
 	# add sources
 	set(DISTRIB_SOURCES ${DISTRIB_SOURCES} ${current})
@@ -69,6 +82,7 @@ SET(LIBSBML_SOURCES ${LIBSBML_SOURCES} ${DISTRIB_SOURCES})
 #
 if(WITH_CHECK)
 
+		add_subdirectory(sbml/packages/distrib/util/test)
 
 endif()
 

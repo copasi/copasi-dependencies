@@ -84,7 +84,7 @@ public:
   //
   // --------------------------------------------------------
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -95,7 +95,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Reads the attributes of corresponding package in SBMLDocument element.
    */
@@ -104,7 +104,7 @@ public:
   /** @endcond */
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Writes the attributes of corresponding package in SBMLDocument element.
    */
@@ -143,7 +143,7 @@ public:
  
 
 protected:
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
 
   /*-- data members --*/
   std::string mObjectRole;   

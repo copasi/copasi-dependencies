@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python                        # -*- python-indent-offset: 2 -*-
 #
 # @file    pythondocfilter.py
 # @brief   Post-process libSBML's Python doc strings for use by Doxygen.
@@ -56,8 +56,8 @@ def reformatDocString (match):
   # every method documentation string is the signature of the method.
   # The \A at the beginning of the regexp forces it that way.
 
-  sigREfunc = '\w+\([\w()=:"<>?,.\n ]*\)'
-  sigRE     = '\A(\s*)((' + sigREfunc + '( -> [\w()=:"<>?|, \t]+)?\s*)+)'
+  sigREfunc = '\w+\([\w()=*:"<>?,.\n ]*\)'
+  sigRE     = '\A(\s*)((' + sigREfunc + '( -> [\w()=*:"<>?|, \t]+)?\s*)+)'
 
   # This matches when the signatures are the only thing in a docstring.
   p = re.compile(sigRE + '\Z', re.MULTILINE)
@@ -108,24 +108,36 @@ def filterDocStrings (contents):
 
   # These enumeration types are actually integers in the Python bindings.
 
-  contents = re.sub(r'ASTNodeType_t\b',           'long',            contents)
-  contents = re.sub(r'ASTNode_t\b',               'long',            contents)
-  contents = re.sub(r'BiolQualifierType_t\b',     'long',            contents)
-  contents = re.sub(r'ModelQualifierType_t\b',    'long',            contents)
-  contents = re.sub(r'OperationReturnValues_t\b', 'long',            contents)
-  contents = re.sub(r'QualifierType_t\b',         'long',            contents)
-  contents = re.sub(r'RuleType_t\b',              'long',            contents)
-  contents = re.sub(r'SBMLErrorCategory_t\b',     'long',            contents)
-  contents = re.sub(r'SBMLErrorCode_t\b',         'long',            contents)
-  contents = re.sub(r'SBMLErrorSeverity_t\b',     'long',            contents)
-  contents = re.sub(r'SBMLTypeCode_t\b',          'long',            contents)
-  contents = re.sub(r'UnitKind_t\b',              'long',            contents)
-  contents = re.sub(r'XMLErrorCategory_t\b',      'long',            contents)
-  contents = re.sub(r'XMLErrorCode_t\b',          'long',            contents)
-  contents = re.sub(r'XMLErrorSeverity_t\b',      'long',            contents)
+  contents = re.sub(r'ASTNodeType_t\b',              'long',         contents)
+  contents = re.sub(r'ASTNode_t\b',                  'long',         contents)
+  contents = re.sub(r'BiolQualifierType_t\b',        'long',         contents)
+  contents = re.sub(r'ConversionOptionType_t\b',     'long',         contents)
+  contents = re.sub(r'ModelQualifierType_t\b',       'long',         contents)
+  contents = re.sub(r'OperationReturnValues_t\b',    'long',         contents)
+  contents = re.sub(r'ParseLogType_t\b',             'long',         contents)
+  contents = re.sub(r'QualifierType_t\b',            'long',         contents)
+  contents = re.sub(r'RuleType_t\b',                 'long',         contents)
+  contents = re.sub(r'SBMLCompTypeCode_t\b',         'long',         contents)
+  contents = re.sub(r'SBMLErrorCategory_t\b',        'long',         contents)
+  contents = re.sub(r'SBMLErrorSeverity_t\b',        'long',         contents)
+  contents = re.sub(r'SBMLFbcTypeCode_t\b',          'long',         contents)
+  contents = re.sub(r'SBMLLayoutTypeCode_t\b',       'long',         contents)
+  contents = re.sub(r'SBMLQualTypeCode_t\b',         'long',         contents)
+  contents = re.sub(r'SBMLTypeCode_t\b',             'long',         contents)
+  contents = re.sub(r'UnitKind_t\b',                 'long',         contents)
+  contents = re.sub(r'XMLErrorCategory_t\b',         'long',         contents)
+  contents = re.sub(r'XMLErrorCode_t\b',             'long',         contents)
+  contents = re.sub(r'XMLErrorSeverityOverride_t\b', 'long',         contents)
+  contents = re.sub(r'XMLErrorSeverity_t\b',         'long',         contents)
+
+  # Replace SBMLErrorCode_t last.
+  contents = re.sub(r'CompSBMLErrorCode_t\b',        'long',         contents)
+  contents = re.sub(r'QualSBMLErrorCode_t\b',        'long',         contents)
+  contents = re.sub(r'FbcSBMLErrorCode_t\b',         'long',         contents)
+  contents = re.sub(r'LayoutSBMLErrorCode_t\b',      'long',         contents)
+  contents = re.sub(r'SBMLErrorCode_t\b',            'long',         contents)
 
   # Other type replacements
-
   contents = re.sub(r'const char* ',              'string ',         contents)
   contents = re.sub(r'an unsigned int',           'a long integer',  contents)
   contents = re.sub(r'unsigned int',              'long',            contents)
@@ -140,7 +152,17 @@ def filterDocStrings (contents):
   return contents
 
 
-def filterContents(contents):
+# The only reason this is a function and not inlined in filterContents()
+# is the need to get match.group(0), which you can't do with Python's
+# \number syntax in a regexp.  ("\0" is not interpreted as a group number.)
+
+def hack_class_docstring(match):
+  whole = match.group(0)
+  indent = match.group(1)
+  return whole + '\n' + indent + '##\n'
+
+
+def filterContents (contents):
   """
   filterContents(contents) -> contents
   """
@@ -151,7 +173,24 @@ def filterContents(contents):
   contents = re.sub('def __init__\(([^)]+)\): \n',
                     r'def __init__(\1):\n', contents)
 
+  # The following adds a couple of comment characters after the doc string of
+  # every class declaration.  Why, you ask?  Oh yes, let me tell you.
+  # Because Doxygen 1.8.5 (possibly other versions too), when using @ingroup
+  # and when producing output for Python, will incorrectly process the first
+  # method that comes after a Python class declaration.  It (1) uses the
+  # brief description from the class declaration as the brief description for
+  # the method, and (2) files the method in a list of method members on the
+  # page with all the classes defined in the group.  An example of the result
+  # is a long list of clone() methods on the page describing one of our L3
+  # package groups (e.g., for the libSBML 'comp' extension), with one clone()
+  # method per class in the group, because for most of our classes, the first
+  # method declared is clone().
+
+  p = re.compile('^class\s+\w+\(\w+?\):\n(\s+)""".+?"""', re.MULTILINE|re.DOTALL)
+  contents = p.sub(lambda match: hack_class_docstring(match), contents)
+
   return contents
+
 
 def filterForDoxygen (contents):
   """

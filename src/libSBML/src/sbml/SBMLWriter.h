@@ -26,8 +26,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLWriter
- * @ingroup Core
- * @brief Methods for writing SBML to files and text strings.
+ * @sbmlbrief{core} Methods for writing SBML to files and text strings.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -67,6 +66,16 @@
  * Support for compression is not mandated by the SBML standard, but
  * applications may find it helpful, particularly when large SBML models
  * are being communicated across data links of limited bandwidth.
+ */
+
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ * 
  */
 
 #ifndef SBMLWriter_h

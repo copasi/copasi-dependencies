@@ -122,7 +122,7 @@ RenderGraphicalObjectPlugin::isSetObjectRole() const
   return !mObjectRole.empty();
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 RenderGraphicalObjectPlugin::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -133,7 +133,7 @@ RenderGraphicalObjectPlugin::addExpectedAttributes(ExpectedAttributes& attribute
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 RenderGraphicalObjectPlugin::readAttributes (const XMLAttributes& attributes,
                                     const ExpectedAttributes& expectedAttributes)
@@ -143,7 +143,7 @@ RenderGraphicalObjectPlugin::readAttributes (const XMLAttributes& attributes,
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void 
 RenderGraphicalObjectPlugin::writeAttributes (XMLOutputStream& stream) const
 {

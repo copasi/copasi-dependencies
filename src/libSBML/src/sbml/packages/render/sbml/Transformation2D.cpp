@@ -47,7 +47,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 const double Transformation2D::IDENTITY2D[6]={1.0,0.0,0.0,1.0,0.0,0.0};
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Transformation2D object with the given SBML level
  * and SBML version.
@@ -63,7 +63,7 @@ Transformation2D::Transformation2D (unsigned int level, unsigned int version, un
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Transformation2D object with the given SBMLNamespaces.
  *
@@ -96,7 +96,7 @@ Transformation2D::Transformation2D(const Transformation2D& other)
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor with id and values for the matrix.
  */
@@ -118,7 +118,7 @@ Transformation2D::Transformation2D(RenderPkgNamespaces* renderns, const double m
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Transformation2D object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -145,7 +145,7 @@ Transformation2D::Transformation2D(const XMLNode& node, unsigned int l2version)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -160,7 +160,7 @@ const std::string& Transformation2D::getElementName() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the 2D matrix to the values given in the array.
  * The 3D matrix is updated accordingly.
@@ -178,7 +178,7 @@ void Transformation2D::setMatrix2D(const double m[6])
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the 2D matrix which is an array of double values of length 6.
  *
@@ -191,7 +191,7 @@ const double* Transformation2D::getMatrix2D() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a 2D identity matrix.
  * The matrix contains 6 double values.
@@ -204,7 +204,7 @@ const double* Transformation2D::getIdentityMatrix2D()
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds the transformation attribute to the given XMLAttributes object.
  *
@@ -221,7 +221,7 @@ void Transformation2D::addTransformation2DAttributes(const Transformation2D& tra
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -243,7 +243,7 @@ void Transformation2D::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the transformation array as a string for storage in an XML
  * attribute.
@@ -262,7 +262,7 @@ std::string Transformation2D::get2DTransformationString() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the 3D matrix from the 2D matrix.
  */
@@ -283,7 +283,7 @@ void Transformation2D::updateMatrix3D()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Fills the 2D matrix with data from the 3D matrix.
  */
@@ -298,7 +298,7 @@ void Transformation2D::updateMatrix2D()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the 2D matrix to the values given in the array.
  * The 2D matrix is updated accordingly.
@@ -312,7 +312,7 @@ void Transformation2D::setMatrix(const double m[12])
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Transformation2D::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -322,7 +322,7 @@ Transformation2D::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Transformation2D::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
     SBase::readAttributes(attributes, expectedAttributes);
@@ -339,7 +339,7 @@ void Transformation2D::readAttributes (const XMLAttributes& attributes, const Ex
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Tries to parse the numerical values from the given string
  * and fill the matrix with them. The method will accept strings

@@ -17,16 +17,16 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBaseRef
- * @ingroup Comp
- * @brief @htmlinclude pkg-marker-comp.html
- * Implementation of the %SBaseRef construct from the 'comp' package.
+ * @sbmlbrief{comp} Implementation of the %SBaseRef construct from the
+ * &ldquo;comp&rdquo; package.
  *
- * The SBaseRef class was introduced by the SBML Level&nbsp;3
- * @ref Comp "Hierarchical Model Composition" package ('comp') as the
- * principle way by which submodel elements may be referenced.  The SBaseRef
- * class is usually found as the base class of a Port, Deletion, ReplacedElement,
- * or ReplacedBy class, but may appear as an child of one of the above
- * classes if the parent object references a Submodel.
+ * The SBaseRef class was introduced by the SBML Level&nbsp;3 @ref comp
+ * @if java "Hierarchical %Model Composition"@endif@~ package
+ * (&ldquo;comp&rdquo;) as the principle way by which submodel elements may
+ * be referenced.  The SBaseRef class is usually found as the base class of a
+ * Port, Deletion, ReplacedElement, or ReplacedBy class, but may appear as an
+ * child of one of the above classes if the parent object references a
+ * Submodel.
  *
  * An SBaseRef object must reference an element using exactly one of the
  * optional attributes of the class.  Subclasses of SBaseRef may define
@@ -96,6 +96,7 @@
 #ifdef __cplusplus
 
 #include <string>
+#include <set>
 
 #include <sbml/SBase.h>
 #include <sbml/packages/comp/extension/CompExtension.h>
@@ -165,7 +166,7 @@ public:
   virtual ~SBaseRef ();
 
 
-   /**
+  /**
    * Returns the first child element found that has the given @p id in the
    * model-wide SId namespace, or @c NULL if no such object is found.
    *
@@ -173,7 +174,7 @@ public:
    *
    * @return a pointer to the SBase element with the given @p id.
    */
-  virtual SBase* getElementBySId(std::string id);
+  virtual SBase* getElementBySId(const std::string& id);
   
   
   /**
@@ -184,7 +185,7 @@ public:
    *
    * @return a pointer to the SBase element with the given @p metaid.
    */
-  virtual SBase* getElementByMetaId(std::string metaid);
+  virtual SBase* getElementByMetaId(const std::string& metaid);
   
   
   /**
@@ -226,9 +227,7 @@ public:
    * method to point to a submodel element.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
@@ -240,9 +239,7 @@ public:
    * Unsets the value of the "metaIdRef" attribute of this SBaseRef.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -278,9 +275,7 @@ public:
    * method to point to a submodel element.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
@@ -292,9 +287,7 @@ public:
    * Unsets the value of the "portRef" attribute of this SBaseRef.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -331,9 +324,7 @@ public:
    * method to point to a submodel element.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
@@ -345,9 +336,7 @@ public:
    * Unsets the value of the "idRef" attribute of this SBaseRef.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -384,9 +373,7 @@ public:
    * method to point to a submodel element.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
@@ -398,9 +385,7 @@ public:
    * Unsets the value of the "unitRef" attribute of this SBaseRef.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -443,9 +428,7 @@ public:
    * @param sBaseRef the SBaseRef object instance to use.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    * @li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
@@ -469,9 +452,7 @@ public:
    * if one existed.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -500,7 +481,7 @@ public:
    * Renames all the SIdRef attributes on this element if they match
    * @p oldid, but not any found in child or plugin elements.
    */
-  virtual void renameSIdRefs(std::string oldid, std::string newid);
+  virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /**
@@ -513,20 +494,19 @@ public:
 
 
   /**
-   * Returns the libSBML type code for this SBML object.
-   * 
-   * LibSBML attaches an identifying code to every kind of SBML object.
-   * These are known as <em>SBML type codes</em>.  @if clike The set of
-   * possible type codes for the 'comp' package is defined in the enumeration
-   * #SBMLCompTypeCode_t.  The names of the type codes all begin with the
-   * characters <code>SBML_COMP</code>. @endif@~
-   * 
-   * @return the typecode (int) of this SBML object or SBML_UNKNOWN
-   * (default).
+   * Returns the libSBML type code of this object instance.
+   *
+   * @copydetails doc_what_are_typecodes
+   *
+   * @return the SBML type code for this object:
+   * @link SBMLCompTypeCode_t#SBML_COMP_SBASEREF SBML_COMP_SBASEREF@endlink
+   *
+   * @copydetails doc_warning_typecodes_not_unique
    *
    * @see getElementName()
+   * @see getPackageName()
    */
-  int getTypeCode () const;
+  virtual int getTypeCode () const;
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -601,9 +581,7 @@ public:
    * be a SBaseRef or one of its subclasses), and the storing the result.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -626,21 +604,23 @@ public:
 
 
   /**
-   * Deletes the referenced object (will delete the saved one, if it exists),
+   * DEPRECATED FUNCTION:  DO NOT USE
+   *
+   * Deletes the referenced object,
    * plus any other elements that element points to through ReplacedElement
-   * or ReplacedBy children
+   * or ReplacedBy children.  Instead of calling this function directly, use
+   * 'CompModelPlugin::instantiateSubmodels' instead, which deals with all the
+   * intricacies of replacements and deletions, and gives you access to the
+   * non-flattened hierarchical form of the model.
    */
   virtual int performDeletion();
-
 
   /**
    * Finds this SBaseRef's parent, which can either be a List or can be
    * another SBaseRef, and tells it to remove this.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * operation. The possible return values are:
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
    */
@@ -672,6 +652,8 @@ protected:
 
   /** @cond doxygenLibsbmlInternal */
   /**
+   * Create and return an SBML object of this class, if present.
+   *
    * @return the SBML object corresponding to next XMLToken in the
    * XMLInputStream or @c NULL if the token was not recognized.
    */
@@ -702,6 +684,18 @@ protected:
   /** @cond doxygenLibsbmlInternal */
   friend class CompModelPlugin; //for getDirectReference
   /** @endcond */
+
+private:
+  /**
+   * Collects (in 'toremove') the referenced object,
+   * plus any other elements that element points to through ReplacedElement
+   * or ReplacedBy children.  Does not delete the object directly; this should
+   * be done carefully to avoid double-deletions or misinterpretation of 
+   * nested replacements/deletions.  Any element already in 'removed' will
+   * not be added to 'toremove', nor will its children be checked.
+   */
+  virtual int collectDeletions(std::set<SBase*>* removed, std::set<SBase*>* toremove);
+
 };
 
 

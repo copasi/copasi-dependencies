@@ -45,7 +45,7 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Style object with the given SBML level
  * and SBML version.
@@ -64,7 +64,7 @@ Style::Style (unsigned int level, unsigned int version, unsigned int pkgVersion)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Style object with the given SBMLNamespaces.
  *
@@ -89,7 +89,7 @@ Style::Style (RenderPkgNamespaces* renderns):
 
 
 #ifndef OMIT_DEPRECATED
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Constructor which creates a Style with an empty group
  * and empty role and type list.
@@ -119,7 +119,20 @@ Style::Style(RenderPkgNamespaces* renderns, const std::string& id):
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygen-libsbml-internal */
+List*
+Style::getAllElements(ElementFilter *filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  ADD_FILTERED_ELEMENT(ret, sublist, mGroup, filter);  
+
+  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
+
+  return ret;
+}
+
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the group of the Style.
  *
@@ -132,7 +145,7 @@ void Style::setGroup(const RenderGroup* group)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const pointer to the group of the Style.
  *
@@ -144,7 +157,7 @@ const RenderGroup* Style::getGroup() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a pointer to the group of the Style.
  *
@@ -156,7 +169,7 @@ RenderGroup* Style::getGroup()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of ids in the role list.
  *
@@ -168,7 +181,7 @@ unsigned int Style::getNumRoles() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds an id to the role list.
  *
@@ -180,7 +193,7 @@ void Style::addRole(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Checks whether a given role is in the role list.
  *
@@ -192,7 +205,7 @@ bool Style::isInRoleList(const std::string& id) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes the given role from the role list.
  *
@@ -204,7 +217,7 @@ void Style::removeRole(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the number of types in the type list.
  *
@@ -216,7 +229,7 @@ unsigned int Style::getNumTypes() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds a type string to the type list.
  *
@@ -228,7 +241,7 @@ void Style::addType(const std::string& id)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Checks whether a given type string is in the type list.
  *
@@ -243,7 +256,7 @@ bool Style::isInTypeList(const std::string& id) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Removes a type string from the type list.
  *
@@ -256,7 +269,7 @@ void Style::removeType(const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
  * SBML objects as XML elements.  Be sure to call your parents
@@ -274,7 +287,7 @@ void Style::writeElements (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -292,7 +305,7 @@ SBase* Style::createObject (XMLInputStream& stream)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void
 Style::addExpectedAttributes(ExpectedAttributes& attributes)
 {
@@ -306,7 +319,7 @@ Style::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Style::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
     SBase::readAttributes(attributes, expectedAttributes);
@@ -317,7 +330,7 @@ void Style::readAttributes (const XMLAttributes& attributes, const ExpectedAttri
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -343,7 +356,7 @@ void Style::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates an XMLNode object from this Style object.
  *
@@ -357,7 +370,7 @@ XMLNode Style::toXML() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 bool Style::accept (SBMLVisitor& v) const
 {
     //v.visit(*this);
@@ -365,7 +378,7 @@ bool Style::accept (SBMLVisitor& v) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Style::readListOfRoles(const XMLAttributes& attr)
 {
     std::string s;
@@ -379,7 +392,7 @@ void Style::readListOfRoles(const XMLAttributes& attr)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 void Style::readListOfTypes(const XMLAttributes& attr)
 {
     std::string s;
@@ -393,7 +406,7 @@ void Style::readListOfTypes(const XMLAttributes& attr)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Devides a string into individual elements and stores them in the given set.
  */
@@ -429,7 +442,7 @@ Style::createTypeString() const
   return createStringFromSet(mTypeList);
 }
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Concatenates individual elements from a set to a string.
  * The string is returned.
@@ -451,7 +464,7 @@ std::string Style::createStringFromSet(const std::set<std::string>& set)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds the typeList attribute to an XMLAttributes object.
  */
@@ -465,7 +478,7 @@ void Style::addListOfTypes(XMLAttributes& attr) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Adds the typeList attribute to an XMLAttributes object.
  */
@@ -479,7 +492,7 @@ void Style::addListOfRoles(XMLAttributes& attr) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Writes the type list to an XML stream.
  */
@@ -493,7 +506,7 @@ void Style::writeTypeList(XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Writes the role list to an XML stream.
  */
@@ -507,7 +520,7 @@ void Style::writeRolesList(XMLOutputStream& stream) const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the XML element name of this object.
  *
@@ -523,7 +536,7 @@ const std::string& Style::getElementName() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new Style object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -617,7 +630,7 @@ Style::Style(const XMLNode& node, unsigned int l2version) :
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const reference to the role list.
  *
@@ -629,7 +642,7 @@ const std::set<std::string>& Style::getRoleList() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns a const reference to the role list.
  *
@@ -641,7 +654,7 @@ std::set<std::string>& Style::getRoleList()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the type list.
  *
@@ -653,7 +666,7 @@ std::set<std::string>& Style::getTypeList()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the type list.
  *
@@ -665,7 +678,7 @@ const std::set<std::string>& Style::getTypeList() const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the complete role list to a copy of the given list.
  *
@@ -679,7 +692,7 @@ void Style::setRoleList(const std::set<std::string>& roleList)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the complete type list to a copy of the given list.
  *
@@ -693,7 +706,7 @@ void Style::setTypeList(const std::set<std::string>& typeList)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the value of the "name" attribute of this Style.
  *
@@ -706,7 +719,7 @@ const std::string& Style::getName () const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether this
  * Style's "name" attribute has been set.
@@ -720,7 +733,7 @@ bool Style::isSetName () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the value of the "name" attribute of this Style.
  *
@@ -736,7 +749,7 @@ int Style::setName (const std::string& name)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Unsets the value of the "name" attribute of this Style.
  */
@@ -755,7 +768,7 @@ int Style::unsetName ()
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the value of the "id" attribute of this Style.
  *
@@ -767,7 +780,7 @@ const std::string& Style::getId () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether this
  * Style's "id" attribute has been set.
@@ -781,7 +794,7 @@ bool Style::isSetId () const
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the value of the "id" attribute of this Style.
  *
@@ -804,7 +817,7 @@ int Style::setId (const std::string& id)
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Unsets the value of the "id" attribute of this Style.
  */
@@ -822,7 +835,7 @@ int Style::unsetId ()
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
@@ -864,7 +877,7 @@ Style::enablePackageInternal(const std::string& pkgURI,
 
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the parent SBML object of this SBML object.
  *
@@ -877,7 +890,7 @@ Style::setParentSBMLObject (SBase* sb)
 }
 /** @endcond */
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * attributes
  */
@@ -889,7 +902,7 @@ bool Style::hasRequiredAttributes() const
 /** @endcond */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /* function returns true if component has all the required
  * elements
  */

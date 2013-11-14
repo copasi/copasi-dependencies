@@ -113,7 +113,7 @@ public:
    * Predicate returning @c true or @c false depending on whether this
    * DomainType's "spatialDimensions" attribute has been set.
    * 
-   * @htmlinclude libsbml-comment-set-methods.html
+   * @htmlinclude comment-set-methods.html
    *
    * @note This function only applies to SBML L3 where there are no
    * default values.
@@ -142,7 +142,7 @@ public:
   /**
    * Sets the "spatialDimensions" attribute of this DomainType.
    *
-   * @htmlinclude libsbml-comment-set-methods.html
+   * @htmlinclude comment-set-methods.html
    *
    * If @p value is not one of @c 0, @c 1, @c 2, or @c 3, this method will
    * have no effect (i.e., the "spatialDimensions" attribute will not be
@@ -178,7 +178,7 @@ public:
   /**
    * Unsets the value of the "spatialDimensions" attribute of this DomainType.
    *
-   * @htmlinclude libsbml-comment-set-methods.html
+   * @htmlinclude comment-set-methods.html
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -216,7 +216,7 @@ public:
   int getTypeCode () const;
 
 
-  /** @cond doxygen-libsbml-internal */
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to write out their contained
    * SBML objects as XML elements.  Be sure to call your parents
@@ -238,7 +238,7 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
-  /** @endcond doxygen-libsbml-internal */
+  /** @endcond doxygenLibsbmlInternal */
     
 protected:
   /**
@@ -300,7 +300,7 @@ protected:
   friend class ModelingPracticeValidator;
   friend class OverdeterminedValidator;
 
- /** @endcond doxygen-libsbml-internal */
+ /** @endcond doxygenLibsbmlInternal */
 
 };
 
@@ -438,7 +438,7 @@ protected:
   virtual SBase* createObject (XMLInputStream& stream);
 };
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygenLibsbmlInternal */
 /**
  * Used by ListOfDomainTypes::get() to lookup an SBase based on its 
  * spatialId
@@ -454,7 +454,7 @@ struct IdEq<DomainType> : public std::unary_function<SBase*, bool>
        { return static_cast <DomainType*> (sb)->getSpatialId() == id; }
 };
 #endif
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygenLibsbmlInternal */
 
 LIBSBML_CPP_NAMESPACE_END
 

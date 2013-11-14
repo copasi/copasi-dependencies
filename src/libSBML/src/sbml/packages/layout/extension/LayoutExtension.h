@@ -24,6 +24,13 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class LayoutExtension
+ * @sbmlbrief{layout} The core module of the 'layout' package extension.
+ *
+ * @class LayoutPkgNamespaces
+ * @sbmlbrief{layout} Extension of SBMLNamespaces for the SBML Level&nbsp;3
+ * 'layout' package.
  */
 
 #ifndef LayoutExtension_h
@@ -126,75 +133,77 @@ public:
   /**
    * Returns the name of this package ("layout")
    *
-   * @pram the name of this package ("layout")
+   * @return the name of this package ("layout")
    */
   virtual const std::string& getName() const;
 
 
   /**
-   * Returns the URI (namespace) of the package corresponding to the combination of 
-   * the given sbml level, sbml version, and package version.
-   * Empty string will be returned if no corresponding URI exists.
+   * Returns the namespace URI corresponding to the combination of the given
+   * SBML Level, Version, and package version.
    *
    * @param sbmlLevel the level of SBML
    * @param sbmlVersion the version of SBML
    * @param pkgVersion the version of package
    *
-   * @return a string of the package URI
+   * @return a string of the package URI, or an empty string if no
+   * corresponding URI exists.
    */
   virtual const std::string& getURI(unsigned int sbmlLevel, unsigned int sbmlVersion, 
                                     unsigned int pkgVersion) const;
 
 
   /**
-   * Returns the SBML level with the given URI of this package.
+   * Returns the SBML Level for the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;layout&rdquo; package
    *
-   * @return the SBML level with the given URI of this package. 0 will be returned
-   * if the given URI is invalid.
+   * @return the SBML Level with the given URI of this package, or @c 0 if
+   * the given URI is invalid.
    */
   virtual unsigned int getLevel(const std::string &uri) const;
 
 
   /**
-   * Returns the SBML version with the given URI of this package.
+   * Returns the SBML Version for the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;layout&rdquo; package
    *
-   * @return the SBML version with the given URI of this package. 0 will be returned
-   * if the given URI is invalid.
+   * @return the SBML version with the given URI of this package, or @c 0 if
+   * the given URI is invalid.
    */
   virtual unsigned int getVersion(const std::string &uri) const;
 
 
   /**
-   * Returns the package version with the given URI of this package.
+   * Returns the package version for the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;layout&rdquo; package
    *
-   * @return the package version with the given URI of this package. 0 will be returned
+   * @return the package version with the given URI of this package, or @c 0
    * if the given URI is invalid.
    */
   virtual unsigned int getPackageVersion(const std::string &uri) const;
 
 
   /**
-   * This method takes a type code of layout package and returns a string representing
-   * the code.
+   * Takes a type code of the &ldquo;layout&rdquo; package and returns a string
+   * describing the code.
    */
   virtual const char* getStringFromTypeCode(int typeCode) const;
 
 
   /**
-   * Returns an SBMLExtensionNamespaces<LayoutExtension> object whose alias type is 
-   * LayoutPkgNamespace.
-   * Null will be returned if the given uri is not defined in the layout package.
+   * Returns an LayoutPkgNamespaces object.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+   * @param uri the string of URI that represents one of versions of the
+   * &ldquo;layout&rdquo; package
    *
-   * @return an LayoutPkgNamespace object corresponding to the given uri. NULL will
-   * be returned if the given URI is not defined in layout package.
+   * @return an LayoutPkgNamespace object corresponding to the given @p uri,
+   * or @c NULL if the URI is not defined in the Layout package.
    */
   virtual SBMLNamespaces* getSBMLExtensionNamespaces(const std::string &uri) const;
 
@@ -266,7 +275,7 @@ public:
 	virtual packageErrorTableEntry getErrorTable(unsigned int index) const;
 
 
-	/** @endcond doxygenLibsbmlInternal */
+	/** @endcond */
 
 
 	/** @cond doxygenLibsbmlInternal */
@@ -281,7 +290,7 @@ public:
 	virtual unsigned int getErrorTableIndex(unsigned int errorId) const;
 
 
-	/** @endcond doxygenLibsbmlInternal */
+	/** @endcond */
 
 
 	/** @cond doxygenLibsbmlInternal */
@@ -294,7 +303,7 @@ public:
 	virtual unsigned int getErrorIdOffset() const;
 
 
-	/** @endcond doxygenLibsbmlInternal */
+	/** @endcond */
 
 };
 
@@ -317,23 +326,31 @@ public:
 //
 typedef SBMLExtensionNamespaces<LayoutExtension> LayoutPkgNamespaces; 
 
+/**
+ * @enum  SBMLLayoutTypeCode_t
+ * @brief SBMLLayoutTypeCode_t is the enumeration of possible types from the 'layout' package.
+ *
+ * @copydetails doc_what_are_typecodes
+ *
+ * @copydetails doc_additional_typecode_details
+ */
 typedef enum
 {
-   SBML_LAYOUT_BOUNDINGBOX           = 100
- , SBML_LAYOUT_COMPARTMENTGLYPH      = 101
- , SBML_LAYOUT_CUBICBEZIER           = 102
- , SBML_LAYOUT_CURVE                 = 103
- , SBML_LAYOUT_DIMENSIONS            = 104
- , SBML_LAYOUT_GRAPHICALOBJECT       = 105
- , SBML_LAYOUT_LAYOUT                = 106   
- , SBML_LAYOUT_LINESEGMENT           = 107   
- , SBML_LAYOUT_POINT                 = 108    
- , SBML_LAYOUT_REACTIONGLYPH         = 109    
- , SBML_LAYOUT_SPECIESGLYPH          = 110    
- , SBML_LAYOUT_SPECIESREFERENCEGLYPH = 111
- , SBML_LAYOUT_TEXTGLYPH             = 112
- , SBML_LAYOUT_REFERENCEGLYPH        = 113
- , SBML_LAYOUT_GENERALGLYPH          = 114
+   SBML_LAYOUT_BOUNDINGBOX           = 100 /*!< BoundingBox */
+ , SBML_LAYOUT_COMPARTMENTGLYPH      = 101 /*!< CompartmentGlyph */
+ , SBML_LAYOUT_CUBICBEZIER           = 102 /*!< CubicBezier*/
+ , SBML_LAYOUT_CURVE                 = 103 /*!< Curve */
+ , SBML_LAYOUT_DIMENSIONS            = 104 /*!< Dimensions */
+ , SBML_LAYOUT_GRAPHICALOBJECT       = 105 /*!< GraphicalObject */
+ , SBML_LAYOUT_LAYOUT                = 106 /*!< Layout */
+ , SBML_LAYOUT_LINESEGMENT           = 107 /*!< LineSegment */
+ , SBML_LAYOUT_POINT                 = 108 /*!< Point */
+ , SBML_LAYOUT_REACTIONGLYPH         = 109 /*!< ReactionGlyph */
+ , SBML_LAYOUT_SPECIESGLYPH          = 110 /*!< SpeciesGlyph */
+ , SBML_LAYOUT_SPECIESREFERENCEGLYPH = 111 /*!< SpeciesReferenceGlyph */
+ , SBML_LAYOUT_TEXTGLYPH             = 112 /*!< TextGlyph */
+ , SBML_LAYOUT_REFERENCEGLYPH        = 113 /*!< ReferenceGlyph */
+ , SBML_LAYOUT_GENERALGLYPH          = 114 /*!< GeneralGlyph */
 } SBMLLayoutTypeCode_t;
 
 

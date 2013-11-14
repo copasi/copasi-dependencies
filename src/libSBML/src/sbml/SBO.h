@@ -26,8 +26,8 @@
  * ---------------------------------------------------------------------- -->
  *
  * @class SBO
- * @ingroup Core
- * @brief Methods for interacting with Systems Biology Ontology terms.
+ * @sbmlbrief{core} Methods for interacting with Systems Biology Ontology
+ * terms.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -172,6 +172,16 @@
  * information to understand the meaning of a model, software does not need
  * to support "sboTerm" to be considered SBML-compliant.
  *
+ */
+
+/**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file.  The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality.  Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
+ * 
  */
 
 #ifndef SBML_h

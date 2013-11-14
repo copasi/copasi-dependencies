@@ -4,7 +4,6 @@
  *          layout package for Model element.
  * @author  Akiya Jouraku
  *
- *
  * <!--------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
@@ -26,7 +25,11 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
- */
+ *
+ * @class LayoutModelPlugin
+ * @sbmlbrief{layout} Implementation of the 'layout' package extention to the
+ * %Model construct.
+  */
 
 #ifndef LayoutModelPlugin_h
 #define LayoutModelPlugin_h
@@ -258,7 +261,7 @@ public:
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
+   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
    */ 
   int addLayout (const Layout* layout);
 
@@ -301,6 +304,11 @@ public:
   //
   // ---------------------------------------------------------
 
+  /** @cond doxygenLibsbmlInternal */
+
+  int appendFrom(const Model* model);
+
+  /** @endcond */
 
   /** @cond doxygenLibsbmlInternal */
   /**
@@ -332,8 +340,10 @@ public:
    *
    * @param sbase the SBase object to use
    *
+   * @if cpp 
    * @see setSBMLDocument
    * @see enablePackageInternal
+   * @endif
    */
   virtual void connectToParent (SBase *sbase);
   /** @endcond */
@@ -349,20 +359,21 @@ public:
    * @note Subclasses in which one or more SBase derived elements are
    * defined must override this function.
    *
+   * @if cpp 
    * @see setSBMLDocument
    * @see connectToParent
+   * @endif
    */
   virtual void enablePackageInternal(const std::string& pkgURI,
                                      const std::string& pkgPrefix, bool flag);
   /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
 
-	/** @cond doxygenLibsbmlInternal */
+  virtual bool accept (SBMLVisitor& v) const;
 
-	virtual bool accept (SBMLVisitor& v) const;
-
-	/** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 protected:

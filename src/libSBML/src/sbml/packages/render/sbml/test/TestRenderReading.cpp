@@ -30,7 +30,6 @@
 #include <string>
 #include <map>
 
-
 LIBSBML_CPP_NAMESPACE_USE
 
 BEGIN_C_DECLS
@@ -45,7 +44,7 @@ const char *TEST_L2_MODEL=
 "				<layout id='layout_1' xmlns='http://projects.eml.org/bcb/sbml/level2'>"
 "					<!--Created by SBW SBML LayoutViewer/Manipulator-->"
 "					<annotation xmlns='http://www.sbml.org/sbml/level2/version4'>"
-"						<customAnnotation xmlns='mySecretPackage' importantAttribute='value' />"
+"						<customAnnotation xmlns='http://secret/annotation/package' importantAttribute='value' />"
 "						<listOfRenderInformation xmlns='http://projects.eml.org/bcb/sbml/render/level2'>"
 "							<renderInformation id='SBGN_default' programName='SBGN Default style' programVersion='1.0'>"
 "								<listOfColorDefinitions>"
@@ -6647,13 +6646,13 @@ END_TEST
 
 START_TEST(test_RenderReading_read_model_with_object_role)
 {
-
   SBMLDocument *doc = readSBMLFromString(TEST_L2_MODEL);
-
+  fail_unless(doc->getNumErrors(LIBSBML_SEV_ERROR) == 0);
   LayoutModelPlugin* plugin = static_cast<LayoutModelPlugin*>(doc->getModel()->getPlugin("layout"));
   fail_unless(plugin != NULL);
   fail_unless(plugin->getNumLayouts() > 0);
   Layout* layout = plugin->getLayout(0);
+  fail_unless(layout != NULL);
   fail_unless(layout->getNumSpeciesGlyphs() > 0);
 
   SpeciesGlyph *glyph = plugin->getLayout(0)->getSpeciesGlyph(0);
@@ -6679,6 +6678,7 @@ START_TEST(test_RenderReading_read_model_with_object_role)
   fail_unless(plugin->getNumLayouts() > 0);
 
   layout = plugin->getLayout(0);
+  fail_unless(layout != NULL);
   fail_unless(layout->getNumSpeciesGlyphs() > 0);
 
   fail_unless(plugin->getLayout(0)->getNumSpeciesGlyphs() > 0);
