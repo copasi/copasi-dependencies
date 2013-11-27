@@ -2,94 +2,156 @@
 #
 
 DIRECTORY=$(cd `dirname $0` && pwd)
-BUILD_TYPE=Release
-CMAKE=cmake
-QMAKE=qmake
-MAKE=gmake
+
+#Default Values:
+BUILD_TYPE=${BUILD_TYPE:="Release"}
+CMAKE=${CMAKE:="cmake"}
+QMAKESPEC=${QMAKESPEC:="linux-g++"}
+export QMAKESPEC
+
+MAKE=${MAKE:="gmake"}
 command -v $MAKE >/dev/null 2>&1 || { MAKE=make; }
-command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake-qt4; }
+
+if [ "x${QTDIR}" != "x" ]; then
+  QMAKE="${QTDIR}/bin/qmake"
+else
+  QMAKE=${QMAKE:="qmake-qt4"}
+fi
+
+command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake; }
 command -v $QMAKE >/dev/null 2>&1 || { echo >&2 "qmake cannot be found, please update the qmake variable."; }
+
+# echo ${BUILD_TYPE}
+# echo ${CMAKE}
+# echo ${QMAKESPEC}
+# echo ${MAKE}
+# echo ${QMAKE}
 
 [ -d $DIRECTORY/tmp ] || mkdir $DIRECTORY/tmp
 [ -d $DIRECTORY/bin ] || mkdir $DIRECTORY/bin
 [ -d $DIRECTORY/bin/include ] || mkdir $DIRECTORY/bin/include
 [ -d $DIRECTORY/bin/lib ] || mkdir $DIRECTORY/bin/lib
 
-# Build Clapack
-mkdir -p $DIRECTORY/tmp/clapack
-cd $DIRECTORY/tmp/clapack
-$CMAKE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin -DBUILD_TESTING=OFF $DIRECTORY/src/clapack
-$MAKE -j
-$MAKE install
+COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}"
+COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin"
+COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DEXTRA_INCLUDE_DIRS=$DIRECTORY/bin/include"
 
-#build MML
-mkdir -p $DIRECTORY/tmp/mml 
-cd $DIRECTORY/tmp/mml 
-$CMAKE  -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin $DIRECTORY/src/mml
-$MAKE
-$MAKE install
-
-#build qwt 
-cd $DIRECTORY/src/qwt
-$QMAKE qwt.pro -o Makefile
-$MAKE -j 4
-cp include/*.h $DIRECTORY/bin/include
-cp lib/*.a $DIRECTORY/bin/lib
-
-#build qwtplot3d 
-cd $DIRECTORY/src/qwtplot3d-qt4
-$QMAKE qwtplot3d.pro -o Makefile
-$MAKE -j 4
-cp include/*.h $DIRECTORY/bin/include
-cp lib/*.a $DIRECTORY/bin/lib
-
-#Build SBW
-mkdir -p $DIRECTORY/tmp/SBW
-cd $DIRECTORY/tmp/SBW
-$CMAKE \
-  -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-  -DWITH_BUILD_BROKER=OFF \
-  -DWITH_BUILD_SHARED=OFF \
-  -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin \
-  $DIRECTORY/src/core
-$MAKE
-$MAKE install
+COPASI_CXXFLAGS="${CXXFLAGS} ${COPASI_CXXFLAGS} -I$DIRECTORY/bin/include"
+COPASI_CFLAGS="${CFLAGS} ${COPASI_CFLAGS} -I$DIRECTORY/bin/include"
+COPASI_LDFLAGS="${LDFLAGS} ${COPASI_LDFLAGS} -L$DIRECTORY/bin/lib"
 
 # Build cppunit
 cd $DIRECTORY/src/cppunit
 chmod +x configure
-./configure --enable-html-docs=no  --with-pic --enable-doxygen=no --enable-dot=no --enable-shared=no --prefix=$DIRECTORY/bin
-$MAKE 
-$MAKE install
+CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" ./configure \
+  --enable-html-docs=no \
+  --with-pic \
+  --enable-doxygen=no \
+  --enable-dot=no \
+  --enable-shared=no \
+  --prefix=$DIRECTORY/bin
+CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE -j 4 
+CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE install
 
 # build expat
 cd $DIRECTORY/src/expat
-chmod +x configure 
-./configure  --with-pic  --enable-shared=no --prefix=$DIRECTORY/bin
-$MAKE 
-$MAKE install
+CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" chmod +x configure 
+./configure \
+  --with-pic \
+  --enable-shared=no \
+  --prefix=$DIRECTORY/bin
+CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE -j 4
+CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE install
 # delete shared library just in case
 [ -e $DIRECTORY/bin/lib/libexpat*so ] && rm $DIRECTORY/bin/lib/libexpat*so
-
-# build libsbml
-mkdir -p $DIRECTORY/tmp/libsbml
-cd $DIRECTORY/tmp/libsbml
-$CMAKE -DEXTRA_INCLUDE_DIRS=$DIRECTORY/bin/include -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin -DENABLE_LAYOUT=ON -DENABLE_REQUIREDELEMENTS=OFF -DENABLE_RENDER=ON -DENABLE_COMP=ON -DENABLE_FBC=OFF -DENABLE_SPATIAL=OFF -DENABLE_GROUPS=OFF -DWITH_EXPAT=ON -DWITH_LIBXML=OFF -DLIBSBML_DEPENDENCY_DIR=$DIRECTORY/bin -DLIBSBML_SKIP_SHARED_LIBRARY=ON -DWITH_BZIP2=OFF -DWITH_ZLIB=OFF $DIRECTORY/src/libSBML
-$MAKE -j
-$MAKE install
 
 # build raptor
 cd $DIRECTORY/src/raptor
 chmod +x configure
 chmod +x install-sh
-./configure  LDFLAGS="-L$DIRECTORY/bin/lib" CXXFLAGS="-I$DIRECTORY/bin/include" CFLAGS="-I$DIRECTORY/bin/include" --with-xml-parser=expat --with-www=none --enable-shared=no --with-pic --prefix=$DIRECTORY/bin
-$MAKE 
+CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" ./configure \
+  --with-xml-parser=expat \
+  --with-www=none \
+  --enable-shared=no \
+  --with-pic \
+  --prefix=$DIRECTORY/bin
+CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE -j 4 
+CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE install
+
+# Build Clapack
+mkdir -p $DIRECTORY/tmp/clapack
+cd $DIRECTORY/tmp/clapack
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  -DBUILD_TESTING=OFF \
+   $DIRECTORY/src/clapack
+$MAKE -j 4
+$MAKE install
+
+#build MML
+mkdir -p $DIRECTORY/tmp/mml 
+cd $DIRECTORY/tmp/mml 
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  $DIRECTORY/src/mml
+$MAKE -j 4
+$MAKE install
+
+#build qwt 
+mkdir $DIRECTORY/tmp/qwt 
+cd $DIRECTORY/tmp/qwt 
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  $DIRECTORY/src/qwt
+make -j 4
+make install
+
+#build qwtplot3d 
+mkdir $DIRECTORY/tmp/qwtplot3d-qt4
+cd $DIRECTORY/tmp/qwtplot3d-qt4 
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  $DIRECTORY/src/qwtplot3d-qt4
+make -j 4
+make install
+
+#Build SBW
+mkdir -p $DIRECTORY/tmp/SBW
+cd $DIRECTORY/tmp/SBW
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  -DWITH_BUILD_BROKER=OFF \
+  -DWITH_BUILD_SHARED=OFF \
+  $DIRECTORY/src/core
+$MAKE -j 4
+$MAKE install
+
+# build libsbml
+mkdir -p $DIRECTORY/tmp/libsbml
+cd $DIRECTORY/tmp/libsbml
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  -DENABLE_LAYOUT=ON \
+  -DENABLE_REQUIREDELEMENTS=OFF \
+  -DENABLE_RENDER=ON \
+  -DENABLE_COMP=ON \
+  -DENABLE_FBC=OFF \
+  -DENABLE_SPATIAL=OFF \
+  -DENABLE_GROUPS=OFF \
+  -DWITH_EXPAT=ON \
+  -DWITH_LIBXML=OFF \
+  -DLIBSBML_DEPENDENCY_DIR=$DIRECTORY/bin \
+  -DLIBSBML_SKIP_SHARED_LIBRARY=ON \
+  -DWITH_BZIP2=OFF \
+  -DWITH_ZLIB=OFF \
+  $DIRECTORY/src/libSBML
+$MAKE -j 4
 $MAKE install
 
 # build libSEDML
 mkdir -p $DIRECTORY/tmp/libSEDML
 cd $DIRECTORY/tmp/libSEDML
-$CMAKE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin -DLIBSBML_STATIC=ON -DLIBSEDML_SHARED_VERSION=OFF -DLIBSEDML_SKIP_SHARED_LIBRARY=ON -DLIBSEDML_DEPENDENCY_DIR=$BASE_DIR/bin -DEXTRA_LIBS=%BASE_DIR%/lib/libexpat.a $DIRECTORY/src/libSEDML
-$MAKE -j
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  -DLIBSBML_STATIC=ON \
+  -DLIBSEDML_SHARED_VERSION=OFF \
+  -DLIBSEDML_SKIP_SHARED_LIBRARY=ON \
+  -DLIBSEDML_DEPENDENCY_DIR=$DIRECTORY/bin \
+  -DEXTRA_LIBS=$DIRECTORY/lib/libexpat.a \
+  $DIRECTORY/src/libSEDML
+$MAKE -j 4
 $MAKE install
 [ -e $DIRECTORY/bin/lib/libsedml*.so ] && rm $DIRECTORY/bin/lib/libsedml*.so

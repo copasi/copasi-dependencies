@@ -3,20 +3,30 @@
 
 DIRECTORY=$(cd `dirname $0` && pwd)
 
-# export QTDIR=/Users/fbergmann/QtSDK/Desktop/Qt/4.8.1/gcc/
-export QMAKESPEC=macx-g++
-CMAKE=cmake
-QMAKE=$QTDIR/bin/qmake
-command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake-qt4; }
+#Default Values:
+BUILD_TYPE=${BUILD_TYPE:="Release"}
+CMAKE=${CMAKE:="cmake"}
+QMAKESPEC${QMAKESPEC:="macx-g++"}
+
+export QMAKESPEC
+
+if [ "x${QTDIR}" != "x" ]; then
+  QMAKE="${QTDIR}/bin/qmake"
+else
+  QMAKE=${QMAKE:="qmake-qt4"}
+fi
+
 command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake; }
+command -v $QMAKE >/dev/null 2>&1 || { echo >&2 "qmake cannot be found, please update the qmake variable."; }
 
 [ -d $DIRECTORY/tmp ] || mkdir $DIRECTORY/tmp
 [ -d $DIRECTORY/bin ] || mkdir $DIRECTORY/bin
 [ -d $DIRECTORY/bin/include ] || mkdir $DIRECTORY/bin/include
 [ -d $DIRECTORY/bin/lib ] || mkdir $DIRECTORY/bin/lib
 
-COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=$BUILD_TYPE"
+COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}"
 COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin"
+COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DEXTRA_INCLUDE_DIRS=$DIRECTORY/bin/include"
 COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DENABLE_UNIVERSAL=ON"
 COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_OSX_ARCHITECTURES=i386;x86_64"
 
@@ -124,8 +134,8 @@ $CMAKE ${COPASI_CMAKE_OPTIONS} \
   -DLIBSBML_STATIC=ON \
   -DLIBSEDML_SHARED_VERSION=OFF \
   -DLIBSEDML_SKIP_SHARED_LIBRARY=ON \
-  -DLIBSEDML_DEPENDENCY_DIR=$BASE_DIR/bin \
-  -DEXTRA_LIBS=$BASE_DIR/lib/libexpat.a \
+  -DLIBSEDML_DEPENDENCY_DIR=$DIRECTORY/bin \
+  -DEXTRA_LIBS=$DIRECTORY/lib/libexpat.a \
   $DIRECTORY/src/libSEDML
 make -j
 make install
