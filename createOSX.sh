@@ -6,7 +6,7 @@ DIRECTORY=$(cd `dirname $0` && pwd)
 #Default Values:
 BUILD_TYPE=${BUILD_TYPE:="Release"}
 CMAKE=${CMAKE:="cmake"}
-QMAKESPEC${QMAKESPEC:="macx-g++"}
+QMAKESPEC=${QMAKESPEC:="macx-g++"}
 
 export QMAKESPEC
 
