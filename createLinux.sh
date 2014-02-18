@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 
 DIRECTORY=$(cd `dirname $0` && pwd)
