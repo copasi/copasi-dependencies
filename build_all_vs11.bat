@@ -4,7 +4,7 @@ REM Utility script building all VS11 release / debug projects
 REM 
 
 SET THIS_DIR=%~dp0
-SET VC_VARS=c:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
+SET VC_VARS=%ProgramFiles(x86)%\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
 
 REM set up 32bit environment
 call  "%VC_VARS%" x86
