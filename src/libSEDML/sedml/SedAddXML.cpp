@@ -5,9 +5,10 @@
  *
  * <!--------------------------------------------------------------------------
  * This file is part of libSEDML.  Please visit http://sed-ml.org for more
- * information about SEDML, and the latest version of libSEDML.
+ * information about SED-ML. The latest version of libSEDML can be found on 
+ * github: https://github.com/fbergmann/libSEDML/
  *
- * Copyright (c) 2013, Frank T. Bergmann  
+ * Copyright (c) 2013-2014, Frank T. Bergmann  
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -229,7 +230,7 @@ SedAddXML::hasRequiredAttributes () const
 }
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygen-libsedml-internal */
 
 /*
  * write contained elements
@@ -238,13 +239,20 @@ void
 SedAddXML::writeElements (XMLOutputStream& stream) const
 {
 	SedChange::writeElements(stream);
+	if (isSetNewXML() == true)
+	{
+		stream.startElement("newXML");
+		stream << *mNewXML;
+		stream.endElement("newXML");
+
+	}
 }
 
 
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygen-libsedml-internal */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygen-libsedml-internal */
 
 /*
  * Accepts the given SedVisitor.
@@ -257,10 +265,10 @@ SedAddXML::accept (SedVisitor& v) const
 }
 
 
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygen-libsedml-internal */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygen-libsedml-internal */
 
 /*
  * Sets the parent SedDocument.
@@ -272,10 +280,10 @@ SedAddXML::setSedDocument (SedDocument* d)
 }
 
 
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygen-libsedml-internal */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygen-libsedml-internal */
 
 /*
  * Get the list of expected attributes for this element.
@@ -289,10 +297,10 @@ SedAddXML::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 
 
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygen-libsedml-internal */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygen-libsedml-internal */
 
 /*
  * Read values from the given XMLAttributes set into their specific fields.
@@ -308,10 +316,38 @@ SedAddXML::readAttributes (const XMLAttributes& attributes,
 }
 
 
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygen-libsedml-internal */
 
 
-/** @cond doxygen-libsbml-internal */
+/** @cond doxygen-libsedml-internal */
+
+bool
+SedAddXML::readOtherXML (XMLInputStream& stream)
+{
+	bool          read = false;
+	const string& name = stream.peek().getName();
+
+	if (name == "newXML")
+	{
+		const XMLToken& token = stream.next();
+		stream.skipText();
+		mNewXML = new XMLNode(stream);
+		stream.skipPastEnd(token);
+		read = true;
+	}
+
+	if (SedChange::readOtherXML(stream))
+	{
+		read = true;
+	}
+	return read;
+}
+
+
+/** @endcond doxygen-libsedml-internal */
+
+
+/** @cond doxygen-libsedml-internal */
 
 /*
  * Write values of XMLAttributes to the output stream.
@@ -321,13 +357,10 @@ SedAddXML::writeAttributes (XMLOutputStream& stream) const
 {
 	SedChange::writeAttributes(stream);
 
-	if (isSetNewXML() == true)
-		stream.writeAttribute("newXML", getPrefix(), mNewXML);
-
 }
 
 
-/** @endcond doxygen-libsbml-internal */
+/** @endcond doxygen-libsedml-internal */
 
 
 /**
