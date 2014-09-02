@@ -4,6 +4,7 @@ REM Utility script building all VS9 release / debug projects
 REM 
 
 SET THIS_DIR=%~dp0
+Setlocal EnableDelayedExpansion
 
 REM set up 64bit environment
 @SET WindowsSdkDir=C:\Program Files\Microsoft SDKs\Windows\v6.0A\

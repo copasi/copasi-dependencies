@@ -4,6 +4,7 @@ REM Utility script building all intel release / debug projects
 REM 
 
 SET THIS_DIR=%~dp0
+Setlocal EnableDelayedExpansion
 SET VC_VARS=C:\Program Files (x86)\Intel\Compiler\11.1\048\bin\iclvars.bat
 
 REM set up 64bit environment

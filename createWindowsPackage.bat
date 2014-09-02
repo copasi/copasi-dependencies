@@ -1,5 +1,5 @@
 @echo off
-
+Setlocal EnableDelayedExpansion
 rmdir /S /Q tmp
 
 set CMAKE_OVERRIDES="-DWITH_STATIC_RUNTIME=OFF"

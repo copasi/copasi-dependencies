@@ -6,6 +6,7 @@ REM
 SET THIS_DIR=%~dp0
 SET VC_VARS=%ProgramFiles(x86)%\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
 SET CMAKE_OVERRIDES=-DWITH_STATIC_RUNTIME=ON 
+Setlocal EnableDelayedExpansion
 
 REM set up 32bit environment
 call  "%VC_VARS%" x86
