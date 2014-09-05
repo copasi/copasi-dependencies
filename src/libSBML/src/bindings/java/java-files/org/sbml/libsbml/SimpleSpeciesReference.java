@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's SimpleSpeciesReference
- * construct.
+ *  Abstract class for references to species in reactions.
  <p>
  * As mentioned in the description of {@link Reaction}, every species that enters
  * into a given reaction must appear in that reaction's lists of reactants,
@@ -166,8 +165,8 @@ public class SimpleSpeciesReference extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setSpecies(String sid) {
@@ -183,15 +182,14 @@ public class SimpleSpeciesReference extends SBase {
    * <p>
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter .= 'a'..'z','A'..'Z'
  * digit  .= '0'..'9'
  * idChar .= letter | digit | '_'
- * SId    .= ( letter | '_' ) idChar*
- * </pre>
+ * SId    .= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -207,9 +205,9 @@ public class SimpleSpeciesReference extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    * </ul>
    */ public
  int setId(String sid) {
@@ -228,9 +226,9 @@ public class SimpleSpeciesReference extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    * </ul>
    */ public
  int setName(String name) {
@@ -245,8 +243,8 @@ public class SimpleSpeciesReference extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetId() {
@@ -261,8 +259,8 @@ public class SimpleSpeciesReference extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetName() {
@@ -283,10 +281,11 @@ public class SimpleSpeciesReference extends SBase {
 
   
 /**
-   * Renames all the <code>SIdRef</code> attributes on this element, including any
-   * found in MathML.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>SIdRef</code> type attribute value with another
+ * value.
+ <p>
+ * <p>
  * In SBML, object identifiers are of a data type called <code>SId</code>.
  * In SBML Level&nbsp;3, an explicit data type called <code>SIdRef</code> was
  * introduced for attribute values that refer to <code>SId</code> values; in
@@ -296,14 +295,15 @@ public class SimpleSpeciesReference extends SBase {
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of 
-   * <code>oldid</code>.  If any matches are found, the matching identifiers are replaced
-   * with <code>newid</code>.  The method does <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of <code>oldid</code>.  If any matches are found, the
+ * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
+ * descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.SimpleSpeciesReference_renameSIdRefs(swigCPtr, this, oldid, newid);

@@ -175,10 +175,68 @@ Returns the number of ids in this IdList.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html 
-@internal
+@htmlinclude pkg-marker-core.html Base class for filter functions.
+@htmlinclude libsbml-facility-only-warning.html
+Some libSBML objects provide the ability to return lists of components.
+To provide callers with greater control over exactly what is
+returned, these methods take optional arguments in the form of filters.
+The ElementFilter class is the parent class for these filters.
 
 =over
+
+
+=item ElementFilter::ElementFilter
+
+Creates a new ElementFilter object.
+
+
+=item ElementFilter::filter
+
+Predicate to test elements.
+This is the central predicate of the ElementFilter class.  In subclasses
+of ElementFilter, callers should implement this method such that it
+returns C<true> for C<element> arguments that are "desirable" and @c
+false for those that are "undesirable" in whatever filtering context the
+ElementFilter subclass is designed to be used.
+@param element the element to be tested.
+@return C<true> if the C<element> is desirable or should be kept,
+C<false> otherwise.
+
+
+=item ElementFilter::getUserData
+
+Returns the user data that has been previously set via setUserData().
+Callers can attach private data to ElementFilter objects using
+setUserData().  This user data can be used by an application to store
+custom information to be accessed by the ElementFilter in its work.  In
+case of a deep copy, the data will passed as it is.  The attribute will
+never be interpreted by libSBML.
+@return the user data of this node, or C<NULL> if no user data has been
+set.
+
+@warning This <em>user data</em> is specific to an ElementFilter object
+instance, and is not the same as the user data that may be attached to
+an SBML object using SBase::setUserData().
+@see setUserData()
+
+
+=item ElementFilter::setUserData
+
+Sets the user data of this element.
+Callers can attach private data to ElementFilter objects using this
+method, and retrieve them using getUserData().  Such user data can be
+used by an application to store information to be accessed by the
+ElementFilter in its work.  In case of a deep copy, this data will
+passed as it is.  The attribute will never be interpreted by libSBML.
+@param userData specifies the new user data.
+@return integer value indicating success/failure of the
+function.  The possible values returned by this function are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@warning This <em>user data</em> is specific to an ElementFilter object
+instance, and is not the same as the user data that may be attached to
+an SBML object using SBase::setUserData().
+@see getUserData()
 
 
 =back
@@ -187,42 +245,43 @@ Returns the number of ids in this IdList.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Methods for reading SBML from files and text strings.
+@htmlinclude pkg-marker-core.html File and text-string SBML reader.
 @htmlinclude not-sbml-warning.html
-The SBMLReader class provides the main interface for reading SBML
-content from files and strings.  The methods for reading SBML all return
-an SBMLDocument object representing the results.
-In the case of failures (such as if the SBML contains errors or a file
-cannot be read), the errors will be recorded with the SBMLErrorLog
-object kept in the SBMLDocument returned by SBMLReader.  Consequently,
-immediately after calling a method on SBMLReader, callers should always
-check for errors and warnings using the methods for this purpose
-provided by SBMLDocument.
+The SBMLReader class provides the main interface for reading SBML content
+from files and strings.  The methods for reading SBML all return an
+@if python @link libsbml.SBMLDocument SBMLDocument@endlink@else SBMLDocument@endif@~
+object representing the results.  In the case of failures (such as if the
+SBML contains errors or a file cannot be read), the errors will be
+recorded with the SBMLErrorLog object kept in the
+@if python @link libsbml.SBMLDocument SBMLDocument@endlink@else SBMLDocument@endif@~
+returned by SBMLReader.  Consequently, immediately after calling a method
+on SBMLReader, callers should always check for errors and warnings using
+the methods for this purpose provided by @if python @link
+libsbml.SBMLDocument SBMLDocument@endlink@else SBMLDocument@endif.
 For convenience as well as easy access from other languages besides C++,
-this file also defines two global functions,
-libsbml::readSBML(@if java String filename@endif)
-and libsbml::readSBMLFromString(@if java String xml@endif).
-They are equivalent to creating an SBMLReader
-object and then calling the
-SBMLReader::readSBML(@if java String filename@endif) or
-SBMLReader::readSBMLFromString(@if java String xml@endif)
-methods, respectively.
+this file also defines two global functions, @sbmlfunction{readSBML,
+String} and @sbmlfunction{readSBMLFromString, String}.  They are
+equivalent to creating an SBMLReader object and then calling the
+@if python @link SBMLReader::readSBML() SBMLReader.readSBML()@endlink@endif@if java SBMLReader::readSBML(String)@endif@if cpp SBMLReader::readSBML()@endif@if csharp SBMLReader.readSBML()@endif@~ and
+@if python @link SBMLReader::readSBMLFromString() SBMLReader.readSBMLFromString()@endlink@endif@if java SBMLReader::readSBMLFromString(String)@endif@if cpp SBMLReader::readSBMLFromString()@endif@if csharp SBMLReader.readSBMLFromString()@endif@~ methods, respectively.
 @section compression Support for reading compressed files
 LibSBML provides support for reading (as well as writing) compressed
 SBML files.  The process is transparent to the calling
-application&mdash;the application does not need to do anything
+application---the application does not need to do anything
 deliberate to invoke the functionality.  If a given SBML filename ends
 with an extension for the I<gzip>, I<zip> or I<bzip2> compression
 formats (respectively, @c .gz, @c .zip, or @c .bz2), then the methods
-SBMLReader::readSBML(@if java String filename@endif) and
-SBMLWriter::writeSBML(@if java SBMLDocument d, String filename@endif)
-will automatically decompress and compress the file while writing and
-reading it.  If the filename has no such extension, it
-will be read and written uncompressed as normal.
+@if python @link SBMLReader::readSBML() SBMLReader.readSBML()@endlink@endif@if java @link SBMLReader::readSBML(String) SBMLReader.readSBML(String)@endlink@endif@if cpp SBMLReader::readSBML()@endif@if csharp SBMLReader.readSBML()@endif@~ and
+@if python @link SBMLWriter::writeSBML() SBMLWriter.writeSBML()@endlink@endif@if java @link SBMLWriter::writeSBML(String) SBMLWriter.writeSBML(String)@endlink@endif@if cpp SBMLWriter::writeSBML()@endif@if csharp SBMLWriter.writeSBML()@endif@~
+will automatically decompress and compress the file while reading and
+writing it.  If the filename has no such extension, it will be read and
+written uncompressed as normal.
 The compression feature requires that the I<zlib> (for I<gzip> and @em
 zip formats) and/or I<bzip2> (for I<bzip2> format) be available on the
 system running libSBML, and that libSBML was configured with their
-support compiled-in.  Please see the libSBML @if clike <a href="libsbml-installation.html">installation instructions</a> @endif@if python <a href="libsbml-installation.html">installation instructions</a> @endif@if java  <a href="../../../libsbml-installation.html">installation instructions</a> @endif@~ for more information about this.  The methods
+support compiled-in.  Please see the libSBML
+@if java <a href="../../../libsbml-installation.html">installation instructions</a> @else <a href="libsbml-installation.html">installation instructions</a>@endif@~
+for more information about this.  The methods
 @if java SBMLReader::hasZlib()@else hasZlib()@endif@~ and
 @if java SBMLReader::hasBzip2()@else hasBzip2()@endif@~
 can be used by an application to query at run-time whether support
@@ -238,223 +297,47 @@ are being communicated across data links of limited bandwidth.
 
 =item SBMLReader::SBMLReader
 
-Creates a new SBMLReader and returns it. 
-The libSBML SBMLReader objects offer methods for reading SBML in
+Creates a new SBMLReader object and returns it.
+The libSBML SBMLReader object offers methods for reading SBML in
 XML form from files and text strings.
 
 
 =item SBMLReader::readSBML
 
-Reads an SBML document from a file.
-This method is identical to SBMLReader::readSBMLFromFile(@if java String filename@endif).
-If the file named C<filename> does not exist or its content is not
-valid SBML, one or more errors will be logged with the SBMLDocument
-object returned by this method.  Callers can use the methods on
-SBMLDocument such as SBMLDocument::getNumErrors() and
-SBMLDocument::getError(@if java long n@endif) to get the errors.  The object returned by
-SBMLDocument::getError(@if java long n@endif) is an SBMLError object, and it has methods to
-get the error code, category, and severity level of the problem, as
-well as a textual description of the problem.  The possible severity
-levels range from informational messages to fatal errors; see the
-documentation for SBMLError for more information.
-If the file C<filename> could not be read, the file-reading error will
-appear first.  The error code @if clike (a value drawn from the enumeration
-#XMLErrorCode_t) @endif@~ can provide a clue about what happened.  For example,
-a file might be unreadable (either because it does not actually exist
-or because the user does not have the necessary access priviledges to
-read it) or some sort of file operation error may have been reported
-by the underlying operating system.  Callers can check for these
-situations using a program fragment such as the following:
-@if clike
-@verbatim
-SBMLReader reader;
-SBMLDocument  doc  = reader.readSBMLFromFile(filename);
-if (doc->getNumErrors() E<gt> 0)
-{
-if (doc->getError(0)->getErrorId() == XMLError::XMLFileUnreadable)
-{
-// Handle case of unreadable file here.
-} 
-else if (doc->getError(0)->getErrorId() == XMLError::XMLFileOperationError)
-{
-// Handle case of other file operation error here.
-}
-else
-{
-// Handle other cases -- see error codes defined in XMLErrorCode_t
-// for other possible cases to check.
-}
-}
-@endverbatim
-@endif@if java
-@verbatim
-SBMLReader reader = new SBMLReader();
-SBMLDocument doc  = reader.readSBMLFromFile(filename);
-if (doc.getNumErrors() E<gt> 0)
-{
-if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileUnreadable)
-{
-// Handle case of unreadable file here.
-} 
-else if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileOperationError)
-{
-// Handle case of other file operation error here.
-}
-else
-{
-// Handle other error cases.
-}
-}
-@endverbatim
-@endif@if python
-@verbatim
-reader = SBMLReader()
-doc    = reader.readSBMLFromFile(filename)
-if doc.getNumErrors() E<gt> 0:
-if doc.getError(0).getErrorId() == libsbml.XMLFileUnreadable:
-# Handle case of unreadable file here.
-elif doc.getError(0).getErrorId() == libsbml.XMLFileOperationError:
-# Handle case of other file error here.
-else:
-# Handle other error cases here.
-@endverbatim
-@endif@if csharp
-@verbatim
-SBMLReader reader = new SBMLReader();
-SBMLDocument doc = reader.readSBMLFromFile(filename);
-if (doc.getNumErrors() E<gt> 0)
-{
-if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
-{
-// Handle case of unreadable file here.
-}
-else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
-{
-// Handle case of other file operation error here.
-}
-else
-{
-// Handle other cases -- see error codes defined in XMLErrorCode_t
-// for other possible cases to check.
-}
-}
-@endverbatim
-@endif@~
-C<opydetails> doc_sbmlreader_if_compressed
-C<opydetails> doc_config_for_reading_zipped_files
+C<opydoc> doc_readsbmlfromfile
+This method is identical to
+@if python @link SBMLReader::readSBMLFromFile() SBMLReader.readSBMLFromFile()@endlink@endif@if java @link SBMLReader::readSBMLFromFile(String) SBMLReader.readSBMLFromFile(String)@endlink@endif@if cpp SBMLReader::readSBMLFromFile()@endif@if csharp SBMLReader.readSBMLFromFile()@endif.
 @param filename the name or full pathname of the file to be read.
-@return a pointer to the SBMLDocument created from the SBML content.
+@return a pointer to the SBMLDocument object created from the SBML
+content in C<filename>.
 C<opydetails> doc_note_sbmlreader_error_handling
+@see readSBMLFromString(@if java String@endif)
 @see SBMLError
 @see SBMLDocument
 
 
 =item SBMLReader::readSBMLFromFile
 
-Reads an SBML document from a file.
-This method is identical to SBMLReader::readSBML(@if java String filename@endif).
-If the file named C<filename> does not exist or its content is not
-valid SBML, one or more errors will be logged with the SBMLDocument
-object returned by this method.  Callers can use the methods on
-SBMLDocument such as SBMLDocument::getNumErrors() and
-SBMLDocument::getError(@if java long n@endif) to get the errors.  The object returned by
-SBMLDocument::getError(@if java long n@endif) is an SBMLError object, and it has methods to
-get the error code, category, and severity level of the problem, as
-well as a textual description of the problem.  The possible severity
-levels range from informational messages to fatal errors; see the
-documentation for SBMLError for more information.
-If the file C<filename> could not be read, the file-reading error will
-appear first.  The error code @if clike (a value drawn from the enumeration
-#XMLErrorCode_t)@endif@~ can provide a clue about what happened.  For example,
-a file might be unreadable (either because it does not actually exist
-or because the user does not have the necessary access priviledges to
-read it) or some sort of file operation error may have been reported
-by the underlying operating system.  Callers can check for these
-situations using a program fragment such as the following:
-@if clike
-@verbatim
-SBMLReader  reader = new SBMLReader();
-SBMLDocument  doc  = reader.readSBML(filename);
-if (doc->getNumErrors() E<gt> 0)
-{
-if (doc->getError(0)->getErrorId() == XMLError::FileUnreadable)
-{
-// Handle case of unreadable file here.
-} 
-else if (doc->getError(0)->getErrorId() == XMLError::FileOperationError)
-{
-// Handle case of other file operation error here.
-}
-else
-{
-// Handle other cases -- see error codes defined in XMLErrorCode_t
-// for other possible cases to check.
-}
-}
-@endverbatim
-@endif@if java
-@verbatim
-SBMLReader reader = new SBMLReader();
-SBMLDocument doc  = reader.readSBMLFromFile(filename);
-if (doc.getNumErrors() E<gt> 0)
-{
-if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileUnreadable)
-{
-// Handle case of unreadable file here.
-} 
-else if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileOperationError)
-{
-// Handle case of other file operation error here.
-}
-else
-{
-// Handle other error cases.
-}
-}
-@endverbatim
-@endif@if python
-@verbatim
-reader = SBMLReader()
-doc    = reader.readSBMLFromFile(filename)
-if doc.getNumErrors() E<gt> 0:
-if doc.getError(0).getErrorId() == libsbml.XMLFileUnreadable:
-# Handle case of unreadable file here.
-elif doc.getError(0).getErrorId() == libsbml.XMLFileOperationError:
-# Handle case of other file error here.
-else:
-# Handle other error cases here.
-@endverbatim
-@endif@~
-C<opydetails> doc_sbmlreader_if_compressed
-C<opydetails> doc_config_for_reading_zipped_files
+C<opydoc> doc_readsbmlfromfile
+This method is identical to
+@if python @link SBMLReader::readSBML() SBMLReader.readSBML()@endlink@endif@if java @link SBMLReader::readSBML(String) SBMLReader.readSBML(String)@endlink@endif@if cpp SBMLReader::readSBML()@endif@if csharp SBMLReader.readSBML()@endif.
 @param filename the name or full pathname of the file to be read.
-@return a pointer to the SBMLDocument created from the SBML content.
+@return a pointer to the SBMLDocument object created from the SBML
+content in C<filename>.
 C<opydetails> doc_note_sbmlreader_error_handling
+@see readSBMLFromString(@if java String@endif)
 @see SBMLError
 @see SBMLDocument
 
 
 =item SBMLReader::readSBMLFromString
 
-Reads an SBML document from the given XML string.
-This method is flexible with respect to the presence of an XML
-declaration at the beginning of the string.  In particular, if the
-string in C<xml> does not begin with the XML declaration
-C<&lt;?xml version='1.0' encoding='UTF-8'?&gt;>, then this
-method will automatically prepend the declaration to C<xml>.
-This method will log a fatal error if the content given in the
-parameter C<xml> is not SBML.  See the method documentation for
-SBMLReader::readSBML(@if java String filename@endif)
-for an example of code for testing the returned error code.
+C<opydoc> doc_readsbmlfromstring
 @param xml a string containing a full SBML model
-@return a pointer to the SBMLDocument created from the SBML content.
-@note When using this method to read an SBMLDocument that uses 
-the SBML L3 Hierarchical Model Composition package (comp) the
-document location cannot be set automatically. Thus, if the model
-contains references to ExternalModelDefinitions, it will be necessary
-to manually set the document URI location (setLocationURI) in order 
-to facilitate resolving these models.
-@see SBMLReader::readSBML(@if java String filename@endif)
+@return a pointer to the SBMLDocument created from the SBML content,
+or a null pointer if C<xml> is null.
+C<opydetails> doc_note_reading_comp
+@see SBMLReader::readSBML(@if java String@endif)
 
 
 =item SBMLReader::hasZlib
@@ -464,7 +347,7 @@ Static method; returns C<true> if this copy of libSBML supports
 @return C<true> if libSBML has been linked with the <i>zlib</i>
 library, C<false> otherwise.
 C<opydetails> doc_note_static_methods
-@see @if clike hasBzip2() @else SBMLReader::hasBzip2() @endif@~
+@see @if clike hasBzip2() @else SBMLReader::hasBzip2()@endif@~
 
 
 =item SBMLReader::hasBzip2
@@ -474,7 +357,7 @@ Static method; returns C<true> if this copy of libSBML supports
 @return C<true> if libSBML is linked with the <i>bzip2</i>
 libraries, C<false> otherwise.
 C<opydetails> doc_note_static_methods
-@see @if clike hasZlib() @else SBMLReader::hasZlib() @endif@~
+@see @if clike hasZlib() @else SBMLReader::hasZlib()@endif@~
 
 
 =item SBMLReader::readInternal
@@ -482,44 +365,12 @@ C<opydetails> doc_note_static_methods
 @internal
 
 Used by readSBML() and readSBMLFromString().
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html@endif@~
 
 
 =item readSBML
 
-Reads an SBML document from the given file C<filename>.
-If C<filename> does not exist, or it is not an SBML file, an error will
-be logged in the error log of the SBMLDocument object returned by this
-method.  Calling programs can inspect this error log to determine
-the nature of the problem.  Please refer to the definition of
-SBMLDocument_t for more information about the error reporting mechanism.
-<code>
-SBMLReader_t    sr;\n
-SBMLDocument_t  d;
-sr = SBMLReader_create();
-d = SBMLReader_readSBML(reader, filename);
-if (SBMLDocument_getNumErrors(d) E<gt> 0)\n
-{\n
-if (XMLError_getId(SBMLDocument_getError(d, 0))
-== SBML_READ_ERROR_FILE_NOT_FOUND)\n
-if (XMLError_getId(SBMLDocument_getError(d, 0))
-== SBML_READ_ERROR_NOT_SBML)\n
-}\n
-</code>
-If the filename ends with @em .gz, the file will be read as a I<gzip> file.
-Similary, if the filename ends with @em .zip or @em .bz2, the file will be
-read as a I<zip> or I<bzip2> file, respectively. Otherwise, the fill will be
-read as an uncompressed file.
-If the filename ends with @em .zip, only the first file in the archive will
-be read if the zip archive contains two or more files.
-To read a gzip/zip file, underlying libSBML needs to be linked with zlib
-at compile time. Also, underlying libSBML needs to be linked with bzip2 
-to read a bzip2 file. File unreadable error will be logged if a compressed 
-file name is given and underlying libSBML is not linked with the corresponding 
-required library.
-SBMLReader_hasZlib() and SBMLReader_hasBzip2() can be used to check 
-whether libSBML is linked with each library.
-@return a pointer to the SBMLDocument read.
+C<opydoc> doc_readsbmlfromfile
 @if conly
 @memberof SBMLReader_t
 @endif
@@ -527,39 +378,10 @@ whether libSBML is linked with each library.
 
 =item readSBMLFromFile
 
-Reads an SBML document from the given file C<filename>.
-If C<filename> does not exist, or it is not an SBML file, an error will
-be logged in the error log of the SBMLDocument object returned by this
-method.  Calling programs can inspect this error log to determine
-the nature of the problem.  Please refer to the definition of
-SBMLDocument_t for more information about the error reporting mechanism.
-<code>
-SBMLReader_t    sr;\n
-SBMLDocument_t  d;
-sr = SBMLReader_create();
-d = SBMLReader_readSBML(reader, filename);
-if (SBMLDocument_getNumErrors(d) E<gt> 0)\n
-{\n
-if (XMLError_getId(SBMLDocument_getError(d, 0))
-== SBML_READ_ERROR_FILE_NOT_FOUND)\n
-if (XMLError_getId(SBMLDocument_getError(d, 0))
-== SBML_READ_ERROR_NOT_SBML)\n
-}\n
-</code>
-If the filename ends with @em .gz, the file will be read as a I<gzip> file.
-Similary, if the filename ends with @em .zip or @em .bz2, the file will be
-read as a I<zip> or I<bzip2> file, respectively. Otherwise, the fill will be
-read as an uncompressed file.
-If the filename ends with @em .zip, only the first file in the archive will
-be read if the zip archive contains two or more files.
-To read a gzip/zip file, underlying libSBML needs to be linked with zlib
-at compile time. Also, underlying libSBML needs to be linked with bzip2 
-to read a bzip2 file. File unreadable error will be logged if a compressed 
-file name is given and underlying libSBML is not linked with the corresponding 
-required library.
-SBMLReader_hasZlib() and SBMLReader_hasBzip2() can be used to check 
-whether libSBML is linked with each library.
-@return a pointer to the SBMLDocument read.
+C<opydoc> doc_readsbmlfromfile
+@param filename the name or full pathname of the file to be read.
+@return a pointer to the SBMLDocument structure created from the SBML
+content in C<filename>.
 @if conly
 @memberof SBMLReader_t
 @endif
@@ -567,24 +389,11 @@ whether libSBML is linked with each library.
 
 =item readSBMLFromString
 
-Reads an SBML document from the given XML string C<xml>.
-If the string does not begin with XML declaration,
-@verbatim
-<?xml version='1.0' encoding='UTF-8'?>
-@endverbatim
-an XML declaration string will be prepended.
-This method will report an error if the given string C<xml> is not SBML.
-The error will be logged in the error log of the SBMLDocument_t structure
-returned by this method.  Calling programs can inspect this error log to
-determine the nature of the problem.  Please refer to the definition of
-SBMLDocument for more information about the error reporting mechanism.
-@return a pointer to the SBMLDocument_t read.
-@note When using this method to read an SBMLDocument that uses 
-the SBML L3 Hierarchical Model Composition package (comp) the
-document location cannot be set automatically. Thus, if the model
-contains references to ExternalModelDefinitions, it will be necessary
-to manually set the document URI location (setLocationURI) in order 
-to facilitate resolving these models.
+C<opydoc> doc_readsbmlfromstring
+@param xml a string containing a full SBML model
+@return a pointer to the SBMLDocument structure created from the SBML
+content in C<xml>.
+C<opydetails> doc_note_reading_comp
 @if conly
 @memberof SBMLReader_t
 @endif
@@ -596,24 +405,24 @@ to facilitate resolving these models.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Methods for writing SBML to files and text strings.
+@htmlinclude pkg-marker-core.html File and text-string SBML writer.
 @htmlinclude not-sbml-warning.html
 The SBMLWriter class is the converse of SBMLReader, and provides the
 main interface for serializing SBML models into XML and writing the
 result to an output stream or to files and text strings.  The methods 
 for writing SBML all take an SBMLDocument object and a destination.  
 They return a boolean or integer value to indicate success or failure.
-@section compression Support for writing compressed files
+@section sbmlwriter-compression Support for writing compressed files
 LibSBML provides support for writing (as well as reading) compressed
 SBML files.  The process is transparent to the calling
-application&mdash;the application does not need to do anything
+application---the application does not need to do anything
 deliberate to invoke the functionality.  If a given SBML filename ends
 with an extension for the I<gzip>, I<zip> or I<bzip2> compression
 formats (respectively, C<&quot;.gz&quot;>,
 C<&quot;.zip&quot;>, or C<&quot;.bz2&quot;>),
 then the methods
-SBMLWriter::writeSBML(@if java SBMLDocument d, String filename@endif)
-and SBMLReader::readSBML(@if java String filename@endif)
+SBMLWriter::writeSBML(@if java SBMLDocument, String@endif)
+and SBMLReader::readSBML(@if java String@endif)
 will automatically compress and decompress the file while writing and
 reading it.  If the filename has no such extension, it
 will be written and read uncompressed as normal.
@@ -647,7 +456,7 @@ XML form to files and text strings.
 Sets the name of this program, i.e., the program that is about to
 write out the SBMLDocument.
 If the program name and version are set (see
-SBMLWriter::setProgramVersion(@if java String version@endif)), the
+SBMLWriter::setProgramVersion(@if java String@endif)), the
 following XML comment, intended for human consumption, will be written
 at the beginning of the XML document:
 @verbatim
@@ -662,7 +471,7 @@ program in which libSBML is embedded, not libSBML itself!)
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see setProgramVersion(const std::string& version)
 
 
@@ -671,7 +480,7 @@ returned by this function are:
 Sets the version of this program, i.e., the program that is about to
 write out the SBMLDocument.
 If the program version and name are set (see
-SBMLWriter::setProgramName(@if java String name@endif)), the
+SBMLWriter::setProgramName(@if java String@endif)), the
 following XML comment, intended for human consumption, will be written
 at the beginning of the document:
 @verbatim
@@ -686,7 +495,7 @@ refers to program in which libSBML is embedded, not libSBML itself!)
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see setProgramName(const std::string& name)
 
 
@@ -888,9 +697,7 @@ allowed to modify it.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBase, the base class of most SBML
-objects.
-
+@htmlinclude pkg-marker-core.html SBML's <em>%SBase</em>, the base class of most SBML objects.
 Most components in SBML are derived from a single abstract base type,
 SBase.  In addition to serving as the parent class for most other
 classes of objects in SBML, this base type is designed to allow a
@@ -943,7 +750,7 @@ href="http://www.w3.org/TR/REC-xml/#id">XML ID</a>, the XML identifier
 type, which means each "metaid" value must be globally unique within an
 SBML file.  (Importantly, this uniqueness criterion applies across any
 attribute with type <a href="http://www.w3.org/TR/REC-xml/#id">XML
-ID</a>, not just the "metaid" attribute used by SBML&mdash;something to
+ID</a>, not just the "metaid" attribute used by SBML---something to
 be aware of if your application-specific XML content inside the
 "annotation" subelement happens to use <a
 href="http://www.w3.org/TR/REC-xml/#id">XML ID</a>.)  The "metaid" value
@@ -987,7 +794,7 @@ Accepts the given SBMLVisitor for this SBase object.
 =item SBase::clone
 
 Creates and returns a deep copy of this SBase object.
-@return a (deep) copy of this SBase object.
+@return the (deep) copy of this SBase object.
 
 
 =item SBase::getElementBySId
@@ -1018,40 +825,17 @@ an arbitrary depth.
 
 =item SBase::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML content (if such exists).
-C<opydetails> doc_what_is_sidref 
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item SBase::renameMetaIdRefs
 
-Renames all the meta-identifier attributes on this element.
-C<opydetails> doc_what_is_metaidref
-This method works by looking at all meta-identifier attribute values,
-comparing the identifiers to the value of C<oldid>.  If any matches are
-found, the matching identifiers are replaced with C<newid>.  The method
-does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamemetasidref_common
 
 
 =item SBase::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref 
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item SBase::replaceSIDWithFunction
@@ -1062,7 +846,7 @@ If this object has a child 'math' object (or anything with ASTNodes in
 general), replace all nodes with the name 'id' with the provided
 function.
 
-@note This function does nothing itself&mdash;subclasses with ASTNode
+@note This function does nothing itself---subclasses with ASTNode
 subelements must override this function.
 
 
@@ -1073,7 +857,7 @@ subelements must override this function.
 If the function of this object is to assign a value has a child 'math'
 object (or anything with ASTNodes in general), replace the 'math'
 object with the function (existing/function).
-@note This function does nothing itself&mdash;subclasses with ASTNode
+@note This function does nothing itself---subclasses with ASTNode
 subelements must override this function.
 
 
@@ -1141,6 +925,8 @@ by this object and returns all child objects defined by those packages.
 @return a pointer to a List of pointers to all children objects from
 plug-ins.
 
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
+
 
 =item SBase::getMetaId
 
@@ -1191,7 +977,7 @@ tree structure composed of XMLNode objects.
 @see appendNotes(const XMLNode  notes)
 @see appendNotes(const std::string& notes)
 @see unsetNotes()
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::getNotes
@@ -1215,7 +1001,7 @@ tree structure composed of XMLNode objects.
 @see appendNotes(const XMLNode  notes)
 @see appendNotes(const std::string& notes)
 @see unsetNotes()
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::getNotesString
@@ -1239,7 +1025,7 @@ string.
 @see appendNotes(const XMLNode  notes)
 @see appendNotes(const std::string& notes)
 @see unsetNotes()
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::getNotesString
@@ -1263,7 +1049,7 @@ string.
 @see appendNotes(const XMLNode  notes)
 @see appendNotes(const std::string& notes)
 @see unsetNotes()
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::getAnnotation
@@ -1434,7 +1220,7 @@ from SBML Level&nbsp;3 packages.  Otherwise, the function will search the
 "core" namespace alone, not find any corresponding elements, and return 
 NULL.
 
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item SBase::getAncestorOfType
@@ -1475,7 +1261,7 @@ from SBML Level&nbsp;3 packages.  Otherwise, the function will search the
 "core" namespace alone, not find any corresponding elements, and return 
 NULL.
 
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item SBase::getSBOTerm
@@ -1659,7 +1445,7 @@ content must be structured.
 @see appendNotes(const XMLNode  notes)
 @see appendNotes(const std::string& notes)
 @see unsetNotes()
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::isSetAnnotation
@@ -1708,9 +1494,9 @@ The string C<metaid> is copied.
 "metaid" attribute
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @see getMetaId()
 @see isSetMetaId()
 
@@ -1766,7 +1552,7 @@ SBase::appendAnnotation(const std::string& annotation).
 of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see getAnnotationString()
 @see isSetAnnotation()
 @see setAnnotation(const std::string& annotation)
@@ -1805,8 +1591,8 @@ SBase::appendAnnotation(const std::string& annotation).
 of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see getAnnotationString()
 @see isSetAnnotation()
 @see setAnnotation(const XMLNode  annotation)
@@ -1840,8 +1626,8 @@ own data.
 to the content of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see getAnnotationString()
 @see isSetAnnotation()
 @see setAnnotation(const XMLNode  annotation)
@@ -1875,8 +1661,8 @@ own data.
 to the content of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see getAnnotationString()
 @see isSetAnnotation()
 @see setAnnotation(const XMLNode  annotation)
@@ -1904,10 +1690,10 @@ empty, and the removeEmpty argument is true, the annotation node will be
 deleted (default). 
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND @endlink
-@li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
+@li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
 @see replaceTopLevelAnnotationElement(const XMLNode  )
 @see replaceTopLevelAnnotationElement(const std::string&)
 
@@ -1928,9 +1714,9 @@ that the placement of the annotation element remains the same.
 @param annotation XMLNode representing the replacement top level annotation 
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see removeTopLevelAnnotationElement(const std::string elementName, const std::string elementURI)
 @see replaceTopLevelAnnotationElement(const std::string&)
 
@@ -1951,9 +1737,9 @@ that the placement of the annotation element remains the same.
 @param annotation string representing the replacement top level annotation 
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see removeTopLevelAnnotationElement(const std::string elementName, const std::string elementURI)
 @see replaceTopLevelAnnotationElement(const XMLNode )
 
@@ -1985,15 +1771,15 @@ content must be structured.
 "notes" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see getNotesString()
 @see isSetNotes()
 @see setNotes(const std::string& notes, bool addXHTMLMarkup)
 @see appendNotes(const XMLNode  notes)
 @see appendNotes(const std::string& notes)
 @see unsetNotes()
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::setNotes
@@ -2013,7 +1799,7 @@ comments to their models.
 The format of "notes" elements must be <a target="_blank"
 href="http://www.w3.org/TR/xhtml1/">XHTML&nbsp;1.0</a>.  To help
 verify the formatting of "notes" content, libSBML provides the static
-utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
@@ -2024,23 +1810,40 @@ The following code illustrates a very simple way of setting the notes
 using this method.  Here, the object being annotated is the whole SBML
 document, but that is for illustration purposes only; you could of
 course use this same approach to annotate any other SBML component.
-@if clike
-@verbatim
+@if cpp
+C<ode{>.cpp}
 SBMLDocument  s = new SBMLDocument(3, 1);
 s->setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>");
-@endverbatim
-@endif@if java
-@verbatim
+@endcode
+@endif
+@if java
+C<ode{>.java}
 SBMLDocument s = new SBMLDocument(3, 1);
 s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>");
-@endverbatim
-@endif@if csharp
-@verbatim
-SBMLDocument s = new SBMLDocument(3, 1);
-s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>");
-@endverbatim
-@endif@~
+@endcode
+@endif
+@if python
+C<ode{>.py}
+try:
+sbmlDoc = SBMLDocument(3, 1)
+except ValueError:
+print('Could not create SBMLDocument object')
+sys.exit(1)
 
+note = "<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>"
+status = sbmlDoc.setNotes(note)
+if status != LIBSBML_OPERATION_SUCCESS:
+# Do something to handle the error here.
+print("Unable to set notes on the SBML document object")
+sys.exit(1)
+@endcode
+@endif
+@if csharp
+C<ode>
+SBMLDocument s = new SBMLDocument(3, 1);
+s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>");
+@endcode
+@endif@~
 @param notes an XML string that is to be used as the content of the
 "notes" subelement of this object
 @param addXHTMLMarkup a boolean indicating whether to wrap the contents
@@ -2049,16 +1852,16 @@ tags.  This is appropriate when the string in C<notes> does not already
 containg the appropriate XHTML markup.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see getNotesString()
 @see isSetNotes()
 @see setNotes(const XMLNode  notes)
 @see appendNotes(const XMLNode  notes)
 @see appendNotes(const std::string& notes)
 @see unsetNotes()
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::appendNotes
@@ -2076,7 +1879,7 @@ comments to their models.
 The format of "notes" elements must be <a target="_blank"
 href="http://www.w3.org/TR/xhtml1/">XHTML&nbsp;1.0</a>.  To help
 verify the formatting of "notes" content, libSBML provides the static
-utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
@@ -2087,16 +1890,16 @@ content must be structured.
 of the "notes" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see getNotesString()
 @see isSetNotes()
 @see setNotes(const XMLNode  notes)
 @see setNotes(const std::string& notes, bool addXHTMLMarkup)
 @see appendNotes(const std::string& notes)
 @see unsetNotes()
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::appendNotes
@@ -2114,7 +1917,7 @@ comments to their models.
 The format of "notes" elements must be <a target="_blank"
 href="http://www.w3.org/TR/xhtml1/">XHTML&nbsp;1.0</a>.  To help
 verify the formatting of "notes" content, libSBML provides the static
-utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
@@ -2125,16 +1928,16 @@ content must be structured.
 the "notes" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see getNotesString()
 @see isSetNotes()
 @see setNotes(const XMLNode  notes)
 @see setNotes(const std::string& notes, bool addXHTMLMarkup)
 @see appendNotes(const XMLNode  notes)
 @see unsetNotes()
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::setModelHistory
@@ -2145,9 +1948,9 @@ history content is deleted.
 @param history ModelHistory of this object.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @note In SBML Level&nbsp;2, model history annotations were only
 permitted on the Model element.  In SBML Level&nbsp;3, they are
 permitted on all SBML components derived from SBase.
@@ -2214,10 +2017,10 @@ the use of SBO and the "sboTerm" attribute.
 @param value the NNNNNNN integer portion of the SBO identifier
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@see setSBOTerm(@if java String sbo_id@else const std::string &sboid@endif)
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@see setSBOTerm(@if java String@else const std::string &sboid@endif)
 
 
 =item SBase::setSBOTerm
@@ -2241,9 +2044,9 @@ the use of SBO and the "sboTerm" attribute.
 @param sboid the SBO identifier string of the form "SBO:NNNNNNN"
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @see setSBOTerm(int value)
 
 
@@ -2258,7 +2061,7 @@ information.  It is used to communicate the SBML Level, Version, and
 @param xmlns the namespaces to set
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item SBase::unsetMetaId
@@ -2267,9 +2070,9 @@ Unsets the value of the "metaid" attribute of this SBML object.
 C<opydetails> doc_what_is_metaid 
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SBase::unsetId
@@ -2281,8 +2084,8 @@ is used to identify the object within the SBML model definition.
 Other objects can refer to the component using this identifier.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SBase::unsetName
@@ -2320,8 +2123,8 @@ restrictions on the uniqueness of "name" values in a model.  This
 allows software applications leeway in assigning component identifiers.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SBase::unsetNotes
@@ -2338,7 +2141,7 @@ comments to their models.
 The format of "notes" elements must be <a target="_blank"
 href="http://www.w3.org/TR/xhtml1/">XHTML&nbsp;1.0</a>.  To help
 verify the formatting of "notes" content, libSBML provides the static
-utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
@@ -2347,14 +2150,14 @@ specifications have considerable detail about how "notes" element
 content must be structured.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see getNotesString()
 @see isSetNotes()
 @see setNotes(const XMLNode  notes)
 @see setNotes(const std::string& notes, bool addXHTMLMarkup)
 @see appendNotes(const XMLNode  notes)
 @see appendNotes(const std::string& notes)
-@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+@see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
 
 
 =item SBase::unsetAnnotation
@@ -2375,7 +2178,7 @@ the data as well as help reduce conflicts between annotations added by
 different tools.  Please see the SBML specifications for more details.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see getAnnotation()
 @see getAnnotationString()
 @see isSetAnnotation()
@@ -2390,8 +2193,8 @@ function.  The possible values returned by this function are:
 Unsets the value of the "sboTerm" attribute of this SBML object.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item SBase::addCVTerm
@@ -2403,16 +2206,16 @@ as a previous bag, and if C<false>, adds the term to an existing
 RDF bag with the same type of qualifier as the term being added.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink, if
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
 this object lacks a "metaid" attribute
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @note Since the CV Term uses the "metaid" attribute of the object as a
 reference, if the object has no "metaid" attribute value set, then the
 CVTerm will not be added.
 C<opydetails> doc_note_object_is_copied
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item SBase::getCVTerms
@@ -2453,8 +2256,8 @@ object.
 Clears the list of CVTerm objects attached to this SBML object.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SBase::unsetModelHistory
@@ -2462,9 +2265,9 @@ function.  The possible values returned by this function are:
 Unsets the ModelHistory object attached to this object.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note In SBML Level&nbsp;2, model history annotations were only
 permitted on the Model element.  In SBML Level&nbsp;3, they are
 permitted on all SBML components derived from SBase.
@@ -2589,9 +2392,7 @@ names begin with C<BQB_> in the interface class
 C<"http://www.geneontology.org/#GO:0005892">.
 
 @return the @if clike #ModelQualifierType_t value@else model qualifier
-type@endif@~ associated with the resource, or @link
-ModelQualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink if the resource
-does not exist.
+type@endif@~ associated with the resource, or @link   ModelQualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink if the resource does not exist.
 @if clike
 @note The set of MIRIAM biological qualifiers grows over
 time, although relatively slowly.  The values in the enumeration
@@ -2632,7 +2433,7 @@ Returns the Model object for the SBML Document in which the current object is lo
 
 =item SBase::getLevel
 
-Returns the SBML Level of the SBMLDocument object containing this
+Returns the SBML Level of the SBMLDocument object containing I<this>
 object.
 
 C<opydetails> doc_what_is_SBMLDocument
@@ -2645,7 +2446,7 @@ C<opydetails> doc_what_is_SBMLDocument
 =item SBase::getVersion
 
 Returns the Version within the SBML Level of the SBMLDocument object
-containing this object.
+containing I<this> object.
 C<opydetails> doc_what_is_SBMLDocument
 @return the SBML version of this SBML object.
 @see getLevel()
@@ -2665,8 +2466,8 @@ belongs to the SBML Level&nbsp;3 Core package.
 
 =item SBase::getPackageName
 
-Returns the name of the SBML Level&nbsp;3 package in which this
-element is defined.
+Returns the name of the SBML Level&nbsp;3 package in which this element
+is defined.
 @return the name of the SBML package in which this element is defined.
 The string C<&quot;core&quot;> will be returned if this
 element is defined in SBML Level&nbsp;3 Core. The string
@@ -2677,18 +2478,15 @@ not defined in any SBML package.
 =item SBase::getTypeCode
 
 Returns the libSBML type code for this object.
-This method may return the type code of this SBML object, or it may
-return @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink.  This
-is because subclasses of SBase are not required to implement this
-method to return a type code.  This method is meant primarily for the
-LibSBML C interface, in which class and subclass information is not
-readily available.
-@return the @if clike #SBMLTypeCode_t value@else SBML object type code@endif@~
-of this SBML object or
-@link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (the default).
+C<opydetails> doc_what_are_typecodes
+C<opydetails> doc_additional_typecode_details
+@return the @if clike #SBMLTypeCode_t value@else SBML object type
+code@endif@~ of this SBML object, or @link   SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (the default).  The latter is possible because
+subclasses of SBase are not required to implement this method to return
+a type code.
 C<opydetails> doc_warning_typecodes_not_unique
-@see getElementName()
 @see getPackageName()
+@see getElementName()
 
 
 =item SBase::hasValidLevelVersionNamespaceCombination
@@ -2816,10 +2614,10 @@ SBase::disablePackage(const std::string& pkgURI, const std::string& pkgPrefix).
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
 @see disablePackage(const std::string& pkgURI, const std::string& pkgPrefix)
 
 
@@ -2839,7 +2637,8 @@ an other SBMLDocument with different package namespace declarations.
 You could reconstruct the same namespaces in the in-memory model first,
 but as a shortcut, you could also disable the package namespace on the
 object being added.  Here is a code example to help clarify this:
-@if clike @verbatim
+@if cpp
+C<ode{>.cpp}
 // We read in an SBML L3V1 model that uses the 'comp' package namespace
 doc = readSBML("sbml-file-with-comp-elements.xml");
 // We extract one of the species from the model we just read in.
@@ -2855,31 +2654,64 @@ Model   newModel = new Model(3,1);
 s1->disablePackage("http://www.sbml.org/sbml/level3/version1/comp/version1",
 "comp");
 newModel->addSpecies(s1);
-@endverbatim
-@endif@if python
-@verbatim
+@endcode
+@endif
+@if python
+C<ode{>.py}
 import sys
 import os.path
 from libsbml import  
-# We read in an SBML L3V1 model that uses the 'comp' package namespace
+# We read an SBML L3V1 model that uses the 'comp' package.
 doc = readSBML("sbml-file-with-comp-elements.xml");
+if doc.getNumErrors() E<gt> 0:
+print('readSBML encountered errors while reading the file.')
+doc.printErrors()
+sys.exit(1)
 # We extract one of the species from the model we just read in.
-s1 = doc.getModel().getSpecies(0);
-# We construct a new model.  This model does not use the 'comp' package.
-newDoc = SBMLDocument(3, 1);
-newModel = newDoc.createModel();
-# The following would fail with an error, because addSpecies() would
-# first check that the parent of the given object has namespaces
-# declared, and will discover that s1 does but newModel does not.
-# newModel.addSpecies(s1);
-# However, if we disable the 'comp' package on s1, then the call
-# to addSpecies will work.
-s1.disablePackage("http://www.sbml.org/sbml/level3/version1/comp/version1",
-"comp");
-newModel.addSpecies(s1);
-@endverbatim
-@endif@if java
-@verbatim
+model = doc.getModel()
+if model == None:
+print('Unable to retrieve Model object')
+sys.exit(1)
+
+s1 = model.getSpecies(0)
+if s1 == None:
+print('Unable to retrieve Species object')
+sys.exit(1)
+
+# We construct a new model.
+# This model does not use the 'comp' package.
+try:
+newDoc = SBMLDocument(3, 1)
+except ValueError:
+print('Could not create SBMLDocument object')
+sys.exit(1)
+
+newModel = newDoc.createModel()
+if newModel == None:
+print('Unable to create new Model object')
+sys.exit(1)
+
+# The following would normally fail with an error, because
+# addSpecies() would first check that the parent of the given
+# object has namespaces declared, and will discover that s1
+# does but newModel does not.
+#   newModel.addSpecies(s1)
+# However, if we disable the 'comp' package on s1, then the
+# call to addSpecies will work.
+compNS = "http://www.sbml.org/sbml/level3/version1/comp/version1"
+status = s1.disablePackage(compNS, "comp")
+if status != LIBSBML_OPERATION_SUCCESS:
+print('Unable to disable package.')
+sys.exit(1)
+
+newSpecies = newModel.addSpecies(s1)   # This will work now.
+if newSpecies == None:
+print('Could not add Species')       # (This will not happen,
+sys.exit(1)                          # but always check errors.)
+@endcode
+@endif
+@if java
+C<ode{>.java}
 // We read in an SBML L3V1 model that uses the 'comp' package namespace
 SBMLReader reader = new SBMLReader();
 SBMLDocument doc = reader.readSBML("sbml-file-with-comp-elements.xml");
@@ -2896,7 +2728,7 @@ Model newModel = new Model(3,1);
 s1->disablePackage("http://www.sbml.org/sbml/level3/version1/comp/version1",
 "comp");
 newModel.addSpecies(s1);
-@endverbatim
+@endcode
 @endif
 @param pkgURI the URI of the package
 @param pkgPrefix the XML prefix of the package
@@ -2904,10 +2736,10 @@ newModel.addSpecies(s1);
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
 @see enablePackage(const std::string& pkgURI, const std::string& pkgPrefix, bool flag)
 
 
@@ -2933,7 +2765,7 @@ given URI is enabled with this object.
 @param pkgURI the URI of the package
 @return C<true> if the given package is enabled within this object, @c 
 false otherwise.
-@see isPackageEnabled(@if java String pkgName@endif)
+@see isPackageEnabled(@if java String@endif)
 
 
 =item SBase::isPackageEnabled
@@ -2944,7 +2776,7 @@ The search ignores the package version.
 @param pkgName the name of the package
 @return C<true> if the given package is enabled within this object, @c
 false otherwise.
-@see isPackageURIEnabled(@if java String pkgURI@endif)
+@see isPackageURIEnabled(@if java String@endif)
 
 
 =item SBase::isPkgURIEnabled
@@ -2954,9 +2786,9 @@ given URI is enabled with this object.
 @param pkgURI the URI of the package
 @return C<true> if the given package is enabled within this object, @c 
 false otherwise.
-@see isPkgEnabled(@if java String pkgName@endif)
+@see isPkgEnabled(@if java String@endif)
 @deprecated Replaced in libSBML 5.2.0 by
-isPackageURIEnabled(@if java String pkgURI@endif)
+isPackageURIEnabled(@if java String@endif)
 
 
 =item SBase::isPkgEnabled
@@ -2967,9 +2799,9 @@ The search ignores the package version.
 @param pkgName the name of the package
 @return C<true> if the given package is enabled within this object, @c
 false otherwise.
-@see isPkgURIEnabled(@if java String pkgURI@endif)
+@see isPkgURIEnabled(@if java String@endif)
 @deprecated Replaced in libSBML 5.2.0 by
-isPackageEnabled(@if java String pkgName@endif)
+isPackageEnabled(@if java String@endif)
 
 
 =item SBase::writeExtensionElements
@@ -3073,8 +2905,8 @@ the default implementation will work.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SBase::matchesSBMLNamespaces
@@ -3120,18 +2952,18 @@ a subset of C<sb's>, C<false> otherwise.
 =item SBase::setUserData
 
 Sets the user data of this element.
-C<opydetails> doc_sbase_what_is_user_data 
-@param userData specifies the new user data. 
+C<opydetails> doc_what_is_user_data
+@param userData specifies the new user data.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SBase::*getUserData
 
 Returns the user data that has been previously set via setUserData().
-C<opydetails> doc_sbase_what_is_user_data 
+C<opydetails> doc_what_is_user_data
 @return the user data of this node, or C<NULL> if no user data has been set.
 @if clike
 @see ASTNode::setUserData(void  userData)
@@ -3200,7 +3032,7 @@ Only subclasses may create SBase objects.
 
 Copy constructor. Creates a copy of this SBase object.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -3283,7 +3115,7 @@ Convenience method for easily logging problems from within method
 implementations.
 
 This is essentially a short form of getErrorLog()->logError(...)
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item SBase::logUnknownAttribute
@@ -3438,8 +3270,8 @@ Version 1 Core must set the namespace to
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item SBase::getElementNamespace
@@ -3455,7 +3287,7 @@ Gets the XML namespace (URI) to which this element belongs to.
 
 Read attributes of package extensions from the given XMLAttributes 
 set into their specific fields. 
-Be sure to call your parents implementation of this function as well.  
+Be sure to call your parent's implementation of this function as well.  
 For example:
 @if clike
 @verbatim
@@ -3613,14 +3445,19 @@ Creates a new ListOf object.
 value of SBMLDocument::getDefaultLevel().
 @param version the Version within the SBML Level; if not assigned,
 defaults to the value of SBMLDocument::getDefaultVersion().
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+C<opydetails> doc_note_bare_listof
+C<opydetails> doc_note_setting_lv
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ListOf::ListOf
 
-Creates a new ListOf with SBMLNamespaces object.
+Creates a new ListOf with a given SBMLNamespaces object.
 @param sbmlns the set of SBML namespaces that this ListOf should
 contain.
+
+C<opydetails> doc_note_bare_listof
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOf::ListOf
@@ -3640,8 +3477,8 @@ list.
 
 =item ListOf::clone
 
-Creates and returns a deep copy of this ListOf.
-@return a (deep) copy of this ListOf.
+Creates and returns a deep copy of this ListOf object.
+@return the (deep) copy of this ListOf object.
 
 
 =item ListOf::append
@@ -3650,8 +3487,14 @@ Adds an item to the end of this ListOf's list of items.
 This method makes a clone of the C<item> handed to it.  This means that
 when the ListOf object is destroyed, the original items will not be
 destroyed.  For a method with an alternative ownership behavior, see the
-ListOf::appendAndOwn(SBase  item) method.
+ListOf::appendAndOwn(@if java SBase@endif) method.
 @param item the item to be added to the list.
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see appendAndOwn(SBase  item)
 @see appendFrom(const ListOf  list)
 
@@ -3664,6 +3507,12 @@ ownership of it.  This means that when the ListOf is destroyed, the item
 will be destroyed along with it.  For a method with an alternative
 ownership behavior, see the ListOf::append(SBase  item) method.
 @param item the item to be added to the list.
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see append(const SBase  item)
 @see appendFrom(const ListOf  list)
 
@@ -3674,6 +3523,12 @@ Adds a clone of a list of items to this ListOf's list.
 Note that because this clones the objects handed to it, the original
 items will not be destroyed when this ListOf object is destroyed.
 @param list a list of items to be added.
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see append(const SBase  item)
 @see appendAndOwn(SBase  item)
 
@@ -3682,22 +3537,33 @@ items will not be destroyed when this ListOf object is destroyed.
 
 Inserts an item at a given position in this ListOf's list of items.
 This variant of the method makes a clone of the C<item> handed to it.
-This means that when the ListOf is destroyed, the original items will
-not be destroyed.  For an alternative method with different ownership
-behavior, see insertAndOwn(int location, SBase  item).
+This means that when the ListOf is destroyed, the original C<item> will
+<em>not</em> be destroyed.
 @param location the location in the list where to insert the item.
 @param item the item to be inserted to the list.
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see insertAndOwn(int location, SBase  item)
 
 
 =item ListOf::insertAndOwn
 
 Inserts an item at a given position in this ListOf's list of items.
-This variant of the method makes a clone of the C<item> handet to it.
-This means that when the ListOf is destroyed, the original items will
-not be destroyed.
+This variant of the method makes a clone of the C<item> handed to it.
+This means that when the ListOf is destroyed, the original C<item>
+<em>will</em> be destroyed.
 @param location the location where to insert the item
 @param item the item to be inserted to the list
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see insert(int location, const SBase  item)
 
 
@@ -3705,7 +3571,8 @@ not be destroyed.
 
 Get an item from the list.
 @param n the index number of the item to get.
-@return the nth item in this ListOf items.
+@return the <em>n</em>th item in this ListOf items, or a null pointer if
+the index number C<n> refers to a nonexistent position in this list.
 @see size()
 
 
@@ -3713,7 +3580,8 @@ Get an item from the list.
 
 Get an item from the list.
 @param n the index number of the item to get.
-@return the nth item in this ListOf items.
+@return the <em>n</em>th item in this ListOf items, or a null pointer if
+the index number C<n> refers to a nonexistent position in this list.
 @see size()
 
 
@@ -3721,16 +3589,18 @@ Get an item from the list.
 
 Returns the first child element found that has the given identifier.
 This method searches this ListOf's list of items for SBML objects based
-on their "id" attribute value in the model-wide SId namespace.
-@param id string representing the id of objects to find.
+on their "id" attribute value in the model-wide C<SId>
+identifier namespace.
+@param id string representing the id of the object to find.
 @return the first element found with the given C<id>, or C<NULL> if no
 such object is found.
 
 
 =item ListOf::getElementByMetaId
 
-Returns the first child element found with the given C<metaid>.
-@param metaid string representing the metaid of objects to find
+Returns the first child element found with the given meta-identifier.
+@param metaid string representing the "metaid" attribute of the object
+to find.
 @return the first element found with the given C<metaid>, or C<NULL> if
 no such object is found.
 
@@ -3749,31 +3619,35 @@ Removes all items in this ListOf object.
 If parameter C<doDelete> is C<true> (default), all items in this ListOf
 object are deleted and cleared, and thus the caller doesn't have to
 delete those items.  Otherwise, all items are cleared only from this
-ListOf object; the caller is still responsible for deleting all items.
-(In the latter case, callers are advised to store pointers to all items
-elsewhere before calling this function.)
+ListOf object; the caller is still responsible for deleting the actual
+items.  (In the latter case, callers are advised to store pointers to
+all items elsewhere before calling this function.)
 @param doDelete if C<true> (default), all items are deleted and cleared.
 Otherwise, all items are just cleared and not deleted.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ListOf::removeFromParentAndDelete
 
-Because ListOf objects typically live as object children of their parent
-object and not as pointer children, this function clears itself, but
-does not attempt to do anything else.
-If a particular ListOf subclass does indeed exist as a pointer only,
-this function will need to be overridden.
+Removes all items in this ListOf object and deletes its properties too.
+This performs a call to clear() with an argument of C<true> (thus removing
+all the child objects in the list), followed by calls to various libSBML
+<code>unset<em>Foo</em></code> methods to delete everything else: CVTerm
+objects, model history objects, etc.
+@if cpp Implementations of subclasses of ListOf may need to override
+this method if different handling of child objects is needed.@endif@~
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ListOf::remove
 
-Removes the <em>n</em>th item from this ListOf items and returns it.
+Removes the <em>n</em>th item from this ListOf list of items and returns
+it.
+
 The caller owns the returned item and is responsible for deleting it.
 @param n the index of the item to remove
 @see size()
@@ -3804,7 +3678,7 @@ Subclasses must override this function if they define
 one ore more child elements.
 Basically, this function needs to be called in
 constructor, copy constructor and assignment operator.
-@if cpp 
+@if cpp
 @see setSBMLDocument()
 @see enablePackageInternal()
 @endif
@@ -3830,12 +3704,12 @@ C<opydetails> doc_warning_typecodes_not_unique
 
 Get the type code of the objects contained in this ListOf.
 C<opydetails> doc_what_are_typecodes
-Classes that inherit from the ListOf class should 
-override this function to return the SBML type code for 
-the objects contained in this ListOf.  If they do not, 
-@link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink is returned.
-@return The ListOf class itself contains no SBML objects, and 
-therefore returns @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink.
+Classes that inherit from the ListOf class should override this method
+to return the SBML type code for the objects contained in this ListOf.
+If they do not, this method will return
+@link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink
+@return The ListOf base class contains no SBML objects, and therefore
+this method returns @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink.
 @see getElementName()
 @see getPackageName()
 
@@ -3910,7 +3784,7 @@ stream.writeAttribute( "name", mName );
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Model construct.
+@htmlinclude pkg-marker-core.html An SBML model.
 In an SBML model definition, a single object of class Model serves as
 the overall container for the lists of the various model components.
 All of the lists are optional, but if a given list container is present
@@ -3971,17 +3845,17 @@ attributes.  They are discussed in a separate section below.
 LibSBML provides two main mechanisms for creating objects: class
 constructors
 (e.g., @if java <a href="org/sbml/libsbml/Species.html">Species()</a> @else Species::Species() @endif), 
-and <code>create<span class="placeholder"><em>Object</em></span>()</code>
+and <code>create<span class="placeholder-nospace"><em>Object</em></span>()</code>
 methods (such as Model::createSpecies()) provided by certain <span
-class="placeholder"><em>Object</em></span> classes such as Model.  These
+class="placeholder-nospace"><em>Object</em></span> classes such as Model.  These
 multiple mechanisms are provided by libSBML for flexibility and to
 support different use-cases, but they also have different implications
 for the overall model structure.
 In general, the recommended approach is to use the <code>create<span
-class="placeholder"><em>Object</em></span>()</code> methods.  These
+class="placeholder-nospace"><em>Object</em></span>()</code> methods.  These
 methods both create an object I<and> link it to the parent in one step.
 Here is an example:@if clike
-@verbatim
+C<ode{>.cpp}
 // Create an SBMLDocument object in Level 3 Version 1 format:
 SBMLDocument  sbmlDoc = new SBMLDocument(3, 1);
 // Create a Model object inside the SBMLDocument object and set
@@ -3996,9 +3870,9 @@ model->setId("BestModelEver");
 // of the object attached to the model (as expected).
 Species  sp = model->createSpecies();
 sp->setId("MySpecies");
-@endverbatim
+@endcode
 @endif@if java
-@verbatim
+C<ode{>.java}
 // Create an SBMLDocument object in Level 3 Version 1 format:
 SBMLDocument sbmlDoc = new SBMLDocument(3, 1);
 // Create a Model object inside the SBMLDocument object and set
@@ -4017,27 +3891,49 @@ model.setId(&#34;BestModelEver&#34;);
 // should check this status code to make sure everything went okay.
 Species sp = model.createSpecies();
 sp.setId(&#34;BestSpeciesEver&#34;);
-@endverbatim
+@endcode
 @endif@if python
-@verbatim
-# Create an SBMLDocument object in Level 3 Version 1 format:
+C<ode{>.py}
+# Create an SBMLDocument object in Level 3 Version 1 format.
+# Make sure to check for possible failures.
+try:
 sbmlDoc = SBMLDocument(3, 1)
-# Create a Model object inside the SBMLDocument object and set
-# its identifier.  The call to setId() returns a status code
-# to indicate whether the assignment was successful.  Code 0
-# means success; see the documentation for Model's setId() for 
-# more information.
+except ValueError:
+print('Could not create SBMLDocument object')
+sys.exit(1)
+
+# Create a Model object inside the SBMLDocument object and set its
+# identifier, checking the returned values.  The call to setId() returns a
+# status code to indicate whether the assignment was successful.
 model = sbmlDoc.createModel()
-model.setId(&#34;BestModelEver&#34;)
+if model == None:
+# Do something to handle the error here.
+print("Unable to create Model object.")
+sys.exit(1)
+
+status = model.setId('BestModelEver')
+if status != LIBSBML_OPERATION_SUCCESS:
+# Do something to handle the error here.
+print("Unable to set identifier on the Model object")
+sys.exit(1)
+
 # Create a Species object inside the Model and set its identifier.
 # Again, the setId() returns a status code to indicate whether the
-# assignment was successful.  Code 0 means success; see the
-# documentation for Specie's setId() for more information.
+# assignment was successful.
 sp = model.createSpecies()
-sp.setId(&#34;BestSpeciesEver&#34;)
-@endverbatim
+if sp == None:
+# Do something to handle the error here.
+print("Unable to create Species object.")
+sys.exit(1)
+
+status = sp.setId('BestSpeciesEver')
+if status != LIBSBML_OPERATION_SUCCESS:
+# Do something to handle the error here.
+print("Unable to set identifier on the Species object")
+sys.exit(1)
+@endcode
 @endif@if csharp
-@verbatim
+C<ode>
 // Create an SBMLDocument object in Level 3 Version 1 format:
 SBMLDocument sbmlDoc = new SBMLDocument(3, 1);
 // Create a Model object inside the SBMLDocument object and set
@@ -4052,28 +3948,28 @@ model.setId("BestModelEver");
 // of the object attached to the model (as expected).
 Species sp = model.createSpecies();
 sp.setId("MySpecies");
-@endverbatim
+@endcode
 @endif@~
 
 The <code>create<span
-class="placeholder"><em>Object</em></span>()</code> methods return a
+class="placeholder-nospace"><em>Object</em></span>()</code> methods return a
 pointer to the object created, but they also add the object to the
 relevant list of object instances contained in the parent.  (These lists
 become the <code>&lt;listOf<span
-class="placeholder"><em>Object</em></span>s&gt;</code> elements in the
+class="placeholder-nospace"><em>Object</em></span>s&gt;</code> elements in the
 finished XML rendition of SBML.)  In the example above,
 Model::createSpecies() adds the created species directly to the
 C<&lt;listOfSpecies&gt;> list in the model.  Subsequently,
 methods called on the species change the species in the model (which is
 what is expected in most situations).
-@section checking Consistency and adherence to SBML specifications
+@section model-checking Consistency and adherence to SBML specifications
 To make it easier for applications to do whatever they need,
 libSBML version @htmlinclude libsbml-version.html
 is relatively lax when it comes to enforcing correctness and
 completeness of models I<during> model construction and editing.
 Essentially, libSBML I<will> I<not> in most cases check automatically
 that a model's components have valid attribute values, or that the
-overall model is consistent and free of errors&mdash;even obvious errors
+overall model is consistent and free of errors---even obvious errors
 such as duplication of identifiers.  This allows applications great
 leeway in how they build their models, but it means that software
 authors must take deliberate steps to ensure that the model will be, in
@@ -4206,31 +4102,31 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Model
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_model_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Model::Model
 
 Creates a new Model using the given SBMLNamespaces object
 C<sbmlns>.
-C<opydetails> doc_what_are_sbmlnamespaces 
+C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_model_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Model::Model
 
 Copy constructor; creates a (deep) copy of the given Model object.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -4244,29 +4140,38 @@ Accepts the given SBMLVisitor for this instance of Constraint.
 =item Model::clone
 
 Creates and returns a deep copy of this Model object.
-@return a (deep) copy of this Model.
+@return the (deep) copy of this Model object.
 
 
 =item Model::getElementBySId
 
-Returns the first child element found that has the given C<id> in the
-model-wide SId namespace, or C<NULL> if no such object is found.
-@param id string representing the id of objects to find.
-@return pointer to the first element found with the given C<id>.
+Returns the first child element found that has the given C<id>.
+This operation searches the model-wide C<SId> identifier
+type namespace
+@param id string representing the id of the object to find.
+@return pointer to the first element found with the given C<id>, or @c
+NULL if no such object is found.
 
 
 =item Model::getElementByMetaId
 
-Returns the first child element it can find with the given C<metaid>, or
+Returns the first child element it can find with the given C<metaid>.
+@param metaid string representing the meta-identifier of the object to
+find.
+
+@return pointer to the first element found with the given C<metaid>, or
 NULL if no such object is found.
-@param metaid string representing the metaid of objects to find
-@return pointer to the first element found with the given C<metaid>.
 
 
 =item Model::getAllElements
 
-Returns a List of all child SBase objects, including those nested to an
-arbitrary depth
+Returns a List of all child objects.
+This returns all child objects nested to an arbitrary depth.  If an
+optional element filter is provided, only those objects for which the
+C<filter's> C<filter()> method returns true will be added to 
+the list.
+@param filter optional filter to apply to objects before putting them
+into the list to be returned.
 @return a List  of pointers to all children objects.
 
 
@@ -4433,8 +4338,8 @@ C<opydetails> doc_id_syntax
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Model::setName
@@ -4445,8 +4350,8 @@ The string in C<name> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Model::setSubstanceUnits
@@ -4457,9 +4362,9 @@ The string in C<units> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "substanceUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4472,9 +4377,9 @@ The string in C<units> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "timeUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4487,9 +4392,9 @@ The string in C<units> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "volumeUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4502,9 +4407,9 @@ The string in C<units> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "areaUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4517,9 +4422,9 @@ The string in C<units> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "lengthUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4532,9 +4437,9 @@ The string in C<units> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "extentUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4547,9 +4452,9 @@ The string in C<units> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "conversionFactor" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4560,8 +4465,8 @@ Unsets the value of the "id" attribute of this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Model::unsetName
@@ -4570,8 +4475,8 @@ Unsets the value of the "name" attribute of this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Model::unsetSubstanceUnits
@@ -4580,8 +4485,8 @@ Unsets the value of the "substanceUnits" attribute of this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "substanceUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4592,8 +4497,8 @@ Unsets the value of the "timeUnits" attribute of this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "timeUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4604,8 +4509,8 @@ Unsets the value of the "volumeUnits" attribute of this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "volumeUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4616,9 +4521,9 @@ Unsets the value of the "areaUnits" attribute of this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "areaUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4629,9 +4534,9 @@ Unsets the value of the "lengthUnits" attribute of this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "lengthUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4642,9 +4547,9 @@ Unsets the value of the "extentUnits" attribute of this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "extentUnits" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4655,9 +4560,9 @@ Unsets the value of the "conversionFactor" attribute of this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "conversionFactor" attribute is available in 
 SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
 
@@ -4669,12 +4574,12 @@ Adds a copy of the given FunctionDefinition object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createFunctionDefinition()
 
@@ -4686,12 +4591,12 @@ Adds a copy of the given UnitDefinition object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createUnitDefinition()
 
@@ -4703,12 +4608,12 @@ Adds a copy of the given CompartmentType object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @note The CompartmentType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -4723,12 +4628,12 @@ Adds a copy of the given SpeciesType object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @note The SpeciesType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -4743,12 +4648,12 @@ Adds a copy of the given Compartment object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createCompartment()
 
@@ -4760,12 +4665,12 @@ Adds a copy of the given Species object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createSpecies()
 
@@ -4777,12 +4682,12 @@ Adds a copy of the given Parameter object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createParameter()
 
@@ -4794,12 +4699,12 @@ Adds a copy of the given InitialAssignment object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createInitialAssignment()
 
@@ -4811,12 +4716,12 @@ Adds a copy of the given Rule object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createAlgebraicRule()
 @see createAssignmentRule()
@@ -4830,11 +4735,11 @@ Adds a copy of the given Constraint object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createConstraint()
 
@@ -4846,12 +4751,12 @@ Adds a copy of the given Reaction object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createReaction()
 
@@ -4863,12 +4768,12 @@ Adds a copy of the given Event object to this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createEvent()
 
@@ -5030,12 +4935,10 @@ Reaction object in this Model, and returns a pointer to it.
 The SBML Level and Version of the enclosing Model object, as well as
 any SBML package namespaces, are used to initialize this
 object's corresponding attributes.
-The mechanism by which the last Reaction object was created and added
-to this Model is not significant.  It could have been created in a
-variety of ways, for example using createReaction().  If a Reaction
-does not exist for this model, a new SpeciesReference is I<not>
-created and C<NULL> is returned instead.
-@return the SpeciesReference object created
+C<opydetails> doc_how_added_last_reaction_irrelevant
+@return the SpeciesReference object created.  If a Reaction does not
+exist for this model, a new SpeciesReference is I<not> created and @c
+NULL is returned.
 
 
 =item Model::createProduct
@@ -5045,12 +4948,10 @@ Reaction object in this Model, and returns a pointer to it.
 The SBML Level and Version of the enclosing Model object, as well as
 any SBML package namespaces, are used to initialize this
 object's corresponding attributes.
-The mechanism by which the last Reaction object was created and added
-to this Model is not significant.  It could have been created in a
-variety of ways, for example using createReaction().  If a Reaction
-does not exist for this model, a new SpeciesReference is I<not>
-created and C<NULL> is returned instead.
-@return the SpeciesReference object created
+C<opydetails> doc_how_added_last_reaction_irrelevant
+@return the SpeciesReference object created. If a Reaction does not
+exist for this model, a new SpeciesReference is I<not> created and @c
+NULL is returned.
 
 
 =item Model::createModifier
@@ -5061,12 +4962,10 @@ to it.
 The SBML Level and Version of the enclosing Model object, as well as
 any SBML package namespaces, are used to initialize this
 object's corresponding attributes.
-The mechanism by which the last Reaction object was created and added
-to this Model is not significant.  It could have been created in a
-variety of ways, for example using createReaction().  If a Reaction
-does not exist for this model, a new ModifierSpeciesReference is @em
-not created and C<NULL> is returned instead.
-@return the SpeciesReference object created
+C<opydetails> doc_how_added_last_reaction_irrelevant
+@return the SpeciesReference object created.  If a Reaction does not
+exist for this model, a new SpeciesReference is I<not> created and @c
+NULL is returned.
 
 
 =item Model::createKineticLaw
@@ -5076,14 +4975,10 @@ this Model, and returns a pointer to it.
 The SBML Level and Version of the enclosing Model object, as well as
 any SBML package namespaces, are used to initialize this
 object's corresponding attributes.
-The mechanism by which the last Reaction object was created and added
-to this Model is not significant.  It could have been created in a
-variety of ways, for example using createReaction().  If a Reaction
-does not exist for this model, or a Reaction exists but already has a
-KineticLaw, a new KineticLaw is I<not> created and C<NULL> is returned
-instead.
-
-@return the KineticLaw object created
+C<opydetails> doc_how_added_last_reaction_irrelevant
+@return the KineticLaw object created.  If a Reaction does not exist for
+this model, or a Reaction does exist but already has a KineticLaw, a new
+KineticLaw is I<not> created and C<NULL> is returned.
 
 
 =item Model::createKineticLawParameter
@@ -5093,14 +4988,10 @@ Reaction created inside this Model, and returns a pointer to it.
 The SBML Level and Version of the enclosing Model object, as well as
 any SBML package namespaces, are used to initialize this
 object's corresponding attributes.
-The last KineticLaw object in this Model could have been created in a
-variety of ways.  For example, it could have been added using
-createKineticLaw(), or it could be the result of using
-Reaction::createKineticLaw() on the Reaction object created by a
-createReaction().  If a Reaction does not exist for this model, or the
-last Reaction does not contain a KineticLaw object, a new Parameter is
-I<not> created and C<NULL> is returned instead.
-@return the Parameter object created
+C<opydetails> doc_how_added_last_kineticlaw_irrelevant
+@return the Parameter object created.  If a Reaction does not exist for
+this model, or a KineticLaw for the Reaction does not exist, a new
+Parameter is I<not> created and C<NULL> is returned.
 
 
 =item Model::createKineticLawLocalParameter
@@ -5110,14 +5001,10 @@ Reaction created inside this Model, and returns a pointer to it.
 The SBML Level and Version of the enclosing Model object, as well as
 any SBML package namespaces, are used to initialize this
 object's corresponding attributes.
-The last KineticLaw object in this Model could have been created in a
-variety of ways.  For example, it could have been added using
-createKineticLaw(), or it could be the result of using
-Reaction::createKineticLaw() on the Reaction object created by a
-createReaction().  If a Reaction does not exist for this model, or the
-last Reaction does not contain a KineticLaw object, a new Parameter is
-I<not> created and C<NULL> is returned instead.
-@return the Parameter object created
+C<opydetails> doc_how_added_last_kineticlaw_irrelevant
+@return the Parameter object created.  If a Reaction does not exist for
+this model, or a KineticLaw for the Reaction does not exist, a new
+Parameter is I<not> created and C<NULL> is returned.
 
 
 =item Model::createEvent
@@ -5136,11 +5023,7 @@ this Model, and returns a pointer to it.
 The SBML Level and Version of the enclosing Model object, as well as
 any SBML package namespaces, are used to initialize this
 object's corresponding attributes.
-The mechanism by which the last Event object in this model was created
-is not significant.  It could have been created in a variety of ways,
-for example by using createEvent().  If no Event object exists in this
-Model object, a new EventAssignment is I<not> created and C<NULL> is
-returned instead.
+C<opydetails> doc_how_added_last_event_irrelevant
 @return the EventAssignment object created
 
 
@@ -5151,11 +5034,7 @@ this Model, and returns a pointer to it.
 The SBML Level and Version of the enclosing Model object, as well as
 any SBML package namespaces, are used to initialize this
 object's corresponding attributes.
-The mechanism by which the last Event object in this model was created
-is not significant.  It could have been created in a variety of ways,
-for example by using createEvent().  If no Event object exists in this
-Model object, a new Trigger is I<not> created and C<NULL> is
-returned instead.
+C<opydetails> doc_how_added_last_event_irrelevant
 @return the Trigger object created
 
 
@@ -5166,11 +5045,7 @@ this Model, and returns a pointer to it.
 The SBML Level and Version of the enclosing Model object, as well as
 any SBML package namespaces, are used to initialize this
 object's corresponding attributes.
-The mechanism by which the last Event object in this model was created
-is not significant.  It could have been created in a variety of ways,
-for example by using createEvent().  If no Event object exists in this
-Model object, a new Delay is I<not> created and C<NULL> is
-returned instead.
+C<opydetails> doc_how_added_last_event_irrelevant
 @return the Delay object created
 
 
@@ -5189,7 +5064,7 @@ of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see appendAnnotation(const XMLNode  annotation)
 
 
@@ -5208,8 +5083,8 @@ of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see appendAnnotation(const std::string& annotation)
 
 
@@ -5225,8 +5100,8 @@ to the content of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see setAnnotation(const XMLNode  annotation)
 
 
@@ -5242,8 +5117,8 @@ to the content of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see setAnnotation(const std::string& annotation)
 
 
@@ -5406,18 +5281,21 @@ Get the ListOfEvents object in this Model.
 =item Model::getFunctionDefinition
 
 Get the nth FunctionDefinitions object in this Model.
+@param n the index of the object to return.
 @return the nth FunctionDefinition of this Model.
 
 
 =item Model::getFunctionDefinition
 
 Get the nth FunctionDefinitions object in this Model.
+@param n the index of the object to return.
 @return the nth FunctionDefinition of this Model.
 
 
 =item Model::getFunctionDefinition
 
 Get a FunctionDefinition object based on its identifier.
+@param sid the identifier to search for.
 @return the FunctionDefinition in this Model with the identifier
 C<sid> or C<NULL> if no such FunctionDefinition exists.
 
@@ -5425,6 +5303,7 @@ C<sid> or C<NULL> if no such FunctionDefinition exists.
 =item Model::getFunctionDefinition
 
 Get a FunctionDefinition object based on its identifier.
+@param sid the identifier to search for.
 @return the FunctionDefinition in this Model with the identifier
 C<sid> or C<NULL> if no such FunctionDefinition exists.
 
@@ -5432,18 +5311,21 @@ C<sid> or C<NULL> if no such FunctionDefinition exists.
 =item Model::getUnitDefinition
 
 Get the nth UnitDefinition object in this Model.
+@param n the index of the object to return.
 @return the nth UnitDefinition of this Model.
 
 
 =item Model::getUnitDefinition
 
 Get the nth UnitDefinition object in this Model.
+@param n the index of the object to return.
 @return the nth UnitDefinition of this Model.
 
 
 =item Model::getUnitDefinition
 
 Get a UnitDefinition based on its identifier.
+@param sid the identifier to search for.
 @return the UnitDefinition in this Model with the identifier C<sid> or
 C<NULL> if no such UnitDefinition exists.
 
@@ -5451,6 +5333,7 @@ C<NULL> if no such UnitDefinition exists.
 =item Model::getUnitDefinition
 
 Get a UnitDefinition based on its identifier.
+@param sid the identifier to search for.
 @return the UnitDefinition in this Model with the identifier C<sid> or
 C<NULL> if no such UnitDefinition exists.
 
@@ -5458,6 +5341,7 @@ C<NULL> if no such UnitDefinition exists.
 =item Model::getCompartmentType
 
 Get the nth CompartmentType object in this Model.
+@param n the index of the object to return.
 @return the nth CompartmentType of this Model.
 @note The CompartmentType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -5467,6 +5351,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 =item Model::getCompartmentType
 
 Get the nth CompartmentType object in this Model.
+@param n the index of the object to return.
 @return the nth CompartmentType of this Model.
 @note The CompartmentType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -5476,6 +5361,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 =item Model::getCompartmentType
 
 Get a CompartmentType object based on its identifier.
+@param sid the identifier to search for.
 @return the CompartmentType in this Model with the identifier C<sid>
 or C<NULL> if no such CompartmentType exists.
 @note The CompartmentType object class is only available in SBML
@@ -5486,6 +5372,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 =item Model::getCompartmentType
 
 Get a CompartmentType object based on its identifier.
+@param sid the identifier to search for.
 @return the CompartmentType in this Model with the identifier C<sid>
 or C<NULL> if no such CompartmentType exists.
 @note The CompartmentType object class is only available in SBML
@@ -5496,6 +5383,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 =item Model::getSpeciesType
 
 Get the nth SpeciesType object in this Model.
+@param n the index of the object to return.
 @return the nth SpeciesType of this Model.
 @note The SpeciesType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -5505,6 +5393,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 =item Model::getSpeciesType
 
 Get the nth SpeciesType object in this Model.
+@param n the index of the object to return.
 @return the nth SpeciesType of this Model.
 @note The SpeciesType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -5514,6 +5403,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 =item Model::getSpeciesType
 
 Get a SpeciesType object based on its identifier.
+@param sid the identifier to search for.
 @return the SpeciesType in this Model with the identifier C<sid> or
 C<NULL> if no such SpeciesType exists.
 @note The SpeciesType object class is only available in SBML
@@ -5524,6 +5414,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 =item Model::getSpeciesType
 
 Get a SpeciesType object based on its identifier.
+@param sid the identifier to search for.
 @return the SpeciesType in this Model with the identifier C<sid> or
 C<NULL> if no such SpeciesType exists.
 @note The SpeciesType object class is only available in SBML
@@ -5534,18 +5425,21 @@ Level&nbsp;1 nor Level&nbsp;3.
 =item Model::getCompartment
 
 Get the nth Compartment object in this Model.
+@param n the index of the object to return.
 @return the nth Compartment of this Model.
 
 
 =item Model::getCompartment
 
 Get the nth Compartment object in this Model.
+@param n the index of the object to return.
 @return the nth Compartment of this Model.
 
 
 =item Model::getCompartment
 
 Get a Compartment object based on its identifier.
+@param sid the identifier to search for.
 @return the Compartment in this Model with the identifier C<sid> or
 C<NULL> if no such Compartment exists.
 
@@ -5553,6 +5447,7 @@ C<NULL> if no such Compartment exists.
 =item Model::getCompartment
 
 Get a Compartment object based on its identifier.
+@param sid the identifier to search for.
 @return the Compartment in this Model with the identifier C<sid> or
 C<NULL> if no such Compartment exists.
 
@@ -5560,18 +5455,21 @@ C<NULL> if no such Compartment exists.
 =item Model::getSpecies
 
 Get the nth Species object in this Model.
+@param n the index of the object to return.
 @return the nth Species of this Model.
 
 
 =item Model::getSpecies
 
 Get the nth Species object in this Model.
+@param n the index of the object to return.
 @return the nth Species of this Model.
 
 
 =item Model::getSpecies
 
 Get a Species object based on its identifier.
+@param sid the identifier to search for.
 @return the Species in this Model with the identifier C<sid> or C<NULL>
 if no such Species exists.
 
@@ -5579,6 +5477,7 @@ if no such Species exists.
 =item Model::getSpecies
 
 Get a Species object based on its identifier.
+@param sid the identifier to search for.
 @return the Species in this Model with the identifier C<sid> or C<NULL>
 if no such Species exists.
 
@@ -5586,18 +5485,21 @@ if no such Species exists.
 =item Model::getParameter
 
 Get the nth Parameter object in this Model.
+@param n the index of the object to return.
 @return the nth Parameter of this Model.
 
 
 =item Model::getParameter
 
 Get the nth Parameter object in this Model.
+@param n the index of the object to return.
 @return the nth Parameter of this Model.
 
 
 =item Model::getParameter
 
 Get a Parameter object based on its identifier.
+@param sid the identifier to search for.
 @return the Parameter in this Model with the identifier C<sid> or C<NULL>
 if no such Parameter exists.
 
@@ -5605,6 +5507,7 @@ if no such Parameter exists.
 =item Model::getParameter
 
 Get a Parameter object based on its identifier.
+@param sid the identifier to search for.
 @return the Parameter in this Model with the identifier C<sid> or C<NULL>
 if no such Parameter exists.
 
@@ -5612,12 +5515,14 @@ if no such Parameter exists.
 =item Model::getInitialAssignment
 
 Get the nth InitialAssignment object in this Model.
+@param n the index of the object to return.
 @return the nth InitialAssignment of this Model.
 
 
 =item Model::getInitialAssignment
 
 Get the nth InitialAssignment object in this Model.
+@param n the index of the object to return.
 @return the nth InitialAssignment of this Model.
 
 
@@ -5625,6 +5530,7 @@ Get the nth InitialAssignment object in this Model.
 
 Get an InitialAssignment object based on the symbol to which it
 assigns a value.
+@param symbol the symbol to search for.
 @return the InitialAssignment in this Model with the given "symbol"
 attribute value or C<NULL> if no such InitialAssignment exists.
 
@@ -5633,6 +5539,7 @@ attribute value or C<NULL> if no such InitialAssignment exists.
 
 Get an InitialAssignment object based on the symbol to which it
 assigns a value.
+@param symbol the symbol to search for.
 @return the InitialAssignment in this Model with the given "symbol"
 attribute value or C<NULL> if no such InitialAssignment exists.
 
@@ -5641,6 +5548,7 @@ attribute value or C<NULL> if no such InitialAssignment exists.
 
 Get an InitialAssignment object based on the symbol to which it
 assigns a value.
+@param symbol the symbol to search for.
 @return the InitialAssignment in this Model with the given "symbol"
 attribute value or C<NULL> if no such InitialAssignment exists.
 
@@ -5649,6 +5557,7 @@ attribute value or C<NULL> if no such InitialAssignment exists.
 
 Get an InitialAssignment object based on the symbol to which it
 assigns a value.
+@param symbol the symbol to search for.
 @return the InitialAssignment in this Model with the given "symbol"
 attribute value or C<NULL> if no such InitialAssignment exists.
 
@@ -5656,18 +5565,21 @@ attribute value or C<NULL> if no such InitialAssignment exists.
 =item Model::getRule
 
 Get the nth Rule object in this Model.
+@param n the index of the object to return.
 @return the nth Rule of this Model.
 
 
 =item Model::getRule
 
 Get the nth Rule object in this Model.
+@param n the index of the object to return.
 @return the nth Rule of this Model.
 
 
 =item Model::getRule
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5675,6 +5587,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getRule
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5682,6 +5595,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getRuleByVariable
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5689,6 +5603,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getRuleByVariable
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5696,6 +5611,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getAssignmentRule
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5703,6 +5619,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getAssignmentRule
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5710,6 +5627,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getRateRule
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the symbol to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5717,6 +5635,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getRateRule
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5724,6 +5643,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getAssignmentRuleByVariable
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5731,6 +5651,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getAssignmentRuleByVariable
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5738,6 +5659,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getRateRuleByVariable
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5745,6 +5667,7 @@ value or C<NULL> if no such Rule exists.
 =item Model::getRateRuleByVariable
 
 Get a Rule object based on the variable to which it assigns a value.
+@param variable the variable to search for.
 @return the Rule in this Model with the given "variable" attribute
 value or C<NULL> if no such Rule exists.
 
@@ -5752,30 +5675,35 @@ value or C<NULL> if no such Rule exists.
 =item Model::getConstraint
 
 Get the nth Constraint object in this Model.
+@param n the index of the object to return.
 @return the nth Constraint of this Model.
 
 
 =item Model::getConstraint
 
 Get the nth Constraint object in this Model.
+@param n the index of the object to return.
 @return the nth Constraint of this Model.
 
 
 =item Model::getReaction
 
 Get the nth Reaction object in this Model.
+@param n the index of the object to return.
 @return the nth Reaction of this Model.
 
 
 =item Model::getReaction
 
 Get the nth Reaction object in this Model.
+@param n the index of the object to return.
 @return the nth Reaction of this Model.
 
 
 =item Model::getReaction
 
 Get a Reaction object based on its identifier.
+@param sid the identifier to search for.
 @return the Reaction in this Model with the identifier C<sid> or C<NULL>
 if no such Reaction exists.
 
@@ -5783,6 +5711,7 @@ if no such Reaction exists.
 =item Model::getReaction
 
 Get a Reaction object based on its identifier.
+@param sid the identifier to search for.
 @return the Reaction in this Model with the identifier C<sid> or C<NULL>
 if no such Reaction exists.
 
@@ -5790,6 +5719,7 @@ if no such Reaction exists.
 =item Model::getSpeciesReference
 
 Get a SpeciesReference object based on its identifier.
+@param sid the identifier to search for.
 @return the SpeciesReference in this Model with the identifier C<sid> or C<NULL>
 if no such SpeciesReference exists.
 
@@ -5797,6 +5727,7 @@ if no such SpeciesReference exists.
 =item Model::getSpeciesReference
 
 Get a SpeciesReference object based on its identifier.
+@param sid the identifier to search for.
 @return the SpeciesReference in this Model with the identifier C<sid> or C<NULL>
 if no such SpeciesReference exists.
 
@@ -5804,6 +5735,7 @@ if no such SpeciesReference exists.
 =item Model::getModifierSpeciesReference
 
 Get a ModifierSpeciesReference object based on its identifier.
+@param sid the identifier to search for.
 @return the ModifierSpeciesReference in this Model with the 
 identifier C<sid> or C<NULL>
 if no such ModifierSpeciesReference exists.
@@ -5812,6 +5744,7 @@ if no such ModifierSpeciesReference exists.
 =item Model::getModifierSpeciesReference
 
 Get a ModifierSpeciesReference object based on its identifier.
+@param sid the identifier to search for.
 @return the ModifierSpeciesReference in this Model with the 
 identifier C<sid> or C<NULL>
 if no such ModifierSpeciesReference exists.
@@ -5820,18 +5753,21 @@ if no such ModifierSpeciesReference exists.
 =item Model::getEvent
 
 Get the nth Event object in this Model.
+@param n the index of the object to return.
 @return the nth Event of this Model.
 
 
 =item Model::getEvent
 
 Get the nth Event object in this Model.
+@param n the index of the object to return.
 @return the nth Event of this Model.
 
 
 =item Model::getEvent
 
 Get an Event object based on its identifier.
+@param sid the identifier to search for.
 @return the Event in this Model with the identifier C<sid> or C<NULL> if
 no such Event exists.
 
@@ -5839,6 +5775,7 @@ no such Event exists.
 =item Model::getEvent
 
 Get an Event object based on its identifier.
+@param sid the identifier to search for.
 @return the Event in this Model with the identifier C<sid> or C<NULL> if
 no such Event exists.
 
@@ -5932,15 +5869,16 @@ Get the number of Event objects in this Model.
 
 =item Model::removeFromParentAndDelete
 
-Finds this Model's parent SBMLDocument and calls setModel(NULL) on it,
-indirectly deleting itself.  Overridden from the SBase function since
-the parent is not a ListOf.
+Remove this Model from its parent SBMLDocument object.
+This works by finding this Model's parent SBMLDocument and then calling
+C<setModel(NULL)> on it, indirectly deleting itself.
+Overridden from the SBase function since the parent is not a ListOf.
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Model::renameAllIds
@@ -5955,28 +5893,12 @@ returned by this function are:
 
 =item Model::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item Model::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item Model::isBoolean
@@ -6169,32 +6091,52 @@ implementation of this method as well.
 
 =item Model::populateListFormulaUnitsData
 
-Populates the list of FormulaDataUnits with the units derived 
-for the model. The list contains elements of class
-FormulaUnitsData. 
-
-The first element of the list refers to the default units
-of 'substance per time' derived from the model and has the
-unitReferenceId 'subs_per_time'. This facilitates the comparison of units
-derived from mathematical formula with the expected units.
-The next elements of the list record the units of the 
-compartments and species established from either explicitly
-declared or default units.
-The next elements record the units of any parameters.
-Subsequent elements of the list record the units derived for
-each mathematical expression encountered within the model.
-@note This function is utilised by the Unit Consistency Validator.
-The list is populated prior to running the validation and thus
-the consistency of units can be checked by accessing the members
-of the list and comparing the appropriate data.
+Populates the internal list of derived units for this Model object.
+This method tells libSBML to (re)calculate all units for all components
+of the enclosing Model object.  The result is stored in an internal list
+of unit data.  Users can access the resulting data by calling the method
+SBase::getDerivedUnitDefinition() available on most objects.  (The name
+"formula units data" is drawn from the name of the internal objects
+libSBML uses to store the data; note that these internal objects are not
+exposed to callers, because callers can interact with the results using
+the ordinary SBML unit objects.)
+This method is used by libSBML itself in the validator concerned with
+unit consistency.  The unit consistency validator (like all other
+validators in libSBML) is invoked by using
+SBMLDocument::checkConsistency(), with the consistency checks for the
+category @link SBMLErrorCategory_t#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink turned on.  The method
+populateListFormulaUnitsData() does not need to be called prior to
+invoking the validator if unit consistency checking has not been turned
+off.  This method is only provided for cases when callers have a special
+need to force the unit data to be recalculated.  For instance, during
+construction of a model, a caller may want to interrogate libSBML's
+inferred units without invoking full-blown model validation; this is a
+scenario in which calling populateListFormulaUnitsData() may be useful.
+@warning Computing and inferring units is a time-consuming operation.
+Callers may want to call isPopulatedListFormulaUnitsData() to determine
+whether the units may already have been computed, to save themselves the
+need of invoking unit inference unnecessarily.
+@see isPopulatedListFormulaUnitsData()
 
 
 =item Model::isPopulatedListFormulaUnitsData
 
-Predicate returning C<true> if 
-the list of FormulaUnitsData is populated.
-@return C<true> if the list of FormulaUnitsData is populated, 
-C<false> otherwise.
+Predicate returning C<true> if libSBML has derived units for the
+components of this model.
+LibSBML can infer the units of measurement associated with different
+elements of a model.  When libSBML does that, it builds a complex
+internal structure during a resource-intensive operation.  This is done
+automatically only when callers invoke validation (via
+SBMLDocument::checkConsistency()) and have not turned off the unit
+validation option.
+Callers can force units to be recalculated by calling
+populateListFormulaUnitsData().  To avoid calling that method
+unnecessarily, calling programs may first want to invoke this method
+(isPopulatedListFormulaUnitsData()) to determine whether it is even
+necessary.
+
+@return C<true> if the units have already been computed, C<false>
+otherwise.
 
 
 =item Model::addFormulaUnitsData
@@ -6269,10 +6211,24 @@ derived from the math element of the AssignmentRule.
 
 @internal
 
+Get a FormulaUnitsData variable object based on its unitReferenceId.
+@return the FormulaUnitsData in this Model with the unitReferenceId C<sid> 
+that corrsponds to a variable object or C<NULL>
+if no such FormulaUnitsData exists.
+@note  This function restricts the search to classes that can be varied
+Species, Compartment, Parameter, SpeciesReference.
+
 
 =item Model::getFormulaUnitsDataForAssignment
 
 @internal
+
+Get a FormulaUnitsData variable object based on its unitReferenceId.
+@return the FormulaUnitsData in this Model with the unitReferenceId C<sid> 
+that corrsponds to a variable object or C<NULL>
+if no such FormulaUnitsData exists.
+@note  This function restricts the search to classes that can be varied
+Species, Compartment, Parameter, SpeciesReference.
 
 
 =item Model::getNumFormulaUnitsData
@@ -6301,12 +6257,8 @@ Get the list of FormulaUnitsData object in this Model.
 
 =item Model::hasRequiredElements
 
-Predicate returning C<true> if
-all the required elements for this Model object
-have been set.
-@note The required elements for a Model object are:
-listOfCompartments (L1 only); listOfSpecies (L1V1 only);
-listOfReactions(L1V1 only)
+Predicate returning C<true> if all the required elements for this Model
+object have been set.
 @return a boolean value indicating whether all the required
 elements for this object have been defined.
 
@@ -6317,9 +6269,8 @@ Removes the nth FunctionDefinition object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the FunctionDefinition object to remove
-@return the FunctionDefinition object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the FunctionDefinition object removed, or C<NULL> if the given
+index is out of range.
 
 
 =item Model::removeFunctionDefinition
@@ -6327,12 +6278,10 @@ is out of range.
 Removes the FunctionDefinition object with the given identifier from this Model 
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the FunctionDefinition objects in this Model object have the identifier 
-C<sid>, then C<NULL> is returned.
 @param sid the identifier of the FunctionDefinition object to remove
-@return the FunctionDefinition object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no FunctionDefinition
-object with the identifier exists in this Model object.
+@return the FunctionDefinition object removed, or C<NULL> if no
+FunctionDefinition object with the identifier exists in this Model
+object.
 
 
 =item Model::removeUnitDefinition
@@ -6341,9 +6290,8 @@ Removes the nth UnitDefinition object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the UnitDefinition object to remove
-@return the UnitDefinition object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the UnitDefinition object removed., or C<NULL> if the given
+index is out of range.
 
 
 =item Model::removeUnitDefinition
@@ -6351,12 +6299,9 @@ is out of range.
 Removes the UnitDefinition object with the given identifier from this Model
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the UnitDefinition objects in this Model object have the identifier 
-C<sid>, then C<NULL> is returned.
 @param sid the identifier of the UnitDefinition object to remove
-@return the UnitDefinition object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no UnitDefinition
-object with the identifier exists in this Model object.
+@return the UnitDefinition object removed, or C<NULL> if no
+UnitDefinition object with the identifier exists in this Model object.
 
 
 =item Model::removeCompartmentType
@@ -6365,9 +6310,8 @@ Removes the nth CompartmentType object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the CompartmentType object to remove
-@return the ComapartmentType object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the ComapartmentType object removed, or C<NULL> if the given
+index is out of range.
 
 
 =item Model::removeCompartmentType
@@ -6375,12 +6319,9 @@ is out of range.
 Removes the CompartmentType object with the given identifier from this Model
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the CompartmentType objects in this Model object have the identifier 
-C<sid>, then C<NULL> is returned.
 @param sid the identifier of the object to remove
-@return the CompartmentType object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no CompartmentType
-object with the identifier exists in this Model object.
+@return the CompartmentType object removed, or C<NULL> if no
+CompartmentType object with the identifier exists in this Model object.
 
 
 =item Model::removeSpeciesType
@@ -6389,9 +6330,8 @@ Removes the nth SpeciesType object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the SpeciesType object to remove
-@return the SpeciesType object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the SpeciesType object removed, or C<NULL> if the given index is
+out of range.
 
 
 =item Model::removeSpeciesType
@@ -6399,11 +6339,8 @@ is out of range.
 Removes the SpeciesType object with the given identifier from this Model
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the SpeciesType objects in this Model object have the identifier 
-C<sid>, then C<NULL> is returned.
 @param sid the identifier of the SpeciesType object to remove
-@return the SpeciesType object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no SpeciesType
+@return the SpeciesType object removed, or C<NULL> if no SpeciesType
 object with the identifier exists in this Model object.
 
 
@@ -6413,9 +6350,8 @@ Removes the nth Compartment object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the Compartment object to remove
-@return the Compartment object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the Compartment object removed, or C<NULL> if the given index is
+out of range.
 
 
 =item Model::removeCompartment
@@ -6423,11 +6359,8 @@ is out of range.
 Removes the Compartment object with the given identifier from this Model
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the Compartment objects in this Model object have the identifier 
-C<sid>, then C<NULL> is returned.
 @param sid the identifier of the Compartment object to remove
-@return the Compartment object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no Compartment
+@return the Compartment object removed, or C<NULL> if no Compartment
 object with the identifier exists in this Model object.
 
 
@@ -6437,9 +6370,8 @@ Removes the nth Species object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the Species object to remove
-@return the Species object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the Species object removed, or C<NULL> if the given index is out
+of range.
 
 
 =item Model::removeSpecies
@@ -6447,12 +6379,9 @@ is out of range.
 Removes the Species object with the given identifier from this Model
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the Species objects in this Model object have the identifier 
-C<sid>, then C<NULL> is returned.
 @param sid the identifier of the Species object to remove
-@return the Species object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no Species
-object with the identifier exists in this Model object.
+@return the Species object removed, or C<NULL> if no Species object with
+the identifier exists in this Model object.
 
 
 =item Model::removeParameter
@@ -6461,9 +6390,8 @@ Removes the nth Parameter object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the Parameter object to remove
-@return the Parameter object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the Parameter object removed, or C<NULL> if the given index is
+out of range.
 
 
 =item Model::removeParameter
@@ -6471,12 +6399,9 @@ is out of range.
 Removes the Parameter object with the given identifier from this Model
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the Parameter objects in this Model object have the identifier 
-C<sid>, then C<NULL> is returned.
 @param sid the identifier of the Parameter object to remove
-@return the Parameter object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no Parameter
-object with the identifier exists in this Model object.
+@return the Parameter object removed, or C<NULL> if no Parameter object
+with the identifier exists in this Model object.
 
 
 =item Model::removeInitialAssignment
@@ -6485,9 +6410,8 @@ Removes the nth InitialAssignment object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the InitialAssignment object to remove
-@return the InitialAssignment object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the InitialAssignment object removed, or C<NULL> if the given
+index is out of range.
 
 
 =item Model::removeInitialAssignment
@@ -6495,12 +6419,10 @@ is out of range.
 Removes the InitialAssignment object with the given "symbol" attribute 
 from this Model object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the InitialAssignment objects in this Model object have the
-"symbol" attribute C<symbol>, then C<NULL> is returned.
 @param symbol the "symbol" attribute of the InitialAssignment object to remove
-@return the InitialAssignment object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no InitialAssignment
-object with the "symbol" attribute exists in this Model object.
+@return the InitialAssignment object removed, or C<NULL> if no
+InitialAssignment object with the "symbol" attribute exists in this
+Model object.
 
 
 =item Model::removeRule
@@ -6509,9 +6431,8 @@ Removes the nth Rule object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the Rule object to remove
-@return the Rule object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the Rule object removed, or C<NULL> if the given index is out of
+range.
 
 
 =item Model::removeRule
@@ -6519,12 +6440,19 @@ is out of range.
 Removes the Rule object with the given "variable" attribute from this Model 
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the Rule objects in this Model object have the "variable" attribute
-C<variable>, then C<NULL> is returned.
 @param variable the "variable" attribute of the Rule object to remove
-@return the Rule object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no Rule
-object with the "variable" attribute exists in this Model object.
+@return the Rule object removed, or C<NULL> if no Rule object with the
+"variable" attribute exists in this Model object.
+
+
+=item Model::removeRuleByVariable
+
+Removes the Rule object with the given "variable" attribute from this Model 
+object and returns a pointer to it.
+The caller owns the returned object and is responsible for deleting it.
+@param variable the "variable" attribute of the Rule object to remove
+@return the Rule object removed, or C<NULL> if no Rule object with the
+"variable" attribute exists in this Model object.
 
 
 =item Model::removeConstraint
@@ -6533,9 +6461,8 @@ Removes the nth Constraint object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the Constraint object to remove
-@return the Constraint object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the Constraint object removed, or C<NULL> if the given index is
+out of range.
 
 
 =item Model::removeReaction
@@ -6544,9 +6471,8 @@ Removes the nth Reaction object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the Reaction object to remove
-@return the Reaction object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the Reaction object removed, or C<NULL> if the given index is
+out of range.
 
 
 =item Model::removeReaction
@@ -6554,12 +6480,9 @@ is out of range.
 Removes the Reaction object with the given identifier from this Model
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the Reaction objects in this Model object have the identifier 
-C<sid>, then C<NULL> is returned.
 @param sid the identifier of the Reaction object to remove
-@return the Reaction object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no Reaction
-object with the identifier exists in this Model object.
+@return the Reaction object removed, or C<NULL> if no Reaction object
+with the identifier exists in this Model object.
 
 
 =item Model::removeEvent
@@ -6568,9 +6491,8 @@ Removes the nth Event object from this Model object and
 returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
 @param n the index of the Event object to remove
-@return the Event object removed.  As mentioned above, 
-the caller owns the returned item. C<NULL> is returned if the given index 
-is out of range.
+@return the Event object removed, or C<NULL> if the given index is out
+of range.
 
 
 =item Model::removeEvent
@@ -6578,20 +6500,18 @@ is out of range.
 Removes the Event object with the given identifier from this Model
 object and returns a pointer to it.
 The caller owns the returned object and is responsible for deleting it.
-If none of the Event objects in this Model object have the identifier 
-C<sid>, then C<NULL> is returned.
 @param sid the identifier of the Event object to remove
-@return the Event object removed.  As mentioned above, the 
-caller owns the returned object. C<NULL> is returned if no Event
-object with the identifier exists in this Model object.
+@return the Event object removed, or C<NULL> if no Event object with the
+identifier exists in this Model object.
 
 
 =item Model::appendFrom
 
-Takes the contents of the passed-in Model, makes copies of everything,
-and appends those copies to the appropriate places in this Model.
+Copies a given Model object's subcomponents and appends the copies to
+the appropriate places in this Model.
 This method also calls the C<appendFrom> method on all libSBML
-plug-in objects.&nbsp; C<opydetails> doc_what_are_plugins
+plug-in objects.
+C<opydetails> doc_what_are_plugins
 @param model the Model to merge with this one.
 
 
@@ -6680,18 +6600,183 @@ Currently, this method is called in getAnnotation, isSetAnnotation,
 and writeElements methods.
 
 
-=item Model::checkUnitDefinition
+=item Model::populatePerTimeUnitDefinition
 
 @internal
 
 Internal function used in populateListFormulaUnitsData
 
 
-=item Model::checkSpeciesReference
+=item Model::createSpeciesReferenceUnitsData
 
 @internal
 
 Internal function used in populateListFormulaUnitsData
+
+
+=item Model::removeListFormulaUnitsData
+
+@internal
+
+
+=item Model::createSubstanceUnitsData
+
+@internal
+
+
+=item Model::getL3SubstanceUD
+
+@internal
+
+
+=item Model::getSubstanceUD
+
+@internal
+
+
+=item Model::createTimeUnitsData
+
+@internal
+
+
+=item Model::getL3TimeUD
+
+@internal
+
+
+=item Model::getTimeUD
+
+@internal
+
+
+=item Model::createVolumeUnitsData
+
+@internal
+
+
+=item Model::getL3VolumeUD
+
+@internal
+
+
+=item Model::getVolumeUD
+
+@internal
+
+
+=item Model::createAreaUnitsData
+
+@internal
+
+
+=item Model::getL3AreaUD
+
+@internal
+
+
+=item Model::getAreaUD
+
+@internal
+
+
+=item Model::createLengthUnitsData
+
+@internal
+
+
+=item Model::getL3LengthUD
+
+@internal
+
+
+=item Model::getLengthUD
+
+@internal
+
+
+=item Model::createExtentUnitsData
+
+@internal
+
+
+=item Model::getL3ExtentUD
+
+@internal
+
+
+=item Model::createSubstancePerTimeUnitsData
+
+@internal
+
+
+=item Model::getL3SubstancePerTimeUD
+
+@internal
+
+
+=item Model::getSubstancePerTimeUD
+
+@internal
+
+
+=item Model::createCompartmentUnitsData
+
+@internal
+
+
+=item Model::createSpeciesUnitsData
+
+@internal
+
+
+=item Model::createL3SpeciesUnitsData
+
+@internal
+
+
+=item Model::createParameterUnitsData
+
+@internal
+
+
+=item Model::createUnitsDataFromMath
+
+@internal
+
+
+=item Model::createInitialAssignmentUnitsData
+
+@internal
+
+
+=item Model::createRuleUnitsData
+
+@internal
+
+
+=item Model::createReactionUnitsData
+
+@internal
+
+
+=item Model::createEventUnitsData
+
+@internal
+
+
+=item Model::createDelayUnitsData
+
+@internal
+
+
+=item Model::createPriorityUnitsData
+
+@internal
+
+
+=item Model::createEventAssignmentUnitsData
+
+@internal
 
 
 =back
@@ -6700,8 +6785,7 @@ Internal function used in populateListFormulaUnitsData
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Container for an SBML document and interface for global
-operations on SBML documents.
+@htmlinclude pkg-marker-core.html Overall SBML container object.
 @if clike LibSBML uses the class SBMLDocument as a
 top-level container for storing SBML content and data associated with it
 (such as warnings and error messages).  The two primary means of reading
@@ -6927,22 +7011,22 @@ object is otherwise left blank.  In particular, the blank SBMLDocument
 object has no associated XML attributes, including (but not limited
 to) an XML namespace declaration.  The XML namespace declaration is
 not added until the model is written out, <em>or</em> the method
-SBMLDocument::setLevelAndVersion(@if java long lev, long ver, boolean strict@endif)
+SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
 is called.  This may be important to keep in mind
 if an application needs to add additional XML namespace declarations
 on the C<&lt;sbml&gt;> element.  Application writers should
 either provide values for C<level> and C<version> on the call to this
 constructor, or else call
-SBMLDocument::setLevelAndVersion(@if java long lev, long ver, boolean strict@endif)
+SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
 shortly after creating the SBMLDocument object.
 @param level an integer for the SBML Level
 @param version an integer for the Version within the SBML Level
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
-@see SBMLDocument::setLevelAndVersion(@if java long lev, long ver, boolean strict@endif)
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
+@see SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
 @see getDefaultLevel()
 @see getDefaultVersion()
 
@@ -6953,7 +7037,7 @@ Creates a new SBMLDocument using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
@@ -6963,7 +7047,7 @@ parent SBMLDocument object.
 
 Copy constructor; creates a copy of this SBMLDocument.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -6976,8 +7060,8 @@ Accepts the given SBMLVisitor for this instance of SBMLDocument.
 
 =item SBMLDocument::clone
 
-Creates and returns a deep copy of this SBMLDocument.
-@return a (deep) copy of this SBMLDocument.
+Creates and returns a deep copy of this SBMLDocument object.
+@return the (deep) copy of this SBMLDocument object.
 
 
 =item SBMLDocument::getModel
@@ -6986,7 +7070,7 @@ Returns the Model object stored in this SBMLDocument.
 It is important to note that this method <em>does not create</em> a
 Model instance.  The model in the SBMLDocument must have been created
 at some prior time, for example using SBMLDocument::createModel() 
-or SBMLDocument::setModel(@if java Model m@endif).
+or SBMLDocument::setModel(@if java Model@endif).
 This method returns C<NULL> if a model does not yet exist.
 @return the Model contained in this SBMLDocument.
 @see createModel()
@@ -6998,7 +7082,7 @@ Returns the Model object stored in this SBMLDocument.
 It is important to note that this method <em>does not create</em> a
 Model instance.  The model in the SBMLDocument must have been created
 at some prior time, for example using SBMLDocument::createModel() 
-or SBMLDocument::setModel(@if java Model m@endif).
+or SBMLDocument::setModel(@if java Model@endif).
 This method returns C<NULL> if a model does not yet exist.
 @return the Model contained in this SBMLDocument.
 @see createModel()
@@ -7107,7 +7191,7 @@ of libSBML are the following:
 Strict conversion applies the additional criteria that both the
 source and the target model must be consistent SBML.  Users can
 control the consistency checks that are applied using the
-SBMLDocument::setConsistencyChecksForConversion(@if java int categ, boolean onoff@endif) method.  If either
+SBMLDocument::setConsistencyChecksForConversion(@if java int, boolean@endif) method.  If either
 the source or the potential target model have validation errors, the
 conversion is not performed.  When a strict conversion is successful,
 the underlying SBML object model is altered to reflect the new level
@@ -7132,7 +7216,7 @@ problems.  For conversions from Level&nbsp;2 to Level&nbsp;1, callers
 can also check the Level of the model after calling this method to
 find out whether it is Level&nbsp;1.  (If the conversion to
 Level&nbsp;1 failed, the Level of this model will be left unchanged.)
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 @see checkL1Compatibility()
 @see checkL2v1Compatibility()
 @see checkL2v2Compatibility()
@@ -7159,9 +7243,9 @@ Sets the Model for this SBMLDocument to a copy of the given Model.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
 @see createModel()
 @see getModel()
 
@@ -7176,9 +7260,9 @@ optional.  This method takes an optional argument, C<sid>, for setting
 the identifier.  If not supplied, the identifier attribute on the
 Model instance is not set.
 @param sid the identifier of the new Model to create.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 @see getModel()
-@see SBMLDocument::setModel(@if java Model m@endif)
+@see SBMLDocument::setModel(@if java Model@endif)
 
 
 =item SBMLDocument::setLocationURI
@@ -7232,51 +7316,43 @@ in the interface class @link libsbml libsbml@endlink.
 The following are the possible choices:
 @endif@~
 \n=over\n
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_GENERAL_CONSISTENCY
-LIBSBML_CAT_GENERAL_CONSISTENCY@endlink: Correctness and consistency
-of specific SBML language constructs.  Performing this set of checks
-is highly recommended.  With respect to the SBML specification, these
-concern failures in applying the validation rules numbered 2xxxx in
-the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1
-specifications.
-
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_IDENTIFIER_CONSISTENCY
-LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink: Correctness and
-consistency of identifiers used for model entities.  An example of
-inconsistency would be using a species identifier in a reaction rate
-formula without first having declared the species.  With respect to
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink:
+Correctness and consistency of specific SBML language constructs.
+Performing this set of checks is highly recommended.  With respect to
 the SBML specification, these concern failures in applying the
-validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
-and Level&nbsp;3 Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_UNITS_CONSISTENCY
-LIBSBML_CAT_UNITS_CONSISTENCY@endlink: Consistency of measurement
-units associated with quantities in a model.  With respect to the SBML
-specification, these concern failures in applying the validation rules
-numbered 105xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
-Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_MATHML_CONSISTENCY
-LIBSBML_CAT_MATHML_CONSISTENCY@endlink: Syntax of MathML constructs.
-With respect to the SBML specification, these concern failures in
-applying the validation rules numbered 102xx in the Level&nbsp;2
+validation rules numbered 2xxxx in the Level&nbsp;2
 Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_SBO_CONSISTENCY
-LIBSBML_CAT_SBO_CONSISTENCY@endlink: Consistency and validity of SBO
-identifiers (if any) used in the model.  With respect to the SBML
-specification, these concern failures in applying the validation rules
-numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink:
+Correctness and consistency of identifiers used for model entities.  An
+example of inconsistency would be using a species identifier in a
+reaction rate formula without first having declared the species.  With
+respect to the SBML specification, these concern failures in applying
+the validation rules numbered 103xx in the Level&nbsp;2
+Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink:
+Consistency of measurement units associated with quantities in a model.
+With respect to the SBML specification, these concern failures in
+applying the validation rules numbered 105xx in the Level&nbsp;2
+Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink:
+Syntax of MathML constructs.  With respect to the SBML specification,
+these concern failures in applying the validation rules numbered 102xx
+in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
 Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_OVERDETERMINED_MODEL
-LIBSBML_CAT_OVERDETERMINED_MODEL@endlink: Static analysis of whether
-the system of equations implied by a model is mathematically
-overdetermined.  With respect to the SBML specification, this is
-validation rule #10601 in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and
-Level&nbsp;3 Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_MODELING_PRACTICE
-LIBSBML_CAT_MODELING_PRACTICE@endlink: Additional checks for
-recommended good modeling practice. (These are tests performed by
-libSBML and do not have equivalent SBML validation rules.)
-\n=back\n
-
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink:
+Consistency and validity of SBO identifiers (if any) used in the model.
+With respect to the SBML specification, these concern failures in
+applying the validation rules numbered 107xx in the Level&nbsp;2
+Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink:
+Static analysis of whether the system of equations implied by a model is
+mathematically overdetermined.  With respect to the SBML specification,
+this is validation rule #10601 in the Level&nbsp;2
+Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink:
+Additional checks for recommended good modeling practice. (These are
+tests performed by libSBML and do not have equivalent SBML validation
+rules.)  \n=back\n
 <em>By default, all validation checks are applied</em> to the model in
 an SBMLDocument object I<unless>
 SBMLDocument::setConsistencyChecks(@if java int categ, boolean onoff@endif)
@@ -7304,7 +7380,7 @@ C<category> should be applied or not.
 =item SBMLDocument::setConsistencyChecksForConversion
 
 Controls the consistency checks that are performed when
-SBMLDocument::setLevelAndVersion(@if java long lev, long ver, boolean strict@endif) is called.
+SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif) is called.
 This method works by adding or subtracting consistency checks from the
 set of all possible checks that may be performed to avoid conversion
 to or from an invalid document.  This method may need to be called 
@@ -7330,64 +7406,57 @@ in the interface class @link libsbml libsbml@endlink.
 The following are the possible choices:
 @endif@~
 \n=over\n
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_GENERAL_CONSISTENCY
-LIBSBML_CAT_GENERAL_CONSISTENCY@endlink: Correctness and consistency
-of specific SBML language constructs.  Performing this set of checks
-is highly recommended.  With respect to the SBML specification, these
-concern failures in applying the validation rules numbered 2xxxx in
-the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1
-specifications.
-
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_IDENTIFIER_CONSISTENCY
-LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink: Correctness and
-consistency of identifiers used for model entities.  An example of
-inconsistency would be using a species identifier in a reaction rate
-formula without first having declared the species.  With respect to
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink:
+Correctness and consistency of specific SBML language constructs.
+Performing this set of checks is highly recommended.  With respect to
 the SBML specification, these concern failures in applying the
-validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
-and Level&nbsp;3 Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_UNITS_CONSISTENCY
-LIBSBML_CAT_UNITS_CONSISTENCY@endlink: Consistency of measurement
-units associated with quantities in a model.  With respect to the SBML
-specification, these concern failures in applying the validation rules
-numbered 105xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
-Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_MATHML_CONSISTENCY
-LIBSBML_CAT_MATHML_CONSISTENCY@endlink: Syntax of MathML constructs.
-With respect to the SBML specification, these concern failures in
-applying the validation rules numbered 102xx in the Level&nbsp;2
+validation rules numbered 2xxxx in the Level&nbsp;2
 Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_SBO_CONSISTENCY
-LIBSBML_CAT_SBO_CONSISTENCY@endlink: Consistency and validity of SBO
-identifiers (if any) used in the model.  With respect to the SBML
-specification, these concern failures in applying the validation rules
-numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink:
+Correctness and consistency of identifiers used for model entities.  An
+example of inconsistency would be using a species identifier in a
+reaction rate formula without first having declared the species.  With
+respect to the SBML specification, these concern failures in applying
+the validation rules numbered 103xx in the Level&nbsp;2
+Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink:
+Consistency of measurement units associated with quantities in a model.
+With respect to the SBML specification, these concern failures in
+applying the validation rules numbered 105xx in the Level&nbsp;2
+Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink:
+Syntax of MathML constructs.  With respect to the SBML specification,
+these concern failures in applying the validation rules numbered 102xx
+in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
 Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_OVERDETERMINED_MODEL
-LIBSBML_CAT_OVERDETERMINED_MODEL@endlink: Static analysis of whether
-the system of equations implied by a model is mathematically
-overdetermined.  With respect to the SBML specification, this is
-validation rule #10601 in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and
-Level&nbsp;3 Version&nbsp;1 specifications.
-\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_MODELING_PRACTICE
-LIBSBML_CAT_MODELING_PRACTICE@endlink: Additional checks for
-recommended good modeling practice. (These are tests performed by
-libSBML and do not have equivalent SBML validation rules.)
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink:
+Consistency and validity of SBO identifiers (if any) used in the model.
+With respect to the SBML specification, these concern failures in
+applying the validation rules numbered 107xx in the Level&nbsp;2
+Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink:
+Static analysis of whether the system of equations implied by a model is
+mathematically overdetermined.  With respect to the SBML specification,
+this is validation rule #10601 in the Level&nbsp;2
+Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+\n=item\n\n@link SBMLErrorCategory_t#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink:
+Additional checks for recommended good modeling practice. (These are
+tests performed by libSBML and do not have equivalent SBML validation
+rules.)
 \n=back\n
-
 <em>By default, all validation checks are applied</em> to the model in
 an SBMLDocument object I<unless>
-SBMLDocument::setConsistencyChecks(@if java int categ, boolean onoff@endif)
+SBMLDocument::setConsistencyChecks(@if java int, boolean@endif)
 is called to indicate that only a subset should be applied.  Further,
 this default (i.e., performing all checks) applies separately to
 <em>each new SBMLDocument object</em> created.  In other words, each
-time a model is read using SBMLReader::readSBML(@if java String filename@endif),
-SBMLReader::readSBMLFromString(@if java String xml@endif),
+time a model is read using SBMLReader::readSBML(@if java String@endif),
+SBMLReader::readSBMLFromString(@if java String@endif),
 or the global functions readSBML() and readSBMLFromString(), a new
 SBMLDocument is created and for that document, a call to
 SBMLDocument::checkConsistency() will default to applying all possible checks.
 Calling programs must invoke
-SBMLDocument::setConsistencyChecks(@if java int categ, boolean onoff@endif)
+SBMLDocument::setConsistencyChecks(@if java int, boolean@endif)
 for each such new model if they wish to change the consistency checks
 applied.
 
@@ -7396,7 +7465,7 @@ the set of SBML error categories@endif@~ indicating the consistency
 checking/validation to be turned on or off.
 @param apply a boolean indicating whether the checks indicated by
 C<category> should be applied or not.
-@see SBMLDocument::setLevelAndVersion(@if java long lev, long ver, boolean strict@endif)
+@see SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
 
 
 =item SBMLDocument::checkConsistency
@@ -7406,7 +7475,7 @@ If this method returns a nonzero value (meaning, one or more
 consistency checks have failed for SBML document), the failures may be
 due to warnings I<or> errors.  Callers should inspect the severity
 flag in the individual SBMLError objects returned by
-SBMLDocument::getError(@if java long n@endif) to determine the nature of the failures.
+SBMLDocument::getError(@if java long@endif) to determine the nature of the failures.
 @return the number of failed checks (errors) encountered.
 @see SBMLDocument::checkInternalConsistency()
 
@@ -7418,7 +7487,7 @@ If this method returns a nonzero value (meaning, one or more
 consistency checks have failed for SBML document), the failures may be
 due to warnings I<or> errors.  Callers should inspect the severity
 flag in the individual SBMLError objects returned by
-SBMLDocument::getError(@if java long n@endif) to determine the nature of the failures.
+SBMLDocument::getError(@if java long@endif) to determine the nature of the failures.
 @note unlike checkConsistency this method will write the document
 in order to determine all errors for the document. This will 
 also clear the error log. 
@@ -7431,7 +7500,7 @@ also clear the error log.
 Performs consistency checking on libSBML's internal representation of 
 an SBML Model.
 Callers should query the results of the consistency check by calling
-SBMLDocument::getError(@if java long n@endif).
+SBMLDocument::getError(@if java long@endif).
 @return the number of failed checks (errors) encountered.
 The distinction between this method and
 SBMLDocument::checkConsistency() is that this method reports on
@@ -7449,7 +7518,7 @@ Performs a set of consistency checks on the document to establish
 whether it is compatible with SBML Level&nbsp;1 and can be converted
 to Level&nbsp;1.
 Callers should query the results of the consistency check by calling
-SBMLDocument::getError(@if java long n@endif).
+SBMLDocument::getError(@if java long@endif).
 @return the number of failed checks (errors) encountered.
 
 
@@ -7459,7 +7528,7 @@ Performs a set of consistency checks on the document to establish
 whether it is compatible with SBML Level&nbsp;2 Version&nbsp;1 and can
 be converted to Level&nbsp;2 Version&nbsp;1.
 Callers should query the results of the consistency check by calling
-SBMLDocument::getError(@if java long n@endif).
+SBMLDocument::getError(@if java long@endif).
 @return the number of failed checks (errors) encountered.
 
 
@@ -7469,7 +7538,7 @@ Performs a set of consistency checks on the document to establish
 whether it is compatible with SBML Level&nbsp;2 Version&nbsp;2 and can
 be converted to Level&nbsp;2 Version&nbsp;2.
 Callers should query the results of the consistency check by calling
-SBMLDocument::getError(@if java long n@endif).
+SBMLDocument::getError(@if java long@endif).
 @return the number of failed checks (errors) encountered.
 
 
@@ -7479,7 +7548,7 @@ Performs a set of consistency checks on the document to establish
 whether it is compatible with SBML Level&nbsp;2 Version&nbsp;3 and can
 be converted to Level&nbsp;2 Version&nbsp;3.
 Callers should query the results of the consistency check by calling
-SBMLDocument::getError(@if java long n@endif).
+SBMLDocument::getError(@if java long@endif).
 @return the number of failed checks (errors) encountered.
 
 
@@ -7489,7 +7558,7 @@ Performs a set of consistency checks on the document to establish
 whether it is compatible with SBML Level&nbsp;2 Version&nbsp;4 and can
 be converted to Level&nbsp;2 Version&nbsp;4.
 Callers should query the results of the consistency check by calling
-SBMLDocument::getError(@if java long n@endif).
+SBMLDocument::getError(@if java long@endif).
 @return the number of failed checks (errors) encountered.
 
 
@@ -7499,7 +7568,7 @@ Performs a set of consistency checks on the document to establish
 whether it is compatible with SBML Level&nbsp;3 Version&nbsp;1 and can
 be converted to Level&nbsp;3 Version&nbsp;1.
 Callers should query the results of the consistency check by calling
-SBMLDocument::getError(@if java long n@endif).
+SBMLDocument::getError(@if java long@endif).
 @return the number of failed checks (errors) encountered.
 
 
@@ -7551,7 +7620,7 @@ line NNN: (id) message
 
 @param stream the ostream or ostringstream object indicating where
 the output should be printed.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 @see getNumErrors()
 @see getErrorLog()
 @see SBMLDocument::getError(unsigned int n)
@@ -7581,8 +7650,6 @@ constructor, copy constructor and assignment operator.
 
 =item SBMLDocument::convert
 
-@internal
-
 Converts this document using the converter that best matches
 the given conversion properties. 
 @param props the conversion properties to use
@@ -7590,9 +7657,9 @@ the given conversion properties.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED  @endlink
-@li @link OperationReturnValues_t#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE  @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
 
 
 =item SBMLDocument::enablePackageInternal
@@ -7663,8 +7730,8 @@ prefix.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
 
 
 =item SBMLDocument::isEnabledDefaultNS
@@ -7692,8 +7759,8 @@ enabled.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
 
 
 =item SBMLDocument::getPackageRequired
@@ -7758,10 +7825,10 @@ enabled.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
 @deprecated Replaced in libSBML 5.2.0 by
-setPackageRequired(@if java String package, boolean flag@endif)
+setPackageRequired(@if java String, boolean@endif)
 
 
 =item SBMLDocument::getPkgRequired
@@ -7776,7 +7843,7 @@ enabled.
 @return a Boolean value indicating whether the package is flagged as
 being required in this SBML document.
 @deprecated Replaced in libSBML 5.2.0 by
-getPackageRequired(@if java String package flag@endif)
+getPackageRequired(@if java String@endif)
 
 
 =item SBMLDocument::isSetPkgRequired
@@ -7789,7 +7856,7 @@ enabled.
 @param package the name or URI of the package extension.
 @return a Boolean value.
 @deprecated Replaced in libSBML 5.2.0 by
-isSetPackageRequired(@if java String package flag@endif)
+isSetPackageRequired(@if java String@endif)
 
 
 =item SBMLDocument::isIgnoredPkg
@@ -7801,7 +7868,7 @@ document, but the package is not enabled in this copy of libSBML.
 @param pkgURI the URI of the package extension.
 @return a boolean
 @deprecated Replaced in libSBML 5.2.0 by
-isIgnoredPackage(@if java String pkgURI flag@endif)
+isIgnoredPackage(@if java String@endif)
 
 
 =item SBMLDocument::getElementPosition
@@ -7931,7 +7998,7 @@ of this method as well.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's FunctionDefinition construct.
+@htmlinclude pkg-marker-core.html A user-defined function in an SBML model.
 The FunctionDefinition structure associates an identifier with a
 function definition.  This identifier can then be used as the function
 called in subsequent MathML content elsewhere in an SBML model.
@@ -7973,7 +8040,7 @@ to the function.  Moreover, recursive and mutually-recursive functions
 are not permitted.  The purpose of these limitations is to balance power
 against complexity of implementation.  With the restrictions as they
 are, function definitions could be implemented as textual
-substitutions&mdash;they are simply macros.  Software implementations
+substitutions---they are simply macros.  Software implementations
 therefore do not need the full function-definition machinery typically
 associated with programming languages.
 <br><br>
@@ -8001,9 +8068,7 @@ assume that the correct units are those of the expression anyway.)
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfFunctionDefinitions
-construct.
-
+@htmlinclude pkg-marker-core.html A list of FunctionDefinition objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -8018,11 +8083,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 FunctionDefinition
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_functiondefinition_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item FunctionDefinition::FunctionDefinition
@@ -8031,18 +8096,18 @@ Creates a new FunctionDefinition using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_functiondefinition_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item FunctionDefinition::FunctionDefinition
 
 Copy constructor; creates a copy of this FunctionDefinition.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -8057,8 +8122,8 @@ the list of function definitions.
 
 =item FunctionDefinition::clone
 
-Creates and returns a deep copy of this FunctionDefinition.
-@return a (deep) copy of this FunctionDefinition.
+Creates and returns a deep copy of this FunctionDefinition object.
+@return the (deep) copy of this FunctionDefinition object.
 
 
 =item FunctionDefinition::getId
@@ -8114,8 +8179,8 @@ C<opydetails> doc_id_syntax
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item FunctionDefinition::setName
@@ -8127,8 +8192,8 @@ The string in C<name> is copied.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item FunctionDefinition::setMath
@@ -8141,8 +8206,8 @@ be used as the formula for this FunctionDefinition.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item FunctionDefinition::unsetName
@@ -8152,8 +8217,8 @@ Unsets the value of the "name" attribute of this FunctionDefinition.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item FunctionDefinition::getArgument
@@ -8243,10 +8308,10 @@ implementation of this method as well.
 Predicate returning C<true> if
 all the required attributes for this FunctionDefinition object
 have been set.
-@note The required attributes for a FunctionDefinition object are:
+The required attributes for a FunctionDefinition object are:
 @li "id"
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item FunctionDefinition::hasRequiredElements
@@ -8342,8 +8407,8 @@ characteristics of the ListOfFunctionDefinitions object to be created.
 
 =item ListOfFunctionDefinitions::clone
 
-Creates and returns a deep copy of this ListOfFunctionDefinitions instance.
-@return a (deep) copy of this ListOfFunctionDefinitions.
+Creates and returns a deep copy of this ListOfFunctionDefinitions object.
+@return the (deep) copy of this ListOfFunctionDefinitions object.
 
 
 =item ListOfFunctionDefinitions::getItemTypeCode
@@ -8540,7 +8605,7 @@ the class documentation for Unit.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Unit construct.
+@htmlinclude pkg-marker-core.html A single unit referenced in an SBML <em>unit definition</em>.
 The SBML unit definition facility uses two classes of objects,
 UnitDefinition and Unit.  The approach to defining units in SBML is
 compositional; for example, <em>meter second<sup> &ndash;2</sup></em> is
@@ -8669,7 +8734,7 @@ constants defined in libSBML, and their meanings. @endif@~
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfUnits construct.
+@htmlinclude pkg-marker-core.html A list of Unit objects.
 ListOfUnits is entirely contained within UnitDefinition.
 C<opydetails> doc_what_is_listof
 
@@ -8685,11 +8750,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Unit
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_unit_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Unit::Unit
@@ -8698,18 +8763,18 @@ Creates a new Unit using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_unit_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Unit::Unit
 
 Copy constructor; creates a copy of this Unit.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -8725,8 +8790,8 @@ located in the enclosing UnitDefinition instance).
 
 =item Unit::clone
 
-Creates and returns a deep copy of this Unit.
-@return a (deep) copy of this Unit.
+Creates and returns a deep copy of this Unit object.
+@return the (deep) copy of this Unit object.
 
 
 =item Unit::initDefaults
@@ -9098,8 +9163,8 @@ names begin with C<UNIT_KIND_> in @link libsbml libsbml@endlink.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Unit::setExponent
@@ -9109,8 +9174,8 @@ Sets the "exponent" attribute value of this Unit.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Unit::setExponent
@@ -9120,7 +9185,7 @@ Sets the "exponent" attribute value of this Unit.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item Unit::setScale
@@ -9130,7 +9195,7 @@ Sets the "scale" attribute value of this Unit.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item Unit::setMultiplier
@@ -9141,8 +9206,8 @@ Sets the "multipler" attribute value of this Unit.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item Unit::setOffset
@@ -9153,8 +9218,8 @@ should set
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 C<opydetails> doc_warning_unit_offset_only_l2v1
 
 
@@ -9253,7 +9318,7 @@ Two Unit objects are considered to be I<equivalent> either if (1) both
 have a "kind" attribute value of C<dimensionless>, or (2) their "kind",
 "exponent" and (for SBML Level&nbsp;2 Version&nbsp;1) "offset"
 attribute values are equal. (Contrast this to the method
-areIdentical(@if java Unit u1, Unit u2@endif), which compares Unit objects with respect to all
+areIdentical(@if java Unit, Unit@endif), which compares Unit objects with respect to all
 attributes, not just the "kind" and "exponent".)
 @param unit1 the first Unit object to compare
 @param unit2 the second Unit object to compare
@@ -9276,7 +9341,7 @@ multiplier=C<"0.001"> scale=C<"0"> exponent=C<"1">.
 @param unit the Unit object to manipulate.
 @return integer value indicating success/failure of the function.  The
 possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 C<opydetails> doc_note_static_methods
 @see @if clike convertToSI() @else Unit::convertToSI(Unit u) @endif@~
 @see @if clike merge() @else Unit::merge(Unit u1, Unit u2) @endif@~
@@ -9324,13 +9389,13 @@ C<opydetails> doc_note_static_methods
 Predicate returning C<true> if
 all the required attributes for this Unit object
 have been set.
-@note The required attributes for a Unit object are:
+The required attributes for a Unit object are:
 @li "kind"
 @li "exponent" (required in SBML Level&nbsp;3; optional in Level&nbsp;2)
 @li "multiplier" (required in SBML Level&nbsp;3; optional in Level&nbsp;2)
 @li "scale" (required in SBML Level&nbsp;3; optional in Level&nbsp;2)
-@return a boolean value indicating whether all the required
-elements for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item Unit::setExponentUnitChecking
@@ -9489,8 +9554,8 @@ characteristics of the ListOfUnits object to be created.
 
 =item ListOfUnits::clone
 
-Creates and returns a deep copy of this ListOfUnits.
-@return a (deep) copy of this ListOfUnits.
+Creates and returns a deep copy of this ListOfUnits object.
+@return the (deep) copy of this ListOfUnits object.
 
 
 =item ListOfUnits::getItemTypeCode
@@ -9563,7 +9628,7 @@ XMLInputStream, or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's UnitDefinition construct.
+@htmlinclude pkg-marker-core.html A definition of a unit used in an SBML model.
 Units of measurement may be supplied in a number of contexts in an SBML
 model.  The SBML unit definition facility uses two classes of objects,
 UnitDefinition and Unit.  The approach to defining units in SBML is
@@ -9645,12 +9710,15 @@ name, C<Celsius>, not available in Level&nbsp;3.  Finally, SBML
 Level&nbsp;1 Versions&nbsp;2&ndash;3 provide two more additional
 predefined unit names, C<meter> and C<liter>.  This is explained in
 somewhat greater detail in the description of the Unit class.
+\n=over\n
 \n=item\n\nIn SBML Level&nbsp;2 (all Versions), there is an additional set of
 reserved identifiers: C<substance>, C<volume>, C<area>, C<length>, and
 C<time>.  Using one of these values for the attribute "id" of a
 UnitDefinition has the effect of redefining the model-wide default units
 for the corresponding quantities.  The list of special unit names in
 SBML Level&nbsp;2 is given in the table below:
+\n=back\n
+
 @htmlinclude predefined-units.html
 Also, SBML Level&nbsp;2 imposes two limitations on redefining the
 predefined unit C<substance>, C<volume>, C<area>, C<length>, and @c
@@ -9661,9 +9729,6 @@ column of the table above.
 The special unit names C<substance>, C<volume>, C<area>, C<length>, and
 C<time> are not defined by SBML Level&nbsp;3, which uses a different
 approach to setting model-wide inherited units.
-\n=back\n
-
-
 @section sbml-units-limits Further comments about SBML's unit definition system
 The vast majority of modeling situations requiring new SBML unit
 definitions involve simple multiplicative combinations of base units and
@@ -9756,9 +9821,7 @@ and other issues involving units.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfUnitDefinitions
-construct.
-
+@htmlinclude pkg-marker-core.html A list of UnitDefinition objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -9773,11 +9836,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 UnitDefinition
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_unitdefinition_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item UnitDefinition::UnitDefinition
@@ -9786,18 +9849,18 @@ Creates a new UnitDefinition using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_unitdefinition_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item UnitDefinition::UnitDefinition
 
 Copy constructor; creates a copy of this UnitDefinition.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -9813,8 +9876,8 @@ the ListOfUnitDefinitions located in the enclosing Model instance).
 
 =item UnitDefinition::clone
 
-Creates and returns a deep copy of this UnitDefinition.
-@return a (deep) copy of this UnitDefinition.
+Creates and returns a deep copy of this UnitDefinition object.
+@return the (deep) copy of this UnitDefinition object.
 
 
 =item UnitDefinition::getElementBySId
@@ -9877,8 +9940,8 @@ C<opydetails> doc_id_syntax
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item UnitDefinition::setName
@@ -9889,8 +9952,8 @@ The string in C<name> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item UnitDefinition::unsetName
@@ -9899,8 +9962,8 @@ Unsets the value of the "name" attribute of this UnitDefinition.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item UnitDefinition::isVariantOfArea
@@ -9985,11 +10048,11 @@ Adds a copy of the given Unit to this UnitDefinition.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createUnit()
 
@@ -10004,7 +10067,7 @@ Unit is a required attribute for a valid Unit definition.  The
 createUnit() method does not assign a valid kind to the constructed
 unit (instead, it sets the "kind" to @link UnitKind_t#UNIT_KIND_INVALID UNIT_KIND_INVALID@endlink).
 Callers are cautioned to set the newly-constructed Unit's kind using
-Unit::setKind(@if java int kind@endif) soon after calling this method.
+Unit::setKind(@if java int@endif) soon after calling this method.
 @see addUnit(const Unit  u)
 
 
@@ -10159,7 +10222,7 @@ For the purposes of performing this comparison, two UnitDefinition
 objects are considered identical when they contain identical lists of
 Unit objects.  Pairs of Unit objects in the lists are in turn
 considered identical if they satisfy the predicate
-Unit::areIdentical(@if java Unit u1, Unit u2@endif).
+Unit::areIdentical(@if java Unit, Unit@endif).
 The predicate compares every attribute of the
 Unit objects.
 @param ud1 the first UnitDefinition object to compare
@@ -10179,7 +10242,7 @@ For the purposes of performing this comparison, two UnitDefinition
 objects are considered equivalent when they contain I<equivalent>
 list of Unit objects.  Unit objects are in turn considered equivalent
 if they satisfy the predicate
-Unit::areEquivalent(@if java Unit u1, Unit u2@endif).
+Unit::areEquivalent(@if java Unit, Unit@endif).
 The predicate tests a subset of the objects's attributes.
 @param ud1 the first UnitDefinition object to compare
 @param ud2 the second UnitDefinition object to compare
@@ -10226,7 +10289,7 @@ C<opydetails> doc_note_static_methods
 
 Expresses the given definition in a plain-text form.
 For example,
-UnitDefinition::printUnits(@if java UnitDefinition u@endif)
+UnitDefinition::printUnits(@if java UnitDefinition@endif)
 applied to
 @verbatim
 <unitDefinition>
@@ -10264,10 +10327,10 @@ implementation of this method as well.
 Predicate returning C<true> if
 all the required attributes for this UnitDefinition object
 have been set.
-@note The required attributes for a UnitDefinition object are:
+The required attributes for a UnitDefinition object are:
 @li "id"
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item UnitDefinition::hasRequiredElements
@@ -10355,8 +10418,8 @@ characteristics of the ListOfUnitDefinitions object to be created.
 
 =item ListOfUnitDefinitions::clone
 
-Creates and returns a deep copy of this ListOfUnitDefinitions instance.
-@return a (deep) copy of this ListOfUnitDefinitions.
+Creates and returns a deep copy of this ListOfUnitDefinitions object.
+@return the (deep) copy of this ListOfUnitDefinitions object.
 
 
 =item ListOfUnitDefinitions::getItemTypeCode
@@ -10484,9 +10547,7 @@ XMLInputStream or NULL if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Level&nbsp;2's CompartmentType
-construct.
-
+@htmlinclude pkg-marker-core.html A <em>compartment type</em> in SBML Level&nbsp;2.
 SBML Level&nbsp;2 Versions&nbsp;2&ndash;4 provide the <em>compartment
 type</em> as a grouping construct that can be used to establish a
 relationship between multiple Compartment objects.  A CompartmentType
@@ -10499,7 +10560,7 @@ type construct, it would be impossible within SBML itself to indicate
 that all of the compartments share an underlying conceptual relationship
 because each SBML compartment must be given a unique and separate
 identity.  Compartment types have no mathematical meaning in
-SBML&mdash;they have no effect on a model's mathematical interpretation.
+SBML---they have no effect on a model's mathematical interpretation.
 Simulators and other numerical analysis software may ignore
 CompartmentType definitions and references to them in a model.
 There is no mechanism in SBML Level 2 for representing hierarchies of
@@ -10529,9 +10590,7 @@ available in SBML Level&nbsp;1 nor in Level&nbsp;3.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfCompartmentTypes
-construct.
-
+@htmlinclude pkg-marker-core.html A list of CompartmentType objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -10539,46 +10598,45 @@ C<opydetails> doc_what_is_listof
 
 =item CompartmentType::CompartmentType
 
-Creates a new CompartmentType using the given SBML C<level> and C<version>
-values.
-
+Creates a new CompartmentType object using the given SBML C<level> and
+C<version> values.
 @param level an unsigned int, the SBML Level to assign to this
 CompartmentType
 
 @param version an unsigned int, the SBML Version to assign to this
 CompartmentType
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_compartmenttype_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item CompartmentType::CompartmentType
 
-Creates a new CompartmentType using the given SBMLNamespaces object
-C<sbmlns>.
+Creates a new CompartmentType object using the given SBMLNamespaces
+object C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 It is worth emphasizing that although this constructor does not take an
 identifier argument, in SBML Level&nbsp;2 and beyond, the "id"
-(identifier) attribute of a CompartmentType is required to have a value.
-Thus, callers are cautioned to assign a value after calling this
+(identifier) attribute of a CompartmentType object is required to have a
+value.  Thus, callers are cautioned to assign a value after calling this
 constructor.  Setting the identifier can be accomplished using the
-method setId(@if java String id@endif).
+method setId(@if java String@endif).
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_compartmenttype_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item CompartmentType::CompartmentType
 
-Copy constructor; creates a copy of this CompartmentType.
+Copy constructor; creates a copy of this CompartmentType object.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -10587,47 +10645,63 @@ Thrown if the argument C<orig> is C<NULL>.
 Accepts the given SBMLVisitor for this instance of CompartmentType.
 @param v the SBMLVisitor instance to be used.
 @return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next CompartmentType in
+whether the Visitor would like to visit the next CompartmentType object in
 the list of compartment types.
 
 
 =item CompartmentType::clone
 
-Creates and returns a deep copy of this CompartmentType.
-@return a (deep) copy of this CompartmentType.
+Creates and returns a deep copy of this CompartmentType object.
+@return the (deep) copy of this CompartmentType object.
 
 
 =item CompartmentType::getId
 
-Returns the value of the "id" attribute of this CompartmentType.
-@return the id of this CompartmentType.
+Returns the value of the "id" attribute of this CompartmentType object.
+@return the identifier of this CompartmentType object.
+@see getName()
+@see setId(@if java String@endif)
+@see unsetId()
+@see isSetId()
 
 
 =item CompartmentType::getName
 
-Returns the value of the "name" attribute of this CompartmentType.
-@return the name of this CompartmentType.
+Returns the value of the "name" attribute of this CompartmentType
+object.
+
+@return the name of this CompartmentType object.
+@see getId()
+@see isSetName()
+@see setName(@if java String@endif)
+@see unsetName()
 
 
 =item CompartmentType::isSetId
 
-Predicate returning C<true> if this
-CompartmentType's "id" attribute is set.
-@return C<true> if the "id" attribute of this CompartmentType is
+Predicate returning C<true> if this CompartmentType object's "id"
+attribute is set.
+@return C<true> if the "id" attribute of this CompartmentType object is
 set, C<false> otherwise.
+@see getId()
+@see unsetId()
+@see setId(@if java String@endif)
 
 
 =item CompartmentType::isSetName
 
-Predicate returning C<true> if this
-CompartmentType's "name" attribute is set.
-@return C<true> if the "name" attribute of this CompartmentType is
-set, C<false> otherwise.
+Predicate returning C<true> if this CompartmentType object's "name"
+attribute is set.
+@return C<true> if the "name" attribute of this CompartmentType object
+is set, C<false> otherwise.
+@see getName()
+@see setName(@if java String@endif)
+@see unsetName()
 
 
 =item CompartmentType::setId
 
-Sets the value of the "id" attribute of this CompartmentType.
+Sets the value of the "id" attribute of this CompartmentType object.
 The string C<sid> is copied.
 C<opydetails> doc_id_syntax
 @param sid the string to use as the identifier of this CompartmentType
@@ -10635,32 +10709,41 @@ C<opydetails> doc_id_syntax
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@see getId()
+@see unsetId()
+@see isSetId()
 
 
 =item CompartmentType::setName
 
-Sets the value of the "name" attribute of this CompartmentType.
+Sets the value of the "name" attribute of this CompartmentType object.
 The string in C<name> is copied.
 @param name the new name for the CompartmentType
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@see getName()
+@see isSetName()
+@see unsetName()
 
 
 =item CompartmentType::unsetName
 
-Unsets the value of the "name" attribute of this CompartmentType.
+Unsets the value of the "name" attribute of this CompartmentType object.
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@see getName()
+@see setName(@if java String@endif)
+@see isSetName()
 
 
 =item CompartmentType::getTypeCode
@@ -10676,9 +10759,11 @@ C<opydetails> doc_warning_typecodes_not_unique
 
 =item CompartmentType::getElementName
 
-Returns the XML element name of this object, which for
-CompartmentType, is always C<"compartmentType">.
-@return the name of this element, i.e., C<"compartmentType">.
+Returns the XML element name of this object
+For CompartmentType, the element name is always C<"compartmentType">.
+@return the name of this element.
+@see getTypeCode()
+@see getPackageName()
 
 
 =item CompartmentType::writeElements
@@ -10692,13 +10777,12 @@ implementation of this method as well.
 
 =item CompartmentType::hasRequiredAttributes
 
-Predicate returning C<true> if
-all the required attributes for this CompartmentType object
-have been set.
-@note The required attributes for a CompartmentType object are:
+Predicate returning C<true> if all the required attributes for this
+CompartmentType object have been set.
+The required attributes for a CompartmentType object are:
 @li "id"
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item CompartmentType::addExpectedAttributes
@@ -10758,8 +10842,8 @@ characteristics of the ListOfCompartmentTypes object to be created.
 
 =item ListOfCompartmentTypes::clone
 
-Creates and returns a deep copy of this ListOfCompartmentTypes instance.
-@return a (deep) copy of this ListOfCompartmentTypes.
+Creates and returns a deep copy of this ListOfCompartmentTypes object.
+@return the (deep) copy of this ListOfCompartmentTypes object.
 
 
 =item ListOfCompartmentTypes::getItemTypeCode
@@ -10784,42 +10868,42 @@ For ListOfCompartmentTypes, the XML element name is @c
 
 =item ListOfCompartmentTypes::get
 
-Get a CompartmentType from the ListOfCompartmentTypes.
-@param n the index number of the CompartmentType to get.
-@return the nth CompartmentType in this ListOfCompartmentTypes.
+Get a CompartmentType object from the ListOfCompartmentTypes.
+@param n the index number of the CompartmentType object to get.
+@return the nth CompartmentType object in this ListOfCompartmentTypes.
 @see size()
 
 
 =item ListOfCompartmentTypes::get
 
-Get a CompartmentType from the ListOfCompartmentTypes.
-@param n the index number of the CompartmentType to get.
-@return the nth CompartmentType in this ListOfCompartmentTypes.
+Get a CompartmentType object from the ListOfCompartmentTypes.
+@param n the index number of the CompartmentType object to get.
+@return the nth CompartmentType object in this ListOfCompartmentTypes.
 @see size()
 
 
 =item ListOfCompartmentTypes::get
 
-Get a CompartmentType from the ListOfCompartmentTypes
+Get a CompartmentType object from the ListOfCompartmentTypes
 based on its identifier.
-@param sid a string representing the identifier 
-of the CompartmentType to get.
-@return CompartmentType in this ListOfCompartmentTypes
+@param sid a string representing the identifier
+of the CompartmentType object to get.
+@return CompartmentType object in this ListOfCompartmentTypes
 with the given C<sid> or C<NULL> if no such
-CompartmentType exists.
+CompartmentType object exists.
 @see get(unsigned int n)
 @see size()
 
 
 =item ListOfCompartmentTypes::get
 
-Get a CompartmentType from the ListOfCompartmentTypes
+Get a CompartmentType object from the ListOfCompartmentTypes
 based on its identifier.
-@param sid a string representing the identifier 
-of the CompartmentType to get.
-@return CompartmentType in this ListOfCompartmentTypes
+@param sid a string representing the identifier
+of the CompartmentType object to get.
+@return CompartmentType object in this ListOfCompartmentTypes
 with the given C<sid> or C<NULL> if no such
-CompartmentType exists.
+CompartmentType object exists.
 @see get(unsigned int n)
 @see size()
 
@@ -10875,9 +10959,7 @@ XMLInputStream, or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML Level&nbsp;2's SpeciesType
-construct.
-
+@htmlinclude pkg-marker-core.html A <em>species type</em> in SBML Level 2.
 The term I<species> I<type> refers to reacting entities independent of
 location.  These include simple ions (e.g., protons, calcium), simple
 molecules (e.g., glucose, ATP), large molecules (e.g., RNA,
@@ -10918,7 +11000,7 @@ available in SBML Level&nbsp;1 nor in Level&nbsp;3.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfSpeciesTypes construct.
+@htmlinclude pkg-marker-core.html A list of SpeciesType objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -10933,11 +11015,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 SpeciesType
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_speciestype_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item SpeciesType::SpeciesType
@@ -10950,20 +11032,20 @@ an identifier argument, in SBML Level&nbsp;2 and beyond, the "id"
 (identifier) attribute of a SpeciesType object is required to have a value.
 Thus, callers are cautioned to assign a value after calling this
 constructor.  Setting the identifier can be accomplished using the
-method SBase::setId(@if java String id@endif).
+method SBase::setId(@if java String@endif).
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_speciestype_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item SpeciesType::SpeciesType
 
 Copy constructor; creates a copy of this SpeciesType.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -10978,8 +11060,8 @@ the list of compartment types.
 
 =item SpeciesType::clone
 
-Creates and returns a deep copy of this SpeciesType.
-@return a (deep) copy of this SpeciesType.
+Creates and returns a deep copy of this SpeciesType object.
+@return the (deep) copy of this SpeciesType object.
 
 
 =item SpeciesType::getId
@@ -11020,8 +11102,8 @@ C<opydetails> doc_id_syntax
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item SpeciesType::setName
@@ -11033,8 +11115,8 @@ The string in C<name> is copied.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item SpeciesType::unsetName
@@ -11044,8 +11126,8 @@ Unsets the value of the "name" attribute of this SpeciesType.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SpeciesType::getTypeCode
@@ -11080,10 +11162,10 @@ implementation of this method as well.
 Predicate returning C<true> if
 all the required attributes for this SpeciesType object
 have been set.
-@note The required attributes for a SpeciesType object are:
+The required attributes for a SpeciesType object are:
 @li "id"
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item SpeciesType::addExpectedAttributes
@@ -11143,8 +11225,8 @@ characteristics of the ListOfSpeciesTypes object to be created.
 
 =item ListOfSpeciesTypes::clone
 
-Creates and returns a deep copy of this ListOfSpeciesTypes instance.
-@return a (deep) copy of this ListOfSpeciesTypes.
+Creates and returns a deep copy of this ListOfSpeciesTypes object.
+@return the (deep) copy of this ListOfSpeciesTypes object.
 
 
 =item ListOfSpeciesTypes::getItemTypeCode
@@ -11261,7 +11343,7 @@ XMLInputStream, or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Compartment construct.
+@htmlinclude pkg-marker-core.html An SBML compartment, where species are located.
 A compartment in SBML represents a bounded space in which species are
 located.  Compartments do not necessarily have to correspond to actual
 structures inside or outside of a biological cell.
@@ -11413,7 +11495,7 @@ compartment cannot ever have a size.
 If a compartment has no size or dimensional units, how should such a
 compartment's identifier be interpreted when it appears in mathematical
 formulas?  The answer is that such a compartment's identifier should not
-appear in mathematical formulas in the first place&mdash;it has no
+appear in mathematical formulas in the first place---it has no
 value, and its value cannot change.  Note also that a zero-dimensional
 compartment is a point, and species located at points can only be
 described in terms of amounts, not spatially-dependent measures such as
@@ -11572,9 +11654,7 @@ other.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML Level&nbsp;2's ListOfCompartments
-construct.
-
+@htmlinclude pkg-marker-core.html A list of Compartment objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -11582,44 +11662,43 @@ C<opydetails> doc_what_is_listof
 
 =item Compartment::Compartment
 
-Creates a new Compartment using the given SBML C<level> and C<version>
-values.
-
+Creates a new Compartment object using the given SBML C<level> and @p
+version values.
 @param level an unsigned int, the SBML Level to assign to this Compartment
 @param version an unsigned int, the SBML Version to assign to this
 Compartment
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_compartment_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Compartment::Compartment
 
-Creates a new Compartment using the given SBMLNamespaces object 
+Creates a new Compartment object using the given SBMLNamespaces object
 C<sbmlns>.
-C<opydetails> doc_what_are_sbmlnamespaces 
-It is worth emphasizing that although this constructor does not take
-an identifier argument, in SBML Level&nbsp;2 and beyond, the "id"
-(identifier) attribute of a Compartment is required to have a value.
-Thus, callers are cautioned to assign a value after calling this
+C<opydetails> doc_what_are_sbmlnamespaces
+It is worth emphasizing that although this constructor does not take an
+identifier argument, in SBML Level&nbsp;2 and beyond, the "id"
+(identifier) attribute of a Compartment object is required to have a
+value.  Thus, callers are cautioned to assign a value after calling this
 constructor.  Setting the identifier can be accomplished using the
 method @if java Compartment::setId(String id)@else setId()@endif.
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_compartment_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Compartment::Compartment
 
 Copy constructor; creates a copy of a Compartment.
 @param orig the Compartment instance to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -11628,15 +11707,15 @@ Thrown if the argument C<orig> is C<NULL>.
 Accepts the given SBMLVisitor for this instance of Compartment.
 @param v the SBMLVisitor instance to be used.
 @return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next Compartment in the
-list of compartments within which this Compartment is embedded (i.e.,
+whether the Visitor would like to visit the next Compartment object in the
+list of compartments within which this Compartment object is embedded (i.e.,
 the ListOfCompartments in the parent Model).
 
 
 =item Compartment::clone
 
 Creates and returns a deep copy of this Compartment object.
-@return a (deep) copy of this Compartment.
+@return the (deep) copy of this Compartment object.
 
 
 =item Compartment::initDefaults
@@ -11657,13 +11736,21 @@ mostly on what they are in SBML Level&nbsp;2.  Specifically:
 =item Compartment::getId
 
 Returns the value of the "id" attribute of this Compartment object.
-@return the id of this Compartment.
+@return the identifier of this Compartment object.
+@see getName()
+@see setId(@if java String@endif)
+@see unsetId()
+@see isSetId()
 
 
 =item Compartment::getName
 
 Returns the value of the "name" attribute of this Compartment object.
-@return the name of this Compartment.
+@return the name of this Compartment object.
+@see getId()
+@see isSetName()
+@see setName(@if java String@endif)
+@see unsetName()
 
 
 =item Compartment::getCompartmentType
@@ -11672,18 +11759,24 @@ Get the value of the "compartmentType" attribute of this Compartment
 object.
 
 @return the value of the "compartmentType" attribute of this
-Compartment as a string.
+Compartment object as a string.
 @note The "compartmentType" attribute is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.
+@see isSetCompartmentType()
+@see setCompartmentType(@if java String@endif)
+@see unsetCompartmentType()
 
 
 =item Compartment::getSpatialDimensions
 
 Get the number of spatial dimensions of this Compartment object.
 @return the value of the "spatialDimensions" attribute of this
-Compartment as an unsigned integer
-C<opydetails> doc_note_spatial_dimensions_as_double 
+Compartment object as an unsigned integer
+C<opydetails> doc_note_spatial_dimensions_as_double
 @see getSpatialDimensionsAsDouble()
+@see setSpatialDimensions(@if java unsigned int@endif)
+@see isSetSpatialDimensions()
+@see unsetSpatialDimensions()
 
 
 =item Compartment::getSpatialDimensionsAsDouble
@@ -11691,99 +11784,120 @@ C<opydetails> doc_note_spatial_dimensions_as_double
 Get the number of spatial dimensions of this Compartment object,
 as a double.
 @return the value of the "spatialDimensions" attribute of this
-Compartment as a double, or C<NaN> if this model is not in SBML
+Compartment object as a double, or C<NaN> if this model is not in SBML
 Level&nbsp;3 format.
 C<opydetails> doc_note_spatial_dimensions_as_double
 @see getSpatialDimensions()
+@see setSpatialDimensions(@if java unsigned int@endif)
+@see isSetSpatialDimensions()
+@see unsetSpatialDimensions()
 
 
 =item Compartment::getSize
 
-Get the size of this Compartment.
+Get the size of this Compartment object.
 C<opydetails> doc_compartment_both_size_and_volume
 @return the value of the "size" attribute ("volume" in Level&nbsp;1) of
-this Compartment as a floating-point number.
+this Compartment object as a floating-point number.
 @note This method is identical to
 @if java Compartment::getVolume()@else getVolume()@endif.
-@see isSetSize()
 @see getVolume()
+@see isSetSize()
+@see setSize(@if java double@endif)
+@see unsetSize()
 
 
 =item Compartment::getVolume
 
-Get the volume of this Compartment.
+Get the volume of this Compartment object.
 C<opydetails> doc_compartment_both_size_and_volume
 @return the value of the "volume" attribute ("size" in Level&nbsp;2) of
-this Compartment, as a floating-point number.
+this Compartment object, as a floating-point number.
 C<opydetails> doc_note_compartment_volume
 @note This method is identical to
 @if java Compartment::getSize()@else getSize()@endif.
-@see isSetVolume()
 @see getSize()
+@see isSetVolume()
+@see setVolume(@if java double@endif)
+@see unsetVolume()
 
 
 =item Compartment::getUnits
 
-Get the units of this compartment's size.
+Get the units of this Compartment object's size.
 The value of an SBML compartment's "units" attribute establishes the
 unit of measurement associated with the compartment's size.
-@return the value of the "units" attribute of this Compartment, as a
-string.  An empty string indicates that no units have been assigned to
-the value of the size.
+@return the value of the "units" attribute of this Compartment object,
+as a string.  An empty string indicates that no units have been assigned
+to the value of the size.
 C<opydetails> doc_note_unassigned_unit_are_not_a_default
 @see isSetUnits()
-@see @if java Compartment::setUnits(String sid)@else setUnits()@endif@~
-@see getSize()
+@see setUnits(@if java String@endif)
+@see unsetUnits()
 
 
 =item Compartment::getOutside
 
-Get the identifier, if any, of the compartment that is designated
-as being outside of this one.
-@return the value of the "outside" attribute of this Compartment.
+Get the identifier, if any, of the Compartment object that is designated
+as being outside of I<this> one.
+@return the value of the "outside" attribute of this Compartment object.
 @note The "outside" attribute is defined in SBML Level&nbsp;1 and
 Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
 Core.
 
+@see isSetOutside()
+@see setOutside(@if java String@endif)
+@see unsetOutside()
+
 
 =item Compartment::getConstant
 
-Get the value of the "constant" attribute of this Compartment.
-@return C<true> if this Compartment's size is flagged as being
+Get the value of the "constant" attribute of this Compartment object.
+@return C<true> if this Compartment object's size is flagged as being
 constant, C<false> otherwise.
+@see isSetConstant()
+@see setConstant(@if java bool@endif)
 
 
 =item Compartment::isSetId
 
-Predicate returning C<true> if this
-Compartment's "id" attribute is set.
-@return C<true> if the "id" attribute of this Compartment is 
+Predicate returning C<true> if this Compartment object's "id" attribute
+is set.
+@return C<true> if the "id" attribute of this Compartment object is
 set, C<false> otherwise.
+@see getId()
+@see unsetId()
+@see setId(@if java String@endif)
 
 
 =item Compartment::isSetName
 
-Predicate returning C<true> if this
-Compartment's "name" attribute is set.
-@return C<true> if the "name" attribute of this Compartment is
+Predicate returning C<true> if this Compartment object's "name"
+attribute is set.
+@return C<true> if the "name" attribute of this Compartment object is
 set, C<false> otherwise.
+@see getName()
+@see setName(@if java String@endif)
+@see unsetName()
 
 
 =item Compartment::isSetCompartmentType
 
-Predicate returning C<true> if this
-Compartment's "compartmentType" attribute is set.
+Predicate returning C<true> if this Compartment object's
+"compartmentType" attribute is set.
 @return C<true> if the "compartmentType" attribute of this Compartment
 is set, C<false> otherwise.
 @note The "compartmentType" attribute is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.
+@see setCompartmentType(@if java String@endif)
+@see getCompartmentType()
+@see unsetCompartmentType()
 
 
 =item Compartment::isSetSize
 
-Predicate returning C<true> if this Compartment's "size" attribute is
-set.
-
+Predicate returning C<true> if this Compartment object's "size"
+attribute is set.
 This method is similar but not identical to
 @if java Compartment::isSetVolume()@else isSetVolume()@endif.  The latter
 should be used in the context of SBML Level&nbsp;1 models instead of
@@ -11792,157 +11906,187 @@ because @if java Compartment::isSetVolume()@else isSetVolume()@endif@~
 performs extra processing to take into account the difference in
 default values between SBML Levels&nbsp;1 and&nbsp;2.
 @return C<true> if the "size" attribute ("volume" in Level&nbsp;2) of
-this Compartment is set, C<false> otherwise.
+this Compartment object is set, C<false> otherwise.
 @see isSetVolume()
-@see @if java Compartment::setSize(double value)@else setSize()@endif@~
+@see setSize(@if java double@endif)
+@see getSize()
+@see unsetSize()
 
 
 =item Compartment::isSetVolume
 
-Predicate returning C<true> if this Compartment's "volume" attribute is
-set.
-
+Predicate returning C<true> if this Compartment object's "volume"
+attribute is set.
 This method is similar but not identical to
 @if java Compartment::isSetSize()@else isSetSize()@endif.  The latter
 should not be used in the context of SBML Level&nbsp;1 models because the
 present method performs extra processing to take into account
 the difference in default values between SBML Levels&nbsp;1 and&nbsp;2.
 @return C<true> if the "volume" attribute ("size" in Level&nbsp;2 and
-above) of this Compartment is set, C<false> otherwise.
+above) of this Compartment object is set, C<false> otherwise.
 C<opydetails> doc_note_compartment_volume
 @see isSetSize()
-@see @if java Compartment::setVolume(double value)@else setVolume()@endif@~
+@see getVolume()
+@see setVolume(@if java double@endif)
+@see unsetVolume()
 
 
 =item Compartment::isSetUnits
 
-Predicate returning C<true> if this
-Compartment's "units" attribute is set.
-@return C<true> if the "units" attribute of this Compartment is
+Predicate returning C<true> if this Compartment object's "units"
+attribute is set.
+@return C<true> if the "units" attribute of this Compartment object is
 set, C<false> otherwise.
 C<opydetails> doc_note_unassigned_unit_are_not_a_default
+@see setUnits(@if java String@endif)
+@see getUnits()
+@see unsetUnits()
 
 
 =item Compartment::isSetOutside
 
-Predicate returning C<true> if this
-Compartment's "outside" attribute is set.
-@return C<true> if the "outside" attribute of this Compartment is
+Predicate returning C<true> if this Compartment object's "outside"
+attribute is set.
+@return C<true> if the "outside" attribute of this Compartment object is
 set, C<false> otherwise.
 @note The "outside" attribute is defined in SBML Level&nbsp;1 and
 Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
 Core.
 
+@see getOutside()
+@see setOutside(@if java String@endif)
+@see unsetOutside()
+
 
 =item Compartment::isSetSpatialDimensions
 
-Predicate returning C<true> if this
-Compartment's "spatialDimensions" attribute is set.
+Predicate returning C<true> if this Compartment object's
+"spatialDimensions" attribute is set.
 @return C<true> if the "spatialDimensions" attribute of this
-Compartment is set, C<false> otherwise.
+Compartment object is set, C<false> otherwise.
+@see getSpatialDimensions()
+@see setSpatialDimensions(@if java unsigned int@endif)
+@see unsetSpatialDimensions()
 
 
 =item Compartment::isSetConstant
 
-Predicate returning C<true> if this
-Compartment's "constant" attribute is set.
-@return C<true> if the "constant" attribute of this Compartment is
+Predicate returning C<true> if this Compartment object's "constant"
+attribute is set.
+@return C<true> if the "constant" attribute of this Compartment object is
 set, C<false> otherwise.
+@see getConstant()
+@see setConstant(@if java bool@endif)
 
 
 =item Compartment::setId
 
-Sets the value of the "id" attribute of this Compartment.
+Sets the value of the "id" attribute of this Compartment object.
 The string C<sid> is copied.
 C<opydetails> doc_id_syntax
-@param sid the string to use as the identifier of this Compartment. If
+@param sid the string to use as the identifier of this Compartment object. If
 the string is C<NULL>, this method will return
-@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink.
+@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@see getId()
+@see unsetId()
+@see isSetId()
 
 
 =item Compartment::setName
 
-Sets the value of the "name" attribute of this Compartment.
+Sets the value of the "name" attribute of this Compartment object.
 The string in C<name> is copied.
-@param name the new name for the Compartment. If the string is C<NULL>,
-this method will return
-@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink.
+@param name the new name for the Compartment object. If the string is @c
+NULL, this method will return
+@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@see getName()
+@see isSetName()
+@see unsetName()
 
 
 =item Compartment::setCompartmentType
 
-Sets the "compartmentType" attribute of this Compartment.
+Sets the "compartmentType" attribute of this Compartment object.
 @param sid the identifier of a CompartmentType object defined elsewhere
 in this Model. If the string is C<NULL>, this method will return
-@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink.
+@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The "compartmentType" attribute is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.
+@see isSetCompartmentType()
+@see getCompartmentType()
+@see unsetCompartmentType()
 
 
 =item Compartment::setSpatialDimensions
 
-Sets the "spatialDimensions" attribute of this Compartment.
+Sets the "spatialDimensions" attribute of this Compartment object.
 @param value an unsigned integer indicating the number of dimensions
 of this compartment.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@see getSpatialDimensions()
+@see isSetSpatialDimensions()
+@see unsetSpatialDimensions()
 
 
 =item Compartment::setSpatialDimensions
 
-Sets the "spatialDimensions" attribute of this Compartment as a double.
+Sets the "spatialDimensions" attribute of this Compartment object as a double.
 @param value a double indicating the number of dimensions
 of this compartment.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@see getSpatialDimensions()
+@see isSetSpatialDimensions()
+@see unsetSpatialDimensions()
 
 
 =item Compartment::setSize
 
 Sets the "size" attribute (or "volume" in SBML Level&nbsp;1) of this
-Compartment.
-
+Compartment object.
 @param value a C<double> representing the size of this compartment
 instance in whatever units are in effect for the compartment.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @note This method is identical to
 @if java Compartment::setVolume(double value)@else setVolume()@endif.
+@see setVolume(@if java double@endif)
+@see getSize()
 @see isSetSize()
-@see @if java Compartment::setVolume(double value)@else setVolume()@endif
+@see unsetSize()
 
 
 =item Compartment::setVolume
 
 Sets the "volume" attribute (or "size" in SBML Level&nbsp;2) of this
-Compartment.
-
+Compartment object.
 This method is identical to
 @if java Compartment::setSize(double value)@else setSize()@endif@~
 and is provided for compatibility between SBML Level&nbsp;1 and
@@ -11952,108 +12096,107 @@ instance in whatever units are in effect for the compartment.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 C<opydetails> doc_note_compartment_volume
+@see setSize(@if java double@endif)
+@see getVolume()
 @see isSetVolume()
-@see @if java Compartment::setSize(double value)@else setSize()@endif@~
+@see unsetVolume()
 
 
 =item Compartment::setUnits
 
-Sets the "units" attribute of this Compartment.
+Sets the "units" attribute of this Compartment object.
 @param sid the identifier of the defined units to use.  If C<sid> is @c
 NULL, then this method will return
-@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink.
+@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@see isSetUnits()
+@see getUnits()
+@see unsetUnits()
 
 
 =item Compartment::setOutside
 
-Sets the "outside" attribute of this Compartment.
+Sets the "outside" attribute of this Compartment object.
 @param sid the identifier of a compartment that encloses this one. If @p
 sid is C<NULL>, then this method will return
-@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink.
+@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "outside" attribute is defined in SBML Level&nbsp;1 and
 Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
 Core.
 
+@see isSetOutside()
+@see getOutside()
+@see unsetOutside()
+
 
 =item Compartment::setConstant
 
-Sets the value of the "constant" attribute of this Compartment.
+Sets the value of the "constant" attribute of this Compartment object.
 @param value a boolean indicating whether the size/volume of this
 compartment should be considered constant (C<true>) or variable
 (C<false>).
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@see isSetConstant()
+@see getConstant()
 
 
 =item Compartment::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item Compartment::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item Compartment::unsetName
 
-Unsets the value of the "name" attribute of this Compartment.
+Unsets the value of the "name" attribute of this Compartment object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@see getName()
+@see setName(@if java String@endif)
+@see isSetName()
 
 
 =item Compartment::unsetCompartmentType
 
-Unsets the value of the "compartmentType" attribute of this Compartment.
+Unsets the value of the "compartmentType" attribute of this Compartment object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The "compartmentType" attribute is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.
 @see setCompartmentType(const std::string& sid)
 @see isSetCompartmentType()
+@see getCompartmentType()
 
 
 =item Compartment::unsetSize
 
-Unsets the value of the "size" attribute of this Compartment.
+Unsets the value of the "size" attribute of this Compartment object.
 In SBML Level&nbsp;1, a compartment's volume has a default value (@c
 1.0) and therefore <em>should always be set</em>.  Calling this method
 on a Level&nbsp;1 model resets the value to C<1>.0 rather than actually
@@ -12063,75 +12206,91 @@ no defined size.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note This method is identical to
 @if java Compartment::unsetVolume()@else unsetVolume()@endif.
+@see unsetVolume()
+@see getSize()
+@see isSetSize()
+@see setSize(@if java double@endif)
 
 
 =item Compartment::unsetVolume
 
-Unsets the value of the "volume" attribute of this Compartment.
+Unsets the value of the "volume" attribute of this Compartment object.
 This method is identical to
 @if java Compartment::unsetSize()@else unsetSize()@endif.  Please refer
 to that method's documentation for more information about its behavior.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_compartment_volume
 @see unsetSize()
+@see getVolume()
+@see setVolume(@if java double@endif)
+@see isSetVolume()
 
 
 =item Compartment::unsetUnits
 
-Unsets the value of the "units" attribute of this Compartment.
+Unsets the value of the "units" attribute of this Compartment object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@see isSetUnits()
+@see setUnits(@if java String@endif)
+@see getUnits()
 
 
 =item Compartment::unsetOutside
 
-Unsets the value of the "outside" attribute of this Compartment.
+Unsets the value of the "outside" attribute of this Compartment object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "outside" attribute is defined in SBML Level&nbsp;1 and
 Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
 Core.
+
+@see isSetOutside()
+@see getOutside()
+@see setOutside(@if java String@endif)
 
 
 =item Compartment::unsetSpatialDimensions
 
 Unsets the value of the "spatialDimensions" attribute of this
-Compartment.
-
+Compartment object.
 In SBML Levels prior to Level&nbsp;3, compartments must always have a
 value for the number of dimensions.  Consequently, calling this method
 on a model of SBML Level 1&ndash;2 will result in a return value of
-@link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note This function is only valid for SBML Level&nbsp;3.
+@see getSpatialDimensions()
+@see isSetSpatialDimensions()
+@see setSpatialDimensions(@if java unsigned int@endif)
 
 
 =item Compartment::getDerivedUnitDefinition
 
 Constructs and returns a UnitDefinition that corresponds to the units
-of this Compartment's designated size.
+of this Compartment object's designated size.
 C<opydetails> doc_compartment_units
-@return a UnitDefinition that expresses the units of this 
-Compartment, or C<NULL> if one cannot be constructed.
+@return a UnitDefinition that expresses the units of this
+Compartment object, or C<NULL> if one cannot be constructed.
 C<opydetails> doc_note_unit_analysis_depends_on_model
 @see isSetUnits()
 @see getUnits()
@@ -12140,10 +12299,10 @@ C<opydetails> doc_note_unit_analysis_depends_on_model
 =item Compartment::getDerivedUnitDefinition
 
 Constructs and returns a UnitDefinition that corresponds to the units
-of this Compartment's designated size.
+of this Compartment object's designated size.
 C<opydetails> doc_compartment_units
-@return a UnitDefinition that expresses the units of this 
-Compartment, or C<NULL> if one cannot be constructed.
+@return a UnitDefinition that expresses the units of this
+Compartment object, or C<NULL> if one cannot be constructed.
 C<opydetails> doc_note_unit_analysis_depends_on_model
 @see isSetUnits()
 @see getUnits()
@@ -12162,9 +12321,9 @@ C<opydetails> doc_warning_typecodes_not_unique
 
 =item Compartment::getElementName
 
-Returns the XML element name of this object, which for Compartment, is
-always C<"compartment">.
-@return the name of this element, i.e., C<"compartment">.
+Returns the XML element name of this object
+For Compartment, the XML element name is always C<"compartment">.
+@return the name of this element.
 
 
 =item Compartment::writeElements
@@ -12180,11 +12339,11 @@ implementation of this method as well.
 
 Predicate returning C<true> if all the required attributes for this
 Compartment object have been set.
-@note The required attributes for a Compartment object are:
+The required attributes for a Compartment object are:
 @li "id" (or "name" in SBML Level&nbsp;1)
 @li "constant" (in SBML Level&nbsp;3 only)
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item Compartment::addExpectedAttributes
@@ -12262,8 +12421,8 @@ characteristics of the ListOfCompartments object to be created.
 
 =item ListOfCompartments::clone
 
-Creates and returns a deep copy of this ListOfCompartments instance.
-@return a (deep) copy of this ListOfCompartments.
+Creates and returns a deep copy of this ListOfCompartments object.
+@return the (deep) copy of this ListOfCompartments object.
 
 
 =item ListOfCompartments::getItemTypeCode
@@ -12280,48 +12439,49 @@ instance: @link SBMLTypeCode_t#SBML_COMPARTMENT SBML_COMPARTMENT@endlink (defaul
 =item ListOfCompartments::getElementName
 
 Returns the XML element name of this object.
-For ListOfCompartments, the XML element name is C<"listOfCompartments">.
-@return the name of this element, i.e., C<"listOfCompartments">.
+For ListOfCompartments, the XML element name is always
+C<"listOfCompartments">.
+@return the name of this element.
 
 
 =item ListOfCompartments::get
 
-Get a Compartment from the ListOfCompartments.
-@param n the index number of the Compartment to get.
-@return the nth Compartment in this ListOfCompartments.
+Get a Compartment object from the ListOfCompartments.
+@param n the index number of the Compartment object to get.
+@return the nth Compartment object in this ListOfCompartments.
 @see size()
 
 
 =item ListOfCompartments::get
 
-Get a Compartment from the ListOfCompartments.
-@param n the index number of the Compartment to get.
-@return the nth Compartment in this ListOfCompartments.
+Get a Compartment object from the ListOfCompartments.
+@param n the index number of the Compartment object to get.
+@return the nth Compartment object in this ListOfCompartments.
 @see size()
 
 
 =item ListOfCompartments::get
 
-Get a Compartment from the ListOfCompartments
+Get a Compartment object from the ListOfCompartments
 based on its identifier.
-@param sid a string representing the identifier 
-of the Compartment to get.
-@return Compartment in this ListOfCompartments
+@param sid a string representing the identifier
+of the Compartment object to get.
+@return Compartment object in this ListOfCompartments
 with the given C<sid> or C<NULL> if no such
-Compartment exists.
+Compartment object exists.
 @see get(unsigned int n)
 @see size()
 
 
 =item ListOfCompartments::get
 
-Get a Compartment from the ListOfCompartments
+Get a Compartment object from the ListOfCompartments
 based on its identifier.
-@param sid a string representing the identifier 
-of the Compartment to get.
-@return Compartment in this ListOfCompartments
+@param sid a string representing the identifier
+of the Compartment object to get.
+@return Compartment object in this ListOfCompartments
 with the given C<sid> or C<NULL> if no such
-Compartment exists.
+Compartment object exists.
 @see get(unsigned int n)
 @see size()
 
@@ -12378,7 +12538,7 @@ XMLInputStream or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Species construct.
+@htmlinclude pkg-marker-core.html An SBML <em>species</em> &ndash; a pool of entities.
 A I<species> in SBML refers to a pool of entities that (a) are
 considered indistinguishable from each other for the purposes of the
 model, (b) participate in reactions, and (c) are located in a specific
@@ -12654,9 +12814,7 @@ was initialized using a concentration value is irrelevant.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML Level&nbsp;2's ListOfSpecies
-construct.
-
+@htmlinclude pkg-marker-core.html A list of Species objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -12671,11 +12829,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Species
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_species_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Species::Species
@@ -12688,20 +12846,20 @@ an identifier argument, in SBML Level&nbsp;2 and beyond, the "id"
 (identifier) attribute of a Species is required to have a value.
 Thus, callers are cautioned to assign a value after calling this
 constructor.  Setting the identifier can be accomplished using the
-method Species::setId(@if java String id@endif).
+method Species::setId(@if java String@endif).
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_species_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Species::Species
 
 Copy constructor; creates a copy of this Species object.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -12715,7 +12873,7 @@ Accepts the given SBMLVisitor for this instance of Species.
 =item Species::clone
 
 Creates and returns a deep copy of this Species object.
-@return a (deep) copy of this Species object.
+@return the (deep) copy of this Species object.
 
 
 =item Species::initDefaults
@@ -12987,8 +13145,8 @@ C<opydetails> doc_id_syntax
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Species::setName
@@ -12999,8 +13157,8 @@ The string in C<name> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Species::setSpeciesType
@@ -13011,9 +13169,9 @@ in this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The "speciesType" attribute is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.
 
@@ -13026,8 +13184,8 @@ in this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Species::setInitialAmount
@@ -13040,7 +13198,7 @@ be set.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item Species::setInitialConcentration
@@ -13053,8 +13211,8 @@ should be set.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The attribute "initialConcentration" is only available in SBML
 Level&nbsp;2 and&nbsp;3.  It does not exist on Species in Level&nbsp;1.
 
@@ -13066,8 +13224,8 @@ Sets the "substanceUnits" attribute of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Species::setSpatialSizeUnits
@@ -13077,9 +13235,9 @@ returned by this function are:
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 C<opydetails> doc_warning_species_spatialSizeUnits
 
 
@@ -13090,8 +13248,8 @@ C<opydetails> doc_warning_species_spatialSizeUnits
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Species::setHasOnlySubstanceUnits
@@ -13101,8 +13259,8 @@ Sets the "hasOnlySubstanceUnits" attribute of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The "hasOnlySubstanceUnits" attribute does not exist in SBML
 Level&nbsp;1.
 
@@ -13114,7 +13272,7 @@ Sets the "boundaryCondition" attribute of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item Species::setCharge
@@ -13125,8 +13283,8 @@ C<opydetails> doc_note_charge_deprecated
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item Species::setConstant
@@ -13136,8 +13294,8 @@ Sets the "constant" attribute of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The attribute "constant" is only available in SBML Levels&nbsp;2
 and&nbsp;3.  It does not exist on Species in Level&nbsp;1.
 
@@ -13150,9 +13308,9 @@ The string in C<sid> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "conversionFactor" attribute was introduced in SBML
 Level&nbsp;3.  It does not exist on Species in SBML Levels&nbsp;1
 and&nbsp;2.
@@ -13164,8 +13322,8 @@ Unsets the value of the "name" attribute of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Species::unsetSpeciesType
@@ -13174,8 +13332,8 @@ Unsets the "speciesType" attribute value of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The attribute "speciesType" is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.
 
@@ -13186,8 +13344,8 @@ Unsets the "initialAmount" attribute value of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Species::unsetInitialConcentration
@@ -13196,8 +13354,8 @@ Unsets the "initialConcentration" attribute value of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The attribute "initialConcentration" is only available in SBML
 Level&nbsp;2 and&nbsp;3.  It does not exist on Species in Level&nbsp;1.
 
@@ -13208,8 +13366,8 @@ Unsets the "substanceUnits" attribute value of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Species::unsetSpatialSizeUnits
@@ -13218,8 +13376,8 @@ Unsets the "spatialSizeUnits" attribute value of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_warning_species_spatialSizeUnits
 
 
@@ -13229,8 +13387,8 @@ Unsets the "units" attribute value of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Species::unsetCharge
@@ -13240,9 +13398,9 @@ value of this Species object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_charge_deprecated
 
 
@@ -13252,9 +13410,9 @@ Unsets the "conversionFactor" attribute value of this Species object.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "conversionFactor" attribute was introduced in SBML
 Level&nbsp;3.  It does not exist on Species in SBML Levels&nbsp;1
 and&nbsp;2.
@@ -13364,41 +13522,25 @@ implementation of this method as well.
 Predicate returning C<true> if
 all the required attributes for this Species object
 have been set.
-@note The required attributes for a Species object are:
+The required attributes for a Species object are:
 @li "id" (or "name" in SBML Level&nbsp;1)
 @li "compartment"
 @li "initialAmount" (required in SBML Level&nbsp;1 only; optional otherwise)
 @li "hasOnlySubstanceUnits" (required in SBML Level&nbsp;3; optional in SBML Level&nbsp;2)
 @li "boundaryCondition" (required in SBML Level&nbsp;3; optional in Levels&nbsp;1 and&nbsp;2)
 @li "constant" (required in SBML Level&nbsp;3; optional in SBML Level&nbsp;2)
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item Species::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item Species::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item Species::addExpectedAttributes
@@ -13481,8 +13623,8 @@ characteristics of the ListOfSpecies object to be created.
 
 =item ListOfSpecies::clone
 
-Creates and returns a deep copy of this ListOfSpeciess instance.
-@return a (deep) copy of this ListOfSpeciess.
+Creates and returns a deep copy of this ListOfSpecies object.
+@return the (deep) copy of this ListOfSpecies object.
 
 
 =item ListOfSpecies::getItemTypeCode
@@ -13597,7 +13739,7 @@ XMLInputStream or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Parameter construct.
+@htmlinclude pkg-marker-core.html An SBML parameter: a named symbol with a value.
 A Parameter is used in SBML to define a symbol associated with a value;
 this symbol can then be used in mathematical formulas in a model.  By
 default, parameters have constant value for the duration of a
@@ -13690,7 +13832,7 @@ feel best matches their target audience.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfParameters construct.
+@htmlinclude pkg-marker-core.html A list of Parameter objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -13705,11 +13847,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Parameter
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_parameter_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Parameter::Parameter
@@ -13725,18 +13867,18 @@ constructor if no identifier is provided as an argument.  Setting the
 identifier can be accomplished using the method
 @if java setId(String id)@else setId()@endif.
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_parameter_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Parameter::Parameter
 
 Copy constructor; creates a copy of a Parameter.
 @param orig the Parameter instance to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -13752,8 +13894,8 @@ embedded.
 
 =item Parameter::clone
 
-Creates and returns a deep copy of this Parameter.
-@return a (deep) copy of this Parameter.
+Creates and returns a deep copy of this Parameter object.
+@return the (deep) copy of this Parameter object.
 
 
 =item Parameter::initDefaults
@@ -13769,7 +13911,7 @@ they are in SBML Level&nbsp;2.  In the case of Parameter, this method
 only sets the value of the "constant" attribute to C<true>.
 @see getConstant()
 @see isSetConstant()
-@see setConstant(@if java boolean flag@endif)
+@see setConstant(@if java boolean@endif)
 
 
 =item Parameter::getId
@@ -13811,7 +13953,7 @@ unit of measurement associated with the parameter's value.
 string.  An empty string indicates that no units have been assigned.
 C<opydetails> doc_note_unassigned_unit_are_not_a_default
 @see isSetUnits()
-@see setUnits(@if java String units@endif)
+@see setUnits(@if java String@endif)
 @see getValue()
 
 
@@ -13822,7 +13964,7 @@ Gets the value of the "constant" attribute of this Parameter instance.
 C<false> otherwise.
 C<opydetails> doc_note_parameter_about_constant
 @see isSetConstant()
-@see setConstant(@if java boolean flag@endif)
+@see setConstant(@if java boolean@endif)
 
 
 =item Parameter::isSetId
@@ -13880,7 +14022,7 @@ Predicate returning C<true> if the
 set, C<false> otherwise.
 C<opydetails> doc_note_parameter_about_constant
 @see getConstant()
-@see setConstant(@if java boolean flag@endif)
+@see setConstant(@if java boolean@endif)
 
 
 =item Parameter::setId
@@ -13891,8 +14033,8 @@ C<opydetails> doc_id_syntax
 @param sid the string to use as the identifier of this Parameter
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Parameter::setName
@@ -13903,8 +14045,8 @@ The string in C<name> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Parameter::setValue
@@ -13915,7 +14057,7 @@ value and marks the attribute as set.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item Parameter::setUnits
@@ -13927,8 +14069,8 @@ Parameter instance
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Parameter::setConstant
@@ -13940,8 +14082,8 @@ Parameter instance
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 C<opydetails> doc_note_parameter_about_constant
 @see getConstant()
 @see isSetConstant()
@@ -13953,8 +14095,8 @@ Unsets the value of the "name" attribute of this Parameter.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Parameter::unsetValue
@@ -13963,7 +14105,7 @@ Unsets the "value" attribute of this Parameter instance.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 In SBML Level&nbsp;1 Version&nbsp;1, parameters are required to have
 values and therefore, the value of a Parameter B<should always be
 set>.  In SBML Level&nbsp;1 Version&nbsp;2 and beyond, the value
@@ -13976,8 +14118,8 @@ Unsets the "units" attribute of this Parameter instance.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Parameter::getDerivedUnitDefinition
@@ -14070,11 +14212,11 @@ implementation of this method as well.
 Predicate returning C<true> if
 all the required attributes for this Parameter object
 have been set.
-@note The required attributes for a Parameter object are:
+The required attributes for a Parameter object are:
 @li "id" (or "name" in SBML Level&nbsp;1)
 @li "value" (required in Level&nbsp;1, optional otherwise)
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item Parameter::renameUnitSIdRefs
@@ -14205,8 +14347,8 @@ characteristics of the ListOfParameters object to be created.
 
 =item ListOfParameters::clone
 
-Creates and returns a deep copy of this ListOfParameters instance.
-@return a (deep) copy of this ListOfParameters.
+Creates and returns a deep copy of this ListOfParameters object.
+@return the (deep) copy of this ListOfParameters object.
 
 
 =item ListOfParameters::getItemTypeCode
@@ -14326,9 +14468,7 @@ XMLInputStream, or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML Level&nbsp;3's LocalParameter
-construct.
-
+@htmlinclude pkg-marker-core.html A parameter inside an SBML <em>reaction</em> definition.
 LocalParameter has been introduced in SBML Level&nbsp;3 to serve as the
 object class for parameter definitions that are intended to be local to
 a Reaction.  Objects of class LocalParameter never appear at the Model
@@ -14393,8 +14533,7 @@ isSetConstant(), setConstant(), and getConstant()).</span>
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML Level&nbsp;3's
-ListOfLocalParameters construct.
+@htmlinclude pkg-marker-core.html A list of LocalParameter objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -14410,11 +14549,11 @@ LocalParameter.
 @param version an unsigned int, the SBML Version to assign to this
 LocalParameter.
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_localparameter_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item LocalParameter::LocalParameter
@@ -14430,18 +14569,18 @@ constructor if no identifier is provided as an argument.  Setting the
 identifier can be accomplished using the method
 @if java setId(String id)@else setId()@endif.
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_compartment_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item LocalParameter::LocalParameter
 
 Copy constructor; creates a copy of a given LocalParameter object.
 @param orig the LocalParameter instance to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -14450,7 +14589,7 @@ Thrown if the argument C<orig> is C<NULL>.
 Copy constructor; creates a LocalParameter object by copying
 the attributes of a given Parameter object.
 @param orig the Parameter instance to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -14467,8 +14606,8 @@ in the enclosing KineticLaw).
 
 =item LocalParameter::clone
 
-Creates and returns a deep copy of this LocalParameter.
-@return a (deep) copy of this LocalParameter.
+Creates and returns a deep copy of this LocalParameter object.
+@return the (deep) copy of this LocalParameter object.
 
 
 =item LocalParameter::getDerivedUnitDefinition
@@ -14521,11 +14660,11 @@ is always C<"localParameter">.
 
 Predicate returning C<true> if all the required attributes for this
 LocalParameter object have been set.
-@note The required attributes for a LocalParameter object are:
+The required attributes for a LocalParameter object are:
 @li "id"
 @li "value"
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item LocalParameter::getConstant
@@ -14599,7 +14738,7 @@ characteristics of the ListOfLocalParameters object to be created.
 =item ListOfLocalParameters::clone
 
 Creates and returns a deep copy of this ListOfLocalParameters object.
-@return a (deep) copy of this ListOfLocalParameters.
+@return the (deep) copy of this ListOfLocalParameters object.
 
 
 =item ListOfLocalParameters::getItemTypeCode
@@ -14733,7 +14872,7 @@ XMLInputStream, or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's InitialAssignment construct.
+@htmlinclude pkg-marker-core.html An SBML <em>initial assignment</em>, evaluated once only.
 SBML Level 2 Versions 2&ndash;4 and SBML Level&nbsp;3 provide two ways of assigning initial
 values to entities in a model.  The simplest and most basic is to set
 the values of the appropriate attributes in the relevant components; for
@@ -14830,7 +14969,7 @@ model must also not define initial assignments <em>and</em> assignment
 rules for the same entity.  That is, there cannot be <em>both</em> an
 InitialAssignment and an AssignmentRule for the same symbol in a model,
 because both kinds of constructs apply prior to and at the start of
-simulated time&mdash;allowing both to exist for a given symbol would
+simulated time---allowing both to exist for a given symbol would
 result in indeterminism).
 The ordering of InitialAssignment objects is not significant.  The
 combined set of InitialAssignment, AssignmentRule and KineticLaw
@@ -14865,9 +15004,7 @@ assignment.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfInitialAssignments
-construct.
-
+@htmlinclude pkg-marker-core.html A list of InitialAssignment objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -14882,11 +15019,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 InitialAssignment
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_initialassignment_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item InitialAssignment::InitialAssignment
@@ -14895,18 +15032,18 @@ Creates a new InitialAssignment using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_initialassignment_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item InitialAssignment::InitialAssignment
 
 Copy constructor; creates a copy of this InitialAssignment.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -14921,8 +15058,8 @@ the list of compartment types.
 
 =item InitialAssignment::clone
 
-Creates and returns a deep copy of this InitialAssignment.
-@return a (deep) copy of this InitialAssignment.
+Creates and returns a deep copy of this InitialAssignment object.
+@return the (deep) copy of this InitialAssignment object.
 
 
 =item InitialAssignment::getSymbol
@@ -14963,8 +15100,8 @@ object defined elsewhere in this Model.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item InitialAssignment::setMath
@@ -14976,8 +15113,8 @@ be used as the formula for this InitialAssignment.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item InitialAssignment::getDerivedUnitDefinition
@@ -15065,10 +15202,10 @@ implementation of this method as well.
 
 Predicate returning C<true> if all the required attributes for this
 InitialAssignment object have been set.
-@note The required attributes for an InitialAssignment object are:
+The required attributes for an InitialAssignment object are:
 @li "symbol"
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item InitialAssignment::hasRequiredElements
@@ -15088,28 +15225,12 @@ elements for this object have been defined.
 
 =item InitialAssignment::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item InitialAssignment::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item InitialAssignment::replaceSIDWithFunction
@@ -15202,8 +15323,8 @@ characteristics of the ListOfInitialAssignments object to be created.
 
 =item ListOfInitialAssignments::clone
 
-Creates and returns a deep copy of this ListOfInitialAssignments instance.
-@return a (deep) copy of this ListOfInitialAssignments.
+Creates and returns a deep copy of this ListOfInitialAssignments object.
+@return the (deep) copy of this ListOfInitialAssignments object.
 
 
 =item ListOfInitialAssignments::getItemTypeCode
@@ -15330,7 +15451,7 @@ XMLInputStream or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Rule construct.
+@htmlinclude pkg-marker-core.html Parent class for SBML <em>rules</em> in libSBML.
 In SBML, I<rules> provide additional ways to define the values of
 variables in a model, their relationships, and the dynamical behaviors
 of those variables.  They enable encoding relationships that cannot be
@@ -15353,7 +15474,7 @@ C<opydetails> doc_rules_general_summary
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfRules construct.
+@htmlinclude pkg-marker-core.html A list of Rule objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -15363,7 +15484,7 @@ C<opydetails> doc_what_is_listof
 
 Copy constructor; creates a copy of this Rule.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -15378,8 +15499,8 @@ list of rules within which I<the> present object is embedded.
 
 =item Rule::clone
 
-Creates and returns a deep copy of this Rule.
-@return a (deep) copy of this Rule.
+Creates and returns a deep copy of this Rule object.
+@return the (deep) copy of this Rule object.
 
 
 =item Rule::getFormula
@@ -15491,8 +15612,8 @@ compatibility.  The formula is converted to an ASTNode internally.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @note The attribute "formula" is specific to SBML Level&nbsp;1; in
 higher Levels of SBML, it has been replaced with a subelement named
 "math".  However, libSBML provides a unified interface to the
@@ -15510,8 +15631,8 @@ ASTNode.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @note The subelement "math" is present in SBML Levels&nbsp;2
 and&nbsp;3.  In SBML Level&nbsp;1, the equivalent construct is the
 attribute named "formula".  LibSBML provides a unified interface to
@@ -15529,9 +15650,9 @@ elsewhere in the enclosing Model object.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item Rule::setUnits
@@ -15541,9 +15662,9 @@ Sets the units for this Rule.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The attribute "units" exists on SBML Level&nbsp;1 ParameterRule
 objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
 
@@ -15554,9 +15675,9 @@ Unsets the "units" for this Rule.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The attribute "units" exists on SBML Level&nbsp;1 ParameterRule
 objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
 
@@ -15614,24 +15735,9 @@ units of the expression.
 Returns a code representing the type of rule this is.
 @return the rule type, which will be one of the following three possible
 values:
-@if clike
 @li @link RuleType_t#RULE_TYPE_RATE RULE_TYPE_RATE@endlink
 @li @link RuleType_t#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
 @li @link RuleType_t#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
-@endif@if python
-@li @link libsbml.RULE_TYPE_RATE RULE_TYPE_RATE@endlink
-@li @link libsbml.RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
-@li @link libsbml.RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
-@endif@if java
-@li @link libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE@endlink
-@li @link libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
-@li @link libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
-@endif@if csharp
-@li @link libsbmlcs.libsbml.RULE_TYPE_RATE RULE_TYPE_RATE@endlink
-@li @link libsbmlcs.libsbml.RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
-@li @link libsbmlcs.libsbml.RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
-@endif@~
-
 @note The attribute "type" on Rule objects is present only in SBML
 Level&nbsp;1.  In SBML Level&nbsp;2 and later, the type has been
 replaced by subclassing the Rule object.
@@ -15724,21 +15830,19 @@ C<opydetails> doc_warning_typecodes_not_unique
 =item Rule::getL1TypeCode
 
 Returns the SBML Level&nbsp;1 type code for this Rule object.
-This method only applies to SBML Level&nbsp;1 model objects.  If this
-is not an SBML Level&nbsp;1 rule object, this method will return @link
-SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink.
-@return the SBML Level&nbsp;1 type code for this Rule (namely, @link
-SBMLTypeCode_t#SBML_COMPARTMENT_VOLUME_RULE
-SBML_COMPARTMENT_VOLUME_RULE@endlink, @link
-SBMLTypeCode_t#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, @link
-SBMLTypeCode_t#SBML_SPECIES_CONCENTRATION_RULE
-SBML_SPECIES_CONCENTRATION_RULE@endlink, or @link
-SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink).
+This method only applies to SBML Level&nbsp;1 model objects.  If this is
+not an SBML Level&nbsp;1 rule object, this method will return
+@link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink.
+@return the SBML Level&nbsp;1 type code for this Rule (namely,
+@link SBMLTypeCode_t#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
+@link SBMLTypeCode_t#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink,
+@link SBMLTypeCode_t#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink, or
+@link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink).
 
 
 =item Rule::getElementName
 
-Returns the XML element name of this object
+Returns the XML element name of this object.
 The returned value can be any of a number of different strings,
 depending on the SBML Level in use and the kind of Rule object this
 is.  The rules as of libSBML version @htmlinclude libsbml-version.html
@@ -15772,13 +15876,10 @@ implementation of this method as well.
 =item Rule::setL1TypeCode
 
 Sets the SBML Level&nbsp;1 type code for this Rule.
-@param type the SBML Level&nbsp;1 type code for this Rule. The
-allowable values are @link SBMLTypeCode_t#SBML_COMPARTMENT_VOLUME_RULE
-SBML_COMPARTMENT_VOLUME_RULE@endlink, @link
-SBMLTypeCode_t#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
-@link SBMLTypeCode_t#SBML_SPECIES_CONCENTRATION_RULE
-SBML_SPECIES_CONCENTRATION_RULE@endlink.
-
+@param type the SBML Level&nbsp;1 type code for this Rule. The allowable
+values are @link SBMLTypeCode_t#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
+@link SBMLTypeCode_t#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
+@link SBMLTypeCode_t#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
@@ -15804,34 +15905,18 @@ it is.  For AssignmentRule and RateRule objects (and SBML
 Level&nbsp1's SpeciesConcentrationRule, CompartmentVolumeRule, and
 ParameterRule objects), the required attribute is "variable"; for
 AlgebraicRule objects, there is no required attribute.
-@return a boolean value indicating whether all the required
-elements for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item Rule::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item Rule::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item Rule::getInternalId
@@ -15956,8 +16041,8 @@ characteristics of the ListOfRules object to be created.
 
 =item ListOfRules::clone
 
-Creates and returns a deep copy of this ListOfRules instance.
-@return a (deep) copy of this ListOfRules.
+Creates and returns a deep copy of this ListOfRules object.
+@return the (deep) copy of this ListOfRules object.
 
 
 =item ListOfRules::getItemTypeCode
@@ -16078,7 +16163,7 @@ XMLInputStream or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's AlgebraicRule construct.
+@htmlinclude pkg-marker-core.html An SBML <em>algebraic rule</em> representing <em>0 = f(B<W>)</em>.
 The rule type AlgebraicRule is derived from the parent class Rule.  It
 is used to express equations that are neither assignments of model
 variables nor rates of change.  AlgebraicRule does not add any
@@ -16125,35 +16210,30 @@ Creates a new AlgebraicRule object using the given SBML C<level> and @p
 version values.
 @param level the SBML Level to assign to this AlgebraicRule object.
 @param version the SBML Version to assign to this AlgebraicRule object.
-@throws @if python ValueError @else SBMLConstructorException @endif
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_algebraicrule_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item AlgebraicRule::AlgebraicRule
 
 Creates a new AlgebraicRule object using the given SBMLNamespaces object
 C<sbmlns>.
-The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
-information.  It is used to communicate the SBML Level, Version, and
-(in Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.
-A common approach to using this class constructor is to create an
-SBMLNamespaces object somewhere in a program, once, then pass it to
-object constructors such as this one when needed.
+C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
-C<opydetails> doc_algebraicrule_setting_lv
+@throws SBMLConstructorException
+Thrown if the given C<level> and C<version> combination, or this kind of
+SBML object, are either invalid or mismatched with respect to the parent
+SBMLDocument object.
+C<opydetails> doc_note_setting_lv
 
 
 =item AlgebraicRule::clone
 
-Creates and returns a deep copy of this Rule.
-@return a (deep) copy of this Rule.
+Creates and returns a deep copy of this AlgebraicRule object.
+@return the (deep) copy of this Rule object.
 
 
 =item AlgebraicRule::accept
@@ -16181,7 +16261,7 @@ sets the mInternalIdOnly flag
 
 Predicate returning C<true> if all the required attributes for this
 AlgebraicRule object have been set.
-@note In SBML Levels&nbsp;2&ndash;3, there is no required attribute
+In SBML Levels&nbsp;2&ndash;3, there is no required attribute
 for an AlgebraicRule object.  For Level&nbsp;1, the only required
 attribute is "formula".
 @return C<true> if the required attributes have been set, C<false>
@@ -16194,7 +16274,7 @@ otherwise.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's AssignmentRule construct.
+@htmlinclude pkg-marker-core.html An SBML <em>assignment rule</em> representing <em>x = f(B<Y>)</em>.
 The rule type AssignmentRule is derived from the parent class Rule.  It
 is used to express equations that set the values of variables.  The
 left-hand side (the attribute named "variable") of an assignment rule
@@ -16298,11 +16378,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 AssignmentRule.
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_assignmentRule_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item AssignmentRule::AssignmentRule
@@ -16311,17 +16391,17 @@ Creates a new AssignmentRule using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_assignmentRule_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item AssignmentRule::clone
 
-Creates and returns a deep copy of this Rule.
-@return a (deep) copy of this Rule.
+Creates and returns a deep copy of this AssignmentRule object.
+@return the (deep) copy of this Rule object.
 
 
 =item AssignmentRule::accept
@@ -16337,7 +16417,7 @@ in the list of rules within which I<the> present object is embedded.
 
 Predicate returning C<true> if all the required attributes for this
 AssignmentRule object have been set.
-@note In SBML Levels&nbsp;2&ndash;3, the only required attribute for
+In SBML Levels&nbsp;2&ndash;3, the only required attribute for
 an AssignmentRule object is "variable".  For Level&nbsp;1, where the
 equivalent attribute is known by different names ("compartment",
 "species", or "name", depending on the type of object), there is an
@@ -16348,15 +16428,7 @@ otherwise.
 
 =item AssignmentRule::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =back
@@ -16365,7 +16437,7 @@ with C<newid>.  The method does I<not> descend into child elements.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's RateRule construct.
+@htmlinclude pkg-marker-core.html An SBML <em>rate rule</em> representing <em>dx/dt = f(B<Y>)</em>.
 The rule type RateRule is derived from the parent class Rule.  It is
 used to express equations that determine the rates of change of
 variables.  The left-hand side (the "variable" attribute) can refer to
@@ -16435,11 +16507,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 RateRule
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_raterule_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item RateRule::RateRule
@@ -16448,17 +16520,17 @@ Creates a new RateRule using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_raterule_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item RateRule::clone
 
-Creates and returns a deep copy of this Rule.
-@return a (deep) copy of this Rule.
+Creates and returns a deep copy of this RateRule object.
+@return the (deep) copy of this RateRule object.
 
 
 =item RateRule::accept
@@ -16475,7 +16547,7 @@ in the list of rules within which I<the> present object is embedded.
 Predicate returning C<true> if
 all the required attributes for this RateRule object
 have been set.
-@note In SBML Levels&nbsp;2&ndash;3, the only required attribute for a
+In SBML Levels&nbsp;2&ndash;3, the only required attribute for a
 RateRule object is "variable".  For Level&nbsp;1, where the equivalent
 attribute is known by different names ("compartment", "species", or
 "name", depending on the type of object), there is an additional
@@ -16486,15 +16558,7 @@ otherwise.
 
 =item RateRule::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =back
@@ -16503,7 +16567,7 @@ with C<newid>.  The method does I<not> descend into child elements.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Constraint construct.
+@htmlinclude pkg-marker-core.html An SBML <em>constraint</em>, for stating validity assumptions.
 The Constraint object class was introduced in SBML Level&nbsp;2
 Version&nbsp;2 as a mechanism for stating the assumptions under which a
 model is designed to operate.  The <em>constraints</em> are statements
@@ -16578,7 +16642,7 @@ have failed once any one constraint has failed.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfConstraints construct.
+@htmlinclude pkg-marker-core.html A list of Constraint objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -16593,11 +16657,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Constraint
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_constraint_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Constraint::Constraint
@@ -16606,18 +16670,18 @@ Creates a new Constraint using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_constraint_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Constraint::Constraint
 
 Copy constructor; creates a copy of this Constraint.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -16633,8 +16697,8 @@ the ListOfConstraints located in the enclosing Model instance).
 
 =item Constraint::clone
 
-Creates and returns a deep copy of this Constraint.
-@return a (deep) copy of this Constraint.
+Creates and returns a deep copy of this Constraint object.
+@return the (deep) copy of this Constraint object.
 
 
 =item Constraint::getMessage
@@ -16680,8 +16744,8 @@ The XMLNode tree passed in C<xhtml> is copied.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item Constraint::setMath
@@ -16694,8 +16758,8 @@ subelement of this Constraint
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item Constraint::unsetMessage
@@ -16705,34 +16769,18 @@ Unsets the "message" subelement of this Constraint.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Constraint::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item Constraint::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item Constraint::replaceSIDWithFunction
@@ -16849,8 +16897,8 @@ characteristics of the ListOfConstraints object to be created.
 
 =item ListOfConstraints::clone
 
-Creates and returns a deep copy of this ListOfConstraints instance.
-@return a (deep) copy of this ListOfConstraints.
+Creates and returns a deep copy of this ListOfConstraints object.
+@return the (deep) copy of this ListOfConstraints object.
 
 
 =item ListOfConstraints::getItemTypeCode
@@ -16868,7 +16916,7 @@ instance: @link SBMLTypeCode_t#SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default)
 
 Returns the XML element name of this object.
 For ListOfConstraints, the XML element name is C<"listOfConstraints">.
-@return the name of this element, i.e., C<"listOfConstraints">.
+@return the name of this element.
 
 
 =item ListOfConstraints::get
@@ -16925,13 +16973,13 @@ XMLInputStream or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Reaction construct.
+@htmlinclude pkg-marker-core.html An SBML reaction between species in an SBML model.
 A I<reaction> represents any transformation, transport or binding
 process, typically a chemical reaction, that can change the quantity of
 one or more species.  In SBML, a reaction is defined primarily in terms
 of the participating reactants and products (and their corresponding
 stoichiometries), along with optional modifier species, an optional rate
-at which the reaction takes place, and optional parameters.  
+at which the reaction takes place, and optional parameters.
 As with other major objects in SBML, Reaction has a mandatory attribute,
 "id", used to give the compartment type an identifier.  The identifier
 must be a text string conforming to the identifer syntax permitted in
@@ -16972,7 +17020,7 @@ details about its use.  Note that although the inclusion of a KineticLaw
 object in an instance of a Reaction component is optional, there is no
 useful default that can be substituted in place of a missing rate
 expression in a reaction.  Moreover, a reaction's rate cannot be defined
-in any other way in SBML&mdash;InitialAssignment, AssignmentRule,
+in any other way in SBML---InitialAssignment, AssignmentRule,
 RateRule, AlgebraicRule, Event, and other constructs in SBML cannot be
 used to set the reaction rate separately.  Nevertheless, for some
 modeling applications, reactions without any defined rate can be
@@ -17043,7 +17091,7 @@ the proper use of Reaction.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfReactions construct.
+@htmlinclude pkg-marker-core.html A list of Reaction objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -17058,11 +17106,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Reaction
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_reaction_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Reaction::Reaction
@@ -17071,18 +17119,18 @@ Creates a new Reaction using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_reaction_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Reaction::Reaction
 
 Copy constructor; creates a copy of this Reaction.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -17095,8 +17143,8 @@ Accepts the given SBMLVisitor for this instance of Reaction.
 
 =item Reaction::clone
 
-Creates and returns a deep copy of this Reaction.
-@return a (deep) copy of this Reaction.
+Creates and returns a deep copy of this Reaction object.
+@return the (deep) copy of this Reaction object.
 
 
 =item Reaction::getElementBySId
@@ -17124,15 +17172,7 @@ arbitrary depth
 
 =item Reaction::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item Reaction::initDefaults
@@ -17259,8 +17299,8 @@ C<opydetails> doc_id_syntax
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Reaction::setName
@@ -17272,8 +17312,8 @@ The string in C<name> is copied.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Reaction::setKineticLaw
@@ -17285,9 +17325,9 @@ given KineticLaw object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
 
 
 =item Reaction::setReversible
@@ -17298,7 +17338,7 @@ Sets the value of the "reversible" attribute of this Reaction.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item Reaction::setFast
@@ -17309,7 +17349,7 @@ Sets the value of the "fast" attribute of this Reaction.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 C<opydetails> doc_warning_reaction_cant_ignore_fast
 
 
@@ -17322,9 +17362,9 @@ The string C<sid> is copied.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The "compartment" attribute is available in SBML
 Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
 lower Levels of SBML.
@@ -17337,8 +17377,8 @@ Unsets the value of the "name" attribute of this Reaction.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Reaction::unsetKineticLaw
@@ -17348,8 +17388,8 @@ Unsets the "kineticLaw" subelement of this Reaction.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Reaction::unsetFast
@@ -17359,8 +17399,8 @@ Unsets the value of the "fast" attribute of this Reaction.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_warning_reaction_cant_ignore_fast
 
 
@@ -17371,9 +17411,9 @@ Unsets the value of the "compartment" attribute of this Reaction.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The "compartment" attribute is available in SBML
 Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
 lower Levels of SBML.
@@ -17389,12 +17429,12 @@ enclosing Model
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createReactant()
 
@@ -17409,10 +17449,10 @@ enclosing Model
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createProduct()
 
@@ -17429,12 +17469,12 @@ the enclosing Model
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createModifier()
 
@@ -17794,12 +17834,12 @@ implementation of this method as well.
 
 Predicate returning C<true> if all the required attributes for this
 Reaction object have been set.
-@note The required attributes for a Reaction object are:
+The required attributes for a Reaction object are:
 @li "id" (or "name" in SBML Level&nbsp;1)
 @li "fast" (in Level&nbsp;3 only, where it is defined as a required attribute)
 @li "reversible" (in Level&nbsp;3 only, where it is defined as a required attribute)
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item Reaction::createObject
@@ -17886,8 +17926,8 @@ characteristics of the ListOfReactions object to be created.
 
 =item ListOfReactions::clone
 
-Creates and returns a deep copy of this ListOfReactions instance.
-@return a (deep) copy of this ListOfReactions.
+Creates and returns a deep copy of this ListOfReactions object.
+@return the (deep) copy of this ListOfReactions object.
 
 
 =item ListOfReactions::getItemTypeCode
@@ -17988,7 +18028,7 @@ XMLInputStream or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's KineticLaw construct.
+@htmlinclude pkg-marker-core.html The rate expression for an SBML reaction.
 An object of class KineticLaw is used to describe the rate at which the
 process defined by a given Reaction takes place.  KineticLaw has
 subelements called "math" (for MathML content) and "listOfParameters"
@@ -18064,11 +18104,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 KineticLaw
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_kineticlaw_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item KineticLaw::KineticLaw
@@ -18077,18 +18117,18 @@ Creates a new KineticLaw using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_kineticlaw_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item KineticLaw::KineticLaw
 
 Copy constructor; creates a copy of this KineticLaw.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -18102,7 +18142,7 @@ Accepts the given SBMLVisitor for this instance of KineticLaw.
 =item KineticLaw::clone
 
 Creates and returns a deep copy of this KineticLaw object.
-@return a (deep) copy of this KineticLaw.
+@return the (deep) copy of this KineticLaw object.
 
 
 =item KineticLaw::getElementBySId
@@ -18228,8 +18268,8 @@ text-string form.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @note @htmlinclude level-1-uses-text-string-math.html
 @see setMath(const ASTNode  math)
 
@@ -18248,8 +18288,8 @@ form.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see setFormula(const std::string& formula)
 
 
@@ -18261,9 +18301,9 @@ of this KineticLaw object to a copy of the identifier in C<sid>.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 C<opydetails> doc_note_timeunits_substanceunits
 
 
@@ -18276,9 +18316,9 @@ in C<sid>.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 C<opydetails> doc_note_timeunits_substanceunits
 
 
@@ -18289,9 +18329,9 @@ attribugte of this KineticLaw object.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 C<opydetails> doc_note_timeunits_substanceunits
 
 
@@ -18302,9 +18342,9 @@ attribute of this KineticLaw object.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 C<opydetails> doc_note_timeunits_substanceunits
 
 
@@ -18316,12 +18356,12 @@ parameters in this KineticLaw.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createParameter()
 
@@ -18334,12 +18374,12 @@ parameters in this KineticLaw.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createLocalParameter()
 
@@ -18628,10 +18668,10 @@ implementation of this method as well.
 
 Predicate returning C<true> if all the required attributes for this
 KineticLaw object have been set.
-@note The required attributes for a KineticLaw object are:
+The required attributes for a KineticLaw object are:
 @li "formula" (SBML Level&nbsp;1 only)
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item KineticLaw::hasRequiredElements
@@ -18653,34 +18693,18 @@ Overridden from the SBase function since the parent is not a ListOf.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item KineticLaw::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item KineticLaw::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item KineticLaw::getInternalId
@@ -18781,9 +18805,7 @@ of this method as well.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's SimpleSpeciesReference
-construct.
-
+@htmlinclude pkg-marker-core.html Abstract class for references to species in reactions.
 As mentioned in the description of Reaction, every species that enters
 into a given reaction must appear in that reaction's lists of reactants,
 products and/or modifiers.  In an SBML model, all species that may
@@ -18825,7 +18847,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 SimpleSpeciesReference
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
@@ -18835,7 +18857,7 @@ parent SBMLDocument object.
 
 Copy constructor; creates a copy of this SimpleSpeciesReference.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -18898,8 +18920,8 @@ Model's ListOfSpecies.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item SimpleSpeciesReference::setId
@@ -18911,9 +18933,9 @@ C<opydetails> doc_id_syntax
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item SimpleSpeciesReference::setName
@@ -18924,9 +18946,9 @@ The string in C<name> is copied.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item SimpleSpeciesReference::unsetId
@@ -18935,8 +18957,8 @@ Unsets the value of the "id" attribute of this SimpleSpeciesReference.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SimpleSpeciesReference::unsetName
@@ -18945,8 +18967,8 @@ Unsets the value of the "name" attribute of this SimpleSpeciesReference.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SimpleSpeciesReference::isModifier
@@ -18959,15 +18981,7 @@ ModiferSpeciesReference, C<false> if it is a plain SpeciesReference.
 
 =item SimpleSpeciesReference::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item SimpleSpeciesReference::hasRequiredAttributes
@@ -19045,7 +19059,7 @@ of this method as well.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's SpeciesReference construct.
+@htmlinclude pkg-marker-core.html A reference to an SBML species in a reaction.
 The Reaction structure provides a way to express which species act as
 reactants and which species act as products in a reaction.  In a given
 reaction, references to those species acting as reactants and/or
@@ -19236,9 +19250,7 @@ model-wide unit of time set on the Model object.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfSpeciesReferences
-construct.
-
+@htmlinclude pkg-marker-core.html A list of SpeciesReference objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -19253,7 +19265,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 SpeciesReference
 
-C<opydetails> doc_note_speciesreference_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item SpeciesReference::SpeciesReference
@@ -19261,14 +19273,14 @@ C<opydetails> doc_note_speciesreference_setting_lv
 Creates a new SpeciesReference using the given SBMLNamespaces object
 C<sbmlns>.
 @param sbmlns an SBMLNamespaces object.
-C<opydetails> doc_note_speciesreference_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item SpeciesReference::SpeciesReference
 
 Copy constructor; creates a copy of this SpeciesReference.
 @param orig the SpeciesReference instance to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -19281,8 +19293,8 @@ Accepts the given SBMLVisitor.
 
 =item SpeciesReference::clone
 
-Creates and returns a deep copy of this SpeciesReference instance.
-@return a (deep) copy of this SpeciesReference.
+Creates and returns a deep copy of this SpeciesReference object.
+@return the (deep) copy of this SpeciesReference object.
 
 
 =item SpeciesReference::initDefaults
@@ -19472,7 +19484,7 @@ exclusive.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item SpeciesReference::setStoichiometryMath
@@ -19509,10 +19521,10 @@ stoichiometryMath" subelement are mutually exclusive.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
 
 
 =item SpeciesReference::setDenominator
@@ -19533,7 +19545,7 @@ a "stoichiometryMath" subelement in the case of SBML Level&nbsp;2).
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item SpeciesReference::setConstant
@@ -19545,8 +19557,8 @@ SpeciesReference instance
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item SpeciesReference::unsetStoichiometryMath
@@ -19555,9 +19567,9 @@ Unsets the "stoichiometryMath" subelement of this SpeciesReference.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 In SBML Level 2, product and reactant stoichiometries can be specified
 using <em>either</em> "stoichiometry" or "stoichiometryMath" in a
 SpeciesReference object.  The former is to be used when a
@@ -19589,8 +19601,8 @@ Unsets the "stoichiometry" attribute of this SpeciesReference.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note In SBML Level&nbsp;1, the "stoichiometry" attribute of this
 SpeciesReference object will be just reset to a default value (C<1>.0)
 and isSetStoichiometry() will still return C<true>.  In SBML
@@ -19628,7 +19640,7 @@ of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see appendAnnotation(const XMLNode  annotation)
 @see appendAnnotation(const std::string& annotation)
 
@@ -19648,8 +19660,8 @@ of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see appendAnnotation(const XMLNode  annotation)
 @see appendAnnotation(const std::string& annotation)
 
@@ -19659,7 +19671,7 @@ returned by this function are:
 Appends annotation content to any existing content in the "annotation"
 subelement of this object.
 The content in C<annotation> is copied.  Unlike
-SpeciesReference::setAnnotation(@if java String annotation@endif),
+SpeciesReference::setAnnotation(@if java String@endif),
 this method allows other annotations to be preserved when an application
 adds its own data.
 @param annotation an XML structure that is to be copied and appended
@@ -19667,8 +19679,8 @@ to the content of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see setAnnotation(const std::string& annotation)
 @see setAnnotation(const XMLNode  annotation)
 
@@ -19678,7 +19690,7 @@ returned by this function are:
 Appends annotation content to any existing content in the "annotation"
 subelement of this object.
 The content in C<annotation> is copied.  Unlike
-SpeciesReference::setAnnotation(@if java String annotation@endif), this
+SpeciesReference::setAnnotation(@if java String@endif), this
 method allows other annotations to be preserved when an application
 adds its own data.
 @param annotation an XML string that is to be copied and appended
@@ -19686,8 +19698,8 @@ to the content of the "annotation" subelement of this object
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see setAnnotation(const std::string& annotation)
 @see setAnnotation(const XMLNode  annotation)
 
@@ -19728,11 +19740,11 @@ implementation of this method as well.
 Predicate returning C<true> if
 all the required attributes for this SpeciesReference object
 have been set.
-@note The required attributes for a SpeciesReference object are:
+The required attributes for a SpeciesReference object are:
 @li "species"
 @li "constant" (only available SBML Level&nbsp;3)
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item SpeciesReference::createObject
@@ -19840,10 +19852,8 @@ characteristics of the ListOfSpeciesReferences object to be created.
 
 =item ListOfSpeciesReferences::clone
 
-Creates and returns a deep copy of this ListOfSpeciesReferences
-instance.
-
-@return a (deep) copy of this ListOfSpeciesReferences.
+Creates and returns a deep copy of this ListOfSpeciesReferences object.
+@return the (deep) copy of this ListOfSpeciesReferences object.
 
 
 =item ListOfSpeciesReferences::getItemTypeCode
@@ -19961,9 +19971,7 @@ XMLInputStream or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ModifierSpeciesReference
-construct.
-
+@htmlinclude pkg-marker-core.html A reference to an SBML <em>modifier species</em>.
 Sometimes a species appears in the kinetic rate formula of a reaction
 but is itself neither created nor destroyed in that reaction (for
 example, because it acts as a catalyst or inhibitor).  In SBML, all such
@@ -19997,7 +20005,7 @@ ModifierSpeciesReference
 @param version an unsigned int, the SBML Version to assign to this
 ModifierSpeciesReference
 
-C<opydetails> doc_note_modifierspeciesreference_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ModifierSpeciesReference::ModifierSpeciesReference
@@ -20005,7 +20013,7 @@ C<opydetails> doc_note_modifierspeciesreference_setting_lv
 Creates a new ModifierSpeciesReference using the given SBMLNamespaces
 object C<sbmlns>.
 @param sbmlns an SBMLNamespaces object.
-C<opydetails> doc_note_modifierspeciesreference_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ModifierSpeciesReference::accept
@@ -20017,10 +20025,8 @@ Accepts the given SBMLVisitor.
 
 =item ModifierSpeciesReference::clone
 
-Creates and returns a deep copy of this ModifierSpeciesReference
-instance.
-
-@return a (deep) copy of this ModifierSpeciesReference.
+Creates and returns a deep copy of this ModifierSpeciesReference object.
+@return the (deep) copy of this ModifierSpeciesReference object.
 
 
 =item ModifierSpeciesReference::getTypeCode
@@ -20046,8 +20052,11 @@ always C<"modifierSpeciesReference">.
 Predicate returning C<true> if
 all the required attributes for this ModifierSpeciesReference object
 have been set.
-@note The required attributes for a ModifierSpeciesReference object are:
+The required attributes for a ModifierSpeciesReference object are:
 species
+
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =back
@@ -20056,7 +20065,7 @@ species
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Event construct.
+@htmlinclude pkg-marker-core.html A discontinuous SBML <em>event</em>.
 An SBML Event object defines when the event can occur, the variables
 that are affected by it, how the variables are affected, and the event's
 relationship to other events.  The effect of the event can optionally be
@@ -20070,7 +20079,7 @@ event, and (in SBML Level&nbsp;3) Priority objects influence the order
 of EventAssignment performance in cases of simultaneous events.  Please
 consult the descriptions of Trigger, Delay, EventAssignment and Priority
 for more information.
-@section version-diffs SBML Level/Version differences
+@section event-version-diffs SBML Level/Version differences
 @subsection sbml-l3 SBML Level 3
 SBML Level 3 introduces several changes to the structure and components
 of Events compared to SBML Level&nbsp;2.  These changes fall into two
@@ -20174,7 +20183,7 @@ of an event in the event queue does not affect whether it can be in the
 cascade: event <EM>Y</EM> can be triggered whether it is before or after
 <EM>X</EM> in the queue of events pending execution.  A cascade of
 events can be potentially infinite (never terminate); when this occurs a
-simulator should indicate this has occurred&mdash;it is incorrect for a
+simulator should indicate this has occurred---it is incorrect for a
 simulator to break a cascade arbitrarily and continue the simulation
 without at least indicating that the infinite cascade occurred.
 \n=item\n\nSimultaneous events having no defined priorities are executed in an
@@ -20221,7 +20230,7 @@ processing all the simultaneous events at time <em>t</em>.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfEvents construct.
+@htmlinclude pkg-marker-core.html A list of Event objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -20236,11 +20245,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Event
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_event_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Event::Event
@@ -20249,18 +20258,18 @@ Creates a new Event using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_event_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Event::Event
 
 Copy constructor; creates a copy of this Event.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -20275,8 +20284,8 @@ of events within which this Event is embedded.
 
 =item Event::clone
 
-Creates and returns a deep copy of this Event.
-@return a (deep) copy of this Event.
+Creates and returns a deep copy of this Event object.
+@return the (deep) copy of this Event object.
 
 
 =item Event::getElementBySId
@@ -20446,8 +20455,8 @@ C<opydetails> doc_id_syntax
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Event::setName
@@ -20459,8 +20468,8 @@ The string in C<name> is copied.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Event::setTrigger
@@ -20472,9 +20481,9 @@ Trigger object instance.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
 
 
 =item Event::setDelay
@@ -20486,9 +20495,9 @@ object instance.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
 
 
 =item Event::setPriority
@@ -20500,10 +20509,10 @@ to a copy of the given Priority object instance.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The element "priority" is available in SBML Level&nbsp;3
 Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 
@@ -20516,9 +20525,9 @@ Sets the "timeUnits" attribute of this Event to a copy of C<sid>.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 C<opydetails> doc_warning_event_timeUnits
 
 
@@ -20531,8 +20540,8 @@ C<opydetails> doc_event_using_useValuesFromTriggerTime
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 C<opydetails> doc_warning_useValuesFromTriggerTime
 
 
@@ -20543,8 +20552,8 @@ Unsets the value of the "id" attribute of this Event.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Event::unsetName
@@ -20554,8 +20563,8 @@ Unsets the value of the "name" attribute of this Event.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Event::unsetDelay
@@ -20565,8 +20574,8 @@ Unsets the Delay of this Event.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Event::unsetPriority
@@ -20576,8 +20585,8 @@ returned by this function are:
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The element "priority" is available in SBML Level&nbsp;3
 Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 
@@ -20589,8 +20598,8 @@ Unsets the Trigger of this Event.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @note The element "priority" is available in SBML Level&nbsp;3
 Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 
@@ -20602,9 +20611,9 @@ Unsets the "timeUnits" attribute of this Event.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_warning_event_timeUnits
 
 
@@ -20616,11 +20625,11 @@ Appends a copy of the given EventAssignment to this Event.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
 @see createEventAssignment()
 
@@ -20804,8 +20813,10 @@ sets the mInternalIdOnly flag
 
 Predicate returning C<true> if all the required attributes for this
 Event object have been set.
-@note The required attributes for an Event object are:
+The required attributes for an Event object are:
 @li "useValuesfromTriggerTime" (required in SBML Level&nbsp;3)
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item Event::hasRequiredElements
@@ -20892,8 +20903,8 @@ characteristics of the ListOfEvents object to be created.
 
 =item ListOfEvents::clone
 
-Creates and returns a deep copy of this ListOfEvents.
-@return a (deep) copy of this ListOfEvents.
+Creates and returns a deep copy of this ListOfEvents object.
+@return the (deep) copy of this ListOfEvents object.
 
 
 =item ListOfEvents::getItemTypeCode
@@ -21007,9 +21018,7 @@ XMLInputStream or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's EventAssignment construct for
-Event.
-
+@htmlinclude pkg-marker-core.html An assignment to a variable by an SBML <em>event</em>.
 Event contains an optional element called "listOfEventAssignments", of
 class ListOfEventAssignments.  In every instance of an event definition
 in a model, the object's "listOfEventAssignments" element must have a
@@ -21066,7 +21075,7 @@ value of the "variable" attribute is always the time at which the Event
 is <em>executed</em>, not when it is <em>triggered</em>.  The timing is
 controlled by the optional Delay in an Event.  The time of
 assignment is not affected by the "useValuesFromTriggerTime"
-attribute on Event&mdash;that attribute affects the time at which the
+attribute on Event---that attribute affects the time at which the
 EventAssignment's "math" expression is I<evaluated>.  In other
 words, SBML allows decoupling the time at which the
 "variable" is assigned from the time at which its value
@@ -21086,7 +21095,7 @@ I<execution> time should be used; that is, the values of identifiers
 occurring in MathML C<&lt;ci&gt;> elements in the
 EventAssignment's "math" expression are the values they have at the
 point when the event I<executed>.
-@section version-diffs SBML Level/Version differences
+@section eventassignment-version-diffs SBML Level/Version differences
 Between Version&nbsp;4 and previous versions of SBML Level&nbsp;2, the
 requirements regarding the matching of units between an
 EvengAssignment's formula and the units of the object identified by the
@@ -21140,9 +21149,7 @@ used for the formula of an EventAssignment.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's ListOfEventAssignments
-construct.
-
+@htmlinclude pkg-marker-core.html A list of EventAssignment objects.
 C<opydetails> doc_what_is_listof
 
 =over
@@ -21157,11 +21164,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 EventAssignment
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_eventassignment_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item EventAssignment::EventAssignment
@@ -21170,18 +21177,18 @@ Creates a new EventAssignment using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_eventassignment_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item EventAssignment::EventAssignment
 
 Copy constructor; creates a copy of this EventAssignment.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -21197,8 +21204,8 @@ ListOfEventAssignments located in the enclosing Event instance).
 
 =item EventAssignment::clone
 
-Creates and returns a deep copy of this EventAssignment.
-@return a (deep) copy of this EventAssignment.
+Creates and returns a deep copy of this EventAssignment object.
+@return the (deep) copy of this EventAssignment object.
 
 
 =item EventAssignment::getVariable
@@ -21243,8 +21250,8 @@ Parameter defined in this model.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item EventAssignment::setMath
@@ -21257,8 +21264,8 @@ mathematical formula for this EventAssignment.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item EventAssignment::getDerivedUnitDefinition
@@ -21360,10 +21367,10 @@ implementation of this method as well.
 
 Predicate returning C<true> if all the required attributes for this
 EventAssignment object have been set.
-@note The required attributes for a EventAssignment object are:
+The required attributes for a EventAssignment object are:
 @li "variable"
-@return a boolean value indicating whether all the required
-attributes for this object have been defined.
+@return C<true> if the required attributes have been set, C<false>
+otherwise.
 
 
 =item EventAssignment::hasRequiredElements
@@ -21383,28 +21390,12 @@ elements for this object have been defined.
 
 =item EventAssignment::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item EventAssignment::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item EventAssignment::replaceSIDWithFunction
@@ -21497,8 +21488,8 @@ characteristics of the ListOfEventAssignments object to be created.
 
 =item ListOfEventAssignments::clone
 
-Creates and returns a deep copy of this ListOfEventAssignments.
-@return a (deep) copy of this ListOfEventAssignments.
+Creates and returns a deep copy of this ListOfEventAssignments object.
+@return the (deep) copy of this ListOfEventAssignments object.
 
 
 =item ListOfEventAssignments::getItemTypeCode
@@ -21622,7 +21613,7 @@ XMLInputStream or C<NULL> if the token was not recognized.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Trigger construct for Event.
+@htmlinclude pkg-marker-core.html The trigger expression for an SBML <em>event</em>.
 An Event object defines when the event can occur, the variables that are
 affected by the event, and how the variables are affected.  The Trigger
 construct in SBML is used to define a mathematical expression that
@@ -21645,7 +21636,7 @@ at the very start of simulation (i.e., at <em>t = 0</em>, where
 <em>t</em> stands for time) is determined in part by the boolean flag
 "initialValue".  This and other additional features introduced in SBML
 Level&nbsp;3 are discussed further below.
-@section version-diffs Version differences
+@section trigger-version-diffs Version differences
 SBML Level&nbsp;3 Version&nbsp;1 introduces two required attributes
 on the Trigger object: "persistent" and "initialValue".  The rest of
 this introduction describes these two attributes.
@@ -21719,7 +21710,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Trigger
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
@@ -21731,7 +21722,7 @@ Creates a new Trigger using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
@@ -21741,7 +21732,7 @@ parent SBMLDocument object.
 
 Copy constructor; creates a copy of this Trigger.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -21754,8 +21745,8 @@ Accepts the given SBMLVisitor for this instance of Trigger.
 
 =item Trigger::clone
 
-Creates and returns a deep copy of this Trigger.
-@return a (deep) copy of this Trigger.
+Creates and returns a deep copy of this Trigger object.
+@return the (deep) copy of this Trigger object.
 
 
 =item Trigger::getMath
@@ -21822,8 +21813,8 @@ ASTNode.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item Trigger::setInitialValue
@@ -21834,8 +21825,8 @@ returned by this function are:
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The attribute "initialValue" is available in SBML Level&nbsp;3
 Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 
@@ -21848,8 +21839,8 @@ Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The attribute "persistent" is available in SBML Level&nbsp;3
 Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 
@@ -21874,28 +21865,12 @@ always C<"trigger">.
 
 =item Trigger::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item Trigger::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item Trigger::replaceSIDWithFunction
@@ -21939,7 +21914,7 @@ elements for this object have been defined.
 Predicate returning C<true> if
 all the required attributes for this Trigger object
 have been set.
-@note The required attributes for a Trigger object are:
+The required attributes for a Trigger object are:
 @li "persistent" (required in SBML Level&nbsp;3)
 @li "initialValue" (required in SBML Level&nbsp;3)
 @return a boolean value indicating whether all the required
@@ -21953,8 +21928,8 @@ Finds this Trigger's Event parent and calls unsetTrigger() on it, indirectly del
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Trigger::readOtherXML
@@ -22010,7 +21985,7 @@ of this method as well.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML's Delay construct for Event.
+@htmlinclude pkg-marker-core.html A delay on the time of execution of an SBML <em>event</em>.
 An Event object defines when the event can occur, the variables that
 are affected by the event, and how the variables are affected.  The
 effect of the event can optionally be delayed after the occurrence of
@@ -22132,11 +22107,11 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Delay
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_delay_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Delay::Delay
@@ -22145,18 +22120,18 @@ Creates a new Delay using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_delay_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Delay::Delay
 
 Copy constructor; creates a copy of this Delay.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -22169,8 +22144,8 @@ Accepts the given SBMLVisitor for this instance of Delay.
 
 =item Delay::clone
 
-Creates and returns a deep copy of this Delay.
-@return a (deep) copy of this Delay.
+Creates and returns a deep copy of this Delay object.
+@return the (deep) copy of this Delay object.
 
 
 =item Delay::getMath
@@ -22197,8 +22172,8 @@ ASTNode.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t.  @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item Delay::getDerivedUnitDefinition
@@ -22320,34 +22295,18 @@ Overridden from the SBase function since the parent is not a ListOf.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Delay::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item Delay::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item Delay::replaceSIDWithFunction
@@ -22420,9 +22379,7 @@ of this method as well.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML Level 3's Priority construct for
-Event.
-
+@htmlinclude pkg-marker-core.html The priority of execution of an SBML <em>event</em>.
 The Priority object class (which was introduced in SBML Level&nbsp;3
 Version&nbsp;1), like Delay, is derived from SBase and contains a MathML
 formula stored in the element "math".  This formula is used to compute a
@@ -22546,11 +22503,11 @@ version values.
 @param version an unsigned int, the SBML Version to assign to this
 Priority
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_priority_setting_lv
+C<opydetails> doc_note_setting_lv
 C<opydetails> doc_note_priority_only_l3
 
 
@@ -22560,11 +22517,11 @@ Creates a new Priority object using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~ 
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
-C<opydetails> doc_note_priority_setting_lv
+C<opydetails> doc_note_setting_lv
 C<opydetails> doc_note_priority_only_l3
 
 
@@ -22572,7 +22529,7 @@ C<opydetails> doc_note_priority_only_l3
 
 Copy constructor; creates a copy of this Priority.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -22585,8 +22542,8 @@ Accepts the given SBMLVisitor for this instance of Priority.
 
 =item Priority::clone
 
-Creates and returns a deep copy of this Priority.
-@return a (deep) copy of this Priority.
+Creates and returns a deep copy of this Priority object.
+@return the (deep) copy of this Priority object.
 
 
 =item Priority::getMath
@@ -22613,8 +22570,8 @@ ASTNode.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t.  @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item Priority::getTypeCode
@@ -22673,34 +22630,18 @@ Overridden from the SBase function since the parent is not a ListOf.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Priority::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item Priority::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item Priority::replaceSIDWithFunction
@@ -22768,9 +22709,7 @@ of this method as well.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Methods for interacting with Systems Biology Ontology
-terms.
-
+@htmlinclude pkg-marker-core.html Facilities for using the Systems Biology Ontology.
 @htmlinclude not-sbml-warning.html
 The values of "id" attributes on SBML components allow the components to
 be cross-referenced within a model. The values of "name" attributes on
@@ -22817,7 +22756,7 @@ common reactions always have the same name (e.g., "Michaelis-Menten"), but
 this is simply impossible to do: not only do humans often disagree on
 the names themselves, but it would not allow for correction of errors or
 updates to the list of predefined names except by issuing new releases
-of the SBML specification&mdash;to say nothing of many other limitations
+of the SBML specification---to say nothing of many other limitations
 with this approach.  Moreover, the parameters and variables that appear
 in rate expressions also need to be identified in a way that software
 tools can interpret mechanically, implying that the names of these
@@ -23171,9 +23110,7 @@ populates the parent-child map
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Methods for checking syntax of SBML identifiers and other
-strings.
-
+@htmlinclude pkg-marker-core.html Methods for checking the validity of SBML identifiers.
 @htmlinclude not-sbml-warning.html
 This utility class provides static methods for checking the syntax of
 identifiers and other text used in an SBML model.  The methods allow
@@ -23330,7 +23267,7 @@ declaration for XHTML&nbsp;1.0.
 @param sbmlns the SBMLNamespaces associated with the object.
 @return C<true> if the XMLNode content conforms, C<false> otherwise.
 C<opydetails> doc_note_static_methods
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item SyntaxChecker::isValidInternalSId
@@ -23399,9 +23336,7 @@ Checks if a character is part of the Unicode Extender set.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Implementation of SBML Level&nbsp;2's StoichiometryMath
-construct.
-
+@htmlinclude pkg-marker-core.html Stochiometry expressions in SBML Level 2 reactions.
 @section l2-stoichiometries Stoichiometries in SBML Level 2
 In SBML Level 2, product and reactant stoichiometries can be specified
 using I<either> the "stoichiometry" attribute or a "stoichiometryMath"
@@ -23533,12 +23468,12 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 StoichiometryMath
 
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
 C<opydetails> doc_note_stoichiometrymath_availability
-C<opydetails> doc_note_stoichiometrymath_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item StoichiometryMath::StoichiometryMath
@@ -23547,19 +23482,19 @@ Creates a new StoichiometryMath object using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the given C<level> and C<version> combination, or this kind
 of SBML object, are either invalid or mismatched with respect to the
 parent SBMLDocument object.
 C<opydetails> doc_note_stoichiometrymath_availability
-C<opydetails> doc_note_stoichiometrymath_setting_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item StoichiometryMath::StoichiometryMath
 
 Copy constructor; creates a copy of this StoichiometryMath.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -23573,7 +23508,7 @@ Accepts the given SBMLVisitor for this instance of StoichiometryMath.
 =item StoichiometryMath::clone
 
 Creates and returns a deep copy of this StoichiometryMath object.
-@return a (deep) copy of this StoichiometryMath.
+@return the (deep) copy of this StoichiometryMath object.
 
 
 =item StoichiometryMath::getMath
@@ -23601,8 +23536,8 @@ copy of the given ASTNode.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 C<opydetails> doc_note_stoichiometrymath_availability
 
 
@@ -23772,34 +23707,18 @@ Overridden from the SBase function since the parent is not a ListOf.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item StoichiometryMath::renameSIdRefs
 
-Renames all the C<SIdRef> attributes on this element, including any
-found in MathML.
-C<opydetails> doc_what_is_sidref
-This method works by looking at all attributes and (if appropriate)
-mathematical formulas, comparing the identifiers to the value of @p
-oldid.  If any matches are found, the matching identifiers are replaced
-with C<newid>.  The method does I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renamesidref_common
 
 
 =item StoichiometryMath::renameUnitSIdRefs
 
-Renames all the C<UnitSIdRef> attributes on this element.
-C<opydetails> doc_what_is_unitsidref
-This method works by looking at all unit identifier attribute values
-(including, if appropriate, inside mathematical formulas), comparing the
-unit identifiers to the value of C<oldid>.  If any matches are found,
-the matching identifiers are replaced with C<newid>.  The method does
-I<not> descend into child elements.
-@param oldid the old identifier
-@param newid the new identifier
+C<opydoc> doc_renameunitsidref_common
 
 
 =item StoichiometryMath::replaceSIDWithFunction
@@ -23867,9 +23786,7 @@ of this method as well.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Class to store SBML Level, Version and namespace
-information.
-
+@htmlinclude pkg-marker-core.html Set of SBML Level + Version + namespace triples.
 @htmlinclude not-sbml-warning.html
 There are differences in the definitions of components between different
 SBML Levels, as well as Versions within Levels.  For example, the
@@ -23905,7 +23822,7 @@ C<level> and C<version>.
 C<opydetails> doc_sbmlnamespaces_what_is_it 
 @param level the SBML level
 @param version the SBML version
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item SBMLNamespaces::SBMLNamespaces
@@ -23929,14 +23846,14 @@ package version has not been registered with libSBML.
 
 Copy constructor; creates a copy of a SBMLNamespaces.
 @param orig the SBMLNamespaces instance to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SBMLNamespaces::clone
 
-Creates and returns a deep copy of this SBMLNamespaces.
-@return a (deep) copy of this SBMLNamespaces.
+Creates and returns a deep copy of this SBMLNamespaces object.
+@return the (deep) copy of this SBMLNamespaces object.
 
 
 =item SBMLNamespaces::getSBMLNamespaceURI
@@ -24022,13 +23939,14 @@ SBMLNamespaces object.
 The following code gives an example of how one could add the XHTML
 namespace to the list of namespaces recorded by the top-level
 C<&lt;sbml&gt;> element of a model.  It gives the new
-namespace a prefix of C<html>.  @if clike
-@verbatim
+namespace a prefix of C<html>.
+@if cpp
+C<ode{>.cpp}
 SBMLDocument  sd;
-try 
+try
 {
 sd = new SBMLDocument(3, 1);
-} 
+}
 catch (SBMLConstructorException e)
 {
 // Here, have code to handle a truly exceptional situation. Candidate
@@ -24045,14 +23963,15 @@ else
 {
 // Handle another truly exceptional situation.
 }
-@endverbatim
-@endif@if java
-@verbatim
+@endcode
+@endif
+@if java
+C<ode{>.java}
 SBMLDocument sd;
-try 
+try
 {
 sd = new SBMLDocument(3, 1);
-} 
+}
 catch (SBMLConstructorException e)
 {
 // Here, have code to handle a truly exceptional situation. Candidate
@@ -24069,9 +23988,10 @@ else
 {
 // Handle another truly exceptional situation.
 }
-@endverbatim
-@endif@if python
-@verbatim
+@endcode
+@endif
+@if python
+C<ode{>.py}
 sbmlDoc = None
 try:
 sbmlDoc = SBMLDocument(3, 1)
@@ -24086,9 +24006,10 @@ if namespaces == None:
 status = namespaces.add("http://www.w3.org/1999/xhtml", "html")
 if status != LIBSBML_OPERATION_SUCCESS:
 # Do something to handle failure.
-@endverbatim
-@endif@if csharp
-@verbatim
+@endcode
+@endif
+@if csharp
+C<ode{>.cs}
 SBMLDocument sd = null;
 try
 {
@@ -24104,13 +24025,13 @@ catch (SBMLConstructorException e)
 XMLNamespaces sn = sd.getNamespaces();
 if (sn != null)
 {
-sn.add("http://www.w3.org/1999/xhtml", "html");            
+sn.add("http://www.w3.org/1999/xhtml", "html");
 }
 else
 {
 // Handle another truly exceptional situation.
 }
-@endverbatim
+@endcode
 @endif@~
 
 @param xmlns the XML namespaces to be added.
@@ -24118,9 +24039,9 @@ else
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item SBMLNamespaces::addNamespace
@@ -24133,9 +24054,9 @@ within this SBMLNamespaces object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item SBMLNamespaces::removeNamespace
@@ -24147,8 +24068,8 @@ SBMLNamespaces object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item SBMLNamespaces::addPackageNamespace
@@ -24164,13 +24085,12 @@ The package's name will be used if the given string is empty (default).
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note An XML namespace of a non-registered package extension can't be
-added by this function (@link
-OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+added by this function (@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
 will be returned).
-@see addNamespace(@if java String uri, String prefix@endif)
+@see addNamespace(@if java String, String@endif)
 
 
 =item SBMLNamespaces::addPackageNamespaces
@@ -24183,12 +24103,10 @@ object to the set of namespaces within this SBMLNamespaces object
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note XML namespaces of a non-registered package extensions are not
-added (just ignored) by this function. @link
-OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE
-LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+added (just ignored) by this function. @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
 xmlns is null.
 
 
@@ -24204,9 +24122,9 @@ within this SBMLNamespaces object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item SBMLNamespaces::addPkgNamespace
@@ -24224,13 +24142,12 @@ The package's name will be used if the given string is empty (default).
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note An XML namespace of a non-registered package extension can't be
-added by this function (@link
-OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+added by this function (@link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
 will be returned).
-@see addNamespace(@if java String uri, String prefix@endif)
+@see addNamespace(@if java String, String@endif)
 
 
 =item SBMLNamespaces::addPkgNamespaces
@@ -24245,12 +24162,10 @@ Non-package XML namespaces are not added by this function.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note XML namespaces of a non-registered package extensions are not
-added (just ignored) by this function. @link
-OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE
-LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+added (just ignored) by this function. @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
 xmlns is null.
 
 
@@ -24268,9 +24183,9 @@ namespaces within this SBMLNamespaces object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item SBMLNamespaces::isSBMLNamespace
@@ -24382,8 +24297,7 @@ C<opydetails> doc_note_static_methods
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Class of exceptions thrown by constructors of some
-libSBML objects.
+@htmlinclude pkg-marker-core.html Exceptions thrown by some libSBML constructors.
 In some situations, constructors for SBML objects may need to indicate to
 callers that the creation of the object failed.  The failure may be for
 different reasons, such as an attempt to use invalid parameters or a
@@ -24408,7 +24322,7 @@ Returns the message associated with this SBML exception.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Class of object that encapsulates a conversion option.
+@htmlinclude pkg-marker-core.html A single configuration setting for an SBML converter.
 @htmlinclude libsbml-facility-only-warning.html
 LibSBML provides a number of converters that can perform transformations
 on SBML documents.  These converters allow their behaviors to be
@@ -24417,11 +24331,15 @@ communicated using objects of class ConversionProperties, and within
 such objects, individual options are encapsulated using ConversionOption
 objects.
 
-A ConversionOption object consists of four parts:
-@li A I<key>, acting as the name of the option;
-@li A I<value> of this option;
-@li A I<type> for the value; this is chosen from  the enumeration type
-<a class="el" href="#ConversionOptionType_t">ConversionOptionType_t</a>; and
+A ConversionOption @if conly structure @else object@endif@~ consists of
+four parts:
+@li A I<key>, acting as the name of the option.
+@li A I<value> of this option.
+@li A I<type> for the value; the type code is chosen from @if clike
+an enumeration @else a set of integer constants@endif@~ whose names all
+begin with the prefix C<CNV_TYPE_>.  (See the separate <a
+class="el" href="#ConversionOptionType_t">subsection</a> below for more
+information.)
 @li A I<description> consisting of a text string that describes the
 option in some way.
 There are no constraints on the values of keys or descriptions;
@@ -24429,9 +24347,10 @@ authors of SBML converters are free to choose them as they see fit.
 @section ConversionOptionType_t Conversion option data types
 An option in ConversionOption must have a data type declared, to
 indicate whether it is a string value, an integer, and so forth.  The
-possible types of values are taken from the enumeration <a
-class="el" href="#ConversionOptionType_t">ConversionOptionType_t</a>.
-The following are the possible values:
+possible types of values are taken from
+@if clike the enumeration ConversionOptionType_t @else a set of
+constants whose symbol names begin with the prefix
+C<CNV_TYPE_>@endif. The following are the possible values:
 <p>
 <center>
 <table width="90%" cellspacing="1" cellpadding="1" border="0" class="normal-font">
@@ -24472,10 +24391,12 @@ The following are the possible values:
 Creates a new ConversionOption.
 This is the general constructor, taking arguments for all aspects of
 an option.  Other constructors exist with different arguments.
+C<opydetails> doc_cnv_type
 @param key the key for this option
 @param value an optional value for this option
 @param type the type of this option
 @param description the description for this option
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionOption::ConversionOption
@@ -24484,6 +24405,7 @@ Creates a new ConversionOption specialized for string-type options.
 @param key the key for this option
 @param value the value for this option
 @param description an optional description
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionOption::ConversionOption
@@ -24492,6 +24414,7 @@ Creates a new ConversionOption specialized for Boolean-type options.
 @param key the key for this option
 @param value the value for this option
 @param description an optional description
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionOption::ConversionOption
@@ -24500,6 +24423,7 @@ Creates a new ConversionOption specialized for double-type options.
 @param key the key for this option
 @param value the value for this option
 @param description an optional description
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionOption::ConversionOption
@@ -24508,6 +24432,7 @@ Creates a new ConversionOption specialized for float-type options.
 @param key the key for this option
 @param value the value for this option
 @param description an optional description
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionOption::ConversionOption
@@ -24516,20 +24441,21 @@ Creates a new ConversionOption specialized for integer-type options.
 @param key the key for this option
 @param value the value for this option
 @param description an optional description
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionOption::ConversionOption
 
 Copy constructor; creates a copy of an ConversionOption object.
 @param orig the ConversionOption object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item ConversionOption::clone
 
 Creates and returns a deep copy of this ConversionOption object.
-@return a (deep) copy of this ConversionOption object.
+@return the (deep) copy of this ConversionOption object.
 
 
 =item ConversionOption::getKey
@@ -24577,6 +24503,7 @@ Returns the type of this option
 =item ConversionOption::setType
 
 Sets the type of this option.
+C<opydetails> doc_cnv_type
 @param type the type value to use.
 
 
@@ -24642,19 +24569,20 @@ Invoking this method will also set the type of the option to
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Class of object that encapsulates the properties of an
-SBML converter.
+@htmlinclude pkg-marker-core.html Set of configuration option values for a converter.
 @htmlinclude libsbml-facility-only-warning.html
-The properties of SBML converters are communicated using objects of
-class ConversionProperties, and within such objects, individual options
-are encapsulated using ConversionOption objects.  The ConversionProperties
-class provides numerous methods for setting and getting options.
+LibSBML provides a number of converters that can perform transformations
+on SBML documents. The properties of SBML converters are communicated
+using objects of class ConversionProperties, and within such objects,
+individual options are encapsulated using ConversionOption objects.  The
+ConversionProperties class provides numerous methods for setting and
+getting options.
 ConversionProperties objects are also used to determine the target SBML
 namespace when an SBML converter's behavior depends on the intended
 Level+Version combination of SBML.  In addition, it is conceivable that
-conversions may be affected by SBML Level&nbsp;3 packages being used
-by an SBML document.  These, too, are communicated by the values of
-the SBML namespaces set on a ConversionProperties object.
+conversions may be affected by SBML Level&nbsp;3 packages being used by an
+SBML document; consequently, the packages in use are also communicated by
+the values of the SBML namespaces set on a ConversionProperties object.
 @see ConversionOption
 @see SBMLNamespaces
 
@@ -24666,20 +24594,21 @@ the SBML namespaces set on a ConversionProperties object.
 Constructor that initializes the conversion properties
 with a specific SBML target namespace.
 @param targetNS the target namespace to convert to
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionProperties::ConversionProperties
 
 Copy constructor.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item ConversionProperties::clone
 
 Creates and returns a deep copy of this ConversionProperties object.
-@return a (deep) copy of this ConversionProperties object.
+@return the (deep) copy of this ConversionProperties object.
 
 
 =item ConversionProperties::getTargetNamespaces
@@ -24724,6 +24653,13 @@ Returns the ConversionOption object for a given key.
 @return the option with the given key.
 
 
+=item ConversionProperties::getOption
+
+Returns the ConversionOption object for the given index.
+@param index the index for the option.
+@return the option with the given index.
+
+
 =item ConversionProperties::addOption
 
 Adds a copy of the given option to this properties object.
@@ -24735,8 +24671,10 @@ Adds a copy of the given option to this properties object.
 Adds a new ConversionOption object with the given parameters.
 @param key the key for the new option
 @param value (optional) the value of that option
-@param type (optional) the type of the option
+@param type (optional) the type of the option (see the documentation
+for ConversionOption for more information about the types)
 @param description (optional) the description for the option
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionProperties::addOption
@@ -24745,6 +24683,7 @@ Adds a new ConversionOption object with the given parameters.
 @param key the key for the new option
 @param value the string value of that option
 @param description (optional) the description for the option
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionProperties::addOption
@@ -24753,6 +24692,7 @@ Adds a new ConversionOption object with the given parameters.
 @param key the key for the new option
 @param value the boolean value of that option
 @param description (optional) the description for the option
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionProperties::addOption
@@ -24761,6 +24701,7 @@ Adds a new ConversionOption object with the given parameters.
 @param key the key for the new option
 @param value the double value of that option
 @param description (optional) the description for the option
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionProperties::addOption
@@ -24769,6 +24710,7 @@ Adds a new ConversionOption object with the given parameters.
 @param key the key for the new option
 @param value the float value of that option
 @param description (optional) the description for the option
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionProperties::addOption
@@ -24777,6 +24719,7 @@ Adds a new ConversionOption object with the given parameters.
 @param key the key for the new option
 @param value the integer value of that option
 @param description (optional) the description for the option
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ConversionProperties::removeOption
@@ -24865,6 +24808,12 @@ Sets the value of the given option to an integer.
 @param value the new integer value.
 
 
+=item ConversionProperties::getNumOptions
+
+Returns the number of options in this Conversion Properties object
+@return the number of options in this properties object
+
+
 =back
 
 =head2 SBMLConverter
@@ -24875,26 +24824,12 @@ Sets the value of the given option to an integer.
 @htmlinclude libsbml-facility-only-warning.html
 The SBMLConverter class is the base class for the various SBML @em
 converters: classes of objects that transform or convert SBML documents.
-These transformations can involve essentially anything that can be
-written algorithmically; examples include converting the units of
-measurement in a model, or converting from one Level+Version combination
-of SBML to another.
-LibSBML provides a number of built-in converters, and applications can
-create their own by subclassing SBMLConverter and following the examples
-of the existing converters.  The following are the built-in converters
-in libSBML @htmlinclude libsbml-version.html:
-@li SBMLFunctionDefinitionConverter
-@li SBMLInitialAssignmentConverter
-@li SBMLLevelVersionConverter
-@li SBMLRuleConverter
-@li SBMLStripPackageConverter
-@li SBMLUnitsConverter
-Many converters provide the ability to configure their behavior to some
-extent.  This is realized through the use of I<properties> that offer
-different I<options>.  Two related classes implement these features:
-ConversionProperties and ConversionOptions.  The default property values
-for each converter can be interrogated using the method
-SBMLConverter::getDefaultProperties() on the converter class.
+These transformations can involve essentially anything that can be written
+algorithmically; examples include converting the units of measurement in a
+model, or converting from one Level+Version combination of SBML to
+another.  Applications can also create their own converters by subclassing
+SBMLConverter and following the examples of the existing converters.
+C<opydetails> doc_section_using_sbml_converters
 
 =over
 
@@ -24906,16 +24841,22 @@ Creates a new SBMLConverter object.
 
 =item SBMLConverter::SBMLConverter
 
+Creates a new SBMLConverter object with a given name.
+@param name the name for the converter to create
+
+
+=item SBMLConverter::SBMLConverter
+
 Copy constructor; creates a copy of an SBMLConverter object.
 @param c the SBMLConverter object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SBMLConverter::clone
 
 Creates and returns a deep copy of this SBMLConverter object.
-@return a (deep) copy of this SBMLConverter object.
+@return the (deep) copy of this SBMLConverter object.
 
 
 =item SBMLConverter::getDocument
@@ -24941,8 +24882,8 @@ converter object.  The run-time properties of the converter object can
 be adjusted by using the method
 SBMLConverter::setProperties(const ConversionProperties  props).
 @return the default properties for the converter.
-@see setProperties(@if java ConversionProperties props@endif)
-@see matchesProperties(@if java ConversionProperties props@endif)
+@see setProperties(@if java ConversionProperties@endif)
+@see matchesProperties(@if java ConversionProperties@endif)
 
 
 =item SBMLConverter::getTargetNamespaces
@@ -24972,17 +24913,17 @@ otherwise.
 
 Sets the current SBML document to the given SBMLDocument object.
 @param doc the document to use for this conversion.
-@warning Even though the C<doc> is 'const', it is immediately cast 
-to a non-const version, which is then usually changed by the 
-converter upon a successful conversion.  This function is here 
-solely to preserve backwards compatibility.
 @return integer value indicating the success/failure of the operation.
 @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The set of possible values that may
 be returned ultimately depends on the specific subclass of
 SBMLConverter being used, but the default method can return the
 following values:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@warning Even though the argument C<doc> is 'const', it is immediately
+cast to a non-const version, which is then usually changed by the
+converter upon a successful conversion.  This variant of the
+setDocument() method is here solely to preserve backwards compatibility.
 
 
 =item SBMLConverter::setDocument
@@ -24995,15 +24936,12 @@ Sets the current SBML document to the given SBMLDocument object.
 be returned ultimately depends on the specific subclass of
 SBMLConverter being used, but the default method can return the
 following values:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item SBMLConverter::setProperties
 
 Sets the configuration properties to be used by this converter.
-A given converter exposes one or more properties that can be adjusted
-in order to influence the behavior of the converter.  This method sets
-the current properties for this converter.
 @param props the ConversionProperties object defining the properties
 to set.
 @return integer value indicating the success/failure of the operation.
@@ -25012,10 +24950,10 @@ to set.
 be returned ultimately depends on the specific subclass of
 SBMLConverter being used, but the default method can return the
 following values:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see getProperties()
-@see matchesProperties(@if java ConversionProperties props@endif)
+@see matchesProperties(@if java ConversionProperties@endif)
 
 
 =item SBMLConverter::getProperties
@@ -25027,8 +24965,8 @@ returns the current properties for this converter; in other words, the
 settings in effect at this moment.  To change the property values, you
 can use SBMLConverter::setProperties(const ConversionProperties  props).
 @return the currently set configuration properties.
-@see setProperties(@if java ConversionProperties props@endif)
-@see matchesProperties(@if java ConversionProperties props@endif)
+@see setProperties(@if java ConversionProperties@endif)
+@see matchesProperties(@if java ConversionProperties@endif)
 
 
 =item SBMLConverter::convert
@@ -25036,9 +24974,9 @@ can use SBMLConverter::setProperties(const ConversionProperties  props).
 Perform the conversion.
 This method causes the converter to do the actual conversion work,
 that is, to convert the SBMLDocument object set by
-SBMLConverter::setDocument(@if java const SBMLDocument  doc@endif) and
+SBMLConverter::setDocument(@if java const SBMLDocument@endif) and
 with the configuration options set by
-SBMLConverter::setProperties(@if java const ConversionProperties  props@endif).
+SBMLConverter::setProperties(@if java const ConversionProperties@endif).
 @return  integer value indicating the success/failure of the operation.
 @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The set of possible values that may
@@ -25047,13 +24985,19 @@ the documentation for the relevant class to find out what the
 possibilities are.
 
 
+=item SBMLConverter::getName
+
+Returns the name of this converter. 
+@return a name for this converter
+
+
 =back
 
 =head2 SBMLConverterRegistry
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Registry of all SBML converters.
+@htmlinclude pkg-marker-core.html Registry of all libSBML SBML converters.
 @htmlinclude libsbml-facility-only-warning.html
 LibSBML provides facilities for transforming and converting SBML
 documents in various ways.  These transformations can involve
@@ -25066,9 +25010,9 @@ SBMLConverterRegistry, maintains a list of known converters and provides
 methods for discovering them.  Callers can use the method
 SBMLConverterRegistry::getNumConverters() to find out how many
 converters are registered, then use
-SBMLConverterRegistry::getConverterByIndex(@if java int index@endif) to
+SBMLConverterRegistry::getConverterByIndex(@if java int@endif) to
 iterate over each one; alternatively, callers can use
-SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties& props@endif)
+SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties@endif)
 to search for a converter having specific properties.
 
 =over
@@ -25089,8 +25033,8 @@ Adds the given converter to the registry of SBML converters.
 @return integer value indicating the success/failure of the operation.
 @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The possible values are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item SBMLConverterRegistry::getConverterByIndex
@@ -25121,14 +25065,14 @@ object, then passing the object to this method.
 to match against.
 @return the converter matching the properties, or C<NULL> if no
 suitable converter is found.
-@see getConverterByIndex(@if java int index@endif)
+@see getConverterByIndex(@if java int@endif)
 
 
 =item SBMLConverterRegistry::getNumConverters
 
 Returns the number of converters known by the registry.
 @return the number of registered converters.
-@see getConverterByIndex(@if java int index@endif)
+@see getConverterByIndex(@if java int@endif)
 
 
 =item SBMLConverterRegistry::SBMLConverterRegistry
@@ -25144,32 +25088,34 @@ protected constructor, use the getInstance() method to access the registry.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html SBML converter for replacing function definitions.
+@htmlinclude pkg-marker-core.html Converter to expand user-defined functions in-line.
 @htmlinclude libsbml-facility-only-warning.html
-This is an SBML converter for manipulating user-defined functions in an
-SBML file.  When invoked on the current model, it performs the following
-operation:
-<ol>
-<li>Read the list of user-defined functions in the model (i.e., the
-list of FunctionDefinition objects);
-<li>Look for invocations of the function in mathematical expressions
+This converter manipulates user-defined functions in an SBML file.  When
+invoked on a model, it performs the following operations:
+@li Reads the list of user-defined functions in the model (i.e., the list
+of FunctionDefinition objects);
+@li Looks for invocations of the function in mathematical expressions
 throughout the model; and
-<li>For each invocation found, replaces the invocation with a
-in-line copy of the function's body, similar to how macro expansions
-might be performed in scripting and programming languages.
-</ol>
-
+@li For each invocation found, replaces the invocation with a in-line copy
+of the function's body, similar to how macro expansions might be performed
+in scripting and programming languages.
 For example, suppose the model contains a function definition
-representing the function <i>f(x, y) = x   y</i>.  Further
+representing the function C<f(x, y) = x   y>.  Further
 suppose this functions invoked somewhere else in the model, in
-a mathematical formula, as <i>f(s, p)</i>.  The outcome of running
+a mathematical formula, as C<f(s, p)>.  The outcome of running
 SBMLFunctionDefinitionConverter on the model will be to replace
-the call to <i>f</i> with the expression <i>s   p</i>.
-@see SBMLInitialAssignmentConverter
-@see SBMLLevelVersionConverter
-@see SBMLRuleConverter
-@see SBMLStripPackageConverter
-@see SBMLUnitsConverter
+the call to C<f> with the expression C<s   p>.
+@section usage Configuration and use of SBMLFunctionDefinitionConverter
+SBMLFunctionDefinitionConverter is enabled by creating a
+ConversionProperties object with the option @c
+"expandFunctionDefinitions", and passing this properties object to
+SBMLDocument::convert(@if java ConversionProperties@endif).
+The converter accepts one option:
+@li C<"skipIds">: if set, it should be a string containing a
+comma-separated list of identifiers (SBML "id" values) that are to be
+skipped during function conversion.  Functions whose identifiers are
+found in this list will not be converted.
+C<opydetails> doc_section_using_sbml_converters
 
 =over
 
@@ -25204,7 +25150,7 @@ A typical use of this method involves creating a ConversionProperties
 object, setting the options desired, and then calling this method on
 an SBMLFunctionDefinitionConverter object to find out if the object's
 property values match the given ones.  This method is also used by
-SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties& props@endif)
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
 to search across all registered converters for one matching particular
 properties.
 
@@ -25215,15 +25161,19 @@ otherwise.
 
 =item SBMLFunctionDefinitionConverter::convert
 
-Replaces invocations of each user-defined function with an in-line
-copy, similar to macro expansion.
+Perform the conversion.
+This method causes the converter to do the actual conversion work,
+that is, to convert the SBMLDocument object set by
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
+with the configuration options set by
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
 @return  integer value indicating the success/failure of the operation.
 @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The possible values are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
 
 
 =item SBMLFunctionDefinitionConverter::getDefaultProperties
@@ -25245,20 +25195,218 @@ for this converter.
 
 =back
 
+=head2 SBMLIdConverter
+
+@sbmlpackage{core}
+
+@htmlinclude pkg-marker-core.html Converter for replacing object identifiers.
+@htmlinclude libsbml-facility-only-warning.html
+This converter translates all instances of a given identifier (i.e., SBML object "id"
+attribute value) of type "SId" in a Model to another identifier.  It does this based on a list of source
+identifiers, translating each one to its corresponding replacement value
+in a list of replacement identifiers.  It also updates all references to
+the identifiers so replaced.  (More technically, it replaces all values
+known as type C<SIdRef> in the SBML Level&nbsp;3 specifications.)
+This converter only searches the global SId namespace for the Model child of the 
+SBMLDocument.  It does not replace any IDs or SIdRefs for LocalParameters, nor
+does it replace any UnitSIds or UnitSIdRefs.  It likewise does not replace any IDs
+in a new namespace introduced by a package, such as the PortSId namespace
+from the Hierarchical Model Composition package, nor any Model objects that are
+not the direct child of the SBMLDocument, such as the ModelDefinitions from 
+the Hierarchical Model Composition package.
+If, however, a package introduces a new element with an "id" attribute
+of type SId, any attribute of type SIdRef, or child of type SIdRef (such as 
+a new Math child of a package element), those IDs will be replaced if they
+match a source identifier.
+@section SBMLIdConverter-usage Configuration and use of SBMLIdConverter
+SBMLIdConverter is enabled by creating a ConversionProperties object with
+the option C<"renameSIds">, and passing this properties object to
+SBMLDocument::convert(@if java ConversionProperties@endif).
+The converter accepts two options, and both must
+be set or else no conversion is performed:
+@li C<"currentIds">: A comma-separated list of identifiers to replace.
+@li C<"newIds">: A comma-separated list of identifiers to use as the
+replacements.  The values should correspond one-to-one with the identifiers
+in C<"currentIds"> that should be replaced.
+C<opydetails> doc_section_using_sbml_converters
+
+=over
+
+
+=item SBMLIdConverter::SBMLIdConverter
+
+Creates a new SBMLIdConverter object.
+
+
+=item SBMLIdConverter::SBMLIdConverter
+
+Copy constructor; creates a copy of an SBMLIdConverter
+object.
+
+@param obj the SBMLIdConverter object to copy.
+
+
+=item SBMLIdConverter::clone
+
+Creates and returns a deep copy of this SBMLIdConverter
+object.
+
+@return a (deep) copy of this converter.
+
+
+=item SBMLIdConverter::matchesProperties
+
+Returns C<true> if this converter object's properties match the given
+properties.
+
+A typical use of this method involves creating a ConversionProperties
+object, setting the options desired, and then calling this method on
+an SBMLIdConverter object to find out if the object's
+property values match the given ones.  This method is also used by
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
+to search across all registered converters for one matching particular
+properties.
+
+@param props the properties to match.
+@return C<true> if this converter's properties match, C<false>
+otherwise.
+
+
+=item SBMLIdConverter::convert
+
+Perform the conversion.
+This method causes the converter to do the actual conversion work,
+that is, to convert the SBMLDocument object set by
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
+with the configuration options set by
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
+@return  integer value indicating the success/failure of the operation.
+@if clike The value is drawn from the enumeration
+#OperationReturnValues_t. @endif@~ The possible values are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+
+
+=item SBMLIdConverter::getDefaultProperties
+
+Returns the default properties of this converter.
+A given converter exposes one or more properties that can be adjusted
+in order to influence the behavior of the converter.  This method
+returns the I<default> property settings for this converter.  It is
+meant to be called in order to discover all the settings for the
+converter object.
+@return the ConversionProperties object describing the default properties
+for this converter.
+
+
+=back
+
+=head2 SBMLInferUnitsConverter
+
+@sbmlpackage{core}
+
+@htmlinclude pkg-marker-core.html Converter for inferring and setting parameter units.
+@htmlinclude libsbml-facility-only-warning.html
+This SBML converter takes an SBML document and attempts to infer units for
+any Parameter objects whose units are undeclared.  It then sets the
+"units" attribute of those parameters to the units inferred (if necessary,
+creating new UnitDefinition objects on the model in the process).
+@section SBMLInferUnitsConverter-usage Configuration and use of SBMLInferUnitsConverter
+SBMLInferUnitsConverter is enabled by creating a ConversionProperties
+object with the option C<"inferUnits">, and passing this
+properties object to SBMLDocument::convert(@if java ConversionProperties@endif).
+The converter offers no other options.
+C<opydetails> doc_section_using_sbml_converters
+
+=over
+
+
+=item SBMLInferUnitsConverter
+
+Creates a new SBMLInferUnitsConverter object.
+
+
+=item SBMLInferUnitsConverter
+
+Copy constructor; creates a copy of an SBMLInferUnitsConverter
+object.
+
+@param obj the SBMLInferUnitsConverter object to copy.
+
+
+=item clone
+
+Creates and returns a deep copy of this SBMLInferUnitsConverter
+object.
+
+@return a (deep) copy of this converter.
+
+
+=item matchesProperties
+
+Returns C<true> if this converter object's properties match the given
+properties.
+
+A typical use of this method involves creating a ConversionProperties
+object, setting the options desired, and then calling this method on
+an SBMLInferUnitsConverter object to find out if the object's
+property values match the given ones.  This method is also used by
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
+to search across all registered converters for one matching particular
+properties.
+
+@param props the properties to match.
+@return C<true> if this converter's properties match, C<false>
+otherwise.
+
+
+=item convert
+
+Perform the conversion.
+This method causes the converter to do the actual conversion work,
+that is, to convert the SBMLDocument object set by
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
+with the configuration options set by
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
+@return  integer value indicating the success/failure of the operation.
+@if clike The value is drawn from the enumeration
+#OperationReturnValues_t. @endif@~ The possible values are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+
+
+=item getDefaultProperties
+
+Returns the default properties of this converter.
+A given converter exposes one or more properties that can be adjusted
+in order to influence the behavior of the converter.  This method
+returns the I<default> property settings for this converter.  It is
+meant to be called in order to discover all the settings for the
+converter object.
+@return the ConversionProperties object describing the default properties
+for this converter.
+
+
+=back
+
 =head2 SBMLInitialAssignmentConverter
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html SBML converter for replacing initial assignments.
+@htmlinclude pkg-marker-core.html Converter that removes SBML <em>initial assignments</em>.
 @htmlinclude libsbml-facility-only-warning.html
-This is an SBML converter for replacing InitialAssignment objects 
-(when possible) by setting the initial value attributes on the model
-objects being assigned.  In other words, for every object that is
-the target of an initial assignment in the model, it evaluates the
-mathematical expression of the assignment to get a numerical value,
-and then sets the corresponding attribute of the object to the
-value.  The effects for different kinds of SBML components are
-as follows:
+This is an SBML converter for replacing InitialAssignment objects, when
+possible, by setting the initial value attributes on the model objects
+being assigned.  In other words, for every object that is the target of an
+initial assignment in the model, the converter evaluates the mathematical
+expression of the assignment to get a I<numerical> value, and then sets
+the corresponding attribute of the object to the value.  The effects for
+different kinds of SBML components are as follows:
 <center>
 <table border="0" class="text-table width80 normal-font alt-row-colors">
 <tr style="background: lightgray; font-size: 14px;">
@@ -25288,11 +25436,12 @@ in the Reaction object where the SpeciesReference object appears.</td>
 </table>
 </center>
 
-@see SBMLFunctionDefinitionConverter
-@see SBMLLevelVersionConverter
-@see SBMLRuleConverter
-@see SBMLStripPackageConverter
-@see SBMLUnitsConverter
+@section SBMLInitialAssignmentConverter-usage Configuration and use of SBMLInitialAssignmentConverter
+SBMLInitialAssignmentConverter is enabled by creating a
+ConversionProperties object with the option C<"expandInitialAssignments">,
+and passing this properties object to SBMLDocument::convert(@if java
+ConversionProperties@endif).  The converter offers no other options.
+C<opydetails> doc_section_using_sbml_converters
 
 =over
 
@@ -25327,7 +25476,7 @@ A typical use of this method involves creating a ConversionProperties
 object, setting the options desired, and then calling this method on
 an SBMLInitialAssignmentConverter object to find out if the object's
 property values match the given ones.  This method is also used by
-SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties& props@endif)
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
 to search across all registered converters for one matching particular
 properties.
 
@@ -25341,15 +25490,15 @@ otherwise.
 Perform the conversion.
 This method causes the converter to do the actual conversion work,
 that is, to convert the SBMLDocument object set by
-SBMLConverter::setDocument(@if java const SBMLDocument  doc@endif) and
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
 with the configuration options set by
-SBMLConverter::setProperties(@if java const ConversionProperties  props@endif).
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
 @return  integer value indicating the success/failure of the operation.
 @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The possible values are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item SBMLInitialAssignmentConverter::getDefaultProperties
@@ -25370,20 +25519,31 @@ for this converter.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html SBML converter for transforming documents from one
-Level+Version to another.
+@htmlinclude pkg-marker-core.html Whole-document SBML Level/Version converter.
 @htmlinclude libsbml-facility-only-warning.html
-This SBML converter takes an SBML document of one SBML Level+Version
-combination and attempts to convert it to another Level+Version combination.
-The target Level+Version is set using an SBMLNamespace object in the
-ConversionProperties object that controls this converter.
-This class is the basis for
-SBMLDocument::setLevelAndVersion(@if java long lev, long ver, boolean strict@endif).
-@see SBMLFunctionDefinitionConverter
-@see SBMLInitialAssignmentConverter
-@see SBMLRuleConverter
-@see SBMLStripPackageConverter
-@see SBMLUnitsConverter
+This SBML converter takes an SBML document having one SBML Level+Version
+combination, and attempts to convert it to an SBML document having a
+different Level+Version combination.
+This class is also the basis for
+SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif).
+@section SBMLLevelVersionConverter-usage Configuration and use of SBMLLevelVersionConverter
+SBMLLevelVersionConverter is enabled by creating a ConversionProperties
+object with the option C<"setLevelAndVersion">, and passing this
+properties object to SBMLDocument::convert(@if java
+ConversionProperties@endif).  The target SBML Level and Version
+combination are determined by the value of the SBML namespace set on the
+ConversionProperties object (using
+ConversionProperties::setTargetNamespaces(SBMLNamespaces  targetNS)).
+In addition, this converter offers one option:
+@li C<"strict">: if this option has the value C<true>, then the validity
+of the SBML document will be strictly preserved.  This means that SBML
+validation will be performed, and if the original model is not valid or
+semantics cannot be preserved in the converted model, then conversion will
+not be performed.  Conversely, if this option is set to C<false>, model
+conversion will always be performed; if any errors are detected related to
+altered semantics, the errors will be logged in the usual way (i.e., the
+error log on the SBMLDocument object).
+C<opydetails> doc_section_using_sbml_converters
 
 =over
 
@@ -25418,7 +25578,7 @@ A typical use of this method involves creating a ConversionProperties
 object, setting the options desired, and then calling this method on
 an SBMLLevelVersionConverter object to find out if the object's
 property values match the given ones.  This method is also used by
-SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties& props@endif)
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
 to search across all registered converters for one matching particular
 properties.
 
@@ -25432,16 +25592,17 @@ otherwise.
 Perform the conversion.
 This method causes the converter to do the actual conversion work,
 that is, to convert the SBMLDocument object set by
-SBMLConverter::setDocument(@if java const SBMLDocument  doc@endif) and
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
 with the configuration options set by
-SBMLConverter::setProperties(@if java const ConversionProperties  props@endif).
-SBMLConverter::setProperties(@if java const ConversionProperties  props@endif).
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
 @return  integer value indicating the success/failure of the operation.
 @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The possible values are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_TARGET_NAMESPACE LIBSBML_CONV_INVALID_TARGET_NAMESPACE@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
 
 
 =item getDefaultProperties
@@ -25477,20 +25638,261 @@ otherwise.
 
 =back
 
+=head2 SBMLLocalParameterConverter
+
+@sbmlpackage{core}
+
+@htmlinclude pkg-marker-core.html Converter to turn local parameters into global ones.
+@htmlinclude libsbml-facility-only-warning.html
+This converter essentially promotes local parameters to global parameters.
+It works by examining every Reaction object for LocalParameter objects,
+then creating Parameter objects on the model for each one found, and
+finally removing the original LocalParameter objects.  It creates new
+identifiers for the fresh Parameter objects by concatenating the
+identifier of the reaction with the identifier of the original
+LocalParameter object.
+This converter can be useful for software applications that do not have
+the ability to handle local parameters on reactions.  Such applications
+could check incoming models for local parameters and run those models
+through this converter before proceeding with other steps.
+@section SBMLLocalParameterConverter-usage Configuration and use of SBMLLocalParameterConverter
+SBMLLocalParameterConverter is enabled by creating a ConversionProperties
+object with the option C<"promoteLocalParameters">, and passing this
+properties object to SBMLDocument::convert(@if java
+ConversionProperties@endif).  The converter offers no other options.
+C<opydetails> doc_section_using_sbml_converters
+
+=over
+
+
+=item SBMLLocalParameterConverter::SBMLLocalParameterConverter
+
+Creates a new SBMLLocalParameterConverter object.
+
+
+=item SBMLLocalParameterConverter::SBMLLocalParameterConverter
+
+Copy constructor; creates a copy of an SBMLLocalParameterConverter
+object.
+
+@param obj the SBMLLocalParameterConverter object to copy.
+
+
+=item SBMLLocalParameterConverter::clone
+
+Creates and returns a deep copy of this SBMLLocalParameterConverter
+object.
+
+@return a (deep) copy of this converter.
+
+
+=item SBMLLocalParameterConverter::matchesProperties
+
+Returns C<true> if this converter object's properties match the given
+properties.
+
+A typical use of this method involves creating a ConversionProperties
+object, setting the options desired, and then calling this method on
+an SBMLLocalParameterConverter object to find out if the object's
+property values match the given ones.  This method is also used by
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
+to search across all registered converters for one matching particular
+properties.
+
+@param props the properties to match.
+@return C<true> if this converter's properties match, C<false>
+otherwise.
+
+
+=item SBMLLocalParameterConverter::convert
+
+Perform the conversion.
+This method causes the converter to do the actual conversion work,
+that is, to convert the SBMLDocument object set by
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
+with the configuration options set by
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
+@return  integer value indicating the success/failure of the operation.
+@if clike The value is drawn from the enumeration
+#OperationReturnValues_t. @endif@~ The possible values are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+
+
+=item SBMLLocalParameterConverter::getDefaultProperties
+
+Returns the default properties of this converter.
+A given converter exposes one or more properties that can be adjusted
+in order to influence the behavior of the converter.  This method
+returns the I<default> property settings for this converter.  It is
+meant to be called in order to discover all the settings for the
+converter object.
+@return the ConversionProperties object describing the default properties
+for this converter.
+
+
+=back
+
+=head2 SBMLReactionConverter
+
+@sbmlpackage{core}
+
+@htmlinclude pkg-marker-core.html Converter to replace reactions with SBML <em>rate rules</em>.
+@htmlinclude libsbml-facility-only-warning.html
+This converter will take an SBML model and replace the definitions of
+reactions in the model with definitions of SBML rate rules.  Equivalent
+RateRule objects are only created for species mentioned in reactions that
+have KineticLaw subobjects, since those are the only reactions that have
+an effect on the rates of change of species in the model; however, the
+converter removes all Reaction objects in the model after it is done.
+@section SBMLReactionConverter-usage Configuration and use of SBMLReactionConverter
+SBMLReactionConverter is enabled by creating a ConversionProperties object
+with the option C<"replaceReactions">, and passing this properties object
+to SBMLDocument::convert(@if java ConversionProperties@endif).  This
+converter does not offer any additional configuration options.
+C<opydetails> doc_section_using_sbml_converters
+
+=over
+
+
+=item SBMLReactionConverter::SBMLReactionConverter
+
+Creates a new SBMLReactionConverter object.
+
+
+=item SBMLReactionConverter::SBMLReactionConverter
+
+Copy constructor; creates a copy of an SBMLReactionConverter
+object.
+
+@param obj the SBMLReactionConverter object to copy.
+
+
+=item SBMLReactionConverter::clone
+
+Creates and returns a deep copy of this SBMLReactionConverter
+object.
+
+@return a (deep) copy of this converter.
+
+
+=item SBMLReactionConverter::matchesProperties
+
+Returns C<true> if this converter object's properties match the given
+properties.
+
+A typical use of this method involves creating a ConversionProperties
+object, setting the options desired, and then calling this method on
+an SBMLReactionConverter object to find out if the object's
+property values match the given ones.  This method is also used by
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
+to search across all registered converters for one matching particular
+properties.
+
+@param props the properties to match.
+@return C<true> if this converter's properties match, C<false>
+otherwise.
+
+
+=item SBMLReactionConverter::convert
+
+Perform the conversion.
+This method causes the converter to do the actual conversion work,
+that is, to convert the SBMLDocument object set by
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
+with the configuration options set by
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
+@return  integer value indicating the success/failure of the operation.
+@if clike The value is drawn from the enumeration
+#OperationReturnValues_t. @endif@~ The possible values are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+
+
+=item SBMLReactionConverter::getDefaultProperties
+
+Returns the default properties of this converter.
+A given converter exposes one or more properties that can be adjusted
+in order to influence the behavior of the converter.  This method
+returns the I<default> property settings for this converter.  It is
+meant to be called in order to discover all the settings for the
+converter object.
+@return the ConversionProperties object describing the default properties
+for this converter.
+
+
+=item SBMLReactionConverter::setDocument
+
+Sets the current SBML document to the given SBMLDocument object.
+@param doc the document to use for this conversion.
+@warning Even though the C<doc> is 'const', it is immediately cast
+to a non-const version, which is then usually changed by the
+converter upon a successful conversion.  This function is here
+solely to preserve backwards compatibility.
+@return integer value indicating the success/failure of the operation.
+@if clike The value is drawn from the enumeration
+#OperationReturnValues_t. @endif@~ The set of possible values that may
+be returned ultimately depends on the specific subclass of
+SBMLConverter being used, but the default method can return the
+following values:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+
+
+=item SBMLReactionConverter::setDocument
+
+Sets the current SBML document to the given SBMLDocument object.
+@param doc the document to use for this conversion.
+@return integer value indicating the success/failure of the operation.
+@if clike The value is drawn from the enumeration
+#OperationReturnValues_t. @endif@~ The set of possible values that may
+be returned ultimately depends on the specific subclass of
+SBMLConverter being used, but the default method can return the
+following values:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+
+
+=item SBMLReactionConverter::createRateRuleMathForSpecies
+
+
+
+
+=item SBMLReactionConverter::determineStoichiometryNode
+
+
+
+
+=item SBMLReactionConverter::createRateRule
+
+
+
+
+=item SBMLReactionConverter::replaceReactions
+
+
+
+
+=item SBMLReactionConverter::isDocumentValid
+
+
+
+
+=back
+
 =head2 SBMLRuleConverter
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html SBML converter for reordering rules and assignments in a
-model.
-
+@htmlinclude pkg-marker-core.html Converter that sorts SBML rules and assignments.
 @htmlinclude libsbml-facility-only-warning.html
 This converter reorders assignments in a model.  Specifically, it sorts
 the list of assignment rules (i.e., the AssignmentRule objects contained
 in the ListOfAssignmentRules within the Model object) and the initial
 assignments (i.e., the InitialAssignment objects contained in the
 ListOfInitialAssignments) such that, within each set, assignments that
-depend on prior values are placed after the values are set.  For
+depend on I<prior> values are placed I<after> the values are set.  For
 example, if there is an assignment rule stating <i>a = b + 1</i>, and
 another rule stating <i>b = 3</i>, the list of rules is sorted and the
 rules are arranged so that the rule for <i>b = 3</i> appears I<before>
@@ -25498,7 +25900,7 @@ the rule for <i>a = b + 1</i>.  Similarly, if dependencies of this
 sort exist in the list of initial assignments in the model, the initial
 assignments are sorted as well.
 Beginning with SBML Level 2, assignment rules have no ordering
-required&mdash;the order in which the rules appear in an SBML file has
+required---the order in which the rules appear in an SBML file has
 no significance.  Software tools, however, may need to reorder
 assignments for purposes of evaluating them.  For example, for
 simulators that use time integration methods, it would be a good idea to
@@ -25507,28 +25909,20 @@ reorder assignment rules such as the following,
 <i>a = time</i>
 so that the evaluation of the rules is independent of integrator
 step sizes. (This is due to the fact that, in this case, the order in
-which the rules are evaluated changes the result.)  This converter
+which the rules are evaluated changes the result.)  SBMLRuleConverter
 can be used to reorder the SBML objects regardless of whether the
-input file contained them in the desired order.  Here is a code
-fragment to illustrate how to do that:
-@verbatim
-ConversionProperties props;
-props.addOption("sortRules", true, "sort rules");
-SBMLConverter converter;
-converter.setProperties(&props);
-converter.setDocument(&doc);
-converter.convert(); 
-@endverbatim
+input file contained them in the desired order.
 @note The two sets of assignments (list of assignment rules on the one
 hand, and list of initial assignments on the other hand) are handled @em
 independently.  In an SBML model, these entities are treated differently
 and no amount of sorting can deal with inter-dependencies between
 assignments of the two kinds.
-@see SBMLFunctionDefinitionConverter
-@see SBMLInitialAssignmentConverter
-@see SBMLLevelVersionConverter
-@see SBMLStripPackageConverter
-@see SBMLUnitsConverter
+@section SBMLRuleConverter-usage Configuration and use of SBMLRuleConverter
+SBMLRuleConverter is enabled by creating a ConversionProperties object
+with the option C<"sortRules">, and passing this properties object to
+SBMLDocument::convert(@if java ConversionProperties@endif).  This
+converter offers no other options.
+C<opydetails> doc_section_using_sbml_converters
 
 =over
 
@@ -25563,7 +25957,7 @@ A typical use of this method involves creating a ConversionProperties
 object, setting the options desired, and then calling this method on
 an SBMLLevelVersionConverter object to find out if the object's
 property values match the given ones.  This method is also used by
-SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties& props@endif)
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
 to search across all registered converters for one matching particular
 properties.
 
@@ -25577,15 +25971,15 @@ otherwise.
 Perform the conversion.
 This method causes the converter to do the actual conversion work,
 that is, to convert the SBMLDocument object set by
-SBMLConverter::setDocument(@if java const SBMLDocument  doc@endif) and
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
 with the configuration options set by
-SBMLConverter::setProperties(@if java const ConversionProperties  props@endif).
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
 @return  integer value indicating the success/failure of the operation.
 @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The possible values are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
 
 
 =item SBMLRuleConverter::getDefaultProperties
@@ -25606,17 +26000,21 @@ for this converter.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html SBML converter for removing packages.
+@htmlinclude pkg-marker-core.html Converter that removes SBML Level 3 packages.
 @htmlinclude libsbml-facility-only-warning.html
-This SBML converter takes an SBML document and removes (strips) a package
-from it.  No conversion is performed; the package constructs are simply
-removed from the SBML document.  The package to be stripped is determined
-by the value of the option "package" on the conversion properties.
-@see SBMLFunctionDefinitionConverter
-@see SBMLLevelVersionConverter
-@see SBMLRuleConverter
-@see SBMLLevelVersionConverter
-@see SBMLUnitsConverter
+This SBML converter takes an SBML document and removes (strips) an SBML
+Level&nbsp;3 package from it.  No conversion is performed; the package
+constructs are simply removed from the SBML document.  The package to be
+stripped is determined by the value of the option C<"package"> on the
+conversion properties.
+@section SBMLStripPackageConverter-usage Configuration and use of SBMLStripPackageConverter
+SBMLStripPackageConverter is enabled by creating a ConversionProperties
+object with the option C<"stripPackage">, and passing this properties
+object to SBMLDocument::convert(@if java ConversionProperties@endif).
+This converter takes one required option:
+@li C<"package">: the value of this option should be a text string, the
+nickname of the SBML Level&nbsp;3 package to be stripped from the model.
+C<opydetails> doc_section_using_sbml_converters
 
 =over
 
@@ -25639,7 +26037,7 @@ object.
 Creates and returns a deep copy of this SBMLStripPackageConverter
 object.
 
-@return a (deep) copy of this converter.
+@return the (deep) copy of this converter object.
 
 
 =item SBMLStripPackageConverter::matchesProperties
@@ -25651,7 +26049,7 @@ A typical use of this method involves creating a ConversionProperties
 object, setting the options desired, and then calling this method on
 an SBMLStripPackageConverter object to find out if the object's
 property values match the given ones.  This method is also used by
-SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties& props@endif)
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
 to search across all registered converters for one matching particular
 properties.
 
@@ -25665,15 +26063,16 @@ otherwise.
 Perform the conversion.
 This method causes the converter to do the actual conversion work,
 that is, to convert the SBMLDocument object set by
-SBMLConverter::setDocument(@if java const SBMLDocument  doc@endif) and
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
 with the configuration options set by
-SBMLConverter::setProperties(@if java const ConversionProperties  props@endif).
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
 @return  integer value indicating the success/failure of the operation.
 @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The possible values are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN@endlink
 
 
 =item SBMLStripPackageConverter::getDefaultProperties
@@ -25694,31 +26093,31 @@ for this converter.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html SBML converter to convert a model's units to SI units.
+@htmlinclude pkg-marker-core.html Converts a model's existing units to SI units.
 @htmlinclude libsbml-facility-only-warning.html
-This SBML converter converts the units in a model to base SI units,
-namely metre, kilogram, second, Ampere, Kelvin, mole and candela.
+This SBML converter converts the units in a model to base SI units, that
+is, using only the units metre, kilogram, second, ampere, kelvin, mole and
+candela.
+
 Unit conversion will only be performed on models that are fully unit
-consistent; that is, all objects have associated units, and there are no
-literal numbers with no units specified.  In the case of an SBML
-Level&nbsp;3 model involving math expressions, this means that the @c
-timeUnits attribute on the Model object must be set, and if there are
-any reactions in the model, the C<extentUnits> attribute on the Model
-object must also be set.
-This converter has the additional Boolean property "removeUnusedUnits"
-that can be used to tell the converter whether to remove any
-UnitDefinition objects that are not referred to, after conversion is
-complete.  You can set this value by adding the property using
-@verbatim
-prop.addOption("removeUnusedUnits", false);
-@endverbatim
-The converter's default behavior is to remove the unused
-UnitDefinition objects in the model.
-@see SBMLFunctionDefinitionConverter
-@see SBMLLevelVersionConverter
-@see SBMLRuleConverter
-@see SBMLStripPackageConverter
-@see SBMLUnitsConverter
+consistent, meaning that all objects have units associated with them and
+there are no literal numbers with unspecified units.  In the case of an
+SBML Level&nbsp;3 model involving math expressions, this means that the @c
+timeUnits attribute on the Model object must be set, and if there are any
+reactions in the model, the C<extentUnits> attribute on the Model object
+must also be set.
+@section SBMLUnitsConverter-usage Configuration and use of SBMLUnitsConverter
+SBMLUnitsConverter is enabled by creating a ConversionProperties object
+with the option C<"units">, and passing this properties object to
+SBMLDocument::convert(@if java ConversionProperties@endif).  This
+converter takes one optional option:
+@li C<"removeUnusedUnits">: the value of this property should be a
+Boolean.  If it is C<true>, it tells the unit convert to remove any unused
+UnitDefinition objects after conversion is complete.  ("Unused" units are
+units that are not referenced by any object in the model.)  If the value
+is C<false>, unused UnitDefinition objects are not removed from the model.
+The default is C<true>.
+C<opydetails> doc_section_using_sbml_converters
 
 =over
 
@@ -25747,13 +26146,13 @@ object.
 =item SBMLUnitsConverter::matchesProperties
 
 Returns C<true> if this converter object's properties match the given
-properties. 
+properties.
 
 A typical use of this method involves creating a ConversionProperties
 object, setting the options desired, and then calling this method on
 an SBMLUnitsConverter object to find out if the object's
 property values match the given ones.  This method is also used by
-SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties& props@endif)
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
 to search across all registered converters for one matching particular
 properties.
 
@@ -25764,16 +26163,20 @@ otherwise.
 
 =item SBMLUnitsConverter::convert
 
-Convers the units in the model to base SI units; namely metre,
-kilogram, second, Ampere, Kelvin, mole and candela.
+Perform the conversion.
+This method causes the converter to do the actual conversion work,
+that is, to convert the SBMLDocument object set by
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
+with the configuration options set by
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
 @return  integer value indicating the success/failure of the operation.
 @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The possible values are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE @endlink
-@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
 
 
 =item SBMLUnitsConverter::getDefaultProperties
@@ -25794,7 +26197,7 @@ for this converter.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Base class for SBML validators
+@htmlinclude pkg-marker-core.html Base class for SBML validators.
 @htmlinclude not-sbml-warning.html
 LibSBML implements facilities for verifying that a given SBML document
 is valid according to the SBML specifications; it also exposes the
@@ -25816,7 +26219,7 @@ case in the current implementation of SBMLInternalValidator) or use
 entirely different implementation approaches, as necessary.
 Users of libSBML may already be familiar with the facilities encompassed
 by the validation system, in the form of the consistency-checking methods
-defined on SBMLDocument.  The methods SBMLDocument::setConsistencyChecks(@if java int categ, boolean onoff@endif),
+defined on SBMLDocument.  The methods SBMLDocument::setConsistencyChecks(@if java int, boolean@endif),
 SBMLDocument::checkConsistency(), SBMLDocument::checkInternalConsistency()
 and other method of that sort are in fact implemented via SBMLValidator,
 specifically as methods on the class SBMLInternalValidator.
@@ -25836,28 +26239,28 @@ Creates a new SBMLValidator.
 
 Copy constructor; creates a copy of an SBMLValidator object.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SBMLValidator::clone
 
-Creates and returns a deep copy of this SBMLValidator.
-@return a (deep) copy of this SBMLValidator.
+Creates and returns a deep copy of this SBMLValidator object.
+@return the (deep) copy of this SBMLValidator object.
 
 
 =item SBMLValidator::getDocument
 
 Returns the current SBML document in use by this validator.
 @return the current SBML document
-@see setDocument(@if java SBMLDocument  doc@endif)
+@see setDocument(@if java SBMLDocument@endif)
 
 
 =item SBMLValidator::getDocument
 
 Returns the current SBML document in use by this validator.
 @return a const reference to the current SBML document
-@see setDocument(@if java SBMLDocument  doc@endif)
+@see setDocument(@if java SBMLDocument@endif)
 
 
 =item SBMLValidator::setDocument
@@ -25868,7 +26271,7 @@ Sets the current SBML document to the given SBMLDocument object.
 validation.  @if clike The value is drawn from the enumeration
 #OperationReturnValues_t. @endif@~ The possible values returned by this
 function are
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see getDocument()
 
 
@@ -25910,7 +26313,7 @@ Adds the given failure to this list of Validators failures.
 =item SBMLValidator::validate
 
 Validates the given SBMLDocument object.
-This is identical to calling setDocument(@if java SBMLDocument  d @endif)
+This is identical to calling setDocument(@if java SBMLDocument @endif)
 followed by validate().
 @param d the SBML document to validate
 @return the number of validation failures that occurred.  The objects
@@ -25945,10 +26348,10 @@ Returns the Model object stored in the SBMLDocument.
 It is important to note that this method <em>does not create</em> a
 Model instance.  The model in the SBMLDocument must have been created
 at some prior time, for example using SBMLDocument::createModel() 
-or SBMLDocument::setModel(@if java Model m@endif).
+or SBMLDocument::setModel(@if java Model@endif).
 This method returns C<NULL> if a model does not yet exist.
 @return the Model contained in this validator's SBMLDocument object.
-@see SBMLDocument::setModel(@if java Model m@endif)
+@see SBMLDocument::setModel(@if java Model@endif)
 @see SBMLDocument::createModel()
 
 
@@ -25958,10 +26361,10 @@ Returns the Model object stored in the SBMLDocument.
 It is important to note that this method <em>does not create</em> a
 Model instance.  The model in the SBMLDocument must have been created
 at some prior time, for example using SBMLDocument::createModel() 
-or SBMLDocument::setModel(@if java Model m@endif).
+or SBMLDocument::setModel(@if java Model@endif).
 This method returns C<NULL> if a model does not yet exist.
 @return the Model contained in this validator's SBMLDocument object.
-@see SBMLDocument::setModel(@if java Model m@endif)
+@see SBMLDocument::setModel(@if java Model@endif)
 @see SBMLDocument::createModel()
 
 
@@ -26019,8 +26422,8 @@ Copy constructor.
 
 @internal
 
-Creates and returns a deep copy of this converter.
-@return a (deep) copy of this converter.
+Creates and returns a deep copy of this SBMLValidator object.
+@return the (deep) copy of this SBMLValidator object.
 
 
 =item SBMLExternalValidator::validate
@@ -26121,7 +26524,7 @@ Returns the argument for the given index.
 @internal
 
 Sets the additional arguments
-@param args teh additional arguments
+@param args the additional arguments
 
 
 =back
@@ -26130,7 +26533,7 @@ Sets the additional arguments
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of attributes on an XML node.
+@htmlinclude pkg-marker-core.html An attribute on an XML node.
 @htmlinclude not-sbml-warning.html
 
 =over
@@ -26145,14 +26548,14 @@ Creates a new empty XMLAttributes set.
 
 Copy constructor; creates a copy of this XMLAttributes set.
 C<orig> the XMLAttributes object to copy.
-@throws @if python ValueError @else XMLConstructorException @endif@~
+@throws XMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLAttributes::clone
 
-Creates and returns a deep copy of this XMLAttributes set.
-@return a (deep) copy of this XMLAttributes set.
+Creates and returns a deep copy of this XMLAttributes object.
+@return the (deep) copy of this XMLAttributes object.
 
 
 =item XMLAttributes::add
@@ -26166,10 +26569,10 @@ optionally with a prefix and URI defining a namespace.
 @return an integer code indicating the success or failure of the
 function.  The possible values returned by this
 function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @note if local name with the same namespace URI already exists in this 
 attribute set, its value and prefix will be replaced.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::add
@@ -26182,7 +26585,7 @@ its value and prefix will be replaced.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item XMLAttributes::addResource
@@ -26200,7 +26603,7 @@ attributes in CVTerm class, and thus should not be used for other purposes.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item XMLAttributes::removeResource
@@ -26210,20 +26613,20 @@ Removes an attribute with the given index from this XMLAttributes set.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLAttributes::remove
 
 Removes an attribute with the given index from this XMLAttributes set.  
-(This function is an alias of XMLAttributes::removeResource(@if java int n@endif) ).
+(This function is an alias of XMLAttributes::removeResource(@if java int@endif) ).
 @param n an integer the index of the resource to be deleted
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLAttributes::remove
@@ -26235,8 +26638,8 @@ this XMLAttributes set.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLAttributes::remove
@@ -26246,8 +26649,8 @@ Removes an attribute with the given XMLTriple from this XMLAttributes set.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLAttributes::clear
@@ -26256,7 +26659,7 @@ Clears (deletes) all attributes in this XMLAttributes object.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item XMLAttributes::getIndex
@@ -26464,7 +26867,7 @@ function. XMLAttributes::readInto(const XMLTriple, bool&, ...) const should
 be used to read a value for an attribute name with a prefix and
 namespace.
 
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26485,7 +26888,7 @@ required is true, missing attributes are also logged.
 @param line an unsigned int, the line number at which the error occured.
 @param column an unsigned int, the column number at which the error occured.
 @returns C<true> if the attribute was read into value, C<false> otherwise.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26512,7 +26915,7 @@ function.  XMLAttributes::readInto(const XMLTriple, double&, ...) const
 should be used to read a value for an attribute name with a prefix and
 namespace.
 
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26534,7 +26937,7 @@ required is true, missing attributes are also logged.
 @param line an unsigned int, the line number at which the error occured.
 @param column an unsigned int, the column number at which the error occured.
 @returns C<true> if the attribute was read into value, C<false> otherwise.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26560,7 +26963,7 @@ function.  XMLAttributes::readInto(const XMLTriple, long&, ...) const should
 be used to read a value for an attribute name with a prefix and
 namespace.
 
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26581,7 +26984,7 @@ required is true, missing attributes are also logged.
 @param line an unsigned int, the line number at which the error occured.
 @param column an unsigned int, the column number at which the error occured.
 @returns C<true> if the attribute was read into value, C<false> otherwise.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26607,7 +27010,7 @@ function.  XMLAttributes::readInto(const XMLTriple, int&, ...) const should
 be used to read a value for an attribute name with a prefix and
 namespace.
 
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26628,7 +27031,7 @@ required is true, missing attributes are also logged.
 @param line an unsigned int, the line number at which the error occured.
 @param column an unsigned int, the column number at which the error occured.
 @returns C<true> if the attribute was read into value, C<false> otherwise.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26653,7 +27056,7 @@ required is true, missing attributes are also logged.
 function.  XMLAttributes::readInto(const XMLTriple, unsigned int&,
 ...) const should be used to read a value for an attribute name with a
 prefix and namespace.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26674,7 +27077,7 @@ required is true, missing attributes are also logged.
 @param line an unsigned int, the line number at which the error occured.
 @param column an unsigned int, the column number at which the error occured.
 @returns C<true> if the attribute was read into value, C<false> otherwise.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26695,7 +27098,7 @@ function. XMLAttributes::readInto(const XMLTriple, std::string&, ...) const
 should be used to read a value for an attribute name with a prefix and
 namespace.
 
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::readInto
@@ -26711,7 +27114,7 @@ attributes are logged.
 @param line an unsigned int, the line number at which the error occured.
 @param column an unsigned int, the column number at which the error occured.
 @returns C<true> if the attribute was read into value, C<false> otherwise.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLAttributes::write
@@ -26733,7 +27136,7 @@ attributeRequired() errors.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item XMLAttributes::attributeTypeError
@@ -26906,8 +27309,7 @@ attributes are logged.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Class of exceptions thrown by constructors of some
-libSBML objects.
+@htmlinclude pkg-marker-core.html Exceptions thrown by some libSBML constructors.
 @htmlinclude not-sbml-warning.html
 In some situations, constructors for SBML objects may need to indicate
 to callers that the creation of the object failed.  The failure may be
@@ -26932,7 +27334,7 @@ an exception.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of XML Namespaces.
+@htmlinclude pkg-marker-core.html An XML Namespace.
 @htmlinclude not-sbml-warning.html
 This class serves to organize functionality for tracking XML namespaces
 in a document or data stream.  The namespace declarations are stored as
@@ -26966,14 +27368,14 @@ Creates a new empty list of XML namespace declarations.
 
 Copy constructor; creates a copy of this XMLNamespaces list.
 @param orig the XMLNamespaces object to copy
-@throws @if python ValueError @else XMLConstructorException @endif@~
+@throws XMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLNamespaces::clone
 
-Creates and returns a deep copy of this XMLNamespaces list.
-@return a (deep) copy of this XMLNamespaces list.
+Creates and returns a deep copy of this XMLNamespaces object.
+@return the (deep) copy of this XMLNamespaces object.
 
 
 =item XMLNamespaces::add
@@ -27000,10 +27402,10 @@ prior to adding the new namespace.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLNamespaces::remove
@@ -27013,8 +27415,8 @@ Removes an XML Namespace stored in the given position of this list.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLNamespaces::remove
@@ -27024,8 +27426,8 @@ Removes an XML Namespace with the given prefix.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 @see remove(int index)
 
 
@@ -27037,7 +27439,7 @@ object.
 @return integer value indicating success/failure of the
 function. The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see remove(int index)
 
@@ -27136,7 +27538,7 @@ the given C<prefix>.
 @return the URI of an XML namespace declaration having the given @p
 prefix, or an empty string if no such prefix-and-URI pair exists
 in this XMLNamespaces object
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 @see getURI()
 
 
@@ -27196,7 +27598,7 @@ Removes the default XML namespace.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of a token in an XML stream.
+@htmlinclude pkg-marker-core.html A token in libSBML's XML stream.
 @htmlinclude not-sbml-warning.html
 
 =over
@@ -27216,7 +27618,7 @@ namespace declarations.
 @param namespaces XMLNamespaces, the namespaces to set.
 @param line an unsigned int, the line number (default = 0).
 @param column an unsigned int, the column number (default = 0).
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::XMLToken
@@ -27226,7 +27628,7 @@ Creates a start element XMLToken with the given set of attributes.
 @param attributes XMLAttributes, the attributes to set.
 @param line an unsigned int, the line number (default = 0).
 @param column an unsigned int, the column number (default = 0).
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::XMLToken
@@ -27235,7 +27637,7 @@ Creates an end element XMLToken.
 @param triple XMLTriple.
 @param line an unsigned int, the line number (default = 0).
 @param column an unsigned int, the column number (default = 0).
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::XMLToken
@@ -27244,23 +27646,23 @@ Creates a text XMLToken.
 @param chars a string, the text to be added to the XMLToken
 @param line an unsigned int, the line number (default = 0).
 @param column an unsigned int, the column number (default = 0).
-@throws @if python ValueError @else XMLConstructorException @endif@~
+@throws XMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::XMLToken
 
 Copy constructor; creates a copy of this XMLToken.
 @param orig the XMLToken object to copy.
-@throws @if python ValueError @else XMLConstructorException @endif@~
+@throws XMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLToken::clone
 
-Creates and returns a deep copy of this XMLToken.
-@return a (deep) copy of this XMLToken set.
+Creates and returns a deep copy of this XMLToken object.
+@return the (deep) copy of this XMLToken object.
 
 
 =item XMLToken::getAttributes
@@ -27277,10 +27679,10 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @note This function replaces the existing XMLAttributes with the new one.
 
 
@@ -27296,11 +27698,11 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
 @note if local name with the same namespace URI already exists in the
 attribute set, its value and prefix will be replaced.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::addAttr
@@ -27315,8 +27717,8 @@ attribute set, its value and prefix will be replaced.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
 
 
 =item XMLToken::removeAttr
@@ -27328,9 +27730,9 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLToken::removeAttr
@@ -27343,9 +27745,9 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLToken::removeAttr
@@ -27357,9 +27759,9 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLToken::clearAttributes
@@ -27369,8 +27771,8 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
 
 
 =item XMLToken::getAttrIndex
@@ -27380,7 +27782,7 @@ Return the index of an attribute with the given local name and namespace URI.
 @param uri  a string, the namespace URI of the attribute.
 @return the index of an attribute with the given local name and namespace URI, 
 or C<-1> if not present.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::getAttrIndex
@@ -27406,7 +27808,7 @@ is required.
 @return the local name of an attribute in this list (by position).  
 @note If index
 is out of range, an empty string will be returned.  Use
-XMLToken::hasAttr(@if java int index@endif)
+XMLToken::hasAttr(@if java int@endif)
 to test for the attribute existence.
 
 
@@ -27420,7 +27822,7 @@ required.
 @return the namespace prefix of an attribute in the attribute set
 (by position).  
 @note If index is out of range, an empty string will be returned. Use
-XMLToken::hasAttr(@if java int index@endif) to test
+XMLToken::hasAttr(@if java int@endif) to test
 for the attribute existence.
 
 
@@ -27433,7 +27835,7 @@ name is required.
 @return the prefixed name of an attribute in the attribute set 
 (by position).  
 @note If index is out of range, an empty string will be returned.  Use
-XMLToken::hasAttr(@if java int index@endif) to test
+XMLToken::hasAttr(@if java int@endif) to test
 for attribute existence.
 
 
@@ -27445,7 +27847,7 @@ XMLToken (by position).
 URI is required.
 @return the namespace URI of an attribute in the attribute set (by position).
 @note If index is out of range, an empty string will be returned.  Use
-XMLToken::hasAttr(@if java int index@endif) to test
+XMLToken::hasAttr(@if java int@endif) to test
 for attribute existence.
 
 
@@ -27458,7 +27860,7 @@ required.
 
 @return the value of an attribute in the attribute set (by position).  
 @note If index is out of range, an empty string will be returned. Use
-XMLToken::hasAttr(@if java int index@endif) to test
+XMLToken::hasAttr(@if java int@endif) to test
 for attribute existence.
 
 
@@ -27471,9 +27873,9 @@ Return a value of an attribute with the given local name and namespace URI.
 @note If an attribute with the 
 given local name and namespace URI does not exist, an empty string will be 
 returned.  
-Use XMLToken::hasAttr(@if java String name, String uri@endif)
+Use XMLToken::hasAttr(@if java String, String@endif)
 to test for attribute existence.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::getAttrValue
@@ -27484,7 +27886,7 @@ value is required.
 @return The attribute value as a string.  
 @note If an attribute with the
 given XMLTriple does not exist, an empty string will be returned.  
-Use XMLToken::hasAttr(@if java XMLTriple triple@endif)
+Use XMLToken::hasAttr(@if java XMLTriple@endif)
 to test for attribute existence.
 
 
@@ -27508,7 +27910,7 @@ in the attribute set in this XMLToken.
 @param uri  a string, the namespace URI of the attribute.
 @return C<true> if an attribute with the given local name and namespace 
 URI exists in the attribute set in this XMLToken, C<false> otherwise.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::hasAttr
@@ -27543,10 +27945,10 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @note This function replaces the existing XMLNamespaces with the new one.
 
 
@@ -27561,9 +27963,9 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::removeNamespace
@@ -27575,9 +27977,9 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLToken::removeNamespace
@@ -27588,9 +27990,9 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 
 
 =item XMLToken::clearNamespaces
@@ -27601,8 +28003,8 @@ Nothing will be done if this XMLToken is not a start element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
 
 
 =item XMLToken::getNamespaceIndex
@@ -27666,7 +28068,7 @@ Look up the URI of an XML namespace declaration by its prefix.
 @param prefix a string, the prefix of the required URI
 @return the URI of an XML namespace declaration given its prefix.  
 @note If C<prefix> does not exist, an empty string will be returned.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLToken::isNamespacesEmpty
@@ -27716,10 +28118,10 @@ Nothing will be done if this XML element is a text node.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item XMLToken::getName
@@ -27755,7 +28157,7 @@ Appends characters to this XML text content.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
@@ -27824,7 +28226,7 @@ Declares this XML start element is also an end element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
@@ -27834,7 +28236,7 @@ Declares this XMLToken is an end-of-file (input) marker.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
@@ -27844,7 +28246,7 @@ Declares this XML start/end element is no longer an end element.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
@@ -27869,7 +28271,7 @@ debugging purposes.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of a node in an XML document tree.
+@htmlinclude pkg-marker-core.html A node in libSBML's XML document tree.
 Beginning with version 3.0.0, libSBML implements an XML abstraction
 layer.  This layer presents a uniform XML interface to calling programs
 regardless of which underlying XML parser libSBML has actually been
@@ -27877,7 +28279,7 @@ configured to use.  The basic data object in the XML abstraction is a
 I<node>, represented by XMLNode.
 An XMLNode can contain any number of children.  Each child is another
 XMLNode, thereby forming a tree.  The methods XMLNode::getNumChildren()
-and XMLNode::getChild(@if java long n@endif) can be used to access the tree
+and XMLNode::getChild(@if java long@endif) can be used to access the tree
 structure starting from a given node.
 Each XMLNode is subclassed from XMLToken, and thus has the same methods
 available as XMLToken.  These methods include XMLToken::getNamespaces(),
@@ -27890,15 +28292,15 @@ string (e.g., C<&lt;annotation&gt;...&lt;/annotation&gt;>)
 to/from an XMLNode object.
 \n=over\n
 \n=item\n\nXMLNode::toXMLString() returns a string representation of the XMLNode object. 
-\n=item\n\nXMLNode::convertXMLNodeToString(@if java XMLNode node@endif)
+\n=item\n\nXMLNode::convertXMLNodeToString(@if java XMLNode@endif)
 (static function) returns a string representation 
 of the given XMLNode object.
-\n=item\n\nXMLNode::convertStringToXMLNode(@if java String xml@endif)
+\n=item\n\nXMLNode::convertStringToXMLNode(@if java String@endif)
 (static function) returns an XMLNode object converted 
 from the given XML string.
 \n=back\n
 
-The returned XMLNode object by XMLNode::convertStringToXMLNode(@if java String xml@endif)
+The returned XMLNode object by XMLNode::convertStringToXMLNode(@if java String@endif)
 is a dummy root (container) XMLNode if the given XML string has two or
 more top-level elements (e.g.,
 &quot;C<&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;>&quot;). In the
@@ -27992,7 +28394,7 @@ namespace declarations.
 @param namespaces XMLNamespaces, the namespaces to set.
 @param line an unsigned int, the line number (default = 0).
 @param column an unsigned int, the column number (default = 0).
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLNode::XMLNode
@@ -28002,7 +28404,7 @@ Creates a start element XMLNode with the given set of attributes.
 @param attributes XMLAttributes, the attributes to set.
 @param line an unsigned int, the line number (default = 0).
 @param column an unsigned int, the column number (default = 0).
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLNode::XMLNode
@@ -28011,7 +28413,7 @@ Creates an end element XMLNode.
 @param triple XMLTriple.
 @param line an unsigned int, the line number (default = 0).
 @param column an unsigned int, the column number (default = 0).
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLNode::XMLNode
@@ -28020,7 +28422,7 @@ Creates a text XMLNode.
 @param chars a string, the text to be added to the XMLToken
 @param line an unsigned int, the line number (default = 0).
 @param column an unsigned int, the column number (default = 0).
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLNode::XMLNode
@@ -28038,14 +28440,14 @@ the matching end element is found.
 
 Copy constructor; creates a copy of this XMLNode.
 @param orig the XMLNode instance to copy.
-@throws @if python ValueError @else XMLConstructorException @endif@~
+@throws XMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLNode::clone
 
-Creates and returns a deep copy of this XMLNode.
-@return a (deep) copy of this XMLNode.
+Creates and returns a deep copy of this XMLNode object.
+@return the (deep) copy of this XMLNode object.
 
 
 =item XMLNode::addChild
@@ -28056,8 +28458,8 @@ The given C<node> is added at the end of the list of children.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
 @note The given node is added at the end of the children list.
 
 
@@ -28095,7 +28497,7 @@ Removes all children from this node.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item XMLNode::getChild
@@ -28212,7 +28614,7 @@ contained as a child XMLNode. XMLToken::isEOF() can be used to
 identify if the returned XMLNode object is a dummy node.
 @return a XMLNode which is converted from string C<xmlstr>.  If the
 conversion failed, this method returns C<NULL>.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =back
@@ -28221,7 +28623,7 @@ conversion failed, this method returns C<NULL>.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of a qualified XML name.
+@htmlinclude pkg-marker-core.html A qualified XML name.
 @htmlinclude not-sbml-warning.html
 A "triple" in the libSBML XML layer encapsulates the notion of qualified
 name, meaning an element name or an attribute name with an optional
@@ -28263,7 +28665,7 @@ prefix.
 @param name a string, name for the XMLTriple.
 @param uri a string, URI of the XMLTriple.
 @param prefix a string, prefix for the URI of the XMLTriple,
-@throws @if python ValueError @else XMLConstructorException @endif@~
+@throws XMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -28279,23 +28681,23 @@ Triplet may be in one of the following formats:
 \n=back\n
 @param triplet a string representing the triplet as above
 @param sepchar a character, the sepchar used in the triplet
-@throws @if python ValueError @else XMLConstructorException @endif@~
+@throws XMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLTriple::XMLTriple
 
 Copy constructor; creates a copy of this XMLTriple set.
 @param orig the XMLTriple object to copy.
-@throws @if python ValueError @else XMLConstructorException @endif@~
+@throws XMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLTriple::clone
 
-Creates and returns a deep copy of this XMLTriple set.
-@return a (deep) copy of this XMLTriple set.
+Creates and returns a deep copy of this XMLTriple object.
+@return the (deep) copy of this XMLTriple object.
 
 
 =item XMLTriple::getName
@@ -28336,178 +28738,316 @@ this XMLTriple is empty.
 @sbmlpackage{core}
 
 @htmlinclude pkg-marker-core.html Interface to an XML output stream.
+@htmlinclude not-sbml-warning.html
+SBML content is serialized using XML; the resulting data can be stored and
+read to/from a file or data stream.  Low-level XML parsers such as Xerces
+provide facilities to read XML data.  To permit the use of different XML
+parsers (Xerces, Expat or libxml2), libSBML implements an abstraction
+layer.  XMLInputStream and XMLOutputStream are two parts of that
+abstraction layer.
+XMLOutputStream provides a wrapper above a standard ostream to facilitate
+writing XML.  XMLOutputStream keeps track of start and end elements,
+indentation, XML namespace prefixes, and more.  The interface provides
+features for converting non-text data types into appropriate textual form;
+this takes the form of overloaded C<writeAttribute> methods that
+allow users to simply use the same method with any data type.  For example,
+@verbatim
+double size = 3.2;
+std::string id = "id";
+@endverbatim
+can be written out using
+@verbatim
+writeAttribute("size", size);
+writeAttribute("id", id);
+@endverbatim
+Other classes in SBML take XMLOutputStream objects as arguments, and use
+that to write elements and attributes seamlessly to the XML output stream.
+It is also worth noting that unlike XMLInputStream, XMLOutputStream is
+actually independent of the underlying XML parsers.  It does not use the
+XML parser libraries at all.
+@note The convenience of the XMLInputStream and XMLOutputStream
+abstraction may be useful for developers interested in creating parsers
+for other XML formats besides SBML.  It can provide developers with a
+layer above more basic XML parsers, as well as some useful programmatic
+elements such as XMLToken, XMLError, etc.
+@see XMLInputStream
 
 =over
 
 
 =item XMLOutputStream::XMLOutputStream
 
-Creates a new XMLOutputStream that wraps stream.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+Creates a new XMLOutputStream that wraps the given C<stream>.
+C<opydetails> doc_programname_arguments
+C<opydetails> doc_xml_declaration
+@param stream the input stream to wrap.
+@param encoding the XML encoding to declare in the output. This value
+should be C<"UTF-8"> for SBML documents.  The default value
+is C<"UTF-8"> if no value is supplied for this parameter.
+@param writeXMLDecl whether to write a standard XML declaration at
+the beginning of the content written on C<stream>.  The default is
+C<true>.
+@param programName an optional program name to write as a comment
+in the output stream.
+@param programVersion an optional version identification string to write
+as a comment in the output stream.
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLOutputStream::endElement
 
 Writes the given XML end element name to this XMLOutputStream.
+@param name the name of the element.
+@param prefix an optional XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)
+
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLOutputStream::endElement
 
-Writes the given XML end element 'prefix:name' to this
-XMLOutputStream.
+Writes the given element to the stream.
+@param triple the XML element to write.
 
 
 =item XMLOutputStream::setAutoIndent
 
 Turns automatic indentation on or off for this XMLOutputStream.
+@param indent if C<true>, automatic indentation is turned on.
 
 
 =item XMLOutputStream::startElement
 
 Writes the given XML start element name to this XMLOutputStream.
+@param name the name of the element.
+@param prefix an optional XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)
+
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLOutputStream::startElement
 
-Writes the given XML start element 'prefix:name' to this
-XMLOutputStream.
+Writes the given XML start element
+<code><em>prefix</em>:<em>name</em></code> on this output stream.
+@param triple the start element to write.
 
 
 =item XMLOutputStream::startEndElement
 
 Writes the given XML start and end element name to this XMLOutputStream.
+@param name the name of the element.
+@param prefix an optional XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)
+
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLOutputStream::startEndElement
 
-Writes the given XML start and end element 'prefix:name' to this
-XMLOutputStream.
+Writes the given start element to this output stream.
+@param triple the XML element to write.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, name="value" to this XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param name the name of the attribute.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this XMLOutputStream.
+Writes the given namespace-prefixed attribute value to this output stream.
+@param name the name of the attribute.
+@param prefix an XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+this method for a variant that does not require a prefix.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this
-XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param triple the attribute, in the form of an XMLTriple.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, name="value" to this XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param name the name of the attribute.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this XMLOutputStream.
+Writes the given namespace-prefixed attribute value to this output stream.
+@param name the name of the attribute.
+@param prefix an XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+this method for a variant that does not require a prefix.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this
-XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param triple the attribute, in the form of an XMLTriple.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, name="true" or name="false" to this
-XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param name the name of the attribute.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="true" or prefix:name="false" to this
-XMLOutputStream.
+Writes the given namespace-prefixed attribute value to this output stream.
+@param name the name of the attribute.
+@param prefix an XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+this method for a variant that does not require a prefix.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="true" or prefix:name="false"
-to this XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param triple the attribute, in the form of an XMLTriple.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, name="value" to this XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param name the name of the attribute.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this XMLOutputStream.
+Writes the given namespace-prefixed attribute value to this output stream.
+@param name the name of the attribute.
+@param prefix an XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+this method for a variant that does not require a prefix.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this
-XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param triple the attribute, in the form of an XMLTriple.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, name="value" to this XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param name the name of the attribute.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this XMLOutputStream.
+Writes the given namespace-prefixed attribute value to this output stream.
+@param name the name of the attribute.
+@param prefix an XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+this method for a variant that does not require a prefix.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this
-XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param triple the attribute, in the form of an XMLTriple.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, name="value" to this XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param name the name of the attribute.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this XMLOutputStream.
+Writes the given namespace-prefixed attribute value to this output stream.
+@param name the name of the attribute.
+@param prefix an XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+this method for a variant that does not require a prefix.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this
-XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param triple the attribute, in the form of an XMLTriple.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, name="value" to this XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param name the name of the attribute.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this XMLOutputStream.
+Writes the given namespace-prefixed attribute value to this output stream.
+@param name the name of the attribute.
+@param prefix an XML namespace prefix to write in front of the
+C<element> name.  (The result has the form
+<code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+this method for a variant that does not require a prefix.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeAttribute
 
-Writes the given attribute, prefix:name="value" to this
-XMLOutputStream.
+Writes the given attribute and value to this output stream.
+@param triple the attribute, in the form of an XMLTriple.
+@param value the value of the attribute.
 
 
 =item XMLOutputStream::writeXMLDecl
 
-Writes the XML declaration:
-<?xml version="1.0" encoding="..."?>
+Writes a standard XML declaration to this output stream.
+C<opydetails> doc_xml_declaration
 
 
 =item XMLOutputStream::writeComment
 
-Writes an XML comment:
-<?xml version="1.0" encoding="..."?>
+Writes an XML comment with the name and version of this program.
+The XML comment has the following form:
+@verbatim
+<!-- Created by <program name> version <program version>
+on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
+@endverbatim
+See the class constructor for more information about this program
+comment.
+
+@param programName an optional program name to write as a comment
+in the output stream.
+@param programVersion an optional version identification string to write
+as a comment in the output stream.
 
 
 =item XMLOutputStream::downIndent
@@ -28522,113 +29062,142 @@ Increases the indentation level for this XMLOutputStream.
 
 =item XMLOutputStream::getStringStream
 
-
+@internal
 
 
 =item XMLOutputStream::getSBMLNamespaces
 
-Returns the SBMLNamespaces object attached to this XMLInputStream
-if it has been set, NULL otherwise.
-@return the SBMLNamespaces object or NULL if none has been set.
+Returns the SBMLNamespaces object attached to this output stream.
+@return the SBMLNamespaces object, or C<NULL> if none has been set.
 
 
 =item XMLOutputStream::setSBMLNamespaces
 
-Sets the SBMLNamespaces object to allow this stream to reference
-the available SBML namespaces being read.
+Sets the SBMLNamespaces object associated with this output stream.
+@param sbmlns the namespace object.
 
 
 =item XMLOutputStream::XMLOutputStream
+
+@internal
 
 Copy Constructor, made private so as to notify users, that copying an input stream is not supported.
 
 
 =item XMLOutputStream::XMLOutputStream
 
+@internal
+
 Unitialized XMLOutputStreams may only be created by subclasses.
 
 
 =item XMLOutputStream::writeChars
+
+@internal
 
 Outputs the given characters to the underlying stream.
 
 
 =item XMLOutputStream::writeIndent
 
+@internal
+
 Outputs indentation whitespace.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLOutputStream::writeName
+
+@internal
 
 Outputs name.
 
 
 =item XMLOutputStream::writeName
 
+@internal
+
 Outputs prefix:name.
 
 
 =item XMLOutputStream::writeValue
 
-Outputs value in quotes.
-
-
-=item XMLOutputStream::writeValue
+@internal
 
 Outputs value in quotes.
 
 
 =item XMLOutputStream::writeValue
+
+@internal
+
+Outputs value in quotes.
+
+
+=item XMLOutputStream::writeValue
+
+@internal
 
 Outputs "true" or "false" in quotes.
 
 
 =item XMLOutputStream::writeValue
 
+@internal
+
 Outputs the double value in quotes, or "INF", "-INF", or "NaN".
 
 
 =item XMLOutputStream::writeValue
+
+@internal
 
 Outputs the long value in quotes.
 
 
 =item XMLOutputStream::writeValue
 
+@internal
+
 Outputs the int value in quotes.
 
 
 =item XMLOutputStream::writeValue
+
+@internal
 
 Outputs the int value in quotes.
 
 
 =item XMLOutputStream::setStringStream
 
-
+@internal
 
 
 =item XMLOutputStream::unsetStringStream
 
-
+@internal
 
 
 =item XMLOutputStringStream::XMLOutputStringStream
 
+@internal
+
 Creates a new XMLOutputStream that wraps stream.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLOutputStringStream::getString
 
-
+@internal
 
 
 =item XMLOutputFileStream::XMLOutputFileStream
 
+@internal
+
 Creates a new XMLOutputStream that wraps stream.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =back
@@ -28638,6 +29207,35 @@ Creates a new XMLOutputStream that wraps stream.
 @sbmlpackage{core}
 
 @htmlinclude pkg-marker-core.html An interface to an XML input stream.
+@htmlinclude not-sbml-warning.html
+SBML content is serialized using XML; the resulting data can be stored and
+read to/from a file or data stream.  Low-level XML parsers such as Xerces
+provide facilities to read XML data.  To permit the use of different XML
+parsers (Xerces, Expat or libxml2), libSBML implements an abstraction
+layer.  XMLInputStream and XMLOutputStream are two parts of that
+abstraction layer.
+XMLInputStream is an interface to a file or text string containing XML.
+It wraps the content to be read, as well as the low-level XML parser to be
+used and an XMLErrorLog to record errors and other issues (if any arise).
+Internally, the content will be in the form of either a pointer to a file
+name or a character string; XMLInputStream knows the form of the content
+and acts appropriately.  Other libSBML object classes use XMLInputStream
+as their interface for all read operations on the XML data.
+XMLInputStream provides the functionality to extract data in the form of
+XMLToken objects.  It logs any errors encountered while reading.  It also
+keeps track of whether a read operation has failed irrecoverably or
+determines whether it is safe to continue reading.
+SBMLNamespaces objects can be associated with an XMLInputStream; this
+facilitates logging errors related to reading XML attributes and elements
+that may only be relevant to particular Level and Version combinations of
+SBML.
+
+@note The convenience of the XMLInputStream and XMLOutputStream
+abstraction may be useful for developers interested in creating parsers
+for other XML formats besides SBML.  It can provide developers with a
+layer above more basic XML parsers, as well as some useful programmatic
+elements such as XMLToken, XMLError, etc.
+@see XMLOutputStream
 
 =over
 
@@ -28645,170 +29243,184 @@ Creates a new XMLOutputStream that wraps stream.
 =item XMLInputStream::XMLInputStream
 
 Creates a new XMLInputStream.
-C<content> the source of the stream.
-C<isFile> boolean flag to indicate whether C<content> is a file name.
-If C<true>, C<content> is assumed to be the file from which the XML
-content is to be read.  If C<false>, C<content> is taken to be a
+@param content the source of the stream.
+@param isFile a boolean flag to indicate whether C<content> is a file
+name.  If C<true>, C<content> is assumed to be the file from which the
+XML content is to be read.  If C<false>, C<content> is taken to be a
 string that I<is> the content to be read.
-C<library> the name of the parser library to use.
-C<errorLog> the XMLErrorLog object to use.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@param library the name of the parser library to use.
+@param errorLog the XMLErrorLog object to use.
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLInputStream::getEncoding
 
 Returns the encoding of the XML stream.
+C<opydetails> doc_xml_encoding 
 @return the encoding of the XML stream.
+@see getVersion()
 
 
 =item XMLInputStream::getVersion
 
 Returns the version of the XML stream.
+C<opydetails> doc_xml_version 
 @return the version of the XML stream.
+@see getEncoding()
 
 
 =item XMLInputStream::getErrorLog
 
-Returns an XMLErrorLog which can be used to log XML parse errors and
-other validation errors (and messages).
-@return an XMLErrorLog which can be used to log XML parse errors and
-other validation errors (and messages).
+Returns the XMLErrorLog used to log parsing problems.
+@return the XMLErrorLog used to log XML parse errors and other
+validation errors (and messages).
 
 
 =item XMLInputStream::isEOF
 
-Returns true if end of file (stream) has been reached, false
-otherwise.
-
-@return true if end of file (stream) has been reached, false
+Returns C<true> if end of file (stream) has been reached.
+@return C<true> if end of file (stream) has been reached, C<false>
 otherwise.
 
 
 =item XMLInputStream::isError
 
-Returns true if a fatal error occurred while reading from this stream.
-@return true if a fatal error occurred while reading from this stream.
+Returns C<true> if a fatal error occurred while reading from this
+stream.
+
+@return C<true> if a fatal error occurred while reading from this
+stream.
 
 
 =item XMLInputStream::isGood
 
-Returns true if the stream is in a good state (i.e. isEOF() and
-isError() are both false), false otherwise.
-@return true if the stream is in a good state (i.e. isEOF() and
-isError() are both false), false otherwise.
+Returns C<true> if the stream is in a good state.
+The definition of "good state" is that isEOF() and isError() both return
+C<false>.
+@return C<true> if the stream is in a good state, C<false> otherwise.
 
 
 =item XMLInputStream::next
 
-Consumes the next XMLToken and return it.
-@return the next XMLToken or EOF (XMLToken.isEOF() == true).
+Returns the next token on this XML input stream.
+The token is consumed in the process.
+@return the next XMLToken, or an EOF token (i.e.,
+C<XMLToken.isEOF() == true>).
+@see peek()
 
 
 =item XMLInputStream::peek
 
-Returns the next XMLToken without consuming it.  A subsequent call to
-either peek() or next() will return the same token.
+Returns the next token I<without> consuming it.
+A subsequent call to either peek() or next() will return the same token.
 @return the next XMLToken or EOF (XMLToken.isEOF() == true).
+@see next()
 
 
 =item XMLInputStream::skipPastEnd
 
-Consume zero or more XMLTokens up to and including the corresponding
-end XML element or EOF.
+Consume zero or more tokens up to and including the corresponding end
+element or EOF.
+@param element the element whose end will be sought in the input stream.
 
 
 =item XMLInputStream::skipText
 
-Consume zero or more XMLTokens up to but not including the next XML
-element or EOF.
+Consume zero or more tokens up to but not including the next XML element
+or EOF.
 
 
 =item XMLInputStream::setErrorLog
 
 Sets the XMLErrorLog this stream will use to log errors.
 @return integer value indicating success/failure of the
-function.  @if clike The value is drawn from the
+operation.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
-returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+returned by this method are:
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item XMLInputStream::toString
 
-Prints a string representation of the underlying token stream, for
-debugging purposes.
+Prints a string representation of the underlying token stream.
+@return a string representing the underlying XML token stream.
+@note This method is intended for debugging purposes.
 
 
 =item XMLInputStream::getSBMLNamespaces
 
-Returns the SBMLNamespaces object attached to this XMLInputStream
-if it has been set, NULL otherwise.
-@return the SBMLNamespaces object or NULL if none has been set.
+Returns the SBMLNamespaces object attached to this XMLInputStream.
+@return the SBMLNamespaces object or C<NULL> if none has been set.
 
 
 =item XMLInputStream::setSBMLNamespaces
 
-Sets the SBMLNamespaces object to allow this stream to reference
-the available SBML namespaces being read.
+Sets the SBML namespaces associated with this XML input stream.
+This allows this stream to reference the available SBML namespaces being
+read.
+
+@param sbmlns the list of namespaces to use.
 
 
 =item XMLInputStream::determineNumberChildren
 
-Analyses the tokens in the stream and returns the number of 
-child tokens of the given element.
-@param elementName a string representing the name of the element
-for which the number of children are to be determined.
-This function allows information from the input stream to be determined
-without the  need to actually read and consume the tokens in
-the stream. This functionality
-is particularly utilized when reading MathML. 
-The function will return the number of child elements of the
-element represented by the elementName supplied, i.e. the number
-of child elements encountered before the closing tag for the
-elementname supplied.  If the elementName
-has not been supplied then the function assumes that it is reading
-an apply element followed by a function element.
-@note This function assumes the stream has been read up to and 
-including the element elementName.
-@return an unsigned int giving the number of children of the
-element specified.
+Returns the number of child tokens of the given element in this stream.
+This method allows information from the input stream to be determined
+without the need to actually read and consume the tokens in the stream.
+It returns the number of child elements of the element represented by
+the C<elementName>, i.e., the number of child elements encountered
+before the closing tag for the C<elementName> supplied.
+If no C<elementName> is supplied or it is an empty string, then as a
+special case, this method assumes the element is a MathML
+C<apply> element followed by a function name.
+@param elementName a string representing the name of the element for
+which the number of children are to be determined.
+@return an unsigned int giving the number of children of the @p
+elementName specified.
+@note This method assumes the stream has been read up to and including
+the element C<elementName>.
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLInputStream::determineNumSpecificChildren
 
-Analyses the tokens in the stream and returns the number of 
-child tokens of the specified type within the given element.
+Returns the number of child tokens of the specified type within a
+given container element.
+This method allows information from the input stream to be determined
+without the need to actually read and consume the tokens in the stream.
+It returns the number of child elements of the C<childName> element
+within the element specified by C<container>.  In other words, it counts
+the number of C<childName> elements encountered before the closing tag
+for the C<container> supplied.
 @param childName a string representing the name of the child
 element whose number is to be determined.
 @param container a string representing the name of the element
 for which the number of children are to be determined.
-This function allows information from the input stream to be determined
-without the  need to actually read and consume the tokens in
-the stream. This functionality
-is particularly utilized when reading MathML. 
-The function will return the number of child elements of the
-element represented by the childName supplied within the element
-specified by the container, i.e. the number
-of child elements encountered before the closing tag for the
-container supplied. 
-@note This function assumes the stream has been read up to and 
-including the element container.
-@return an unsigned int giving the number of children of type childName
-within the container element specified.
+@return an unsigned int giving the number of children of type @p
+childName within the C<container> element.
+@note This method assumes the stream has been read up to and including
+the element C<container>.
 
 
 =item XMLInputStream::XMLInputStream
 
-Copy Constructor, made private so as to notify users, that copying an input stream is not supported.
+@internal
+
+Copy Constructor, made private so as to notify users, that copying an
+input stream is not supported.
 
 
 =item XMLInputStream::XMLInputStream
+
+@internal
 
 Unitialized XMLInputStreams may only be created by subclasses.
 
 
 =item XMLInputStream::queueToken
+
+@internal
 
 Runs mParser until mTokenizer is ready to deliver at least one
 XMLToken or a fatal error occurs.
@@ -28816,7 +29428,7 @@ XMLToken or a fatal error occurs.
 
 =item XMLInputStream::requeueToken
 
-
+@internal
 
 
 =back
@@ -28825,7 +29437,7 @@ XMLToken or a fatal error occurs.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of errors, warnings and other diagnostics
+@htmlinclude pkg-marker-core.html XML-level errors, warnings and other diagnostics.
 @htmlinclude not-sbml-warning.html
 LibSBML can be configured to use any of a number of XML parsers; at the
 time of this writing, libSBML supports Xerces versions 2.4 through 3.1,
@@ -28910,7 +29522,8 @@ listed in the table below.  In the libSBML C# language interface,
 these error identifiers are currently implemented as static integer
 constants defined in the interface class @link libsbmlcs.libsbml@endlink.@endif@~
 <center>
-<table cellspacing="1" cellpadding="1" border="0" class="text-table width80 normal-font alt-row-colors">
+<table cellspacing="1" cellpadding="1" border="0" width="95%"
+class="text-table normal-font alt-row-colors">
 <caption>Possible XMLError error codes.  Depending on the programming
 language in use, the <em>Enumerator</em> values will be defined either
 as a value from the enumeration XMLErrorCode_t or as integer constants.
@@ -28921,10 +29534,10 @@ category names and C<LIBSBML_SEV_> to the severity names
 shown in the two right-hand columns.
 </caption>
 <tr style="background: lightgray" class="normal-font">
-<th>Enumerator</th>
+<th style="text-align: left">Enumerator</th>
 <th>Meaning</th>
-<th width="90">Category</th>
-<th width="90">Severity</th>
+<th width="90" style="text-align: left">Category</th>
+<th width="90" style="text-align: left">Severity</th>
 </tr>
 <tr><td>@link XMLErrorCode_t#XMLUnknownError XMLUnknownError@endlink</td><td>Unrecognized error encountered internally</td><td>INTERNAL</td><td>FATAL</td></tr>
 <tr><td>@link XMLErrorCode_t#XMLOutOfMemory XMLOutOfMemory@endlink</td> <td>Out of memory</td><td>SYSTEM</td><td>FATAL</td></tr>
@@ -29005,9 +29618,10 @@ interface, the category identifiers are currently implemented as static
 integer constants defined in the interface
 class @link libsbmlcs.libsbml@endlink. @endif@~
 <center>
-<table width="90%" cellspacing="1" cellpadding="1" border="0" class="text-table width80 normal-font alt-row-colors">
+<table width="95%" cellspacing="1" cellpadding="1" border="0"
+class="text-table normal-font alt-row-colors">
 <tr style="background: lightgray" class="normal-font">
-<th>Enumerator</th>
+<th style="text-align: left">Enumerator</th>
 <th>Meaning</th>
 </tr>
 <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink</td>
@@ -29063,9 +29677,10 @@ interface, these severity codes are currently
 implemented as static integer constants defined in the interface class
 @link libsbmlcs.libsbml@endlink.@endif@~
 <center>
-<table width="90%" cellspacing="1" cellpadding="1" border="0" class="text-table width80 normal-font alt-row-colors">
+<table width="95%" cellspacing="1" cellpadding="1" border="0"
+class="text-table normal-font alt-row-colors">
 <tr style="background: lightgray" class="normal-font">
-<th>Enumerator</th>
+<th style="text-align: left">Enumerator</th>
 <th>Meaning</th>
 </tr>
 <tr><td>@link XMLErrorSeverity_t#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink</td>
@@ -29170,14 +29785,14 @@ is stored as-is as the text of the error.
 @param category an integer indicating the category to which the error
 belongs.
 
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLError::XMLError
 
 Copy constructor; creates a copy of this XMLError.
 C<orig> the XMLError object to copy.
-@throws @if python ValueError @else XMLConstructorException @endif@~
+@throws XMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
@@ -29443,7 +30058,7 @@ Sets the line number where this error occurred.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see setColumn(unsigned int column)
 
 
@@ -29454,7 +30069,7 @@ Sets the column number where this error occurred.
 @return integer value indicating success/failure of the
 function.   The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see setLine(unsigned int line)
 
 
@@ -29489,7 +30104,7 @@ Returns libSBML's internal numerical offset for the error code
 associated with this error.
 In the SBML Level&nbsp;3 package specifications, package validation
 rules are identified by 5-digit numbers prefixed with the nickname of
-the package itself&mdash;e.g., &ldquo;comp-10101&rdquo;,
+the package itself---e.g., &ldquo;comp-10101&rdquo;,
 &ldquo;fbc-20301&rdquo;, etc.  Historically, libSBML reported error
 codes as pure integers, and some application software systems make
 decisions based on the numerical values of the error codes.  To permit
@@ -29521,8 +30136,7 @@ to produce a text string of the form &ldquo;comp-10101&rdquo;.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Log of errors and other events encountered while
-processing an XML file or data stream.
+@htmlinclude pkg-marker-core.html Log of diagnostics reported during XML processing.
 @htmlinclude not-sbml-warning.html
 The error log is a list.  The XML layer of libSBML maintains an error
 log associated with a given XML document or data stream.  When an
@@ -29629,8 +30243,8 @@ application programs.
 @param p XMLParser, the parser to use
 @return integer value indicating success/failure of the
 function.   The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item XMLErrorLog::toString
@@ -29658,7 +30272,7 @@ If no errors have occurred, i.e.,
 C<getNumErrors() == 0>, then no output will be produced.
 @param stream the ostream or ostringstream object indicating where
 the output should be printed.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item XMLErrorLog::isSeverityOverridden
@@ -29666,32 +30280,45 @@ the output should be printed.
 Returns a boolean indicating whether or not the severity has been
 overridden.
 
+C<opydetails> doc_what_are_severity_overrides
 @return C<true> if an error severity override has been set, C<false>
 otherwise.
 
-@see setSeverityOverride(@if java int severity@endif)
+@see getSeverityOverride()
+@see setSeverityOverride(@if java int@endif)
+@see unsetSeverityOverride()
+@see changeErrorSeverity(@if java int, int, String@endif)
 
 
 =item XMLErrorLog::unsetSeverityOverride
 
 Usets an existing override.
-@see setSeverityOverride(@if java int severity@endif)
+C<opydetails> doc_what_are_severity_overrides
+@see getSeverityOverride()
+@see setSeverityOverride(@if java int@endif)
+@see isSeverityOverridden()
+@see changeErrorSeverity(@if java int, int, String@endif)
 
 
 =item XMLErrorLog::getSeverityOverride
 
 Returns the current override.
+C<opydetails> doc_what_are_severity_overrides
 @return a severity override code.  The possible values are @if clike drawn
 from the enumeration #XMLErrorSeverityOverride_t@endif:
 @li @link XMLErrorSeverityOverride_t#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
 @li @link XMLErrorSeverityOverride_t#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink
 @li @link XMLErrorSeverityOverride_t#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink
-@see setSeverityOverride(@if java int severity@endif)
+@see isSeverityOverridden()
+@see setSeverityOverride(@if java int@endif)
+@see unsetSeverityOverride()
+@see changeErrorSeverity(@if java int, int, String@endif)
 
 
 =item XMLErrorLog::setSeverityOverride
 
-Set the severity override. 
+Set the severity override.
+C<opydetails> doc_what_are_severity_overrides
 @param severity an override code indicating what to do.  If the value is
 @link XMLErrorSeverityOverride_t#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
 (the default setting) all errors logged will be given the severity
@@ -29700,7 +30327,10 @@ specified in their usual definition.   If the value is
 then all errors will be logged as warnings.  If the value is 
 @link XMLErrorSeverityOverride_t#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink,
 no error will be logged, regardless of their severity.
+@see isSeverityOverridden()
 @see getSeverityOverride()
+@see unsetSeverityOverride()
+@see changeErrorSeverity(@if java int, int, String@endif)
 
 
 =item XMLErrorLog::changeErrorSeverity
@@ -29708,19 +30338,25 @@ no error will be logged, regardless of their severity.
 Changes the severity override for errors in the log that have a given
 severity.
 
-This searches through the list of errors in the log, comparing each
-one's severity to the value of C<originalSeverity>.  For each error
+This method searches through the list of errors in the log, comparing
+each one's severity to the value of C<originalSeverity>.  For each error
 encountered with that severity logged by the named C<package>, the
 severity of the error is reset to C<targetSeverity>.
+C<opydetails> doc_what_are_severity_overrides
 @param originalSeverity the severity code to match
 @param targetSeverity the severity code to use as the new severity
 @param package a string, the name of an SBML Level&nbsp;3 package
 extension to use to narrow the search for errors.  A value of C<"all">
 signifies to match against errors logged from any package; a value of a
 package nickname such as C<"comp"> signifies to limit consideration to
-errors from just that package.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+errors from just that package.  If no value is provided, C<"all"> is the
+default.
+
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
+@see isSeverityOverridden()
 @see getSeverityOverride()
+@see setSeverityOverride(@if java int@endif)
+@see unsetSeverityOverride()
 
 
 =back
@@ -29729,9 +30365,7 @@ errors from just that package.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Log of errors and other events encountered during SBML
-processing.
-
+@htmlinclude pkg-marker-core.html Log of diagnostics reported during processing.
 @htmlinclude not-sbml-warning.html
 The error log is a list.  Each SBMLDocument maintains its own
 SBMLErrorLog.  When a libSBML operation on SBML content results in an
@@ -29847,7 +30481,7 @@ is stored as-is as the text of the error.
 @param category an integer indicating the category to which the error
 belongs.
 
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item SBMLErrorLog::logPackageError
@@ -29903,7 +30537,7 @@ Returns true if SBMLErrorLog contains an errorId
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of errors, warnings and other diagnostics
+@htmlinclude pkg-marker-core.html An error, warning or other diagnostic.
 @htmlinclude not-sbml-warning.html
 When a libSBML operation on SBML content results in an error, or when
 there is something wrong with the SBML content, the problems are
@@ -29923,7 +30557,7 @@ identifies the nature of the problem.  This "error id" number will be up
 to five digits long, and it will be listed in one of two enumerations:
 <a class="el" href="#SBMLErrorCode_t"> SBMLErrorCode_t</a> (described <a
 class="el" href="#SBMLErrorCode_t"> below</a>) or @link
-XMLError::XMLErrorCode_t XMLErrorCode_t @endlink (described in the
+XMLError::XMLErrorCode_t XMLErrorCode_t@endlink (described in the
 documentation for the class XMLError).  The former enumeration contains
 all the SBML validation rule numbers listed in the appendices of the
 SBML specification documents, as well as some additional
@@ -30019,6 +30653,16 @@ They can be
 used by an application to evaluate how serious a given problem
 is. 
 
+SBMLError also tracks the Level&nbsp;3 package extension, if any, was
+responsible for a given warning or error.  Each diagnostic code logged by
+an libSBML extension for SBML Level&nbsp;3 packages includes a record of
+the package that logged it.  It can be retrieved using
+SBMLError::getPackage().  The information is a simple text string; the
+string will be the nickname of the package, such as C<"comp"> for the
+Hierarchical Model Composition package, C<"fbc"> for the Flux Balance
+Constraints package, and so on.  If the value returned by
+SBMLError::getPackage() is an empty string or has the value C<"core">,
+then the error came from libSBML core.
 Finally, SBMLError records the line and column near where the problem
 occurred in the SBML content.  The values may be retrieved using the
 methods SBMLError::getLine() and SBMLError::getColumn().  We say "near",
@@ -30041,11 +30685,11 @@ line/column number could be provided by libSBML in that situation.
 SBMLErrorCode_t is an enumeration of all SBML-level error, warning and
 informational diagnostic codes.  Every SBMLError object has an error
 code value that can be either a value from this enumeration, or a value
-from the @link XMLError::XMLErrorCode_t XMLErrorCode_t @endlink
+from the @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink
 enumeration (see the documentation for XMLError).  The latter values
 apply when the error or warning signifies a basic XML issue rather than
 an SBML issue per se.  The values of SBMLErrorCode_t are distinguished
-from those of @link XMLError::XMLErrorCode_t XMLErrorCode_t @endlink by
+from those of @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink by
 being numbered 10000 and higher, while the XML layer's codes are 9999 and
 lower.  The method SBMLError::getErrorId() returns the error code of a
 given SBMLError object instance.
@@ -30086,11 +30730,10 @@ particular Level+Version of SBML.  The codes stand for the following:
 @endif@~
 
 <table cellspacing="1" cellpadding="2" border="0" class="normal-font">
-<tr><td class="s-na">N</td><td>= Not applicable</td></tr>
-<tr><td class="s-info">I</td><td>= Informational</td></tr>
-<tr><td class="s-warning">W</td><td>= Warning</td></tr>
-<tr><td class="s-error">E</td><td>= Error</td></tr>
-<tr><td class="s-fatal">F</td><td>= Fatal</td></tr>
+<tr><td class="s-na"></td><td>= Not applicable</td></tr>
+<tr><td class="s-warning"></td><td>= Warning</td></tr>
+<tr><td class="s-error"></td><td>= Error</td></tr>
+<tr><td class="s-fatal"></td><td>= Fatal</td></tr>
 </table>
 
 The text shown in the "Meaning" is the text returned by the
@@ -30103,7 +30746,7 @@ from libSBML core or from an SBML Level&nbsp;3 package extension.
 @if clike The errors below come from #XMLErrorCode_t and #SBMLErrorCode_t
 (for core), and #CompSBMLErrorCode_t, #FbcSBMLErrorCode_t,
 #LayoutSBMLErrorCode_t, and #QualSBMLErrorCode_t (for packages).@endif
-@if notclike However, in the language interfaces other than C++, all
+@ifnot clike However, in the language interfaces other than C++, all
 libSBML error codes are ultimately represented as integer constants rather
 than separate enumerations lists, and they are all stored in a single
 interface class.  Codes from different libSBML extensions have names that
@@ -30119,7 +30762,7 @@ SBMLErrorCategory_t is an enumeration of category codes for SBMLError
 diagnostics.  The category can be retrieved from an SBMLError object
 using the method SBMLError::getCategory().  These enumeration values are
 distinct from (and in addition to) the @link
-XMLError::XMLErrorCategory_t XMLErrorCategory_t @endlink codes used by
+XMLError::XMLErrorCategory_t XMLErrorCategory_t@endlink codes used by
 the parent XMLError object.  User programs receiving an SBMLError object
 can use this distinction to check whether the error represents a
 low-level XML problem or an SBML problem.
@@ -30374,7 +31017,7 @@ belongs.
 
 @param package the SBML Level package involved.
 @param pkgVersion the version of the C<package>.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item SBMLError::SBMLError
@@ -30388,9 +31031,7 @@ Copy constructor; creates a copy of this SBMLError.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of MIRIAM-compliant controlled vocabulary
-annotation.
-
+@htmlinclude pkg-marker-core.html A MIRIAM-compliant controlled vocabulary term.
 @htmlinclude not-sbml-warning.html
 The SBML Level&nbsp;2 and Level&nbsp;3 specifications define a simple
 format for annotating models when (a) referring to controlled vocabulary
@@ -30507,12 +31148,12 @@ qualifier", a BioModels.net "model qualifier", or an unknown qualifier
 MIRIAM to indicate the nature of the relationship between the object
 being annotated and the resource.  In CVTerm, the qualifiers can be
 manipulated using the methods CVTerm::getQualifierType(),
-CVTerm::setQualifierType(@if java int type@endif), and related methods.
+CVTerm::setQualifierType(@if java int@endif), and related methods.
 <li>The I<resource>, represented by a URI (which, we must remind
 developers, is not the same as a URL).  In the CVTerm class, the
 resource component can be manipulated using the methods
-CVTerm::addResource(@if java String resource@endif) and
-CVTerm::removeResource(@if java String resource@endif).
+CVTerm::addResource(@if java String@endif) and
+CVTerm::removeResource(@if java String@endif).
 \n=back\n
 
 Note that a CVTerm contains a single qualifier, but possibly more than
@@ -30533,21 +31174,18 @@ Creates an empty CVTerm, optionally with the given
 @if clike #QualifierType_t value@else qualifier@endif@~ C<type>.
 C<opydetails> doc_what_are_cvterms 
 This method creates an empty CVTerm object.  The possible qualifier
-types usable as values of C<type> are @link
-QualifierType_t#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link
-QualifierType_t#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If
+types usable as values of C<type> are @link QualifierType_t#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link QualifierType_t#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If
 an explicit value for C<type> is not given, this method defaults to
-using @link QualifierType_t#UNKNOWN_QUALIFIER
-UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier type@endif@~ 
+using @link QualifierType_t#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier type@endif@~ 
 can be set later using the
-CVTerm::setQualifierType(@if java int type@endif) method.
+CVTerm::setQualifierType(@if java int@endif) method.
 Different BioModels.net qualifier elements encode different types of
 relationships.  Please refer to the SBML specification or the <a
 target="_blank" href="http://biomodels.net/qualifiers/">BioModels.net
 qualifiers web page</a> for an explanation of the meaning of these
 different qualifiers.
 @param type a @if clike #QualifierType_t value@else qualifier type@endif@~
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item CVTerm::CVTerm
@@ -30572,14 +31210,14 @@ the correct structural form.
 
 Copy constructor; creates a copy of a CVTerm object.
 @param orig the CVTerm instance to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item CVTerm::clone
 
 Creates and returns a deep copy of this CVTerm object.
-@return a (deep) copy of this CVTerm.
+@return the (deep) copy of this CVTerm object.
 
 
 =item CVTerm::getQualifierType
@@ -30785,7 +31423,7 @@ function. The possible values returned by this function are:
 then the ModelQualifierType_t value will default to
 @link QualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink.
 @see getQualifierType()
-@see setQualifierType(@if java int type@endif)
+@see setQualifierType(@if java int@endif)
 
 
 =item CVTerm::setBiologicalQualifierType
@@ -30802,7 +31440,7 @@ function. The possible values returned by this function are:
 then the @if clike #BiolQualifierType_t value@else biology qualifier type@endif@~ will default
 to @link BiolQualifierType_t#BQB_UNKNOWN BQB_UNKNOWN@endlink.
 @see getQualifierType()
-@see setQualifierType(@if java int type@endif)
+@see setQualifierType(@if java int@endif)
 
 
 =item CVTerm::setModelQualifierType
@@ -30819,7 +31457,7 @@ returned by this function are:
 then the ModelQualifierType_t value will default to
 @link QualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink.
 @see getQualifierType()
-@see setQualifierType(@if java int type@endif)
+@see setQualifierType(@if java int@endif)
 
 
 =item CVTerm::setBiologicalQualifierType
@@ -30837,7 +31475,7 @@ returned by this function are:
 then the @if clike #BiolQualifierType_t@endif@if java biology qualifier type code@endif@~ value will default
 to @link BiolQualifierType_t#BQB_UNKNOWN BQB_UNKNOWN@endlink.
 @see getQualifierType()
-@see setQualifierType(@if java int type@endif)
+@see setQualifierType(@if java int@endif)
 
 
 =item CVTerm::addResource
@@ -30944,9 +31582,7 @@ CVTerm object have been set.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of MIRIAM-compliant dates used in
-ModelHistory.
-
+@htmlinclude pkg-marker-core.html A MIRIAM-compliant date representation.
 @htmlinclude not-sbml-warning.html
 A Date object stores a reasonably complete representation of date and
 time.  Its purpose is to serve as a way to store dates to be read and
@@ -31063,7 +31699,7 @@ To illustrate the time zone offset, a value of C<-05:00>
 would correspond to USA Eastern Standard Time.  In the Date object,
 this would require a value of C<1> for the sign field, C<5> for the
 hour offset and C<0> for the minutes offset.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item Date::Date
@@ -31084,14 +31720,14 @@ complete format described above, or unpredictable results will happen.
 
 Copy constructor; creates a copy of this Date.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Date::clone
 
-Returns a copy of this Date.
-@return a (deep) copy of this Date.
+Creates and returns a deep copy of this Date object.
+@return the (deep) copy of this Date object.
 
 
 =item Date::getYear
@@ -31170,8 +31806,8 @@ continue to be used for a long time.)
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::setMonth
@@ -31183,8 +31819,8 @@ range 1&ndash;12 or an error will be signaled.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::setDay
@@ -31196,8 +31832,8 @@ range 0&ndash;31 or an error will be signaled.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::setHour
@@ -31209,8 +31845,8 @@ in the range 0&ndash;23 or an error will be signaled.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::setMinute
@@ -31222,8 +31858,8 @@ be in the range 0&ndash;59 or an error will be signaled.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::setSecond
@@ -31235,8 +31871,8 @@ be in the range 0&ndash;59 or an error will be signaled.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::setSignOffset
@@ -31249,8 +31885,8 @@ C<0> signifying C<+> and C<1> signifying C<->.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::setHoursOffset
@@ -31264,8 +31900,8 @@ signaled.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::setMinutesOffset
@@ -31279,8 +31915,8 @@ signaled.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::setDateAsString
@@ -31300,8 +31936,8 @@ described above, or unpredictable results will happen.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item Date::representsValidDate
@@ -31350,8 +31986,7 @@ Sets the value of the date as a string from the individual numbers.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of MIRIAM-compliant model creator data
-used in ModelHistory.
+@htmlinclude pkg-marker-core.html MIRIAM-compliant data about a model's creator.
 @htmlinclude not-sbml-warning.html
 The SBML specification beginning with Level&nbsp;2 Version&nbsp;2
 defines a standard approach to recording model history and model creator
@@ -31407,14 +32042,14 @@ Creates a new ModelCreator from an XMLNode.
 
 Copy constructor; creates a copy of the ModelCreator.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item ModelCreator::clone
 
-Creates and returns a copy of this ModelCreator.
-@return a (deep) copy of this ModelCreator.
+Creates and returns a deep copy of this ModelCreator object.
+@return the (deep) copy of this ModelCreator object.
 
 
 =item ModelCreator::getFamilyName
@@ -31495,7 +32130,7 @@ Sets the "family name" portion of this ModelCreator object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ModelCreator::setGivenName
@@ -31506,7 +32141,7 @@ Sets the "given name" portion of this ModelCreator object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ModelCreator::setEmail
@@ -31517,7 +32152,7 @@ Sets the "email" portion of this ModelCreator object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ModelCreator::setOrganization
@@ -31530,7 +32165,7 @@ ModelCreator.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ModelCreator::setOrganisation
@@ -31545,7 +32180,7 @@ ModelCreator.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see setOrganization(std::string organization)
 
 
@@ -31556,8 +32191,8 @@ Unsets the "family name" portion of this ModelCreator object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ModelCreator::unsetGivenName
@@ -31567,8 +32202,8 @@ Unsets the "given name" portion of this ModelCreator object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ModelCreator::unsetEmail
@@ -31578,8 +32213,8 @@ Unsets the "email" portion of this ModelCreator object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ModelCreator::unsetOrganization
@@ -31589,8 +32224,8 @@ Unsets the "organization" portion of this ModelCreator object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ModelCreator::unsetOrganisation
@@ -31601,8 +32236,8 @@ returned by this function are:
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see unsetOrganization()
 
 
@@ -31637,7 +32272,7 @@ elements for this object have been defined.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of MIRIAM-compliant model history data.
+@htmlinclude pkg-marker-core.html MIRIAM-compliant data about a model's history.
 @htmlinclude not-sbml-warning.html
 The SBML specification beginning with Level&nbsp;2 Version&nbsp;2 defines
 a standard approach to recording optional model history and model creator
@@ -31710,14 +32345,14 @@ Creates a new ModelHistory object.
 
 Copy constructor; creates a copy of this ModelHistory object.
 @param orig the object to copy.
-@throws @if python ValueError @else SBMLConstructorException @endif@~
+@throws SBMLConstructorException
 Thrown if the argument C<orig> is C<NULL>.
 
 
 =item ModelHistory::clone
 
-Creates and returns a copy of this ModelHistory object
-@return a (deep) copy of this ModelHistory object.
+Creates and returns a deep copy of this ModelHistory object.
+@return the (deep) copy of this ModelHistory object.
 
 
 =item ModelHistory::getCreatedDate
@@ -31764,8 +32399,8 @@ date" portion of this ModelHistory should be set.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item ModelHistory::setModifiedDate
@@ -31777,9 +32412,9 @@ date" portion of this ModelHistory should be set.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item ModelHistory::addModifiedDate
@@ -31795,9 +32430,9 @@ be added to this ModelHistory object.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item ModelHistory::getListModifiedDates
@@ -31843,9 +32478,9 @@ list of "model creator" values.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ModelHistory::getListCreators
@@ -31905,8 +32540,7 @@ elements for this object have been defined.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Read/write/manipulate RDF annotations stored in SBML
-annotation elements.
+@htmlinclude pkg-marker-core.html MIRIAM-compliant RDF annotation reader/writer.
 @htmlinclude not-sbml-warning.html
 RDFAnnotationParser is a libSBML construct used as part of the libSBML
 support for annotations conforming to the guidelines specified by MIRIAM
@@ -31971,7 +32605,7 @@ this example, suppose that C<content> is an XMLNode object previously
 created, containing MIRIAM-style annotations, and that C<sbmlObject>
 is an SBML object derived from SBase (e.g., a Model, or a Species, or
 a Compartment, etc.).  Then:@if clike
-@verbatim
+C<ode{>.cpp}
 int success;                              // Status code variable, used below.
 XMLNode  RDF = createRDFAnnotation();     // Create RDF annotation XML structure.
 success = RDF->addChild(...content...);   // Put some content into it.
@@ -31981,9 +32615,9 @@ success = ann->addChild(RDF);             // Put the RDF annotation into it.
 ...                                       // Check "success" return code value.
 success = sbmlObject->setAnnotation(ann); // Set object's annotation to what we built.
 ...                                       // Check "success" return code value.
-@endverbatim
+@endcode
 @endif@if java
-@verbatim
+C<ode{>.java}
 int success;                                   // Status code variable, used below.
 XMLNode RDF = createRDFAnnotation();          // Create RDF annotation XML structure.
 success      = RDF.addChild(...content...);    // Put some content into it.
@@ -31993,9 +32627,9 @@ success      = ann.addChild(RDF);              // Put the RDF annotation into it
 ...                                            // Check "success" return code value.
 success      = sbmlObject.setAnnotation(ann); // Set object's annotation to what we built.
 ...                                            // Check "success" return code value.
-@endverbatim
+@endcode
 @endif@if python
-@verbatim
+C<ode{>.py}
 RDF     = RDFAnnotationParser.createRDFAnnotation() # Create RDF annotation XML structure.
 success = RDF.addChild(...content...)               # Put some content into it.
 ...                                                 # Check "success" return code value.
@@ -32004,7 +32638,7 @@ success = annot.addChild(RDF)                       # Put the RDF annotation int
 ...                                                 # Check "success" return code value.
 success = sbmlObject.setAnnotation(annot)           # Set object's annotation to what we built.
 ...                                                 # Check "success" return code value.
-@endverbatim
+@endcode
 @endif@~
 The SBML specification contains more information about the format of
 annotations.  We urge readers to consult Section&nbsp;6 of the SBML
@@ -32226,6 +32860,7 @@ C<opydetails> doc_note_static_methods
 
 @sbmlpackage{core}
 
+@htmlinclude pkg-marker-core.html 
 @internal
 
 =over
@@ -32237,10 +32872,8 @@ C<opydetails> doc_note_static_methods
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of an extension point of SBML's package
-extension.
-
-@if notclike @internal @endif@~
+@htmlinclude pkg-marker-core.html Extension of an element by an SBML Level 3 package.
+@ifnot clike @internal @endif@~
 SBaseExtensionPoint represents an element to be extended (extension point) and the
 extension point is identified by a combination of a package name and a typecode of the 
 element.
@@ -32291,8 +32924,8 @@ copy constructor
 
 =item SBaseExtensionPoint::clone
 
-Creates and returns a deep copy of this SBaseExtensionPoint.
-@return a (deep) copy of this SBaseExtensionPoint.
+Creates and returns a deep copy of this SBaseExtensionPoint object.
+@return the (deep) copy of this SBaseExtensionPoint object.
 
 
 =item SBaseExtensionPoint::getPackageName
@@ -32311,9 +32944,7 @@ Returns the typecode of this extension point.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Representation of a plug-in object of SBML's package
-extension.
-
+@htmlinclude pkg-marker-core.html A libSBML plug-in object for an SBML Level 3 package.
 Additional attributes and/or elements of a package extension which are directly 
 contained by some pre-defined element are contained/accessed by <a href="#SBasePlugin"> 
 SBasePlugin </a> class which is extended by package developers for each extension point.
@@ -32537,7 +33168,7 @@ Returns the package name of this plugin object.
 =item SBasePlugin::clone
 
 Creates and returns a deep copy of this SBasePlugin object.
-@return a (deep) copy of this SBase object
+@return the (deep) copy of this SBasePlugin object.
 
 
 =item SBasePlugin::getElementBySId
@@ -32582,7 +33213,7 @@ this object and child elements (if any).
 This function is called when this object is created by
 the parent element.
 Subclasses must override this this function if they have one
-or more child elements. Also, SBasePlugin::connectToParent(@if java SBase  sbase@endif)
+or more child elements. Also, SBasePlugin::connectToParent(@if java SBase@endif)
 must be called in the overridden function.
 @param sbase the SBase object to use
 @if cpp 
@@ -32675,8 +33306,8 @@ Version 1 Core must set the namespace to
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item SBasePlugin::getLevel
@@ -32852,9 +33483,8 @@ Helper to log a common type of error.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Template class for the SBMLDocument Plugin class needed
-by all packages.
-Plugin objects for the SBMLDocument element must be this class or a
+@htmlinclude pkg-marker-core.html Base class for SBML Level 3 package plug-ins.
+Plug-in objects for the SBMLDocument element must be this class or a
 derived class of this class.  Package developers should use this class
 as-is if only "required" attribute is added in the SBMLDocument element by
 their packages.  Otherwise, developers must implement a derived class of
@@ -32881,7 +33511,7 @@ Copy constructor. Creates a copy of this object.
 =item SBMLDocumentPlugin::clone
 
 Creates and returns a deep copy of this SBMLDocumentPlugin object.
-@return a (deep) copy of this object
+@return the (deep) copy of this SBMLDocumentPlugin object.
 
 
 =item SBMLDocumentPlugin::setRequired
@@ -32893,8 +33523,8 @@ package in SBMLDocument element.
 @return integer value indicating success/failure of the
 function.  The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item SBMLDocumentPlugin::getRequired
@@ -32920,8 +33550,8 @@ Unsets the value of the "required" attribute of this SBMLDocumentPlugin.
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item SBMLDocumentPlugin::isCompFlatteningImplemented
@@ -32942,8 +33572,8 @@ Check consistency function.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html The core component of SBML's package extension.
-@if notclike @internal @endif@~
+@htmlinclude pkg-marker-core.html Core class for SBML Level 3 package plug-ins.
+@ifnot clike @internal @endif@~
 SBMLExtension class (abstract class) is a core component of package extension
 which needs to be extended by package developers. 
 The class provides functions for getting common attributes of package extension 
@@ -33532,7 +34162,7 @@ by the document.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Exceptions for libSBML extensions for SBML Level 3 packages.
+@htmlinclude pkg-marker-core.html Exceptions thrown by SBML Level 3 package plug-ins.
 
 =over
 
@@ -33548,8 +34178,7 @@ constructor
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Class to store the Level, Version and XML namespace
-information of an SBML extension package.
+@htmlinclude pkg-marker-core.html The Level+Version+namespace of a Level 3 package.
 
 =over
 
@@ -33581,7 +34210,7 @@ Copy constructor; creates a copy of a SBMLExtensionNamespaces.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Registry class in which extension packages are registered.
+@htmlinclude pkg-marker-core.html Registry where package plug-ins are registered.
 
 =over
 
@@ -33599,9 +34228,9 @@ Add the given SBMLExtension to this SBMLExtensionRegistry.
 @param ext the SBMLExtension object to be added.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item SBMLExtensionRegistry::getExtension
@@ -33815,7 +34444,7 @@ instance that associates the file's content with an OStream object.
 @param filename the name of the file to open
 @param is_append whether to open the file for appending (default:
 C<false>, meaning overwrite the content instead)
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
 
 
 =item OFStream::open
@@ -33829,7 +34458,7 @@ and associates <i>this</i> stream object with the file's content.
 @param filename the name of the file to open
 @param is_append whether to open the file for appending (default:
 C<false>, meaning overwrite the content instead)
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
 
 
 =item OFStream::close
@@ -33865,6 +34494,64 @@ Sets string C<s> to the string object currently assosiated with
 this stream buffer.
 <p>
 @param s the string to write to this stream
+
+
+=item representsNumber
+
+@internal
+
+Note to developers: leave at least one comment here.  Without it, something
+doesn't go right when docs are generated.
+
+
+=item representsFunction
+
+@internal
+
+
+=item representsUnaryFunction
+
+@internal
+
+
+=item representsBinaryFunction
+
+@internal
+
+
+=item representsNaryFunction
+
+@internal
+
+
+=item representsQualifier
+
+@internal
+
+
+=item representsFunctionRequiringAtLeastTwoArguments
+
+@internal
+
+
+=item getCoreTypeFromName
+
+@internal
+
+
+=item getNameFromCoreType
+
+@internal
+
+
+=item isCoreTopLevelMathMLFunctionNodeTag
+
+@internal
+
+
+=item isCoreTopLevelMathMLNumberNodeTag
+
+@internal
 
 
 =back
@@ -33903,8 +34590,7 @@ Creates a copy (clone).
 @internal
 
 Get the type of this ASTNode.  The value returned is one of the
-enumeration values such as @link ASTNodeType_t#AST_LAMBDA
-AST_LAMBDA@endlink, @link ASTNodeType_t#AST_PLUS AST_PLUS@endlink,
+enumeration values such as @link ASTNodeType_t#AST_LAMBDA AST_LAMBDA@endlink, @link ASTNodeType_t#AST_PLUS AST_PLUS@endlink,
 etc.
 
 @return the type of this ASTNode.
@@ -33930,8 +34616,8 @@ node are reset to zero.
 @param type the type to which this node should be set
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item ASTBase::setType
@@ -34065,6 +34751,16 @@ function.  The possible values returned by this function are:
 
 
 =item ASTBase::isUserFunction
+
+@internal
+
+
+=item ASTBase::representsBvar
+
+@internal
+
+
+=item ASTBase::setIsBvar
 
 @internal
 
@@ -34338,6 +35034,37 @@ package extensions known by this instance of libSBML.
 @internal
 
 
+=item ASTBase::isPackageInfixFunction
+
+@internal
+
+Returns true if this is a package function which should be written as
+"functionname(argumentlist)", false otherwise.
+
+
+=item ASTBase::hasPackageOnlyInfixSyntax
+
+@internal
+
+Returns true if this is a package function which should be written
+special syntax that the package knows about, false otherwise.
+
+
+=item ASTBase::getL3PackageInfixPrecedence
+
+@internal
+
+Returns the precedence of the functions within the package
+
+
+=item ASTBase::hasUnambiguousPackageInfixGrammar
+
+@internal
+
+Returns true if this is a package function which needs no special
+consideration when writng as infix, false otherwise.
+
+
 =item ASTBase::resetPackageName
 
 @internal
@@ -34398,12 +35125,17 @@ package extensions known by this instance of libSBML.
 @internal
 
 
-=item ASTBase::getValue
+=item ASTBase::syncMembersOnlyFrom
 
 @internal
 
 
 =item ASTBase::getNumChildren
+
+@internal
+
+
+=item ASTBase::getValue
 
 @internal
 
@@ -34414,52 +35146,51 @@ package extensions known by this instance of libSBML.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html Abstract Syntax Tree (AST) representation of a
-mathematical expression.
+@htmlinclude pkg-marker-core.html Abstract Syntax Trees for mathematical expressions.
 @htmlinclude not-sbml-warning.html
-Abstract Syntax Trees (ASTs) are a simple kind of data structure used in
-libSBML for storing mathematical expressions.  The ASTNode is the
-cornerstone of libSBML's AST representation.  An AST "node" represents the
-most basic, indivisible part of a mathematical formula and come in many
-types.  For instance, there are node types to represent numbers (with
-subtypes to distinguish integer, real, and rational numbers), names
-(e.g., constants or variables), simple mathematical operators, logical
-or relational operators and functions. LibSBML ASTs provide a canonical,
-in-memory representation for all mathematical formulas regardless of
-their original format (which might be MathML or might be text strings).
+<a target="_blank"
+href="http://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax
+Trees</a> (ASTs) are a simple kind of data structure used in libSBML for
+storing mathematical expressions.  LibSBML ASTs provide a canonical,
+in-memory representation for all mathematical formulas regardless of their
+original format (which might be MathML or might be text strings).
 C<opydetails> doc_what_is_astnode
 @if clike <h3><a class="anchor" name="ASTNodeType_t">
 ASTNodeType_t</a></h3> @else <h3><a class="anchor"
 name="ASTNodeType_t">The set of possible ASTNode types</a></h3> @endif@~
 C<opydetails> doc_astnode_types
-<h3><a class="anchor" name="math-convert">Converting between ASTs and text strings</a></h3>
-The text-string form of mathematical formulas produced by @if clike SBML_formulaToString()@endif@if csharp SBML_formulaToString()@endif@if python libsbml.formulaToString()@endif@if java <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)">libsbml.formulaToString()</a></code>@endif@~ and
-read by @if clike SBML_parseFormula()@endif@if csharp SBML_parseFormula()@endif@if python libsbml.parseFormula()@endif@if java <code><a href="libsbml.html#parseFormula(java.lang.String)">libsbml.parseFormula(String formula)</a></code>@endif@~
-and
-@if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
-are in a simple C-inspired infix notation.  A
-formula in one of these two text-string formats can be handed to a program
-that understands SBML mathematical expressions, or used as part of a
-translation system.  The libSBML distribution comes with example
-programs in the C<"examples"> subdirectory that demonstrate such things
-as translating infix formulas into MathML and vice-versa.
-Please see the documentation for the functions
-@if clike SBML_parseFormula()@endif@if csharp SBML_parseFormula()@endif@if python libsbml.parseFormula()@endif@if java <code><a href="libsbml.html#parseFormula(java.lang.String)">libsbml.parseFormula(String formula)</a></code>@endif@~
-and
-@if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
-for detailed explanations of the infix syntax they accept.
-@if clike @see SBML_parseL3Formula()@endif@~
-@if csharp @see SBML_parseL3Formula()@endif@~
-@if python @see libsbml.parseL3Formula()@endif@~
-@if java @see <code><a href="libsbml.html#parseL3Formula(String formula)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
-@if clike @see SBML_parseFormula()@endif@~
-@if csharp @see SBML_parseFormula()@endif@~
-@if python @see libsbml.parseFormula()@endif@~
-@if java @see <code><a href="libsbml.html#parseFormula(String formula)">libsbml.parseFormula(String formula)</a></code>@endif@~
-@if clike @see SBML_formulaToString()@endif@~
-@if csharp @see SBML_formulaToString()@endif@~
-@if python @see libsbml.formulaToString()@endif@~
-@if java @see <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)">libsbml.formulaToString()</a></code>@endif@~
+<h3><a class="anchor" name="math-convert">Converting between ASTs and text
+strings</a></h3>
+
+The text-string form of mathematical formulas produced by
+@sbmlfunction{formulaToString, String} and
+@sbmlfunction{formulaToL3String, String}, and read by
+@sbmlfunction{parseFormula, ASTNode} and
+@sbmlfunction{parseL3Formula, ASTNode}, are in a simple C-inspired
+infix notation.  A formula in one of these two text-string formats can be
+handed to a program that understands SBML mathematical expressions, or
+used as part of a translation system.  The libSBML distribution comes with
+example programs in the C<"examples"> subdirectory that demonstrate such
+things as translating infix formulas into MathML and vice-versa.
+Please see the documentation for the functions @sbmlfunction{parseFormula,
+ASTNode} and @sbmlfunction{parseL3Formula, ASTNode} for detailed
+explanations of the infix syntax they accept.
+<h3><a class="anchor" name="math-history">Historical notes</a></h3>
+Readers may wonder why this part of libSBML uses a seemingly less
+object-oriented design than other parts.  Originally, much of libSBML was
+written in&nbsp;C.  All subsequent development was done in C++, but the
+complexity of some of the functionality for converting between infix, AST
+and MathML, coupled with the desire to maintain stability and backward
+compatibility, means that some of the underlying code is still written
+in&nbsp;C.  This has lead to the exposed API being more C-like.
+@see @sbmlfunction{parseL3Formula, String}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see @sbmlfunction{parseFormula, String}
+@see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+@see @sbmlfunction{formulaToL3String, ASTNode}
+@see @sbmlfunction{formulaToString, ASTNode}
+@see @sbmlfunction{getDefaultL3ParserSettings,}
 
 =over
 
@@ -34467,16 +35198,15 @@ for detailed explanations of the infix syntax they accept.
 =item ASTNode::ASTNode
 
 Creates a new ASTNode.
-Unless the argument C<type> is given, the returned node will by
-default have a type of @link ASTNodeType_t#AST_UNKNOWN
-AST_UNKNOWN@endlink.  If the type isn't supplied when caling this
-constructor, the caller should set the node type to something else as
-soon as possible using
-@if clike setType()@else ASTNode::setType(int)@endif.
+Unless the argument C<type> is given, the returned node will by default
+have a type of @link ASTNodeType_t#AST_UNKNOWN AST_UNKNOWN@endlink.  If the type
+isn't supplied when caling this constructor, the caller should set the
+node type to something else as soon as possible using @if clike
+setType()@else ASTNode::setType(int)@endif.
 @param type an optional
 @if clike @link #ASTNodeType_t ASTNodeType_t@endlink@else type@endif@~
 code indicating the type of node to create.
-@if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
 =item ASTNode::ASTNode
@@ -34512,14 +35242,12 @@ Copy constructor; creates a deep copy of the given ASTNode.
 
 Frees the name of this ASTNode and sets it to C<NULL>.
 This operation is only applicable to ASTNode objects corresponding to
-operators, numbers, or @link ASTNodeType_t#AST_UNKNOWN
-AST_UNKNOWN@endlink.  This method has no effect on other types of
-nodes.
-
+operators, numbers, or @link ASTNodeType_t#AST_UNKNOWN AST_UNKNOWN@endlink.  This
+method has no effect on other types of nodes.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item ASTNode::canonicalize
@@ -34530,24 +35258,24 @@ The rules determining the canonical form conversion are as follows:
 and the node name matches C<"ExponentialE">, C<"Pi">, C<"True"> or @c
 "False" the node type is converted to the corresponding
 C<AST_CONSTANT_><em><span class="placeholder">X</span></em> type.
-@li If the node type is an @link ASTNodeType_t#AST_FUNCTION
-AST_FUNCTION@endlink and the node name matches an SBML (MathML) function name, logical operator name, or
-relational operator name, the node is converted to the corresponding
+@li If the node type is an @link ASTNodeType_t#AST_FUNCTION AST_FUNCTION@endlink and
+the node name matches an SBML (MathML) function name, logical operator name,
+or relational operator name, the node is converted to the corresponding
 C<AST_FUNCTION_><em><span class="placeholder">X</span></em> or
 C<AST_LOGICAL_><em><span class="placeholder">X</span></em> type.
-SBML Level&nbsp;1 function names are searched first; thus, for
-example, canonicalizing C<log> will result in a node type of @link
-ASTNodeType_t#AST_FUNCTION_LN AST_FUNCTION_LN@endlink.  (See the SBML
+SBML Level&nbsp;1 function names are searched first; thus, for example,
+canonicalizing C<log> will result in a node type of
+@link ASTNodeType_t#AST_FUNCTION_LN AST_FUNCTION_LN@endlink.  (See the SBML
 Level&nbsp;1 Version&nbsp;2 Specification, Appendix C.)
-Sometimes, canonicalization of a node results in a structural
-conversion of the node as a result of adding a child.  For example, a
-node with the SBML Level&nbsp;1 function name C<sqr> and a single
-child node (the argument) will be transformed to a node of type
-@link ASTNodeType_t#AST_FUNCTION_POWER AST_FUNCTION_POWER@endlink with
-two children.  The first child will remain unchanged, but the second
-child will be an ASTNode of type @link ASTNodeType_t#AST_INTEGER
-AST_INTEGER@endlink and a value of 2.  The function names that result
-in structural changes are: C<log10>, C<sqr>, and C<sqrt>.
+Sometimes, canonicalization of a node results in a structural conversion
+of the node as a result of adding a child.  For example, a node with the
+SBML Level&nbsp;1 function name C<sqr> and a single child node (the
+argument) will be transformed to a node of type
+@link ASTNodeType_t#AST_FUNCTION_POWER AST_FUNCTION_POWER@endlink with two children.  The
+first child will remain unchanged, but the second child will be an
+ASTNode of type @link ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink and a value of
+2.  The function names that result in structural changes are: C<log10>,
+C<sqr>, and C<sqrt>.
 @return C<true> if this node was successfully converted to
 canonical form, C<false> otherwise.
 
@@ -34559,8 +35287,8 @@ Child nodes are added in-order, from left to right.
 @param child the ASTNode instance to add
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_warning_modifying_structure
 @see prependChild(ASTNode  child)
 @see replaceChild(unsigned int n, ASTNode  child)
@@ -34576,8 +35304,8 @@ This method adds child nodes from right to left.
 @param child the ASTNode instance to add
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_warning_modifying_structure
 @see addChild(ASTNode  child)
 @see replaceChild(unsigned int n, ASTNode  child)
@@ -34591,8 +35319,8 @@ Removes the nth child of this ASTNode object.
 @param n unsigned int the index of the child to remove
 @return integer value indicating success/failure of the
 function. The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 C<opydetails> doc_warning_modifying_structure
 @see addChild(ASTNode  child)
 @see prependChild(ASTNode  child)
@@ -34607,9 +35335,9 @@ Replaces the nth child of this ASTNode with the given ASTNode.
 @param newChild ASTNode to replace the nth child
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 C<opydetails> doc_warning_modifying_structure
 @see addChild(ASTNode  child)
 @see prependChild(ASTNode  child)
@@ -34625,9 +35353,9 @@ list of children.
 @param newChild ASTNode to insert as the nth child
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 C<opydetails> doc_warning_modifying_structure
 @see addChild(ASTNode  child)
 @see prependChild(ASTNode  child)
@@ -34662,7 +35390,7 @@ Returns the left child of this node.
 @if clike getChild()@else ASTNode::getChild(unsigned int)@endif@~
 with an argument of C<0>.
 @see getNumChildren()
-@see getChild(@if java unsigned int n@endif)
+@see getChild(@if java unsigned int@endif)
 @see getRightChild()
 
 
@@ -34678,7 +35406,7 @@ getChild( getNumChildren() - 1 );
 @endverbatim
 @see getNumChildren()
 @see getLeftChild()
-@see getChild(@if java unsigned int n@endif)
+@see getChild(@if java unsigned int@endif)
 
 
 =item ASTNode::getNumChildren
@@ -34696,11 +35424,11 @@ C<opydetails> doc_about_mathml_semantic_annotations
 @param sAnnotation the annotation to add.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_mathml_semantic_annotations_uncommon
 @see ASTNode::getNumSemanticsAnnotations()
-@see ASTNode::getSemanticsAnnotation(@if java unsigned int n@endif)
+@see ASTNode::getSemanticsAnnotation(@if java unsigned int@endif)
 
 
 =item ASTNode::getNumSemanticsAnnotations
@@ -34710,8 +35438,8 @@ elements on this node.
 C<opydetails> doc_about_mathml_semantic_annotations
 @return the number of annotations of this ASTNode.
 C<opydetails> doc_note_mathml_semantic_annotations_uncommon
-@see ASTNode::addSemanticsAnnotation(@if java XMLNode  sAnnotation@endif)
-@see ASTNode::getSemanticsAnnotation(@if java unsigned int n@endif)
+@see ASTNode::addSemanticsAnnotation(@if java XMLNode@endif)
+@see ASTNode::getSemanticsAnnotation(@if java unsigned int@endif)
 
 
 =item ASTNode::getSemanticsAnnotation
@@ -34728,7 +35456,7 @@ no nth annotation (C<n &gt;>
 @if clike getNumSemanticsAnnotations()@else ASTNode::getNumSemanticsAnnotations()@endif@~
 C<- 1>).
 C<opydetails> doc_note_mathml_semantic_annotations_uncommon
-@see ASTNode::addSemanticsAnnotation(@if java XMLNode  sAnnotation@endif)
+@see ASTNode::addSemanticsAnnotation(@if java XMLNode@endif)
 @see ASTNode::getNumSemanticsAnnotations()
 
 
@@ -34737,23 +35465,22 @@ C<opydetails> doc_note_mathml_semantic_annotations_uncommon
 Returns a list of nodes satisfying a given predicate.
 This performs a depth-first search of the tree rooted at this ASTNode
 object, and returns a List of nodes for which the given function
-C<predicate(node)> returns C<true>.
-For portability between different programming languages, the predicate
-is passed in as a pointer to a function.  @if clike The function
-definition must have the type @link ASTNode.h::ASTNodePredicate
-ASTNodePredicate@endlink, which is defined as
-@verbatim
+C<predicate(node)> returns C<true>.  For portability between
+different programming languages, the predicate is passed in as a pointer
+to a function.  @if clike The function definition must have the type
+@link ASTNode.h::ASTNodePredicate ASTNodePredicate@endlink, which is defined as
+C<ode{>.cpp}
 int ( ASTNodePredicate) (const ASTNode  node);
-@endverbatim
+@endcode
 where a return value of nonzero represents C<true> and zero
 represents C<false>. @endif
 @param predicate the predicate to use
-@return the list of nodes for which the predicate returned C<true>
-.  The List returned is owned by the caller and should be
+@return the list of nodes for which the predicate returned C<true>.
+The List returned is owned by the caller and should be
 deleted after the caller is done using it.  The ASTNode objects in the
 list; however, are not owned by the caller (as they still belong to
 the tree itself), and therefore should not be deleted.
-@see ASTNode::fillListOfNodes(@if java ASTNodePredicate predicate, List  lst@endif)
+@see ASTNode::fillListOfNodes(@if java ASTNodePredicate, List@endif)
 
 
 =item ASTNode::fillListOfNodes
@@ -34762,7 +35489,7 @@ Returns a list of nodes rooted at a given node and satisfying a given
 predicate.
 
 This method is identical to calling
-ASTNode::getListOfNodes(@if java ASTNodePredicate predicate@endif), except
+ASTNode::getListOfNodes(@if java ASTNodePredicate@endif), except
 that instead of creating a new List object, it uses the one passed in as
 argument C<lst>.  This method a depth-first search of the tree rooted at
 this ASTNode object, and adds to the list C<lst> the nodes for which the
@@ -34771,25 +35498,21 @@ For portability between different programming languages, the predicate
 is passed in as a pointer to a function.  The function definition must
 have the type @link ASTNode.h::ASTNodePredicate
 ASTNodePredicate@endlink, which is defined as
-@verbatim
+C<ode{>.cpp}
 int ( ASTNodePredicate) (const ASTNode_t  node);
-@endverbatim
+@endcode
 where a return value of nonzero represents C<true> and zero
 represents C<false>.
 @param predicate the predicate to use.
 @param lst the List to which ASTNode objects should be added.
-@see getListOfNodes(@if java ASTNodePredicate predicate@endif)
+@see getListOfNodes(@if java ASTNodePredicate@endif)
 
 
 =item ASTNode::getCharacter
 
 Returns the value of this node as a single character.
-This function should be called only when
-@if clike getType()@else ASTNode::getType()@endif@~ returns
-@link ASTNodeType_t#AST_PLUS AST_PLUS@endlink,
-@link ASTNodeType_t#AST_MINUS AST_MINUS@endlink,
-@link ASTNodeType_t#AST_TIMES AST_TIMES@endlink,
-@link ASTNodeType_t#AST_DIVIDE AST_DIVIDE@endlink or
+This function should be called only when ASTNode::getType() returns
+@link ASTNodeType_t#AST_MINUS AST_MINUS@endlink, @link   ASTNodeType_t#AST_TIMES AST_TIMES@endlink, @link ASTNodeType_t#AST_DIVIDE AST_DIVIDE@endlink or
 @link ASTNodeType_t#AST_POWER AST_POWER@endlink.
 @return the value of this ASTNode as a single character
 
@@ -34824,8 +35547,8 @@ Returns the MathML C<style> attribute value of this ASTNode.
 =item ASTNode::getInteger
 
 Returns the value of this node as an integer.
-If this node type is @link ASTNodeType_t#AST_RATIONAL
-AST_RATIONAL@endlink, this method returns the value of the numerator.
+If this node type is @link ASTNodeType_t#AST_RATIONAL AST_RATIONAL@endlink, this
+method returns the value of the numerator.
 @return the value of this ASTNode as a (C<long>) integer.
 @note This function should be called only when
 @if clike getType()@else ASTNode::getType()@endif@~ returns
@@ -34841,7 +35564,7 @@ the node type is one of the expected types in order to understand if @c
 
 Returns the value of this node as a string.
 This function may be called on nodes that (1) are not operators, i.e.,
-nodes for which @if clike isOperator()@else ASTNode::isOperator()@endif@~ 
+nodes for which @if clike isOperator()@else ASTNode::isOperator()@endif@~
 returns C<false>, and (2) are not numbers, i.e.,
 @if clike isNumber()@else ASTNode::isNumber()@endif@~ returns C<false>.
 @return the value of this ASTNode as a string, or C<NULL> if it is
@@ -34952,9 +35675,10 @@ The value returned is one of the Core AST type codes such as
 it a need to allow for the possibility of node types that are defined by
 plug-ins implementing SBML Level&nbsp;3 packages.  If a given ASTNode is
 a construct created by a package rather than libSBML Core, then
-getType() will return @link ASTNodeType_t#AST_ORIGINATES_IN_PACKAGE
-AST_ORIGINATES_IN_PACKAGE@endlink.  Callers can then obtain the
-package-specific type by calling getExtendedType().
+getType() will return
+@link ASTNodeType_t#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE@endlink.
+Callers can then obtain the package-specific type by
+calling getExtendedType().
 @see getExtendedType()
 
 
@@ -34962,14 +35686,14 @@ package-specific type by calling getExtendedType().
 
 Returns the extended type of this ASTNode.
 The type may be either a core
-@if notclike integer type code@else ASTNodeType_t value@endif
+@ifnot clike integer type code@else ASTNodeType_t value@endif
 or a value of a type code defined by an SBML Level&nbsp;3 package.
 @return the type of this ASTNode.
-@note When the ASTNode is of a type from a package, the
-value returned by ASTNode::getType() will be @link
-ASTNodeType_t#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE@endlink
-and getExtendedType() will return a package-specific type code.
-To find out the possible package-specific types (if any), please
+@note When the ASTNode is of a type from a package, the value returned
+by ASTNode::getType() will be
+@link ASTNodeType_t#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE@endlink
+and getExtendedType() will return a package-specific type
+code.  To find out the possible package-specific types (if any), please
 consult the documentation for the particular package.
 @see getType()
 
@@ -34981,10 +35705,7 @@ Returns the units of this ASTNode.
 @return the units of this ASTNode.
 @note The C<sbml:units> attribute is only available in SBML
 Level&nbsp;3.  It may not be used in Levels 1&ndash;2 of SBML.
-@if clike @see SBML_parseL3Formula()@endif@~
-@if csharp @see SBML_parseL3Formula()@endif@~
-@if python @see libsbml.parseL3Formula()@endif@~
-@if java @see <code><a href="libsbml.html#parseL3Formula(String formula)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
+@see @sbmlfunction{parseL3Formula, String}
 
 
 =item ASTNode::isAvogadro
@@ -34997,10 +35718,7 @@ a node of type @link ASTNodeType_t#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
 This method returns C<true> if this node has that type.
 @return C<true> if this ASTNode is the special symbol avogadro,
 C<false> otherwise.
-@if clike @see SBML_parseL3Formula()@endif@~
-@if csharp @see SBML_parseL3Formula()@endif@~
-@if python @see libsbml.parseL3Formula()@endif@~
-@if java @see <code><a href="libsbml.html#parseL3Formula(String formula)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
+@see @sbmlfunction{parseL3Formula, String}
 
 
 =item ASTNode::isBoolean
@@ -35038,8 +35756,8 @@ Examples of MathML constants include such things as pi.
 @return C<true> if this ASTNode is a MathML constant, C<false>
 otherwise.
 
-@note This function will also return C<true> for nodes of type @link
-ASTNodeType_t#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink in SBML Level&nbsp;3.
+@note This function will also return C<true> for nodes of type
+@link ASTNodeType_t#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink in SBML Level&nbsp;3.
 
 
 =item ASTNode::isFunction
@@ -35063,8 +35781,7 @@ C<false> otherwise.
 =item ASTNode::isInteger
 
 Returns C<true> if this node contains an integer value.
-@return C<true> if this ASTNode is of type @link
-ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink, C<false> otherwise.
+@return C<true> if this ASTNode is of type @link   ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink, C<false> otherwise.
 
 
 =item ASTNode::isLambda
@@ -35072,23 +35789,20 @@ ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink, C<false> otherwise.
 Returns C<true> if this node is a MathML
 C<&lt;lambda&gt;>.
 
-@return C<true> if this ASTNode is of type @link ASTNodeType_t#AST_LAMBDA
-AST_LAMBDA@endlink, C<false> otherwise.
+@return C<true> if this ASTNode is of type @link   ASTNodeType_t#AST_LAMBDA AST_LAMBDA@endlink, C<false> otherwise.
 
 
 =item ASTNode::isLog10
 
 Returns C<true> if this node represents a C<log10> function.
-More precisely, this predicate returns C<true> if the node type is @link
-ASTNodeType_t#AST_FUNCTION_LOG AST_FUNCTION_LOG@endlink with two
-children, the first of which is an @link ASTNodeType_t#AST_INTEGER
-AST_INTEGER@endlink equal to 10.
+More precisely, this predicate returns C<true> if the node type is
+@link ASTNodeType_t#AST_FUNCTION_LOG AST_FUNCTION_LOG@endlink with two children, the
+first of which is an @link ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink equal to
+10.
+
 @return C<true> if the given ASTNode represents a C<log10>() function, @c
 false otherwise.
-@if clike @see SBML_parseL3Formula()@endif@~
-@if csharp @see SBML_parseL3Formula()@endif@~
-@if python @see libsbml.parseL3Formula()@endif@~
-@if java @see <code><a href="libsbml.html#parseL3Formula(String formula)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
+@see @sbmlfunction{parseL3Formula, String}
 
 
 =item ASTNode::isLogical
@@ -35168,19 +35882,14 @@ otherwise.
 =item ASTNode::isRational
 
 Returns C<true> if this node represents a rational number.
-@return C<true> if this ASTNode is of type @link
-ASTNodeType_t#AST_RATIONAL AST_RATIONAL@endlink, @c
-false otherwise.
+@return C<true> if this ASTNode is of type @link   ASTNodeType_t#AST_RATIONAL AST_RATIONAL@endlink, C<false> otherwise.
 
 
 =item ASTNode::isReal
 
 Returns C<true> if this node can represent a real number.
-More precisely, this node must be of one of the following types: @link
-ASTNodeType_t#AST_REAL AST_REAL@endlink, @link ASTNodeType_t#AST_REAL_E
-AST_REAL_E@endlink or @link ASTNodeType_t#AST_RATIONAL
-AST_RATIONAL@endlink.
-
+More precisely, this node must be of one of the following types:
+@link ASTNodeType_t#AST_REAL AST_REAL@endlink, @link   ASTNodeType_t#AST_REAL_E AST_REAL_E@endlink or @link ASTNodeType_t#AST_RATIONAL AST_RATIONAL@endlink.
 @return C<true> if the value of this ASTNode can represented as a real
 number, C<false> otherwise.
 
@@ -35208,10 +35917,8 @@ otherwise.
 Returns C<true> if this node represents a square root
 function.
 
-More precisely, the node type must be @link
-ASTNodeType_t#AST_FUNCTION_ROOT AST_FUNCTION_ROOT@endlink with two
-children, the first of which is an @link ASTNodeType_t#AST_INTEGER
-AST_INTEGER@endlink node having value equal to 2.
+More precisely, the node type must be @link   ASTNodeType_t#AST_FUNCTION_ROOT AST_FUNCTION_ROOT@endlink with two children, the first of which is an
+@link ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink node having value equal to 2.
 @return C<true> if the given ASTNode represents a C<sqrt()>
 function, C<false> otherwise.
 
@@ -35219,31 +35926,26 @@ function, C<false> otherwise.
 =item ASTNode::isUMinus
 
 Returns C<true> if this node is a unary minus operator.
-A node is defined as a unary minus node if it is of type @link
-ASTNodeType_t#AST_MINUS AST_MINUS@endlink and has exactly one child.
+A node is defined as a unary minus node if it is of type
+@link ASTNodeType_t#AST_MINUS AST_MINUS@endlink and has exactly one child.
 For numbers, unary minus nodes can be "collapsed" by negating the
-number.  In fact, 
-@if clike SBML_parseFormula()@endif@if csharp SBML_parseFormula()@endif@if python libsbml.parseFormula()@endif@if java <code><a href="libsbml.html#parseFormula(java.lang.String)">libsbml.parseFormula(String formula)</a></code>@endif@~
-does this during its parsing process, and 
-@if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
-has a configuration option that allows this behavior to be turned
-on or off.  However, unary minus nodes for symbols
-(@link ASTNodeType_t#AST_NAME AST_NAME@endlink) cannot
-be "collapsed", so this predicate function is necessary.
+number.  In fact, @sbmlfunction{parseFormula, String} does this during
+its parsing process, and @sbmlfunction{parseL3Formula, String} has a
+configuration option that allows this behavior to be turned on or off.
+However, unary minus nodes for symbols (@link   ASTNodeType_t#AST_NAME AST_NAME@endlink) cannot be "collapsed", so this predicate function is
+necessary.
+
 @return C<true> if this ASTNode is a unary minus, C<false>
 otherwise.
 
-@if clike @see SBML_parseL3Formula()@endif@~
-@if csharp @see SBML_parseL3Formula()@endif@~
-@if python @see libsbml.parseL3Formula()@endif@~
-@if java @see <code><a href="libsbml.html#parseL3Formula(String formula)">libsbml.parseL3Formula(String formula)</a></code>@endif@~
+@see @sbmlfunction{parseL3Formula, String}
 
 
 =item ASTNode::isUPlus
 
 Returns C<true> if this node is a unary plus operator.
-A node is defined as a unary plus node if it is of type @link
-ASTNodeType_t#AST_PLUS AST_PLUS@endlink and has exactly one child.
+A node is defined as a unary plus node if it is of type
+@link ASTNodeType_t#AST_PLUS AST_PLUS@endlink and has exactly one child.
 @return C<true> if this ASTNode is a unary plus, C<false> otherwise.
 
 
@@ -35262,16 +35964,14 @@ children, C<false> otherwise.
 =item ASTNode::isUnknown
 
 Returns C<true> if this node has an unknown type.
-"Unknown" nodes have the type @link ASTNodeType_t#AST_UNKNOWN
-AST_UNKNOWN@endlink.  Nodes with unknown types will not appear in an
-ASTNode tree returned by libSBML based upon valid SBML input; the only
-situation in which a node with type @link ASTNodeType_t#AST_UNKNOWN
-AST_UNKNOWN@endlink may appear is immediately after having create a
-new, untyped node using the ASTNode constructor.  Callers creating
-nodes should endeavor to set the type to a valid node type as soon as
-possible after creating new nodes.
-@return C<true> if this ASTNode is of type @link
-ASTNodeType_t#AST_UNKNOWN AST_UNKNOWN@endlink, C<false> otherwise.
+"Unknown" nodes have the type @link ASTNodeType_t#AST_UNKNOWN AST_UNKNOWN@endlink.
+Nodes with unknown types will not appear in an ASTNode tree returned by
+libSBML based upon valid SBML input; the only situation in which a node
+with type @link ASTNodeType_t#AST_UNKNOWN AST_UNKNOWN@endlink may appear is
+immediately after having create a new, untyped node using the ASTNode
+constructor.  Callers creating nodes should endeavor to set the type to
+a valid node type as soon as possible after creating new nodes.
+@return C<true> if this ASTNode is of type @link   ASTNodeType_t#AST_UNKNOWN AST_UNKNOWN@endlink, C<false> otherwise.
 
 
 =item ASTNode::isSetId
@@ -35352,7 +36052,7 @@ set.
 
 @return integer value indicating success/failure of the function.  The
 possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ASTNode::setId
@@ -35361,7 +36061,7 @@ Sets the MathML attribute C<id> of this ASTNode.
 @param id C<string> representing the identifier.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see isSetId()
 @see getId()
 @see unsetId()
@@ -35373,7 +36073,7 @@ Sets the MathML attribute C<class> of this ASTNode.
 @param className C<string> representing the MathML class for this node.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @if java
 @note In the API interfaces for languages other than Java, this method
 is named C<setClass()>, but in Java it is renamed
@@ -35392,7 +36092,7 @@ Sets the MathML attribute C<style> of this ASTNode.
 @param style C<string> representing the identifier.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @see isSetStyle()
 @see getStyle()
 @see unsetStyle()
@@ -35402,60 +36102,57 @@ function.  The possible values returned by this function are:
 
 Sets the value of this ASTNode to the given name.
 As a side effect, this ASTNode object's type will be reset to
-@link ASTNodeType_t#AST_NAME AST_NAME@endlink if (and <em>only
-if</em>) the ASTNode was previously an operator (i.e.,
-@if clike isOperator()@else ASTNode::isOperator()@endif@~
-returns C<true>), number
-(i.e., @if clike isNumber()@else ASTNode::isNumber()@endif@~
-returns C<true>), or unknown.
-This allows names to be set for @link ASTNodeType_t#AST_FUNCTION
-AST_FUNCTION@endlink nodes and the like.
+@link ASTNodeType_t#AST_NAME AST_NAME@endlink if (and <em>only if</em>) the
+ASTNode was previously an operator (i.e., @if clike isOperator()@else
+ASTNode::isOperator()@endif@~ returns C<true>), number (i.e., @if clike
+isNumber()@else ASTNode::isNumber()@endif@~ returns C<true>), or
+unknown.  This allows names to be set for @link   ASTNodeType_t#AST_FUNCTION AST_FUNCTION@endlink nodes and the like.
 @param name the string containing the name to which this node's value
 should be set.
 @return integer value indicating success/failure of the function.  The
 possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ASTNode::setValue
 
 Sets the value of this ASTNode to the given integer
-As a side effect, this operation sets the node type to @link
-ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink.
+As a side effect, this operation sets the node type to
+@link ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink.
 @param value the integer to which this node's value should be set.
 @return integer value indicating success/failure of the function.  The
 possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ASTNode::setValue
 
 Sets the value of this ASTNode to the given (C<long>) integer
-As a side effect, this operation sets the node type to @link
-ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink.
+As a side effect, this operation sets the node type to
+@link ASTNodeType_t#AST_INTEGER AST_INTEGER@endlink.
 @param value the integer to which this node's value should be set.
 @return integer value indicating success/failure of the function.  The
 possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ASTNode::setValue
 
 Sets the value of this ASTNode to the given rational.
-As a side effect, this operation sets the node type to @link
-ASTNodeType_t#AST_RATIONAL AST_RATIONAL@endlink.
+As a side effect, this operation sets the node type to
+@link ASTNodeType_t#AST_RATIONAL AST_RATIONAL@endlink.
 @param numerator the numerator value of the rational.
 @param denominator the denominator value of the rational.
 @return integer value indicating success/failure of the function.  The
 possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ASTNode::setValue
 
 Sets the value of this ASTNode to the given real (C<double>).
-As a side effect, this operation sets the node type to @link
-ASTNodeType_t#AST_REAL AST_REAL@endlink.
+As a side effect, this operation sets the node type to
+@link ASTNodeType_t#AST_REAL AST_REAL@endlink.
 This is functionally equivalent to:
 @verbatim
 setValue(value, 0);
@@ -35464,7 +36161,7 @@ setValue(value, 0);
 should be set.
 @return integer value indicating success/failure of the function.  The
 possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ASTNode::setValue
@@ -35476,7 +36173,7 @@ As a side effet, this operation sets the node type to
 @param exponent the exponent of this node's real-numbered value.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 
 
 =item ASTNode::setType
@@ -35485,11 +36182,11 @@ Sets the type of this ASTNode to the given type code.
 @param type the type to which this node should be set.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note A side-effect of doing this is that any numerical values
 previously stored in this node are reset to zero.
-@see getType() 
+@see getType()
 @see setType(int Type)
 
 
@@ -35502,11 +36199,11 @@ enumeration of AST types in an SBML Level&nbsp;3 package.
 be set.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note A side-effect of doing this is that any numerical values
 previously stored in this node are reset to zero.
-@see getType() 
+@see getType()
 @see setType(ASTNodeType_t type)
 
 
@@ -35522,9 +36219,9 @@ to inquire whether the node is of that type.
 @param units C<string> representing the unit identifier.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 @note The C<sbml:units> attribute is only available in SBML
 Level&nbsp;3.  It may not be used in Levels 1&ndash;2 of SBML.
 @see isSetUnits()
@@ -35538,8 +36235,8 @@ Swaps the children of this node with the children of another node.
 <em>this</em> node's children.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ASTNode::renameSIdRefs
@@ -35562,7 +36259,16 @@ elements, so the effects of this method are limited to that.
 
 @internal
 
-Replace any nodes of type AST_NAME with the name 'id' from the child 'math' object with the provided ASTNode.
+Replace any nodes of type AST_NAME with the name 'id' from the child
+'math' object with the provided ASTNode.
+
+
+=item ASTNode::setIsChildFlag
+
+@internal
+
+Replaces any 'AST_NAME_TIME' nodes with a node that multiplies time by
+the given function.
 
 
 =item ASTNode::unsetUnits
@@ -35570,9 +36276,9 @@ Replace any nodes of type AST_NAME with the name 'id' from the child 'math' obje
 Unsets the units of this ASTNode.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ASTNode::unsetId
@@ -35580,8 +36286,8 @@ function.  The possible values returned by this function are:
 Unsets the MathML C<id> attribute of this ASTNode.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ASTNode::unsetClass
@@ -35589,8 +36295,8 @@ function.  The possible values returned by this function are:
 Unsets the MathML C<class> attribute of this ASTNode.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ASTNode::unsetStyle
@@ -35598,8 +36304,8 @@ function.  The possible values returned by this function are:
 Unsets the MathML C<style> attribute of this ASTNode.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item ASTNode::setDefinitionURL
@@ -35608,8 +36314,8 @@ Sets the MathML attribute C<definitionURL>.
 @param url the URL value for the C<definitionURL> attribute.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see setDefinitionURL(const std::string& url)
 @see getDefinitionURL()
 @see getDefinitionURLString()
@@ -35621,8 +36327,8 @@ Sets the MathML attribute C<definitionURL>.
 @param url the URL value for the C<definitionURL> attribute.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see setDefinitionURL(XMLAttributes url)
 @see getDefinitionURL()
 @see getDefinitionURLString()
@@ -35656,8 +36362,8 @@ Sets the parent SBML object.
 @param sb the parent SBML object of this ASTNode.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see isSetParentSBMLObject()
 @see getParentSBMLObject()
 
@@ -35667,7 +36373,7 @@ function.  The possible values returned by this function are:
 Returns the parent SBML object.
 @return the parent SBML object of this ASTNode.
 @see isSetParentSBMLObject()
-@see setParentSBMLObject(@if java SBase  sb@endif)
+@if clike @see setParentSBMLObject()@endif@~
 
 
 =item ASTNode::unsetParentSBMLObject
@@ -35675,8 +36381,10 @@ Returns the parent SBML object.
 Unsets the parent SBML object.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@see isSetParentSBMLObject()
+@see getParentSBMLObject()
 
 
 =item ASTNode::isSetParentSBMLObject
@@ -35686,13 +36394,13 @@ object.
 
 @return true if this ASTNode has an parent SBML object set, C<false> otherwise.
 @see getParentSBMLObject()
-@see setParentSBMLObject(@if java SBase  sb@endif)
+@if clike @see setParentSBMLObject()@endif@~
 
 
 =item ASTNode::reduceToBinary
 
 Reduces this ASTNode to a binary tree.
-Example: if this ASTNode is C<and(x, y, z)>, then the 
+Example: if this ASTNode is C<and(x, y, z)>, then the
 formula of the reduced node is C<and(and(x, y), z)>.  The
 operation replaces the formula stored in the current ASTNode object.
 
@@ -35706,9 +36414,9 @@ passed as it is. The attribute will be never interpreted by this class.
 @param userData specifies the new user data.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-@if clike 
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@if clike
 @see ASTNode::isSetUserData()
 @see ASTNode::getUserData()
 @see ASTNode::unsetUserData()
@@ -35736,8 +36444,8 @@ information to the node.  In case of a deep copy, this attribute will
 passed as it is. The attribute will be never interpreted by this class.
 @return integer value indicating success/failure of the
 function.  The possible values returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @if clike
 @see ASTNode::setUserData()
 @see ASTNode::getUserData()
@@ -35773,8 +36481,8 @@ still be invalid in the context of its use within an SBML model.
 
 Returns C<true> if this ASTNode has the correct number of children for
 its type.
-For example, an ASTNode with type @link ASTNodeType_t#AST_PLUS
-AST_PLUS@endlink expects 2 child nodes.
+For example, an ASTNode with type @link ASTNodeType_t#AST_PLUS AST_PLUS@endlink
+expects 2 child nodes.
 @return C<true> if this ASTNode has the appropriate number of children
 for its type, C<false> otherwise.
 @note This function performs a check on the top-level node only.  Child
@@ -35789,6 +36497,11 @@ Returns the MathML C<definitionURL> attribute value as a string.
 @see getDefinitionURL()
 @see setDefinitionURL(const std::string& url)
 @see setDefinitionURL(XMLAttributes url)
+
+
+=item ASTNode::representsBvar
+
+@internal
 
 
 =item ASTNode::write
@@ -35959,42 +36672,100 @@ argument is C<NULL>.
 
 =item SBML_parseFormula
 
-Parses the given SBML formula and returns a representation of it as an
-Abstract Syntax Tree (AST).
-C<opydetails> doc_summary_of_string_math 
-C<opydetails> doc_warning_L1_math_string_syntax
+Parses a text string as a mathematical formula and returns an AST
+representation of it.
+C<opydetails> doc_summary_of_string_math
 @param formula the text-string formula expression to be parsed
 @return the root node of the AST corresponding to the C<formula>, or @c
 NULL if an error occurred in parsing the formula
-@if clike @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if csharp @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if python @see libsbml.formulaToString()
-@see libsbml.parseL3FormulaWithSettings()
-@see libsbml.parseL3Formula()
-@see libsbml.parseL3FormulaWithModel()
-@see libsbml.getLastParseL3Error()
-@see libsbml.getDefaultL3ParserSettings()
-@endif@~
-@if java @see <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)">libsbml.formulaToString(ASTNode tree)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
-@see <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">parseL3FormulaWithModel(String formula, Model model)</a></code>
-@see <code><a href="libsbml.html#getLastParseL3Error()">getLastParseL3Error()</a></code>
-@see <code><a href="libsbml.html#getDefaultL3ParserSettings()">getDefaultL3ParserSettings()</a></code>
-@endif@~
+@see @sbmlfunction{parseL3Formula, String}
+@see @sbmlfunction{formulaToString, ASTNode}
+@see @sbmlfunction{formulaToL3String, ASTNode}
+@see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see L3ParserSettings
+C<opydetails> doc_note_l3_parser_encouraged
+C<opydetails> doc_note_math_string_syntax
+@if conly
+@memberof ASTNode_t
+@endif
 
+
+=item SBML_formulaToL3String
+
+Converts an AST to a text string representation of a formula using an
+extended syntax.
+C<opydetails> doc_summary_of_string_math_l3
+@param tree the AST to be converted.
+@return the formula from the given AST as text string, with a syntax
+oriented towards the capabilities defined in SBML Level&nbsp;3.  The
+caller owns the returned string and is responsible for freeing it when it
+is no longer needed.  If C<tree> is a null pointer, then a null pointer is
+returned.
+
+@see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+@see @sbmlfunction{formulaToString, ASTNode}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see @sbmlfunction{parseFormula, String}
+@see L3ParserSettings
+@see @sbmlfunction{getDefaultL3ParserSettings,}
+@see @sbmlfunction{getLastParseL3Error,}
+@if conly
+@memberof ASTNode_t
+@endif
+
+
+=item SBML_formulaToL3StringWithSettings
+
+Converts an AST to a text string representation of a formula, using
+specific formatter settings.
+This function behaves identically to @sbmlfunction{formulaToL3String,
+ASTNode} but its behavior is controlled by two fields in the @p
+settings object, namely:
+@li <em>parseunits</em> ("parse units"): If this field in the C<settings>
+object is set to C<true> (the default), the function will
+write out the units of any numerical ASTNodes that have them,
+producing (for example) &quot;C<3 mL>&quot;,
+&quot;C<(3/4) m>&quot;, or &quot;C<5.5e-10
+M>&quot;.  If this is set to C<false>, this function
+will only write out the number itself (&quot;C<3>&quot;,
+&quot;C<(3/4)>&quot;, and &quot;C<5.5e-10>&quot;,
+in the previous examples).
+@li <em>collapseminus</em> ("collapse minus"): If this field in the @p
+settings object is set to C<false> (the default), the
+function will write out explicitly any doubly-nested unary minus
+ASTNodes, producing (for example) &quot;C<- -x>&quot; or
+even &quot;C<- - - - -3.1>&quot;.  If this is set to
+C<true>, the function will collapse the nodes before
+producing the infix form, producing &quot;C<x>&quot; and
+&quot;C<-3.1>&quot; in the previous examples.
+All the other settings of the L3ParserSettings object passed in as @p
+settings will be ignored for the purposes of this function: the
+<em>parselog</em> ("parse log") setting is ignored so that
+&quot;C<log10(x)>&quot;, &quot;C<ln(x)>&quot;, and
+&quot;C<log(x, y)>&quot; are always produced; the
+<em>avocsymbol</em> ("Avogadro csymbol") is irrelevant to the behavior
+of this function; and nothing in the Model object set via the
+<em>model</em> setting is used.
+@param tree the AST to be converted.
+@param settings the L3ParserSettings object used to modify the behavior of
+this function.
+@return the formula from the given AST as text string, with a syntax
+oriented towards the capabilities defined in SBML Level&nbsp;3.  The
+caller owns the returned string and is responsible for freeing it when it
+is no longer needed.  If C<tree> is a null pointer, then a null pointer is
+returned.
+
+@see @sbmlfunction{formulaToL3String, ASTNode}
+@see @sbmlfunction{formulaToString, ASTNode}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see @sbmlfunction{parseFormula, String}
+@see L3ParserSettings
+@see @sbmlfunction{getDefaultL3ParserSettings,}
+@see @sbmlfunction{getLastParseL3Error,}
 @if conly
 @memberof ASTNode_t
 @endif
@@ -36002,43 +36773,20 @@ NULL if an error occurred in parsing the formula
 
 =item SBML_formulaToString
 
-Converts an AST to a string representation of a formula using a syntax
-basically derived from SBML Level&nbsp;1.
-C<opydetails> doc_summary_of_string_math 
-C<opydetails> doc_warning_L1_math_string_syntax 
+Converts an AST to a text string representation of a formula using a
+basic syntax derived from SBML Level&nbsp;1.
+C<opydetails> doc_summary_of_string_math
 @param tree the AST to be converted.
-@return the formula from the given AST as an SBML Level 1 text-string
-mathematical formula.  The caller owns the returned string and is
-responsible for freeing it when it is no longer needed.
-@if clike @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if csharp @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if python @see libsbml.formulaToString()
-@see libsbml.parseL3FormulaWithSettings()
-@see libsbml.parseL3Formula()
-@see libsbml.parseL3FormulaWithModel()
-@see libsbml.getLastParseL3Error()
-@see libsbml.getDefaultL3ParserSettings()
-@endif@~
-@if java @see <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)">libsbml.formulaToString(ASTNode tree)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
-@see <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">parseL3FormulaWithModel(String formula, Model model)</a></code>
-@see <code><a href="libsbml.html#getLastParseL3Error()">getLastParseL3Error()</a></code>
-@see <code><a href="libsbml.html#getDefaultL3ParserSettings()">getDefaultL3ParserSettings()</a></code>
-@endif@~
-
+@return the formula from the given AST as a text-string mathematical
+formula oriented towards SBML Level&nbsp;1.  The caller owns the returned
+string and is responsible for freeing it when it is no longer needed.
+@see @sbmlfunction{formulaToL3String, ASTNode}
+@see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see @sbmlfunction{parseFormula, String}
+C<opydetails> doc_note_l3_parser_encouraged
+C<opydetails> doc_note_math_string_syntax
 @if conly
 @memberof ASTNode_t
 @endif
@@ -36046,47 +36794,24 @@ responsible for freeing it when it is no longer needed.
 
 =item SBML_parseL3Formula
 
-Parses the given mathematical formula and returns a representation of it
-as an Abstract Syntax Tree (AST).
+Parses a text string as a mathematical formula and returns an AST
+representation of it.
 C<opydetails> doc_summary_of_string_math_l3
 @param formula the text-string formula expression to be parsed
-@return the root node of an AST representing the mathematical formula,
-or C<NULL> if an error occurred while parsing the formula.  When C<NULL>
-is returned, an error is recorded internally; information about the
-error can be retrieved using 
-@if clike SBML_getLastParseL3Error()@endif@if csharp SBML_getLastParseL3Error()@endif@if python libsbml.getLastParseL3Error()@endif@if java <code><a href="libsbml.html#getLastParseL3Error()">libsbml.getLastParseL3Error()</a></code>@endif@~.
-@if clike @see SBML_formulaToString()
-@see SBML_formulaToL3String()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if csharp @see SBML_formulaToString()
-@see SBML_formulaToL3String()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if python @see libsbml.formulaToString()
-@see libsbml.formulaToL3String()
-@see libsbml.parseL3FormulaWithSettings()
-@see libsbml.parseL3Formula()
-@see libsbml.parseL3FormulaWithModel()
-@see libsbml.getLastParseL3Error()
-@see libsbml.getDefaultL3ParserSettings()
-@endif@~
-@if java @see <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)">libsbml.formulaToString(ASTNode tree)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
-@see <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">parseL3FormulaWithModel(String formula, Model model)</a></code>
-@see <code><a href="libsbml.html#getLastParseL3Error()">getLastParseL3Error()</a></code>
-@see <code><a href="libsbml.html#getDefaultL3ParserSettings()">getDefaultL3ParserSettings()</a></code>
-@endif@~
-
+@return the root node of an AST representing the mathematical formula, or
+C<NULL> if an error occurred while parsing the formula.  When C<NULL> is
+returned, an error is recorded internally; information about the error can
+be retrieved using @sbmlfunction{getLastParseL3Error,}.
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see @sbmlfunction{parseFormula, String}
+@see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+@see @sbmlfunction{formulaToL3String, ASTNode}
+@see @sbmlfunction{formulaToString, ASTNode}
+@see L3ParserSettings
+@see @sbmlfunction{getDefaultL3ParserSettings,}
+@see @sbmlfunction{getLastParseL3Error,}
+C<opydetails> doc_note_math_string_syntax
 @if conly
 @memberof ASTNode_t
 @endif
@@ -36094,47 +36819,25 @@ error can be retrieved using
 
 =item SBML_parseL3FormulaWithModel
 
-Parses the given mathematical formula using specific a specific Model to
-resolve symbols, and returns an Abstract Syntax Tree (AST)
-representation of the result.
-This is identical to
-@if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~,
-except that this function uses the given model in the argument C<model>
-to check against identifiers that appear in the C<formula>.
-For more details about the parser, please see the definition of
-the function @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~.
+Parses a text string as a mathematical formula using a Model to resolve
+symbols, and returns an AST representation of the result.
+This is identical to @sbmlfunction{parseL3Formula, String}, except
+that this function uses the given model in the argument C<model> to check
+against identifiers that appear in the C<formula>.  For more information
+about the parser, please see the definition of L3ParserSettings and
+the function @sbmlfunction{parseL3Formula, String}.
 @param formula the mathematical formula expression to be parsed
 @param model the Model object to use for checking identifiers
 @return the root node of an AST representing the mathematical formula,
 or C<NULL> if an error occurred while parsing the formula.  When C<NULL>
 is returned, an error is recorded internally; information about the
-error can be retrieved using
-@if clike SBML_getLastParseL3Error()@endif@if csharp SBML_getLastParseL3Error()@endif@if python libsbml.getLastParseL3Error()@endif@if java <code><a href="libsbml.html#getLastParseL3Error()">libsbml.getLastParseL3Error()</a></code>@endif@~.
-@if clike @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if csharp @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if python @see libsbml.formulaToString()
-@see libsbml.parseL3FormulaWithSettings()
-@see libsbml.parseL3Formula()
-@see libsbml.getLastParseL3Error()
-@see libsbml.getDefaultL3ParserSettings()
-@endif@~
-@if java @see <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)">libsbml.formulaToString(ASTNode tree)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
-@see <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>
-@see <code><a href="libsbml.html#getLastParseL3Error()">getLastParseL3Error()</a></code>
-@see <code><a href="libsbml.html#getDefaultL3ParserSettings()">getDefaultL3ParserSettings()</a></code>
-@endif@~
-
+error can be retrieved using @sbmlfunction{getLastParseL3Error,}.
+@see @sbmlfunction{parseL3Formula, String}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see @sbmlfunction{parseFormula, String}
+@see @sbmlfunction{getLastParseL3Error,}
+@see L3ParserSettings
 @if conly
 @memberof ASTNode_t
 @endif
@@ -36142,75 +36845,29 @@ error can be retrieved using
 
 =item SBML_parseL3FormulaWithSettings
 
-Parses the given mathematical formula using specific parser settings and
-returns an Abstract Syntax Tree (AST) representation of the result.
-This is identical to
-@if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~,
-except that this function uses the parser settings given in the argument
-C<settings>.  The settings override the default parsing behavior.
-The parameter C<settings> allows callers to change the following parsing
-behaviors:
-
-@li Use a specific Model object against which identifiers to compare
-identifiers.  This causes the parser to search the Model for identifiers
-that the parser encounters in the formula.  If a given symbol in the
-formula matches the identifier of a Species, Compartment, Parameter,
-Reaction, SpeciesReference or FunctionDefinition in the Model, then the
-symbol is assumed to refer to that model entity instead of any possible
-mathematical terms with the same symbol.  For example, if the parser is
-given a Model containing a Species with the identifier
-&quot;C<pi>&quot;, and the formula to be parsed is
-&quot;C<3 pi>&quot;, the MathML produced will contain the
-construct C<&lt;ci&gt; pi &lt;/ci&gt;> instead of the
-construct C<&lt;pi/&gt;>.
-@li Whether to parse &quot;C<log(x)>&quot; with a single
-argument as the base 10
-logarithm of x, the natural logarithm of x, or treat the case as an
-error.
-@li Whether to parse &quot;C<number id>&quot; by interpreting
-C<id> as the identifier of a unit of measurement associated with the
-number, or whether to treat the case as an error.
-@li Whether to parse &quot;C<avogadro>&quot; as an ASTNode of
-type @link ASTNodeType_t#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
-as type @link ASTNodeType_t#AST_NAME AST_NAME@endlink.
-@li Whether to always create explicit ASTNodes of type @link
-ASTNodeType_t#AST_MINUS AST_MINUS@endlink for all unary minuses, or
-collapse and remove minuses where possible.
+Parses a text string as a mathematical formula using specific parser
+settings and returns an AST representation of the result.
+This is identical to @sbmlfunction{parseL3Formula, String}, except
+that this function uses the parser settings given in the argument @p
+settings.  The settings override the default parsing behavior.  The
+following parsing behaviors can be configured:
+C<opydetails> doc_l3_parser_configuration_options
 For more details about the parser, please see the definition of
-L3ParserSettings and
-@if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~.
+L3ParserSettings and @sbmlfunction{parseL3FormulaWithSettings, String\,
+L3ParserSettings}.
+
 @param formula the mathematical formula expression to be parsed
 @param settings the settings to be used for this parser invocation
 @return the root node of an AST representing the mathematical formula,
 or C<NULL> if an error occurred while parsing the formula.  When C<NULL>
 is returned, an error is recorded internally; information about the
-error can be retrieved using
-@if clike SBML_getLastParseL3Error()@endif@if csharp SBML_getLastParseL3Error()@endif@if python libsbml.getLastParseL3Error()@endif@if java <code><a href="libsbml.html#getLastParseL3Error()">libsbml.getLastParseL3Error()</a></code>@endif@~.
-@if clike @see SBML_formulaToString()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if csharp @see SBML_formulaToString()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if python @see libsbml.formulaToString()
-@see libsbml.parseL3Formula()
-@see libsbml.parseL3FormulaWithModel()
-@see libsbml.getLastParseL3Error()
-@see libsbml.getDefaultL3ParserSettings()
-@endif@~
-@if java @see <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)">libsbml.formulaToString(ASTNode tree)</a></code>
-@see <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">parseL3FormulaWithModel(String formula, Model model)</a></code>
-@see <code><a href="libsbml.html#getLastParseL3Error()">getLastParseL3Error()</a></code>
-@see <code><a href="libsbml.html#getDefaultL3ParserSettings()">getDefaultL3ParserSettings()</a></code>
-@endif@~
-
+error can be retrieved using @sbmlfunction{getLastParseL3Error,}.
+@see @sbmlfunction{parseL3Formula, String}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see @sbmlfunction{parseFormula, String}
+@see @sbmlfunction{getLastParseL3Error,}
+@see L3ParserSettings
 @if conly
 @memberof ASTNode_t
 @endif
@@ -36218,63 +36875,16 @@ error can be retrieved using
 
 =item SBML_getDefaultL3ParserSettings
 
-Returns a copy of the default parser settings used by @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~.
-The settings structure allows callers to change the following parsing
-behaviors:
-
-@li Use a specific Model object against which identifiers to compare
-identifiers.  This causes the parser to search the Model for identifiers
-that the parser encounters in the formula.  If a given symbol in the
-formula matches the identifier of a Species, Compartment, Parameter,
-Reaction, SpeciesReference or FunctionDefinition in the Model, then the
-symbol is assumed to refer to that model entity instead of any possible
-mathematical terms with the same symbol.  For example, if the parser is
-given a Model containing a Species with the identifier
-&quot;C<pi>&quot;, and the formula to be parsed is
-&quot;C<3 pi>&quot;, the MathML produced will contain the
-construct C<&lt;ci&gt; pi &lt;/ci&gt;> instead of the
-construct C<&lt;pi/&gt;>.
-@li Whether to parse &quot;C<log(x)>&quot; with a single
-argument as the base 10
-logarithm of x, the natural logarithm of x, or treat the case as an
-error.
-@li Whether to parse &quot;C<number id>&quot; by interpreting
-C<id> as the identifier of a unit of measurement associated with the
-number, or whether to treat the case as an error.
-@li Whether to parse &quot;C<avogadro>&quot; as an ASTNode of
-type @link ASTNodeType_t#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
-as type @link ASTNodeType_t#AST_NAME AST_NAME@endlink.
-@li Whether to always create explicit ASTNodes of type @link
-ASTNodeType_t#AST_MINUS AST_MINUS@endlink for all unary minuses, or
-collapse and remove minuses where possible.
+Returns a copy of the default Level&nbsp;3 ("L3") formula parser settings.
+The data structure storing the settings allows callers to change the
+following parsing behaviors:
+C<opydetails> doc_summary_of_string_math_l3
 For more details about the parser, please see the definition of
-L3ParserSettings and
-@if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~.
-@if clike @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@endif@~
-@if csharp @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getLastParseL3Error()
-@endif@~
-@if python @see libsbml.formulaToString()
-@see libsbml.parseL3FormulaWithSettings()
-@see libsbml.parseL3Formula()
-@see libsbml.parseL3FormulaWithModel()
-@see libsbml.getLastParseL3Error()
-@endif@~
-@if java @see <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)">libsbml.formulaToString(ASTNode tree)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
-@see <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">parseL3FormulaWithModel(String formula, Model model)</a></code>
-@see <code><a href="libsbml.html#getLastParseL3Error()">getLastParseL3Error()</a></code>
-@endif@~
-
+L3ParserSettings and @sbmlfunction{parseL3Formula, String}.
+@see @sbmlfunction{parseL3Formula, String}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+@see L3ParserSettings
 @if conly
 @memberof L3ParserSettings_t
 @endif
@@ -36282,39 +36892,19 @@ L3ParserSettings and
 
 =item SBML_getLastParseL3Error
 
-Returns the last error reported by the parser.
-If @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>@endif@~, 
-@if clike SBML_parseL3FormulaWithSettings()@endif@if csharp SBML_parseL3FormulaWithSettings()@endif@if python libsbml.parseL3FormulaWithSettings()@endif@if java <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>@endif@~, or
-@if clike SBML_parseL3FormulaWithModel()@endif@if csharp SBML_parseL3FormulaWithModel()@endif@if python libsbml.parseL3FormulaWithModel()@endif@if java <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">libsbml.parseL3FormulaWithModel(String formula, Model model)</a></code>@endif@~ return C<NULL>, an error is set internally which is accessible
-via this function. 
+Returns the last error reported by the "L3" mathematical formula parser.
+If the functions @sbmlfunction{parseL3Formula, String},
+@sbmlfunction{parseL3FormulaWithSettings, String\,
+L3ParserSettings}, or @sbmlfunction{parseL3FormulaWithModel,
+String\, Model} return C<NULL>, an error is set internally.
+This function allows callers to retrieve information about the error.
 @return a string describing the error that occurred.  This will contain
-the string the parser was trying to parse, which character it had parsed
-when it encountered the error, and a description of the error.
-@if clike @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if csharp @see SBML_formulaToString()
-@see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@see SBML_getDefaultL3ParserSettings()
-@endif@~
-@if python @see libsbml.formulaToString()
-@see libsbml.parseL3FormulaWithSettings()
-@see libsbml.parseL3Formula()
-@see libsbml.parseL3FormulaWithModel()
-@see libsbml.getDefaultL3ParserSettings()
-@endif@~
-@if java @see <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)">libsbml.formulaToString(ASTNode tree)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
-@see <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">parseL3FormulaWithModel(String formula, Model model)</a></code>
-@see <code><a href="libsbml.html#getDefaultL3ParserSettings()">getDefaultL3ParserSettings()</a></code>
-@endif@~
-
+the input string the parser was trying to parse, the character it had
+parsed when it encountered the error, and a description of the error.
+@see @sbmlfunction{parseL3Formula, String}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see @sbmlfunction{getDefaultL3ParserSettings,}
 @if conly
 @memberof ASTNode_t
 @endif
@@ -36326,83 +36916,46 @@ when it encountered the error, and a description of the error.
 
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html A helper class for controlling the behavior of the
-text-string formula parser.
+@htmlinclude pkg-marker-core.html Controls the behavior of the Level 3 formula parser.
 @htmlinclude not-sbml-warning.html
 The function
-@if clike SBML_parseL3FormulaWithSettings()@endif@if csharp SBML_parseL3FormulaWithSettings()@endif@if python libsbml.parseL3FormulaWithSettings()@endif@if java <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>@endif@~,
-along with its variants 
-@if clike SBML_parseFormula()@endif@if csharp SBML_parseFormula()@endif@if python libsbml.parseFormula()@endif@if java <code><a href="libsbml.html#parseFormula(java.lang.String)">libsbml.parseFormula(java.lang.String formula)</a></code>@endif@~
-and
-@if clike SBML_parseL3FormulaWithModel()@endif@if csharp SBML_parseL3FormulaWithModel()@endif@if python libsbml.parseL3FormulaWithModel()@endif@if java <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">libsbml.parseL3FormulaWithModel(String formula, Model model)</a></code>@endif@~,
-are the interfaces to a parser for mathematical formulas expressed as
-text strings.  The parser converts the text-string formulas into
-Abstract Syntax Trees (ASTs), represented in libSBML using ASTNode
-objects. Compared to the parser implemented by the function
-@if clike SBML_parseFormula()@endif@if csharp SBML_parseFormula()@endif@if python libsbml.parseFormula()@endif@if java <code><a href="libsbml.html#parseFormula(java.lang.String)">libsbml.parseFormula(java.lang.String formula)</a></code>@endif@~,
-which was designed primarily for converting the mathematical formula
-strings in SBML Level&nbsp;1, the "L3" variant of the parser accepts an
-extended formula syntax.  It also has a number of configurable behaviors.
-This class (L3ParserSettings) is an object used to communicate the
-configuration settings with callers.
-The following aspects of the parser are configurable:
-\n=over\n
-\n=item\n\nThe function C<log> with a single argument (&quot;C<log(x)>&quot;) 
-can be parsed as C<log10(x)>, C<ln(x)>, or treated
-as an error, as desired.
-\n=item\n\nUnary minus signs can be collapsed or preserved; that is,
-sequential pairs of unary minuses (e.g., &quot;C<- -3>&quot;)
-can be removed from the input entirely and single unary minuses can be
-incorporated into the number node, or all minuses can be preserved in
-the AST node structure.
-\n=item\n\nParsing of units embedded in the input string can be turned on and
-off.
-\n=item\n\nThe string C<avogadro> can be parsed as a MathML I<csymbol> or
-as an identifier.
-\n=item\n\nA Model object may optionally be provided to the parser using
-the variant function call @if clike  SBML_parseL3FormulaWithModel()@endif@if csharp  SBML_parseL3FormulaWithModel()@endif@if python  libsbml.SBML_parseL3FormulaWithModel()@endif@if java <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">libsbml.parseL3FormulaWithModel(String formula, Model model)</a></code>@endif@~.
-or stored in a L3ParserSettings object passed to the variant function
-@if clike SBML_parseL3FormulaWithSettings()@endif@if csharp SBML_parseL3FormulaWithSettings()@endif@if python libsbml.parseL3FormulaWithSettings()@endif@if java <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, org.sbml.libsbml.L3ParserSettings settings)</a></code>@endif@~.
-When a Model object is provided, identifiers (values of type C<SId>)
-from that model are used in preference to pre-defined MathML
-definitions.  More precisely, the Model entities whose identifiers will
-shadow identical symbols in the mathematical formula are: Species,
-Compartment, Parameter, Reaction, and SpeciesReference.  For instance,
-if the parser is given a Model containing a Species with the identifier
-&quot;C<pi>&quot;, and the formula to be parsed is
-&quot;C<3 pi>&quot;, the MathML produced will contain the
-construct C<&lt;ci&gt; pi &lt;/ci&gt;> instead of the
-construct C<&lt;pi/&gt;>.
-\n=item\n\nSimilarly, when a Model object is provided, C<SId> values of
-user-defined functions present in the Model will be used preferentially
-over pre-defined MathML functions.  For example, if the passed-in Model
-contains a FunctionDefinition with the identifier
-&quot;C<sin>&quot;, that function will be used instead of the
-predefined MathML function C<&lt;sin/&gt;>.
-\n=back\n
-
+@sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings},
+along with its variants @sbmlfunction{parseL3Formula, String} and
+@sbmlfunction{parseL3FormulaWithModel, String\, Model},
+are the interfaces to a parser for mathematical formulas written as
+text strings.  The inverse function is @sbmlfunction{formulaToL3String,
+ASTNode} and its variants such as
+@sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}.
+The parsers and the formula writers convert between a text-string
+representation of mathematical formulas and Abstract Syntax Trees (ASTs),
+represented in libSBML using ASTNode objects.
+Compared to the parser and writer implemented by the functions
+@sbmlfunction{parseFormula, String} and
+@sbmlfunction{formulaToString, ASTNode},
+which were designed primarily for converting the mathematical formula
+strings in SBML Level&nbsp;1, the SBML Level&nbsp;3 or "L3" variants of
+the parser and writer use an extended formula syntax.  They also have a
+number of configurable behaviors.  This class (L3ParserSettings) is an
+object used to communicate the configuration settings with callers.
+The following aspects of the parser are configurable using
+L3ParserSettings objects.  (For the formula writer, only a subset of these
+settings is relevant; please see the documentation for
+@sbmlfunction{formulaToL3StringWithSettings, ASTNode\,
+L3ParserSettings} for more information about which ones).
+C<opydetails> doc_l3_parser_configuration_options
 To obtain the default configuration values, callers can use the function
-@if clike SBML_getDefaultL3ParserSettings()@endif@if csharp SBML_getDefaultL3ParserSettings()@endif@if python libsbml.SBML_getDefaultL3ParserSettings()@endif@if java <code><a href="libsbml.html#getDefaultL3ParserSettings()">libsbml.getDefaultL3ParserSettings()</a></code>@endif@~.
-To change the configuration, callers can create an L3ParserSettings
-object, set the desired characteristics using the methods
-provided, and pass that object to
-@if clike SBML_parseL3FormulaWithSettings()@endif@if csharp SBML_parseL3FormulaWithSettings()@endif@if python libsbml.parseL3FormulaWithSettings()@endif@if java <a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">C<libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)></a>@endif@~.
-@if clike @see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@endif@~
-@if csharp @see SBML_parseL3FormulaWithSettings()
-@see SBML_parseL3Formula()
-@see SBML_parseL3FormulaWithModel()
-@endif@~
-@if python @see libsbml.parseL3FormulaWithSettings()
-@see libsbml.parseL3Formula()
-@see libsbml.parseL3FormulaWithModel()
-@endif@~
-@if java @see <code><a href="libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)">libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
-@see <code><a href="libsbml.html#parseL3Formula(java.lang.String)">libsbml.parseL3Formula(String formula)</a></code>
-@see <code><a href="libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)">parseL3FormulaWithModel(String formula, Model model)</a></code>
-@endif@~
+@sbmlfunction{getDefaultL3ParserSettings,}.  To change the configuration,
+callers can create an L3ParserSettings object, set the desired
+characteristics using the methods provided, and pass that object to
+@sbmlfunction{parseL3FormulaWithSettings, String formula\, L3ParserSettings settings}.
+@see @sbmlfunction{parseL3Formula, String}
+@see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+@see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+@see @sbmlfunction{parseFormula, String}
+@see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+@see @sbmlfunction{formulaToL3String, ASTNode}
+@see @sbmlfunction{formulaToString, ASTNode}
+@see @sbmlfunction{getDefaultL3ParserSettings,}
 
 =over
 
@@ -36411,9 +36964,21 @@ provided, and pass that object to
 
 Creates a new L3ParserSettings object with default values.
 This is the default constructor for the L3ParserSettings object.  It
-sets the Model to C<NULL> and other settings to @c
-L3P_PARSE_LOG_AS_LOG10, C<L3P_EXPAND_UNARY_MINUS>, C<L3P_PARSE_UNITS>,
-and C<L3P_AVOGADRO_IS_CSYMBOL>.
+sets the stored Model object to C<NULL> and sets the following
+field values in the L3ParserSettings object:
+@li <em>parseunits</em> ("parse units") is set to
+@link #L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink.
+@li <em>collapseminus</em> ("collapse minus") is set to
+@link #L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink.
+@li <em>parselog</em> ("parse log") is set to
+@link ParseLogType_t#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink.
+@li <em>avocsymbol</em> ("Avogadro csymbol") is set to
+@link #L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink.
+@li <em>sbmlns</em> ("SBML namespaces") is set to C<NULL> (which
+indicates that no syntax extensions due to SBML Level&nbsp;3 packages
+will be assumed---the formula parser will only understand the
+core syntax described in the documentation for
+@sbmlfunction{parseL3Formula, String}).
 
 
 =item L3ParserSettings::L3ParserSettings
@@ -36421,51 +36986,71 @@ and C<L3P_AVOGADRO_IS_CSYMBOL>.
 Creates a new L3ParserSettings object with specific values for all
 possible settings.
 @param model a Model object to be used for disambiguating identifiers
-@param parselog a flag that controls how the parser will handle
-the symbol C<log> in formulas
-@param collapseminus a flag that controls how the parser will handle
-minus signs
-@param parseunits a flag that controls how the parser will handle
-apparent references to units of measurement associated with raw
-numbers in a formula
-@param avocsymbol a flag that controls how the parser will handle
-the appearance of the symbol C<avogadro> in a formula
+encountered by @sbmlfunction{parseL3FormulaWithSettings, String\,
+L3ParserSettings} in mathematical formulas.
+@param parselog ("parse log") a flag that controls how the parser will
+handle the symbol C<log> in mathematical formulas. The function C<log>
+with a single argument (&quot;C<log(x)>&quot;) can be parsed
+as C<log10(x)>, C<ln(x)>, or treated as an error, as
+desired, by using the parameter values
+@link ParseLogType_t#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+@link ParseLogType_t#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
+@link ParseLogType_t#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink, respectively.
+@param collapseminus ("collapse minus") a flag that controls how the
+parser will handle minus signs in formulas.  Unary minus signs can be
+collapsed or preserved; that is, sequential pairs of unary minuses
+(e.g., &quot;C<- -3>&quot;) can be removed from the input
+entirely and single unary minuses can be incorporated into the number
+node, or all minuses can be preserved in the AST node structure.
+The possible values of this field are
+@link #L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (to collapse unary minuses) and
+@link #L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (to expand unary minuses).
+@param parseunits ("parse units") a flag that controls how the parser
+will handle apparent references to units of measurement associated with
+raw numbers in a formula.  If set to the value
+@link #L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink, units are parsed; if set to the value
+@link #L3P_NO_UNITS L3P_NO_UNITS@endlink, units are not parsed.
+@param avocsymbol ("Avogadro csymbol") a flag that controls how the
+parser will handle the appearance of the symbol C<avogadro> in a
+formula.  If set to the value @link #L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink,
+the symbol is interpreted as the SBML/MathML I<csymbol> C<avogadro>; if
+set to the value @link #L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
+interpreted as a plain symbol name.
+@param caseSensitive a flag that controls how the
+parser will handle case sensitivity of any function name.
+If set to the value @link #L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
+the name is interpreted as teh relevant math function regardless of case; if
+set to the value @link #L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
+interpreted as a user defined function unless it is all lower case.
+@param sbmlns ("SBML namespaces") an SBML namespaces object.  The
+namespaces identify the SBML Level&nbsp;3 packages that can extend the
+syntax understood by the formula parser.  When non-C<NULL>, the parser
+will interpret additional syntax defined by the packages; for example,
+it may understand vector/array extensions introduced by the SBML
+Level&nbsp;3 I<Arrays> package.
+@ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 @see getModel()
-@see setModel(@if java Model model@endif)
+@see setModel(@if java Model@endif)
 @see unsetModel()
 @see getParseLog()
-@see setParseLog(@if java int type@endif)
+@see setParseLog(@if java int@endif)
 @see getParseUnits()
-@see setParseUnits(@if java boolean units@endif)
+@see setParseUnits(@if java boolean@endif)
 @see getParseCollapseMinus()
-@see setParseCollapseMinus(@if java boolean collapseminus@endif)
+@see setParseCollapseMinus(@if java boolean@endif)
 @see getParseAvogadroCsymbol()
-@see setParseAvogadroCsymbol(@if java boolean l2only@endif)
+@see setParseAvogadroCsymbol(@if java boolean@endif)
 
 
 =item L3ParserSettings::setModel
 
 Sets the model reference in this L3ParserSettings object.
-When a Model object is provided, identifiers (values of type C<SId>)
-from that model are used in preference to pre-defined MathML
-definitions.  More precisely, the Model entities whose identifiers will
-shadow identical symbols in the mathematical formula are: Species,
-Compartment, Parameter, Reaction, and SpeciesReference.  For instance,
-if the parser is given a Model containing a Species with the identifier
-&quot;C<pi>&quot;, and the formula to be parsed is
-&quot;C<3 pi>&quot;, the MathML produced will contain the
-construct C<&lt;ci&gt; pi &lt;/ci&gt;> instead of the
-construct C<&lt;pi/&gt;>.
-Similarly, when a Model object is provided, C<SId> values of
-user-defined functions present in the Model will be used preferentially
-over pre-defined MathML functions.  For example, if the passed-in Model
-contains a FunctionDefinition with the identifier
-&quot;C<sin>&quot;, that function will be used instead of the
-predefined MathML function C<&lt;sin/&gt;>.
-@param model a Model object to be used for disambiguating identifiers
+C<opydetails> doc_use_of_model
+@param model a Model object to be used for disambiguating identifiers.
 @warning <span class="warning">This does I<not> copy the Model object.
-This means that modifications made to the object after invoking this
-method may affect parsing behavior.</span>
+This means that modifications made to the Model after invoking this
+method may affect parsing behavior, because the parser will query the
+I<current> contents of the model.</span>
 @see getModel()
 @see unsetModel()
 
@@ -36473,14 +37058,17 @@ method may affect parsing behavior.</span>
 =item L3ParserSettings::getModel
 
 Returns the Model object referenced by this L3ParserSettings object.
-@see setModel(@if java Model model@endif)
+C<opydetails> doc_use_of_model
+@see setModel(@if java Model@endif)
 @see unsetModel()
 
 
 =item L3ParserSettings::unsetModel
 
-Sets the Model reference in this L3ParserSettings object to C<NULL>.
-@see setModel(@if java Model model@endif)
+Unsets the Model reference in this L3ParserSettings object.
+The effect of calling this method is to set the stored model value
+to C<NULL>.
+@see setModel(@if java Model@endif)
 @see getModel()
 
 
@@ -36489,9 +37077,12 @@ Sets the Model reference in this L3ParserSettings object to C<NULL>.
 Sets the behavior for handling C<log> in mathematical formulas.
 The function C<log> with a single argument
 (&quot;C<log(x)>&quot;) can be parsed as
-C<log10(x)>, C<ln(x)>, or treated as an error, as
-desired.
-
+C<log10(x)>, C<ln(x)>, or treated as an error.
+These three behaviors are set, respectively, by using the value
+@link ParseLogType_t#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+@link ParseLogType_t#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
+@link ParseLogType_t#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
+for the C<type> parameter.
 @param type a constant, one of following three possibilities:
 @li @link ParseLogType_t#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
 @li @link ParseLogType_t#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
@@ -36501,18 +37092,21 @@ desired.
 
 =item L3ParserSettings::getParseLog
 
-Returns the current setting indicating what to do with formulas
-containing the function C<log> with one argument.
+Indicates the current behavior set for handling the function C<log> with
+one argument.
 The function C<log> with a single argument
 (&quot;C<log(x)>&quot;) can be parsed as
 C<log10(x)>, C<ln(x)>, or treated as an error, as
-desired.
-
+desired.  These three possible behaviors are indicated, respectively, by
+the values
+@link ParseLogType_t#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+@link ParseLogType_t#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, and
+@link ParseLogType_t#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink.
 @return One of following three constants:
 @li @link ParseLogType_t#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
 @li @link ParseLogType_t#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
 @li @link ParseLogType_t#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
-@see setParseLog(@if java int type@endif)
+@see setParseLog(@if java int@endif)
 
 
 =item L3ParserSettings::setParseCollapseMinus
@@ -36520,175 +37114,177 @@ desired.
 Sets the behavior for handling unary minuses appearing in mathematical
 formulas.
 
-This setting affects two behaviors.  First, pairs of multiple unary
-minuses in a row (e.g., &quot;C<- -3>&quot;) can be
-collapsed and ignored in the input, or the multiple minuses can be
-preserved in the AST node tree that is generated by the parser.
-Second, minus signs in front of numbers can be collapsed into the
-number node itself; for example, a &quot;C<- 4.1>&quot; can
-be turned into a single ASTNode of type @link ASTNodeType_t#AST_REAL
-AST_REAL@endlink with a value of C<-4.1>, or it can be
-turned into a node of type @link ASTNodeType_t#AST_MINUS
-AST_MINUS@endlink having a child node of type @link
-ASTNodeType_t#AST_REAL AST_REAL@endlink.  This method lets you tell
-the parser which behavior to use&mdash;either collapse minuses or
-always preserve them.  The two possibilities are represented using the
-following constants:
-@li @link ParseLogType_t#L3P_COLLAPSE_UNARY_MINUS
-L3P_COLLAPSE_UNARY_MINUS@endlink (value = C<true>): collapse unary
-minuses where possible.
-@li @link ParseLogType_t#L3P_EXPAND_UNARY_MINUS
-L3P_EXPAND_UNARY_MINUS@endlink (value = C<false>): do not collapse
-unary minuses, and instead translate each one into an AST node of type
-@link ASTNodeType_t#AST_MINUS AST_MINUS@endlink.
+C<opydetails> doc_unary_minus_settings
+This method lets you tell the parser which behavior to use---either
+collapse minuses or always preserve them.  The two possibilities are
+represented using the following constants:
+C<opydetails> doc_unary_minus_values
 @param collapseminus a boolean value (one of the constants
-@link ParseLogType_t#L3P_COLLAPSE_UNARY_MINUS
-L3P_COLLAPSE_UNARY_MINUS@endlink or
-@link ParseLogType_t#L3P_EXPAND_UNARY_MINUS
-L3P_EXPAND_UNARY_MINUS@endlink) indicating how unary minus signs in
-the input should be handled.
+@link #L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink or
+@link #L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink)
+indicating how unary minus signs in the input should be handled.
 @see getParseCollapseMinus()
 
 
 =item L3ParserSettings::getParseCollapseMinus
 
-Returns a flag indicating the current behavior set for handling
-multiple unary minuses in formulas.
-This setting affects two behaviors.  First, pairs of multiple unary
-minuses in a row (e.g., &quot;C<- -3>&quot;) can be
-collapsed and ignored in the input, or the multiple minuses can be
-preserved in the AST node tree that is generated by the parser.
-Second, minus signs in front of numbers can be collapsed into the
-number node itself; for example, a &quot;C<- 4.1>&quot; can
-be turned into a single ASTNode of type @link ASTNodeType_t#AST_REAL
-AST_REAL@endlink with a value of C<-4.1>, or it can be
-turned into a node of type @link ASTNodeType_t#AST_MINUS
-AST_MINUS@endlink having a child node of type @link
-ASTNodeType_t#AST_REAL AST_REAL@endlink.  This method lets you tell
-the parser which behavior to use&mdash;either collapse minuses or
-always preserve them.  The two possibilities are represented using the
-following constants:
-@li @link ParseLogType_t#L3P_COLLAPSE_UNARY_MINUS
-L3P_COLLAPSE_UNARY_MINUS@endlink (value = C<true>): collapse unary
-minuses where possible.
-@li @link ParseLogType_t#L3P_EXPAND_UNARY_MINUS
-L3P_EXPAND_UNARY_MINUS@endlink (value = C<false>): do not collapse
-unary minuses, and instead translate each one into an AST node of type
-@link ASTNodeType_t#AST_MINUS AST_MINUS@endlink.
-@return A boolean, one of @link
-ParseLogType_t#L3P_COLLAPSE_UNARY_MINUS
-L3P_COLLAPSE_UNARY_MINUS@endlink or @link
-ParseLogType_t#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink.
-@see setParseCollapseMinus(@if java boolean collapseminus@endif)
+Indicates the current behavior set for handling multiple unary minuses
+in formulas.
+C<opydetails> doc_unary_minus_settings
+@return A boolean indicating the behavior currently set.  The possible
+values are as follows:
+C<opydetails> doc_unary_minus_values
+@see setParseCollapseMinus(@if java boolean@endif)
 
 
 =item L3ParserSettings::setParseUnits
 
 Sets the parser's behavior in handling units associated with numbers
 in a mathematical formula.
-In SBML Level&nbsp;2, there is no means of associating a unit of
-measurement with a pure number in a formula, while SBML Level&nbsp;3
-does define a syntax for this.  In Level&nbsp;3, MathML
-C<&lt;cn&gt;> elements can have an attribute named C<units>
-placed in the SBML namespace, which can be used to indicate the units
-to be associated with the number.  The text-string infix formula
-parser allows units to be placed after raw numbers; they are
-interpreted as unit identifiers for units defined by the SBML
-specification or in the containing Model object.  Some examples
-include: &quot;C<4 mL>&quot;, &quot;C<2.01
-Hz>&quot;, &quot;C<3.1e-6 M>&quot;, and
-&quot;C<(5/8) inches>&quot;.  To produce a valid SBML model,
-there must either exist a UnitDefinition corresponding to the
-identifier of the unit, or the unit must be defined in Table&nbsp;2 of
-the SBML specification.
-@param units A boolean indicating whether to parse units:
-@li @link ParseLogType_t#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink
-(value = C<true>): parse units in the text-string formula.
-@li @link ParseLogType_t#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c
-false): treat units in the text-string formula as errors.
+C<opydetails> doc_parsing_units
+This method sets the formula parser's behavior with respect to units.
+@param units A boolean indicating whether to parse units.  The
+possible values are as follows:
+C<opydetails> doc_parsing_units_values
 @see getParseUnits()
 
 
 =item L3ParserSettings::getParseUnits
 
-Returns C<if> the current settings allow units in text-string
+Indicates the current behavior set for handling units in text-string
 mathematical formulas.
-In SBML Level&nbsp;2, there is no means of associating a unit of
-measurement with a pure number in a formula, while SBML Level&nbsp;3
-does define a syntax for this.  In Level&nbsp;3, MathML
-C<&lt;cn&gt;> elements can have an attribute named C<units>
-placed in the SBML namespace, which can be used to indicate the units
-to be associated with the number.  The text-string infix formula
-parser allows units to be placed after raw numbers; they are
-interpreted as unit identifiers for units defined by the SBML
-specification or in the containing Model object.  Some examples
-include: &quot;C<4 mL>&quot;, &quot;C<2.01
-Hz>&quot;, &quot;C<3.1e-6 M>&quot;, and
-&quot;C<(5/8) inches>&quot;.  To produce a valid SBML model,
-there must either exist a UnitDefinition corresponding to the
-identifier of the unit, or the unit must be defined in Table&nbsp;2 of
-the SBML specification.
-Since SBML Level&nbsp;2 does not have the ability to associate units with
-pure numbers, the value should be set to C<false> when parsing text-string
+C<opydetails> doc_parsing_units
+Since SBML Level&nbsp;2 does not have the ability to associate units
+with pure numbers, the value should be expected to be C<false>
+(@link #L3P_NO_UNITS L3P_NO_UNITS@endlink) when parsing text-string
 formulas intended for use in SBML Level&nbsp;2 documents.
-@return A boolean indicating whether to parse units:
-@li @link ParseLogType_t#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink
-(value = C<true>): parse units in the text-string formula.
-@li @link ParseLogType_t#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c
-false): treat units in the text-string formula as errors.
-@see setParseUnits(@if java boolean units@endif)
+@return A boolean indicating whether to parse units.  The
+possible values are as follows:
+C<opydetails> doc_parsing_units_values
+@see setParseUnits(@if java boolean@endif)
 
 
 =item L3ParserSettings::setParseAvogadroCsymbol
 
-Sets the parser's behavior in handling the string C<avogadro> in
+Sets the parser's behavior in handling the symbol C<avogadro> in
 mathematical formulas.
-SBML Level&nbsp;3 defines a symbol for representing the value of
-Avogadro's constant, but it is not defined in SBML Level&nbsp;2.  As a
-result, the text-string formula parser must behave differently
-depending on which SBML Level is being targeted.  The argument to this
-method can be one of two values:
-@li @link ParseLogType_t#L3P_AVOGADRO_IS_CSYMBOL
-L3P_AVOGADRO_IS_CSYMBOL@endlink (value = C<true>): tells the parser to
-translate the string C<avogadro> (in any capitalization) into an AST
-node of type @link ASTNodeType_t#AST_NAME_AVOGADRO
-AST_NAME_AVOGADRO@endlink.
-@li @link ParseLogType_t#L3P_AVOGADRO_IS_NAME
-L3P_AVOGADRO_IS_NAME@endlink (value = C<false>): tells the parser to
-translate the string C<avogadro> into an AST of type @link
-ASTNodeType_t#AST_NAME AST_NAME@endlink.
+C<opydetails> doc_parsing_avogadro
+This method allows callers to set the C<avogadro>-handling
+behavior in this L3ParserSettings object.  The possible values of @p
+l2only are as follows:
+C<opydetails> doc_avogadro_values
 Since SBML Level&nbsp;2 does not define a symbol for Avogadro's
-constant, the value should be set to C<false> when parsing text-string
-formulas intended for use in SBML Level&nbsp;2 documents.
-@param l2only a boolean value (one of the constants
-@link ParseLogType_t#L3P_AVOGADRO_IS_CSYMBOL
-L3P_AVOGADRO_IS_CSYMBOL@endlink or
-@link ParseLogType_t#L3P_AVOGADRO_IS_NAME
-L3P_AVOGADRO_IS_NAME@endlink) indicating how the string C<avogadro>
-should be treated when encountered in a formula.
+constant, the value should be set to
+@link #L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink when parsing text-string formulas
+intended for use in SBML Level&nbsp;2 documents.
+@param l2only a boolean value indicating how the string C<avogadro>
+should be treated when encountered in a formula.  This will be one of
+the values @link #L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink or
+@link #L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
 @see getParseAvogadroCsymbol()
 
 
 =item L3ParserSettings::getParseAvogadroCsymbol
 
-Returns C<true> if the current settings are oriented towards handling
-C<avogadro> for SBML Level&nbsp;3.
-SBML Level&nbsp;3 defines a symbol for representing the value of
-Avogadro's constant, but it is not defined in SBML Level&nbsp;2.  As a
-result, the text-string formula parser must behave differently
-depending on which SBML Level is being targeted.
-@return A boolean indicating which mode is currently set; the value is
-one of the following possibilities:
-@li @link ParseLogType_t#L3P_AVOGADRO_IS_CSYMBOL
-L3P_AVOGADRO_IS_CSYMBOL@endlink (value = C<true>): tells the parser to
-translate the string C<avogadro> (in any capitalization) into an AST
-node of type @link ASTNodeType_t#AST_NAME_AVOGADRO
-AST_NAME_AVOGADRO@endlink.
-@li @link ParseLogType_t#L3P_AVOGADRO_IS_NAME
-L3P_AVOGADRO_IS_NAME@endlink (value = C<false>): tells the parser to
-translate the string C<avogadro> into an AST of type @link
-ASTNodeType_t#AST_NAME AST_NAME@endlink.
-@see setParseAvogadroCsymbol(@if java boolean l2only@endif)
+Indicates the current behavior set for handling C<avogadro> for SBML
+Level&nbsp;3.
+
+C<opydetails> doc_parsing_avogadro
+This method returns the current setting of the
+C<avogadro>-handling behavior in this L3ParserSettings object.
+The possible values are as follows:
+C<opydetails> doc_avogadro_values
+@return A boolean indicating which mode is currently set; one of
+@link #L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink
+or
+@link #L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
+@see setParseAvogadroCsymbol(@if java boolean@endif)
+
+
+=item L3ParserSettings::setComparisonCaseSensitivity
+
+Sets the parser's behavior with respect to case sensitivity for
+recognizing predefined symbols.
+C<opydetails> doc_case_sensitivity
+@param strcmp a boolean indicating whether to be case sensitive (if @c
+true) or be case insensitive (if C<false>).
+@see getComparisonCaseSensitivity()
+
+
+=item L3ParserSettings::getComparisonCaseSensitivity
+
+Returns C<true> if the parser is configured to match built-in symbols
+in a case-insensitive way.
+C<opydetails> doc_case_sensitivity
+@return C<true> if matches are done in a case-sensitive manner, and 
+C<false> if the parser will recognize built-in functions and
+constants regardless of case,.
+@see setComparisonCaseSensitivity(@if java boolean@endif)
+
+
+=item L3ParserSettings::setPlugins
+
+Set up the plugins for this L3ParserSettings, based on the
+SBMLNamespaces object.
+When a SBMLNamespaces object is provided, the parser will only interpret
+infix syntax understood by the core libSBML I<plus> the packages
+indicated by the SBMLNamespaces objects provided.  ASTNode objects
+returned by the L3Parser will contain those SBMLNamespaces objects, and
+will be used to parse certain constructs that may only be understood by
+packages (e.g., vectors for the SBML Level&nbsp;3 "arrays" package).
+Note that by default, all packages that were compiled with this version
+of libSBML are included, so this function is most useful as a way to
+turn I<off> certain namespaces, such as might be desired if your tool
+does not support vectors, for example.
+@param sbmlns a SBMLNamespaces object to be used.  If C<NULL> is given
+as the value, all plugins will be loaded.
+
+
+=item L3ParserSettings::visitPackageInfixSyntax
+
+@internal
+
+Visits the given ASTNode_t and continues the inorder traversal for nodes
+whose syntax are determined by packages.
+
+
+=item L3ParserSettings::checkNumArgumentsForPackage
+
+@internal
+
+This function checks the provided ASTNode function to see if it is a
+known function with the wrong number of arguments.  If so, the error is
+set and 'true' is returned.  If the correct number of arguments is
+provided, 'false' is returned.  It is used for ASTNodes created from
+packages.
+
+
+=item L3ParserSettings::parsePackageInfix
+
+@internal
+
+The generic parsing function for grammar lines that packages recognize,
+but not core.  When a package recognizes the 'type', it will parse and
+return the correct ASTNode.  If it does not recognize the 'type', or if
+the arguments are incorrect, NULL is returned.
+
+
+=item L3ParserSettings::getPackageFunctionFor
+
+@internal
+
+The user input a string of the form "name(...)", and we want to know if
+'name' is recognized by a package as being a particular function.  We
+already know that it is not used in the Model as a FunctionDefinition.
+Should do caseless string comparison.  Return the type of the function,
+or AST_UNKNOWN if nothing found.
+
+
+=item L3ParserSettings::deletePlugins
+
+@internal
+
+Delete the plugin objects.
 
 
 =back
@@ -36708,7 +37304,7 @@ ASTNodeType_t#AST_NAME AST_NAME@endlink.
 @internal
 
 Creates and returns a deep copy of this ASTBasePlugin object.
-@return a (deep) copy of this SBase object
+@return the (deep) copy of this ASTBasePlugin object.
 
 
 =item ASTBasePlugin::getElementNamespace
@@ -36756,7 +37352,7 @@ this object and child elements (if any).
 This function is called when this object is created by
 the parent element.
 Subclasses must override this this function if they have one
-or more child elements. Also, ASTBasePlugin::connectToParent(@if java SBase  sbase@endif)
+or more child elements. Also, ASTBasePlugin::connectToParent(@if java SBase@endif)
 must be called in the overridden function.
 @param sbase the SBase object to use
 @see setSBMLDocument
@@ -36841,8 +37437,8 @@ Version 1 Core must set the namespace to
 function.  @if clike The value is drawn from the
 enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
-@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
 =item ASTBasePlugin::getLevel
@@ -37035,6 +37631,16 @@ this plugin object.
 @internal
 
 
+=item ASTBasePlugin::hasCorrectNumberArguments
+
+@internal
+
+
+=item ASTBasePlugin::isWellFormedNode
+
+@internal
+
+
 =item ASTBasePlugin::isTopLevelMathMLFunctionNodeTag
 
 @internal
@@ -37073,6 +37679,75 @@ prefix of an package extension.
 @internal
 
 Copy constructor. Creates a copy of this SBase object.
+
+
+=item ASTBasePlugin::isPackageInfixFunction
+
+@internal
+
+Returns true if this is a package function which should be written as
+"functionname(argumentlist)", false otherwise.
+
+
+=item ASTBasePlugin::hasPackageOnlyInfixSyntax
+
+@internal
+
+Returns true if this is a package function which should be written
+special syntax that the package knows about, false otherwise.
+
+
+=item ASTBasePlugin::getL3PackageInfixPrecedence
+
+@internal
+
+Get the precedence of this package function, or -1 if unknown
+
+
+=item ASTBasePlugin::hasUnambiguousPackageInfixGrammar
+
+@internal
+
+Returns true if this is a package function which should be written
+special syntax that the package knows about, false otherwise.
+
+
+=item ASTBasePlugin::visitPackageInfixSyntax
+
+@internal
+
+Visits the given ASTNode_t and continues the inorder traversal for nodes whose syntax are determined by packages.
+
+
+=item ASTBasePlugin::checkNumArguments
+
+@internal
+
+This function checks the provided ASTNode function to see if it is a 
+known function with the wrong number of arguments.  If so, 'error' is
+set and '-1' is returned.  If it has the correct number of arguments,
+'1' is returned.  If the plugin knows nothing about the function, '0' 
+is returned.
+
+
+=item ASTBasePlugin::parsePackageInfix
+
+@internal
+
+The generic parsing function for grammar lines that packages recognize, but not core.
+When a package recognizes the 'type', it will parse and return the correct ASTNode.
+If it does not recognize the 'type', or if the arguments are incorrect, NULL is returend.
+
+
+=item ASTBasePlugin::getPackageFunctionFor
+
+@internal
+
+The user input a string of the form "name(...)", and we want to know if
+'name' is recognized by a package as being a particular function.  We already
+know that it is not used in the Model as a FunctionDefinition.  Should do
+caseless string comparison.  Return the type of the function, or AST_UNKNOWN
+if nothing found.
 
 
 =cut
@@ -37146,6 +37821,8 @@ package LibSBML;
 *readMathMLFromStringWithNamespaces = *LibSBMLc::readMathMLFromStringWithNamespaces;
 *writeMathMLToString = *LibSBMLc::writeMathMLToString;
 *parseFormula = *LibSBMLc::parseFormula;
+*formulaToL3String = *LibSBMLc::formulaToL3String;
+*formulaToL3StringWithSettings = *LibSBMLc::formulaToL3StringWithSettings;
 *formulaToString = *LibSBMLc::formulaToString;
 *parseL3Formula = *LibSBMLc::parseL3Formula;
 *parseL3FormulaWithModel = *LibSBMLc::parseL3FormulaWithModel;
@@ -38203,6 +38880,7 @@ sub getListOfEvents {
 *removeParameter = *LibSBMLc::Model_removeParameter;
 *removeInitialAssignment = *LibSBMLc::Model_removeInitialAssignment;
 *removeRule = *LibSBMLc::Model_removeRule;
+*removeRuleByVariable = *LibSBMLc::Model_removeRuleByVariable;
 *removeConstraint = *LibSBMLc::Model_removeConstraint;
 *removeReaction = *LibSBMLc::Model_removeReaction;
 *removeEvent = *LibSBMLc::Model_removeEvent;
@@ -40775,6 +41453,10 @@ use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
 @ISA = qw( LibSBML );
 %OWNER = ();
 %ITERATORS = ();
+*replaceFD = *LibSBMLc::SBMLTransforms_replaceFD;
+*expandInitialAssignments = *LibSBMLc::SBMLTransforms_expandInitialAssignments;
+*evaluateASTNode = *LibSBMLc::SBMLTransforms_evaluateASTNode;
+*mapComponentValues = *LibSBMLc::SBMLTransforms_mapComponentValues;
 *clearComponentValues = *LibSBMLc::SBMLTransforms_clearComponentValues;
 sub new {
     my $pkg = shift;
@@ -40942,6 +41624,7 @@ sub DESTROY {
 *setFloatValue = *LibSBMLc::ConversionProperties_setFloatValue;
 *getIntValue = *LibSBMLc::ConversionProperties_getIntValue;
 *setIntValue = *LibSBMLc::ConversionProperties_setIntValue;
+*getNumOptions = *LibSBMLc::ConversionProperties_getNumOptions;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -40988,6 +41671,7 @@ sub DESTROY {
 *setProperties = *LibSBMLc::SBMLConverter_setProperties;
 *getProperties = *LibSBMLc::SBMLConverter_getProperties;
 *convert = *LibSBMLc::SBMLConverter_convert;
+*getName = *LibSBMLc::SBMLConverter_getName;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -41079,6 +41763,90 @@ sub ACQUIRE {
 }
 
 
+############# Class : LibSBML::SBMLIdConverter ##############
+
+package LibSBML::SBMLIdConverter;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( LibSBML::SBMLConverter LibSBML );
+%OWNER = ();
+%ITERATORS = ();
+*init = *LibSBMLc::SBMLIdConverter_init;
+sub new {
+    my $pkg = shift;
+    my $self = LibSBMLc::new_SBMLIdConverter(@_);
+    bless $self, $pkg if defined($self);
+}
+
+*clone = *LibSBMLc::SBMLIdConverter_clone;
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        LibSBMLc::delete_SBMLIdConverter($self);
+        delete $OWNER{$self};
+    }
+}
+
+*matchesProperties = *LibSBMLc::SBMLIdConverter_matchesProperties;
+*convert = *LibSBMLc::SBMLIdConverter_convert;
+*getDefaultProperties = *LibSBMLc::SBMLIdConverter_getDefaultProperties;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : LibSBML::SBMLInferUnitsConverter ##############
+
+package LibSBML::SBMLInferUnitsConverter;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( LibSBML::SBMLConverter LibSBML );
+%OWNER = ();
+%ITERATORS = ();
+*init = *LibSBMLc::SBMLInferUnitsConverter_init;
+sub new {
+    my $pkg = shift;
+    my $self = LibSBMLc::new_SBMLInferUnitsConverter(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        LibSBMLc::delete_SBMLInferUnitsConverter($self);
+        delete $OWNER{$self};
+    }
+}
+
+*clone = *LibSBMLc::SBMLInferUnitsConverter_clone;
+*matchesProperties = *LibSBMLc::SBMLInferUnitsConverter_matchesProperties;
+*convert = *LibSBMLc::SBMLInferUnitsConverter_convert;
+*getDefaultProperties = *LibSBMLc::SBMLInferUnitsConverter_getDefaultProperties;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
 ############# Class : LibSBML::SBMLInitialAssignmentConverter ##############
 
 package LibSBML::SBMLInitialAssignmentConverter;
@@ -41153,6 +41921,91 @@ sub DESTROY {
 *getTargetLevel = *LibSBMLc::SBMLLevelVersionConverter_getTargetLevel;
 *getTargetVersion = *LibSBMLc::SBMLLevelVersionConverter_getTargetVersion;
 *getValidityFlag = *LibSBMLc::SBMLLevelVersionConverter_getValidityFlag;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : LibSBML::SBMLLocalParameterConverter ##############
+
+package LibSBML::SBMLLocalParameterConverter;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( LibSBML::SBMLConverter LibSBML );
+%OWNER = ();
+%ITERATORS = ();
+*init = *LibSBMLc::SBMLLocalParameterConverter_init;
+sub new {
+    my $pkg = shift;
+    my $self = LibSBMLc::new_SBMLLocalParameterConverter(@_);
+    bless $self, $pkg if defined($self);
+}
+
+*clone = *LibSBMLc::SBMLLocalParameterConverter_clone;
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        LibSBMLc::delete_SBMLLocalParameterConverter($self);
+        delete $OWNER{$self};
+    }
+}
+
+*matchesProperties = *LibSBMLc::SBMLLocalParameterConverter_matchesProperties;
+*convert = *LibSBMLc::SBMLLocalParameterConverter_convert;
+*getDefaultProperties = *LibSBMLc::SBMLLocalParameterConverter_getDefaultProperties;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : LibSBML::SBMLReactionConverter ##############
+
+package LibSBML::SBMLReactionConverter;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( LibSBML::SBMLConverter LibSBML );
+%OWNER = ();
+%ITERATORS = ();
+*init = *LibSBMLc::SBMLReactionConverter_init;
+sub new {
+    my $pkg = shift;
+    my $self = LibSBMLc::new_SBMLReactionConverter(@_);
+    bless $self, $pkg if defined($self);
+}
+
+*clone = *LibSBMLc::SBMLReactionConverter_clone;
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        LibSBMLc::delete_SBMLReactionConverter($self);
+        delete $OWNER{$self};
+    }
+}
+
+*matchesProperties = *LibSBMLc::SBMLReactionConverter_matchesProperties;
+*convert = *LibSBMLc::SBMLReactionConverter_convert;
+*getDefaultProperties = *LibSBMLc::SBMLReactionConverter_getDefaultProperties;
+*setDocument = *LibSBMLc::SBMLReactionConverter_setDocument;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -42640,6 +43493,8 @@ sub DESTROY {
 *isUnaryFunction = *LibSBMLc::ASTBase_isUnaryFunction;
 *isUnknown = *LibSBMLc::ASTBase_isUnknown;
 *isUserFunction = *LibSBMLc::ASTBase_isUserFunction;
+*representsBvar = *LibSBMLc::ASTBase_representsBvar;
+*setIsBvar = *LibSBMLc::ASTBase_setIsBvar;
 *isNumberNode = *LibSBMLc::ASTBase_isNumberNode;
 *isFunctionNode = *LibSBMLc::ASTBase_isFunctionNode;
 *isTopLevelMathMLFunctionNodeTag = *LibSBMLc::ASTBase_isTopLevelMathMLFunctionNodeTag;
@@ -42672,8 +43527,6 @@ sub DESTROY {
 *getNumPlugins = *LibSBMLc::ASTBase_getNumPlugins;
 *getTypeFromName = *LibSBMLc::ASTBase_getTypeFromName;
 *getNameFromType = *LibSBMLc::ASTBase_getNameFromType;
-*setUserData = *LibSBMLc::ASTBase_setUserData;
-*getUserData = *LibSBMLc::ASTBase_getUserData;
 *isSetUserData = *LibSBMLc::ASTBase_isSetUserData;
 *unsetUserData = *LibSBMLc::ASTBase_unsetUserData;
 *writeNodeOfType = *LibSBMLc::ASTBase_writeNodeOfType;
@@ -42684,6 +43537,10 @@ sub DESTROY {
 *setPackageName = *LibSBMLc::ASTBase_setPackageName;
 *hasCnUnits = *LibSBMLc::ASTBase_hasCnUnits;
 *getUnitsPrefix = *LibSBMLc::ASTBase_getUnitsPrefix;
+*isPackageInfixFunction = *LibSBMLc::ASTBase_isPackageInfixFunction;
+*hasPackageOnlyInfixSyntax = *LibSBMLc::ASTBase_hasPackageOnlyInfixSyntax;
+*getL3PackageInfixPrecedence = *LibSBMLc::ASTBase_getL3PackageInfixPrecedence;
+*hasUnambiguousPackageInfixGrammar = *LibSBMLc::ASTBase_hasUnambiguousPackageInfixGrammar;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -42815,6 +43672,7 @@ sub addSemanticsAnnotation {
 *renameSIdRefs = *LibSBMLc::ASTNode_renameSIdRefs;
 *renameUnitSIdRefs = *LibSBMLc::ASTNode_renameUnitSIdRefs;
 *replaceIDWithFunction = *LibSBMLc::ASTNode_replaceIDWithFunction;
+*setIsChildFlag = *LibSBMLc::ASTNode_setIsChildFlag;
 *unsetUnits = *LibSBMLc::ASTNode_unsetUnits;
 *unsetId = *LibSBMLc::ASTNode_unsetId;
 *unsetClass = *LibSBMLc::ASTNode_unsetClass;
@@ -42831,6 +43689,7 @@ sub addSemanticsAnnotation {
 *isWellFormedASTNode = *LibSBMLc::ASTNode_isWellFormedASTNode;
 *hasCorrectNumberArguments = *LibSBMLc::ASTNode_hasCorrectNumberArguments;
 *getDefinitionURLString = *LibSBMLc::ASTNode_getDefinitionURLString;
+*representsBvar = *LibSBMLc::ASTNode_representsBvar;
 *write = *LibSBMLc::ASTNode_write;
 *read = *LibSBMLc::ASTNode_read;
 *writeNodeOfType = *LibSBMLc::ASTNode_writeNodeOfType;
@@ -42894,6 +43753,10 @@ sub DESTROY {
 *getParseUnits = *LibSBMLc::L3ParserSettings_getParseUnits;
 *setParseAvogadroCsymbol = *LibSBMLc::L3ParserSettings_setParseAvogadroCsymbol;
 *getParseAvogadroCsymbol = *LibSBMLc::L3ParserSettings_getParseAvogadroCsymbol;
+*setComparisonCaseSensitivity = *LibSBMLc::L3ParserSettings_setComparisonCaseSensitivity;
+*getComparisonCaseSensitivity = *LibSBMLc::L3ParserSettings_getComparisonCaseSensitivity;
+*setPlugins = *LibSBMLc::L3ParserSettings_setPlugins;
+*visitPackageInfixSyntax = *LibSBMLc::L3ParserSettings_visitPackageInfixSyntax;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -42972,6 +43835,8 @@ sub DESTROY {
 *representsUnaryFunction = *LibSBMLc::ASTBasePlugin_representsUnaryFunction;
 *representsBinaryFunction = *LibSBMLc::ASTBasePlugin_representsBinaryFunction;
 *representsNaryFunction = *LibSBMLc::ASTBasePlugin_representsNaryFunction;
+*hasCorrectNumberArguments = *LibSBMLc::ASTBasePlugin_hasCorrectNumberArguments;
+*isWellFormedNode = *LibSBMLc::ASTBasePlugin_isWellFormedNode;
 *isTopLevelMathMLFunctionNodeTag = *LibSBMLc::ASTBasePlugin_isTopLevelMathMLFunctionNodeTag;
 *isTopLevelMathMLNumberNodeTag = *LibSBMLc::ASTBasePlugin_isTopLevelMathMLNumberNodeTag;
 *getTypeFromName = *LibSBMLc::ASTBasePlugin_getTypeFromName;
@@ -43726,4 +44591,9 @@ package LibSBML;
 *L3P_NO_UNITS = *LibSBMLc::L3P_NO_UNITS;
 *L3P_AVOGADRO_IS_CSYMBOL = *LibSBMLc::L3P_AVOGADRO_IS_CSYMBOL;
 *L3P_AVOGADRO_IS_NAME = *LibSBMLc::L3P_AVOGADRO_IS_NAME;
+*L3P_COMPARE_BUILTINS_CASE_INSENSITIVE = *LibSBMLc::L3P_COMPARE_BUILTINS_CASE_INSENSITIVE;
+*L3P_COMPARE_BUILTINS_CASE_SENSITIVE = *LibSBMLc::L3P_COMPARE_BUILTINS_CASE_SENSITIVE;
+*INFIX_SYNTAX_NAMED_SQUARE_BRACKETS = *LibSBMLc::INFIX_SYNTAX_NAMED_SQUARE_BRACKETS;
+*INFIX_SYNTAX_CURLY_BRACES = *LibSBMLc::INFIX_SYNTAX_CURLY_BRACES;
+*INFIX_SYNTAX_CURLY_BRACES_SEMICOLON = *LibSBMLc::INFIX_SYNTAX_CURLY_BRACES_SEMICOLON;
 1;

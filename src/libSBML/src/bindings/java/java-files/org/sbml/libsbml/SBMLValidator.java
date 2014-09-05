@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Base class for SBML validators
+ *  Base class for SBML validators.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -41,7 +41,7 @@ defined in SBML.
  <p>
  * Users of libSBML may already be familiar with the facilities encompassed
  * by the validation system, in the form of the consistency-checking methods
- * defined on {@link SBMLDocument}.  The methods {@link SBMLDocument#setConsistencyChecks(int categ, boolean onoff)},
+ * defined on {@link SBMLDocument}.  The methods {@link SBMLDocument#setConsistencyChecks(int, boolean)},
  * {@link SBMLDocument#checkConsistency()}, {@link SBMLDocument#checkInternalConsistency()}
  * and other method of that sort are in fact implemented via {@link SBMLValidator},
  * specifically as methods on the class SBMLInternalValidator.
@@ -123,7 +123,7 @@ public class SBMLValidator {
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  SBMLValidator(SBMLValidator orig) {
@@ -133,9 +133,9 @@ public class SBMLValidator {
 
   
 /**
-   * Creates and returns a deep copy of this {@link SBMLValidator}.
+   * Creates and returns a deep copy of this {@link SBMLValidator} object.
    <p>
-   * @return a (deep) copy of this {@link SBMLValidator}.
+   * @return the (deep) copy of this {@link SBMLValidator} object.
    */ public
  SBMLValidator cloneObject() {
     long cPtr = (getClass() == SBMLValidator.class) ? libsbmlJNI.SBMLValidator_cloneObject(swigCPtr, this) : libsbmlJNI.SBMLValidator_cloneObjectSwigExplicitSBMLValidator(swigCPtr, this);
@@ -148,7 +148,7 @@ public class SBMLValidator {
    <p>
    * @return the current SBML document
    <p>
-   * @see #setDocument(SBMLDocument doc)
+   * @see #setDocument(SBMLDocument)
    */ public
  SBMLDocument getDocument() {
     long cPtr = (getClass() == SBMLValidator.class) ? libsbmlJNI.SBMLValidator_getDocument__SWIG_0(swigCPtr, this) : libsbmlJNI.SBMLValidator_getDocumentSwigExplicitSBMLValidator__SWIG_0(swigCPtr, this);
@@ -165,7 +165,7 @@ public class SBMLValidator {
    * validation.   The possible values returned by this
    * function are
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #getDocument()
@@ -212,7 +212,7 @@ public class SBMLValidator {
 /**
    * Validates the given {@link SBMLDocument} object.
    <p>
-   * This is identical to calling setDocument(SBMLDocument d )
+   * This is identical to calling setDocument(SBMLDocument )
    * followed by validate().
    <p>
    * @param d the SBML document to validate
@@ -264,12 +264,12 @@ public class SBMLValidator {
    * It is important to note that this method <em>does not create</em> a
    * {@link Model} instance.  The model in the {@link SBMLDocument} must have been created
    * at some prior time, for example using {@link SBMLDocument#createModel()} 
-   * or {@link SBMLDocument#setModel(Model m)}.
+   * or {@link SBMLDocument#setModel(Model)}.
    * This method returns <code>null</code> if a model does not yet exist.
    <p>
    * @return the {@link Model} contained in this validator's {@link SBMLDocument} object.
    <p>
-   * @see SBMLDocument#setModel(Model m)
+   * @see SBMLDocument#setModel(Model)
    * @see SBMLDocument#createModel()
    */ public
  Model getModel() {

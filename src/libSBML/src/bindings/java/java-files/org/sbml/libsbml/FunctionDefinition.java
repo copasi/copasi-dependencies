@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's FunctionDefinition construct.
+ *  A user-defined function in an SBML model.
  <p>
  * The {@link FunctionDefinition} structure associates an identifier with a
  * function definition.  This identifier can then be used as the function
@@ -127,23 +127,26 @@ public class FunctionDefinition extends SBase {
    * @param version a long integer, the SBML Version to assign to this
    * {@link FunctionDefinition}
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link FunctionDefinition} object to an {@link SBMLDocument}
- * (e.g., using {@link Model#addFunctionDefinition(FunctionDefinition
- * f)}), the SBML Level, SBML Version and XML namespace of the document
- * <em>override</em> the values used when creating the {@link FunctionDefinition} object
- * via this constructor.  This is necessary to ensure that an SBML document
- * is a consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a {@link FunctionDefinition} is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  FunctionDefinition(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_FunctionDefinition__SWIG_0(level, version), true);
@@ -164,23 +167,26 @@ public class FunctionDefinition extends SBase {
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link FunctionDefinition} object to an {@link SBMLDocument}
- * (e.g., using {@link Model#addFunctionDefinition(FunctionDefinition
- * f)}), the SBML Level, SBML Version and XML namespace of the document
- * <em>override</em> the values used when creating the {@link FunctionDefinition} object
- * via this constructor.  This is necessary to ensure that an SBML document
- * is a consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a {@link FunctionDefinition} is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  FunctionDefinition(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_FunctionDefinition__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -192,7 +198,7 @@ public class FunctionDefinition extends SBase {
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  FunctionDefinition(FunctionDefinition orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -201,9 +207,9 @@ public class FunctionDefinition extends SBase {
 
   
 /**
-   * Creates and returns a deep copy of this {@link FunctionDefinition}.
+   * Creates and returns a deep copy of this {@link FunctionDefinition} object.
    <p>
-   * @return a (deep) copy of this {@link FunctionDefinition}.
+   * @return the (deep) copy of this {@link FunctionDefinition} object.
    */ public
  FunctionDefinition cloneObject() {
     long cPtr = libsbmlJNI.FunctionDefinition_cloneObject(swigCPtr, this);
@@ -287,15 +293,14 @@ public class FunctionDefinition extends SBase {
    * <p>
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter .= 'a'..'z','A'..'Z'
  * digit  .= '0'..'9'
  * idChar .= letter | digit | '_'
- * SId    .= ( letter | '_' ) idChar*
- * </pre>
+ * SId    .= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -311,8 +316,8 @@ public class FunctionDefinition extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setId(String sid) {
@@ -331,8 +336,8 @@ public class FunctionDefinition extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setName(String name) {
@@ -351,8 +356,8 @@ public class FunctionDefinition extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * </ul>
    */ public
  int setMath(ASTNode math) {
@@ -367,8 +372,8 @@ public class FunctionDefinition extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetName() {
@@ -453,16 +458,16 @@ public class FunctionDefinition extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION} (default).
+   * {@link libsbmlConstants#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION} (default).
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -494,13 +499,13 @@ public class FunctionDefinition extends SBase {
    * all the required attributes for this {@link FunctionDefinition} object
    * have been set.
    <p>
-   * @note The required attributes for a {@link FunctionDefinition} object are:
+   * The required attributes for a {@link FunctionDefinition} object are:
    * <ul>
    * <li> 'id'
    *
    * </ul> <p>
-   * @return a boolean value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return <code>true</code> if the required attributes have been set, <code>false</code>
+   * otherwise.
    */ public
  boolean hasRequiredAttributes() {
     return libsbmlJNI.FunctionDefinition_hasRequiredAttributes(swigCPtr, this);

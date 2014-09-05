@@ -27,8 +27,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class Dimensions
- * @sbmlbrief{layout} The %Dimensions class describes the overall 2D or 3D
- * shape of a &ldquo;layout&rdquo; package object.
+ * @sbmlbrief{layout} Spatial dimensions of a 2D or 3D shape.
  *
  * A dimension is specified via the required attributes width, height and an
  * optional attribute depth, all of which are of type double. If the
@@ -222,15 +221,19 @@ public:
   virtual void writeElements (XMLOutputStream& stream) const;
   /** @endcond */
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const ;
 
+
   /**
    * Creates and returns a deep copy of this Dimensions.
-   * 
+   *
    * @return a (deep) copy of this Dimensions object.
    */
   virtual Dimensions* clone () const;
@@ -242,7 +245,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_DIMENSIONS SBML_LAYOUT_DIMENSIONS@endlink
+   * @sbmlconstant{SBML_LAYOUT_DIMENSIONS, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *

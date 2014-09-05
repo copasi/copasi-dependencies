@@ -24,7 +24,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLUri
- * @sbmlbrief{comp} utility class for handling URIs.
+ * @sbmlbrief{comp} Utility class for handling URIs.
  *
  * @htmlinclude libsbml-facility-only-warning.html
  *
@@ -62,7 +62,7 @@ public:
    *
    * @param orig the SBMLUri object to copy.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   SBMLUri(const SBMLUri& orig); 
@@ -80,7 +80,7 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */  
   SBMLUri& operator=(const SBMLUri& rhs);
@@ -163,17 +163,29 @@ public:
 
 
   /**
-   * Constructs a new URI relative to this object and the given URI. 
-   * 
+   * Constructs a new URI relative to this object and the given URI.
+   *
    * For example,
-   @verbatim
+   * @if cpp
+   @code{.cpp}
+SBMLUri("c:\\test")->relativeTo("test.xml");
+@endcode
+@endif
+@if python
+@code
 SBMLUri("c:\\test").relativeTo("test.xml")
-@endverbatim
+@endcode
+@endif
+@if java
+@code
+SBMLUri("c:\\test").relativeTo("test.xml");
+@endcode
+@endif
    * would construct a new file URI, with path
    * <code>c:/test/test.xml</code>.
-   * 
+   *
    * @param uri a URI to be added to this object
-   * 
+   *
    * @return the resulting new URI
    */
   SBMLUri relativeTo(const std::string& uri) const;

@@ -105,6 +105,7 @@ ASTBase::ASTBase (int type) :
    , mParentSBMLObject ( NULL )
    , mUserData ( NULL )
    , mEmptyString ("")
+   , mIsBvar ( false )
 {
   setType(type);
 
@@ -130,6 +131,7 @@ ASTBase::ASTBase (SBMLNamespaces* sbmlns, int type) :
    , mParentSBMLObject ( NULL )
    , mUserData ( NULL )
    , mEmptyString ("")
+   , mIsBvar ( false )
 {
   setType(type);
 
@@ -156,6 +158,7 @@ ASTBase::ASTBase (const ASTBase& orig):
   , mParentSBMLObject    (orig.mParentSBMLObject)
   , mUserData            (orig.mUserData)
   , mEmptyString         (orig.mEmptyString)
+  , mIsBvar              (orig.mIsBvar)
 {
   mPlugins.resize( orig.mPlugins.size() );
   transform( orig.mPlugins.begin(), orig.mPlugins.end(), 
@@ -185,6 +188,7 @@ ASTBase::operator=(const ASTBase& rhs)
     mParentSBMLObject     = rhs.mParentSBMLObject;
     mUserData             = rhs.mUserData;
     mEmptyString          = rhs.mEmptyString;
+    mIsBvar               = rhs.mIsBvar;
 
     mPlugins.clear();
     mPlugins.resize( rhs.mPlugins.size() );
@@ -402,6 +406,10 @@ ASTBase::setType (ASTNodeType_t type)
   mType = type;
   mPackageName = "core";
   mTypeFromPackage = AST_UNKNOWN;
+  if (type == AST_QUALIFIER_BVAR)
+  {
+    mIsBvar = true;
+  }
   if (type == AST_UNKNOWN)
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
@@ -428,6 +436,13 @@ ASTBase::setType (int type)
     mTypeFromPackage = type;
     resetPackageName();
   }
+ 
+  /* HACK for replicating old behaviour */
+  if (type == AST_QUALIFIER_BVAR)
+  {
+    mIsBvar = true;
+  }
+
   if (type == AST_UNKNOWN)
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
@@ -453,7 +468,52 @@ ASTBase::setPackageName(const std::string& name)
   return LIBSBML_OPERATION_SUCCESS;
 }
 
-/* helper functions */
+bool
+ASTBase::isPackageInfixFunction() const
+{
+  if (getType() != AST_ORIGINATES_IN_PACKAGE) return false;
+  for (size_t i=0; i < mPlugins.size(); i++)
+  {
+    if (mPlugins[i]->isPackageInfixFunction()) return true;
+  }
+  return false;
+}
+
+bool
+ASTBase::hasPackageOnlyInfixSyntax() const
+{
+  if (getType() != AST_ORIGINATES_IN_PACKAGE) return false;
+  for (size_t i=0; i < mPlugins.size(); i++)
+  {
+    if (mPlugins[i]->hasPackageOnlyInfixSyntax()) return true;
+  }
+  return false;
+}
+
+int
+ASTBase::getL3PackageInfixPrecedence() const
+{
+  if (getType() != AST_ORIGINATES_IN_PACKAGE) return 8;
+  for (size_t i=0; i < mPlugins.size(); i++)
+  {
+    int ret = mPlugins[i]->getL3PackageInfixPrecedence();
+    if (ret != -1) return ret;
+  }
+  return 8;
+}
+
+bool 
+ASTBase::hasUnambiguousPackageInfixGrammar(const ASTNode *child) const
+{
+  if (getType() != AST_ORIGINATES_IN_PACKAGE) return false;
+  for (size_t i=0; i < mPlugins.size(); i++)
+  {
+    if (mPlugins[i]->hasUnambiguousPackageInfixGrammar(child)) return true;
+  }
+  return false;
+}
+
+  /* helper functions */
 
 bool 
 ASTBase::isAvogadro() const
@@ -881,7 +941,7 @@ ASTBase::isQualifier() const
     while(isQualifier == false && i < getNumPlugins())
     {
       const ASTBasePlugin* plugin = static_cast<const ASTBasePlugin*>(getPlugin(i)); 
-      if (plugin->representsQualifier(getType()) == true)
+      if (plugin->representsQualifier(getExtendedType()) == true)
       {
         isQualifier = true;
       }
@@ -1199,6 +1259,20 @@ ASTBase::getUnitsPrefix() const
   return mEmptyString;
 }
 
+
+bool
+ASTBase::representsBvar() const
+{
+  return mIsBvar;
+}
+
+
+int
+ASTBase::setIsBvar(bool isbvar)
+{
+  mIsBvar = isbvar;
+  return LIBSBML_OPERATION_SUCCESS;
+}
 
 
 void 
@@ -1611,6 +1685,7 @@ ASTBase::getNameFromType(int type) const
         name = "";
       }
       i++;
+      empty = (strcmp(name, "") == 0);
     }
   }
 
@@ -1619,7 +1694,7 @@ ASTBase::getNameFromType(int type) const
 
 
 void
-ASTBase::loadASTPlugins(SBMLNamespaces * sbmlns)
+ASTBase::loadASTPlugins(const SBMLNamespaces * sbmlns)
 {
   if (sbmlns == NULL)
   {
@@ -1634,7 +1709,7 @@ ASTBase::loadASTPlugins(SBMLNamespaces * sbmlns)
       {
 
         //const std::string &prefix = xmlns->getPrefix(i);
-        ASTBasePlugin* astPlugin = const_cast<ASTBasePlugin*>(sbmlext->getASTBasePlugin());
+        const ASTBasePlugin* astPlugin = sbmlext->getASTBasePlugin();
         if (astPlugin != NULL)
         {
           //// need to give the plugin infomrtaion about itself
@@ -1648,7 +1723,7 @@ ASTBase::loadASTPlugins(SBMLNamespaces * sbmlns)
   }
   else
   {
-    XMLNamespaces *xmlns = sbmlns->getNamespaces();
+    const XMLNamespaces *xmlns = sbmlns->getNamespaces();
 
     if (xmlns)
     {
@@ -1660,13 +1735,14 @@ ASTBase::loadASTPlugins(SBMLNamespaces * sbmlns)
 
         if (sbmlext && sbmlext->isEnabled())
         {
-          ASTBasePlugin* astPlugin = const_cast<ASTBasePlugin*>(sbmlext->getASTBasePlugin());
+          const ASTBasePlugin* astPlugin = sbmlext->getASTBasePlugin();
           if (astPlugin != NULL)
           {
-            astPlugin->setSBMLExtension(sbmlext);
-            astPlugin->setPrefix(xmlns->getPrefix(i));
-            astPlugin->connectToParent(this);
-            mPlugins.push_back(astPlugin->clone());
+            ASTBasePlugin* myastPlugin = astPlugin->clone();
+            myastPlugin->setSBMLExtension(sbmlext);
+            myastPlugin->setPrefix(xmlns->getPrefix(i));
+            myastPlugin->connectToParent(this);
+            mPlugins.push_back(myastPlugin);
           }
         }
       }
@@ -1692,6 +1768,7 @@ ASTBase::syncMembersFrom(ASTBase* rhs)
   mStyle                = rhs->mStyle;
   mParentSBMLObject     = rhs->mParentSBMLObject;
   mUserData             = rhs->mUserData;
+  mIsBvar               = rhs->mIsBvar;
 
   // deal with plugins
 
@@ -1719,6 +1796,7 @@ ASTBase::syncPluginsFrom(ASTBase* rhs)
   mStyle                = rhs->mStyle;
   mParentSBMLObject     = rhs->mParentSBMLObject;
   mUserData             = rhs->mUserData;
+  mIsBvar               = rhs->mIsBvar;
 
   // deal with plugins
 
@@ -1746,6 +1824,7 @@ ASTBase::syncMembersAndResetParentsFrom(ASTBase* rhs)
   mStyle                = rhs->mStyle;
   mParentSBMLObject     = rhs->mParentSBMLObject;
   mUserData             = rhs->mUserData;
+  mIsBvar               = rhs->mIsBvar;
 
   // deal with plugins
 
@@ -1777,6 +1856,26 @@ ASTBase::syncMembersAndResetParentsFrom(ASTBase* rhs)
     getPlugin(i)->connectToParent(this);
   }
 }
+
+
+void
+ASTBase::syncMembersOnlyFrom(ASTBase* rhs)
+{
+  if (rhs == NULL)
+  {
+    return;
+  }
+
+  mIsChildFlag          = rhs->mIsChildFlag;
+  mId                   = rhs->mId;
+  mClass                = rhs->mClass;
+  mStyle                = rhs->mStyle;
+  mParentSBMLObject     = rhs->mParentSBMLObject;
+  mUserData             = rhs->mUserData;
+
+}
+
+
 
 
 void

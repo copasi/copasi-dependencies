@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Representation of a plug-in object of SBML's package
- * extension.
+ *  A libSBML plug-in object for an SBML Level 3 package.
  <p>
  * Additional attributes and/or elements of a package extension which are directly 
  * contained by some pre-defined element are contained/accessed by <a href='#{@link SBasePlugin}'> 
@@ -20,7 +19,6 @@ package org.sbml.libsbml;
  * {@link SBaseExtensionPoint} class.
  * </p>
  <p>
- <p>
  * For example, the layout extension defines <em>&lt;listOfLayouts&gt;</em> element which is 
  * directly contained in <em>&lt;model&gt;</em> element of the core package. 
  * In the layout package (provided as one of example packages in libSBML-5), the additional 
@@ -28,12 +26,10 @@ package org.sbml.libsbml;
  * the object is contained/accessed by a LayoutModelPlugin class (an {@link SBasePlugin} derived class). 
  * </p>
  <p>
- <p>
  * {@link SBasePlugin} class defines basic virtual functions for reading/writing/checking 
  * additional attributes and/or top-level elements which should or must be overridden by 
  * subclasses like {@link SBase} class and its derived classes.
  * </p>
- <p>
  <p>
  *  Package developers must implement an {@link SBasePlugin} exntended class for 
  *  each element to be extended (e.g. {@link SBMLDocument}, {@link Model}, ...) in which additional 
@@ -60,20 +56,20 @@ package org.sbml.libsbml;
  *     <li> <p>reading attributes (must be overridden if additional attributes are defined) :</p>
  *       <ol>
  *         <li><code>virtual void addExpectedAttributes(ExpectedAttributes& attributes) </code></li>
- *         <li><code>virtual void readAttributes (XMLAttributes attributes, const ExpectedAttributes& expectedAttributes)</code></li>
+ *         <li><code>virtual void readAttributes (XMLAttributes attributes, ExpectedAttributes& expectedAttributes)</code></li>
  *       </ol>
  *     </li>
  *     <li> <p>writing elements (must be overridden if additional elements are defined) :</p>
  *       <ol>
- *         <li><code>virtual void writeElements (XMLOutputStream stream) const </code></li>
+ *         <li><code>virtual void writeElements (XMLOutputStream stream) </code></li>
  *       </ol>
  *     </li>
  *     <li> <p>writing attributes : </p>
  *       <ol>
- *        <li><code>virtual void writeAttributes (XMLOutputStream stream) const </code>
+ *        <li><code>virtual void writeAttributes (XMLOutputStream stream) </code>
  <p>This function must be overridden if one or more additional attributes are defined.</p>
  *        </li>
- *        <li><code>virtual void writeXMLNS (XMLOutputStream stream) const </code>
+ *        <li><code>virtual void writeXMLNS (XMLOutputStream stream) </code>
  <p>This function must be overridden if one or more additional xmlns attributes are defined.</p>
  *        </li>
  *       </ol>
@@ -81,24 +77,22 @@ package org.sbml.libsbml;
  <p>
  *     <li> <p>checking elements (should be overridden) :</p>
  *       <ol>
- *         <li><code>virtual boolean hasRequiredElements() const </code></li>
+ *         <li><code>virtual boolean hasRequiredElements() </code></li>
  *       </ol>
  *     </li>
  <p>
  *     <li> <p>checking attributes (should be overridden) :</p>
  *       <ol>
- *         <li><code>virtual boolean hasRequiredAttributes() const </code></li>
+ *         <li><code>virtual boolean hasRequiredAttributes() </code></li>
  *       </ol>
  *     </li>
  *   </ul>
- <p>
  <p>
  *   To implement package-specific creating/getting/manipulating functions of the
  *   {@link SBasePlugin} derived class (e.g., getListOfLayouts(), createLyout(), getLayout(),
  *   and etc are implemented in LayoutModelPlugin class of the layout package), package
  *   developers must newly implement such functions (as they like) in the derived class.
  *</p>
- <p>
  <p>
  *   {@link SBasePlugin} class defines other virtual functions of internal implementations
  *   such as:
@@ -112,7 +106,6 @@ package org.sbml.libsbml;
  *   These functions must be overridden by subclasses in which one or more top-level elements are defined.
  *</p>
  <p>
- <p>
  *   For example, the following three {@link SBasePlugin} extended classes are implemented in
  *   the layout extension:
  *</p>
@@ -125,7 +118,6 @@ package org.sbml.libsbml;
  *         <li> <em> required </em> attribute is added to {@link SBMLDocument} object.
  *         </li>
  *    </ul>
- <p>
  <p>
  *(<a href='class_s_b_m_l_document_plugin.html'> {@link SBMLDocumentPlugin} </a> class is a common {@link SBasePlugin} 
  *extended class for {@link SBMLDocument} class. Package developers can use this class as-is if no additional 
@@ -165,7 +157,6 @@ package org.sbml.libsbml;
  *              </li>
  *            </ul>
  *        </li>
- <p>
  <p>
  *        <li> <p>
  *             The following creating/getting/manipulating functions are newly 
@@ -294,7 +285,7 @@ public class SBasePlugin {
 /**
    * Creates and returns a deep copy of this {@link SBasePlugin} object.
    <p>
-   * @return a (deep) copy of this {@link SBase} object
+   * @return the (deep) copy of this {@link SBasePlugin} object.
    */ public
  SBasePlugin cloneObject() {
 	return libsbml.DowncastSBasePlugin(libsbmlJNI.SBasePlugin_cloneObject(swigCPtr, this), true);
@@ -333,11 +324,10 @@ public class SBasePlugin {
    * This function is called when this object is created by
    * the parent element.
    * Subclasses must override this this function if they have one
-   * or more child elements. Also, {@link SBasePlugin#connectToParent(SBase sbase)}
+   * or more child elements. Also, {@link SBasePlugin#connectToParent(SBase)}
    * must be called in the overridden function.
    <p>
    * @param sbase the {@link SBase} object to use
-   <p>
    <p>
    * @internal
    */ public
@@ -355,7 +345,6 @@ public class SBasePlugin {
    * Subclasses which contain one or more {@link SBase} derived elements should 
    * override this function if elements defined in them can be extended by
    * some other package extension.
-   <p>
    <p>
    * @internal
    */ public
@@ -430,8 +419,8 @@ public class SBasePlugin {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setElementNamespace(String uri) {

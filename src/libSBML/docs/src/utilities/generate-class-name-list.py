@@ -46,14 +46,18 @@ from libsbmlutils import find_classes
 
 
 def main(args):
-    if len(args) != 2:
-        print "Must be given one argument: the path to the libSBML src/sbml dir"
-        sys.exit(1)
+  if len(args) != 2:
+      print ("Must be given one argument: the path to the libSBML src/sbml dir")
+      sys.exit(1)
 
-    classes = [re.sub('_t', '', c) for c in find_classes(args[1], True)]
+  classes = [re.sub('_t', '', c) for c in find_classes(args[1], True)]
+  try:
     for c in sorted(set(classes)):
-        print c
-
+        print (c)
+  except (NameError,):
+    classes.sort()
+    for c in classes:
+        print (c)
 
 if __name__ == '__main__':
   main(sys.argv)

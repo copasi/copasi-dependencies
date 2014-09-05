@@ -36,8 +36,8 @@
  * methods for discovering them.  It is implemented as a singleton object of
  * class SBMLResolverRegistry.  Callers can use the method
  * SBMLResolverRegistry::getNumResolvers() to find out how many resolvers are
- * registered, then use SBMLResolverRegistry::getResolverByIndex(@if java int
- * index@endif) to iterate over each one;
+ * registered, then use SBMLResolverRegistry::getResolverByIndex(@if java
+ * int@endif) to iterate over each one;
  *
  * @see SBMLFileResolver
  */
@@ -83,8 +83,8 @@ public:
    * @return integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif@~ The possible values are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    */
   int addResolver (const SBMLResolver* resolver);
 
@@ -97,8 +97,8 @@ public:
    * @return integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif@~ The possible values are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    */
   int removeResolver(int index);
 
@@ -125,7 +125,7 @@ public:
    *
    * @return the number of registered resolvers.
    *
-   * @see getResolverByIndex(@if java int index@endif)
+   * @see getResolverByIndex(@if java int@endif)
    */
   int getNumResolvers() const;
 

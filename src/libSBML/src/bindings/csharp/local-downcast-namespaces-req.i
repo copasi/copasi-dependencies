@@ -6,10 +6,9 @@
 #ifdef USE_REQUIREDELEMENTS
 %pragma(csharp) modulecode =
 %{
-	
-	if (ns.hasURI(RequiredElementsExtension.getXmlnsL3V1V1()))
-	{
-		return new RequiredElementsPkgNamespaces(cPtr, owner);
-	}
+  if (ns.hasURI(ReqExtension.getXmlnsL3V1V1()))
+  {
+    return new ReqPkgNamespaces(cPtr, owner);
+  }
 %}
 #endif /* USE_REQUIREDELEMENTS */

@@ -14,6 +14,8 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
+@htmlinclude pkg-marker-core.html 
+ *
  * @internal
  */
 
@@ -69,7 +71,7 @@ public class ISBMLExtensionNamespaces : SBMLNamespaces {
    *
    * @return a string representing the SBML namespace that reflects the
    * SBML Level and Version of this object.
-   */ public
+   */ public new
  string getURI() {
     string ret = libsbmlPINVOKE.ISBMLExtensionNamespaces_getURI(swigCPtr);
     return ret;
@@ -84,7 +86,7 @@ public class ISBMLExtensionNamespaces : SBMLNamespaces {
    * @return the name of the main package for this namespace.
    * 'core' will be returned if this namespace is defined in the SBML 
    * core. 
-   */ public
+   */ public new
  string getPackageName() {
     string ret = libsbmlPINVOKE.ISBMLExtensionNamespaces_getPackageName(swigCPtr);
     return ret;

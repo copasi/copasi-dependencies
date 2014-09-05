@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Representation of a token in an XML stream.
+ *  A token in libSBML's XML stream.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -384,7 +384,7 @@ appears in the documentation.
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    <p>
    * 
@@ -414,7 +414,7 @@ appears in the documentation.
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    <p>
    * 
@@ -444,7 +444,7 @@ appears in the documentation.
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    <p>
    * 
@@ -472,7 +472,7 @@ appears in the documentation.
    <p>
    * @param orig the {@link XMLToken} object to copy.
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  XMLToken(XMLToken orig) throws org.sbml.libsbml.XMLConstructorException {
@@ -481,9 +481,9 @@ appears in the documentation.
 
   
 /**
-   * Creates and returns a deep copy of this {@link XMLToken}.
+   * Creates and returns a deep copy of this {@link XMLToken} object.
    <p>
-   * @return a (deep) copy of this {@link XMLToken} set.
+   * @return the (deep) copy of this {@link XMLToken} object.
    */ public
  XMLToken cloneObject() {
     long cPtr = libsbmlJNI.XMLToken_cloneObject(swigCPtr, this);
@@ -511,10 +511,10 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @note This function replaces the existing {@link XMLAttributes} with the new one.
@@ -538,8 +538,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
    * @note if local name with the same namespace URI already exists in the
@@ -579,8 +579,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
    * @note if local name with the same namespace URI already exists in the
@@ -620,8 +620,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
    * @note if local name with the same namespace URI already exists in the
@@ -662,8 +662,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    * </ul>
    */ public
  int addAttr(XMLTriple triple, String value) {
@@ -682,9 +682,9 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int removeAttr(int n) {
@@ -704,9 +704,9 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int removeAttr(String name, String uri) {
@@ -726,9 +726,9 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int removeAttr(String name) {
@@ -747,9 +747,9 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int removeAttr(XMLTriple triple) {
@@ -765,8 +765,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    * </ul>
    */ public
  int clearAttributes() {
@@ -866,7 +866,7 @@ appears in the documentation.
    <p>
    * @note If index
    * is out of range, an empty string will be returned.  Use
-   * {@link XMLToken#hasAttr(int index)}
+   * {@link XMLToken#hasAttr(int)}
    * to test for the attribute existence.
    */ public
  String getAttrName(int index) {
@@ -885,7 +885,7 @@ appears in the documentation.
    * (by position).  
    <p>
    * @note If index is out of range, an empty string will be returned. Use
-   * {@link XMLToken#hasAttr(int index)} to test
+   * {@link XMLToken#hasAttr(int)} to test
    * for the attribute existence.
    */ public
  String getAttrPrefix(int index) {
@@ -904,7 +904,7 @@ appears in the documentation.
    * (by position).  
    <p>
    * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLToken#hasAttr(int index)} to test
+   * {@link XMLToken#hasAttr(int)} to test
    * for attribute existence.
    */ public
  String getAttrPrefixedName(int index) {
@@ -922,7 +922,7 @@ appears in the documentation.
    * @return the namespace URI of an attribute in the attribute set (by position).
    <p>
    * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLToken#hasAttr(int index)} to test
+   * {@link XMLToken#hasAttr(int)} to test
    * for attribute existence.
    */ public
  String getAttrURI(int index) {
@@ -940,7 +940,7 @@ appears in the documentation.
    * @return the value of an attribute in the attribute set (by position).  
    <p>
    * @note If index is out of range, an empty string will be returned. Use
-   * {@link XMLToken#hasAttr(int index)} to test
+   * {@link XMLToken#hasAttr(int)} to test
    * for attribute existence.
    */ public
  String getAttrValue(int index) {
@@ -959,7 +959,7 @@ appears in the documentation.
    * @note If an attribute with the 
    * given local name and namespace URI does not exist, an empty string will be 
    * returned.  
-   * Use {@link XMLToken#hasAttr(String name, String uri)}
+   * Use {@link XMLToken#hasAttr(String, String)}
    * to test for attribute existence.
    <p>
    * 
@@ -993,7 +993,7 @@ appears in the documentation.
    * @note If an attribute with the 
    * given local name and namespace URI does not exist, an empty string will be 
    * returned.  
-   * Use {@link XMLToken#hasAttr(String name, String uri)}
+   * Use {@link XMLToken#hasAttr(String, String)}
    * to test for attribute existence.
    <p>
    * 
@@ -1026,7 +1026,7 @@ appears in the documentation.
    <p>
    * @note If an attribute with the
    * given {@link XMLTriple} does not exist, an empty string will be returned.  
-   * Use {@link XMLToken#hasAttr(XMLTriple triple)}
+   * Use {@link XMLToken#hasAttr(XMLTriple)}
    * to test for attribute existence.
    */ public
  String getAttrValue(XMLTriple triple) {
@@ -1158,10 +1158,10 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @note This function replaces the existing {@link XMLNamespaces} with the new one.
@@ -1185,8 +1185,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
    * 
@@ -1223,8 +1223,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
    * 
@@ -1258,9 +1258,9 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int removeNamespace(int index) {
@@ -1278,9 +1278,9 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int removeNamespace(String prefix) {
@@ -1297,8 +1297,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    * </ul>
    */ public
  int clearNamespaces() {
@@ -1520,10 +1520,10 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * </ul>
    */ public
  int setTriple(XMLTriple triple) {
@@ -1583,8 +1583,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int append(String chars) {
@@ -1691,8 +1691,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int setEnd() {
@@ -1707,8 +1707,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int setEOF() {
@@ -1723,8 +1723,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetEnd() {

@@ -27,10 +27,12 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class Curve
- * @sbmlbrief{layout} The Curve class describes how to connect elements in a
- * diagram defined with the use of the &ldquo;layout&rdquo; package. A curve
- * is fully specified by a mandatory listOfCurveSegments element and is used
- * in four places in the &ldquo;layout&rdquo; package:
+ * @sbmlbrief{layout} A curve connecting elements in a diagram.
+ *
+ * The Curve class describes how to connect elements in a diagram defined
+ * with the use of the &ldquo;layout&rdquo; package. A curve is fully
+ * specified by a mandatory listOfCurveSegments element and is used in four
+ * places in the &ldquo;layout&rdquo; package:
  *
  * @li SpeciesReferenceGlyph: Here it describes a curve from/to the center
  * piece of the parent ReactionGlyph to/from the SpeciesGlyph it represents.
@@ -71,8 +73,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 /**
  * @class ListOfLineSegments
- * @sbmlbrief{layout} Implementation of the %ListOfLineSegments construct
- * from the 'layout' package.
+ * @sbmlbrief{layout} A list of LineSegment objects.
  * 
  * The ListOfLineSegments is a container for the LineSegment elements of a Curve.
  * 
@@ -112,16 +113,19 @@ class LIBSBML_EXTERN ListOfLineSegments : public ListOf
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_LAYOUT_LINESEGMENT SBML_LAYOUT_LINESEGMENT@endlink (default).
+   * @sbmlconstant{SBML_LAYOUT_LINESEGMENT, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const;
 
@@ -312,11 +316,15 @@ public:
   virtual void writeElements (XMLOutputStream& stream) const;
   /** @endcond */
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const ;
+
 
   /**
    * Creates and returns a deep copy of this Curve.
@@ -332,7 +340,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_CURVE SBML_LAYOUT_CURVE@endlink
+   * @sbmlconstant{SBML_LAYOUT_CURVE, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *

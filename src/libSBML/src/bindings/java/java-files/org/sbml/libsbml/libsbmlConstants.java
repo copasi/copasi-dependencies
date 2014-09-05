@@ -9,9 +9,9 @@
 package org.sbml.libsbml;
 
 public interface libsbmlConstants {
-  public final static String LIBSBML_DOTTED_VERSION = "5.10.0";
-  public final static int LIBSBML_VERSION = 51000;
-  public final static String LIBSBML_VERSION_STRING = "51000";
+  public final static String LIBSBML_DOTTED_VERSION = "5.10.2";
+  public final static int LIBSBML_VERSION = 51002;
+  public final static String LIBSBML_VERSION_STRING = "51002";
   // OperationReturnValues_t 
   public final static int LIBSBML_OPERATION_SUCCESS = 0;
   public final static int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -775,4 +775,11 @@ public interface libsbmlConstants {
   public final static boolean L3P_NO_UNITS = false;
   public final static boolean L3P_AVOGADRO_IS_CSYMBOL = true;
   public final static boolean L3P_AVOGADRO_IS_NAME = false;
+  public final static boolean L3P_COMPARE_BUILTINS_CASE_INSENSITIVE = false;
+  public final static boolean L3P_COMPARE_BUILTINS_CASE_SENSITIVE = true;
+  // L3ParserGrammarLineType_t 
+  public final static int INFIX_SYNTAX_NAMED_SQUARE_BRACKETS = 0;
+  public final static int INFIX_SYNTAX_CURLY_BRACES = INFIX_SYNTAX_NAMED_SQUARE_BRACKETS + 1;
+  public final static int INFIX_SYNTAX_CURLY_BRACES_SEMICOLON = INFIX_SYNTAX_CURLY_BRACES + 1;
+
 }

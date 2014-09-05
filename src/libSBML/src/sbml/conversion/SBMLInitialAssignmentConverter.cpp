@@ -56,7 +56,8 @@ void SBMLInitialAssignmentConverter::init()
 /** @endcond */
 
 
-SBMLInitialAssignmentConverter::SBMLInitialAssignmentConverter() : SBMLConverter()
+SBMLInitialAssignmentConverter::SBMLInitialAssignmentConverter() 
+  : SBMLConverter("SBML Initial Assignment Converter")
 {
 
 }
@@ -67,7 +68,7 @@ SBMLInitialAssignmentConverter::SBMLInitialAssignmentConverter(const SBMLInitial
 {
 }
 
-SBMLConverter* 
+SBMLInitialAssignmentConverter* 
 SBMLInitialAssignmentConverter::clone() const
 {
   return new SBMLInitialAssignmentConverter(*this);
@@ -86,9 +87,19 @@ ConversionProperties
 SBMLInitialAssignmentConverter::getDefaultProperties() const
 {
   static ConversionProperties prop;
-  prop.addOption("expandInitialAssignments", true,
-                 "Expand initial assignments in the model");
-  return prop;
+  static bool init = false;
+
+  if (init) 
+  {
+    return prop;
+  }
+  else
+  {
+    prop.addOption("expandInitialAssignments", true,
+                   "Expand initial assignments in the model");
+    init = true;
+    return prop;
+  }
 }
 
 

@@ -11,11 +11,12 @@
 @import url('libsbml-base-stylesheet.css');
 @import url('libsbml-package-stylesheet.css');
 
-/* This next one is for C only. The file will not exist for non-C docs, so
-   the import will no succeed. Grungy, but simpler than the alternatives. */
+/* This next one is for specific languages. The files will not exist for docs
+   that *aren't* the language, so the import will simply not succeed. Grungy,
+   but simpler than the alternatives. */
 
 @import url('libsbml-c-stylesheet.css');
-
+@import url('libsbml-python-stylesheet.css');
 
 hr.footer {
     height: 1px;
@@ -27,9 +28,9 @@ body
 }
 
 .title {
-    font-family: Helvetica, Arial, Sans, sans-serif;
+    font-family: 'Noto Sans', Helvetica, Arial, Sans, sans-serif;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 700;
     margin: 10px 2px;
 }
 
@@ -79,11 +80,11 @@ div.navtab {
 /* @group Link Styling */
 
 a.qindex {
-    font-weight: bold;
+    font-weight: 700;
 }
 
 a.qindexHL {
-    font-weight: bold;
+    font-weight: 700;
     background-color: #9CAFD4;
     color: #ffffff;
     border: 1px double #869DCA;
@@ -98,8 +99,8 @@ a.qindexHL {
 }
 
 a.el {
-    font-family: "Courier New", Courier, monospace, fixed;
-    font-weight: bold;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-weight: 700;
     font-size: 10pt;
 }
 
@@ -108,7 +109,7 @@ a.code, a.code:visited {
 }
 
 .regular-text a.el {
-    font-family: Verdana, Helvetica, Arial, Sans, sans-serif;
+    font-family: 'Noto Sans', Verdana, Helvetica, Arial, Sans, sans-serif;
     font-size: 12px;
 }
 
@@ -127,53 +128,56 @@ dl.el {
 
 .contents div.textblock div.fragment {
     border: none;
-    background-color: white;
-    padding: 0px;
-    padding-top: 0px;
-    margin: 0px;
+    background-color: #f0f0f0;
+    padding-left: 0.75em;
+    margin: 0px 1em 0px 1em;
     line-height: 100%;
-    border-radius: none;
-    -webkit-border-radius: none;
-    -moz-border-radius: none;
+    border: 1px solid #fdcba6;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+}
+
+.memdoc div.fragment {
+    margin: 0px 1.75em 0px 1.75em;
+}
+
+div.line:first-child {
+    padding-top: 0.5em;
+}
+
+div.line:last-child {
+    padding-bottom: 0.5em;
 }
 
 div.line {
-	font-family: monospace, fixed;
-        font-size: 13px;
-        font-weight: bold;
-	min-height: 13px;
-	line-height: 1.0;
-	text-wrap: unrestricted;
-	white-space: -moz-pre-wrap; /* Moz */
-	white-space: -pre-wrap;     /* Opera 4-6 */
-	white-space: -o-pre-wrap;   /* Opera 7 */
-	white-space: pre-wrap;      /* CSS3  */
-	word-wrap: break-word;      /* IE 5.5+ */
-	text-indent: -53px;
-	padding-left: 53px;
-	padding-bottom: 0px;
-	margin: 0px;
-        margin-left: 0.5em;
-	-webkit-transition-property: background-color, box-shadow;
-	-webkit-transition-duration: 0.5s;
-	-moz-transition-property: background-color, box-shadow;
-	-moz-transition-duration: 0.5s;
-	-ms-transition-property: background-color, box-shadow;
-	-ms-transition-duration: 0.5s;
-	-o-transition-property: background-color, box-shadow;
-	-o-transition-duration: 0.5s;
-	transition-property: background-color, box-shadow;
-	transition-duration: 0.5s;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-size: 13px;
+    font-weight: 700;
+    color: black;
+    min-height: 13px;
+    line-height: 120%;
+    text-wrap: unrestricted;
+    white-space: -moz-pre-wrap; /* Moz */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    white-space: pre-wrap;      /* CSS3  */
+    word-wrap: break-word;      /* IE 5.5+ */
+    text-indent: -25px;
+
+    padding-left: 25px;
+    padding-bottom: 0px;
+    margin: 0px;
 }
 
 div.line.glow {
-	background-color: cyan;
-	box-shadow: 0 0 10px cyan;
+    background-color: cyan;
+    box-shadow: 0 0 10px cyan;
 }
 
 div.ah {
     background-color: black;
-    font-weight: bold;
+    font-weight: 700;
     color: #ffffff;
     margin-bottom: 3px;
     margin-top: 3px;
@@ -189,25 +193,34 @@ div.ah {
     background-image: -moz-linear-gradient(center top, #eee 0%, #444 40%, #000);
 }
 
+/* If you show line numbers, then if the user selects text, they
+get the line numbers too.  Not cool.  They're not important for
+us, so let's hide them with display: none. */
+
 span.lineno {
-	padding-right: 4px;
-	text-align: right;
-	border-right: 2px solid #0F0;
-	background-color: #E8E8E8;
-        white-space: pre;
+    display: none;
+
+    padding-right: 4px;
+    color: #bbb;
+    font-weight: normal;
+    font-style: italic;
+    text-align: right;
+    border-right: 1px solid #602;
+    white-space: pre;
 }
+
 span.lineno a {
-	background-color: #D8D8D8;
+    background-color: #D8D8D8;
 }
 
 span.lineno a:hover {
-	background-color: #C8C8C8;
+    background-color: #C8C8C8;
 }
 
 div.groupHeader {
     margin-left: 16px;
     margin-top: 12px;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 div.groupText {
@@ -223,7 +236,7 @@ div.contents {
 }
 
 td.indexkey {
-    font-weight: bold;
+    font-weight: 700;
     border-bottom: 1px dotted #ccc;
     width: 30%;
     margin: 2px 0px 2px 0px;
@@ -281,34 +294,37 @@ img.footer {
 
 /* @group Code Colorization */
 
-span.keyword {
-    color: #008000
-}
-
-span.keywordtype {
-    color: #604020
-}
-
-span.keywordflow {
-    color: #e08000
-}
-
 span.comment {
-    color: #777;
+    color: #888888;
     font-weight: normal;
     font-style: italic;
 }
 
+span.keywordtype {
+    color: #657b83
+}
+
+span.keyword {
+    color: #af005f
+/*    color: #904000 */
+/*    color: #008a90 */
+}
+
+span.keywordflow {
+    color: #e08700
+}
+
 span.preprocessor {
-    color: #806020
+    color: #700070 
 }
 
 span.stringliteral {
-    color: #002080
+    font-weight: normal;
+    color: #2aa198
 }
 
 span.charliteral {
-    color: #008080
+    color: #0040a0
 }
 
 span.vhdldigit { 
@@ -332,7 +348,7 @@ span.vhdllogic {
 /*
   .search {
   color: #003399;
-  font-weight: bold;
+  font-weight: 700;
   }
 
 form.search {
@@ -360,7 +376,7 @@ td.tiny {
 
 th.dirtab {
     background: #EBEFF6;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 /* @group Member Descriptions */
@@ -381,21 +397,21 @@ table.memberdecls {
 
 .memItemLeft, .memItemRight, .memTemplParams {
     border-top: 1px solid #aaaaaa;
-    font-weight: bold;
+    font-weight: 700;
     color: #222;
     padding-bottom: 2px;
 }
 
 .memItemLeft, .memTemplItemLeft {
-    font-family: "Courier New", Courier, monospace, fixed;
-    font-weight: bold;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-weight: 700;
     font-size: 10pt;
     white-space: nowrap;
 }
 
 .memItemRight {
-    font-family: "Courier New", Courier, monospace, fixed;
-    font-weight: bold;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-weight: 700;
     font-size: 10pt;
     width: 100%;
     padding-bottom: 2px;
@@ -459,11 +475,11 @@ table.mlabels .mlabel {
 }
 
 .memname {
-    font-family: "Courier New", Courier, monospace, fixed;
-    font-weight: bold;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-weight: 700;
     font-size: 10pt;
     white-space: nowrap;
-    font-weight: bold;
+    font-weight: 700;
     margin-left: 6px;
 }
 
@@ -474,7 +490,7 @@ table.mlabels .mlabel {
 .memproto, dl.reflist dt {
     padding: 6px 0px 6px 0px;
     color: #253555;
-    font-weight: bold;
+    font-weight: 700;
     background-color: #dfdfdf;
     text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.9);
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
@@ -541,8 +557,8 @@ dl.reflist dd {
 }
 
 .paramname {
-    font-family: "Courier New", Courier, monospace, fixed;
-    font-weight: bold;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-weight: 700;
     font-size: 10pt;
     color: #803030;
     white-space: nowrap;
@@ -558,7 +574,7 @@ dl.reflist dd {
 }       
 
 .params .paramname, .retval .paramname {
-    font-weight: bold;
+    font-weight: 700;
     vertical-align: top;
 }
 
@@ -568,7 +584,7 @@ dl.reflist dd {
 }       
 
 .params .paramdir {
-    font-family: "courier new",courier,monospace;
+    font-family: "Anoymous Pro", "Courier New", Courier, monospace;
     vertical-align: top;
 }
 
@@ -592,7 +608,7 @@ table.params td {
 
 .directory {
     font-size: 9pt;
-    font-weight: bold;
+    font-weight: 700;
     margin: 5px;
 }
 
@@ -653,14 +669,24 @@ table.directory td.desc {
 
 table.directory td.entry {
     border-bottom: 1px dotted #ccc;
-    min-width: 295px;
+    min-width: 235px;
+    padding-top: 5px;
 }
+
+table.directory td.entry a.el {
+    margin-left: -15px;
+}
+
+table.directory .icona {
+    display: none;
+}
+
 
 /* these are for tree view when not used as main index */
 
 .directory-alt {
     font-size: 100%;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .directory-alt h3 {
@@ -731,8 +757,8 @@ table.fieldtable {
 .fieldtable td.fieldtype, .fieldtable td.fieldname {
     white-space: nowrap;
     vertical-align: top;
-    font-family: "Courier New", Courier, monospace, fixed;
-    font-weight: bold;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-weight: 700;
     font-size: 10pt;
     padding-left: 2em;
 }
@@ -771,7 +797,7 @@ table.fieldtable {
 }
 
 .navpath {
-    font-family: Helvetica, Arial, Sans, sans-serif;
+    font-family: 'Noto Sans', Helvetica, Arial, Sans, sans-serif;
     font-size: 10pt;
 }
 
@@ -888,8 +914,9 @@ div.headertitle
 }
 
 #doc-content dd {
-    margin-bottom: 6px;
+    margin-bottom: 0.5em;
     margin-left: 3em;
+    padding-right: 0.5em;
 }
 
 #doc-content dl.user,
@@ -998,14 +1025,14 @@ div.headertitle
 
 #projectname
 {
-    font: 280% Helvetica, Arial, Sans, sans-serif;
+    font: 280% 'Noto Sans', Helvetica, Arial, Sans, sans-serif;
     margin: 0px;
     padding: 0px;
 }
 
 #projectbrief
 {
-    font-family: Helvetica, Arial, Sans, sans-serif;
+    font-family: 'Noto Sans', Helvetica, Arial, Sans, sans-serif;
     font-style: italic;
     font-size: 10px
     padding: 0px 0px 5px 0px;
@@ -1014,7 +1041,7 @@ div.headertitle
 
 #projectnumber
 {
-    font: 16pt Helvetica, Arial, Sans, sans-serif;
+    font: 16pt 'Noto Sans', Helvetica, Arial, Sans, sans-serif;
     position: absolute;
     right: 10px;
     top: 20px;
@@ -1064,7 +1091,7 @@ dl.citelist {
 dl.citelist dt {
     color:#334975;
     float:left;
-    font-weight:bold;
+    font-weight:700;
     margin-right:10px;
     padding:5px;
 }
@@ -1075,29 +1102,34 @@ dl.citelist dd {
 }
 
 div.toc {
-    padding: 14px 25px;
+    padding: 10px 10px 5px 10px;
     background-color: #F4F6FA;
     border: 1px solid #D8DFEE;
     border-radius: 7px 7px 7px 7px;
     float: right;
     height: auto;
-    margin: 0 20px 10px 10px;
-    width: 200px;
+    margin: 0 10px 10px 10px;
+    width: 220px;
+    font-size: 11px;
+    font-style: normal;
 }
 
 div.toc li {
     background: url("bdwn.png") no-repeat scroll 0 5px transparent;
-    font: 10px/1.2 Verdana,DejaVu Sans,Verdana,sans-serif;
-    margin-top: 5px;
+    margin-top: 0px;
     padding-left: 10px;
-    padding-top: 2px;
+    padding-top: 0px;
+    line-height: 120%;
 }
 
 div.toc h3 {
-    font: bold 12px/1.2 Arial,FreeSans,sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    font-style: normal;
     color: #4665A2;
     border-bottom: 0 none;
     margin: 0px;
+    text-align: center;
 }
 
 div.toc ul {
@@ -1106,20 +1138,26 @@ div.toc ul {
     padding: 0px;
 }       
 
+div.toc ul li {
+    margin-bottom: 0.5em;
+}
+
 div.toc li.level1 {
     margin-left: 0px;
 }
 
 div.toc li.level2 {
-    margin-left: 15px;
+    margin-left: 10px;
 }
 
 div.toc li.level3 {
-    margin-left: 30px;
+    margin-left: 20px;
+    display: none;
 }
 
 div.toc li.level4 {
-    margin-left: 45px;
+    margin-left: 30px;
+    display: none;
 }
 
 @media print
@@ -1161,6 +1199,11 @@ div.toc li.level4 {
 #doc-content .memdoc li {
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+#doc-content .memdoc > ul li {
+    margin-top: 0px;
+    margin-bottom: 0.75em;
 }
 
 #doc-content #main-page-sections li {
@@ -1225,11 +1268,15 @@ only screen and (min-device-pixel-ratio: 2) {
 }
 
 #projectnumber:before {
-    content: "Developer's guide for libSBML version ";
+    content: "Developer's guide for version ";
 }
 
-.navpath li.footer a {
-    font-weight: bold;
+li.footer {
+    margin-top: 0;
+}
+
+li.footer a {
+    font-weight: 700;
 }
 
 .signatureTable { 
@@ -1249,7 +1296,7 @@ td.signatureIntro {
 }
 
 td.signatureBlock { 
-  font-family: Verdana, Helvetica, Arial, Sans, sans-serif;
+  font-family: 'Noto Sans', Verdana, Helvetica, Arial, Sans, sans-serif;
   font-size: 14px;
   padding-left: 20px;
   padding-right: 20px;
@@ -1263,16 +1310,33 @@ signatureTitle {
 }
 
 pre.signature { 
-  font-size: 14px;
-  font-weight:  bold;
-  margin-left: 16px;
+  font-size: 13px;
+  font-weight:  700;
+  margin-left: 12px;
+  white-space: -moz-pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
-.signatureArrow { 
+span.signatureArrow { 
   padding: 0px;
   margin: 0px;
-  border: 0px;
-  vertical-align: baseline;
+  display: inline-block;
+  background-image: url(right-arrow.gif);
+  background-position: left center;
+  background-repeat: no-repeat;
+  vertical-align: bottom;
+  width: 25px;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2) {
+  span.signatureArrow { 
+    background-image: url(right-arrow-2x.png);
+    background-position: left center;
+    background-repeat: no-repeat;
+  }
 }
 
 div.contents hr { 
@@ -1319,7 +1383,7 @@ body div.contents ol li {
   position: absolute;
   right: 10px;
   top: 12px;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 12px;
   width: 200px;
   line-height: 110%;

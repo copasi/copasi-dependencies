@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's Delay construct for Event.
+ *  A delay on the time of execution of an SBML <em>event</em>.
  <p>
  * An {@link Event} object defines when the event can occur, the variables that
  * are affected by the event, and how the variables are affected.  The
@@ -53,7 +53,7 @@ package org.sbml.libsbml;
  * verify the consistency of the units of the expression.  The reason is
  * that the formula inside the 'math' element does not have any declared
  * units, whereas what is expected in this context is units of time:
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
 &lt;model&gt;
     ...
     &lt;listOfEvents&gt;
@@ -69,7 +69,7 @@ package org.sbml.libsbml;
     &lt;/listOfEvents&gt;
     ...
 &lt;/model&gt;
-</pre></div>
+</pre>
  <p>
  * The <code>&lt;cn&gt; 1 &lt;/cn&gt;</code> within the mathematical formula
  * of the <code>delay</code> above has <em>no units declared</em>.  To make the
@@ -77,7 +77,7 @@ package org.sbml.libsbml;
  * avoided in favor of defining {@link Parameter} objects for each quantity, and
  * declaring units for the {@link Parameter} values.  The following fragment of
  * SBML illustrates this approach:
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
 &lt;model&gt;
     ...
     &lt;listOfParameters&gt;
@@ -97,7 +97,7 @@ package org.sbml.libsbml;
     &lt;/listOfEvents&gt;
     ...
 &lt;/model&gt;
-</pre></div>
+</pre>
  <p>
  * In SBML Level&nbsp;3, an alternative approach is available in the form
  * of the <code>units</code> attribute, which SBML Level&nbsp;3 allows to appear on
@@ -108,7 +108,7 @@ package org.sbml.libsbml;
  * for MathML and not the namespace for SBML), it must always be prefixed
  * with an XML namespace prefix for the SBML Level&nbsp;3 Version&nbsp;1
  * namespace.  The following is an example of this approach:
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
 &lt;model timeUnits='second' ...&gt;
     ...
     &lt;listOfEvents&gt;
@@ -125,7 +125,7 @@ package org.sbml.libsbml;
     &lt;/listOfEvents&gt;
     ...
 &lt;/model&gt;
-</pre></div>
+</pre>
  */
 
 public class Delay extends SBase {
@@ -180,22 +180,26 @@ public class Delay extends SBase {
    * @param version a long integer, the SBML Version to assign to this
    * {@link Delay}
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link Delay} object to an {@link Event} (e.g., using
- * {@link Event#setDelay(Delay d)}), the SBML Level, SBML Version
- * and XML namespace of the document <em>override</em> the values used when
- * creating the {@link Delay} object via this constructor.  This is necessary to
- * ensure that an SBML document is a consistent structure.  Nevertheless,
- * the ability to supply the values at the time of creation of a {@link Delay} is
- * an important aid to producing valid SBML.  Knowledge of the intented
- * SBML Level and Version determine whether it is valid to assign a
- * particular value to an attribute, or whether it is valid to add a
- * particular {@link Delay} object to an existing {@link Event}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  Delay(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_Delay__SWIG_0(level, version), true);
@@ -216,22 +220,26 @@ public class Delay extends SBase {
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link Delay} object to an {@link Event} (e.g., using
- * {@link Event#setDelay(Delay d)}), the SBML Level, SBML Version
- * and XML namespace of the document <em>override</em> the values used when
- * creating the {@link Delay} object via this constructor.  This is necessary to
- * ensure that an SBML document is a consistent structure.  Nevertheless,
- * the ability to supply the values at the time of creation of a {@link Delay} is
- * an important aid to producing valid SBML.  Knowledge of the intented
- * SBML Level and Version determine whether it is valid to assign a
- * particular value to an attribute, or whether it is valid to add a
- * particular {@link Delay} object to an existing {@link Event}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  Delay(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_Delay__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -243,7 +251,7 @@ public class Delay extends SBase {
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  Delay(Delay orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -252,9 +260,9 @@ public class Delay extends SBase {
 
   
 /**
-   * Creates and returns a deep copy of this {@link Delay}.
+   * Creates and returns a deep copy of this {@link Delay} object.
    <p>
-   * @return a (deep) copy of this {@link Delay}.
+   * @return the (deep) copy of this {@link Delay} object.
    */ public
  Delay cloneObject() {
     long cPtr = libsbmlJNI.Delay_cloneObject(swigCPtr, this);
@@ -295,8 +303,8 @@ public class Delay extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * </ul>
    */ public
  int setMath(ASTNode math) {
@@ -393,16 +401,16 @@ public class Delay extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_DELAY SBML_DELAY} (default).
+   * {@link libsbmlConstants#SBML_DELAY SBML_DELAY} (default).
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -459,8 +467,8 @@ public class Delay extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int removeFromParentAndDelete() {
@@ -469,10 +477,11 @@ public class Delay extends SBase {
 
   
 /**
-   * Renames all the <code>SIdRef</code> attributes on this element, including any
-   * found in MathML.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>SIdRef</code> type attribute value with another
+ * value.
+ <p>
+ * <p>
  * In SBML, object identifiers are of a data type called <code>SId</code>.
  * In SBML Level&nbsp;3, an explicit data type called <code>SIdRef</code> was
  * introduced for attribute values that refer to <code>SId</code> values; in
@@ -482,14 +491,15 @@ public class Delay extends SBase {
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of 
-   * <code>oldid</code>.  If any matches are found, the matching identifiers are replaced
-   * with <code>newid</code>.  The method does <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of <code>oldid</code>.  If any matches are found, the
+ * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
+ * descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Delay_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -497,9 +507,11 @@ public class Delay extends SBase {
 
   
 /**
-   * Renames all the <code>UnitSIdRef</code> attributes on this element
-   <p>
    * <p>
+ * Replaces all uses of a given <code>UnitSIdRef</code> type attribute value with
+ * another value.
+ <p>
+ * <p>
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
  * introduced for attribute values that refer to <code>UnitSId</code> values; in
@@ -509,15 +521,15 @@ public class Delay extends SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of <code>oldid</code>.  If any matches are found,
-   * the matching identifiers are replaced with <code>newid</code>.  The method does
-   * <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of <code>oldid</code>.  If any matches
+ * are found, the matching values are replaced with <code>newid</code>.  The method
+ * does <em>not</em> descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Delay_renameUnitSIdRefs(swigCPtr, this, oldid, newid);

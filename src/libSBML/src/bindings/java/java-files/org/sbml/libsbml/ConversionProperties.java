@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Class of object that encapsulates the properties of an
- * SBML converter.
+ *  Set of configuration option values for a converter.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -19,17 +18,19 @@ the implementation of extra functionality provided by libSBML.
 </p>
 
  <p>
- * The properties of SBML converters are communicated using objects of
- * class {@link ConversionProperties}, and within such objects, individual options
- * are encapsulated using {@link ConversionOption} objects.  The {@link ConversionProperties}
- * class provides numerous methods for setting and getting options.
+ * LibSBML provides a number of converters that can perform transformations
+ * on SBML documents. The properties of SBML converters are communicated
+ * using objects of class {@link ConversionProperties}, and within such objects,
+ * individual options are encapsulated using {@link ConversionOption} objects.  The
+ * {@link ConversionProperties} class provides numerous methods for setting and
+ * getting options.
  <p>
  * {@link ConversionProperties} objects are also used to determine the target SBML
  * namespace when an SBML converter's behavior depends on the intended
  * Level+Version combination of SBML.  In addition, it is conceivable that
- * conversions may be affected by SBML Level&nbsp;3 packages being used
- * by an SBML document.  These, too, are communicated by the values of
- * the SBML namespaces set on a {@link ConversionProperties} object.
+ * conversions may be affected by SBML Level&nbsp;3 packages being used by an
+ * SBML document; consequently, the packages in use are also communicated by
+ * the values of the SBML namespaces set on a {@link ConversionProperties} object.
  <p>
  * @see ConversionOption
  * @see SBMLNamespaces
@@ -78,34 +79,64 @@ public class ConversionProperties {
   }
 
   
-/** 
+/**
    * Constructor that initializes the conversion properties
    * with a specific SBML target namespace.
    <p>
    * @param targetNS the target namespace to convert to
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionProperties(SBMLNamespaces targetNS) {
     this(libsbmlJNI.new_ConversionProperties__SWIG_0(SBMLNamespaces.getCPtr(targetNS), targetNS), true);
   }
 
   
-/** 
+/**
    * Constructor that initializes the conversion properties
    * with a specific SBML target namespace.
    <p>
    * @param targetNS the target namespace to convert to
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionProperties() {
     this(libsbmlJNI.new_ConversionProperties__SWIG_1(), true);
   }
 
   
-/** 
+/**
    * Copy constructor.
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  ConversionProperties(ConversionProperties orig) {
@@ -113,10 +144,10 @@ public class ConversionProperties {
   }
 
   
-/** 
+/**
    * Creates and returns a deep copy of this {@link ConversionProperties} object.
    <p>
-   * @return a (deep) copy of this {@link ConversionProperties} object.
+   * @return the (deep) copy of this {@link ConversionProperties} object.
    */ public
  ConversionProperties cloneObject() {
     long cPtr = libsbmlJNI.ConversionProperties_cloneObject(swigCPtr, this);
@@ -145,7 +176,7 @@ public class ConversionProperties {
   }
 
   
-/** 
+/**
    * Sets the target namespace.
    <p>
    * @param targetNS the target namespace to use.
@@ -188,7 +219,20 @@ public class ConversionProperties {
    * @return the option with the given key.
    */ public
  ConversionOption getOption(String key) {
-    long cPtr = libsbmlJNI.ConversionProperties_getOption(swigCPtr, this, key);
+    long cPtr = libsbmlJNI.ConversionProperties_getOption__SWIG_0(swigCPtr, this, key);
+    return (cPtr == 0) ? null : new ConversionOption(cPtr, false);
+  }
+
+  
+/**
+   * Returns the {@link ConversionOption} object for the given index.
+   <p>
+   * @param index the index for the option.
+   <p>
+   * @return the option with the given index.
+   */ public
+ ConversionOption getOption(int index) {
+    long cPtr = libsbmlJNI.ConversionProperties_getOption__SWIG_1(swigCPtr, this, index);
     return (cPtr == 0) ? null : new ConversionOption(cPtr, false);
   }
 
@@ -208,8 +252,24 @@ public class ConversionProperties {
    <p>
    * @param key the key for the new option
    * @param value (optional) the value of that option
-   * @param type (optional) the type of the option
+   * @param type (optional) the type of the option (see the documentation
+   * for {@link ConversionOption} for more information about the types)
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, String value, int type, String description) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_1(swigCPtr, this, key, value, type, description);
@@ -221,8 +281,24 @@ public class ConversionProperties {
    <p>
    * @param key the key for the new option
    * @param value (optional) the value of that option
-   * @param type (optional) the type of the option
+   * @param type (optional) the type of the option (see the documentation
+   * for {@link ConversionOption} for more information about the types)
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, String value, int type) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_2(swigCPtr, this, key, value, type);
@@ -234,8 +310,24 @@ public class ConversionProperties {
    <p>
    * @param key the key for the new option
    * @param value (optional) the value of that option
-   * @param type (optional) the type of the option
+   * @param type (optional) the type of the option (see the documentation
+   * for {@link ConversionOption} for more information about the types)
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, String value) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_3(swigCPtr, this, key, value);
@@ -247,8 +339,24 @@ public class ConversionProperties {
    <p>
    * @param key the key for the new option
    * @param value (optional) the value of that option
-   * @param type (optional) the type of the option
+   * @param type (optional) the type of the option (see the documentation
+   * for {@link ConversionOption} for more information about the types)
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_4(swigCPtr, this, key);
@@ -261,6 +369,21 @@ public class ConversionProperties {
    * @param key the key for the new option
    * @param value the string value of that option
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, String value, String description) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_5(swigCPtr, this, key, value, description);
@@ -273,6 +396,21 @@ public class ConversionProperties {
    * @param key the key for the new option
    * @param value the boolean value of that option
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, boolean value, String description) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_7(swigCPtr, this, key, value, description);
@@ -285,6 +423,21 @@ public class ConversionProperties {
    * @param key the key for the new option
    * @param value the boolean value of that option
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, boolean value) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_8(swigCPtr, this, key, value);
@@ -297,6 +450,21 @@ public class ConversionProperties {
    * @param key the key for the new option
    * @param value the double value of that option
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, double value, String description) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_9(swigCPtr, this, key, value, description);
@@ -309,6 +477,21 @@ public class ConversionProperties {
    * @param key the key for the new option
    * @param value the double value of that option
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, double value) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_10(swigCPtr, this, key, value);
@@ -321,6 +504,21 @@ public class ConversionProperties {
    * @param key the key for the new option
    * @param value the float value of that option
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, float value, String description) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_11(swigCPtr, this, key, value, description);
@@ -333,6 +531,21 @@ public class ConversionProperties {
    * @param key the key for the new option
    * @param value the float value of that option
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, float value) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_12(swigCPtr, this, key, value);
@@ -345,6 +558,21 @@ public class ConversionProperties {
    * @param key the key for the new option
    * @param value the integer value of that option
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, int value, String description) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_13(swigCPtr, this, key, value, description);
@@ -357,6 +585,21 @@ public class ConversionProperties {
    * @param key the key for the new option
    * @param value the integer value of that option
    * @param description (optional) the description for the option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  void addOption(String key, int value) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_14(swigCPtr, this, key, value);
@@ -375,7 +618,7 @@ public class ConversionProperties {
   }
 
   
-/** 
+/**
    * Returns <code>true</code> if this properties object contains an option with
    * the given key.
    <p>
@@ -505,6 +748,16 @@ public class ConversionProperties {
    */ public
  void setIntValue(String key, int value) {
     libsbmlJNI.ConversionProperties_setIntValue(swigCPtr, this, key, value);
+  }
+
+  
+/** 
+   * Returns the number of options in this Conversion Properties object
+   <p>
+   * @return the number of options in this properties object
+   */ public
+ int getNumOptions() {
+    return libsbmlJNI.ConversionProperties_getNumOptions(swigCPtr, this);
   }
 
 }

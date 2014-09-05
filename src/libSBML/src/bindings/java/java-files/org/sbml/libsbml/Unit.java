@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's Unit construct.
+ *  A single unit referenced in an SBML <em>unit definition</em>.
  <p>
  * The SBML unit definition facility uses two classes of objects,
  * {@link UnitDefinition} and {@link Unit}.  The approach to defining units in SBML is
@@ -81,7 +81,6 @@ package org.sbml.libsbml;
  <p>
  * * <h3><a class='anchor' name='UnitKind_t'>%Unit identification codes</a></h3>
  <p>
- <p>
  * As discussed above, SBML defines a set of base units which serves as the
  * starting point for new unit definitions.  This set of base units
  * consists of the SI units and a small number of additional convenience
@@ -99,7 +98,6 @@ package org.sbml.libsbml;
  * integer constants whose names begin with the characters
  * <code>UNIT_KIND_</code>.  These constants are defined in the class
  * <code><a href='libsbmlConstants.html'>libsbmlConstants</a></code>.
- <p>
  <p>
  * As a consequence of the fact that libSBML supports models in all Levels
  * and Versions of SBML, libSBML's set of <code>UNIT_KIND_</code> values is a union
@@ -232,22 +230,26 @@ public class Unit extends SBase {
    * @param version a long integer, the SBML Version to assign to this
    * {@link Unit}
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link Unit} object to an {@link SBMLDocument}, the SBML
- * Level, SBML Version and XML namespace of the document 
- * <em>override</em> the values used when creating the {@link Unit} object via this
- * constructor.  This is necessary to ensure that an SBML document is a
- * consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a {@link Unit} is an important aid to producing
- * valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  Unit(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_Unit__SWIG_0(level, version), true);
@@ -268,22 +270,26 @@ public class Unit extends SBase {
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link Unit} object to an {@link SBMLDocument}, the SBML
- * Level, SBML Version and XML namespace of the document 
- * <em>override</em> the values used when creating the {@link Unit} object via this
- * constructor.  This is necessary to ensure that an SBML document is a
- * consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a {@link Unit} is an important aid to producing
- * valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  Unit(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_Unit__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -295,7 +301,7 @@ public class Unit extends SBase {
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  Unit(Unit orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -304,9 +310,9 @@ public class Unit extends SBase {
 
   
 /**
-   * Creates and returns a deep copy of this {@link Unit}.
+   * Creates and returns a deep copy of this {@link Unit} object.
    <p>
-   * @return a (deep) copy of this {@link Unit}.
+   * @return the (deep) copy of this {@link Unit} object.
    */ public
  Unit cloneObject() {
     long cPtr = libsbmlJNI.Unit_cloneObject(swigCPtr, this);
@@ -851,13 +857,12 @@ public class Unit extends SBase {
    * names begin with <code>UNIT_KIND_</code> in <code><a
    * href='libsbmlConstants.html'>libsbmlConstants</a></code>.
    <p>
-   <p>
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setKind(int kind) {
@@ -874,8 +879,8 @@ public class Unit extends SBase {
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setExponent(int value) {
@@ -892,7 +897,7 @@ public class Unit extends SBase {
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setExponent(double value) {
@@ -909,7 +914,7 @@ public class Unit extends SBase {
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setScale(int value) {
@@ -927,8 +932,8 @@ public class Unit extends SBase {
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    * </ul>
    */ public
  int setMultiplier(double value) {
@@ -946,8 +951,8 @@ public class Unit extends SBase {
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * <p>
@@ -972,16 +977,16 @@ public class Unit extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_UNIT SBML_UNIT} (default).
+   * {@link libsbmlConstants#SBML_UNIT SBML_UNIT} (default).
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -1071,7 +1076,7 @@ public class Unit extends SBase {
    * {@link Unit} objects are identical.
    <p>
    * Two {@link Unit} objects are considered to be <em>identical</em> if they match in
-   * all attributes.  (Contrast this to the method areEquivalent(* {@link Unit} u1, Unit u2), which compares {@link Unit} objects only with respect
+   * all attributes.  (Contrast this to the method areEquivalent(Unit u1, Unit u2), which compares {@link Unit} objects only with respect
    * to certain attributes.)
    <p>
    * @param unit1 the first {@link Unit} object to compare
@@ -1097,7 +1102,7 @@ public class Unit extends SBase {
    * have a 'kind' attribute value of <code>dimensionless</code>, or (2) their 'kind',
    * 'exponent' and (for SBML Level&nbsp;2 Version&nbsp;1) 'offset'
    * attribute values are equal. (Contrast this to the method
-   * areIdentical(Unit u1, Unit u2), which compares {@link Unit} objects with respect to all
+   * areIdentical(Unit, Unit), which compares {@link Unit} objects with respect to all
    * attributes, not just the 'kind' and 'exponent'.)
    <p>
    * @param unit1 the first {@link Unit} object to compare
@@ -1130,7 +1135,7 @@ public class Unit extends SBase {
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * 
@@ -1148,14 +1153,14 @@ public class Unit extends SBase {
    * single {@link Unit}.
    <p>
    * For example, the following,
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
  &lt;unit kind='metre' exponent='2'/&gt;
  &lt;unit kind='metre' exponent='1'/&gt;
- </pre></div>
+ </pre>
    * would be merged to become
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
  &lt;unit kind='metre' exponent='3'/&gt;
- </pre></div>
+ </pre>
    <p>
    * @param unit1 the first {@link Unit} object; the result of the operation is
    * left as a new version of this unit, modified in-place.  Not modified if
@@ -1201,7 +1206,7 @@ public class Unit extends SBase {
    * all the required attributes for this {@link Unit} object
    * have been set.
    <p>
-   * @note The required attributes for a {@link Unit} object are:
+   * The required attributes for a {@link Unit} object are:
    * <ul>
    * <li> 'kind'
    * <li> 'exponent' (required in SBML Level&nbsp;3; optional in Level&nbsp;2)
@@ -1209,8 +1214,8 @@ public class Unit extends SBase {
    * <li> 'scale' (required in SBML Level&nbsp;3; optional in Level&nbsp;2)
    *
    * </ul> <p>
-   * @return a boolean value indicating whether all the required
-   * elements for this object have been defined.
+   * @return <code>true</code> if the required attributes have been set, <code>false</code>
+   * otherwise.
    */ public
  boolean hasRequiredAttributes() {
     return libsbmlJNI.Unit_hasRequiredAttributes(swigCPtr, this);

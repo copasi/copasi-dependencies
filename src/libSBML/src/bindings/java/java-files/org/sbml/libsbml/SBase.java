@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBase, the base class of most SBML
- * objects.
+ *  SBML's <em>%SBase</em>, the base class of most SBML objects.
  <p>
  * Most components in SBML are derived from a single abstract base type,
  * {@link SBase}.  In addition to serving as the parent class for most other
@@ -91,7 +90,6 @@ package org.sbml.libsbml;
  * Finally, note that, in the list of methods on {@link SBase}, there is no public
  * constructor because {@link SBase} is an abstract class.  The constructors reside
  * in the subclasses derived from {@link SBase}.
- <p>
  <p>
  * <h2>Standard format for annotations linking data resources</h2>
  <p>
@@ -200,7 +198,7 @@ public class SBase {
 /**
    * Creates and returns a deep copy of this {@link SBase} object.
    <p>
-   * @return a (deep) copy of this {@link SBase} object.
+   * @return the (deep) copy of this {@link SBase} object.
    */ public
  SBase cloneObject() {
   return libsbml.DowncastSBase(libsbmlJNI.SBase_cloneObject(swigCPtr, this), true);
@@ -257,10 +255,11 @@ public class SBase {
 
   
 /**
-   * Renames all the <code>SIdRef</code> attributes on this element, including any
-   * found in MathML content (if such exists).
-   <p>
    * <p>
+ * Replaces all uses of a given <code>SIdRef</code> type attribute value with another
+ * value.
+ <p>
+ * <p>
  * In SBML, object identifiers are of a data type called <code>SId</code>.
  * In SBML Level&nbsp;3, an explicit data type called <code>SIdRef</code> was
  * introduced for attribute values that refer to <code>SId</code> values; in
@@ -269,15 +268,16 @@ public class SBase {
  * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
- * explicitly name the data type. 
-   <p>
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of 
-   * <code>oldid</code>.  If any matches are found, the matching identifiers are replaced
-   * with <code>newid</code>.  The method does <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ * explicitly name the data type.
+ <p>
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of <code>oldid</code>.  If any matches are found, the
+ * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
+ * descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.SBase_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -285,23 +285,25 @@ public class SBase {
 
   
 /**
-   * Renames all the meta-identifier attributes on this element.
-   <p>
    * <p>
+ * Replaces all uses of a given meta identifier attribute value with
+ * another value.
+ <p>
+ * <p>
  * In SBML, object 'meta' identifiers are of the XML data type <code>ID</code>;
  * the SBML object attribute itself is typically named <code>metaid</code>.  All
  * attributes that hold values <em>referring</em> to values of type
  * <code>ID</code> are of the XML data type <code>IDREF</code>.  They are also
  * sometimes informally referred to as 'metaid refs', in analogy to the
  * SBML-defined type <code>SIdRef</code>.
-   <p>
-   * This method works by looking at all meta-identifier attribute values,
-   * comparing the identifiers to the value of <code>oldid</code>.  If any matches are
-   * found, the matching identifiers are replaced with <code>newid</code>.  The method
-   * does <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all meta-identifier attribute values,
+ * comparing the identifiers to the value of <code>oldid</code>.  If any matches are
+ * found, the matching identifiers are replaced with <code>newid</code>.  The method
+ * does <em>not</em> descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameMetaIdRefs(String oldid, String newid) {
     libsbmlJNI.SBase_renameMetaIdRefs(swigCPtr, this, oldid, newid);
@@ -309,9 +311,11 @@ public class SBase {
 
   
 /**
-   * Renames all the <code>UnitSIdRef</code> attributes on this element.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>UnitSIdRef</code> type attribute value with
+ * another value.
+ <p>
+ * <p>
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
  * introduced for attribute values that refer to <code>UnitSId</code> values; in
@@ -320,16 +324,16 @@ public class SBase {
  * data type was the same as <code>UnitSIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
- * explicitly name the data type. 
-   <p>
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of <code>oldid</code>.  If any matches are found,
-   * the matching identifiers are replaced with <code>newid</code>.  The method does
-   * <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ * explicitly name the data type.
+ <p>
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of <code>oldid</code>.  If any matches
+ * are found, the matching values are replaced with <code>newid</code>.  The method
+ * does <em>not</em> descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.SBase_renameUnitSIdRefs(swigCPtr, this, oldid, newid);
@@ -499,7 +503,7 @@ public class SBase {
  * href='http://sbml.org/Documents/Specifications'>SBML specifications</a>
  * for specific SBML Levels.  To help verify the formatting of 'notes'
  * content, libSBML provides the static utility method
- * {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)}; The
+ * {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)}; this
  * method implements a verification process that lets callers check whether
  * the content of a given {@link XMLNode} object conforms to the SBML requirements
  * for 'notes' and 'message' structure.  Developers are urged to consult the
@@ -527,7 +531,7 @@ public class SBase {
    * @see #appendNotes(XMLNode notes)
    * @see #appendNotes(String notes)
    * @see #unsetNotes()
-   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)
+   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)
    */ public
  XMLNode getNotes() {
     long cPtr = libsbmlJNI.SBase_getNotes__SWIG_0(swigCPtr, this);
@@ -556,7 +560,7 @@ public class SBase {
  * href='http://sbml.org/Documents/Specifications'>SBML specifications</a>
  * for specific SBML Levels.  To help verify the formatting of 'notes'
  * content, libSBML provides the static utility method
- * {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)}; The
+ * {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)}; this
  * method implements a verification process that lets callers check whether
  * the content of a given {@link XMLNode} object conforms to the SBML requirements
  * for 'notes' and 'message' structure.  Developers are urged to consult the
@@ -582,7 +586,7 @@ public class SBase {
    * @see #appendNotes(XMLNode notes)
    * @see #appendNotes(String notes)
    * @see #unsetNotes()
-   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)
+   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)
    */ public
  String getNotesString() {
     return libsbmlJNI.SBase_getNotesString__SWIG_0(swigCPtr, this);
@@ -1062,7 +1066,7 @@ appears in the documentation.
    * @see #appendNotes(XMLNode notes)
    * @see #appendNotes(String notes)
    * @see #unsetNotes()
-   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)
+   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)
    */ public
  boolean isSetNotes() {
     return libsbmlJNI.SBase_isSetNotes(swigCPtr, this);
@@ -1147,9 +1151,9 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * @see #getMetaId()
@@ -1223,7 +1227,7 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -1273,8 +1277,8 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -1318,8 +1322,8 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -1363,8 +1367,8 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -1402,10 +1406,10 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND }
-   * <li> {@link  libsbmlConstants#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND}
+   * <li> {@link libsbmlConstants#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND}
    *
    * </ul> <p>
    * @see #replaceTopLevelAnnotationElement(XMLNode )
@@ -1439,10 +1443,10 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND }
-   * <li> {@link  libsbmlConstants#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND}
+   * <li> {@link libsbmlConstants#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND}
    *
    * </ul> <p>
    * @see #replaceTopLevelAnnotationElement(XMLNode )
@@ -1476,10 +1480,10 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND }
-   * <li> {@link  libsbmlConstants#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND}
+   * <li> {@link libsbmlConstants#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND}
    *
    * </ul> <p>
    * @see #replaceTopLevelAnnotationElement(XMLNode )
@@ -1510,9 +1514,9 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @see #removeTopLevelAnnotationElement(String elementName, String elementURI)
@@ -1543,9 +1547,9 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @see #removeTopLevelAnnotationElement(String elementName, String elementURI)
@@ -1588,8 +1592,8 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @see #getNotesString()
@@ -1598,7 +1602,7 @@ appears in the documentation.
    * @see #appendNotes(XMLNode notes)
    * @see #appendNotes(String notes)
    * @see #unsetNotes()
-   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)
+   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)
    */ public
  int setNotes(XMLNode notes) {
     return libsbmlJNI.SBase_setNotes__SWIG_0(swigCPtr, this, XMLNode.getCPtr(notes), notes);
@@ -1624,7 +1628,7 @@ appears in the documentation.
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)}; however,
+   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)}; however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1636,12 +1640,12 @@ appears in the documentation.
    * using this method.  Here, the object being annotated is the whole SBML
    * document, but that is for illustration purposes only; you could of
    * course use this same approach to annotate any other SBML component.
-   * <div class='fragment'><pre class='fragment'>
+   <p>
+<pre class='fragment'>
 {@link SBMLDocument} s = new {@link SBMLDocument}(3, 1);
 s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;/p&gt;&lt;/body&gt;');
-</pre></div>
-   <p>
-   <p>
+</pre>
+<p>
    * @param notes an XML string that is to be used as the content of the
    * 'notes' subelement of this object
    <p>
@@ -1653,9 +1657,9 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #getNotesString()
@@ -1664,7 +1668,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @see #appendNotes(XMLNode notes)
    * @see #appendNotes(String notes)
    * @see #unsetNotes()
-   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)
+   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)
    */ public
  int setNotes(String notes, boolean addXHTMLMarkup) {
     return libsbmlJNI.SBase_setNotes__SWIG_1(swigCPtr, this, notes, addXHTMLMarkup);
@@ -1690,7 +1694,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)}; however,
+   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)}; however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1702,12 +1706,12 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * using this method.  Here, the object being annotated is the whole SBML
    * document, but that is for illustration purposes only; you could of
    * course use this same approach to annotate any other SBML component.
-   * <div class='fragment'><pre class='fragment'>
+   <p>
+<pre class='fragment'>
 {@link SBMLDocument} s = new {@link SBMLDocument}(3, 1);
 s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;/p&gt;&lt;/body&gt;');
-</pre></div>
-   <p>
-   <p>
+</pre>
+<p>
    * @param notes an XML string that is to be used as the content of the
    * 'notes' subelement of this object
    <p>
@@ -1719,9 +1723,9 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #getNotesString()
@@ -1730,7 +1734,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @see #appendNotes(XMLNode notes)
    * @see #appendNotes(String notes)
    * @see #unsetNotes()
-   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)
+   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)
    */ public
  int setNotes(String notes) {
     return libsbmlJNI.SBase_setNotes__SWIG_2(swigCPtr, this, notes);
@@ -1754,7 +1758,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)}; however,
+   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)}; however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1768,9 +1772,9 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #getNotesString()
@@ -1779,7 +1783,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @see #setNotes(String notes, boolean addXHTMLMarkup)
    * @see #appendNotes(String notes)
    * @see #unsetNotes()
-   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)
+   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)
    */ public
  int appendNotes(XMLNode notes) {
     return libsbmlJNI.SBase_appendNotes__SWIG_0(swigCPtr, this, XMLNode.getCPtr(notes), notes);
@@ -1803,7 +1807,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)}; however,
+   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)}; however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1817,9 +1821,9 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #getNotesString()
@@ -1828,7 +1832,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @see #setNotes(String notes, boolean addXHTMLMarkup)
    * @see #appendNotes(XMLNode notes)
    * @see #unsetNotes()
-   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)
+   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)
    */ public
  int appendNotes(String notes) {
     return libsbmlJNI.SBase_appendNotes__SWIG_1(swigCPtr, this, notes);
@@ -1846,9 +1850,9 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @note In SBML Level&nbsp;2, model history annotations were only
@@ -1885,7 +1889,6 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * Basically, this function needs to be called in
    * constructor, copy constructor, assignment operator.
    <p>
-   <p>
    * @internal
    */ public
  void connectToChild() {
@@ -1916,12 +1919,12 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
-   * @see #setSBOTerm(String sbo_id)
+   * @see #setSBOTerm(String)
    */ public
  int setSBOTerm(int value) {
     return libsbmlJNI.SBase_setSBOTerm__SWIG_0(swigCPtr, this, value);
@@ -1953,9 +1956,9 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * @see #setSBOTerm(int value)
@@ -1980,7 +1983,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setNamespaces(XMLNamespaces xmlns) {
@@ -2015,9 +2018,9 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetMetaId() {
@@ -2036,8 +2039,8 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetId() {
@@ -2084,8 +2087,8 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetName() {
@@ -2108,7 +2111,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)}; however,
+   * utility method {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)}; however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -2119,7 +2122,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #getNotesString()
@@ -2128,7 +2131,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @see #setNotes(String notes, boolean addXHTMLMarkup)
    * @see #appendNotes(XMLNode notes)
    * @see #appendNotes(String notes)
-   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)
+   * @see SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)
    */ public
  int unsetNotes() {
     return libsbmlJNI.SBase_unsetNotes(swigCPtr, this);
@@ -2155,7 +2158,7 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #getAnnotation()
@@ -2177,8 +2180,8 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    * </ul>
    */ public
  int unsetSBOTerm() {
@@ -2198,11 +2201,11 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }, if
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}, if
    * this object lacks a 'metaid' attribute
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @note Since the CV Term uses the 'metaid' attribute of the object as a
@@ -2253,11 +2256,11 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }, if
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}, if
    * this object lacks a 'metaid' attribute
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @note Since the CV Term uses the 'metaid' attribute of the object as a
@@ -2339,8 +2342,8 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetCVTerms() {
@@ -2354,9 +2357,9 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note In SBML Level&nbsp;2, model history annotations were only
@@ -2403,7 +2406,7 @@ appears in the documentation.
    * <code>'http://www.geneontology.org/#GO:0005892'</code>.
    <p>
    * @return the qualifier associated with the resource,
-   * or {@link  libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN} if the
+   * or {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN} if the
    * resource does not exist.
    <p>
    * @note The set of MIRIAM biological qualifiers grows over
@@ -2454,9 +2457,7 @@ appears in the documentation.
    * <code>'http://www.geneontology.org/#GO:0005892'</code>.
    <p>
    * @return the model qualifier
-   * type associated with the resource, or {@link 
-   * libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN} if the resource
-   * does not exist.
+   * type associated with the resource, or {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN} if the resource does not exist.
    <p>
    * @note The set of MIRIAM model qualifiers grows over
    * time, although relatively slowly.  The values are up to date with
@@ -2485,7 +2486,7 @@ appears in the documentation.
 
   
 /**
-   * Returns the SBML Level of the {@link SBMLDocument} object containing this
+   * Returns the SBML Level of the {@link SBMLDocument} object containing <em>this</em>
    * object.
    <p>
    * <p>
@@ -2511,7 +2512,7 @@ appears in the documentation.
   
 /**
    * Returns the Version within the SBML Level of the {@link SBMLDocument} object
-   * containing this object.
+   * containing <em>this</em> object.
    <p>
    * <p>
  * LibSBML uses the class {@link SBMLDocument} as a top-level container for
@@ -2550,8 +2551,8 @@ appears in the documentation.
 
   
 /**
-   * Returns the name of the SBML Level&nbsp;3 package in which this
-   * element is defined.
+   * Returns the name of the SBML Level&nbsp;3 package in which this element
+   * is defined.
    <p>
    * @return the name of the SBML package in which this element is defined.
    * The string <code>&quot;core&quot;</code> will be returned if this
@@ -2567,16 +2568,89 @@ appears in the documentation.
 /**
    * Returns the libSBML type code for this object.
    <p>
-   * This method may return the type code of this SBML object, or it may
-   * return {@link  libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN}.  This
-   * is because subclasses of {@link SBase} are not required to implement this
-   * method to return a type code.  This method is meant primarily for the
-   * LibSBML C interface, in which class and subclass information is not
-   * readily available.
+   * <p>
+ * LibSBML attaches an identifying code to every kind of SBML object.  These
+ * are integer constants known as <em>SBML type codes</em>.  The names of all
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * In the Java language interface for libSBML, the
+ * type codes are defined as static integer constants in the interface class
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
+ * package plug-ins may use overlapping type codes; to identify the package
+ * to which a given object belongs, call the <code>getPackageName()</code>
+ * method on the object.
    <p>
-   * @return the SBML object type code
-   * of this SBML object or
-   * {@link  libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN} (the default).
+   * <p>
+ * Here follow some additional general information about libSBML type codes:
+ <p>
+ * <ul>
+ * <li> The codes are the possible return values (integers) for the following
+ * functions:
+ * <ul>
+ *     <li> {@link SBase#getTypeCode()}
+ *     <li> {@link ListOf#getItemTypeCode()}
+ * </ul>
+ * (Compatibility note: in libSBML 5, the type of return values of these
+ * functions changed from an enumeration to an integer for extensibility
+ * in the face of different programming languages.)
+ <p>
+ * <li> Each package extension must define similar sets of values for each
+ * {@link SBase} subclass (e.g. <code>SBMLLayoutTypeCode_t</code> for the SBML Level&nbsp;3
+ * Layout extension, <code>SBMLFbcTypeCode_t</code> for the SBML Level&nbsp;3 Flux
+ * Balance Constraints extension, etc.).
+ <p>
+ * <li> The value of each package-specific type code can be duplicated between
+ * those of different packages.  (This is necessary because the development
+ * of libSBML extensions for different SBML packages may be undertaken by
+ * different developers at different times; requiring the developers to
+ * coordinate their use of type codes would be nettlesome and probably
+ * doomed to failure.)
+ <p>
+ * <li> To distinguish between the type codes of different packages, both the
+ * return value of {@link SBase#getTypeCode()} and {@link SBase#getPackageName()} must be
+ * checked.  This is particularly important for functions that take an SBML
+ * type code as an argument, such as
+ * {@link SBase#getAncestorOfType(int, String)}, which by
+ * default assumes you are handing it a core type, and will return <code>null</code> if
+ * the value you give it is actually from a package.
+ *
+ * </ul> <p>
+ * The following example code illustrates the combined use of
+ * {@link SBase#getPackageName()} and {@link SBase#getTypeCode()}:
+ <p>
+<pre class='fragment'>
+void example (SBase sb)
+{
+  String pkgName = sb.getPackageName();
+  if (pkgName.equals('core'))
+  {
+    switch (sb.getTypeCode())
+    {
+      case libsbml.SBML_MODEL:
+         ....
+         break;
+      case libsbml.SBML_REACTION:
+         ....
+    }
+  }
+  else if (pkgName.equals('layout'))
+  {
+    switch (sb.getTypeCode())
+    {
+      case libsbml.SBML_LAYOUT_LAYOUT:
+         ....
+         break;
+      case libsbml.SBML_LAYOUT_REACTIONGLYPH:
+         ....
+    }
+  }
+  ...
+}
+</pre>
+   <p>
+   * @return the SBML object type
+   * code of this SBML object, or {@link libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN} (the default).  The latter is possible because
+   * subclasses of {@link SBase} are not required to implement this method to return
+   * a type code.
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -2584,8 +2658,8 @@ appears in the documentation.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
  * both getTypeCode() and getPackageName()</strong>.</span>
    <p>
-   * @see #getElementName()
    * @see #getPackageName()
+   * @see #getElementName()
    */ public
  int getTypeCode() {
     return libsbmlJNI.SBase_getTypeCode(swigCPtr, this);
@@ -2764,10 +2838,10 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN }
-   * <li> {@link  libsbmlConstants#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN}
+   * <li> {@link libsbmlConstants#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION}
    *
    * </ul> <p>
    * @see #disablePackage(String pkgURI, String pkgPrefix)
@@ -2787,14 +2861,15 @@ appears in the documentation.
    * An example of when this may be useful is during construction of model
    * components when mixing existing and new models.  Suppose your
    * application read an SBML document containing a model that used the SBML
-   * Hierarchical {@link Model} Composition (&ldquo;comp&rdquo;) package, and
+   * Hierarchical Model Composition (&ldquo;comp&rdquo;) package, and
    * extracted parts of that model in order to construct a new model in
    * memory.  The new, in-memory model will not accept a component drawn from
    * an other {@link SBMLDocument} with different package namespace declarations.
    * You could reconstruct the same namespaces in the in-memory model first,
    * but as a shortcut, you could also disable the package namespace on the
    * object being added.  Here is a code example to help clarify this:
-   * <div class='fragment'><pre class='fragment'>
+   <p>
+<pre class='fragment'>
 // We read in an SBML L3V1 model that uses the 'comp' package namespace
 {@link SBMLReader} reader = new {@link SBMLReader}();
 {@link SBMLDocument} doc = reader.readSBML('sbml-file-with-comp-elements.xml');
@@ -2817,9 +2892,8 @@ appears in the documentation.
 s1-&gt;disablePackage('http://www.sbml.org/sbml/level3/version1/comp/version1',
                    'comp');
 newModel.addSpecies(s1);
-</pre></div>
+</pre>
 <p>
-   <p>
    * @param pkgURI the URI of the package
    <p>
    * @param pkgPrefix the XML prefix of the package
@@ -2828,10 +2902,10 @@ newModel.addSpecies(s1);
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN }
-   * <li> {@link  libsbmlConstants#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN}
+   * <li> {@link libsbmlConstants#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION}
    *
    * </ul> <p>
    * @see #enablePackage(String pkgURI, String pkgPrefix, boolean flag)
@@ -2848,7 +2922,6 @@ newModel.addSpecies(s1);
    <p>
    * @note Subclasses in which one or more child elements are defined 
    * must override this function.
-   <p>
    <p>
    * @see #connectToChild()
    * @internal
@@ -2867,7 +2940,7 @@ newModel.addSpecies(s1);
    * @return <code>true</code> if the given package is enabled within this object, @c 
    * false otherwise.
    <p>
-   * @see #isPackageEnabled(String pkgName)
+   * @see #isPackageEnabled(String)
    */ public
  boolean isPackageURIEnabled(String pkgURI) {
     return libsbmlJNI.SBase_isPackageURIEnabled(swigCPtr, this, pkgURI);
@@ -2885,7 +2958,7 @@ newModel.addSpecies(s1);
    * @return <code>true</code> if the given package is enabled within this object, 
    * <code>false</code> otherwise.
    <p>
-   * @see #isPackageURIEnabled(String pkgURI)
+   * @see #isPackageURIEnabled(String)
    */ public
  boolean isPackageEnabled(String pkgName) {
     return libsbmlJNI.SBase_isPackageEnabled(swigCPtr, this, pkgName);
@@ -2901,10 +2974,10 @@ newModel.addSpecies(s1);
    * @return <code>true</code> if the given package is enabled within this object, @c 
    * false otherwise.
    <p>
-   * @see #isPkgEnabled(String pkgName)
+   * @see #isPkgEnabled(String)
    <p>
    * @deprecated <div class='deprecated'>Replaced in libSBML 5.2.0 by
-   * isPackageURIEnabled(String pkgURI)
+   * isPackageURIEnabled(String)
    </div>
    * */ public
  boolean isPkgURIEnabled(String pkgURI) {
@@ -2923,10 +2996,10 @@ newModel.addSpecies(s1);
    * @return <code>true</code> if the given package is enabled within this object, 
    * <code>false</code> otherwise.
    <p>
-   * @see #isPkgURIEnabled(String pkgURI)
+   * @see #isPkgURIEnabled(String)
    <p>
    * @deprecated <div class='deprecated'>Replaced in libSBML 5.2.0 by
-   * isPackageEnabled(String pkgName)
+   * isPackageEnabled(String)
    </div>
    * */ public
  boolean isPkgEnabled(String pkgName) {
@@ -3009,8 +3082,8 @@ newModel.addSpecies(s1);
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int removeFromParentAndDelete() {

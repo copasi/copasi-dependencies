@@ -24,8 +24,7 @@
  * ---------------------------------------------------------------------- -->
  *
  * @class CobraToFbcConverter
- * @sbmlbrief{fbc} Implementation of a COBRA to SBML Level 3 'fbc' package
- * converter.
+ * @sbmlbrief{fbc} COBRA to SBML Level 3 'fbc' converter.
  */
 
 #ifndef CobraToFbcConverter_h
@@ -71,7 +70,7 @@ public:
    * 
    * @return a (deep) copy of this CobraToFbcConverter.
    */
-  virtual SBMLConverter* clone() const;
+  virtual CobraToFbcConverter* clone() const;
 
 
   /**

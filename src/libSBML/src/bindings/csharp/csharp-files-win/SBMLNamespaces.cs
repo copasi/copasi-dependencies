@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Class to store SBML Level, Version and namespace
- * information.
+@htmlinclude pkg-marker-core.html Set of SBML Level + Version + namespace triples.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -155,7 +154,7 @@ public class SBMLNamespaces : IDisposable {
    * @param level the SBML level
    * @param version the SBML version
    * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLNamespaces(long level, long version) : this(libsbmlPINVOKE.new_SBMLNamespaces__SWIG_0(level, version), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -190,7 +189,7 @@ public class SBMLNamespaces : IDisposable {
    * @param level the SBML level
    * @param version the SBML version
    * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLNamespaces(long level) : this(libsbmlPINVOKE.new_SBMLNamespaces__SWIG_1(level), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -225,7 +224,7 @@ public class SBMLNamespaces : IDisposable {
    * @param level the SBML level
    * @param version the SBML version
    * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLNamespaces() : this(libsbmlPINVOKE.new_SBMLNamespaces__SWIG_2(), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -321,7 +320,7 @@ public class SBMLNamespaces : IDisposable {
    * 
    * @param orig the SBMLNamespaces instance to copy.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  SBMLNamespaces(SBMLNamespaces orig) : this(libsbmlPINVOKE.new_SBMLNamespaces__SWIG_5(SBMLNamespaces.getCPtr(orig)), true) {
@@ -330,10 +329,10 @@ public class SBMLNamespaces : IDisposable {
 
   
 /**
-   * Creates and returns a deep copy of this SBMLNamespaces.
-   * 
-   * @return a (deep) copy of this SBMLNamespaces.
-   */ public
+   * Creates and returns a deep copy of this SBMLNamespaces object.
+   *
+   * @return the (deep) copy of this SBMLNamespaces object.
+   */ public new
  SBMLNamespaces clone() {
 	SBMLNamespaces ret
 	    = (SBMLNamespaces) libsbml.DowncastSBMLNamespaces(libsbmlPINVOKE.SBMLNamespaces_clone(swigCPtr), true);
@@ -359,6 +358,8 @@ public class SBMLNamespaces : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static string getSBMLNamespaceURI(long level, long version) {
     string ret = libsbmlPINVOKE.SBMLNamespaces_getSBMLNamespaceURI(level, version);
@@ -380,6 +381,8 @@ public class SBMLNamespaces : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static  SBMLNamespacesList  getSupportedNamespaces() { 
   IntPtr cPtr = libsbmlPINVOKE.SBMLNamespaces_getSupportedNamespaces();
@@ -401,6 +404,8 @@ public class SBMLNamespaces : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static void freeSBMLNamespaces(SWIGTYPE_p_List supportedNS) {
     libsbmlPINVOKE.SBMLNamespaces_freeSBMLNamespaces(SWIGTYPE_p_List.getCPtr(supportedNS));
@@ -413,7 +418,7 @@ public class SBMLNamespaces : IDisposable {
    *
    * @return a string representing the SBML namespace that reflects the
    * SBML Level and Version of this object.
-   */ public
+   */ public new
  string getURI() {
     string ret = libsbmlPINVOKE.SBMLNamespaces_getURI(swigCPtr);
     return ret;
@@ -476,13 +481,14 @@ public class SBMLNamespaces : IDisposable {
    * The following code gives an example of how one could add the XHTML
    * namespace to the list of namespaces recorded by the top-level
    * <code>&lt;sbml&gt;</code> element of a model.  It gives the new
-   * namespace a prefix of <code>html</code>.  @if clike
-   * @verbatim
+   * namespace a prefix of <code>html</code>.
+   * @if cpp
+   * @code{.cpp}
 SBMLDocument sd;
-try 
+try
 {
     sd = new SBMLDocument(3, 1);
-} 
+}
 catch (SBMLConstructorException e)
 {
     // Here, have code to handle a truly exceptional situation. Candidate
@@ -500,14 +506,15 @@ else
 {
     // Handle another truly exceptional situation.
 }
-@endverbatim
-   * @endif@if java
-@verbatim
+@endcode
+@endif
+@if java
+@code{.java}
 SBMLDocument sd;
-try 
+try
 {
     sd = new SBMLDocument(3, 1);
-} 
+}
 catch (SBMLConstructorException e)
 {
     // Here, have code to handle a truly exceptional situation. Candidate
@@ -525,9 +532,10 @@ else
 {
     // Handle another truly exceptional situation.
  }
-@endverbatim
-   * @endif@if python
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
 sbmlDoc = None
 try:
   sbmlDoc = SBMLDocument(3, 1)
@@ -544,9 +552,10 @@ if namespaces == None:
 status = namespaces.add('http://www.w3.org/1999/xhtml', 'html')
 if status != LIBSBML_OPERATION_SUCCESS:
   # Do something to handle failure.
-@endverbatim
-   * @endif@if csharp
-@verbatim
+@endcode
+@endif
+@if csharp
+@code{.cs}
 SBMLDocument sd = null;
 try
 {
@@ -563,13 +572,13 @@ catch (SBMLConstructorException e)
 XMLNamespaces sn = sd.getNamespaces();
 if (sn != null)
 {
-    sn.add('http://www.w3.org/1999/xhtml', 'html');            
+    sn.add('http://www.w3.org/1999/xhtml', 'html');
 }
 else
 {
     // Handle another truly exceptional situation.
 }
-@endverbatim
+@endcode
    * @endif
    *
    * @param xmlns the XML namespaces to be added.
@@ -578,9 +587,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int addNamespaces(XMLNamespaces xmlns) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_addNamespaces(swigCPtr, XMLNamespaces.getCPtr(xmlns));
@@ -599,9 +608,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int addNamespace(string uri, string prefix) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_addNamespace(swigCPtr, uri, prefix);
@@ -619,8 +628,8 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removeNamespace(string uri) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_removeNamespace(swigCPtr, uri);
@@ -643,15 +652,14 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link
-   * libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * added by this function (@link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
    * will be returned).
    *
-   * @see addNamespace(@if java String uri, String prefix@endif)
+   * @see addNamespace(@if java String, String@endif)
    */ public
  int addPackageNamespace(string pkgName, long pkgVersion, string prefix) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_addPackageNamespace__SWIG_0(swigCPtr, pkgName, pkgVersion, prefix);
@@ -674,15 +682,14 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link
-   * libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * added by this function (@link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
    * will be returned).
    *
-   * @see addNamespace(@if java String uri, String prefix@endif)
+   * @see addNamespace(@if java String, String@endif)
    */ public
  int addPackageNamespace(string pkgName, long pkgVersion) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_addPackageNamespace__SWIG_1(swigCPtr, pkgName, pkgVersion);
@@ -701,13 +708,11 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link
-   * libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE
-   * LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+   * added (just ignored) by this function. @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
    * xmlns is null.
    */ public
  int addPackageNamespaces(XMLNamespaces xmlns) {
@@ -729,9 +734,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removePackageNamespace(long level, long version, string pkgName, long pkgVersion) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_removePackageNamespace(swigCPtr, level, version, pkgName, pkgVersion);
@@ -754,15 +759,14 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link
-   * libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * added by this function (@link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
    * will be returned).
    *
-   * @see addNamespace(@if java String uri, String prefix@endif)
+   * @see addNamespace(@if java String, String@endif)
    */ /* libsbml-internal */ public
  int addPkgNamespace(string pkgName, long pkgVersion, string prefix) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_addPkgNamespace__SWIG_0(swigCPtr, pkgName, pkgVersion, prefix);
@@ -785,15 +789,14 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link
-   * libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * added by this function (@link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
    * will be returned).
    *
-   * @see addNamespace(@if java String uri, String prefix@endif)
+   * @see addNamespace(@if java String, String@endif)
    */ /* libsbml-internal */ public
  int addPkgNamespace(string pkgName, long pkgVersion) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_addPkgNamespace__SWIG_1(swigCPtr, pkgName, pkgVersion);
@@ -813,13 +816,11 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link
-   * libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE
-   * LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+   * added (just ignored) by this function. @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
    * xmlns is null.
    */ /* libsbml-internal */ public
  int addPkgNamespaces(XMLNamespaces xmlns) {
@@ -841,9 +842,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ /* libsbml-internal */ public
  int removePkgNamespace(long level, long version, string pkgName, long pkgVersion) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_removePkgNamespace(swigCPtr, level, version, pkgName, pkgVersion);
@@ -867,6 +868,8 @@ else
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isSBMLNamespace(string uri) {
     bool ret = libsbmlPINVOKE.SBMLNamespaces_isSBMLNamespace(uri);
@@ -892,7 +895,7 @@ else
    * @return the name of the main package for this namespace.
    * 'core' will be returned if this namespace is defined in the SBML 
    * core. 
-   */ public
+   */ public new
  string getPackageName() {
     string ret = libsbmlPINVOKE.SBMLNamespaces_getPackageName(swigCPtr);
     return ret;

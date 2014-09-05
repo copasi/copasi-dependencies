@@ -75,9 +75,9 @@ public class SBMLExternalValidator extends SBMLValidator {
 
   
 /**
-   * Creates and returns a deep copy of this converter.
+   * Creates and returns a deep copy of this {@link SBMLValidator} object.
    <p>
-   * @return a (deep) copy of this converter.
+   * @return the (deep) copy of this {@link SBMLValidator} object.
    * @internal
    */ public
  SBMLValidator cloneObject() {

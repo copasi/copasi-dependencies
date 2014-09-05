@@ -31,8 +31,7 @@
  * ------------------------------------------------------------------------ -->
  * 
  * @class LocalParameter
- * @sbmlbrief{core} Implementation of SBML Level&nbsp;3's %LocalParameter
- * construct.
+ * @sbmlbrief{core} A parameter inside an SBML <em>reaction</em> definition.
  *
  * LocalParameter has been introduced in SBML Level&nbsp;3 to serve as the
  * object class for parameter definitions that are intended to be local to
@@ -98,8 +97,7 @@
  * 
  * <!-- ------------------------------------------------------------------- -->
  * @class ListOfLocalParameters
- * @sbmlbrief{core} Implementation of SBML Level&nbsp;3's
- * %ListOfLocalParameters construct.
+ * @sbmlbrief{core} A list of LocalParameter objects.
  * 
  * @copydetails doc_what_is_listof
  */
@@ -112,20 +110,6 @@
  * beginning with "doc_" are marked as ignored in our Doxygen configuration.
  * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
  *
- * @class doc_note_localparameter_setting_lv
- * 
- * @note Upon the addition of a LocalParameter object to an SBMLDocument
- * (e.g., using KineticLaw::addLocalParameter(@if java LocalParameter p@endif)), the SBML Level, SBML
- * Version and XML namespace of the document @em override the
- * values used when creating the LocalParameter object via this
- * constructor.  This is necessary to ensure that an SBML document is a
- * consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a LocalParameter is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and
- * Version determine whether it is valid to assign a particular value to
- * an attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
- * 
  * @class doc_localparameter_units
  *
  * @par
@@ -185,12 +169,12 @@ public:
    * @param version an unsigned int, the SBML Version to assign to this
    * LocalParameter.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @copydetails doc_note_localparameter_setting_lv
+   * @copydetails doc_note_setting_lv
    */
   LocalParameter (unsigned int level, unsigned int version);
 
@@ -211,12 +195,12 @@ public:
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @copydetails doc_note_compartment_setting_lv
+   * @copydetails doc_note_setting_lv
    */
   LocalParameter (SBMLNamespaces* sbmlns);
 
@@ -232,7 +216,7 @@ public:
    * 
    * @param orig the LocalParameter instance to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   LocalParameter(const LocalParameter& orig);
@@ -244,7 +228,7 @@ public:
    * 
    * @param orig the Parameter instance to copy.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   LocalParameter(const Parameter& orig);
@@ -256,7 +240,7 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   LocalParameter& operator=(const LocalParameter& rhs);
@@ -277,9 +261,9 @@ public:
 
 
   /**
-   * Creates and returns a deep copy of this LocalParameter.
-   * 
-   * @return a (deep) copy of this LocalParameter.
+   * Creates and returns a deep copy of this LocalParameter object.
+   *
+   * @return the (deep) copy of this LocalParameter object.
    */
   virtual LocalParameter* clone () const;
 
@@ -328,7 +312,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLTypeCode_t#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
+   * @sbmlconstant{SBML_LOCAL_PARAMETER, SBMLTypeCode_t} (default).
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -351,12 +335,12 @@ public:
    * Predicate returning @c true if all the required attributes for this
    * LocalParameter object have been set.
    *
-   * @note The required attributes for a LocalParameter object are:
+   * The required attributes for a LocalParameter object are:
    * @li "id"
    * @li "value"
    *
-   * @return a boolean value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */
   virtual bool hasRequiredAttributes() const ;
 
@@ -458,7 +442,7 @@ public:
   /**
    * Creates and returns a deep copy of this ListOfLocalParameters object.
    *
-   * @return a (deep) copy of this ListOfLocalParameters.
+   * @return the (deep) copy of this ListOfLocalParameters object.
    */
   virtual ListOfLocalParameters* clone () const;
 
@@ -470,7 +454,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link SBMLTypeCode_t#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
+   * @sbmlconstant{SBML_LOCAL_PARAMETER, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -897,8 +881,8 @@ LocalParameter_isSetUnits (const LocalParameter_t *p);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
  * @note Using this function with an id of NULL is equivalent to
  * unsetting the "id" attribute.
@@ -922,8 +906,8 @@ LocalParameter_setId (LocalParameter_t *p, const char *sid);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
  * @note Using this function with the name set to NULL is equivalent to
  * unsetting the "name" attribute.
@@ -945,7 +929,7 @@ LocalParameter_setName (LocalParameter_t *p, const char *name);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  *
  * @memberof LocalParameter_t
  */
@@ -966,8 +950,8 @@ LocalParameter_setValue (LocalParameter_t *p, double value);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
  * @note Using this function with units set to NULL is equivalent to
  * unsetting the "units" attribute.
@@ -980,7 +964,7 @@ LocalParameter_setUnits (LocalParameter_t *p, const char *units);
 
 /**
  * Because LocalParameter_t structures don't have a 'constant' attribute, this function always
- * returns @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink.
+ * returns @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}.
  *
  * @param p the LocalParameter_t structure to leave unchanged.
  * @param value The boolean value to ignore.
@@ -989,7 +973,7 @@ LocalParameter_setUnits (LocalParameter_t *p, const char *units);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible value
  * returned by this function is:
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
  * @memberof LocalParameter_t
  */
@@ -1007,8 +991,8 @@ LocalParameter_setConstant (LocalParameter_t *p, int value);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof LocalParameter_t
  */
@@ -1031,7 +1015,7 @@ LocalParameter_unsetName (LocalParameter_t *p);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  *
  * @memberof LocalParameter_t
  */
@@ -1049,8 +1033,8 @@ LocalParameter_unsetValue (LocalParameter_t *p);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof LocalParameter_t
  */
@@ -1060,18 +1044,18 @@ LocalParameter_unsetUnits (LocalParameter_t *p);
 
 
 /**
-  * Predicate returning @c true or @c false depending on whether
-  * all the required attributes for this LocalParameter object
-  * have been set.
-  *
+ * Predicate returning @c true or @c false depending on whether
+ * all the required attributes for this LocalParameter object
+ * have been set.
+ *
  * @param p the LocalParameter_t structure to check.
  *
-  * @note The required attributes for a LocalParameter object are:
-  * @li id (name in L1)
-  *
-  * @return a true if all the required
-  * attributes for this object have been defined, false otherwise.
-  *
+ * The required attributes for a LocalParameter object are:
+ * @li id (name in L1)
+ *
+ * @return @c 1 if all the required attributes for this object have been
+ * defined, @c 0 otherwise.
+ *
  * @memberof LocalParameter_t
  */
 LIBSBML_EXTERN

@@ -14,7 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of %SBML's %InitialAssignment construct.
+@htmlinclude pkg-marker-core.html An SBML <em>initial assignment</em>, evaluated once only.
  *
  * SBML Level 2 Versions 2&ndash;4 and SBML Level&nbsp;3 provide two ways of assigning initial
  * values to entities in a model.  The simplest and most basic is to set
@@ -124,7 +124,7 @@ namespace libsbml {
  * rules for the same entity.  That is, there cannot be <em>both</em> an
  * InitialAssignment and an AssignmentRule for the same symbol in a model,
  * because both kinds of constructs apply prior to and at the start of
- * simulated time&mdash;allowing both to exist for a given symbol would
+ * simulated time---allowing both to exist for a given symbol would
  * result in indeterminism).
  * 
  * The ordering of InitialAssignment objects is not significant.  The
@@ -211,23 +211,27 @@ public class InitialAssignment : SBase {
    * @param version a long integer, the SBML Version to assign to this
    * InitialAssignment
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
    * *
- * @note Upon the addition of a InitialAssignment object to an SBMLDocument
- * (e.g., using Model::addInitialAssignment(@if java InitialAssignment
- * ia@endif)), the SBML Level, SBML Version and XML namespace of the document
- * @em override the values used when creating the InitialAssignment object
- * via this constructor.  This is necessary to ensure that an SBML document
- * is a consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a InitialAssignment is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  InitialAssignment(long level, long version) : this(libsbmlPINVOKE.new_InitialAssignment__SWIG_0(level, version), true) {
@@ -240,7 +244,7 @@ public class InitialAssignment : SBase {
    * @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -252,23 +256,27 @@ public class InitialAssignment : SBase {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
    * *
- * @note Upon the addition of a InitialAssignment object to an SBMLDocument
- * (e.g., using Model::addInitialAssignment(@if java InitialAssignment
- * ia@endif)), the SBML Level, SBML Version and XML namespace of the document
- * @em override the values used when creating the InitialAssignment object
- * via this constructor.  This is necessary to ensure that an SBML document
- * is a consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a InitialAssignment is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  * 
    */ public
  InitialAssignment(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_InitialAssignment__SWIG_1(SBMLNamespaces.getCPtr(sbmlns)), true) {
@@ -281,7 +289,7 @@ public class InitialAssignment : SBase {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  InitialAssignment(InitialAssignment orig) : this(libsbmlPINVOKE.new_InitialAssignment__SWIG_2(InitialAssignment.getCPtr(orig)), true) {
@@ -290,9 +298,9 @@ public class InitialAssignment : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this InitialAssignment.
-   * 
-   * @return a (deep) copy of this InitialAssignment.
+   * Creates and returns a deep copy of this InitialAssignment object.
+   *
+   * @return the (deep) copy of this InitialAssignment object.
    */ public new
  InitialAssignment clone() {
     IntPtr cPtr = libsbmlPINVOKE.InitialAssignment_clone(swigCPtr);
@@ -361,8 +369,8 @@ public class InitialAssignment : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setSymbol(string sid) {
     int ret = libsbmlPINVOKE.InitialAssignment_setSymbol(swigCPtr, sid);
@@ -381,8 +389,8 @@ public class InitialAssignment : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.InitialAssignment_setMath(swigCPtr, ASTNode.getCPtr(math));
@@ -403,8 +411,9 @@ public class InitialAssignment : SBase {
  * InitialAssignment::getDerivedUnitDefinition() returns the calculated
  * units, to the extent that libSBML can compute them.
  *
+ *
    *
-   * * 
+   * *
  * @note The functionality that facilitates unit analysis depends on the
  * model as a whole.  Thus, in cases where the object has not been added to
  * a model or the model itself is incomplete, unit analysis is not possible
@@ -412,7 +421,7 @@ public class InitialAssignment : SBase {
  *
  * 
    *
-   * * 
+   * *
  * @warning <span class='warning'>Note that it is possible the 'math'
  * expression in the InitialAssignment contains literal numbers or parameters
  * with undeclared units.  In those cases, it is not possible to calculate
@@ -464,10 +473,10 @@ public class InitialAssignment : SBase {
    * Returns the libSBML type code for this %SBML object.
    * 
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -479,15 +488,15 @@ public class InitialAssignment : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
+   * @link libsbmlcs#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -522,11 +531,11 @@ public class InitialAssignment : SBase {
    * Predicate returning @c true if all the required attributes for this
    * InitialAssignment object have been set.
    *
-   * @note The required attributes for an InitialAssignment object are:
+   * The required attributes for an InitialAssignment object are:
    * @li 'symbol'
    *
-   * @return a bool value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.InitialAssignment_hasRequiredAttributes(swigCPtr);
@@ -558,10 +567,11 @@ public class InitialAssignment : SBase {
 
   
 /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML.
-   *
    * *
+ * Replaces all uses of a given @c SIdRef type attribute value with another
+ * value.
+ *
+ * *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -575,24 +585,29 @@ public class InitialAssignment : SBase {
  * explicitly name the data type.
  *
  *
-   * 
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of @p oldid.  If any matches are found, the
+ * matching values are replaced with @p newid.  The method does @em not
+ * descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.InitialAssignment_renameSIdRefs(swigCPtr, oldid, newid);
   }
 
   
 /**
-   * Renames all the @c UnitSIdRef attributes on this element.
-   *
    * *
+ * Replaces all uses of a given @c UnitSIdRef type attribute value with
+ * another value.
+ *
+ * *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
@@ -603,18 +618,20 @@ public class InitialAssignment : SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
- * 
  *
-   *
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of @p oldid.  If any matches are found,
-   * the matching identifiers are replaced with @p newid.  The method does
-   * @em not descend into child elements.
-   * 
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ *
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of @p oldid.  If any matches
+ * are found, the matching values are replaced with @p newid.  The method
+ * does @em not descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameUnitSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.InitialAssignment_renameUnitSIdRefs(swigCPtr, oldid, newid);
   }
@@ -623,7 +640,7 @@ public class InitialAssignment : SBase {
 /**
    * Replace all nodes with the name 'id' from the child 'math' object with the provided function. 
    *
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void replaceSIDWithFunction(string id, ASTNode function) {
     libsbmlPINVOKE.InitialAssignment_replaceSIDWithFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
@@ -631,7 +648,7 @@ public class InitialAssignment : SBase {
   
 /**
    * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing/function). 
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void divideAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.InitialAssignment_divideAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
@@ -639,7 +656,7 @@ public class InitialAssignment : SBase {
   
 /**
    * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing*function). 
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void multiplyAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.InitialAssignment_multiplyAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }

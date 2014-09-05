@@ -31,7 +31,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLWriter
- * @sbmlbrief{core} Methods for writing SBML to files and text strings.
+ * @sbmlbrief{core} File and text-string SBML writer.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -41,18 +41,18 @@
  * for writing SBML all take an SBMLDocument object and a destination.  
  * They return a boolean or integer value to indicate success or failure.
  *
- * @section compression Support for writing compressed files
+ * @section sbmlwriter-compression Support for writing compressed files
  *
  * LibSBML provides support for writing (as well as reading) compressed
  * SBML files.  The process is transparent to the calling
- * application&mdash;the application does not need to do anything
+ * application---the application does not need to do anything
  * deliberate to invoke the functionality.  If a given SBML filename ends
  * with an extension for the @em gzip, @em zip or @em bzip2 compression
  * formats (respectively, <code>&quot;.gz&quot;</code>,
  * <code>&quot;.zip&quot;</code>, or <code>&quot;.bz2&quot;</code>),
  * then the methods
- * SBMLWriter::writeSBML(@if java SBMLDocument d, String filename@endif)
- * and SBMLReader::readSBML(@if java String filename@endif)
+ * SBMLWriter::writeSBML(@if java SBMLDocument, String@endif)
+ * and SBMLReader::readSBML(@if java String@endif)
  * will automatically compress and decompress the file while writing and
  * reading it.  If the filename has no such extension, it
  * will be written and read uncompressed as normal.
@@ -126,7 +126,7 @@ public:
    * write out the SBMLDocument.
    *
    * If the program name and version are set (see
-   * SBMLWriter::setProgramVersion(@if java String version@endif)), the
+   * SBMLWriter::setProgramVersion(@if java String@endif)), the
    * following XML comment, intended for human consumption, will be written
    * at the beginning of the XML document:
    * @verbatim
@@ -143,7 +143,7 @@ public:
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * 
    * @see setProgramVersion(const std::string& version)
    */
@@ -155,7 +155,7 @@ public:
    * write out the SBMLDocument.
    *
    * If the program version and name are set (see
-   * SBMLWriter::setProgramName(@if java String name@endif)), the
+   * SBMLWriter::setProgramName(@if java String@endif)), the
    * following XML comment, intended for human consumption, will be written
    * at the beginning of the document:
    * @verbatim
@@ -172,7 +172,7 @@ public:
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    *
    * @see setProgramName(const std::string& name)
    */
@@ -366,7 +366,7 @@ SBMLWriter_free (SBMLWriter_t *sw);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  *
  * @memberof SBMLWriter_t
  */
@@ -387,7 +387,7 @@ SBMLWriter_setProgramName (SBMLWriter_t *sw, const char *name);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  *
  * @memberof SBMLWriter_t
  */

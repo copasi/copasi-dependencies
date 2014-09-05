@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's ListOfSpeciesReferences
- * construct.
+ *  A list of {@link SpeciesReference} objects.
  <p>
  * <p>
  * The various ListOf___ classes in SBML
@@ -130,10 +129,9 @@ public class ListOfSpeciesReferences extends ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this {@link ListOfSpeciesReferences}
-   * instance.
+   * Creates and returns a deep copy of this {@link ListOfSpeciesReferences} object.
    <p>
-   * @return a (deep) copy of this {@link ListOfSpeciesReferences}.
+   * @return the (deep) copy of this {@link ListOfSpeciesReferences} object.
    */ public
  ListOfSpeciesReferences cloneObject() {
     long cPtr = libsbmlJNI.ListOfSpeciesReferences_cloneObject(swigCPtr, this);
@@ -148,16 +146,16 @@ public class ListOfSpeciesReferences extends ListOf {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
-   * {@link  libsbmlConstants#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE} (default).
+   * {@link libsbmlConstants#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE} (default).
    <p>
    * @see #getElementName()
    * @see #getPackageName()

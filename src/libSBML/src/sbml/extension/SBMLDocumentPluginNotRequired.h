@@ -34,8 +34,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLDocumentPluginNotRequired
- * @sbmlbrief{core} Template class for the %SBMLDocument Plugin class for
- * non-required packages.
+ * @sbmlbrief{core} Base class for non-required Level 3 packages plug-ins.
  *
  * The SBMLDocumentPluginNotRequired class extends the SBMLDocumentPlugin class, and
  * will add a validation error to a read-in SBML Document that has the package's 
@@ -110,9 +109,9 @@ public:
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
    */
   virtual int setRequired(bool value);
 
@@ -124,7 +123,7 @@ public:
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int unsetRequired();
 #endif //0

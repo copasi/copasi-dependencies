@@ -33,6 +33,7 @@
 
 #include <sbml/extension/SBMLExtension.h>
 #include <sbml/extension/SBMLExtensionRegistry.h>
+#include <sbml/extension/ASTBasePlugin.h>
 
 #ifdef __cplusplus
 
@@ -71,9 +72,14 @@ SBMLExtension::SBMLExtension(const SBMLExtension& orig)
  : mIsEnabled(orig.mIsEnabled)
  , mSupportedPackageURI(orig.mSupportedPackageURI)
 #ifndef LIBSBML_USE_LEGACY_MATH
- , mASTBasePlugin(orig.mASTBasePlugin)
+ , mASTBasePlugin(NULL)
 #endif
 {
+#ifndef LIBSBML_USE_LEGACY_MATH
+  if (orig.mASTBasePlugin != NULL) {
+    mASTBasePlugin = orig.mASTBasePlugin->clone();
+  }
+#endif
   for (size_t i=0; i < orig.mSBasePluginCreators.size(); i++)
     mSBasePluginCreators.push_back(orig.mSBasePluginCreators[i]->clone());
 }
@@ -86,6 +92,9 @@ SBMLExtension::~SBMLExtension ()
 {
   for (size_t i=0; i < mSBasePluginCreators.size(); i++)
     delete mSBasePluginCreators[i];
+#ifndef LIBSBML_USE_LEGACY_MATH
+  delete mASTBasePlugin;
+#endif
 }
 
 
@@ -99,7 +108,10 @@ SBMLExtension::operator=(const SBMLExtension& orig)
   mSupportedPackageURI = orig.mSupportedPackageURI; 
 
 #ifndef LIBSBML_USE_LEGACY_MATH
-  mASTBasePlugin = orig.mASTBasePlugin;
+  mASTBasePlugin = NULL;
+  if (orig.mASTBasePlugin != NULL) {
+    mASTBasePlugin = orig.mASTBasePlugin->clone();
+  }
 #endif /* LIBSBML_USE_LEGACY_MATH */
 
   for (size_t i=0; i < mSBasePluginCreators.size(); i++)

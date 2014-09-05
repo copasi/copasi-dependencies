@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Registry of all SBML converters.
+ *  Registry of all libSBML SBML converters.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -30,9 +30,9 @@ the implementation of extra functionality provided by libSBML.
  * methods for discovering them.  Callers can use the method
  * {@link SBMLConverterRegistry#getNumConverters()} to find out how many
  * converters are registered, then use
- * {@link SBMLConverterRegistry#getConverterByIndex(int index)} to
+ * {@link SBMLConverterRegistry#getConverterByIndex(int)} to
  * iterate over each one; alternatively, callers can use
- * {@link SBMLConverterRegistry#getConverterFor(ConversionProperties props)}
+ * {@link SBMLConverterRegistry#getConverterFor(ConversionProperties)}
  * to search for a converter having specific properties.
  */
 
@@ -100,8 +100,8 @@ public class SBMLConverterRegistry {
    * @return integer value indicating the success/failure of the operation.
    *  The possible values are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * </ul>
    */ public
  int addConverter(SBMLConverter converter) {
@@ -124,9 +124,8 @@ public class SBMLConverterRegistry {
    * position.
    */ public
  SBMLConverter getConverterByIndex(int index) {
-    long cPtr = libsbmlJNI.SBMLConverterRegistry_getConverterByIndex(swigCPtr, this, index);
-    return (cPtr == 0) ? null : new SBMLConverter(cPtr, false);
-  }
+	return libsbml.DowncastSBMLConverter(libsbmlJNI.SBMLConverterRegistry_getConverterByIndex(swigCPtr, this, index), false);
+}
 
   
 /** 
@@ -146,12 +145,11 @@ public class SBMLConverterRegistry {
    * @return the converter matching the properties, or <code>null</code> if no
    * suitable converter is found.
    <p>
-   * @see #getConverterByIndex(int index)
+   * @see #getConverterByIndex(int)
    */ public
  SBMLConverter getConverterFor(ConversionProperties props) {
-    long cPtr = libsbmlJNI.SBMLConverterRegistry_getConverterFor(swigCPtr, this, ConversionProperties.getCPtr(props), props);
-    return (cPtr == 0) ? null : new SBMLConverter(cPtr, false);
-  }
+	return libsbml.DowncastSBMLConverter(libsbmlJNI.SBMLConverterRegistry_getConverterFor(swigCPtr, this, ConversionProperties.getCPtr(props), props), false);
+}
 
   
 /**
@@ -159,7 +157,7 @@ public class SBMLConverterRegistry {
    <p>
    * @return the number of registered converters.
    <p>
-   * @see #getConverterByIndex(int index)
+   * @see #getConverterByIndex(int)
    */ public
  int getNumConverters() {
     return libsbmlJNI.SBMLConverterRegistry_getNumConverters(swigCPtr, this);

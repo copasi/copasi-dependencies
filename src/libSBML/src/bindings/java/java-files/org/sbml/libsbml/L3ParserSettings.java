@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  A helper class for controlling the behavior of the
- * text-string formula parser.
+ *  Controls the behavior of the Level 3 formula parser.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -21,71 +20,93 @@ defined in SBML.
 
  <p>
  * The function
- * <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, {@link L3ParserSettings} settings)</a></code>,
- * along with its variants 
- * <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(java.lang.String formula)</a></code>
- * and
- * <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>libsbml.parseL3FormulaWithModel(String formula, {@link Model} model)</a></code>,
- * are the interfaces to a parser for mathematical formulas expressed as
- * text strings.  The parser converts the text-string formulas into
- * Abstract Syntax Trees (ASTs), represented in libSBML using {@link ASTNode}
- * objects. Compared to the parser implemented by the function
- * <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(java.lang.String formula)</a></code>,
- * which was designed primarily for converting the mathematical formula
- * strings in SBML Level&nbsp;1, the 'L3' variant of the parser accepts an
- * extended formula syntax.  It also has a number of configurable behaviors.
- * This class (L3ParserSettings) is an object used to communicate the
- * configuration settings with callers.
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>,
+ * along with its variants <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> and
+ * <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>,
+ * are the interfaces to a parser for mathematical formulas written as
+ * text strings.  The inverse function is <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a> and its variants such as
+ * <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>.
+ * The parsers and the formula writers convert between a text-string
+ * representation of mathematical formulas and Abstract Syntax Trees (ASTs),
+ * represented in libSBML using {@link ASTNode} objects.
+ * Compared to the parser and writer implemented by the functions
+ * <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> and
+ * <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>,
+ * which were designed primarily for converting the mathematical formula
+ * strings in SBML Level&nbsp;1, the SBML Level&nbsp;3 or 'L3' variants of
+ * the parser and writer use an extended formula syntax.  They also have a
+ * number of configurable behaviors.  This class (L3ParserSettings) is an
+ * object used to communicate the configuration settings with callers.
  <p>
- * The following aspects of the parser are configurable:
+ * The following aspects of the parser are configurable using
+ * {@link L3ParserSettings} objects.  (For the formula writer, only a subset of these
+ * settings is relevant; please see the documentation for
+ * <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a> for more information about which ones).
+ <p>
+ * <p>
  * <ul>
- * <li> The function <code>log</code> with a single argument (&quot;<code>log(x)</code>&quot;) 
- * can be parsed as <code>log10(x)</code>, <code>ln(x)</code>, or treated
- * as an error, as desired.
- * <li> Unary minus signs can be collapsed or preserved; that is,
- * sequential pairs of unary minuses (e.g., &quot;<code>- -3</code>&quot;)
- * can be removed from the input entirely and single unary minuses can be
- * incorporated into the number node, or all minuses can be preserved in
- * the AST node structure.
- * <li> Parsing of units embedded in the input string can be turned on and
- * off.
- * <li> The string <code>avogadro</code> can be parsed as a MathML <em>csymbol</em> or
- * as an identifier.
- * <li> A {@link Model} object may optionally be provided to the parser using
- * the variant function call <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>libsbml.parseL3FormulaWithModel(String formula, {@link Model} model)</a></code>.
- * or stored in a {@link L3ParserSettings} object passed to the variant function
- * <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, org.sbml.libsbml.L3ParserSettings settings)</a></code>.
- * When a {@link Model} object is provided, identifiers (values of type <code>SId</code>)
- * from that model are used in preference to pre-defined MathML
- * definitions.  More precisely, the {@link Model} entities whose identifiers will
- * shadow identical symbols in the mathematical formula are: {@link Species},
- * {@link Compartment}, {@link Parameter}, {@link Reaction}, and {@link SpeciesReference}.  For instance,
- * if the parser is given a {@link Model} containing a {@link Species} with the identifier
+ * <li> A {@link Model} object may optionally be provided to use identifiers (values
+ * of type <code>SId</code>) from the model in preference to pre-defined MathML symbols
+ * More precisely, the {@link Model} entities whose identifiers will shadow identical
+ * symbols in the mathematical formula are: {@link Species}, {@link Compartment}, {@link Parameter},
+ * {@link Reaction}, and {@link SpeciesReference}.  For instance, if the parser is given a
+ * {@link Model} containing a {@link Species} with the identifier
  * &quot;<code>pi</code>&quot;, and the formula to be parsed is
- * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
- * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the
- * construct <code>&lt;pi/&gt;</code>.
- * <li> Similarly, when a {@link Model} object is provided, <code>SId</code> values of
- * user-defined functions present in the {@link Model} will be used preferentially
- * over pre-defined MathML functions.  For example, if the passed-in {@link Model}
- * contains a {@link FunctionDefinition} with the identifier
+ * &quot;<code>3*pi</code>&quot;, the MathML produced by the parser will
+ * contain the construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of
+ * the construct <code>&lt;pi/&gt;</code>.  Another example, if the passed-in
+ * {@link Model} contains a {@link FunctionDefinition} with the identifier
  * &quot;<code>sin</code>&quot;, that function will be used instead of the
  * predefined MathML function <code>&lt;sin/&gt;</code>.
+ * <li> The function <code>log</code> with a single argument
+ * (&quot;<code>log(x)</code>&quot;) can be parsed as <code>log10(x)</code>,
+ * <code>ln(x)</code>, or treated as an error, as desired.
+ * <li> Unary minus signs can be either collapsed or preserved; that is, the
+ * parser can either (1) remove sequential pairs of unary minuses (e.g.,
+ * &quot;<code>- -3</code>&quot;) from the input and incorporate single unary
+ * minuses into the number node, or (2) preserve all minuses in the AST node
+ * structure, turning them into {@link ASTNode} objects of type
+ * {@link libsbmlConstants#AST_MINUS AST_MINUS}.
+ * <li> The character sequence &quot;<code>number id</code>&quot; can be
+ * interpreted as a numerical value <code>number</code> followed by units of measurement
+ * indicated by <code>id</code>, or it can be treated as a syntax error.  (In
+ * Level&nbsp;3, MathML <code>&lt;cn&gt;</code> elements can have an
+ * attribute named <code>units</code> placed in the SBML namespace, which can be used
+ * to indicate the units to be associated with the number.  The text-string
+ * infix formula parser allows units to be placed after raw numbers; they are
+ * interpreted as unit identifiers for units defined by the SBML
+ * specification or in the containing {@link Model} object.)
+ * <li> The symbol <code>avogadro</code> can be parsed either as a MathML <em>csymbol</em> or
+ * as a identifier.  More specifically, &quot;<code>avogadro</code>&quot; can
+ * be treated as an {@link ASTNode} of type
+ * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} or of type
+ * {@link libsbmlConstants#AST_NAME AST_NAME}.
+ * <li> Strings that match built-in functions and constants can either be parsed
+ * as a match regardless of capitalization, or may be required to be
+ * all-lower-case to be considered a match.  
+ * <li> LibSBML plug-ins implementing support for SBML Level&nbsp;3 packages
+ * may introduce extensions to the syntax understood by the parser.  The
+ * precise nature of the extensions will be documented by the individual
+ * package plug-ins.  An example of a possible extension is a notation for
+ * vectors and arrays, introduced by the SBML Level&nbsp;3 <em>Arrays</em>
+ * package.
+ *
  * </ul>
  <p>
  * To obtain the default configuration values, callers can use the function
- * <code><a href='libsbml.html#getDefaultL3ParserSettings()'>libsbml.getDefaultL3ParserSettings()</a></code>.
- * To change the configuration, callers can create an {@link L3ParserSettings}
- * object, set the desired characteristics using the methods
- * provided, and pass that object to
- * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String formula, {@link L3ParserSettings} settings)</code></a>.
+ * <a href='libsbml.html#getDefaultL3ParserSettings()'><code>libsbml.getDefaultL3ParserSettings()</code></a>.  To change the configuration,
+ * callers can create an {@link L3ParserSettings} object, set the desired
+ * characteristics using the methods provided, and pass that object to
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</code></a>.
  <p>
- <p>
- <p>
- <p>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
+ * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * @see <a href='libsbml.html#getDefaultL3ParserSettings()'><code>libsbml.getDefaultL3ParserSettings()</code></a>
  */
 
 public class L3ParserSettings {
@@ -135,9 +156,28 @@ public class L3ParserSettings {
    * Creates a new {@link L3ParserSettings} object with default values.
    <p>
    * This is the default constructor for the {@link L3ParserSettings} object.  It
-   * sets the {@link Model} to <code>null</code> and other settings to 
-   * <code>L3P_PARSE_LOG_AS_LOG10</code>, <code>L3P_EXPAND_UNARY_MINUS</code>, <code>L3P_PARSE_UNITS</code>,
-   * and <code>L3P_AVOGADRO_IS_CSYMBOL.</code>
+   * sets the stored {@link Model} object to <code>null</code> and sets the following
+   * field values in the {@link L3ParserSettings} object:
+   <p>
+   * <ul>
+   * <li> <em>parseunits</em> ('parse units') is set to
+   * {@link libsbmlConstants#L3P_PARSE_UNITS L3P_PARSE_UNITS}.
+   <p>
+   * <li> <em>collapseminus</em> ('collapse minus') is set to
+   * {@link libsbmlConstants#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS}.
+   <p>
+   * <li> <em>parselog</em> ('parse log') is set to
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10}.
+   <p>
+   * <li> <em>avocsymbol</em> ('Avogadro csymbol') is set to
+   * {@link libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL}.
+   <p>
+   * <li> <em>sbmlns</em> ('SBML namespaces') is set to <code>null</code> (which
+   * indicates that no syntax extensions due to SBML Level&nbsp;3 packages
+   * will be assumed&mdash;the formula parser will only understand the
+   * core syntax described in the documentation for
+   * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>).
+   * </ul>
    */ public
  L3ParserSettings() {
     this(libsbmlJNI.new_L3ParserSettings__SWIG_0(), true);
@@ -149,62 +189,282 @@ public class L3ParserSettings {
    * possible settings.
    <p>
    * @param model a {@link Model} object to be used for disambiguating identifiers
+   * encountered by <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> in mathematical formulas.
    <p>
-   * @param parselog a flag that controls how the parser will handle
-   * the symbol <code>log</code> in formulas
+   * @param parselog ('parse log') a flag that controls how the parser will
+   * handle the symbol <code>log</code> in mathematical formulas. The function <code>log</code>
+   * with a single argument (&quot;<code>log(x)</code>&quot;) can be parsed
+   * as <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
+   * desired, by using the parameter values
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10},
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN}, or
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR}, respectively.
    <p>
-   * @param collapseminus a flag that controls how the parser will handle
-   * minus signs
+   * @param collapseminus ('collapse minus') a flag that controls how the
+   * parser will handle minus signs in formulas.  Unary minus signs can be
+   * collapsed or preserved; that is, sequential pairs of unary minuses
+   * (e.g., &quot;<code>- -3</code>&quot;) can be removed from the input
+   * entirely and single unary minuses can be incorporated into the number
+   * node, or all minuses can be preserved in the AST node structure.
+   * The possible values of this field are
+   * {@link libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS} (to collapse unary minuses) and
+   * {@link libsbmlConstants#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS} (to expand unary minuses).
    <p>
-   * @param parseunits a flag that controls how the parser will handle
-   * apparent references to units of measurement associated with raw
-   * numbers in a formula
+   * @param parseunits ('parse units') a flag that controls how the parser
+   * will handle apparent references to units of measurement associated with
+   * raw numbers in a formula.  If set to the value
+   * {@link libsbmlConstants#L3P_PARSE_UNITS L3P_PARSE_UNITS}, units are parsed; if set to the value
+   * {@link libsbmlConstants#L3P_NO_UNITS L3P_NO_UNITS}, units are not parsed.
    <p>
-   * @param avocsymbol a flag that controls how the parser will handle
-   * the appearance of the symbol <code>avogadro</code> in a formula
+   * @param avocsymbol ('Avogadro csymbol') a flag that controls how the
+   * parser will handle the appearance of the symbol <code>avogadro</code> in a
+   * formula.  If set to the value {@link libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL},
+   * the symbol is interpreted as the SBML/MathML <em>csymbol</em> <code>avogadro</code>; if
+   * set to the value {@link libsbmlConstants#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME}, the symbol is
+   * interpreted as a plain symbol name.
+   <p>
+   * @param caseSensitive a flag that controls how the
+   * parser will handle case sensitivity of any function name.
+   * If set to the value {@link libsbmlConstants#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE},
+   * the name is interpreted as teh relevant math function regardless of case; if
+   * set to the value {@link libsbmlConstants#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE}, the name is
+   * interpreted as a user defined function unless it is all lower case.
+   <p>
+   * @param sbmlns ('SBML namespaces') an SBML namespaces object.  The
+   * namespaces identify the SBML Level&nbsp;3 packages that can extend the
+   * syntax understood by the formula parser.  When non-<code>null</code>, the parser
+   * will interpret additional syntax defined by the packages; for example,
+   * it may understand vector/array extensions introduced by the SBML
+   * Level&nbsp;3 <em>Arrays</em> package.
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    <p>
    * @see #getModel()
-   * @see #setModel(Model model)
+   * @see #setModel(Model)
    * @see #unsetModel()
    * @see #getParseLog()
-   * @see #setParseLog(int type)
+   * @see #setParseLog(int)
    * @see #getParseUnits()
-   * @see #setParseUnits(boolean units)
+   * @see #setParseUnits(boolean)
    * @see #getParseCollapseMinus()
-   * @see #setParseCollapseMinus(boolean collapseminus)
+   * @see #setParseCollapseMinus(boolean)
    * @see #getParseAvogadroCsymbol()
-   * @see #setParseAvogadroCsymbol(boolean l2only)
+   * @see #setParseAvogadroCsymbol(boolean)
+   */ public
+ L3ParserSettings(Model model, int parselog, boolean collapseminus, boolean parseunits, boolean avocsymbol, boolean caseSensitive, SBMLNamespaces sbmlns) {
+    this(libsbmlJNI.new_L3ParserSettings__SWIG_1(Model.getCPtr(model), model, parselog, collapseminus, parseunits, avocsymbol, caseSensitive, SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
+  }
+
+  
+/**
+   * Creates a new {@link L3ParserSettings} object with specific values for all
+   * possible settings.
+   <p>
+   * @param model a {@link Model} object to be used for disambiguating identifiers
+   * encountered by <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> in mathematical formulas.
+   <p>
+   * @param parselog ('parse log') a flag that controls how the parser will
+   * handle the symbol <code>log</code> in mathematical formulas. The function <code>log</code>
+   * with a single argument (&quot;<code>log(x)</code>&quot;) can be parsed
+   * as <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
+   * desired, by using the parameter values
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10},
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN}, or
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR}, respectively.
+   <p>
+   * @param collapseminus ('collapse minus') a flag that controls how the
+   * parser will handle minus signs in formulas.  Unary minus signs can be
+   * collapsed or preserved; that is, sequential pairs of unary minuses
+   * (e.g., &quot;<code>- -3</code>&quot;) can be removed from the input
+   * entirely and single unary minuses can be incorporated into the number
+   * node, or all minuses can be preserved in the AST node structure.
+   * The possible values of this field are
+   * {@link libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS} (to collapse unary minuses) and
+   * {@link libsbmlConstants#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS} (to expand unary minuses).
+   <p>
+   * @param parseunits ('parse units') a flag that controls how the parser
+   * will handle apparent references to units of measurement associated with
+   * raw numbers in a formula.  If set to the value
+   * {@link libsbmlConstants#L3P_PARSE_UNITS L3P_PARSE_UNITS}, units are parsed; if set to the value
+   * {@link libsbmlConstants#L3P_NO_UNITS L3P_NO_UNITS}, units are not parsed.
+   <p>
+   * @param avocsymbol ('Avogadro csymbol') a flag that controls how the
+   * parser will handle the appearance of the symbol <code>avogadro</code> in a
+   * formula.  If set to the value {@link libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL},
+   * the symbol is interpreted as the SBML/MathML <em>csymbol</em> <code>avogadro</code>; if
+   * set to the value {@link libsbmlConstants#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME}, the symbol is
+   * interpreted as a plain symbol name.
+   <p>
+   * @param caseSensitive a flag that controls how the
+   * parser will handle case sensitivity of any function name.
+   * If set to the value {@link libsbmlConstants#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE},
+   * the name is interpreted as teh relevant math function regardless of case; if
+   * set to the value {@link libsbmlConstants#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE}, the name is
+   * interpreted as a user defined function unless it is all lower case.
+   <p>
+   * @param sbmlns ('SBML namespaces') an SBML namespaces object.  The
+   * namespaces identify the SBML Level&nbsp;3 packages that can extend the
+   * syntax understood by the formula parser.  When non-<code>null</code>, the parser
+   * will interpret additional syntax defined by the packages; for example,
+   * it may understand vector/array extensions introduced by the SBML
+   * Level&nbsp;3 <em>Arrays</em> package.
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
+   <p>
+   * @see #getModel()
+   * @see #setModel(Model)
+   * @see #unsetModel()
+   * @see #getParseLog()
+   * @see #setParseLog(int)
+   * @see #getParseUnits()
+   * @see #setParseUnits(boolean)
+   * @see #getParseCollapseMinus()
+   * @see #setParseCollapseMinus(boolean)
+   * @see #getParseAvogadroCsymbol()
+   * @see #setParseAvogadroCsymbol(boolean)
+   */ public
+ L3ParserSettings(Model model, int parselog, boolean collapseminus, boolean parseunits, boolean avocsymbol, boolean caseSensitive) {
+    this(libsbmlJNI.new_L3ParserSettings__SWIG_2(Model.getCPtr(model), model, parselog, collapseminus, parseunits, avocsymbol, caseSensitive), true);
+  }
+
+  
+/**
+   * Creates a new {@link L3ParserSettings} object with specific values for all
+   * possible settings.
+   <p>
+   * @param model a {@link Model} object to be used for disambiguating identifiers
+   * encountered by <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> in mathematical formulas.
+   <p>
+   * @param parselog ('parse log') a flag that controls how the parser will
+   * handle the symbol <code>log</code> in mathematical formulas. The function <code>log</code>
+   * with a single argument (&quot;<code>log(x)</code>&quot;) can be parsed
+   * as <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
+   * desired, by using the parameter values
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10},
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN}, or
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR}, respectively.
+   <p>
+   * @param collapseminus ('collapse minus') a flag that controls how the
+   * parser will handle minus signs in formulas.  Unary minus signs can be
+   * collapsed or preserved; that is, sequential pairs of unary minuses
+   * (e.g., &quot;<code>- -3</code>&quot;) can be removed from the input
+   * entirely and single unary minuses can be incorporated into the number
+   * node, or all minuses can be preserved in the AST node structure.
+   * The possible values of this field are
+   * {@link libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS} (to collapse unary minuses) and
+   * {@link libsbmlConstants#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS} (to expand unary minuses).
+   <p>
+   * @param parseunits ('parse units') a flag that controls how the parser
+   * will handle apparent references to units of measurement associated with
+   * raw numbers in a formula.  If set to the value
+   * {@link libsbmlConstants#L3P_PARSE_UNITS L3P_PARSE_UNITS}, units are parsed; if set to the value
+   * {@link libsbmlConstants#L3P_NO_UNITS L3P_NO_UNITS}, units are not parsed.
+   <p>
+   * @param avocsymbol ('Avogadro csymbol') a flag that controls how the
+   * parser will handle the appearance of the symbol <code>avogadro</code> in a
+   * formula.  If set to the value {@link libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL},
+   * the symbol is interpreted as the SBML/MathML <em>csymbol</em> <code>avogadro</code>; if
+   * set to the value {@link libsbmlConstants#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME}, the symbol is
+   * interpreted as a plain symbol name.
+   <p>
+   * @param caseSensitive a flag that controls how the
+   * parser will handle case sensitivity of any function name.
+   * If set to the value {@link libsbmlConstants#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE},
+   * the name is interpreted as teh relevant math function regardless of case; if
+   * set to the value {@link libsbmlConstants#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE}, the name is
+   * interpreted as a user defined function unless it is all lower case.
+   <p>
+   * @param sbmlns ('SBML namespaces') an SBML namespaces object.  The
+   * namespaces identify the SBML Level&nbsp;3 packages that can extend the
+   * syntax understood by the formula parser.  When non-<code>null</code>, the parser
+   * will interpret additional syntax defined by the packages; for example,
+   * it may understand vector/array extensions introduced by the SBML
+   * Level&nbsp;3 <em>Arrays</em> package.
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
+   <p>
+   * @see #getModel()
+   * @see #setModel(Model)
+   * @see #unsetModel()
+   * @see #getParseLog()
+   * @see #setParseLog(int)
+   * @see #getParseUnits()
+   * @see #setParseUnits(boolean)
+   * @see #getParseCollapseMinus()
+   * @see #setParseCollapseMinus(boolean)
+   * @see #getParseAvogadroCsymbol()
+   * @see #setParseAvogadroCsymbol(boolean)
    */ public
  L3ParserSettings(Model model, int parselog, boolean collapseminus, boolean parseunits, boolean avocsymbol) {
-    this(libsbmlJNI.new_L3ParserSettings__SWIG_1(Model.getCPtr(model), model, parselog, collapseminus, parseunits, avocsymbol), true);
+    this(libsbmlJNI.new_L3ParserSettings__SWIG_3(Model.getCPtr(model), model, parselog, collapseminus, parseunits, avocsymbol), true);
   }
 
   
 /**
    * Sets the model reference in this {@link L3ParserSettings} object.
    <p>
-   * When a {@link Model} object is provided, identifiers (values of type <code>SId</code>)
-   * from that model are used in preference to pre-defined MathML
-   * definitions.  More precisely, the {@link Model} entities whose identifiers will
-   * shadow identical symbols in the mathematical formula are: {@link Species},
-   * {@link Compartment}, {@link Parameter}, {@link Reaction}, and {@link SpeciesReference}.  For instance,
-   * if the parser is given a {@link Model} containing a {@link Species} with the identifier
-   * &quot;<code>pi</code>&quot;, and the formula to be parsed is
-   * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
-   * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the
-   * construct <code>&lt;pi/&gt;</code>.
-   * Similarly, when a {@link Model} object is provided, <code>SId</code> values of
-   * user-defined functions present in the {@link Model} will be used preferentially
-   * over pre-defined MathML functions.  For example, if the passed-in {@link Model}
-   * contains a {@link FunctionDefinition} with the identifier
-   * &quot;<code>sin</code>&quot;, that function will be used instead of the
-   * predefined MathML function <code>&lt;sin/&gt;</code>.
+   * <p>
+ * When a {@link Model} object is provided, identifiers (values of type <code>SId</code>)
+ * from that model are used in preference to pre-defined MathML symbol
+ * definitions.  More precisely, the {@link Model} entities whose identifiers will
+ * shadow identical symbols in the mathematical formula are: {@link Species},
+ * {@link Compartment}, {@link Parameter}, {@link Reaction}, and {@link SpeciesReference}.  For instance, if
+ * the parser is given a {@link Model} containing a {@link Species} with the identifier
+ * &quot;<code>pi</code>&quot;, and the formula to be parsed is
+ * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
+ * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the construct
+ * <code>&lt;pi/&gt;</code>.  Similarly, when a {@link Model} object is provided, 
+ * <code>SId</code> values of user-defined functions present in the {@link Model} will be used
+ * preferentially over pre-defined MathML functions.  For example, if the
+ * passed-in {@link Model} contains a {@link FunctionDefinition} with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
    <p>
-   * @param model a {@link Model} object to be used for disambiguating identifiers
+   * @param model a {@link Model} object to be used for disambiguating identifiers.
    <p>
    * @warning <span class='warning'>This does <em>not</em> copy the {@link Model} object.
-   * This means that modifications made to the object after invoking this
-   * method may affect parsing behavior.</span>
+   * This means that modifications made to the {@link Model} after invoking this
+   * method may affect parsing behavior, because the parser will query the
+   * <em>current</em> contents of the model.</span>
    <p>
    * @see #getModel()
    * @see #unsetModel()
@@ -217,7 +477,24 @@ public class L3ParserSettings {
 /**
    * Returns the {@link Model} object referenced by this {@link L3ParserSettings} object.
    <p>
-   * @see #setModel(Model model)
+   * <p>
+ * When a {@link Model} object is provided, identifiers (values of type <code>SId</code>)
+ * from that model are used in preference to pre-defined MathML symbol
+ * definitions.  More precisely, the {@link Model} entities whose identifiers will
+ * shadow identical symbols in the mathematical formula are: {@link Species},
+ * {@link Compartment}, {@link Parameter}, {@link Reaction}, and {@link SpeciesReference}.  For instance, if
+ * the parser is given a {@link Model} containing a {@link Species} with the identifier
+ * &quot;<code>pi</code>&quot;, and the formula to be parsed is
+ * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
+ * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the construct
+ * <code>&lt;pi/&gt;</code>.  Similarly, when a {@link Model} object is provided, 
+ * <code>SId</code> values of user-defined functions present in the {@link Model} will be used
+ * preferentially over pre-defined MathML functions.  For example, if the
+ * passed-in {@link Model} contains a {@link FunctionDefinition} with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
+   <p>
+   * @see #setModel(Model)
    * @see #unsetModel()
    */ public
  Model getModel() {
@@ -227,9 +504,12 @@ public class L3ParserSettings {
 
   
 /**
-   * Sets the {@link Model} reference in this {@link L3ParserSettings} object to <code>null.</code>
+   * Unsets the {@link Model} reference in this {@link L3ParserSettings} object.
    <p>
-   * @see #setModel(Model model)
+   * The effect of calling this method is to set the stored model value
+   * to <code>null.</code>
+   <p>
+   * @see #setModel(Model)
    * @see #getModel()
    */ public
  void unsetModel() {
@@ -242,14 +522,18 @@ public class L3ParserSettings {
    <p>
    * The function <code>log</code> with a single argument
    * (&quot;<code>log(x)</code>&quot;) can be parsed as
-   * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
-   * desired.
+   * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error.
+   * These three behaviors are set, respectively, by using the value
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10},
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN}, or
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR}
+   * for the <code>type</code> parameter.
    <p>
    * @param type a constant, one of following three possibilities:
    * <ul>
-   * <li> {@link  libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10}
-   * <li> {@link  libsbmlConstants#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN}
-   * <li> {@link  libsbmlConstants#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR}
+   * <li> {@link libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10}
+   * <li> {@link libsbmlConstants#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN}
+   * <li> {@link libsbmlConstants#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR}
    *
    * </ul> <p>
    * @see #getParseLog()
@@ -260,22 +544,26 @@ public class L3ParserSettings {
 
   
 /**
-   * Returns the current setting indicating what to do with formulas
-   * containing the function <code>log</code> with one argument.
+   * Indicates the current behavior set for handling the function <code>log</code> with
+   * one argument.
    <p>
    * The function <code>log</code> with a single argument
    * (&quot;<code>log(x)</code>&quot;) can be parsed as
    * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
-   * desired.
+   * desired.  These three possible behaviors are indicated, respectively, by
+   * the values
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10},
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN}, and
+   * {@link libsbmlConstants#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR}.
    <p>
    * @return One of following three constants:
    * <ul>
-   * <li> {@link  libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10}
-   * <li> {@link  libsbmlConstants#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN}
-   * <li> {@link  libsbmlConstants#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR}
+   * <li> {@link libsbmlConstants#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10}
+   * <li> {@link libsbmlConstants#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN}
+   * <li> {@link libsbmlConstants#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR}
    *
    * </ul> <p>
-   * @see #setParseLog(int type)
+   * @see #setParseLog(int)
    */ public
  int getParseLog() {
     return libsbmlJNI.L3ParserSettings_getParseLog(swigCPtr, this);
@@ -286,37 +574,35 @@ public class L3ParserSettings {
    * Sets the behavior for handling unary minuses appearing in mathematical
    * formulas.
    <p>
-   * This setting affects two behaviors.  First, pairs of multiple unary
-   * minuses in a row (e.g., &quot;<code>- -3</code>&quot;) can be
-   * collapsed and ignored in the input, or the multiple minuses can be
-   * preserved in the AST node tree that is generated by the parser.
-   * Second, minus signs in front of numbers can be collapsed into the
-   * number node itself; for example, a &quot;<code>- 4.1</code>&quot; can
-   * be turned into a single {@link ASTNode} of type {@link  libsbmlConstants#AST_REAL
-   * AST_REAL} with a value of <code>-4.1</code>, or it can be
-   * turned into a node of type {@link  libsbmlConstants#AST_MINUS
-   * AST_MINUS} having a child node of type {@link 
-   * libsbmlConstants#AST_REAL AST_REAL}.  This method lets you tell
-   * the parser which behavior to use&mdash;either collapse minuses or
-   * always preserve them.  The two possibilities are represented using the
-   * following constants:
+   * <p>
+ * This setting affects two behaviors.  First, pairs of multiple unary
+ * minuses in a row (e.g., &quot;<code>- -3</code>&quot;) can be collapsed
+ * and ignored in the input, or the multiple minuses can be preserved in the
+ * AST node tree that is generated by the parser.  Second, minus signs in
+ * front of numbers can be collapsed into the number node itself; for
+ * example, a &quot;<code>- 4.1</code>&quot; can be turned into a single
+ * {@link ASTNode} of type {@link libsbmlConstants#AST_REAL AST_REAL} with a value of
+ * <code>-4.1</code>, or it can be turned into a node of type
+ * {@link libsbmlConstants#AST_MINUS AST_MINUS} having a child node of type
+ * {@link libsbmlConstants#AST_REAL AST_REAL}.
    <p>
-   * <ul>
-   * <li> {@link  libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS
-   * L3P_COLLAPSE_UNARY_MINUS} (value = <code>true</code>): collapse unary
-   * minuses where possible.
-   * <li> {@link  libsbmlConstants#L3P_EXPAND_UNARY_MINUS
-   * L3P_EXPAND_UNARY_MINUS} (value = <code>false</code>): do not collapse
-   * unary minuses, and instead translate each one into an AST node of type
-   * {@link  libsbmlConstants#AST_MINUS AST_MINUS}.
-   *
-   * </ul> <p>
+   * This method lets you tell the parser which behavior to use&mdash;either
+   * collapse minuses or always preserve them.  The two possibilities are
+   * represented using the following constants:
+   <p>
+   * <p>
+ * <ul>
+ * <li> {@link libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS} (value = <code>true</code>): collapse
+ * unary minuses where possible.
+ * <li> {@link libsbmlConstants#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS} (value = <code>false</code>): do not
+ * collapse unary minuses, and instead translate each one into an AST node of
+ * type {@link libsbmlConstants#AST_MINUS AST_MINUS}.
+ * </ul>
+   <p>
    * @param collapseminus a boolean value (one of the constants
-   * {@link  libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS
-   * L3P_COLLAPSE_UNARY_MINUS} or
-   * {@link  libsbmlConstants#L3P_EXPAND_UNARY_MINUS
-   * L3P_EXPAND_UNARY_MINUS}) indicating how unary minus signs in
-   * the input should be handled.
+   * {@link libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS} or
+   * {@link libsbmlConstants#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS})
+   * indicating how unary minus signs in the input should be handled.
    <p>
    * @see #getParseCollapseMinus()
    */ public
@@ -326,40 +612,33 @@ public class L3ParserSettings {
 
   
 /**
-   * Returns a flag indicating the current behavior set for handling
-   * multiple unary minuses in formulas.
+   * Indicates the current behavior set for handling multiple unary minuses
+   * in formulas.
    <p>
-   * This setting affects two behaviors.  First, pairs of multiple unary
-   * minuses in a row (e.g., &quot;<code>- -3</code>&quot;) can be
-   * collapsed and ignored in the input, or the multiple minuses can be
-   * preserved in the AST node tree that is generated by the parser.
-   * Second, minus signs in front of numbers can be collapsed into the
-   * number node itself; for example, a &quot;<code>- 4.1</code>&quot; can
-   * be turned into a single {@link ASTNode} of type {@link  libsbmlConstants#AST_REAL
-   * AST_REAL} with a value of <code>-4.1</code>, or it can be
-   * turned into a node of type {@link  libsbmlConstants#AST_MINUS
-   * AST_MINUS} having a child node of type {@link 
-   * libsbmlConstants#AST_REAL AST_REAL}.  This method lets you tell
-   * the parser which behavior to use&mdash;either collapse minuses or
-   * always preserve them.  The two possibilities are represented using the
-   * following constants:
+   * <p>
+ * This setting affects two behaviors.  First, pairs of multiple unary
+ * minuses in a row (e.g., &quot;<code>- -3</code>&quot;) can be collapsed
+ * and ignored in the input, or the multiple minuses can be preserved in the
+ * AST node tree that is generated by the parser.  Second, minus signs in
+ * front of numbers can be collapsed into the number node itself; for
+ * example, a &quot;<code>- 4.1</code>&quot; can be turned into a single
+ * {@link ASTNode} of type {@link libsbmlConstants#AST_REAL AST_REAL} with a value of
+ * <code>-4.1</code>, or it can be turned into a node of type
+ * {@link libsbmlConstants#AST_MINUS AST_MINUS} having a child node of type
+ * {@link libsbmlConstants#AST_REAL AST_REAL}.
    <p>
-   * <ul>
-   * <li> {@link  libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS
-   * L3P_COLLAPSE_UNARY_MINUS} (value = <code>true</code>): collapse unary
-   * minuses where possible.
-   * <li> {@link  libsbmlConstants#L3P_EXPAND_UNARY_MINUS
-   * L3P_EXPAND_UNARY_MINUS} (value = <code>false</code>): do not collapse
-   * unary minuses, and instead translate each one into an AST node of type
-   * {@link  libsbmlConstants#AST_MINUS AST_MINUS}.
-   *
-   * </ul> <p>
-   * @return A boolean, one of {@link 
-   * libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS
-   * L3P_COLLAPSE_UNARY_MINUS} or {@link 
-   * libsbmlConstants#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS}.
+   * @return A boolean indicating the behavior currently set.  The possible
+   * values are as follows:
+   * <p>
+ * <ul>
+ * <li> {@link libsbmlConstants#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS} (value = <code>true</code>): collapse
+ * unary minuses where possible.
+ * <li> {@link libsbmlConstants#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS} (value = <code>false</code>): do not
+ * collapse unary minuses, and instead translate each one into an AST node of
+ * type {@link libsbmlConstants#AST_MINUS AST_MINUS}.
+ * </ul>
    <p>
-   * @see #setParseCollapseMinus(boolean collapseminus)
+   * @see #setParseCollapseMinus(boolean)
    */ public
  boolean getParseCollapseMinus() {
     return libsbmlJNI.L3ParserSettings_getParseCollapseMinus(swigCPtr, this);
@@ -370,30 +649,33 @@ public class L3ParserSettings {
    * Sets the parser's behavior in handling units associated with numbers
    * in a mathematical formula.
    <p>
-   * In SBML Level&nbsp;2, there is no means of associating a unit of
-   * measurement with a pure number in a formula, while SBML Level&nbsp;3
-   * does define a syntax for this.  In Level&nbsp;3, MathML
-   * <code>&lt;cn&gt;</code> elements can have an attribute named <code>units</code>
-   * placed in the SBML namespace, which can be used to indicate the units
-   * to be associated with the number.  The text-string infix formula
-   * parser allows units to be placed after raw numbers; they are
-   * interpreted as unit identifiers for units defined by the SBML
-   * specification or in the containing {@link Model} object.  Some examples
-   * include: &quot;<code>4 mL</code>&quot;, &quot;<code>2.01
-   * Hz</code>&quot;, &quot;<code>3.1e-6 M</code>&quot;, and
-   * &quot;<code>(5/8) inches</code>&quot;.  To produce a valid SBML model,
-   * there must either exist a {@link UnitDefinition} corresponding to the
-   * identifier of the unit, or the unit must be defined in Table&nbsp;2 of
-   * the SBML specification.
+   * <p>
+ * In SBML Level&nbsp;2, there is no means of associating a unit of
+ * measurement with a pure number in a formula, while SBML Level&nbsp;3 does
+ * define a syntax for this.  In Level&nbsp;3, MathML <code>&lt;cn&gt;</code>
+ * elements can have an attribute named <code>units</code> placed in the SBML
+ * namespace, which can be used to indicate the units to be associated with
+ * the number.  The text-string infix formula parser allows units to be
+ * placed after raw numbers; they are interpreted as unit identifiers for
+ * units defined by the SBML specification or in the containing {@link Model} object.
+ * Some examples include: &quot;<code>4 mL</code>&quot;, &quot;<code>2.01
+ * Hz</code>&quot;, &quot;<code>3.1e-6 M</code>&quot;, and &quot;<code>(5/8)
+ * inches</code>&quot;.  To produce a valid SBML model, there must either
+ * exist a {@link UnitDefinition} corresponding to the identifier of the unit, or the
+ * unit must be defined in Table&nbsp;2 of the SBML Level&nbsp;3 specification.
    <p>
-   * @param units A boolean indicating whether to parse units:
-   * <ul>
-   * <li> {@link  libsbmlConstants#L3P_PARSE_UNITS L3P_PARSE_UNITS}
-   * (value = <code>true</code>): parse units in the text-string formula.
-   * <li> {@link  libsbmlConstants#L3P_NO_UNITS L3P_NO_UNITS} (value = 
-   * <code>false</code>): treat units in the text-string formula as errors.
-   *
-   * </ul> <p>
+   * This method sets the formula parser's behavior with respect to units.
+   <p>
+   * @param units A boolean indicating whether to parse units.  The
+   * possible values are as follows:
+   * <p>
+ * <ul>
+ * <li> {@link libsbmlConstants#L3P_PARSE_UNITS L3P_PARSE_UNITS} (value = <code>true</code>): parse units in the
+ * text-string formula.
+ * <li> {@link libsbmlConstants#L3P_NO_UNITS L3P_NO_UNITS} (value = <code>false</code>): treat units in the
+ * text-string formula as errors.
+ * </ul>
+   <p>
    * @see #getParseUnits()
    */ public
  void setParseUnits(boolean units) {
@@ -402,38 +684,40 @@ public class L3ParserSettings {
 
   
 /**
-   * Returns <code>if</code> the current settings allow units in text-string
+   * Indicates the current behavior set for handling units in text-string
    * mathematical formulas.
    <p>
-   * In SBML Level&nbsp;2, there is no means of associating a unit of
-   * measurement with a pure number in a formula, while SBML Level&nbsp;3
-   * does define a syntax for this.  In Level&nbsp;3, MathML
-   * <code>&lt;cn&gt;</code> elements can have an attribute named <code>units</code>
-   * placed in the SBML namespace, which can be used to indicate the units
-   * to be associated with the number.  The text-string infix formula
-   * parser allows units to be placed after raw numbers; they are
-   * interpreted as unit identifiers for units defined by the SBML
-   * specification or in the containing {@link Model} object.  Some examples
-   * include: &quot;<code>4 mL</code>&quot;, &quot;<code>2.01
-   * Hz</code>&quot;, &quot;<code>3.1e-6 M</code>&quot;, and
-   * &quot;<code>(5/8) inches</code>&quot;.  To produce a valid SBML model,
-   * there must either exist a {@link UnitDefinition} corresponding to the
-   * identifier of the unit, or the unit must be defined in Table&nbsp;2 of
-   * the SBML specification.
+   * <p>
+ * In SBML Level&nbsp;2, there is no means of associating a unit of
+ * measurement with a pure number in a formula, while SBML Level&nbsp;3 does
+ * define a syntax for this.  In Level&nbsp;3, MathML <code>&lt;cn&gt;</code>
+ * elements can have an attribute named <code>units</code> placed in the SBML
+ * namespace, which can be used to indicate the units to be associated with
+ * the number.  The text-string infix formula parser allows units to be
+ * placed after raw numbers; they are interpreted as unit identifiers for
+ * units defined by the SBML specification or in the containing {@link Model} object.
+ * Some examples include: &quot;<code>4 mL</code>&quot;, &quot;<code>2.01
+ * Hz</code>&quot;, &quot;<code>3.1e-6 M</code>&quot;, and &quot;<code>(5/8)
+ * inches</code>&quot;.  To produce a valid SBML model, there must either
+ * exist a {@link UnitDefinition} corresponding to the identifier of the unit, or the
+ * unit must be defined in Table&nbsp;2 of the SBML Level&nbsp;3 specification.
    <p>
-   * Since SBML Level&nbsp;2 does not have the ability to associate units with
-   * pure numbers, the value should be set to <code>false</code> when parsing text-string
+   * Since SBML Level&nbsp;2 does not have the ability to associate units
+   * with pure numbers, the value should be expected to be <code>false</code>
+   * ({@link libsbmlConstants#L3P_NO_UNITS L3P_NO_UNITS}) when parsing text-string
    * formulas intended for use in SBML Level&nbsp;2 documents.
    <p>
-   * @return A boolean indicating whether to parse units:
-   * <ul>
-   * <li> {@link  libsbmlConstants#L3P_PARSE_UNITS L3P_PARSE_UNITS}
-   * (value = <code>true</code>): parse units in the text-string formula.
-   * <li> {@link  libsbmlConstants#L3P_NO_UNITS L3P_NO_UNITS} (value = 
-   * <code>false</code>): treat units in the text-string formula as errors.
-   *
-   * </ul> <p>
-   * @see #setParseUnits(boolean units)
+   * @return A boolean indicating whether to parse units.  The
+   * possible values are as follows:
+   * <p>
+ * <ul>
+ * <li> {@link libsbmlConstants#L3P_PARSE_UNITS L3P_PARSE_UNITS} (value = <code>true</code>): parse units in the
+ * text-string formula.
+ * <li> {@link libsbmlConstants#L3P_NO_UNITS L3P_NO_UNITS} (value = <code>false</code>): treat units in the
+ * text-string formula as errors.
+ * </ul>
+   <p>
+   * @see #setParseUnits(boolean)
    */ public
  boolean getParseUnits() {
     return libsbmlJNI.L3ParserSettings_getParseUnits(swigCPtr, this);
@@ -441,37 +725,42 @@ public class L3ParserSettings {
 
   
 /**
-   * Sets the parser's behavior in handling the string <code>avogadro</code> in
+   * Sets the parser's behavior in handling the symbol <code>avogadro</code> in
    * mathematical formulas.
    <p>
-   * SBML Level&nbsp;3 defines a symbol for representing the value of
-   * Avogadro's constant, but it is not defined in SBML Level&nbsp;2.  As a
-   * result, the text-string formula parser must behave differently
-   * depending on which SBML Level is being targeted.  The argument to this
-   * method can be one of two values:
+   * <p>
+ * SBML Level&nbsp;3 defines a symbol for representing the value of
+ * Avogadro's constant, but it is not defined in SBML Level&nbsp;2.  As a
+ * result, the text-string formula parser must behave differently
+ * depending on which SBML Level is being targeted.  For Level&nbsp;3
+ * documents, it can interpret instances of <code>avogadro</code> in the input
+ * as a reference to the MathML <em>csymbol</em> for Avogadro's constant
+ * defined in the SBML Level&nbsp;3 specification.  For Level&nbsp;2,
+ * it must treat <code>avogadro</code> as just another plain symbol.
    <p>
-   * <ul>
-   * <li> {@link  libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL
-   * L3P_AVOGADRO_IS_CSYMBOL} (value = <code>true</code>): tells the parser to
-   * translate the string <code>avogadro</code> (in any capitalization) into an AST
-   * node of type {@link  libsbmlConstants#AST_NAME_AVOGADRO
-   * AST_NAME_AVOGADRO}.
-   * <li> {@link  libsbmlConstants#L3P_AVOGADRO_IS_NAME
-   * L3P_AVOGADRO_IS_NAME} (value = <code>false</code>): tells the parser to
-   * translate the string <code>avogadro</code> into an AST of type {@link 
-   * libsbmlConstants#AST_NAME AST_NAME}.
-   *
-   * </ul> <p>
+   * This method allows callers to set the <code>avogadro</code>-handling
+   * behavior in this {@link L3ParserSettings} object.  The possible values of 
+   * <code>l2only</code> are as follows:
+   <p>
+   * <p>
+ * <ul>
+ * <li> {@link libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL} (value = <code>true</code>): tells the
+ * parser to translate the string <code>avogadro</code> (in any capitalization) into an
+ * AST node of type {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}.
+ * <li> {@link libsbmlConstants#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME} (value = <code>false</code>): tells the
+ * parser to translate the string <code>avogadro</code> into an AST of type
+ * {@link libsbmlConstants#AST_NAME AST_NAME}.
+ * </ul>
+   <p>
    * Since SBML Level&nbsp;2 does not define a symbol for Avogadro's
-   * constant, the value should be set to <code>false</code> when parsing text-string
-   * formulas intended for use in SBML Level&nbsp;2 documents.
+   * constant, the value should be set to
+   * {@link libsbmlConstants#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME} when parsing text-string formulas
+   * intended for use in SBML Level&nbsp;2 documents.
    <p>
-   * @param l2only a boolean value (one of the constants
-   * {@link  libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL
-   * L3P_AVOGADRO_IS_CSYMBOL} or
-   * {@link  libsbmlConstants#L3P_AVOGADRO_IS_NAME
-   * L3P_AVOGADRO_IS_NAME}) indicating how the string <code>avogadro</code>
-   * should be treated when encountered in a formula.
+   * @param l2only a boolean value indicating how the string <code>avogadro</code>
+   * should be treated when encountered in a formula.  This will be one of
+   * the values {@link libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL} or
+   * {@link libsbmlConstants#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME}.
    <p>
    * @see #getParseAvogadroCsymbol()
    */ public
@@ -481,32 +770,120 @@ public class L3ParserSettings {
 
   
 /**
-   * Returns <code>true</code> if the current settings are oriented towards handling
-   * <code>avogadro</code> for SBML Level&nbsp;3.
+   * Indicates the current behavior set for handling <code>avogadro</code> for SBML
+   * Level&nbsp;3.
    <p>
-   * SBML Level&nbsp;3 defines a symbol for representing the value of
-   * Avogadro's constant, but it is not defined in SBML Level&nbsp;2.  As a
-   * result, the text-string formula parser must behave differently
-   * depending on which SBML Level is being targeted.
+   * <p>
+ * SBML Level&nbsp;3 defines a symbol for representing the value of
+ * Avogadro's constant, but it is not defined in SBML Level&nbsp;2.  As a
+ * result, the text-string formula parser must behave differently
+ * depending on which SBML Level is being targeted.  For Level&nbsp;3
+ * documents, it can interpret instances of <code>avogadro</code> in the input
+ * as a reference to the MathML <em>csymbol</em> for Avogadro's constant
+ * defined in the SBML Level&nbsp;3 specification.  For Level&nbsp;2,
+ * it must treat <code>avogadro</code> as just another plain symbol.
    <p>
-   * @return A boolean indicating which mode is currently set; the value is
-   * one of the following possibilities:
-   * <ul>
-   * <li> {@link  libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL
-   * L3P_AVOGADRO_IS_CSYMBOL} (value = <code>true</code>): tells the parser to
-   * translate the string <code>avogadro</code> (in any capitalization) into an AST
-   * node of type {@link  libsbmlConstants#AST_NAME_AVOGADRO
-   * AST_NAME_AVOGADRO}.
-   * <li> {@link  libsbmlConstants#L3P_AVOGADRO_IS_NAME
-   * L3P_AVOGADRO_IS_NAME} (value = <code>false</code>): tells the parser to
-   * translate the string <code>avogadro</code> into an AST of type {@link 
-   * libsbmlConstants#AST_NAME AST_NAME}.
-   *
-   * </ul> <p>
-   * @see #setParseAvogadroCsymbol(boolean l2only)
+   * This method returns the current setting of the
+   * <code>avogadro</code>-handling behavior in this {@link L3ParserSettings} object.
+   * The possible values are as follows:
+   <p>
+   * <p>
+ * <ul>
+ * <li> {@link libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL} (value = <code>true</code>): tells the
+ * parser to translate the string <code>avogadro</code> (in any capitalization) into an
+ * AST node of type {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}.
+ * <li> {@link libsbmlConstants#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME} (value = <code>false</code>): tells the
+ * parser to translate the string <code>avogadro</code> into an AST of type
+ * {@link libsbmlConstants#AST_NAME AST_NAME}.
+ * </ul>
+   <p>
+   * @return A boolean indicating which mode is currently set; one of
+   * {@link libsbmlConstants#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL}
+   * or
+   * {@link libsbmlConstants#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME}.
+   <p>
+   * @see #setParseAvogadroCsymbol(boolean)
    */ public
  boolean getParseAvogadroCsymbol() {
     return libsbmlJNI.L3ParserSettings_getParseAvogadroCsymbol(swigCPtr, this);
+  }
+
+  
+/**
+   * Sets the parser's behavior with respect to case sensitivity for
+   * recognizing predefined symbols.
+   <p>
+   * <p>
+ * By default, the parser compares symbols in a case insensitive manner for
+ * built-in functions such as <code>'sin'</code> and <code>'piecewise'</code>, and for constants
+ * such as <code>'true'</code> and <code>'avogadro'.</code>  Setting this option to <code>false</code>, you
+ * can force the string comparison to <em>only</em> match lower-case strings.
+ * Thus, for example, <code>'sin'</code> and <code>'true'</code> will match the built-in values, but
+ * <code>'SIN'</code> and <code>'TRUE'</code> will not.
+   <p>
+   * @param strcmp a boolean indicating whether to be case sensitive (if 
+   * <code>true</code>) or be case insensitive (if <code>false</code>).
+   <p>
+   * @see #getComparisonCaseSensitivity()
+   */ public
+ void setComparisonCaseSensitivity(boolean strcmp) {
+    libsbmlJNI.L3ParserSettings_setComparisonCaseSensitivity(swigCPtr, this, strcmp);
+  }
+
+  
+/**
+   * Returns <code>true</code> if the parser is configured to match built-in symbols
+   * in a case-insensitive way.
+   <p>
+   * <p>
+ * By default, the parser compares symbols in a case insensitive manner for
+ * built-in functions such as <code>'sin'</code> and <code>'piecewise'</code>, and for constants
+ * such as <code>'true'</code> and <code>'avogadro'.</code>  Setting this option to <code>false</code>, you
+ * can force the string comparison to <em>only</em> match lower-case strings.
+ * Thus, for example, <code>'sin'</code> and <code>'true'</code> will match the built-in values, but
+ * <code>'SIN'</code> and <code>'TRUE'</code> will not.
+   <p>
+   * @return <code>true</code> if matches are done in a case-sensitive manner, and 
+   * <code>false</code> if the parser will recognize built-in functions and
+   * constants regardless of case,.
+   <p>
+   * @see #setComparisonCaseSensitivity(boolean)
+   */ public
+ boolean getComparisonCaseSensitivity() {
+    return libsbmlJNI.L3ParserSettings_getComparisonCaseSensitivity(swigCPtr, this);
+  }
+
+  
+/**
+   * Set up the plugins for this {@link L3ParserSettings}, based on the
+   * {@link SBMLNamespaces} object.
+   <p>
+   * When a {@link SBMLNamespaces} object is provided, the parser will only interpret
+   * infix syntax understood by the core libSBML <em>plus</em> the packages
+   * indicated by the {@link SBMLNamespaces} objects provided.  {@link ASTNode} objects
+   * returned by the L3Parser will contain those {@link SBMLNamespaces} objects, and
+   * will be used to parse certain constructs that may only be understood by
+   * packages (e.g., vectors for the SBML Level&nbsp;3 'arrays' package).
+   * Note that by default, all packages that were compiled with this version
+   * of libSBML are included, so this function is most useful as a way to
+   * turn <em>off</em> certain namespaces, such as might be desired if your tool
+   * does not support vectors, for example.
+   <p>
+   * @param sbmlns a {@link SBMLNamespaces} object to be used.  If <code>null</code> is given
+   * as the value, all plugins will be loaded.
+   */ public
+ void setPlugins(SBMLNamespaces sbmlns) {
+    libsbmlJNI.L3ParserSettings_setPlugins(swigCPtr, this, SBMLNamespaces.getCPtr(sbmlns), sbmlns);
+  }
+
+  
+/**
+   * Visits the given ASTNode_t and continues the inorder traversal for nodes
+   * whose syntax are determined by packages.
+   * @internal
+   */ public
+ void visitPackageInfixSyntax(ASTNode parent, ASTNode node, SWIGTYPE_p_StringBuffer_t sb) {
+    libsbmlJNI.L3ParserSettings_visitPackageInfixSyntax(swigCPtr, this, ASTNode.getCPtr(parent), parent, ASTNode.getCPtr(node), node, SWIGTYPE_p_StringBuffer_t.getCPtr(sb));
   }
 
 }

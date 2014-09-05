@@ -155,7 +155,7 @@ ASTBinaryFunctionNode::getChild (unsigned int n) const
   else
   {
     /* HACK TO REPLICATE OLD AST */
-    /* do not return a node with teh logbase type
+    /* do not return a node with the logbase type
      * return the child of the logbase
      */
     if (ASTFunctionBase::getNumChildren() <= n)
@@ -362,7 +362,7 @@ ASTBinaryFunctionNode::write(XMLOutputStream& stream) const
    * and last is the value operated on
    * 
    * however if the node is read in with a logbase and then more than
-   * further children it uses teh first as the value operated on
+   * further children it uses the first as the value operated on
    */
   else if (type == AST_FUNCTION_LOG)
   {

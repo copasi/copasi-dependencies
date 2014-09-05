@@ -14,7 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %Event construct.
+@htmlinclude pkg-marker-core.html A discontinuous SBML <em>event</em>.
  * 
  * An SBML Event object defines when the event can occur, the variables
  * that are affected by it, how the variables are affected, and the event's
@@ -31,7 +31,7 @@ namespace libsbml {
  * consult the descriptions of Trigger, Delay, EventAssignment and Priority
  * for more information.
  *
- * @section version-diffs SBML Level/Version differences
+ * @section event-version-diffs SBML Level/Version differences
  * 
  * @subsection sbml-l3 SBML Level 3
  *
@@ -148,7 +148,7 @@ namespace libsbml {
  * cascade: event <EM>Y</EM> can be triggered whether it is before or after
  * <EM>X</EM> in the queue of events pending execution.  A cascade of
  * events can be potentially infinite (never terminate); when this occurs a
- * simulator should indicate this has occurred&mdash;it is incorrect for a
+ * simulator should indicate this has occurred---it is incorrect for a
  * simulator to break a cascade arbitrarily and continue the simulation
  * without at least indicating that the infinite cascade occurred.
  * 
@@ -248,22 +248,27 @@ public class Event : SBase {
    * @param version a long integer, the SBML Version to assign to this
    * Event
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    * 
    * *
- * @note Upon the addition of an Event object to an SBMLDocument (e.g., using
- * Model::addEvent(@if java Event e@endif)), the SBML Level, SBML Version and
- * XML namespace of the document @em override the values used when creating
- * the Event object via this constructor.  This is necessary to ensure that
- * an SBML document is a consistent structure.  Nevertheless, the ability to
- * supply the values at the time of creation of an Event is an important aid
- * to producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  Event(long level, long version) : this(libsbmlPINVOKE.new_Event__SWIG_0(level, version), true) {
@@ -276,7 +281,7 @@ public class Event : SBase {
    * @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -288,22 +293,27 @@ public class Event : SBase {
    * 
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
    * *
- * @note Upon the addition of an Event object to an SBMLDocument (e.g., using
- * Model::addEvent(@if java Event e@endif)), the SBML Level, SBML Version and
- * XML namespace of the document @em override the values used when creating
- * the Event object via this constructor.  This is necessary to ensure that
- * an SBML document is a consistent structure.  Nevertheless, the ability to
- * supply the values at the time of creation of an Event is an important aid
- * to producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  Event(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_Event__SWIG_1(SBMLNamespaces.getCPtr(sbmlns)), true) {
@@ -316,7 +326,7 @@ public class Event : SBase {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  Event(Event orig) : this(libsbmlPINVOKE.new_Event__SWIG_2(Event.getCPtr(orig)), true) {
@@ -325,9 +335,9 @@ public class Event : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this Event.
-   * 
-   * @return a (deep) copy of this Event.
+   * Creates and returns a deep copy of this Event object.
+   *
+   * @return the (deep) copy of this Event object.
    */ public new
  Event clone() {
     IntPtr cPtr = libsbmlPINVOKE.Event_clone(swigCPtr);
@@ -343,7 +353,7 @@ public class Event : SBase {
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
-   */ public
+   */ public new
  SBase getElementBySId(string id) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.Event_getElementBySId(swigCPtr, id), false);
 	return ret;
@@ -357,7 +367,7 @@ public class Event : SBase {
    * @param metaid string representing the metaid of objects to find
    *
    * @return pointer to the first element found with the given @p metaid.
-   */ public
+   */ public new
  SBase getElementByMetaId(string metaid) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.Event_getElementByMetaId(swigCPtr, metaid), false);
 	return ret;
@@ -619,15 +629,14 @@ public class Event : SBase {
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter ::= 'a'..'z','A'..'Z'
  * digit  ::= '0'..'9'
  * idChar ::= letter | digit | '_'
- * SId    ::= ( letter | '_' ) idChar*
- * </pre>
+ * SId    ::= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -636,7 +645,7 @@ public class Event : SBase {
  * conditions for the uniqueness of identifiers in an SBML model.  Please
  * consult the SBML specifications for the exact details of the uniqueness
  * requirements.
- * 
+ *
  *
    *
    * @param sid the string to use as the identifier of this Event
@@ -645,8 +654,8 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setId(string sid) {
     int ret = libsbmlPINVOKE.Event_setId(swigCPtr, sid);
@@ -665,8 +674,8 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setName(string name) {
     int ret = libsbmlPINVOKE.Event_setName(swigCPtr, name);
@@ -684,9 +693,9 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    */ public
  int setTrigger(Trigger trigger) {
     int ret = libsbmlPINVOKE.Event_setTrigger(swigCPtr, Trigger.getCPtr(trigger));
@@ -704,9 +713,9 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    */ public
  int setDelay(Delay delay) {
     int ret = libsbmlPINVOKE.Event_setDelay(swigCPtr, Delay.getCPtr(delay));
@@ -724,10 +733,10 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @note The element 'priority' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -747,9 +756,9 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @warning <span class='warning'>Definitions of Event in SBML Level 2
@@ -811,8 +820,8 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @warning <span class='warning'>The attribute 'useValuesFromTriggerTime'
@@ -836,8 +845,8 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetId() {
     int ret = libsbmlPINVOKE.Event_unsetId(swigCPtr);
@@ -852,8 +861,8 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.Event_unsetName(swigCPtr);
@@ -868,8 +877,8 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetDelay() {
     int ret = libsbmlPINVOKE.Event_unsetDelay(swigCPtr);
@@ -884,8 +893,8 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
    * @note The element 'priority' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -903,8 +912,8 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
    * @note The element 'priority' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -922,9 +931,9 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @warning <span class='warning'>Definitions of Event in SBML Level 2
@@ -953,13 +962,13 @@ public class Event : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * * 
+   * *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1165,10 +1174,10 @@ public class Event : SBase {
    * Returns the libSBML type code of this object instance.
    *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -1180,15 +1189,15 @@ public class Event : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_EVENT SBML_EVENT@endlink (default).
+   * @link libsbmlcs#SBML_EVENT SBML_EVENT@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -1223,8 +1232,11 @@ public class Event : SBase {
    * Predicate returning @c true if all the required attributes for this
    * Event object have been set.
    *
-   * @note The required attributes for an Event object are:
+   * The required attributes for an Event object are:
    * @li 'useValuesfromTriggerTime' (required in SBML Level&nbsp;3)
+   *
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.Event_hasRequiredAttributes(swigCPtr);

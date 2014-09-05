@@ -68,10 +68,8 @@ PREDEFINED             = __cplusplus  \
 #   csharp:   only C#
 #   conly:    only C
 #   clike:    C, C++
-#   notcpp:   not C++
-#   notclike: not C or C++
 
-ENABLED_SECTIONS       = python notclike notcpp doxygenPythonOnly
+ENABLED_SECTIONS       = python doxygenPythonOnly hasDefaultArgs
 
 # Because of how we construct the Python documentation, the first sentence in
 # method descriptions will unfortunately always be "Python method signature",
@@ -92,27 +90,31 @@ INPUT = \
   libsbml-changes.txt                   \
   libsbml-coding.txt                    \
   libsbml-communications.txt            \
+  libsbml-converters.txt                \
   libsbml-core-versus-packages.txt      \
   libsbml-extending.txt                 \
   libsbml-extension-support-classes.txt \
   libsbml-features.txt                  \
-  libsbml-groups.txt          \
+  libsbml-groups.txt                    \
   libsbml-howto-implement-extension.txt \
   libsbml-installation.txt              \
   libsbml-issues.txt                    \
   libsbml-license.txt                   \
+  libsbml-mainpage.txt                  \
   libsbml-math.txt                      \
   libsbml-news.txt                      \
   libsbml-old-news.txt                  \
   libsbml-other.txt                     \
-  libsbml-programming-python.txt        \
+  libsbml-programming.txt               \
   libsbml-python-creating-model.txt     \
   libsbml-python-example-files.txt      \
-  libsbml-python-mainpage.txt           \
-  libsbml-python-math.txt               \
   libsbml-python-reading-files.txt      \
   libsbml-release-info.txt              \
-  libsbml.py
+  libsbml.py                            \
+  ../../src/sbml/SBMLReader.h           \
+  ../../src/sbml/SBMLWriter.h           \
+  ../../src/sbml/common/common-documentation.h \
+  ../../src/sbml/common/common-sbmlerror-codes.h
 
 LAYOUT_FILE = doxygen-layout-python.xml
 
@@ -153,9 +155,16 @@ OPTIMIZE_OUTPUT_JAVA    = YES
 # hiding more than intended).
 
 EXCLUDE_SYMBOLS +=                     \
+  CobraToFbcConverter_init             \
+  CompFlatteningConverter_init         \
+  FbcToCobraConverter_init             \
   SBMLFunctionDefinitionConverter_init \
+  SBMLIdConverter_init                 \
+  SBMLInferUnitsConverter_init         \
   SBMLInitialAssignmentConverter_init  \
   SBMLLevelVersionConverter_init       \
+  SBMLLocalParameterConverter_init     \
+  SBMLReactionConverter_init           \
   SBMLRuleConverter_init               \
   SBMLStripPackageConverter_init       \
   SBMLUnitsConverter_init              \

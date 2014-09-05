@@ -103,7 +103,7 @@ public:
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   FormulaUnitsData(const FormulaUnitsData& orig);
@@ -115,7 +115,7 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   FormulaUnitsData& operator=(const FormulaUnitsData& rhs);
@@ -128,9 +128,9 @@ public:
  
 
   /**
-   * Creates and returns a deep copy of this FormulaUnitsData.
-   * 
-   * @return a (deep) copy of this FormulaUnitsData.
+   * Creates and returns a deep copy of this FormulaUnitsData object.
+   *
+   * @return the (deep) copy of this FormulaUnitsData object.
    */
   virtual FormulaUnitsData* clone () const;
   

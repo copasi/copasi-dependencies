@@ -64,8 +64,10 @@ extra_sources = libsbml.i                            \
                 local.i                              \
                 local-downcast-extension-layout.cpp  \
                 local-downcast-extension.cpp.in      \
-                local-downcast-namespaces-layout.cpp \
                 local-downcast-namespaces.cpp.in     \
+                local-downcast-namespaces-layout.cpp \
+                local-downcast-converters.cpp.in     \
+                local-downcast-converters-layout.cpp \
                 local-downcast-plugins-layout.cpp    \
                 local-downcast-plugins.cpp.in        \
                 local-downcast-packages-layout.cpp   \
@@ -411,7 +413,8 @@ libsbml.py: libsbml_wrap.cpp
 
 pydoc-doxygen.i: $(swig_sources) $(main_sources) ../swig/swigdoc.py \
   doc-converter/rewrite_pydoc.py ../swig/libsbml.i
-	../swig/swigdoc.py --language python --top ../../.. $(SWIGDOCDEFINES) \
+	touch ../../../docs/src/libsbml-converters.txt && ../swig/swigdoc.py --language python --top ../../.. $(SWIGDOCDEFINES) \
+		--extra ../../../docs/src/libsbml-converters.txt \
 		--master ../swig/libsbml.i --output pydoc-doxygen.i
 
 pydoc-normal.i: pydoc-doxygen.i

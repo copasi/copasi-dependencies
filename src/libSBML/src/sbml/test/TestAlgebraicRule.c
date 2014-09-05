@@ -37,6 +37,7 @@
 
 #include <sbml/SBase.h>
 #include <sbml/Rule.h>
+#include <sbml/AlgebraicRule.h>
 #include <sbml/xml/XMLNamespaces.h>
 #include <sbml/SBMLDocument.h>
 
@@ -50,13 +51,13 @@ LIBSBML_CPP_NAMESPACE_USE
 
 BEGIN_C_DECLS
 
-static Rule_t *AR;
+static AlgebraicRule_t *AR;
 
 
 void
 AlgebraicRuleTest_setup (void)
 {
-  AR = Rule_createAlgebraic(2, 4);
+  AR = AlgebraicRule_create(2, 4);
 
   if (AR == NULL)
   {
@@ -68,7 +69,7 @@ AlgebraicRuleTest_setup (void)
 void
 AlgebraicRuleTest_teardown (void)
 {
-  Rule_free(AR);
+  Rule_free((Rule_t*)(AR));
 }
 
 
@@ -80,7 +81,7 @@ START_TEST (test_AlgebraicRule_create)
   fail_unless( SBase_getAnnotation((SBase_t *) AR) == NULL );
 
   fail_unless( Rule_getFormula((Rule_t *) AR) == NULL );
-  fail_unless( Rule_getMath   ((Rule_t *) AR) == NULL );
+  fail_unless( AlgebraicRule_getMath   (AR) == NULL );
 }
 END_TEST
 
@@ -90,23 +91,23 @@ START_TEST (test_AlgebraicRule_createWithFormula)
   const ASTNode_t *math;
   char *formula;
 
-  Rule_t *ar = Rule_createAlgebraic(2, 4);
-  Rule_setFormula(ar, "1 + 1");
+  AlgebraicRule_t *ar = AlgebraicRule_create(2, 4);
+  AlgebraicRule_setFormula(ar, "1 + 1");
 
 
   fail_unless( SBase_getTypeCode  ((SBase_t *) ar) == SBML_ALGEBRAIC_RULE );
   fail_unless( SBase_getMetaId    ((SBase_t *) ar) == NULL );
 
-  math = Rule_getMath((Rule_t *) ar);
+  math = AlgebraicRule_getMath(ar);
   fail_unless(math != NULL);
 
   formula = SBML_formulaToString(math);
   fail_unless( formula != NULL );
   fail_unless( !strcmp(formula, "1 + 1") );
 
-  fail_unless( !strcmp(Rule_getFormula((Rule_t *) ar), formula) );
+  fail_unless( !strcmp(AlgebraicRule_getFormula(ar), formula) );
 
-  Rule_free(ar);
+  AlgebraicRule_free(ar);
   safe_free(formula);
 }
 END_TEST
@@ -115,24 +116,24 @@ END_TEST
 START_TEST (test_AlgebraicRule_createWithMath)
 {
   ASTNode_t       *math = SBML_parseFormula("1 + 1");
-  Rule_t *ar   = Rule_createAlgebraic(2, 4);
-  Rule_setMath(ar, math);
+  AlgebraicRule_t *ar   = AlgebraicRule_create(2, 4);
+  AlgebraicRule_setMath(ar, math);
 
 
   fail_unless( SBase_getTypeCode  ((SBase_t *) ar) == SBML_ALGEBRAIC_RULE );
   fail_unless( SBase_getMetaId    ((SBase_t *) ar) == NULL );
 
-  fail_unless( !strcmp(Rule_getFormula((Rule_t *) ar), "1 + 1") );
-  fail_unless( Rule_getMath((Rule_t *) ar) != math );
+  fail_unless( !strcmp(AlgebraicRule_getFormula(ar), "1 + 1") );
+  fail_unless( AlgebraicRule_getMath(ar) != math );
 
-  Rule_free(ar);
+  AlgebraicRule_free(ar);
 }
 END_TEST
 
 
 START_TEST (test_AlgebraicRule_free_NULL)
 {
-  Rule_free(NULL);
+  AlgebraicRule_free(NULL);
 }
 END_TEST
 
@@ -144,8 +145,8 @@ START_TEST (test_AlgebraicRule_createWithNS )
   SBMLNamespaces_t *sbmlns = SBMLNamespaces_create(2,3);
   SBMLNamespaces_addNamespaces(sbmlns,xmlns);
 
-  Rule_t *r = 
-    Rule_createAlgebraicWithNS(sbmlns);
+  AlgebraicRule_t *r = 
+    AlgebraicRule_createWithNS(sbmlns);
 
 
   fail_unless( SBase_getTypeCode  ((SBase_t *) r) == SBML_ALGEBRAIC_RULE );
@@ -156,11 +157,11 @@ START_TEST (test_AlgebraicRule_createWithNS )
   fail_unless( SBase_getLevel       ((SBase_t *) r) == 2 );
   fail_unless( SBase_getVersion     ((SBase_t *) r) == 3 );
 
-  fail_unless( Rule_getNamespaces     (r) != NULL );
-  fail_unless( XMLNamespaces_getLength(Rule_getNamespaces(r)) == 2 );
+  fail_unless( Rule_getNamespaces     ((Rule_t*)(r)) != NULL );
+  fail_unless( XMLNamespaces_getLength(Rule_getNamespaces((Rule_t*)(r))) == 2 );
 
 
-  Rule_free(r);
+  Rule_free((Rule_t*)(r));
 }
 END_TEST
 

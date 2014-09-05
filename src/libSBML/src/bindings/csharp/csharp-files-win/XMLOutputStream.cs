@@ -15,6 +15,46 @@ namespace libsbml {
  * @sbmlpackage{core}
  *
 @htmlinclude pkg-marker-core.html Interface to an XML output stream.
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * SBML content is serialized using XML; the resulting data can be stored and
+ * read to/from a file or data stream.  Low-level XML parsers such as Xerces
+ * provide facilities to read XML data.  To permit the use of different XML
+ * parsers (Xerces, Expat or libxml2), libSBML implements an abstraction
+ * layer.  XMLInputStream and XMLOutputStream are two parts of that
+ * abstraction layer.
+ *
+ * XMLOutputStream provides a wrapper above a standard ostream to facilitate
+ * writing XML.  XMLOutputStream keeps track of start and end elements,
+ * indentation, XML namespace prefixes, and more.  The interface provides
+ * features for converting non-text data types into appropriate textual form;
+ * this takes the form of overloaded <code>writeAttribute</code> methods that
+ * allow users to simply use the same method with any data type.  For example,
+ * @verbatim
+double size = 3.2;
+string id = 'id';
+@endverbatim
+  * can be written out using
+  * @verbatim
+writeAttribute('size', size);
+writeAttribute('id', id);
+@endverbatim
+ *
+ * Other classes in SBML take XMLOutputStream objects as arguments, and use
+ * that to write elements and attributes seamlessly to the XML output stream.
+ *
+ * It is also worth noting that unlike XMLInputStream, XMLOutputStream is
+ * actually independent of the underlying XML parsers.  It does not use the
+ * XML parser libraries at all.
+ *
+ * @note The convenience of the XMLInputStream and XMLOutputStream
+ * abstraction may be useful for developers interested in creating parsers
+ * for other XML formats besides SBML.  It can provide developers with a
+ * layer above more basic XML parsers, as well as some useful programmatic
+ * elements such as XMLToken, XMLError, etc.
+ *
+ * @see XMLInputStream
  */
 
 public class XMLOutputStream : IDisposable {
@@ -99,9 +139,54 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Creates a new XMLOutputStream that wraps stream.
+   * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * *
+ * 
+ * The functionality associated with the @p programName and @p
+ * programVersion arguments concerns an optional comment that libSBML can
+ * write at the beginning of the output stream.  The comment is intended
+ * for human readers of the XML file, and has the following form:
+ * @verbatim
+<!-- Created by <program name> version <program version>
+on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
+@endverbatim
+ *
+ * This program information comment is a separate item from the XML
+ * declaration that this method can also write to this output stream.  The
+ * comment is also not mandated by any SBML specification.  This libSBML
+ * functionality is provided for the convenience of calling programs, and to
+ * help humans trace the origin of SBML files.
+   *
+   * *
+ * 
+ * The XML declaration has the form
+ * @verbatim
+<?xml version='1.0' encoding='UTF-8'?>
+@endverbatim
+ * Note that the SBML specifications require the use of UTF-8 encoding and
+ * version 1.0, so for SBML documents, the above is the standard XML
+ * declaration.
+ *
+ *
+   *
+   * @param stream the input stream to wrap.
+   *
+   * @param encoding the XML encoding to declare in the output. This value
+   * should be <code>'UTF-8'</code> for SBML documents.  The default value
+   * is <code>'UTF-8'</code> if no value is supplied for this parameter.
+   *
+   * @param writeXMLDecl whether to write a standard XML declaration at
+   * the beginning of the content written on @p stream.  The default is
+   * @c true.
+   *
+   * @param programName an optional program name to write as a comment
+   * in the output stream.
+   *
+   * @param programVersion an optional version identification string to write
+   * as a comment in the output stream.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLOutputStream(OStream stream, string encoding, bool writeXMLDecl, string programName, string programVersion) : this(libsbmlPINVOKE.new_XMLOutputStream__SWIG_0(SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()), encoding, writeXMLDecl, programName, programVersion), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -109,9 +194,54 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Creates a new XMLOutputStream that wraps stream.
+   * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * *
+ * 
+ * The functionality associated with the @p programName and @p
+ * programVersion arguments concerns an optional comment that libSBML can
+ * write at the beginning of the output stream.  The comment is intended
+ * for human readers of the XML file, and has the following form:
+ * @verbatim
+<!-- Created by <program name> version <program version>
+on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
+@endverbatim
+ *
+ * This program information comment is a separate item from the XML
+ * declaration that this method can also write to this output stream.  The
+ * comment is also not mandated by any SBML specification.  This libSBML
+ * functionality is provided for the convenience of calling programs, and to
+ * help humans trace the origin of SBML files.
+   *
+   * *
+ * 
+ * The XML declaration has the form
+ * @verbatim
+<?xml version='1.0' encoding='UTF-8'?>
+@endverbatim
+ * Note that the SBML specifications require the use of UTF-8 encoding and
+ * version 1.0, so for SBML documents, the above is the standard XML
+ * declaration.
+ *
+ *
+   *
+   * @param stream the input stream to wrap.
+   *
+   * @param encoding the XML encoding to declare in the output. This value
+   * should be <code>'UTF-8'</code> for SBML documents.  The default value
+   * is <code>'UTF-8'</code> if no value is supplied for this parameter.
+   *
+   * @param writeXMLDecl whether to write a standard XML declaration at
+   * the beginning of the content written on @p stream.  The default is
+   * @c true.
+   *
+   * @param programName an optional program name to write as a comment
+   * in the output stream.
+   *
+   * @param programVersion an optional version identification string to write
+   * as a comment in the output stream.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLOutputStream(OStream stream, string encoding, bool writeXMLDecl, string programName) : this(libsbmlPINVOKE.new_XMLOutputStream__SWIG_1(SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()), encoding, writeXMLDecl, programName), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -119,9 +249,54 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Creates a new XMLOutputStream that wraps stream.
+   * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * *
+ * 
+ * The functionality associated with the @p programName and @p
+ * programVersion arguments concerns an optional comment that libSBML can
+ * write at the beginning of the output stream.  The comment is intended
+ * for human readers of the XML file, and has the following form:
+ * @verbatim
+<!-- Created by <program name> version <program version>
+on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
+@endverbatim
+ *
+ * This program information comment is a separate item from the XML
+ * declaration that this method can also write to this output stream.  The
+ * comment is also not mandated by any SBML specification.  This libSBML
+ * functionality is provided for the convenience of calling programs, and to
+ * help humans trace the origin of SBML files.
+   *
+   * *
+ * 
+ * The XML declaration has the form
+ * @verbatim
+<?xml version='1.0' encoding='UTF-8'?>
+@endverbatim
+ * Note that the SBML specifications require the use of UTF-8 encoding and
+ * version 1.0, so for SBML documents, the above is the standard XML
+ * declaration.
+ *
+ *
+   *
+   * @param stream the input stream to wrap.
+   *
+   * @param encoding the XML encoding to declare in the output. This value
+   * should be <code>'UTF-8'</code> for SBML documents.  The default value
+   * is <code>'UTF-8'</code> if no value is supplied for this parameter.
+   *
+   * @param writeXMLDecl whether to write a standard XML declaration at
+   * the beginning of the content written on @p stream.  The default is
+   * @c true.
+   *
+   * @param programName an optional program name to write as a comment
+   * in the output stream.
+   *
+   * @param programVersion an optional version identification string to write
+   * as a comment in the output stream.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLOutputStream(OStream stream, string encoding, bool writeXMLDecl) : this(libsbmlPINVOKE.new_XMLOutputStream__SWIG_2(SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()), encoding, writeXMLDecl), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -129,9 +304,54 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Creates a new XMLOutputStream that wraps stream.
+   * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * *
+ * 
+ * The functionality associated with the @p programName and @p
+ * programVersion arguments concerns an optional comment that libSBML can
+ * write at the beginning of the output stream.  The comment is intended
+ * for human readers of the XML file, and has the following form:
+ * @verbatim
+<!-- Created by <program name> version <program version>
+on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
+@endverbatim
+ *
+ * This program information comment is a separate item from the XML
+ * declaration that this method can also write to this output stream.  The
+ * comment is also not mandated by any SBML specification.  This libSBML
+ * functionality is provided for the convenience of calling programs, and to
+ * help humans trace the origin of SBML files.
+   *
+   * *
+ * 
+ * The XML declaration has the form
+ * @verbatim
+<?xml version='1.0' encoding='UTF-8'?>
+@endverbatim
+ * Note that the SBML specifications require the use of UTF-8 encoding and
+ * version 1.0, so for SBML documents, the above is the standard XML
+ * declaration.
+ *
+ *
+   *
+   * @param stream the input stream to wrap.
+   *
+   * @param encoding the XML encoding to declare in the output. This value
+   * should be <code>'UTF-8'</code> for SBML documents.  The default value
+   * is <code>'UTF-8'</code> if no value is supplied for this parameter.
+   *
+   * @param writeXMLDecl whether to write a standard XML declaration at
+   * the beginning of the content written on @p stream.  The default is
+   * @c true.
+   *
+   * @param programName an optional program name to write as a comment
+   * in the output stream.
+   *
+   * @param programVersion an optional version identification string to write
+   * as a comment in the output stream.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLOutputStream(OStream stream, string encoding) : this(libsbmlPINVOKE.new_XMLOutputStream__SWIG_3(SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()), encoding), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -139,9 +359,54 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Creates a new XMLOutputStream that wraps stream.
+   * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * *
+ * 
+ * The functionality associated with the @p programName and @p
+ * programVersion arguments concerns an optional comment that libSBML can
+ * write at the beginning of the output stream.  The comment is intended
+ * for human readers of the XML file, and has the following form:
+ * @verbatim
+<!-- Created by <program name> version <program version>
+on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
+@endverbatim
+ *
+ * This program information comment is a separate item from the XML
+ * declaration that this method can also write to this output stream.  The
+ * comment is also not mandated by any SBML specification.  This libSBML
+ * functionality is provided for the convenience of calling programs, and to
+ * help humans trace the origin of SBML files.
+   *
+   * *
+ * 
+ * The XML declaration has the form
+ * @verbatim
+<?xml version='1.0' encoding='UTF-8'?>
+@endverbatim
+ * Note that the SBML specifications require the use of UTF-8 encoding and
+ * version 1.0, so for SBML documents, the above is the standard XML
+ * declaration.
+ *
+ *
+   *
+   * @param stream the input stream to wrap.
+   *
+   * @param encoding the XML encoding to declare in the output. This value
+   * should be <code>'UTF-8'</code> for SBML documents.  The default value
+   * is <code>'UTF-8'</code> if no value is supplied for this parameter.
+   *
+   * @param writeXMLDecl whether to write a standard XML declaration at
+   * the beginning of the content written on @p stream.  The default is
+   * @c true.
+   *
+   * @param programName an optional program name to write as a comment
+   * in the output stream.
+   *
+   * @param programVersion an optional version identification string to write
+   * as a comment in the output stream.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLOutputStream(OStream stream) : this(libsbmlPINVOKE.new_XMLOutputStream__SWIG_4(SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream())), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -150,6 +415,14 @@ public class XMLOutputStream : IDisposable {
   
 /**
    * Writes the given XML end element name to this XMLOutputStream.
+   *
+   * @param name the name of the element.
+   *
+   * @param prefix an optional XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void endElement(string name, string prefix) {
     libsbmlPINVOKE.XMLOutputStream_endElement__SWIG_0(swigCPtr, name, prefix);
@@ -158,6 +431,14 @@ public class XMLOutputStream : IDisposable {
   
 /**
    * Writes the given XML end element name to this XMLOutputStream.
+   *
+   * @param name the name of the element.
+   *
+   * @param prefix an optional XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void endElement(string name) {
     libsbmlPINVOKE.XMLOutputStream_endElement__SWIG_1(swigCPtr, name);
@@ -165,8 +446,9 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given XML end element 'prefix:name' to this
-   * XMLOutputStream.
+   * Writes the given element to the stream.
+   *
+   * @param triple the XML element to write.
    */ public
  void endElement(XMLTriple triple) {
     libsbmlPINVOKE.XMLOutputStream_endElement__SWIG_2(swigCPtr, XMLTriple.getCPtr(triple));
@@ -176,6 +458,8 @@ public class XMLOutputStream : IDisposable {
   
 /**
    * Turns automatic indentation on or off for this XMLOutputStream.
+   *
+   * @param indent if @c true, automatic indentation is turned on.
    */ public
  void setAutoIndent(bool indent) {
     libsbmlPINVOKE.XMLOutputStream_setAutoIndent(swigCPtr, indent);
@@ -184,6 +468,14 @@ public class XMLOutputStream : IDisposable {
   
 /**
    * Writes the given XML start element name to this XMLOutputStream.
+   *
+   * @param name the name of the element.
+   *
+   * @param prefix an optional XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void startElement(string name, string prefix) {
     libsbmlPINVOKE.XMLOutputStream_startElement__SWIG_0(swigCPtr, name, prefix);
@@ -192,6 +484,14 @@ public class XMLOutputStream : IDisposable {
   
 /**
    * Writes the given XML start element name to this XMLOutputStream.
+   *
+   * @param name the name of the element.
+   *
+   * @param prefix an optional XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void startElement(string name) {
     libsbmlPINVOKE.XMLOutputStream_startElement__SWIG_1(swigCPtr, name);
@@ -199,8 +499,10 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given XML start element 'prefix:name' to this
-   * XMLOutputStream.
+   * Writes the given XML start element
+   * <code><em>prefix</em>:<em>name</em></code> on this output stream.
+   *
+   * @param triple the start element to write.
    */ public
  void startElement(XMLTriple triple) {
     libsbmlPINVOKE.XMLOutputStream_startElement__SWIG_2(swigCPtr, XMLTriple.getCPtr(triple));
@@ -210,6 +512,14 @@ public class XMLOutputStream : IDisposable {
   
 /**
    * Writes the given XML start and end element name to this XMLOutputStream.
+   *
+   * @param name the name of the element.
+   *
+   * @param prefix an optional XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void startEndElement(string name, string prefix) {
     libsbmlPINVOKE.XMLOutputStream_startEndElement__SWIG_0(swigCPtr, name, prefix);
@@ -218,6 +528,14 @@ public class XMLOutputStream : IDisposable {
   
 /**
    * Writes the given XML start and end element name to this XMLOutputStream.
+   *
+   * @param name the name of the element.
+   *
+   * @param prefix an optional XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void startEndElement(string name) {
     libsbmlPINVOKE.XMLOutputStream_startEndElement__SWIG_1(swigCPtr, name);
@@ -225,8 +543,9 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given XML start and end element 'prefix:name' to this
-   * XMLOutputStream.
+   * Writes the given start element to this output stream.
+   *
+   * @param triple the XML element to write.
    */ public
  void startEndElement(XMLTriple triple) {
     libsbmlPINVOKE.XMLOutputStream_startEndElement__SWIG_2(swigCPtr, XMLTriple.getCPtr(triple));
@@ -235,7 +554,11 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, name='value' to this XMLOutputStream.
+   * Writes the given attribute and value to this output stream.
+   *
+   * @param name the name of the attribute.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(string name, string value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_0(swigCPtr, name, value);
@@ -243,7 +566,16 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, prefix:name='value' to this XMLOutputStream.
+   * Writes the given namespace-prefixed attribute value to this output stream.
+   *
+   * @param name the name of the attribute.
+   *
+   * @param prefix an XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+   * this method for a variant that does not require a prefix.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(string name, string prefix, string value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_1(swigCPtr, name, prefix, value);
@@ -251,8 +583,11 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, prefix:name='value' to this
-   * XMLOutputStream.
+   * Writes the given attribute and value to this output stream.
+   *
+   * @param triple the attribute, in the form of an XMLTriple.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(XMLTriple triple, string value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_2(swigCPtr, XMLTriple.getCPtr(triple), value);
@@ -261,8 +596,11 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, name='true' or name='false' to this
-   * XMLOutputStream.
+   * Writes the given attribute and value to this output stream.
+   *
+   * @param name the name of the attribute.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(string name, bool value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_6(swigCPtr, name, value);
@@ -270,8 +608,16 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, prefix:name='true' or prefix:name='false' to this
-   * XMLOutputStream.
+   * Writes the given namespace-prefixed attribute value to this output stream.
+   *
+   * @param name the name of the attribute.
+   *
+   * @param prefix an XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+   * this method for a variant that does not require a prefix.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(string name, string prefix, bool value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_7(swigCPtr, name, prefix, value);
@@ -279,8 +625,11 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, prefix:name='true' or prefix:name='false'
-   * to this XMLOutputStream.
+   * Writes the given attribute and value to this output stream.
+   *
+   * @param triple the attribute, in the form of an XMLTriple.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(XMLTriple triple, bool value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_8(swigCPtr, XMLTriple.getCPtr(triple), value);
@@ -289,7 +638,11 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, name='value' to this XMLOutputStream.
+   * Writes the given attribute and value to this output stream.
+   *
+   * @param name the name of the attribute.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(string name, double value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_9(swigCPtr, name, value);
@@ -297,7 +650,16 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, prefix:name='value' to this XMLOutputStream.
+   * Writes the given namespace-prefixed attribute value to this output stream.
+   *
+   * @param name the name of the attribute.
+   *
+   * @param prefix an XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+   * this method for a variant that does not require a prefix.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(string name, string prefix, double value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_10(swigCPtr, name, prefix, value);
@@ -305,8 +667,11 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, prefix:name='value' to this
-   * XMLOutputStream.
+   * Writes the given attribute and value to this output stream.
+   *
+   * @param triple the attribute, in the form of an XMLTriple.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(XMLTriple triple, double value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_11(swigCPtr, XMLTriple.getCPtr(triple), value);
@@ -315,7 +680,11 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, name='value' to this XMLOutputStream.
+   * Writes the given attribute and value to this output stream.
+   *
+   * @param name the name of the attribute.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(string name, int value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_12(swigCPtr, name, value);
@@ -323,7 +692,16 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, prefix:name='value' to this XMLOutputStream.
+   * Writes the given namespace-prefixed attribute value to this output stream.
+   *
+   * @param name the name of the attribute.
+   *
+   * @param prefix an XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+   * this method for a variant that does not require a prefix.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(string name, string prefix, int value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_13(swigCPtr, name, prefix, value);
@@ -331,8 +709,11 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, prefix:name='value' to this
-   * XMLOutputStream.
+   * Writes the given attribute and value to this output stream.
+   *
+   * @param triple the attribute, in the form of an XMLTriple.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(XMLTriple triple, int value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_14(swigCPtr, XMLTriple.getCPtr(triple), value);
@@ -341,7 +722,16 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the given attribute, prefix:name='value' to this XMLOutputStream.
+   * Writes the given namespace-prefixed attribute value to this output stream.
+   *
+   * @param name the name of the attribute.
+   *
+   * @param prefix an XML namespace prefix to write in front of the
+   * @p element name.  (The result has the form
+   * <code><em>prefix</em>:<em>name</em></code>.)  See other versions of
+   * this method for a variant that does not require a prefix.
+   *
+   * @param value the value of the attribute.
    */ public
  void writeAttribute(string name, string prefix, long value) {
     libsbmlPINVOKE.XMLOutputStream_writeAttribute__SWIG_18(swigCPtr, name, prefix, value);
@@ -349,8 +739,19 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes the XML declaration:
-   * <?xml version='1.0' encoding='...'?>
+   * Writes a standard XML declaration to this output stream.
+   *
+   * *
+ * 
+ * The XML declaration has the form
+ * @verbatim
+<?xml version='1.0' encoding='UTF-8'?>
+@endverbatim
+ * Note that the SBML specifications require the use of UTF-8 encoding and
+ * version 1.0, so for SBML documents, the above is the standard XML
+ * declaration.
+ *
+ *
    */ public
  void writeXMLDecl() {
     libsbmlPINVOKE.XMLOutputStream_writeXMLDecl(swigCPtr);
@@ -358,8 +759,22 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Writes an XML comment:
-   * <?xml version='1.0' encoding='...'?>
+   * Writes an XML comment with the name and version of this program.
+   *
+   * The XML comment has the following form:
+   * @verbatim
+<!-- Created by <program name> version <program version>
+on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
+@endverbatim
+   *
+   * See the class constructor for more information about this program
+   * comment.
+   *
+   * @param programName an optional program name to write as a comment
+   * in the output stream.
+   *
+   * @param programVersion an optional version identification string to write
+   * as a comment in the output stream.
    */ public
  void writeComment(string programName, string programVersion) {
     libsbmlPINVOKE.XMLOutputStream_writeComment(swigCPtr, programName, programVersion);
@@ -383,10 +798,9 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Returns the SBMLNamespaces object attached to this XMLInputStream
-   * if it has been set, null otherwise.
+   * Returns the SBMLNamespaces object attached to this output stream.
    *
-   * @return the SBMLNamespaces object or null if none has been set.
+   * @return the SBMLNamespaces object, or @c null if none has been set.
    */ public
  SBMLNamespaces getSBMLNamespaces() {
 	SBMLNamespaces ret
@@ -396,8 +810,9 @@ public class XMLOutputStream : IDisposable {
 
   
 /**
-   * Sets the SBMLNamespaces object to allow this stream to reference
-   * the available SBML namespaces being read.
+   * Sets the SBMLNamespaces object associated with this output stream.
+   *
+   * @param sbmlns the namespace object.
    */ public
  void setSBMLNamespaces(SBMLNamespaces sbmlns) {
     libsbmlPINVOKE.XMLOutputStream_setSBMLNamespaces(swigCPtr, SBMLNamespaces.getCPtr(sbmlns));

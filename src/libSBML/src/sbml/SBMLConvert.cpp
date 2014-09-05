@@ -413,7 +413,6 @@ Model::addDefinitionsForDefaultUnits()
   IdList unitsUsed;
   unsigned int n;
   bool implicitVolume = false;
-  bool implicitArea = false;
   bool implicitLength = false;
   bool implicitSubstance = false;
 
@@ -432,7 +431,6 @@ Model::addDefinitionsForDefaultUnits()
       }
       else if (getCompartment(n)->getSpatialDimensions() == 2)
       {
-        implicitArea = true;
         getCompartment(n)->setUnits("area");
       }
       else if (getCompartment(n)->getSpatialDimensions() == 1)
@@ -578,7 +576,8 @@ Model::convertParametersToLocals(unsigned int level, unsigned int version)
       {
         LocalParameter *lp = new LocalParameter(level, version);
         (*lp) = *(kl->getParameter(j));
-        kl->addLocalParameter(lp);
+        kl->getListOfLocalParameters()->appendAndOwn(lp);
+//        kl->addLocalParameter(lp);
       }
     }
   }
@@ -1194,7 +1193,7 @@ Model::dealWithModelUnits()
   {
     std::string volume = getVolumeUnits();
     // if in an L3 model a user used volume as an id of a UnitDefinition
-    // but they declared the volume units of teh model to be something 
+    // but they declared the volume units of the model to be something 
     // else then the UD with id volume is nothing to do with the 
     // L2 interpretation of volume
     // so replace that UD and all references to it 
@@ -1235,7 +1234,7 @@ Model::dealWithModelUnits()
   {
     std::string area = getAreaUnits();
     // if in an L3 model a user used area as an id of a UnitDefinition
-    // but they declared the area units of teh model to be something 
+    // but they declared the area units of the model to be something 
     // else then the UD with id area is nothing to do with the 
     // L2 interpretation of area
     // so replace that UD and all references to it 
@@ -1276,7 +1275,7 @@ Model::dealWithModelUnits()
   {
     std::string length = getLengthUnits();
     // if in an L3 model a user used length as an id of a UnitDefinition
-    // but they declared the length units of teh model to be something 
+    // but they declared the length units of the model to be something 
     // else then the UD with id length is nothing to do with the 
     // L2 interpretation of length
     // so replace that UD and all references to it 
@@ -1317,7 +1316,7 @@ Model::dealWithModelUnits()
   {
     std::string substance = getSubstanceUnits();
     // if in an L3 model a user used substance as an id of a UnitDefinition
-    // but they declared the substance units of teh model to be something 
+    // but they declared the substance units of the model to be something 
     // else then the UD with id substance is nothing to do with the 
     // L2 interpretation of substance
     // so replace that UD and all references to it 
@@ -1358,7 +1357,7 @@ Model::dealWithModelUnits()
   {
     std::string time = getTimeUnits();
     // if in an L3 model a user used time as an id of a UnitDefinition
-    // but they declared the time units of teh model to be something 
+    // but they declared the time units of the model to be something 
     // else then the UD with id time is nothing to do with the 
     // L2 interpretation of time
     // so replace that UD and all references to it 
@@ -1705,14 +1704,14 @@ void dealWithAssigningL1Stoichiometry(Model & m, bool l2)
         const ASTNode* ast = sr->getStoichiometryMath()->getMath();
         if (ast->isInteger())
         {
-          int num = ast->getInteger();
+          int num = (int)ast->getInteger();
           sr->setStoichiometry(num);
           sr->setDenominator(1);
         }
         else
         {
-          int num = ast->getNumerator();
-          int denom = ast->getDenominator();
+          int num = (int)ast->getNumerator();
+          int denom = (int)ast->getDenominator();
           sr->setStoichiometry(num);
           sr->setDenominator(denom);
         }
@@ -1734,14 +1733,14 @@ void dealWithAssigningL1Stoichiometry(Model & m, bool l2)
         const ASTNode* ast = sr->getStoichiometryMath()->getMath();
         if (ast->isInteger())
         {
-          int num = ast->getInteger();
+          int num = (int)ast->getInteger();
           sr->setStoichiometry(num);
           sr->setDenominator(1);
         }
         else
         {
-          int num = ast->getNumerator();
-          int denom = ast->getDenominator();
+          int num = (int)ast->getNumerator();
+          int denom = (int)ast->getDenominator();
           sr->setStoichiometry(num);
           sr->setDenominator(denom);
         }

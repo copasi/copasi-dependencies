@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's Trigger construct for Event.
+ *  The trigger expression for an SBML <em>event</em>.
  <p>
  * An {@link Event} object defines when the event can occur, the variables that are
  * affected by the event, and how the variables are affected.  The {@link Trigger}
@@ -102,7 +102,6 @@ package org.sbml.libsbml;
  * with the value <code>false</code>, and therefore may trigger at <em>t = 0</em> if
  * the expression evaluates to <code>true</code> at that moment.
  <p>
- <p>
  * @see Event
  * @see Delay
  * @see EventAssignment
@@ -160,7 +159,7 @@ public class Trigger extends SBase {
    * @param version a long integer, the SBML Version to assign to this
    * {@link Trigger}
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
@@ -184,7 +183,7 @@ public class Trigger extends SBase {
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
@@ -199,7 +198,7 @@ public class Trigger extends SBase {
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  Trigger(Trigger orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -208,9 +207,9 @@ public class Trigger extends SBase {
 
   
 /**
-   * Creates and returns a deep copy of this {@link Trigger}.
+   * Creates and returns a deep copy of this {@link Trigger} object.
    <p>
-   * @return a (deep) copy of this {@link Trigger}.
+   * @return the (deep) copy of this {@link Trigger} object.
    */ public
  Trigger cloneObject() {
     long cPtr = libsbmlJNI.Trigger_cloneObject(swigCPtr, this);
@@ -311,8 +310,8 @@ public class Trigger extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * </ul>
    */ public
  int setMath(ASTNode math) {
@@ -329,8 +328,8 @@ public class Trigger extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * @note The attribute 'initialValue' is available in SBML Level&nbsp;3
@@ -350,8 +349,8 @@ public class Trigger extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * @note The attribute 'persistent' is available in SBML Level&nbsp;3
@@ -368,16 +367,16 @@ public class Trigger extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_TRIGGER SBML_TRIGGER} (default).
+   * {@link libsbmlConstants#SBML_TRIGGER SBML_TRIGGER} (default).
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -405,10 +404,11 @@ public class Trigger extends SBase {
 
   
 /**
-   * Renames all the <code>SIdRef</code> attributes on this element, including any
-   * found in MathML.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>SIdRef</code> type attribute value with another
+ * value.
+ <p>
+ * <p>
  * In SBML, object identifiers are of a data type called <code>SId</code>.
  * In SBML Level&nbsp;3, an explicit data type called <code>SIdRef</code> was
  * introduced for attribute values that refer to <code>SId</code> values; in
@@ -418,14 +418,15 @@ public class Trigger extends SBase {
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of 
-   * <code>oldid</code>.  If any matches are found, the matching identifiers are replaced
-   * with <code>newid</code>.  The method does <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of <code>oldid</code>.  If any matches are found, the
+ * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
+ * descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Trigger_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -433,9 +434,11 @@ public class Trigger extends SBase {
 
   
 /**
-   * Renames all the <code>UnitSIdRef</code> attributes on this element.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>UnitSIdRef</code> type attribute value with
+ * another value.
+ <p>
+ * <p>
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
  * introduced for attribute values that refer to <code>UnitSId</code> values; in
@@ -445,15 +448,15 @@ public class Trigger extends SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of <code>oldid</code>.  If any matches are found,
-   * the matching identifiers are replaced with <code>newid</code>.  The method does
-   * <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of <code>oldid</code>.  If any matches
+ * are found, the matching values are replaced with <code>newid</code>.  The method
+ * does <em>not</em> descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Trigger_renameUnitSIdRefs(swigCPtr, this, oldid, newid);
@@ -493,7 +496,7 @@ public class Trigger extends SBase {
    * all the required attributes for this {@link Trigger} object
    * have been set.
    <p>
-   * @note The required attributes for a {@link Trigger} object are:
+   * The required attributes for a {@link Trigger} object are:
    * <ul>
    * <li> 'persistent' (required in SBML Level&nbsp;3)
    * <li> 'initialValue' (required in SBML Level&nbsp;3)
@@ -514,8 +517,8 @@ public class Trigger extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int removeFromParentAndDelete() {

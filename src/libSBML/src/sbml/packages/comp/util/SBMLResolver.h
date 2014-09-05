@@ -31,7 +31,7 @@
  * The SBMLResolver class is the base class for the various SBML @em
  * resolvers: facilities that take a unique identifier as input and return
  * the document associated with that identifier.  In SBML, resolvers come
- * into play with the SBML Level&nbsp;3 Hierarchical Model Composition
+ * into play with the SBML Level&nbsp;3 Hierarchical %Model Composition
  * package; this package includes features that allow a model to be composed
  * from pieces that are external to a given SBML document, which implies the
  * need to be able to identify and locate those external pieces.  The
@@ -79,7 +79,7 @@ public:
    *
    * @param c the SBMLResolver object to copy.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   SBMLResolver(const SBMLResolver& c);
@@ -97,7 +97,7 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   SBMLResolver& operator=(const SBMLResolver& rhs);

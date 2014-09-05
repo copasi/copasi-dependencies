@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's SpeciesReference construct.
+ *  A reference to an SBML species in a reaction.
  <p>
  * The {@link Reaction} structure provides a way to express which species act as
  * reactants and which species act as products in a reaction.  In a given
@@ -28,7 +28,7 @@ package org.sbml.libsbml;
  * a species in a reaction; for example, it can be zero.  In the following
  * SBML fragment, the two reactions have the same effective stoichiometry
  * for all their species:
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
  &lt;reaction id='x'&gt;
      &lt;listOfReactants&gt;
          &lt;speciesReference species='a'/&gt;
@@ -48,7 +48,7 @@ package org.sbml.libsbml;
          &lt;speciesReference species='c'/&gt;
      &lt;/listProducts&gt;
  &lt;/reaction&gt;
- </pre></div>
+ </pre>
  <p>
  * The precise structure of {@link SpeciesReference} differs between SBML
  * Level&nbsp;2 and Level&nbsp;3.  We discuss the two variants in separate
@@ -87,7 +87,7 @@ package org.sbml.libsbml;
  * The following is a simple example of a species reference for species 
  * <code>X0</code>, with stoichiometry <code>2</code>, in a list of reactants within a reaction
  * having the identifier <code>J1:</code>
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
  &lt;model&gt;
      ...
      &lt;listOfReactions&gt;
@@ -101,12 +101,12 @@ package org.sbml.libsbml;
      &lt;/listOfReactions&gt;
      ...
  &lt;/model&gt;
- </pre></div>
+ </pre>
  <p>
  * The following is a more complex example of a species reference for
  * species X0, with a stoichiometry formula consisting of the parameter
  * <code>x:</code>
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
  &lt;model&gt;
      ...
      &lt;listOfReactions&gt;
@@ -126,8 +126,7 @@ package org.sbml.libsbml;
      &lt;/listOfReactions&gt;
      ...
  &lt;/model&gt;
- </pre></div>
- <p>
+ </pre>
  <p>
  * <h2>SpeciesReference in SBML Level 3</h2>
  <p>
@@ -263,18 +262,20 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * {@link SpeciesReference}
    <p>
    * <p>
- * @note Upon the addition of a {@link SpeciesReference} object to a {@link Model} (e.g.,
- * using {@link Reaction#addReactant(SpeciesReference sr)} or
- * {@link Reaction#addProduct(SpeciesReference sr)}), the SBML Level,
- * SBML Version and XML namespace of the document <em>override</em> the values
- * used when creating the {@link SpeciesReference} object via this constructor.
- * This is necessary to ensure that an SBML document is a consistent
- * structure.  Nevertheless, the ability to supply the values at the time
- * of creation of a {@link SpeciesReference} is an important aid to producing
- * valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  SpeciesReference(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_SpeciesReference__SWIG_0(level, version), true);
@@ -288,18 +289,20 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link SpeciesReference} object to a {@link Model} (e.g.,
- * using {@link Reaction#addReactant(SpeciesReference sr)} or
- * {@link Reaction#addProduct(SpeciesReference sr)}), the SBML Level,
- * SBML Version and XML namespace of the document <em>override</em> the values
- * used when creating the {@link SpeciesReference} object via this constructor.
- * This is necessary to ensure that an SBML document is a consistent
- * structure.  Nevertheless, the ability to supply the values at the time
- * of creation of a {@link SpeciesReference} is an important aid to producing
- * valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  SpeciesReference(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_SpeciesReference__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -311,7 +314,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    <p>
    * @param orig the {@link SpeciesReference} instance to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  SpeciesReference(SpeciesReference orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -320,9 +323,9 @@ public class SpeciesReference extends SimpleSpeciesReference {
 
   
 /**
-   * Creates and returns a deep copy of this {@link SpeciesReference} instance.
+   * Creates and returns a deep copy of this {@link SpeciesReference} object.
    <p>
-   * @return a (deep) copy of this {@link SpeciesReference}.
+   * @return the (deep) copy of this {@link SpeciesReference} object.
    */ public
  SpeciesReference cloneObject() {
     long cPtr = libsbmlJNI.SpeciesReference_cloneObject(swigCPtr, this);
@@ -526,7 +529,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setStoichiometry(double value) {
@@ -573,10 +576,10 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
    * </ul>
    */ public
  int setStoichiometryMath(StoichiometryMath math) {
@@ -605,7 +608,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setDenominator(int value) {
@@ -624,8 +627,8 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    * </ul>
    */ public
  int setConstant(boolean flag) {
@@ -640,9 +643,9 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * In SBML Level 2, product and reactant stoichiometries can be specified
@@ -682,8 +685,8 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note In SBML Level&nbsp;1, the 'stoichiometry' attribute of this
@@ -736,7 +739,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #appendAnnotation(XMLNode annotation)
@@ -765,8 +768,8 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #appendAnnotation(XMLNode annotation)
@@ -782,7 +785,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * subelement of this object.
    <p>
    * The content in <code>annotation</code> is copied.  Unlike
-   * {@link SpeciesReference#setAnnotation(String annotation)},
+   * {@link SpeciesReference#setAnnotation(String)},
    * this method allows other annotations to be preserved when an application
    * adds its own data.
    <p>
@@ -793,8 +796,8 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #setAnnotation(String annotation)
@@ -810,7 +813,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * subelement of this object.
    <p>
    * The content in <code>annotation</code> is copied.  Unlike
-   * {@link SpeciesReference#setAnnotation(String annotation)}, this
+   * {@link SpeciesReference#setAnnotation(String)}, this
    * method allows other annotations to be preserved when an application
    * adds its own data.
    <p>
@@ -821,8 +824,8 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #setAnnotation(String annotation)
@@ -839,16 +842,16 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE} (default).
+   * {@link libsbmlConstants#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE} (default).
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -874,14 +877,14 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * all the required attributes for this {@link SpeciesReference} object
    * have been set.
    <p>
-   * @note The required attributes for a {@link SpeciesReference} object are:
+   * The required attributes for a {@link SpeciesReference} object are:
    * <ul>
    * <li> 'species'
    * <li> 'constant' (only available SBML Level&nbsp;3)
    *
    * </ul> <p>
-   * @return a boolean value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return <code>true</code> if the required attributes have been set, <code>false</code>
+   * otherwise.
    */ public
  boolean hasRequiredAttributes() {
     return libsbmlJNI.SpeciesReference_hasRequiredAttributes(swigCPtr, this);

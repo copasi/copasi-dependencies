@@ -57,8 +57,8 @@ void SBMLUnitsConverter::init()
 /** @endcond */
 
 
-SBMLUnitsConverter::SBMLUnitsConverter () :
-    SBMLConverter()
+SBMLUnitsConverter::SBMLUnitsConverter () 
+  : SBMLConverter("SBML Units Converter")
 {
   newIdCount = 0;
 }
@@ -67,8 +67,8 @@ SBMLUnitsConverter::SBMLUnitsConverter () :
 /*
  * Copy constructor.
  */
-SBMLUnitsConverter::SBMLUnitsConverter(const SBMLUnitsConverter& orig) :
-    SBMLConverter(orig)
+SBMLUnitsConverter::SBMLUnitsConverter(const SBMLUnitsConverter& orig) 
+  : SBMLConverter(orig)
 {
   newIdCount = orig.newIdCount;
 }
@@ -112,11 +112,21 @@ ConversionProperties
 SBMLUnitsConverter::getDefaultProperties() const
 {
   static ConversionProperties prop;
-  prop.addOption("units", true,
-                 "Convert units in the model to SI units");
-  prop.addOption("removeUnusedUnits", true, 
+  static bool init = false;
+
+  if (init) 
+  {
+    return prop;
+  }
+  else
+  {
+    prop.addOption("units", true,
+                   "Convert units in the model to SI units");
+    prop.addOption("removeUnusedUnits", true, 
                  "Whether unused UnitDefinition objects should be removed");
-  return prop;
+    init = true;
+    return prop;
+  }
 }
 
 
@@ -559,7 +569,7 @@ SBMLUnitsConverter::convertUnits(SBase &sb, Model &m,
             if (speciesHasSize == true &&
               m.getCompartment(static_cast<Species &>(sb).getCompartment())
                                               ->getSpatialDimensions() != 0
-                                              && ud_vol->getNumUnits() > 0)
+                                              && ud_vol != NULL && ud_vol->getNumUnits() > 0)
             {
               newValue = newValue * 
                 m.getCompartment(static_cast<Species &>(sb).getCompartment())

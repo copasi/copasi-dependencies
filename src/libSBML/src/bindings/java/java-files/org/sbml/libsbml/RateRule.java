@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's RateRule construct.
+ *  An SBML <em>rate rule</em> representing <em>dx/dt = f(<b>Y</b>)</em>.
  <p>
  * The rule type {@link RateRule} is derived from the parent class {@link Rule}.  It is
  * used to express equations that determine the rates of change of
@@ -202,11 +202,11 @@ package org.sbml.libsbml;
  * that work with the enumeration values  listed below.
  <p>
  * <ul>
- * <li> {@link  libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE}: Indicates
+ * <li> {@link libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE}: Indicates
  * the rule is a 'rate' rule.
- * <li> {@link  libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR}:
+ * <li> {@link libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR}:
  * Indicates the rule is a 'scalar' rule.
- * <li> {@link  libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID}:
+ * <li> {@link libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID}:
  * Indicates the rule type is unknown or not yet set.
  *
  * </ul>
@@ -264,22 +264,26 @@ public class RateRule extends Rule {
    * @param version a long integer, the SBML Version to assign to this
    * {@link RateRule}
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of an {@link RateRule} object to an {@link SBMLDocument}
- * (e.g., using {@link Model#addRule(Rule r)}), the SBML Level, SBML
- * Version and XML namespace of the document <em>override</em> the values used
- * when creating the {@link RateRule} object via the {@link RateRule} constructors.
- * This is necessary to ensure that an SBML document has a consistent overall
- * structure.  Nevertheless, the ability to supply the values at the time of
- * creation of a {@link RateRule} is an important aid to producing valid SBML.
- * Knowledge of the intented SBML Level and Version determine whether it is
- * valid to assign a particular value to an attribute, or whether it is valid
- * to add an object to an existing {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  RateRule(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_RateRule__SWIG_0(level, version), true);
@@ -300,22 +304,26 @@ public class RateRule extends Rule {
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of an {@link RateRule} object to an {@link SBMLDocument}
- * (e.g., using {@link Model#addRule(Rule r)}), the SBML Level, SBML
- * Version and XML namespace of the document <em>override</em> the values used
- * when creating the {@link RateRule} object via the {@link RateRule} constructors.
- * This is necessary to ensure that an SBML document has a consistent overall
- * structure.  Nevertheless, the ability to supply the values at the time of
- * creation of a {@link RateRule} is an important aid to producing valid SBML.
- * Knowledge of the intented SBML Level and Version determine whether it is
- * valid to assign a particular value to an attribute, or whether it is valid
- * to add an object to an existing {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  RateRule(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_RateRule__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -323,9 +331,9 @@ public class RateRule extends Rule {
 
   
 /**
-   * Creates and returns a deep copy of this {@link Rule}.
+   * Creates and returns a deep copy of this {@link RateRule} object.
    <p>
-   * @return a (deep) copy of this {@link Rule}.
+   * @return the (deep) copy of this {@link RateRule} object.
    */ public
  RateRule cloneObject() {
     long cPtr = libsbmlJNI.RateRule_cloneObject(swigCPtr, this);
@@ -338,7 +346,7 @@ public class RateRule extends Rule {
    * all the required attributes for this {@link RateRule} object
    * have been set.
    <p>
-   * @note In SBML Levels&nbsp;2&ndash;3, the only required attribute for a
+   * In SBML Levels&nbsp;2&ndash;3, the only required attribute for a
    * {@link RateRule} object is 'variable'.  For Level&nbsp;1, where the equivalent
    * attribute is known by different names ('compartment', 'species', or
    * 'name', depending on the type of object), there is an additional
@@ -353,10 +361,11 @@ public class RateRule extends Rule {
 
   
 /**
-   * Renames all the <code>SIdRef</code> attributes on this element, including any
-   * found in MathML.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>SIdRef</code> type attribute value with another
+ * value.
+ <p>
+ * <p>
  * In SBML, object identifiers are of a data type called <code>SId</code>.
  * In SBML Level&nbsp;3, an explicit data type called <code>SIdRef</code> was
  * introduced for attribute values that refer to <code>SId</code> values; in
@@ -366,14 +375,15 @@ public class RateRule extends Rule {
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of 
-   * <code>oldid</code>.  If any matches are found, the matching identifiers are replaced
-   * with <code>newid</code>.  The method does <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of <code>oldid</code>.  If any matches are found, the
+ * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
+ * descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.RateRule_renameSIdRefs(swigCPtr, this, oldid, newid);

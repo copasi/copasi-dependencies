@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Log of errors and other events encountered while
- * processing an XML file or data stream.
+ *  Log of diagnostics reported during XML processing.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -221,7 +220,7 @@ public class XMLErrorLog {
   }
 
   
-/** 
+/**
    * Writes all errors contained in this log to a string and returns it.
    <p>
    * This method uses printErrors() to format the diagnostic messages.
@@ -245,10 +244,10 @@ public class XMLErrorLog {
    * output to the standard error stream.
    <p>
    * The format of the output is:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
    N error(s):
      line NNN: (id) message
- </pre></div>
+ </pre>
    * If no errors have occurred, i.e.,
    * <code>getNumErrors() == 0</code>, then no output will be produced.
 <p>
@@ -283,10 +282,10 @@ appears in the documentation.
    * output to the standard error stream.
    <p>
    * The format of the output is:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
    N error(s):
      line NNN: (id) message
- </pre></div>
+ </pre>
    * If no errors have occurred, i.e.,
    * <code>getNumErrors() == 0</code>, then no output will be produced.
 <p>
@@ -317,10 +316,21 @@ appears in the documentation.
    * Returns a boolean indicating whether or not the severity has been
    * overridden.
    <p>
+   * <p>
+ * The <em>severity override</em> mechanism in {@link XMLErrorLog} is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
+   <p>
    * @return <code>true</code> if an error severity override has been set, <code>false</code>
    * otherwise.
    <p>
-   * @see #setSeverityOverride(int severity)
+   * @see #getSeverityOverride()
+   * @see #setSeverityOverride(int)
+   * @see #unsetSeverityOverride()
+   * @see #changeErrorSeverity(int, int, String)
    */ public
  boolean isSeverityOverridden() {
     return libsbmlJNI.XMLErrorLog_isSeverityOverridden(swigCPtr, this);
@@ -330,7 +340,18 @@ appears in the documentation.
 /**
    * Usets an existing override.
    <p>
-   * @see #setSeverityOverride(int severity)
+   * <p>
+ * The <em>severity override</em> mechanism in {@link XMLErrorLog} is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
+   <p>
+   * @see #getSeverityOverride()
+   * @see #setSeverityOverride(int)
+   * @see #isSeverityOverridden()
+   * @see #changeErrorSeverity(int, int, String)
    */ public
  void unsetSeverityOverride() {
     libsbmlJNI.XMLErrorLog_unsetSeverityOverride(swigCPtr, this);
@@ -340,14 +361,25 @@ appears in the documentation.
 /**
    * Returns the current override.
    <p>
+   * <p>
+ * The <em>severity override</em> mechanism in {@link XMLErrorLog} is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
+   <p>
    * @return a severity override code.  The possible values are :
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED}
-   * <li> {@link  libsbmlConstants#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG}
-   * <li> {@link  libsbmlConstants#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING}
+   * <li> {@link libsbmlConstants#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED}
+   * <li> {@link libsbmlConstants#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG}
+   * <li> {@link libsbmlConstants#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING}
    *
    * </ul> <p>
-   * @see #setSeverityOverride(int severity)
+   * @see #isSeverityOverridden()
+   * @see #setSeverityOverride(int)
+   * @see #unsetSeverityOverride()
+   * @see #changeErrorSeverity(int, int, String)
    */ public
  int getSeverityOverride() {
     return libsbmlJNI.XMLErrorLog_getSeverityOverride(swigCPtr, this);
@@ -355,18 +387,29 @@ appears in the documentation.
 
   
 /**
-   * Set the severity override. 
+   * Set the severity override.
+   <p>
+   * <p>
+ * The <em>severity override</em> mechanism in {@link XMLErrorLog} is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
    <p>
    * @param severity an override code indicating what to do.  If the value is
-   * {@link  libsbmlConstants#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED}
+   * {@link libsbmlConstants#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED}
    * (the default setting) all errors logged will be given the severity
    * specified in their usual definition.   If the value is
-   * {@link  libsbmlConstants#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING},
+   * {@link libsbmlConstants#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING},
    * then all errors will be logged as warnings.  If the value is 
-   * {@link  libsbmlConstants#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG},
+   * {@link libsbmlConstants#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG},
    * no error will be logged, regardless of their severity.
    <p>
+   * @see #isSeverityOverridden()
    * @see #getSeverityOverride()
+   * @see #unsetSeverityOverride()
+   * @see #changeErrorSeverity(int, int, String)
    */ public
  void setSeverityOverride(int severity) {
     libsbmlJNI.XMLErrorLog_setSeverityOverride(swigCPtr, this, severity);
@@ -377,10 +420,18 @@ appears in the documentation.
    * Changes the severity override for errors in the log that have a given
    * severity.
    <p>
-   * This searches through the list of errors in the log, comparing each
-   * one's severity to the value of <code>originalSeverity</code>.  For each error
+   * This method searches through the list of errors in the log, comparing
+   * each one's severity to the value of <code>originalSeverity</code>.  For each error
    * encountered with that severity logged by the named <code>package</code>, the
    * severity of the error is reset to <code>targetSeverity</code>.
+   <p>
+   * <p>
+ * The <em>severity override</em> mechanism in {@link XMLErrorLog} is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
    <p>
    * @param originalSeverity the severity code to match
    <p>
@@ -390,7 +441,8 @@ appears in the documentation.
    * extension to use to narrow the search for errors.  A value of <code>'all'</code>
    * signifies to match against errors logged from any package; a value of a
    * package nickname such as <code>'comp'</code> signifies to limit consideration to
-   * errors from just that package.
+   * errors from just that package.  If no value is provided, <code>'all'</code> is the
+   * default.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -407,7 +459,10 @@ appears in the documentation.
 </dd></dl>
  
    <p>
+   * @see #isSeverityOverridden()
    * @see #getSeverityOverride()
+   * @see #setSeverityOverride(int)
+   * @see #unsetSeverityOverride()
    */ public
  void changeErrorSeverity(int originalSeverity, int targetSeverity, String arg2) {
     libsbmlJNI.XMLErrorLog_changeErrorSeverity__SWIG_0(swigCPtr, this, originalSeverity, targetSeverity, arg2);
@@ -418,10 +473,18 @@ appears in the documentation.
    * Changes the severity override for errors in the log that have a given
    * severity.
    <p>
-   * This searches through the list of errors in the log, comparing each
-   * one's severity to the value of <code>originalSeverity</code>.  For each error
+   * This method searches through the list of errors in the log, comparing
+   * each one's severity to the value of <code>originalSeverity</code>.  For each error
    * encountered with that severity logged by the named <code>package</code>, the
    * severity of the error is reset to <code>targetSeverity</code>.
+   <p>
+   * <p>
+ * The <em>severity override</em> mechanism in {@link XMLErrorLog} is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
    <p>
    * @param originalSeverity the severity code to match
    <p>
@@ -431,7 +494,8 @@ appears in the documentation.
    * extension to use to narrow the search for errors.  A value of <code>'all'</code>
    * signifies to match against errors logged from any package; a value of a
    * package nickname such as <code>'comp'</code> signifies to limit consideration to
-   * errors from just that package.
+   * errors from just that package.  If no value is provided, <code>'all'</code> is the
+   * default.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -448,7 +512,10 @@ appears in the documentation.
 </dd></dl>
  
    <p>
+   * @see #isSeverityOverridden()
    * @see #getSeverityOverride()
+   * @see #setSeverityOverride(int)
+   * @see #unsetSeverityOverride()
    */ public
  void changeErrorSeverity(int originalSeverity, int targetSeverity) {
     libsbmlJNI.XMLErrorLog_changeErrorSeverity__SWIG_1(swigCPtr, this, originalSeverity, targetSeverity);

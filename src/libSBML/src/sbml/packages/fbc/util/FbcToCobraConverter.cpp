@@ -57,7 +57,8 @@ void FbcToCobraConverter::init()
 /** @endcond */
 
 
-FbcToCobraConverter::FbcToCobraConverter() : SBMLConverter()
+FbcToCobraConverter::FbcToCobraConverter() 
+ : SBMLConverter("SBML FBC to COBRA Converter")
 {
 
 }
@@ -68,7 +69,7 @@ FbcToCobraConverter::FbcToCobraConverter(const FbcToCobraConverter& orig) :
 {
 }
 
-SBMLConverter* 
+FbcToCobraConverter* 
 FbcToCobraConverter::clone() const
 {
   return new FbcToCobraConverter(*this);

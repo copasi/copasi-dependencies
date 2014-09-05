@@ -1595,7 +1595,7 @@ static const sbmlErrorTableEntry errorTable[] =
   {
     OverdeterminedSystem,
     "The model is overdetermined",
-    LIBSBML_CAT_SBML,
+    LIBSBML_CAT_OVERDETERMINED_MODEL,
     LIBSBML_SEV_GENERAL_WARNING,
     LIBSBML_SEV_GENERAL_WARNING,
     LIBSBML_SEV_GENERAL_WARNING,
@@ -2311,7 +2311,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //20109
   {
     L3PackageOnLowerSBML,
-    "An L3 package ns found on the SBML container element.",
+    "An L3 package ns found on the SBML container element",
     LIBSBML_CAT_SBML,
     LIBSBML_SEV_WARNING,
     LIBSBML_SEV_WARNING,
@@ -8051,7 +8051,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //99109
   {
     PackageRequiredShouldBeFalse,
-    "This package expects required to be false.",
+    "This package expects required to be false",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_NOT_APPLICABLE,
@@ -8278,8 +8278,8 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,   
     LIBSBML_SEV_ERROR,   
     LIBSBML_SEV_ERROR,
-    "The csymbol 'time' should not be used within a the <math> element "
-    "of a <FunctionDefinition>. (References: L2V3 Section 4.3.2; " 
+    "The csymbol 'time' should not be used within the <math> element "
+    "of a <functionDefinition>. (References: L2V3 Section 4.3.2; " 
     "L2V4 Section 4.3.2)"
   },
 
@@ -8336,7 +8336,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //99401
   {   
     RDFMissingAboutTag,   
-    "RDF missing the <about> tag.",
+    "RDF missing the <about> tag",
     LIBSBML_CAT_SBML,   
     LIBSBML_SEV_NOT_APPLICABLE,   
     LIBSBML_SEV_NOT_APPLICABLE,   
@@ -8359,7 +8359,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //99402
   {   
     RDFEmptyAboutTag,   
-    "RDF empty <about> tag.",
+    "RDF empty <about> tag",
     LIBSBML_CAT_SBML,   
     LIBSBML_SEV_NOT_APPLICABLE,   
     LIBSBML_SEV_NOT_APPLICABLE,   
@@ -8382,7 +8382,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //99403
   {   
     RDFAboutTagNotMetaid,   
-    "RDF <about> tag is not metaid.",
+    "RDF <about> tag is not metaid",
     LIBSBML_CAT_SBML,   
     LIBSBML_SEV_NOT_APPLICABLE,   
     LIBSBML_SEV_NOT_APPLICABLE,   
@@ -8406,7 +8406,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //99404
   {   
     RDFNotCompleteModelHistory,   
-    "RDF does not contain valid ModelHistory.",
+    "RDF does not contain valid ModelHistory",
     LIBSBML_CAT_SBML,   
     LIBSBML_SEV_NOT_APPLICABLE,   
     LIBSBML_SEV_NOT_APPLICABLE,   
@@ -8431,7 +8431,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //99405
   {   
     RDFNotModelHistory,   
-    "RDF does not result in a ModelHistory.",
+    "RDF does not result in a ModelHistory",
     LIBSBML_CAT_SBML,   
     LIBSBML_SEV_NOT_APPLICABLE,   
     LIBSBML_SEV_NOT_APPLICABLE,   
@@ -8456,7 +8456,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //99406
   {   
     AnnotationNotElement,   
-    "Annotation must contain element.",
+    "Annotation must contain element",
     LIBSBML_CAT_SBML,   
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_NOT_APPLICABLE,
@@ -9126,10 +9126,39 @@ static const sbmlErrorTableEntry errorTable[] =
   //   "L3V1 Section 4.2.6"}
   //},
 
+
+/* Explanation about 99994 and 99995:
+
+If SBase::readAttributes function finds an attribute it does not know about
+in a namespace it does not recognize, it stores the attribute BUT.  If it
+*does* know about the namespace but the attribute is not recognized, then
+since this is the generic base function, it logs a generic error 99994/5.
+
+The readAttributes function for the derived class calls SBase::readAttributes
+and then looks to see if these generic errors have been logged. If so, they
+remove the error and replace it with an error that is specific to the object
+that is logging the error.
+
+For example, instead of getting a general error, you would get a specific
+error such as
+
+    "A <layout> object may have the optional SBML Level~3 Core "
+    "attributes 'metaid' and 'sboTerm'. No other attributes from "
+    "the SBML Level 3 Core namespace are permitted on a <layout> object. ",
+
+This error is actually within the layout package so this "add a generic error
+and then replace it with a specific one 'hack' " keeps the error codes for
+packages separate -- so that libsbml will work if a certain package has not
+been included in the build but if the package is in the build you get proper
+package related errors without the SBase::readAttributes function needing to
+know about them.
+
+*/
+
   //99994
   {   
     UnknownCoreAttribute,   
-    "",
+    "Encountered an unknown attribute in the SBML Core namespace",
     LIBSBML_CAT_INTERNAL,   
     LIBSBML_SEV_ERROR,   
     LIBSBML_SEV_ERROR,   
@@ -9141,10 +9170,10 @@ static const sbmlErrorTableEntry errorTable[] =
     ""
   },
 
-  //99996
+  //99995
   {   
     UnknownPackageAttribute,   
-    "",
+    "Encountered an unknown attribute in an SBML Level 3 package namespace",
     LIBSBML_CAT_INTERNAL,   
     LIBSBML_SEV_ERROR,   
     LIBSBML_SEV_ERROR,   

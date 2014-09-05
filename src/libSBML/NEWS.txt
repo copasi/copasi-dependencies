@@ -1,5 +1,161 @@
            libSBML NEWS -- History of user-visible changes
 
+		   
+====================================================================
+5.10.2 (2014-07-17)
+====================================================================
+
+STABLE RELEASE
+
+* New features
+
+  - The static functions implemented by the SBMLTransforms class
+    that are used by the converters that in-line FunctionDefinitions 
+    or expand InitialAssignments has been made available to all language 
+    bindings.  These are: replaceFD, expandInitialAssignments 
+    and evaluateASTNode.  Examples of using these functions 
+    are also provided.
+	
+  - The L3ParserSettings object can now be configured to compare
+    built-in functions and constants caselessly (as it did in the
+    past; the default), or to only accept the lower-case forms.
+
+  - 'layout' package-specific updates:
+  
+    - The C API has been improved and appropriate argument checking
+      has been implemented.
+      
+* Bug fixes
+
+  - There was an issue with detecting NULL elements with the 
+    R bindings.  This turns out to be a consequence of SWIG. A
+    bug report has been filed with the SWIG development team,
+    in the meantime, a revised SWIG file is included with the
+    libSBML source and is used by the libSBML build when
+    creating the R bindings. 
+
+  - The unit consistency checking code was ignoring numerical
+    factors when checking the units of a KineticLaw matched the 
+    model wide units of extent per time (substance per time in 
+    SBML L1/L2). This has been changed.  Thanks to Daniel Palm
+    for the report that exposed this.
+    
+  - Unit checking code determines whether a math expression contains 
+    parameters or numbers with undefined units. However, depending
+    on where these occurred within the expression, libSBML was
+    not always correctly establishing this.  This has been fixed.
+    Thanks to Daniel Palm for reporting this.
+    
+  - The unit consistency checking code was losing numerical factors
+    that were left after cancelling out units.  This could affect
+    the overall definition of the remaining unit and thus impact code
+    that looked for exact identity between units.  This has been fixed.
+    Thanks to Daniel Palm for providing an example of a case where this
+    was happening.
+
+  - There was a bug in writing out MathML that manifested itself
+    using the in-lining functionDefinition converter for a narrow 
+    set of functions.  This has been fixed.
+    
+  - Validation has been improved so as to no longer warn a user that 
+    a variable has no initial value if there exists an initialAssignment
+    or assignmentRule that would set the value.
+    
+  - The SBMLError reporting an over-determined model was being logged
+    with the incorrect category of error. This has been changed.
+    
+  - LibSBML incorrectly reported the units of 'pi' as radians. This
+    has been corrected to report 'dimensionless'.  Thanks to Matthias
+    König for reporting this.
+
+  - The L3 parser did not recognize 'arcsinh' or 'asinh' as valid
+    built-in functions.  This has been fixed.
+
+  - 'comp' package-specific bug fixes:
+  
+    - When libSBML detects an SBML L3 package that it does not support
+      validation of 'comp' references can report that a reference may
+      be to an identifier within the unknown package. However, the code
+      was failing to check whether the reference could be located within
+      the xml relating to supported packages before issuing this warning.
+      This has been fixed.  Thanks to Chris Myers for reporting it.
+      
+* Configuration/build system changes
+
+  - The CMake build system will now produce an uninstall target.
+
+* Miscellaneous
+
+  - Continue our review of code a number of potential problems were 
+    highlighted during static analysis. These have been fixed.
+    
+  - Code review has also eliminated a number of compiler warnings
+    raised by various different compilers on various different
+    systems.
+    
+  - Various memory leaks have been plugged.  Thanks to people,
+    in particular Andy Somogyi, for reporting these.
+
+  - The short error messages for the following error codes in
+    SBMLErrorTable.h had trailing periods, which was inconsistent with
+    most of the other messages; the periods have been removed: 20109,
+    99109, 99401, 99402, 99403, 99404, 99405, 99406.
+
+  - In the API documentation, the instructions for setting PYTHONPATH
+    was not correct for the installation produced by using CMake
+    instead of GNU configure.  Further, the PYTHONPATH instructions
+    for Ubuntu were actually for other Linux/Unix variants and vice
+    versa.  This has been fixed by making the instructions use a
+    single, more general approach that should work everywhere.
+
+  - The API documentation lacked information about using PyPI for 
+    Python, and about how to install the R interface.  Fixed.
+
+  - Various issues in the Python documentation have been fixed.  For
+    example, in the table of member methods for each class in the API
+    documentation for Python, the brief descriptions were missing --
+    all the short member descriptions had the same text, "Python
+    method signature(s)".  This was caused by a bug in our custom
+    libSBML documentation generation tools.
+
+  - The error code table in the documentation for SBMLError has been
+    updated.
+
+
+EXPERIMENTAL RELEASE
+
+* New features
+
+  - 'arrays' package-specific updates:
+  
+    - The arrays code has been updated in line with the specification
+      dated June 19 2014. Changes include a change in attribute names
+      and a revised set of supported math constructs.
+      
+    - Support for parsing from infix to ASTNodes and vice versa has
+      been added for the majority of the math constructs currently
+      listed within the arrays specification.
+      
+  - 'req' package-specific updates:
+  
+    - The req code has been updated in line with the specification
+      Release 0.5 dated 30 May 2013.  Users should be aware that
+      this update represents a significant change in code to reflect 
+      the change in structure of the package.
+      
+  - 'spatial' package-specific updates:
+  
+    - The spatial code has been updated in line with the specification
+      Release 0.87 dated June 2014.  Users should be aware that
+      this update represents a significant change in code to reflect 
+      the change in structure of the package. 
+  
+ * Bug fixes
+ 
+  - There was a potential stack-overflow issue with packages that
+    extend SBase directly.  This has been fixed where appropriate.
+    Thanks to Chris Myers for reporting it.
+
 ====================================================================
 5.10.0 (2014-04-10)
 ====================================================================
@@ -176,6 +332,10 @@ STABLE RELEASE
   - A number of extraneous files have been removed from the
     documentation source directory (docs/src/); in addition, the
     directory has undergone some minor restructuring.
+
+  - The Python API documentation lacked all the class constructors,
+    due to a bug in the libSBML documentation production pipeline.
+    This is now fixed.
 
 
 EXPERIMENTAL RELEASE

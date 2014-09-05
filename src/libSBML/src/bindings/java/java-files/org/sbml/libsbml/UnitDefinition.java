@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's UnitDefinition construct.
+ *  A definition of a unit used in an SBML model.
  <p>
  * Units of measurement may be supplied in a number of contexts in an SBML
  * model.  The SBML unit definition facility uses two classes of objects,
@@ -66,7 +66,7 @@ package org.sbml.libsbml;
  * example illustrates a complete unit definition (when written in XML)
  * when they all the pieces are combined together.  This defines 'mmls'
  * to be millimoles per litre per second.
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
  &lt;listOfUnitDefinitions&gt;
      &lt;unitDefinition id='mmls'&gt;
          &lt;listOfUnits&gt;
@@ -76,7 +76,7 @@ package org.sbml.libsbml;
          &lt;/listOfUnits&gt;
      &lt;/unitDefinition&gt;
  &lt;/listOfUnitDefinitions&gt;
- </pre></div>
+ </pre>
  <p>
  * <h2>Special considerations for {@link Unit} object identifiers</h2>
  <p>
@@ -122,12 +122,14 @@ package org.sbml.libsbml;
  * predefined unit names, <code>meter</code> and <code>liter.</code>  This is explained in
  * somewhat greater detail in the description of the {@link Unit} class.
  <p>
+ * <ul>
  * <li> In SBML Level&nbsp;2 (all Versions), there is an additional set of
  * reserved identifiers: <code>substance</code>, <code>volume</code>, <code>area</code>, <code>length</code>, and
  * <code>time.</code>  Using one of these values for the attribute 'id' of a
  * {@link UnitDefinition} has the effect of redefining the model-wide default units
  * for the corresponding quantities.  The list of special unit names in
  * SBML Level&nbsp;2 is given in the table below:
+ * </ul>
  <p>
  *   <table border="0" class="centered text-table width80 normal-font alt-row-colors">
  <tr>
@@ -154,9 +156,6 @@ package org.sbml.libsbml;
  * The special unit names <code>substance</code>, <code>volume</code>, <code>area</code>, <code>length</code>, and
  * <code>time</code> are not defined by SBML Level&nbsp;3, which uses a different
  * approach to setting model-wide inherited units.
- <p>
- * </ul>
- <p>
  <p>
  * <h2>Further comments about SBML's unit definition system</h2>
  <p>
@@ -211,7 +210,7 @@ package org.sbml.libsbml;
  *   substituting a call to this function wherever the original quantity
  *   appeared in the model.  For example, here is a possible definition for
  *   converting Fahrenheit to Celsius degrees:
- *   <div class='fragment'><pre class='fragment'>
+ *   <pre class='fragment'>
  &lt;functionDefinition id='Fahrenheit_to_kelvin'&gt;
      &lt;math xmlns='http://www.w3.org/1998/Math/MathML'&gt;
          &lt;lambda&gt;
@@ -228,7 +227,7 @@ package org.sbml.libsbml;
          &lt;/lambda&gt;
      &lt;/math&gt;
  &lt;/functionDefinition&gt;
- </pre></div>
+ </pre>
  <p>
  * <li> An alternative approach not requiring the use of function definitions
  *   is to use an {@link AssignmentRule} for each variable in Fahrenheit units.
@@ -297,22 +296,26 @@ public class UnitDefinition extends SBase {
    * @param version a long integer, the SBML Version to assign to this
    * {@link UnitDefinition}
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link UnitDefinition} object to an {@link SBMLDocument}
- * (e.g., using {@link Model#addUnitDefinition(UnitDefinition ud)}), the SBML Level, SBML Version
- * and XML namespace of the document <em>override</em> the values used
- * when creating the {@link UnitDefinition} object via this constructor.  This is
- * necessary to ensure that an SBML document is a consistent structure.
- * Nevertheless, the ability to supply the values at the time of creation
- * of a {@link UnitDefinition} is an important aid to producing valid SBML.
- * Knowledge of the intented SBML Level and Version determine whether it
- * is valid to assign a particular value to an attribute, or whether it
- * is valid to add an object to an existing {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  UnitDefinition(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_UnitDefinition__SWIG_0(level, version), true);
@@ -333,22 +336,26 @@ public class UnitDefinition extends SBase {
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link UnitDefinition} object to an {@link SBMLDocument}
- * (e.g., using {@link Model#addUnitDefinition(UnitDefinition ud)}), the SBML Level, SBML Version
- * and XML namespace of the document <em>override</em> the values used
- * when creating the {@link UnitDefinition} object via this constructor.  This is
- * necessary to ensure that an SBML document is a consistent structure.
- * Nevertheless, the ability to supply the values at the time of creation
- * of a {@link UnitDefinition} is an important aid to producing valid SBML.
- * Knowledge of the intented SBML Level and Version determine whether it
- * is valid to assign a particular value to an attribute, or whether it
- * is valid to add an object to an existing {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  UnitDefinition(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_UnitDefinition__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -360,7 +367,7 @@ public class UnitDefinition extends SBase {
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  UnitDefinition(UnitDefinition orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -369,9 +376,9 @@ public class UnitDefinition extends SBase {
 
   
 /**
-   * Creates and returns a deep copy of this {@link UnitDefinition}.
+   * Creates and returns a deep copy of this {@link UnitDefinition} object.
    <p>
-   * @return a (deep) copy of this {@link UnitDefinition}.
+   * @return the (deep) copy of this {@link UnitDefinition} object.
    */ public
  UnitDefinition cloneObject() {
     long cPtr = libsbmlJNI.UnitDefinition_cloneObject(swigCPtr, this);
@@ -457,15 +464,14 @@ public class UnitDefinition extends SBase {
    * <p>
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter .= 'a'..'z','A'..'Z'
  * digit  .= '0'..'9'
  * idChar .= letter | digit | '_'
- * SId    .= ( letter | '_' ) idChar*
- * </pre>
+ * SId    .= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -481,8 +487,8 @@ public class UnitDefinition extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setId(String sid) {
@@ -501,8 +507,8 @@ public class UnitDefinition extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setName(String name) {
@@ -517,8 +523,8 @@ public class UnitDefinition extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetName() {
@@ -642,11 +648,11 @@ public class UnitDefinition extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -677,9 +683,9 @@ public class UnitDefinition extends SBase {
    * @note It is worth emphasizing that the attribute 'kind' value of a
    * {@link Unit} is a required attribute for a valid {@link Unit} definition.  The
    * createUnit() method does not assign a valid kind to the constructed
-   * unit (instead, it sets the 'kind' to {@link  libsbmlConstants#UNIT_KIND_INVALID UNIT_KIND_INVALID}).
+   * unit (instead, it sets the 'kind' to {@link libsbmlConstants#UNIT_KIND_INVALID UNIT_KIND_INVALID}).
    * Callers are cautioned to set the newly-constructed {@link Unit}'s kind using
-   * {@link Unit#setKind(int kind)} soon after calling this method.
+   * {@link Unit#setKind(int)} soon after calling this method.
    <p>
    * @see #addUnit(Unit u)
    */ public
@@ -781,16 +787,16 @@ public class UnitDefinition extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION} (default).
+   * {@link libsbmlConstants#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION} (default).
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -822,22 +828,22 @@ public class UnitDefinition extends SBase {
    * occurs only once in the {@link ListOfUnits}.
    <p>
    * For example, the following definition,
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
  &lt;unitDefinition&gt;
   &lt;listOfUnits&gt;
     &lt;unit kind='metre' exponent='1'/&gt;
     &lt;unit kind='metre' exponent='2'/&gt;
   &lt;/listOfUnits&gt;
  &lt;unitDefinition&gt;
- </pre></div>
+ </pre>
    * will be simplified to 
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
  &lt;unitDefinition&gt;
    &lt;listOfUnits&gt;
      &lt;unit kind='metre' exponent='3'/&gt;
    &lt;/listOfUnits&gt;
  &lt;unitDefinition&gt;
- </pre></div>
+ </pre>
    <p>
    * @param ud the {@link UnitDefinition} object to be simplified.
    <p>
@@ -886,7 +892,7 @@ public class UnitDefinition extends SBase {
    * objects are considered identical when they contain identical lists of
    * {@link Unit} objects.  Pairs of {@link Unit} objects in the lists are in turn
    * considered identical if they satisfy the predicate
-   * {@link Unit#areIdentical(Unit u1, Unit u2)}.
+   * {@link Unit#areIdentical(Unit, Unit)}.
    * The predicate compares every attribute of the
    * {@link Unit} objects.
    <p>
@@ -914,7 +920,7 @@ public class UnitDefinition extends SBase {
    * objects are considered equivalent when they contain <em>equivalent</em>
    * list of {@link Unit} objects.  {@link Unit} objects are in turn considered equivalent
    * if they satisfy the predicate
-   * {@link Unit#areEquivalent(Unit u1, Unit u2)}.
+   * {@link Unit#areEquivalent(Unit, Unit)}.
    * The predicate tests a subset of the objects's attributes.
    <p>
    * @param ud1 the first {@link UnitDefinition} object to compare
@@ -981,16 +987,16 @@ public class UnitDefinition extends SBase {
    * Expresses the given definition in a plain-text form.
    <p>
    * For example,
-   * {@link UnitDefinition#printUnits(UnitDefinition u)}
+   * {@link UnitDefinition#printUnits(UnitDefinition)}
    * applied to
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
  &lt;unitDefinition&gt;
   &lt;listOfUnits&gt;
     &lt;unit kind='metre' exponent='1'/&gt;
     &lt;unit kind='second' exponent='-2'/&gt;
   &lt;/listOfUnits&gt;
  &lt;unitDefinition&gt;
- </pre></div>
+ </pre>
    * will return the string <code>'metre (exponent = 1, multiplier = 1,
    * scale = 0) second (exponent = -2, multiplier = 1, scale = 0)'</code>
    * or, if the optional parameter <code>compact</code> is given the value <code>true</code>,
@@ -1016,16 +1022,16 @@ public class UnitDefinition extends SBase {
    * Expresses the given definition in a plain-text form.
    <p>
    * For example,
-   * {@link UnitDefinition#printUnits(UnitDefinition u)}
+   * {@link UnitDefinition#printUnits(UnitDefinition)}
    * applied to
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
  &lt;unitDefinition&gt;
   &lt;listOfUnits&gt;
     &lt;unit kind='metre' exponent='1'/&gt;
     &lt;unit kind='second' exponent='-2'/&gt;
   &lt;/listOfUnits&gt;
  &lt;unitDefinition&gt;
- </pre></div>
+ </pre>
    * will return the string <code>'metre (exponent = 1, multiplier = 1,
    * scale = 0) second (exponent = -2, multiplier = 1, scale = 0)'</code>
    * or, if the optional parameter <code>compact</code> is given the value <code>true</code>,
@@ -1052,13 +1058,13 @@ public class UnitDefinition extends SBase {
    * all the required attributes for this {@link UnitDefinition} object
    * have been set.
    <p>
-   * @note The required attributes for a {@link UnitDefinition} object are:
+   * The required attributes for a {@link UnitDefinition} object are:
    * <ul>
    * <li> 'id'
    *
    * </ul> <p>
-   * @return a boolean value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return <code>true</code> if the required attributes have been set, <code>false</code>
+   * otherwise.
    */ public
  boolean hasRequiredAttributes() {
     return libsbmlJNI.UnitDefinition_hasRequiredAttributes(swigCPtr, this);

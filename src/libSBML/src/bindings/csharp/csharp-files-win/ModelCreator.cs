@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Representation of MIRIAM-compliant model creator data
- * used in ModelHistory.
+@htmlinclude pkg-marker-core.html MIRIAM-compliant data about a model's creator.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -165,7 +164,7 @@ public class ModelCreator : IDisposable {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  ModelCreator(ModelCreator orig) : this(libsbmlPINVOKE.new_ModelCreator__SWIG_2(ModelCreator.getCPtr(orig)), true) {
@@ -174,9 +173,9 @@ public class ModelCreator : IDisposable {
 
   
 /**
-   * Creates and returns a copy of this ModelCreator.
+   * Creates and returns a deep copy of this ModelCreator object.
    *
-   * @return a (deep) copy of this ModelCreator.
+   * @return the (deep) copy of this ModelCreator object.
    */ public
  ModelCreator clone() {
     IntPtr cPtr = libsbmlPINVOKE.ModelCreator_clone(swigCPtr);
@@ -318,7 +317,7 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setFamilyName(string familyName) {
     int ret = libsbmlPINVOKE.ModelCreator_setFamilyName(swigCPtr, familyName);
@@ -335,7 +334,7 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setGivenName(string givenName) {
     int ret = libsbmlPINVOKE.ModelCreator_setGivenName(swigCPtr, givenName);
@@ -352,7 +351,7 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setEmail(string email) {
     int ret = libsbmlPINVOKE.ModelCreator_setEmail(swigCPtr, email);
@@ -370,7 +369,7 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setOrganization(string organization) {
     int ret = libsbmlPINVOKE.ModelCreator_setOrganization(swigCPtr, organization);
@@ -391,7 +390,7 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setOrganization(string organization)
    */ public
@@ -408,8 +407,8 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetFamilyName() {
     int ret = libsbmlPINVOKE.ModelCreator_unsetFamilyName(swigCPtr);
@@ -424,8 +423,8 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetGivenName() {
     int ret = libsbmlPINVOKE.ModelCreator_unsetGivenName(swigCPtr);
@@ -440,8 +439,8 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetEmail() {
     int ret = libsbmlPINVOKE.ModelCreator_unsetEmail(swigCPtr);
@@ -456,8 +455,8 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetOrganization() {
     int ret = libsbmlPINVOKE.ModelCreator_unsetOrganization(swigCPtr);
@@ -474,8 +473,8 @@ public class ModelCreator : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see unsetOrganization()
    */ public

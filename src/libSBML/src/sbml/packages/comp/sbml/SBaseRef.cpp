@@ -958,7 +958,7 @@ int SBaseRef::collectDeletions(set<SBase*>* removed, set<SBase*>* toremove)
   CompSBasePlugin* todplug = static_cast<CompSBasePlugin*>(todelete->getPlugin(getPrefix()));
   if (todplug != NULL) {
     for (unsigned long re=0; re<todplug->getNumReplacedElements(); re++) {
-      todplug->getReplacedElement(re)->collectDeletions(removed, toremove);
+      todplug->getReplacedElement((unsigned int)re)->collectDeletions(removed, toremove);
     }
     if (todplug->isSetReplacedBy()) {
       todplug->getReplacedBy()->collectDeletions(removed, toremove);
@@ -971,7 +971,7 @@ int SBaseRef::collectDeletions(set<SBase*>* removed, set<SBase*>* toremove)
 int SBaseRef::performDeletion()
 {
   set<SBase*> toremove;
-  set<SBase*>* removed;
+  set<SBase*>* removed=NULL;
   CompModelPlugin* cmp = NULL;
   SBase* parent = getParentSBMLObject();
   while (parent != NULL && parent->getTypeCode() != SBML_DOCUMENT) {
@@ -984,7 +984,7 @@ int SBaseRef::performDeletion()
     }
     parent = parent->getParentSBMLObject();
   }
-  int ret = collectDeletions(removed, &toremove);
+  int ret = removed != NULL ? collectDeletions(removed, &toremove) : LIBSBML_INVALID_OBJECT ;
   if (ret != LIBSBML_OPERATION_SUCCESS) {
     return ret;
   }

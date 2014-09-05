@@ -24,8 +24,7 @@
  *------------------------------------------------------------------------- -->
  *
  * @class ModelDefinition
- * @sbmlbrief{comp} Implementation of the %ModelDefinition construct from the
- * &ldquo;comp&rdquo; package.
+ * @sbmlbrief{comp} A model used in model composition.
  *
  * The @ref comp @if java "Hierarchical %Model Composition"@endif@~ 
  * package (&ldquo;comp&rdquo;) allows multiple Model objects
@@ -112,10 +111,13 @@ public:
 
 
   /**
-   * The only difference between a Model and a ModelDefinition is the
-   * element name ('modelDefinition')
+   * Returns the XML element name of this object.
    *
-   * @return the string of the name of this element ("modelDefintion").
+   * The only difference between a Model and a ModelDefinition is the
+   * element name ('modelDefinition').
+   *
+   * @return the name of this element, as a text string.
+   *
    * @see getTypeCode()
    */
   virtual const std::string& getElementName () const ;
@@ -127,7 +129,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLCompTypeCode_t#SBML_COMP_MODELDEFINITION SBML_COMP_MODELDEFINITION@endlink
+   * @sbmlconstant{SBML_COMP_MODELDEFINITION, SBMLCompTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -146,8 +148,8 @@ public:
    *
    * @return integer value indicating success/failure of the
    * operation. The possible return values are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int removeFromParentAndDelete();
 

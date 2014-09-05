@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's Rule construct.
+ *  Parent class for SBML <em>rules</em> in libSBML.
  <p>
  * In SBML, <em>rules</em> provide additional ways to define the values of
  * variables in a model, their relationships, and the dynamical behaviors
@@ -154,11 +154,11 @@ package org.sbml.libsbml;
  * that work with the enumeration values  listed below.
  <p>
  * <ul>
- * <li> {@link  libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE}: Indicates
+ * <li> {@link libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE}: Indicates
  * the rule is a 'rate' rule.
- * <li> {@link  libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR}:
+ * <li> {@link libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR}:
  * Indicates the rule is a 'scalar' rule.
- * <li> {@link  libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID}:
+ * <li> {@link libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID}:
  * Indicates the rule type is unknown or not yet set.
  *
  * </ul>
@@ -212,7 +212,7 @@ public class Rule extends SBase {
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  Rule(Rule orig) {
@@ -221,9 +221,9 @@ public class Rule extends SBase {
 
   
 /**
-   * Creates and returns a deep copy of this {@link Rule}.
+   * Creates and returns a deep copy of this {@link Rule} object.
    <p>
-   * @return a (deep) copy of this {@link Rule}.
+   * @return the (deep) copy of this {@link Rule} object.
    */ public
  Rule cloneObject() {
   return (Rule) libsbml.DowncastSBase(libsbmlJNI.Rule_cloneObject(swigCPtr, this), true);
@@ -408,8 +408,8 @@ public class Rule extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @note The attribute 'formula' is specific to SBML Level&nbsp;1; in
@@ -435,8 +435,8 @@ public class Rule extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @note The subelement 'math' is present in SBML Levels&nbsp;2
@@ -475,9 +475,9 @@ public class Rule extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    * </ul>
    */ public
  int setVariable(String sid) {
@@ -494,9 +494,9 @@ public class Rule extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * @note The attribute 'units' exists on SBML Level&nbsp;1 ParameterRule
@@ -514,9 +514,9 @@ public class Rule extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * @note The attribute 'units' exists on SBML Level&nbsp;1 ParameterRule
@@ -592,14 +592,12 @@ public class Rule extends SBase {
    <p>
    * @return the rule type, which will be one of the following three possible
    * values:
-   * *
    * <ul>
-   * <li> {@link  libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE}
-   * <li> {@link  libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR}
-   * <li> {@link  libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID}
+   * <li> {@link libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE}
+   * <li> {@link libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR}
+   * <li> {@link libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID}
    *
    * </ul> <p>
-   <p>
    * @note The attribute 'type' on {@link Rule} objects is present only in SBML
    * Level&nbsp;1.  In SBML Level&nbsp;2 and later, the type has been
    * replaced by subclassing the {@link Rule} object.
@@ -715,18 +713,18 @@ public class Rule extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object, either
-   * {@link  libsbmlConstants#SBML_ASSIGNMENT_RULE SBML_ASSIGNMENT_RULE},
-   * {@link  libsbmlConstants#SBML_RATE_RULE SBML_RATE_RULE}, or
-   * {@link  libsbmlConstants#SBML_ALGEBRAIC_RULE SBML_ALGEBRAIC_RULE} 
+   * {@link libsbmlConstants#SBML_ASSIGNMENT_RULE SBML_ASSIGNMENT_RULE},
+   * {@link libsbmlConstants#SBML_RATE_RULE SBML_RATE_RULE}, or
+   * {@link libsbmlConstants#SBML_ALGEBRAIC_RULE SBML_ALGEBRAIC_RULE} 
    * for SBML Core.
    <p>
    * <p>
@@ -746,17 +744,15 @@ public class Rule extends SBase {
 /**
    * Returns the SBML Level&nbsp;1 type code for this {@link Rule} object.
    <p>
-   * This method only applies to SBML Level&nbsp;1 model objects.  If this
-   * is not an SBML Level&nbsp;1 rule object, this method will return {@link 
-   * libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN}.
+   * This method only applies to SBML Level&nbsp;1 model objects.  If this is
+   * not an SBML Level&nbsp;1 rule object, this method will return
+   * {@link libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN}.
    <p>
-   * @return the SBML Level&nbsp;1 type code for this {@link Rule} (namely, {@link 
-   * libsbmlConstants#SBML_COMPARTMENT_VOLUME_RULE
-   * SBML_COMPARTMENT_VOLUME_RULE}, {@link 
-   * libsbmlConstants#SBML_PARAMETER_RULE SBML_PARAMETER_RULE}, {@link 
-   * libsbmlConstants#SBML_SPECIES_CONCENTRATION_RULE
-   * SBML_SPECIES_CONCENTRATION_RULE}, or {@link 
-   * libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN}).
+   * @return the SBML Level&nbsp;1 type code for this {@link Rule} (namely,
+   * {@link libsbmlConstants#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE},
+   * {@link libsbmlConstants#SBML_PARAMETER_RULE SBML_PARAMETER_RULE},
+   * {@link libsbmlConstants#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE}, or
+   * {@link libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN}).
    */ public
  int getL1TypeCode() {
     return libsbmlJNI.Rule_getL1TypeCode(swigCPtr, this);
@@ -764,11 +760,11 @@ public class Rule extends SBase {
 
   
 /**
-   * Returns the XML element name of this object
+   * Returns the XML element name of this object.
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.10.0
+   * is.  The rules as of libSBML version 5.10.2
 
    * are the following:
    * <ul>
@@ -795,18 +791,16 @@ public class Rule extends SBase {
 /**
    * Sets the SBML Level&nbsp;1 type code for this {@link Rule}.
    <p>
-   * @param type the SBML Level&nbsp;1 type code for this {@link Rule}. The
-   * allowable values are {@link  libsbmlConstants#SBML_COMPARTMENT_VOLUME_RULE
-   * SBML_COMPARTMENT_VOLUME_RULE}, {@link 
-   * libsbmlConstants#SBML_PARAMETER_RULE SBML_PARAMETER_RULE}, and
-   * {@link  libsbmlConstants#SBML_SPECIES_CONCENTRATION_RULE
-   * SBML_SPECIES_CONCENTRATION_RULE}.
+   * @param type the SBML Level&nbsp;1 type code for this {@link Rule}. The allowable
+   * values are {@link libsbmlConstants#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE},
+   * {@link libsbmlConstants#SBML_PARAMETER_RULE SBML_PARAMETER_RULE}, and
+   * {@link libsbmlConstants#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE}.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * if given <code>type</code> value is not one of the above.
    * </ul>
    */ public
@@ -839,8 +833,8 @@ public class Rule extends SBase {
    * ParameterRule objects), the required attribute is 'variable'; for
    * {@link AlgebraicRule} objects, there is no required attribute.
    <p>
-   * @return a boolean value indicating whether all the required
-   * elements for this object have been defined.
+   * @return <code>true</code> if the required attributes have been set, <code>false</code>
+   * otherwise.
    */ public
  boolean hasRequiredAttributes() {
     return libsbmlJNI.Rule_hasRequiredAttributes(swigCPtr, this);
@@ -848,10 +842,11 @@ public class Rule extends SBase {
 
   
 /**
-   * Renames all the <code>SIdRef</code> attributes on this element, including any
-   * found in MathML.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>SIdRef</code> type attribute value with another
+ * value.
+ <p>
+ * <p>
  * In SBML, object identifiers are of a data type called <code>SId</code>.
  * In SBML Level&nbsp;3, an explicit data type called <code>SIdRef</code> was
  * introduced for attribute values that refer to <code>SId</code> values; in
@@ -861,14 +856,15 @@ public class Rule extends SBase {
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of 
-   * <code>oldid</code>.  If any matches are found, the matching identifiers are replaced
-   * with <code>newid</code>.  The method does <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of <code>oldid</code>.  If any matches are found, the
+ * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
+ * descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Rule_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -876,9 +872,11 @@ public class Rule extends SBase {
 
   
 /**
-   * Renames all the <code>UnitSIdRef</code> attributes on this element.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>UnitSIdRef</code> type attribute value with
+ * another value.
+ <p>
+ * <p>
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
  * introduced for attribute values that refer to <code>UnitSId</code> values; in
@@ -888,15 +886,15 @@ public class Rule extends SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of <code>oldid</code>.  If any matches are found,
-   * the matching identifiers are replaced with <code>newid</code>.  The method does
-   * <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of <code>oldid</code>.  If any matches
+ * are found, the matching values are replaced with <code>newid</code>.  The method
+ * does <em>not</em> descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Rule_renameUnitSIdRefs(swigCPtr, this, oldid, newid);

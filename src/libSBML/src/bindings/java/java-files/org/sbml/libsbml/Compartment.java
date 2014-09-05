@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's Compartment construct.
+ *  An SBML compartment, where species are located.
  <p>
  * A compartment in SBML represents a bounded space in which species are
  * located.  Compartments do not necessarily have to correspond to actual
@@ -74,7 +74,6 @@ package org.sbml.libsbml;
  * cannot be changed by {@link InitialAssignment} either.  Further, in
  * Level&nbsp;2, 'constant' has a default value of <code>true.</code>  In SBML
  * Level&nbsp;3, there is no default value for the 'constant' attribute.
- <p>
  <p>
  * <h2>Additional considerations in SBML Level&nbsp;2</h2>
  <p>
@@ -201,7 +200,6 @@ package org.sbml.libsbml;
  * class of objects are
  * not present in SBML Level&nbsp;3 Core nor in SBML Level&nbsp;1.
  <p>
- <p>
  * <h2>Additional considerations in SBML Level&nbsp;3</h2>
  <p>
  * One difference between SBML Level&nbsp;3 and lower Levels of SBML is
@@ -309,7 +307,6 @@ package org.sbml.libsbml;
  <p>
  * </ul>
  <p>
- <p>
  * <h2>Other aspects of {@link Compartment}</h2>
  <p>
  * In SBML Level&nbsp;1 and Level&nbsp;2, {@link Compartment} has an optional
@@ -385,30 +382,34 @@ public class Compartment extends SBase {
 
   
 /**
-   * Creates a new {@link Compartment} using the given SBML <code>level</code> and <code>version</code>
-   * values.
+   * Creates a new {@link Compartment} object using the given SBML <code>level</code> and 
+   * <code>version</code> values.
    <p>
    * @param level a long integer, the SBML Level to assign to this {@link Compartment}
    <p>
    * @param version a long integer, the SBML Version to assign to this
    * {@link Compartment}
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link Compartment} object to an {@link SBMLDocument},
- * the SBML Level, SBML Version and XML namespace of the document 
- * <em>override</em> the values used when creating the {@link Compartment} object via the
- * {@link Compartment} constructors.  This is necessary to ensure that an SBML
- * document has a consistent overall structure.  Nevertheless, the ability to
- * supply the values at the time of creation of a {@link Compartment} is an important
- * aid to producing valid SBML.  Knowledge of the intented SBML Level and
- * Version determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  Compartment(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_Compartment__SWIG_0(level, version), true);
@@ -416,7 +417,7 @@ public class Compartment extends SBase {
 
   
 /**
-   * Creates a new {@link Compartment} using the given {@link SBMLNamespaces} object 
+   * Creates a new {@link Compartment} object using the given {@link SBMLNamespaces} object
    * <code>sbmlns</code>.
    <p>
    * <p>
@@ -425,33 +426,37 @@ public class Compartment extends SBase {
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
  * common approach to using libSBML's {@link SBMLNamespaces} facilities is to create an
  * {@link SBMLNamespaces} object somewhere in a program once, then hand that object
- * as needed to object constructors that accept {@link SBMLNamespaces} as arguments. 
+ * as needed to object constructors that accept {@link SBMLNamespaces} as arguments.
    <p>
-   * It is worth emphasizing that although this constructor does not take
-   * an identifier argument, in SBML Level&nbsp;2 and beyond, the 'id'
-   * (identifier) attribute of a {@link Compartment} is required to have a value.
-   * Thus, callers are cautioned to assign a value after calling this
+   * It is worth emphasizing that although this constructor does not take an
+   * identifier argument, in SBML Level&nbsp;2 and beyond, the 'id'
+   * (identifier) attribute of a {@link Compartment} object is required to have a
+   * value.  Thus, callers are cautioned to assign a value after calling this
    * constructor.  Setting the identifier can be accomplished using the
    * method {@link Compartment#setId(String id)}.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link Compartment} object to an {@link SBMLDocument},
- * the SBML Level, SBML Version and XML namespace of the document 
- * <em>override</em> the values used when creating the {@link Compartment} object via the
- * {@link Compartment} constructors.  This is necessary to ensure that an SBML
- * document has a consistent overall structure.  Nevertheless, the ability to
- * supply the values at the time of creation of a {@link Compartment} is an important
- * aid to producing valid SBML.  Knowledge of the intented SBML Level and
- * Version determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  Compartment(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_Compartment__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -463,7 +468,7 @@ public class Compartment extends SBase {
    <p>
    * @param orig the {@link Compartment} instance to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  Compartment(Compartment orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -474,7 +479,7 @@ public class Compartment extends SBase {
 /**
    * Creates and returns a deep copy of this {@link Compartment} object.
    <p>
-   * @return a (deep) copy of this {@link Compartment}.
+   * @return the (deep) copy of this {@link Compartment} object.
    */ public
  Compartment cloneObject() {
     long cPtr = libsbmlJNI.Compartment_cloneObject(swigCPtr, this);
@@ -506,7 +511,12 @@ public class Compartment extends SBase {
 /**
    * Returns the value of the 'id' attribute of this {@link Compartment} object.
    <p>
-   * @return the id of this {@link Compartment}.
+   * @return the identifier of this {@link Compartment} object.
+   <p>
+   * @see #getName()
+   * @see #setId(String)
+   * @see #unsetId()
+   * @see #isSetId()
    */ public
  String getId() {
     return libsbmlJNI.Compartment_getId(swigCPtr, this);
@@ -516,7 +526,12 @@ public class Compartment extends SBase {
 /**
    * Returns the value of the 'name' attribute of this {@link Compartment} object.
    <p>
-   * @return the name of this {@link Compartment}.
+   * @return the name of this {@link Compartment} object.
+   <p>
+   * @see #getId()
+   * @see #isSetName()
+   * @see #setName(String)
+   * @see #unsetName()
    */ public
  String getName() {
     return libsbmlJNI.Compartment_getName(swigCPtr, this);
@@ -528,10 +543,14 @@ public class Compartment extends SBase {
    * object.
    <p>
    * @return the value of the 'compartmentType' attribute of this
-   * {@link Compartment} as a string.
+   * {@link Compartment} object as a string.
    <p>
    * @note The 'compartmentType' attribute is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.
+   <p>
+   * @see #isSetCompartmentType()
+   * @see #setCompartmentType(String)
+   * @see #unsetCompartmentType()
    */ public
  String getCompartmentType() {
     return libsbmlJNI.Compartment_getCompartmentType(swigCPtr, this);
@@ -542,16 +561,19 @@ public class Compartment extends SBase {
    * Get the number of spatial dimensions of this {@link Compartment} object.
    <p>
    * @return the value of the 'spatialDimensions' attribute of this
-   * {@link Compartment} as a long integereger
+   * {@link Compartment} object as a long integereger
    <p>
    * <p>
  * @note In SBML Level&nbsp;3, the data type of the 'spatialDimensions'
- * attribute is <code>&quot</code>;double&quot;, whereas in Level&nbsp;2, it is 
- * <code>&quot</code>;integer&quot;.  To avoid backward compatibility issues, libSBML
- * provides two separate methods for obtaining the value as either an
- * integer or a type <code>double</code>, for models where it is relevant. 
+ * attribute is <code>double</code>, whereas in Level&nbsp;2, it is <code>integer.</code>  To
+ * avoid backward compatibility issues, libSBML provides two separate methods
+ * for obtaining the value as either an integer or a type <code>double</code>, for
+ * models where it is relevant.
    <p>
    * @see #getSpatialDimensionsAsDouble()
+   * @see #setSpatialDimensions(long)
+   * @see #isSetSpatialDimensions()
+   * @see #unsetSpatialDimensions()
    */ public
  long getSpatialDimensions() {
     return libsbmlJNI.Compartment_getSpatialDimensions(swigCPtr, this);
@@ -563,17 +585,20 @@ public class Compartment extends SBase {
    * as a double.
    <p>
    * @return the value of the 'spatialDimensions' attribute of this
-   * {@link Compartment} as a double, or <code>NaN</code> if this model is not in SBML
+   * {@link Compartment} object as a double, or <code>NaN</code> if this model is not in SBML
    * Level&nbsp;3 format.
    <p>
    * <p>
  * @note In SBML Level&nbsp;3, the data type of the 'spatialDimensions'
- * attribute is <code>&quot</code>;double&quot;, whereas in Level&nbsp;2, it is 
- * <code>&quot</code>;integer&quot;.  To avoid backward compatibility issues, libSBML
- * provides two separate methods for obtaining the value as either an
- * integer or a type <code>double</code>, for models where it is relevant.
+ * attribute is <code>double</code>, whereas in Level&nbsp;2, it is <code>integer.</code>  To
+ * avoid backward compatibility issues, libSBML provides two separate methods
+ * for obtaining the value as either an integer or a type <code>double</code>, for
+ * models where it is relevant.
    <p>
    * @see #getSpatialDimensions()
+   * @see #setSpatialDimensions(long)
+   * @see #isSetSpatialDimensions()
+   * @see #unsetSpatialDimensions()
    */ public
  double getSpatialDimensionsAsDouble() {
     return libsbmlJNI.Compartment_getSpatialDimensionsAsDouble(swigCPtr, this);
@@ -581,25 +606,26 @@ public class Compartment extends SBase {
 
   
 /**
-   * Get the size of this {@link Compartment}.
+   * Get the size of this {@link Compartment} object.
    <p>
    * <p>
  * In SBML Level&nbsp;1, compartments are always three-dimensional
  * constructs and only have volumes, whereas in SBML Level&nbsp;2 and higher,
  * compartments may be other than three-dimensional, and therefore the
  * 'volume' attribute is named 'size' in Level&nbsp;2 and above.  LibSBML
- * provides both
- * {@link Compartment#getSize()} and {@link Compartment#getVolume()} 
+ * provides both {@link Compartment#getSize()} and {@link Compartment#getVolume()}
  * for easier support of different SBML Levels.
    <p>
    * @return the value of the 'size' attribute ('volume' in Level&nbsp;1) of
-   * this {@link Compartment} as a floating-point number.
+   * this {@link Compartment} object as a floating-point number.
    <p>
    * @note This method is identical to
    * {@link Compartment#getVolume()}.
    <p>
-   * @see #isSetSize()
    * @see #getVolume()
+   * @see #isSetSize()
+   * @see #setSize(double)
+   * @see #unsetSize()
    */ public
  double getSize() {
     return libsbmlJNI.Compartment_getSize(swigCPtr, this);
@@ -607,19 +633,18 @@ public class Compartment extends SBase {
 
   
 /**
-   * Get the volume of this {@link Compartment}.
+   * Get the volume of this {@link Compartment} object.
    <p>
    * <p>
  * In SBML Level&nbsp;1, compartments are always three-dimensional
  * constructs and only have volumes, whereas in SBML Level&nbsp;2 and higher,
  * compartments may be other than three-dimensional, and therefore the
  * 'volume' attribute is named 'size' in Level&nbsp;2 and above.  LibSBML
- * provides both
- * {@link Compartment#getSize()} and {@link Compartment#getVolume()} 
+ * provides both {@link Compartment#getSize()} and {@link Compartment#getVolume()}
  * for easier support of different SBML Levels.
    <p>
    * @return the value of the 'volume' attribute ('size' in Level&nbsp;2) of
-   * this {@link Compartment}, as a floating-point number.
+   * this {@link Compartment} object, as a floating-point number.
    <p>
    * <p>
  * @note The attribute 'volume' only exists by that name in SBML
@@ -634,8 +659,10 @@ public class Compartment extends SBase {
    * @note This method is identical to
    * {@link Compartment#getSize()}.
    <p>
-   * @see #isSetVolume()
    * @see #getSize()
+   * @see #isSetVolume()
+   * @see #setVolume(double)
+   * @see #unsetVolume()
    */ public
  double getVolume() {
     return libsbmlJNI.Compartment_getVolume(swigCPtr, this);
@@ -643,14 +670,14 @@ public class Compartment extends SBase {
 
   
 /**
-   * Get the units of this compartment's size.
+   * Get the units of this {@link Compartment} object's size.
    <p>
    * The value of an SBML compartment's 'units' attribute establishes the
    * unit of measurement associated with the compartment's size.
    <p>
-   * @return the value of the 'units' attribute of this {@link Compartment}, as a
-   * string.  An empty string indicates that no units have been assigned to
-   * the value of the size.
+   * @return the value of the 'units' attribute of this {@link Compartment} object,
+   * as a string.  An empty string indicates that no units have been assigned
+   * to the value of the size.
    <p>
    * <p>
  * @note There is an important distinction to be made between <em>no units
@@ -662,8 +689,8 @@ public class Compartment extends SBase {
  * this topic and the SBML unit system.
    <p>
    * @see #isSetUnits()
-   * @see Compartment#setUnits(String sid)
-   * @see #getSize()
+   * @see #setUnits(String)
+   * @see #unsetUnits()
    */ public
  String getUnits() {
     return libsbmlJNI.Compartment_getUnits(swigCPtr, this);
@@ -671,14 +698,18 @@ public class Compartment extends SBase {
 
   
 /**
-   * Get the identifier, if any, of the compartment that is designated
-   * as being outside of this one.
+   * Get the identifier, if any, of the {@link Compartment} object that is designated
+   * as being outside of <em>this</em> one.
    <p>
-   * @return the value of the 'outside' attribute of this {@link Compartment}.
+   * @return the value of the 'outside' attribute of this {@link Compartment} object.
    <p>
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
    * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
    * Core.
+   <p>
+   * @see #isSetOutside()
+   * @see #setOutside(String)
+   * @see #unsetOutside()
    */ public
  String getOutside() {
     return libsbmlJNI.Compartment_getOutside(swigCPtr, this);
@@ -686,10 +717,13 @@ public class Compartment extends SBase {
 
   
 /**
-   * Get the value of the 'constant' attribute of this {@link Compartment}.
+   * Get the value of the 'constant' attribute of this {@link Compartment} object.
    <p>
-   * @return <code>true</code> if this {@link Compartment}'s size is flagged as being
+   * @return <code>true</code> if this {@link Compartment} object's size is flagged as being
    * constant, <code>false</code> otherwise.
+   <p>
+   * @see #isSetConstant()
+   * @see #setConstant(boolean)
    */ public
  boolean getConstant() {
     return libsbmlJNI.Compartment_getConstant(swigCPtr, this);
@@ -697,11 +731,15 @@ public class Compartment extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * {@link Compartment}'s 'id' attribute is set.
+   * Predicate returning <code>true</code> if this {@link Compartment} object's 'id' attribute
+   * is set.
    <p>
-   * @return <code>true</code> if the 'id' attribute of this {@link Compartment} is 
+   * @return <code>true</code> if the 'id' attribute of this {@link Compartment} object is
    * set, <code>false</code> otherwise.
+   <p>
+   * @see #getId()
+   * @see #unsetId()
+   * @see #setId(String)
    */ public
  boolean isSetId() {
     return libsbmlJNI.Compartment_isSetId(swigCPtr, this);
@@ -709,11 +747,15 @@ public class Compartment extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * {@link Compartment}'s 'name' attribute is set.
+   * Predicate returning <code>true</code> if this {@link Compartment} object's 'name'
+   * attribute is set.
    <p>
-   * @return <code>true</code> if the 'name' attribute of this {@link Compartment} is
+   * @return <code>true</code> if the 'name' attribute of this {@link Compartment} object is
    * set, <code>false</code> otherwise.
+   <p>
+   * @see #getName()
+   * @see #setName(String)
+   * @see #unsetName()
    */ public
  boolean isSetName() {
     return libsbmlJNI.Compartment_isSetName(swigCPtr, this);
@@ -721,14 +763,18 @@ public class Compartment extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * {@link Compartment}'s 'compartmentType' attribute is set.
+   * Predicate returning <code>true</code> if this {@link Compartment} object's
+   * 'compartmentType' attribute is set.
    <p>
    * @return <code>true</code> if the 'compartmentType' attribute of this {@link Compartment}
    * is set, <code>false</code> otherwise.
    <p>
    * @note The 'compartmentType' attribute is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.
+   <p>
+   * @see #setCompartmentType(String)
+   * @see #getCompartmentType()
+   * @see #unsetCompartmentType()
    */ public
  boolean isSetCompartmentType() {
     return libsbmlJNI.Compartment_isSetCompartmentType(swigCPtr, this);
@@ -736,8 +782,8 @@ public class Compartment extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this {@link Compartment}'s 'size' attribute is
-   * set.
+   * Predicate returning <code>true</code> if this {@link Compartment} object's 'size'
+   * attribute is set.
    <p>
    * This method is similar but not identical to
    * {@link Compartment#isSetVolume()}.  The latter
@@ -748,10 +794,12 @@ public class Compartment extends SBase {
    * default values between SBML Levels&nbsp;1 and&nbsp;2.
    <p>
    * @return <code>true</code> if the 'size' attribute ('volume' in Level&nbsp;2) of
-   * this {@link Compartment} is set, <code>false</code> otherwise.
+   * this {@link Compartment} object is set, <code>false</code> otherwise.
    <p>
    * @see #isSetVolume()
-   * @see Compartment#setSize(double value)
+   * @see #setSize(double)
+   * @see #getSize()
+   * @see #unsetSize()
    */ public
  boolean isSetSize() {
     return libsbmlJNI.Compartment_isSetSize(swigCPtr, this);
@@ -759,8 +807,8 @@ public class Compartment extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this {@link Compartment}'s 'volume' attribute is
-   * set.
+   * Predicate returning <code>true</code> if this {@link Compartment} object's 'volume'
+   * attribute is set.
    <p>
    * This method is similar but not identical to
    * {@link Compartment#isSetSize()}.  The latter
@@ -769,7 +817,7 @@ public class Compartment extends SBase {
    * the difference in default values between SBML Levels&nbsp;1 and&nbsp;2.
    <p>
    * @return <code>true</code> if the 'volume' attribute ('size' in Level&nbsp;2 and
-   * above) of this {@link Compartment} is set, <code>false</code> otherwise.
+   * above) of this {@link Compartment} object is set, <code>false</code> otherwise.
    <p>
    * <p>
  * @note The attribute 'volume' only exists by that name in SBML
@@ -782,7 +830,9 @@ public class Compartment extends SBase {
  * optional and has no default value, and therefore may or may not be set.
    <p>
    * @see #isSetSize()
-   * @see Compartment#setVolume(double value)
+   * @see #getVolume()
+   * @see #setVolume(double)
+   * @see #unsetVolume()
    */ public
  boolean isSetVolume() {
     return libsbmlJNI.Compartment_isSetVolume(swigCPtr, this);
@@ -790,10 +840,10 @@ public class Compartment extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * {@link Compartment}'s 'units' attribute is set.
+   * Predicate returning <code>true</code> if this {@link Compartment} object's 'units'
+   * attribute is set.
    <p>
-   * @return <code>true</code> if the 'units' attribute of this {@link Compartment} is
+   * @return <code>true</code> if the 'units' attribute of this {@link Compartment} object is
    * set, <code>false</code> otherwise.
    <p>
    * <p>
@@ -804,6 +854,10 @@ public class Compartment extends SBase {
  * assumed to have the unit <code>dimensionless</code>.  Please consult the
  * relevant SBML specification document for a more in-depth explanation of
  * this topic and the SBML unit system.
+   <p>
+   * @see #setUnits(String)
+   * @see #getUnits()
+   * @see #unsetUnits()
    */ public
  boolean isSetUnits() {
     return libsbmlJNI.Compartment_isSetUnits(swigCPtr, this);
@@ -811,15 +865,19 @@ public class Compartment extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * {@link Compartment}'s 'outside' attribute is set.
+   * Predicate returning <code>true</code> if this {@link Compartment} object's 'outside'
+   * attribute is set.
    <p>
-   * @return <code>true</code> if the 'outside' attribute of this {@link Compartment} is
+   * @return <code>true</code> if the 'outside' attribute of this {@link Compartment} object is
    * set, <code>false</code> otherwise.
    <p>
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
    * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
    * Core.
+   <p>
+   * @see #getOutside()
+   * @see #setOutside(String)
+   * @see #unsetOutside()
    */ public
  boolean isSetOutside() {
     return libsbmlJNI.Compartment_isSetOutside(swigCPtr, this);
@@ -827,11 +885,15 @@ public class Compartment extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * {@link Compartment}'s 'spatialDimensions' attribute is set.
+   * Predicate returning <code>true</code> if this {@link Compartment} object's
+   * 'spatialDimensions' attribute is set.
    <p>
    * @return <code>true</code> if the 'spatialDimensions' attribute of this
-   * {@link Compartment} is set, <code>false</code> otherwise.
+   * {@link Compartment} object is set, <code>false</code> otherwise.
+   <p>
+   * @see #getSpatialDimensions()
+   * @see #setSpatialDimensions(long)
+   * @see #unsetSpatialDimensions()
    */ public
  boolean isSetSpatialDimensions() {
     return libsbmlJNI.Compartment_isSetSpatialDimensions(swigCPtr, this);
@@ -839,11 +901,14 @@ public class Compartment extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * {@link Compartment}'s 'constant' attribute is set.
+   * Predicate returning <code>true</code> if this {@link Compartment} object's 'constant'
+   * attribute is set.
    <p>
-   * @return <code>true</code> if the 'constant' attribute of this {@link Compartment} is
+   * @return <code>true</code> if the 'constant' attribute of this {@link Compartment} object is
    * set, <code>false</code> otherwise.
+   <p>
+   * @see #getConstant()
+   * @see #setConstant(boolean)
    */ public
  boolean isSetConstant() {
     return libsbmlJNI.Compartment_isSetConstant(swigCPtr, this);
@@ -851,22 +916,21 @@ public class Compartment extends SBase {
 
   
 /**
-   * Sets the value of the 'id' attribute of this {@link Compartment}.
+   * Sets the value of the 'id' attribute of this {@link Compartment} object.
    <p>
    * The string <code>sid</code> is copied.
    <p>
    * <p>
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter .= 'a'..'z','A'..'Z'
  * digit  .= '0'..'9'
  * idChar .= letter | digit | '_'
- * SId    .= ( letter | '_' ) idChar*
- * </pre>
+ * SId    .= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -876,17 +940,21 @@ public class Compartment extends SBase {
  * consult the SBML specifications for the exact details of the uniqueness
  * requirements.
    <p>
-   * @param sid the string to use as the identifier of this {@link Compartment}. If
+   * @param sid the string to use as the identifier of this {@link Compartment} object. If
    * the string is <code>null</code>, this method will return
-   * {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }.
+   * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   *
+   * </ul> <p>
+   * @see #getId()
+   * @see #unsetId()
+   * @see #isSetId()
    */ public
  int setId(String sid) {
     return libsbmlJNI.Compartment_setId(swigCPtr, this, sid);
@@ -894,21 +962,25 @@ public class Compartment extends SBase {
 
   
 /**
-   * Sets the value of the 'name' attribute of this {@link Compartment}.
+   * Sets the value of the 'name' attribute of this {@link Compartment} object.
    <p>
    * The string in <code>name</code> is copied.
    <p>
-   * @param name the new name for the {@link Compartment}. If the string is <code>null</code>,
-   * this method will return
-   * {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }.
+   * @param name the new name for the {@link Compartment} object. If the string is 
+   * <code>null</code>, this method will return
+   * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   *
+   * </ul> <p>
+   * @see #getName()
+   * @see #isSetName()
+   * @see #unsetName()
    */ public
  int setName(String name) {
     return libsbmlJNI.Compartment_setName(swigCPtr, this, name);
@@ -916,23 +988,27 @@ public class Compartment extends SBase {
 
   
 /**
-   * Sets the 'compartmentType' attribute of this {@link Compartment}.
+   * Sets the 'compartmentType' attribute of this {@link Compartment} object.
    <p>
    * @param sid the identifier of a {@link CompartmentType} object defined elsewhere
    * in this {@link Model}. If the string is <code>null</code>, this method will return
-   * {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }.
+   * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * @note The 'compartmentType' attribute is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.
+   <p>
+   * @see #isSetCompartmentType()
+   * @see #getCompartmentType()
+   * @see #unsetCompartmentType()
    */ public
  int setCompartmentType(String sid) {
     return libsbmlJNI.Compartment_setCompartmentType(swigCPtr, this, sid);
@@ -940,7 +1016,7 @@ public class Compartment extends SBase {
 
   
 /**
-   * Sets the 'spatialDimensions' attribute of this {@link Compartment}.
+   * Sets the 'spatialDimensions' attribute of this {@link Compartment} object.
    <p>
    * @param value a long integereger indicating the number of dimensions
    * of this compartment.
@@ -949,10 +1025,14 @@ public class Compartment extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * @see #getSpatialDimensions()
+   * @see #isSetSpatialDimensions()
+   * @see #unsetSpatialDimensions()
    */ public
  int setSpatialDimensions(long value) {
     return libsbmlJNI.Compartment_setSpatialDimensions__SWIG_0(swigCPtr, this, value);
@@ -960,7 +1040,7 @@ public class Compartment extends SBase {
 
   
 /**
-   * Sets the 'spatialDimensions' attribute of this {@link Compartment} as a double.
+   * Sets the 'spatialDimensions' attribute of this {@link Compartment} object as a double.
    <p>
    * @param value a double indicating the number of dimensions
    * of this compartment.
@@ -969,10 +1049,14 @@ public class Compartment extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * @see #getSpatialDimensions()
+   * @see #isSetSpatialDimensions()
+   * @see #unsetSpatialDimensions()
    */ public
  int setSpatialDimensions(double value) {
     return libsbmlJNI.Compartment_setSpatialDimensions__SWIG_1(swigCPtr, this, value);
@@ -981,7 +1065,7 @@ public class Compartment extends SBase {
   
 /**
    * Sets the 'size' attribute (or 'volume' in SBML Level&nbsp;1) of this
-   * {@link Compartment}.
+   * {@link Compartment} object.
    <p>
    * @param value a <code>double</code> representing the size of this compartment
    * instance in whatever units are in effect for the compartment.
@@ -990,14 +1074,16 @@ public class Compartment extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @note This method is identical to
    * {@link Compartment#setVolume(double value)}.
    <p>
+   * @see #setVolume(double)
+   * @see #getSize()
    * @see #isSetSize()
-   * @see Compartment#setVolume(double value)
+   * @see #unsetSize()
    */ public
  int setSize(double value) {
     return libsbmlJNI.Compartment_setSize(swigCPtr, this, value);
@@ -1006,7 +1092,7 @@ public class Compartment extends SBase {
   
 /**
    * Sets the 'volume' attribute (or 'size' in SBML Level&nbsp;2) of this
-   * {@link Compartment}.
+   * {@link Compartment} object.
    <p>
    * This method is identical to
    * {@link Compartment#setSize(double value)}
@@ -1020,7 +1106,7 @@ public class Compartment extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * <p>
@@ -1033,8 +1119,10 @@ public class Compartment extends SBase {
  * compartment's size (the equivalent of SBML Level&nbsp;1's 'volume') is
  * optional and has no default value, and therefore may or may not be set.
    <p>
+   * @see #setSize(double)
+   * @see #getVolume()
    * @see #isSetVolume()
-   * @see Compartment#setSize(double value)
+   * @see #unsetVolume()
    */ public
  int setVolume(double value) {
     return libsbmlJNI.Compartment_setVolume(swigCPtr, this, value);
@@ -1042,19 +1130,23 @@ public class Compartment extends SBase {
 
   
 /**
-   * Sets the 'units' attribute of this {@link Compartment}.
+   * Sets the 'units' attribute of this {@link Compartment} object.
    <p>
    * @param sid the identifier of the defined units to use.  If <code>sid</code> is 
    * <code>null</code>, then this method will return
-   * {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }.
+   * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   *
+   * </ul> <p>
+   * @see #isSetUnits()
+   * @see #getUnits()
+   * @see #unsetUnits()
    */ public
  int setUnits(String sid) {
     return libsbmlJNI.Compartment_setUnits(swigCPtr, this, sid);
@@ -1062,23 +1154,27 @@ public class Compartment extends SBase {
 
   
 /**
-   * Sets the 'outside' attribute of this {@link Compartment}.
+   * Sets the 'outside' attribute of this {@link Compartment} object.
    <p>
    * @param sid the identifier of a compartment that encloses this one. If 
    * <code>sid</code> is <code>null</code>, then this method will return
-   * {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }.
+   * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
    * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
    * Core.
+   <p>
+   * @see #isSetOutside()
+   * @see #getOutside()
+   * @see #unsetOutside()
    */ public
  int setOutside(String sid) {
     return libsbmlJNI.Compartment_setOutside(swigCPtr, this, sid);
@@ -1086,7 +1182,7 @@ public class Compartment extends SBase {
 
   
 /**
-   * Sets the value of the 'constant' attribute of this {@link Compartment}.
+   * Sets the value of the 'constant' attribute of this {@link Compartment} object.
    <p>
    * @param value a boolean indicating whether the size/volume of this
    * compartment should be considered constant (<code>true</code>) or variable
@@ -1096,9 +1192,12 @@ public class Compartment extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * @see #isSetConstant()
+   * @see #getConstant()
    */ public
  int setConstant(boolean value) {
     return libsbmlJNI.Compartment_setConstant(swigCPtr, this, value);
@@ -1106,10 +1205,11 @@ public class Compartment extends SBase {
 
   
 /**
-   * Renames all the <code>SIdRef</code> attributes on this element, including any
-   * found in MathML.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>SIdRef</code> type attribute value with another
+ * value.
+ <p>
+ * <p>
  * In SBML, object identifiers are of a data type called <code>SId</code>.
  * In SBML Level&nbsp;3, an explicit data type called <code>SIdRef</code> was
  * introduced for attribute values that refer to <code>SId</code> values; in
@@ -1119,14 +1219,15 @@ public class Compartment extends SBase {
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of 
-   * <code>oldid</code>.  If any matches are found, the matching identifiers are replaced
-   * with <code>newid</code>.  The method does <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of <code>oldid</code>.  If any matches are found, the
+ * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
+ * descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Compartment_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -1134,9 +1235,11 @@ public class Compartment extends SBase {
 
   
 /**
-   * Renames all the <code>UnitSIdRef</code> attributes on this element.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>UnitSIdRef</code> type attribute value with
+ * another value.
+ <p>
+ * <p>
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
  * introduced for attribute values that refer to <code>UnitSId</code> values; in
@@ -1146,15 +1249,15 @@ public class Compartment extends SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of <code>oldid</code>.  If any matches are found,
-   * the matching identifiers are replaced with <code>newid</code>.  The method does
-   * <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of <code>oldid</code>.  If any matches
+ * are found, the matching values are replaced with <code>newid</code>.  The method
+ * does <em>not</em> descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Compartment_renameUnitSIdRefs(swigCPtr, this, oldid, newid);
@@ -1162,15 +1265,19 @@ public class Compartment extends SBase {
 
   
 /**
-   * Unsets the value of the 'name' attribute of this {@link Compartment}.
+   * Unsets the value of the 'name' attribute of this {@link Compartment} object.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * @see #getName()
+   * @see #setName(String)
+   * @see #isSetName()
    */ public
  int unsetName() {
     return libsbmlJNI.Compartment_unsetName(swigCPtr, this);
@@ -1178,15 +1285,15 @@ public class Compartment extends SBase {
 
   
 /**
-   * Unsets the value of the 'compartmentType' attribute of this {@link Compartment}.
+   * Unsets the value of the 'compartmentType' attribute of this {@link Compartment} object.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * @note The 'compartmentType' attribute is only available in SBML
@@ -1194,6 +1301,7 @@ public class Compartment extends SBase {
    <p>
    * @see #setCompartmentType(String sid)
    * @see #isSetCompartmentType()
+   * @see #getCompartmentType()
    */ public
  int unsetCompartmentType() {
     return libsbmlJNI.Compartment_unsetCompartmentType(swigCPtr, this);
@@ -1201,7 +1309,7 @@ public class Compartment extends SBase {
 
   
 /**
-   * Unsets the value of the 'size' attribute of this {@link Compartment}.
+   * Unsets the value of the 'size' attribute of this {@link Compartment} object.
    <p>
    * In SBML Level&nbsp;1, a compartment's volume has a default value (
    * <code>1.0</code>) and therefore <em>should always be set</em>.  Calling this method
@@ -1214,12 +1322,17 @@ public class Compartment extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note This method is identical to
    * {@link Compartment#unsetVolume()}.
+   <p>
+   * @see #unsetVolume()
+   * @see #getSize()
+   * @see #isSetSize()
+   * @see #setSize(double)
    */ public
  int unsetSize() {
     return libsbmlJNI.Compartment_unsetSize(swigCPtr, this);
@@ -1227,7 +1340,7 @@ public class Compartment extends SBase {
 
   
 /**
-   * Unsets the value of the 'volume' attribute of this {@link Compartment}.
+   * Unsets the value of the 'volume' attribute of this {@link Compartment} object.
    <p>
    * This method is identical to
    * {@link Compartment#unsetSize()}.  Please refer
@@ -1237,8 +1350,8 @@ public class Compartment extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1252,6 +1365,9 @@ public class Compartment extends SBase {
  * optional and has no default value, and therefore may or may not be set.
    <p>
    * @see #unsetSize()
+   * @see #getVolume()
+   * @see #setVolume(double)
+   * @see #isSetVolume()
    */ public
  int unsetVolume() {
     return libsbmlJNI.Compartment_unsetVolume(swigCPtr, this);
@@ -1259,15 +1375,19 @@ public class Compartment extends SBase {
 
   
 /**
-   * Unsets the value of the 'units' attribute of this {@link Compartment}.
+   * Unsets the value of the 'units' attribute of this {@link Compartment} object.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * @see #isSetUnits()
+   * @see #setUnits(String)
+   * @see #getUnits()
    */ public
  int unsetUnits() {
     return libsbmlJNI.Compartment_unsetUnits(swigCPtr, this);
@@ -1275,19 +1395,23 @@ public class Compartment extends SBase {
 
   
 /**
-   * Unsets the value of the 'outside' attribute of this {@link Compartment}.
+   * Unsets the value of the 'outside' attribute of this {@link Compartment} object.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
    * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
    * Core.
+   <p>
+   * @see #isSetOutside()
+   * @see #getOutside()
+   * @see #setOutside(String)
    */ public
  int unsetOutside() {
     return libsbmlJNI.Compartment_unsetOutside(swigCPtr, this);
@@ -1296,23 +1420,27 @@ public class Compartment extends SBase {
   
 /**
    * Unsets the value of the 'spatialDimensions' attribute of this
-   * {@link Compartment}.
+   * {@link Compartment} object.
    <p>
    * In SBML Levels prior to Level&nbsp;3, compartments must always have a
    * value for the number of dimensions.  Consequently, calling this method
    * on a model of SBML Level 1&ndash;2 will result in a return value of
-   * {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * @note This function is only valid for SBML Level&nbsp;3.
+   <p>
+   * @see #getSpatialDimensions()
+   * @see #isSetSpatialDimensions()
+   * @see #setSpatialDimensions(long)
    */ public
  int unsetSpatialDimensions() {
     return libsbmlJNI.Compartment_unsetSpatialDimensions(swigCPtr, this);
@@ -1321,7 +1449,7 @@ public class Compartment extends SBase {
   
 /**
    * Constructs and returns a {@link UnitDefinition} that corresponds to the units
-   * of this {@link Compartment}'s designated size.
+   * of this {@link Compartment} object's designated size.
    <p>
    * <p>
  * Compartments in SBML have an attribute ('units') for declaring the
@@ -1347,8 +1475,8 @@ public class Compartment extends SBase {
  * the {@link UnitDefinition}
  * class for comparing different {@link UnitDefinition} objects.
    <p>
-   * @return a {@link UnitDefinition} that expresses the units of this 
-   * {@link Compartment}, or <code>null</code> if one cannot be constructed.
+   * @return a {@link UnitDefinition} that expresses the units of this
+   * {@link Compartment} object, or <code>null</code> if one cannot be constructed.
    <p>
    * <p>
  * @note The libSBML system for unit analysis depends on the model as a
@@ -1373,16 +1501,16 @@ public class Compartment extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_COMPARTMENT SBML_COMPARTMENT} (default).
+   * {@link libsbmlConstants#SBML_COMPARTMENT SBML_COMPARTMENT} (default).
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -1399,10 +1527,11 @@ public class Compartment extends SBase {
 
   
 /**
-   * Returns the XML element name of this object, which for {@link Compartment}, is
-   * always <code>'compartment'.</code>
+   * Returns the XML element name of this object
    <p>
-   * @return the name of this element, i.e., <code>'compartment'.</code>
+   * For {@link Compartment}, the XML element name is always <code>'compartment'.</code>
+   <p>
+   * @return the name of this element.
    */ public
  String getElementName() {
     return libsbmlJNI.Compartment_getElementName(swigCPtr, this);
@@ -1413,14 +1542,14 @@ public class Compartment extends SBase {
    * Predicate returning <code>true</code> if all the required attributes for this
    * {@link Compartment} object have been set.
    <p>
-   * @note The required attributes for a {@link Compartment} object are:
+   * The required attributes for a {@link Compartment} object are:
    * <ul>
    * <li> 'id' (or 'name' in SBML Level&nbsp;1)
    * <li> 'constant' (in SBML Level&nbsp;3 only)
    *
    * </ul> <p>
-   * @return a boolean value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return <code>true</code> if the required attributes have been set, <code>false</code>
+   * otherwise.
    */ public
  boolean hasRequiredAttributes() {
     return libsbmlJNI.Compartment_hasRequiredAttributes(swigCPtr, this);

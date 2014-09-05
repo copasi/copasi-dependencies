@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  SBML converter for reordering rules and assignments in a
- * model.
+ *  Converter that sorts SBML rules and assignments.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -24,7 +23,7 @@ the implementation of extra functionality provided by libSBML.
  * in the ListOfAssignmentRules within the {@link Model} object) and the initial
  * assignments (i.e., the {@link InitialAssignment} objects contained in the
  * {@link ListOfInitialAssignments}) such that, within each set, assignments that
- * depend on prior values are placed after the values are set.  For
+ * depend on <em>prior</em> values are placed <em>after</em> the values are set.  For
  * example, if there is an assignment rule stating <i>a = b + 1</i>, and
  * another rule stating <i>b = 3</i>, the list of rules is sorted and the
  * rules are arranged so that the rule for <i>b = 3</i> appears <em>before</em>
@@ -44,31 +43,107 @@ the implementation of extra functionality provided by libSBML.
  <p>
  * so that the evaluation of the rules is independent of integrator
  * step sizes. (This is due to the fact that, in this case, the order in
- * which the rules are evaluated changes the result.)  This converter
+ * which the rules are evaluated changes the result.)  {@link SBMLRuleConverter}
  * can be used to reorder the SBML objects regardless of whether the
- * input file contained them in the desired order.  Here is a code
- * fragment to illustrate how to do that:
- * <div class='fragment'><pre class='fragment'>
-{@link ConversionProperties} props;
-props.addOption('sortRules', true, 'sort rules');
-
-{@link SBMLConverter} converter;
-converter.setProperties(&props);
-converter.setDocument(&doc);
-converter.convert(); 
-</pre></div>
+ * input file contained them in the desired order.
  <p>
  * @note The two sets of assignments (list of assignment rules on the one
  * hand, and list of initial assignments on the other hand) are handled 
  * <em>independently</em>.  In an SBML model, these entities are treated differently
  * and no amount of sorting can deal with inter-dependencies between
  * assignments of the two kinds.
+<p>
+ * <h2>Configuration and use of {@link SBMLRuleConverter}</h2>
  <p>
- * @see SBMLFunctionDefinitionConverter
- * @see SBMLInitialAssignmentConverter
- * @see SBMLLevelVersionConverter
- * @see SBMLStripPackageConverter
- * @see SBMLUnitsConverter
+ * {@link SBMLRuleConverter} is enabled by creating a {@link ConversionProperties} object
+ * with the option <code>'sortRules'</code>, and passing this properties object to
+ * {@link SBMLDocument#convert(ConversionProperties)}.  This
+ * converter offers no other options.
+ <p>
+ * <p>
+ * <h2>General information about the use of SBML converters</h2>
+ <p>
+ * The use of all the converters follows a similar approach.  First, one
+ * creates a {@link ConversionProperties} object and calls
+ * {@link ConversionProperties#addOption(ConversionOption)}
+ * on this object with one arguments: a text string that identifies the desired
+ * converter.  (The text string is specific to each converter; consult the
+ * documentation for a given converter to find out how it should be enabled.)
+ <p>
+ * Next, for some converters, the caller can optionally set some
+ * converter-specific properties using additional calls to
+ * {@link ConversionProperties#addOption(ConversionOption)}.
+ * Many converters provide the ability to
+ * configure their behavior to some extent; this is realized through the use
+ * of properties that offer different options.  The default property values
+ * for each converter can be interrogated using the method
+ * {@link SBMLConverter#getDefaultProperties()} on the converter class in question .
+ <p>
+ * Finally, the caller should invoke the method
+ * {@link SBMLDocument#convert(ConversionProperties)}
+ * with the {@link ConversionProperties} object as an argument.
+ <p>
+ * <h3>Example of invoking an SBML converter</h3>
+ <p>
+ * The following code fragment illustrates an example using
+ * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * <code>'replaceReactions':</code>
+ <p>
+<pre class='fragment'>
+{@link ConversionProperties} props = new {@link ConversionProperties}();
+if (props != null) {
+  props.addOption('replaceReactions');
+} else {
+  // Deal with error.
+}
+</pre>
+<p>
+ * In the case of {@link SBMLReactionConverter}, there are no options to affect
+ * its behavior, so the next step is simply to invoke the converter on
+ * an {@link SBMLDocument} object.  Continuing the example code:
+ <p>
+<pre class='fragment'>
+  // Assume that the variable 'document' has been set to an {@link SBMLDocument} object.
+  status = document.convert(config);
+  if (status != libsbml.LIBSBML_OPERATION_SUCCESS)
+  {
+    // Handle error somehow.
+    System.out.println('Error: conversion failed due to the following:');
+    document.printErrors();
+  }
+</pre>
+<p>
+ * Here is an example of using a converter that offers an option. The
+ * following code invokes {@link SBMLStripPackageConverter} to remove the
+ * SBML Level&nbsp;3 <em>%Layout</em> package from a model.  It sets the name
+ * of the package to be removed by adding a value for the option named
+ * <code>'package'</code> defined by that converter:
+ <p>
+<pre class='fragment'>
+{@link ConversionProperties} config = new {@link ConversionProperties}();
+if (config != None) {
+  config.addOption('stripPackage');
+  config.addOption('package', 'layout');
+  status = document.convert(config);
+  if (status != LIBSBML_OPERATION_SUCCESS) {
+    // Handle error somehow.
+    System.out.println('Error: unable to strip the Layout package');
+    document.printErrors();
+  }
+} else {
+  // Handle error somehow.
+  System.out.println('Error: unable to create {@link ConversionProperties} object');
+}
+</pre>
+<p>
+ * <h3>Available SBML converters in libSBML</h3>
+ <p>
+ * LibSBML provides a number of built-in converters; by convention, their
+ * names end in <em>Converter</em>. The following are the built-in converters
+ * provided by libSBML 5.10.2
+:
+ <p>
+ * @copydetails doc_list_of_libsbml_converters
  */
 
 public class SBMLRuleConverter extends SBMLConverter {
@@ -145,7 +220,7 @@ public class SBMLRuleConverter extends SBMLConverter {
    */ public
  SBMLConverter cloneObject() {
     long cPtr = libsbmlJNI.SBMLRuleConverter_cloneObject(swigCPtr, this);
-    return (cPtr == 0) ? null : new SBMLConverter(cPtr, true);
+    return (cPtr == 0) ? null : new SBMLRuleConverter(cPtr, true);
   }
 
   
@@ -157,7 +232,7 @@ public class SBMLRuleConverter extends SBMLConverter {
    * object, setting the options desired, and then calling this method on
    * an {@link SBMLLevelVersionConverter} object to find out if the object's
    * property values match the given ones.  This method is also used by
-   * {@link SBMLConverterRegistry#getConverterFor(ConversionProperties props)}
+   * {@link SBMLConverterRegistry#getConverterFor(ConversionProperties)}
    * to search across all registered converters for one matching particular
    * properties.
    <p>
@@ -171,21 +246,21 @@ public class SBMLRuleConverter extends SBMLConverter {
   }
 
   
-/** 
+/**
    * Perform the conversion.
    <p>
    * This method causes the converter to do the actual conversion work,
    * that is, to convert the {@link SBMLDocument} object set by
-   * {@link SBMLConverter#setDocument(SBMLDocument doc)} and
+   * {@link SBMLConverter#setDocument(SBMLDocument)} and
    * with the configuration options set by
-   * {@link SBMLConverter#setProperties(ConversionProperties props)}.
+   * {@link SBMLConverter#setProperties(ConversionProperties)}.
    <p>
    * @return  integer value indicating the success/failure of the operation.
    *  The possible values are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT}
    * </ul>
    */ public
  int convert() {

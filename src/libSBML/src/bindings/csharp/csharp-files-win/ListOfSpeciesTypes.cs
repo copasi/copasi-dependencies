@@ -14,7 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %ListOfSpeciesTypes construct.
+@htmlinclude pkg-marker-core.html A list of SpeciesType objects.
  *
  * *
  * 
@@ -147,9 +147,9 @@ public class ListOfSpeciesTypes : ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this ListOfSpeciesTypes instance.
+   * Creates and returns a deep copy of this ListOfSpeciesTypes object.
    *
-   * @return a (deep) copy of this ListOfSpeciesTypes.
+   * @return the (deep) copy of this ListOfSpeciesTypes object.
    */ public new
  ListOfSpeciesTypes clone() {
     IntPtr cPtr = libsbmlPINVOKE.ListOfSpeciesTypes_clone(swigCPtr);
@@ -163,10 +163,10 @@ public class ListOfSpeciesTypes : ListOf {
    * (i.e., SpeciesType objects, if the list is non-empty).
    *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -178,15 +178,15 @@ public class ListOfSpeciesTypes : ListOf {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs.libsbml.SBML_SPECIES_TYPE SBML_SPECIES_TYPE@endlink (default).
+   * @link libsbmlcs#SBML_SPECIES_TYPE SBML_SPECIES_TYPE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

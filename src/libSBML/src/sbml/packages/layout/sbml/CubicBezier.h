@@ -27,8 +27,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class CubicBezier
- * @sbmlbrief{layout} A %CubicBezier represents a smooth curve in the
- * &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A Cubic B&eacute;zier smooth curve.
  *
  * In order to be able to represent smooth curves the &ldquo;layout&rdquo;
  * package defines the class CubicBezier. It represents a Bezier curve, and
@@ -249,11 +248,15 @@ public:
   virtual void writeElements (XMLOutputStream& stream) const;
   /** @endcond */
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const ;
+
 
   /**
    * Creates and returns a deep copy of this CubicBezier.
@@ -269,7 +272,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_CUBICBEZIER SBML_LAYOUT_CUBICBEZIER@endlink
+   * @sbmlconstant{SBML_LAYOUT_CUBICBEZIER, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *

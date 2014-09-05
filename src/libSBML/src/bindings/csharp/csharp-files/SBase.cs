@@ -14,8 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of %SBase, the base class of most SBML
- * objects.
+@htmlinclude pkg-marker-core.html SBML's <em>%SBase</em>, the base class of most SBML objects.
  *
  * Most components in SBML are derived from a single abstract base type,
  * SBase.  In addition to serving as the parent class for most other
@@ -71,7 +70,7 @@ namespace libsbmlcs {
  * type, which means each 'metaid' value must be globally unique within an
  * SBML file.  (Importantly, this uniqueness criterion applies across any
  * attribute with type <a href='http://www.w3.org/TR/REC-xml/#id'>XML
- * ID</a>, not just the 'metaid' attribute used by SBML&mdash;something to
+ * ID</a>, not just the 'metaid' attribute used by SBML---something to
  * be aware of if your application-specific XML content inside the
  * 'annotation' subelement happens to use <a
  * href='http://www.w3.org/TR/REC-xml/#id'>XML ID</a>.)  The 'metaid' value
@@ -191,9 +190,9 @@ public class SBase : IDisposable {
   
 /**
    * Creates and returns a deep copy of this SBase object.
-   * 
-   * @return a (deep) copy of this SBase object.
-   */ public
+   *
+   * @return the (deep) copy of this SBase object.
+   */ public new
  SBase clone() {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.SBase_clone(swigCPtr), true);
 	return ret;
@@ -208,7 +207,7 @@ public class SBase : IDisposable {
    * to find.
    *
    * @return pointer to the first element found with the given identifier.
-   */ public
+   */ public new
  SBase getElementBySId(string id) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.SBase_getElementBySId(swigCPtr, id), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -231,7 +230,7 @@ public class SBase : IDisposable {
  * within an SBML file.  The latter point is important, because the
  * uniqueness criterion applies across <em>any</em> attribute with type
  * <code>ID</code> anywhere in the file, not just the 'metaid' attribute used
- * by SBML&mdash;something to be aware of if your application-specific XML
+ * by SBML---something to be aware of if your application-specific XML
  * content inside the 'annotation' subelement happens to use the XML
  * <code>ID</code> type.  Although SBML itself specifies the use of <a
  * href='http://www.w3.org/TR/REC-xml/#id'>XML <code>ID</code></a> only for
@@ -241,14 +240,14 @@ public class SBase : IDisposable {
  * 'annotation' subelement.  Finally, note that LibSBML does not provide an
  * explicit XML <code>ID</code> data type; it uses ordinary character
  * strings, which is easier for applications to support.
- * 
+ *
  *
    *
    * @param metaid string representing the 'metaid' attribute value of the
    * object to find.
    *
    * @return pointer to the first element found with the given meta-identifier.
-   */ public
+   */ public new
  SBase getElementByMetaId(string metaid) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.SBase_getElementByMetaId(swigCPtr, metaid), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -257,10 +256,11 @@ public class SBase : IDisposable {
 
   
 /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML content (if such exists).
-   *
    * *
+ * Replaces all uses of a given @c SIdRef type attribute value with another
+ * value.
+ *
+ * *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -273,16 +273,19 @@ public class SBase : IDisposable {
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
  *
- * 
-   *
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ *
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of @p oldid.  If any matches are found, the
+ * matching values are replaced with @p newid.  The method does @em not
+ * descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.SBase_renameSIdRefs(swigCPtr, oldid, newid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -290,9 +293,11 @@ public class SBase : IDisposable {
 
   
 /**
-   * Renames all the meta-identifier attributes on this element.
-   *
    * *
+ * Replaces all uses of a given meta identifier attribute value with
+ * another value.
+ *
+ * *
  * 
  * In SBML, object 'meta' identifiers are of the XML data type <code>ID</code>;
  * the SBML object attribute itself is typically named <code>metaid</code>.  All
@@ -300,17 +305,19 @@ public class SBase : IDisposable {
  * <code>ID</code> are of the XML data type <code>IDREF</code>.  They are also
  * sometimes informally referred to as 'metaid refs', in analogy to the
  * SBML-defined type <code>SIdRef</code>.
- * 
  *
-   *
-   * This method works by looking at all meta-identifier attribute values,
-   * comparing the identifiers to the value of @p oldid.  If any matches are
-   * found, the matching identifiers are replaced with @p newid.  The method
-   * does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ *
+ * This method works by looking at all meta-identifier attribute values,
+ * comparing the identifiers to the value of @p oldid.  If any matches are
+ * found, the matching identifiers are replaced with @p newid.  The method
+ * does @em not descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameMetaIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.SBase_renameMetaIdRefs(swigCPtr, oldid, newid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -318,9 +325,11 @@ public class SBase : IDisposable {
 
   
 /**
-   * Renames all the @c UnitSIdRef attributes on this element.
-   *
    * *
+ * Replaces all uses of a given @c UnitSIdRef type attribute value with
+ * another value.
+ *
+ * *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
@@ -331,18 +340,20 @@ public class SBase : IDisposable {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
- * 
- * 
-   *
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of @p oldid.  If any matches are found,
-   * the matching identifiers are replaced with @p newid.  The method does
-   * @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ *
+ *
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of @p oldid.  If any matches
+ * are found, the matching values are replaced with @p newid.  The method
+ * does @em not descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameUnitSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.SBase_renameUnitSIdRefs(swigCPtr, oldid, newid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -354,9 +365,9 @@ public class SBase : IDisposable {
    * general), replace all nodes with the name 'id' with the provided
    * function.
    *
-   * @note This function does nothing itself&mdash;subclasses with ASTNode
+   * @note This function does nothing itself---subclasses with ASTNode
    * subelements must override this function.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void replaceSIDWithFunction(string id, ASTNode function) {
     libsbmlPINVOKE.SBase_replaceSIDWithFunction(swigCPtr, id, ASTNode.getCPtr(function));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -368,9 +379,9 @@ public class SBase : IDisposable {
    * object (or anything with ASTNodes in general), replace the 'math'
    * object with the function (existing/function).
    *
-   * @note This function does nothing itself&mdash;subclasses with ASTNode
+   * @note This function does nothing itself---subclasses with ASTNode
    * subelements must override this function.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void divideAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.SBase_divideAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -379,7 +390,7 @@ public class SBase : IDisposable {
   
 /**
    * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing*function). 
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void multiplyAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.SBase_multiplyAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -394,7 +405,7 @@ public class SBase : IDisposable {
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  SBase getElementFromPluginsBySId(string id) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.SBase_getElementFromPluginsBySId(swigCPtr, id), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -410,7 +421,7 @@ public class SBase : IDisposable {
    * @param metaid string representing the metaid of objects to find
    *
    * @return pointer to the first element found with the given @p metaid.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  SBase getElementFromPluginsByMetaId(string metaid) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.SBase_getElementFromPluginsByMetaId(swigCPtr, metaid), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -422,7 +433,7 @@ public class SBase : IDisposable {
    * Check to see if the given prefix is used by any of the IDs defined by
    * extension elements *excluding* 'id' and 'metaid' attributes (as, for
    * example, the spatial id attributes 'spid').
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  bool hasNonstandardIdentifierBeginningWith(string prefix) {
     bool ret = libsbmlPINVOKE.SBase_hasNonstandardIdentifierBeginningWith(swigCPtr, prefix);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -435,7 +446,7 @@ public class SBase : IDisposable {
    * is added to anything other than an id or a metaid, this code is
    * responsible for tracking down and renaming all *idRefs in the package
    * extention that identifier comes from.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  int prependStringToAllIdentifiers(string prefix) {
     int ret = libsbmlPINVOKE.SBase_prependStringToAllIdentifiers(swigCPtr, prefix);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -443,7 +454,7 @@ public class SBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  int transformIdentifiers(IdentifierTransformer idTransformer) {
     int ret = libsbmlPINVOKE.SBase_transformIdentifiers(swigCPtr, IdentifierTransformer.getCPtr(idTransformer));
     return ret;
@@ -464,7 +475,7 @@ public class SBase : IDisposable {
  * within an SBML file.  The latter point is important, because the
  * uniqueness criterion applies across <em>any</em> attribute with type
  * <code>ID</code> anywhere in the file, not just the 'metaid' attribute used
- * by SBML&mdash;something to be aware of if your application-specific XML
+ * by SBML---something to be aware of if your application-specific XML
  * content inside the 'annotation' subelement happens to use the XML
  * <code>ID</code> type.  Although SBML itself specifies the use of <a
  * href='http://www.w3.org/TR/REC-xml/#id'>XML <code>ID</code></a> only for
@@ -474,7 +485,7 @@ public class SBase : IDisposable {
  * 'annotation' subelement.  Finally, note that LibSBML does not provide an
  * explicit XML <code>ID</code> data type; it uses ordinary character
  * strings, which is easier for applications to support.
- * 
+ *
  *
    *  
    * @return the meta-identifier of this SBML object.
@@ -488,14 +499,14 @@ public class SBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  string getId() {
     string ret = libsbmlPINVOKE.SBase_getId(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  string getName() {
     string ret = libsbmlPINVOKE.SBase_getName(swigCPtr);
     return ret;
@@ -524,7 +535,7 @@ public class SBase : IDisposable {
  * href='http://sbml.org/Documents/Specifications'>SBML specifications</a>
  * for specific SBML Levels.  To help verify the formatting of 'notes'
  * content, libSBML provides the static utility method
- * SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); The
+ * SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); this
  * method implements a verification process that lets callers check whether
  * the content of a given XMLNode object conforms to the SBML requirements
  * for 'notes' and 'message' structure.  Developers are urged to consult the
@@ -554,7 +565,7 @@ public class SBase : IDisposable {
    * @see appendNotes(XMLNode notes)
    * @see appendNotes(string notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */ public
  XMLNode getNotes() {
     IntPtr cPtr = libsbmlPINVOKE.SBase_getNotes__SWIG_0(swigCPtr);
@@ -585,7 +596,7 @@ public class SBase : IDisposable {
  * href='http://sbml.org/Documents/Specifications'>SBML specifications</a>
  * for specific SBML Levels.  To help verify the formatting of 'notes'
  * content, libSBML provides the static utility method
- * SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); The
+ * SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); this
  * method implements a verification process that lets callers check whether
  * the content of a given XMLNode object conforms to the SBML requirements
  * for 'notes' and 'message' structure.  Developers are urged to consult the
@@ -613,7 +624,7 @@ public class SBase : IDisposable {
    * @see appendNotes(XMLNode notes)
    * @see appendNotes(string notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */ public
  string getNotesString() {
     string ret = libsbmlPINVOKE.SBase_getNotesString__SWIG_0(swigCPtr);
@@ -719,7 +730,7 @@ public class SBase : IDisposable {
    *
    * @see getLevel()
    * @see getVersion()
-   */ public
+   */ public new
  XMLNamespaces getNamespaces() {
     IntPtr cPtr = libsbmlPINVOKE.SBase_getNamespaces(swigCPtr);
     XMLNamespaces ret = (cPtr == IntPtr.Zero) ? null : new XMLNamespaces(cPtr, false);
@@ -819,7 +830,7 @@ public class SBase : IDisposable {
    * 'core' namespace alone, not find any corresponding elements, and return 
    * null.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBase getAncestorOfType(int type, string pkgName) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.SBase_getAncestorOfType__SWIG_0(swigCPtr, type, pkgName), false);
@@ -871,7 +882,7 @@ public class SBase : IDisposable {
    * 'core' namespace alone, not find any corresponding elements, and return 
    * null.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBase getAncestorOfType(int type) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.SBase_getAncestorOfType__SWIG_1(swigCPtr, type), false);
@@ -1047,7 +1058,7 @@ public class SBase : IDisposable {
  * within an SBML file.  The latter point is important, because the
  * uniqueness criterion applies across <em>any</em> attribute with type
  * <code>ID</code> anywhere in the file, not just the 'metaid' attribute used
- * by SBML&mdash;something to be aware of if your application-specific XML
+ * by SBML---something to be aware of if your application-specific XML
  * content inside the 'annotation' subelement happens to use the XML
  * <code>ID</code> type.  Although SBML itself specifies the use of <a
  * href='http://www.w3.org/TR/REC-xml/#id'>XML <code>ID</code></a> only for
@@ -1057,7 +1068,7 @@ public class SBase : IDisposable {
  * 'annotation' subelement.  Finally, note that LibSBML does not provide an
  * explicit XML <code>ID</code> data type; it uses ordinary character
  * strings, which is easier for applications to support.
- * 
+ *
  * 
    *
    * @return @c true if the 'metaid' attribute of this SBML object is
@@ -1072,14 +1083,14 @@ public class SBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isSetId() {
     bool ret = libsbmlPINVOKE.SBase_isSetId(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isSetName() {
     bool ret = libsbmlPINVOKE.SBase_isSetName(swigCPtr);
     return ret;
@@ -1119,7 +1130,7 @@ public class SBase : IDisposable {
    * @see appendNotes(XMLNode notes)
    * @see appendNotes(string notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */ public
  bool isSetNotes() {
     bool ret = libsbmlPINVOKE.SBase_isSetNotes(swigCPtr);
@@ -1189,7 +1200,7 @@ public class SBase : IDisposable {
  * within an SBML file.  The latter point is important, because the
  * uniqueness criterion applies across <em>any</em> attribute with type
  * <code>ID</code> anywhere in the file, not just the 'metaid' attribute used
- * by SBML&mdash;something to be aware of if your application-specific XML
+ * by SBML---something to be aware of if your application-specific XML
  * content inside the 'annotation' subelement happens to use the XML
  * <code>ID</code> type.  Although SBML itself specifies the use of <a
  * href='http://www.w3.org/TR/REC-xml/#id'>XML <code>ID</code></a> only for
@@ -1199,7 +1210,7 @@ public class SBase : IDisposable {
  * 'annotation' subelement.  Finally, note that LibSBML does not provide an
  * explicit XML <code>ID</code> data type; it uses ordinary character
  * strings, which is easier for applications to support.
- * 
+ *
  * 
    *
    * The string @p metaid is copied.  
@@ -1209,9 +1220,9 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @see getMetaId()
    * @see isSetMetaId()
@@ -1240,7 +1251,7 @@ public class SBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  int setId(string sid) {
     int ret = libsbmlPINVOKE.SBase_setId(swigCPtr, sid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -1248,7 +1259,7 @@ public class SBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  int setName(string name) {
     int ret = libsbmlPINVOKE.SBase_setName(swigCPtr, name);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -1290,7 +1301,7 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1298,7 +1309,7 @@ public class SBase : IDisposable {
    * @see appendAnnotation(XMLNode annotation)
    * @see appendAnnotation(string annotation)
    * @see unsetAnnotation()
-   */ public
+   */ public new
  int setAnnotation(XMLNode annotation) {
     int ret = libsbmlPINVOKE.SBase_setAnnotation__SWIG_0(swigCPtr, XMLNode.getCPtr(annotation));
     return ret;
@@ -1339,8 +1350,8 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1348,7 +1359,7 @@ public class SBase : IDisposable {
    * @see appendAnnotation(XMLNode annotation)
    * @see appendAnnotation(string annotation)
    * @see unsetAnnotation()
-   */ public
+   */ public new
  int setAnnotation(string annotation) {
     int ret = libsbmlPINVOKE.SBase_setAnnotation__SWIG_1(swigCPtr, annotation);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -1384,8 +1395,8 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1393,7 +1404,7 @@ public class SBase : IDisposable {
    * @see setAnnotation(string annotation)
    * @see appendAnnotation(string annotation)
    * @see unsetAnnotation()
-   */ public
+   */ public new
  int appendAnnotation(XMLNode annotation) {
     int ret = libsbmlPINVOKE.SBase_appendAnnotation__SWIG_0(swigCPtr, XMLNode.getCPtr(annotation));
     return ret;
@@ -1428,8 +1439,8 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1437,7 +1448,7 @@ public class SBase : IDisposable {
    * @see setAnnotation(string annotation)
    * @see appendAnnotation(XMLNode annotation)
    * @see unsetAnnotation()
-   */ public
+   */ public new
  int appendAnnotation(string annotation) {
     int ret = libsbmlPINVOKE.SBase_appendAnnotation__SWIG_1(swigCPtr, annotation);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -1467,10 +1478,10 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
+   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
    *
    * @see replaceTopLevelAnnotationElement(XMLNode )
    * @see replaceTopLevelAnnotationElement(string)
@@ -1504,10 +1515,10 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
+   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
    *
    * @see replaceTopLevelAnnotationElement(XMLNode )
    * @see replaceTopLevelAnnotationElement(string)
@@ -1541,10 +1552,10 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
+   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
    *
    * @see replaceTopLevelAnnotationElement(XMLNode )
    * @see replaceTopLevelAnnotationElement(string)
@@ -1575,9 +1586,9 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see removeTopLevelAnnotationElement(string elementName, string elementURI)
    * @see replaceTopLevelAnnotationElement(string)
@@ -1607,9 +1618,9 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see removeTopLevelAnnotationElement(string elementName, string elementURI)
    * @see replaceTopLevelAnnotationElement(XMLNode)
@@ -1652,8 +1663,8 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1661,7 +1672,7 @@ public class SBase : IDisposable {
    * @see appendNotes(XMLNode notes)
    * @see appendNotes(string notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */ public
  int setNotes(XMLNode notes) {
     int ret = libsbmlPINVOKE.SBase_setNotes__SWIG_0(swigCPtr, XMLNode.getCPtr(notes));
@@ -1688,7 +1699,7 @@ public class SBase : IDisposable {
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1700,22 +1711,41 @@ public class SBase : IDisposable {
    * using this method.  Here, the object being annotated is the whole SBML
    * document, but that is for illustration purposes only; you could of
    * course use this same approach to annotate any other SBML component.
-   * @if clike
-@verbatim
+   * @if cpp
+@code{.cpp}
 SBMLDocument s = new SBMLDocument(3, 1);
 s->setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>');
-@endverbatim
-   * @endif@if java
-@verbatim
+@endcode
+@endif
+@if java
+@code{.java}
 SBMLDocument s = new SBMLDocument(3, 1);
 s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>');
-@endverbatim
-   * @endif@if csharp
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
+try:
+  sbmlDoc = SBMLDocument(3, 1)
+except ValueError:
+  print('Could not create SBMLDocument object')
+  sys.exit(1)
+
+note = '<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>'
+
+status = sbmlDoc.setNotes(note)
+if status != LIBSBML_OPERATION_SUCCESS:
+  # Do something to handle the error here.
+  print('Unable to set notes on the SBML document object')
+  sys.exit(1)
+@endcode
+@endif
+@if csharp
+@code
 SBMLDocument s = new SBMLDocument(3, 1);
 s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>');
-@endverbatim
-   * @endif
+@endcode
+@endif
    *
    * @param notes an XML string that is to be used as the content of the
    * 'notes' subelement of this object
@@ -1727,9 +1757,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1737,7 +1767,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see appendNotes(XMLNode notes)
    * @see appendNotes(string notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */ public
  int setNotes(string notes, bool addXHTMLMarkup) {
     int ret = libsbmlPINVOKE.SBase_setNotes__SWIG_1(swigCPtr, notes, addXHTMLMarkup);
@@ -1765,7 +1795,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1777,22 +1807,41 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * using this method.  Here, the object being annotated is the whole SBML
    * document, but that is for illustration purposes only; you could of
    * course use this same approach to annotate any other SBML component.
-   * @if clike
-@verbatim
+   * @if cpp
+@code{.cpp}
 SBMLDocument s = new SBMLDocument(3, 1);
 s->setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>');
-@endverbatim
-   * @endif@if java
-@verbatim
+@endcode
+@endif
+@if java
+@code{.java}
 SBMLDocument s = new SBMLDocument(3, 1);
 s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>');
-@endverbatim
-   * @endif@if csharp
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
+try:
+  sbmlDoc = SBMLDocument(3, 1)
+except ValueError:
+  print('Could not create SBMLDocument object')
+  sys.exit(1)
+
+note = '<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>'
+
+status = sbmlDoc.setNotes(note)
+if status != LIBSBML_OPERATION_SUCCESS:
+  # Do something to handle the error here.
+  print('Unable to set notes on the SBML document object')
+  sys.exit(1)
+@endcode
+@endif
+@if csharp
+@code
 SBMLDocument s = new SBMLDocument(3, 1);
 s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>');
-@endverbatim
-   * @endif
+@endcode
+@endif
    *
    * @param notes an XML string that is to be used as the content of the
    * 'notes' subelement of this object
@@ -1804,9 +1853,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1814,7 +1863,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see appendNotes(XMLNode notes)
    * @see appendNotes(string notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */ public
  int setNotes(string notes) {
     int ret = libsbmlPINVOKE.SBase_setNotes__SWIG_2(swigCPtr, notes);
@@ -1840,7 +1889,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1853,9 +1902,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1863,7 +1912,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see setNotes(string notes, bool addXHTMLMarkup)
    * @see appendNotes(string notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */ public
  int appendNotes(XMLNode notes) {
     int ret = libsbmlPINVOKE.SBase_appendNotes__SWIG_0(swigCPtr, XMLNode.getCPtr(notes));
@@ -1888,7 +1937,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1901,9 +1950,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1911,7 +1960,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see setNotes(string notes, bool addXHTMLMarkup)
    * @see appendNotes(XMLNode notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */ public
  int appendNotes(string notes) {
     int ret = libsbmlPINVOKE.SBase_appendNotes__SWIG_1(swigCPtr, notes);
@@ -1930,9 +1979,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * 
    * @note In SBML Level&nbsp;2, model history annotations were only
    * permitted on the Model element.  In SBML Level&nbsp;3, they are
@@ -1953,7 +2002,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * parent element).
    *
    * @param parent the SBML object to use
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void connectToParent(SBase parent) {
     libsbmlPINVOKE.SBase_connectToParent(swigCPtr, SBase.getCPtr(parent));
   }
@@ -1972,7 +2021,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see setSBMLDocument()
    * @see enablePackageInternal()
    * @endif
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void connectToChild() {
     libsbmlPINVOKE.SBase_connectToChild(swigCPtr);
   }
@@ -2000,12 +2049,12 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * @see setSBOTerm(@if java String sbo_id@else string sboid@endif)
-   */ public
+   * @see setSBOTerm(@if java String@else string sboid@endif)
+   */ public new
  int setSBOTerm(int value) {
     int ret = libsbmlPINVOKE.SBase_setSBOTerm__SWIG_0(swigCPtr, value);
     return ret;
@@ -2036,12 +2085,12 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see setSBOTerm(int value)
-   */ public
+   */ public new
  int setSBOTerm(string sboid) {
     int ret = libsbmlPINVOKE.SBase_setSBOTerm__SWIG_1(swigCPtr, sboid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -2063,7 +2112,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setNamespaces(XMLNamespaces xmlns) {
     int ret = libsbmlPINVOKE.SBase_setNamespaces(swigCPtr, XMLNamespaces.getCPtr(xmlns));
@@ -2085,7 +2134,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
  * within an SBML file.  The latter point is important, because the
  * uniqueness criterion applies across <em>any</em> attribute with type
  * <code>ID</code> anywhere in the file, not just the 'metaid' attribute used
- * by SBML&mdash;something to be aware of if your application-specific XML
+ * by SBML---something to be aware of if your application-specific XML
  * content inside the 'annotation' subelement happens to use the XML
  * <code>ID</code> type.  Although SBML itself specifies the use of <a
  * href='http://www.w3.org/TR/REC-xml/#id'>XML <code>ID</code></a> only for
@@ -2095,14 +2144,14 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
  * 'annotation' subelement.  Finally, note that LibSBML does not provide an
  * explicit XML <code>ID</code> data type; it uses ordinary character
  * strings, which is easier for applications to support.
- * 
+ *
  * 
    *  
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetMetaId() {
     int ret = libsbmlPINVOKE.SBase_unsetMetaId(swigCPtr);
@@ -2120,9 +2169,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   */ public
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public new
  int unsetId() {
     int ret = libsbmlPINVOKE.SBase_unsetId(swigCPtr);
     return ret;
@@ -2167,9 +2216,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * 
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   */ public
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.SBase_unsetName(swigCPtr);
     return ret;
@@ -2191,7 +2240,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * The format of 'notes' elements must be <a target='_blank'
    * href='http://www.w3.org/TR/xhtml1/'>XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of 'notes' content, libSBML provides the static
-   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
@@ -2201,7 +2250,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -2209,7 +2258,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see setNotes(string notes, bool addXHTMLMarkup)
    * @see appendNotes(XMLNode notes)
    * @see appendNotes(string notes)
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */ public
  int unsetNotes() {
     int ret = libsbmlPINVOKE.SBase_unsetNotes(swigCPtr);
@@ -2236,7 +2285,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getAnnotation()
    * @see getAnnotationString()
@@ -2257,8 +2306,8 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int unsetSBOTerm() {
     int ret = libsbmlPINVOKE.SBase_unsetSBOTerm(swigCPtr);
@@ -2277,17 +2326,17 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink, if
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
    * this object lacks a 'metaid' attribute
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note Since the CV Term uses the 'metaid' attribute of the object as a
    * reference, if the object has no 'metaid' attribute value set, then the
    * CVTerm will not be added.
    *
-   * * 
+   * *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -2301,7 +2350,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
  *
  *
    * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int addCVTerm(CVTerm term, bool newBag) {
     int ret = libsbmlPINVOKE.SBase_addCVTerm__SWIG_0(swigCPtr, CVTerm.getCPtr(term), newBag);
@@ -2320,17 +2369,17 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink, if
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
    * this object lacks a 'metaid' attribute
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note Since the CV Term uses the 'metaid' attribute of the object as a
    * reference, if the object has no 'metaid' attribute value set, then the
    * CVTerm will not be added.
    *
-   * * 
+   * *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -2344,7 +2393,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
  *
  *
    * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int addCVTerm(CVTerm term) {
     int ret = libsbmlPINVOKE.SBase_addCVTerm__SWIG_1(swigCPtr, CVTerm.getCPtr(term));
@@ -2393,8 +2442,8 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetCVTerms() {
     int ret = libsbmlPINVOKE.SBase_unsetCVTerms(swigCPtr);
@@ -2407,9 +2456,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
    * @note In SBML Level&nbsp;2, model history annotations were only
    * permitted on the Model element.  In SBML Level&nbsp;3, they are
@@ -2466,7 +2515,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * <code>'http://www.geneontology.org/#GO:0005892'</code>.
    *
    * @return the qualifier associated with the resource,
-   * or @link libsbmlcs.libsbml.BQB_UNKNOWN BQB_UNKNOWN@endlink if the
+   * or @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink if the
    * resource does not exist.
    *
    * @if clike
@@ -2551,9 +2600,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * <code>'http://www.geneontology.org/#GO:0005892'</code>.
    *
    * @return the @if clike #ModelQualifierType_t value@else model qualifier
-   * type@endif associated with the resource, or @link
-   * libsbmlcs.libsbml.BQM_UNKNOWN BQM_UNKNOWN@endlink if the resource
-   * does not exist.
+   * type@endif associated with the resource, or @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink if the resource does not exist.
    *
    * @if clike
    * @note The set of MIRIAM biological qualifiers grows over
@@ -2607,7 +2654,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   
 /**
-   * Returns the SBML Level of the SBMLDocument object containing this
+   * Returns the SBML Level of the SBMLDocument object containing @em this
    * object.
    * 
    * *
@@ -2634,7 +2681,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
   
 /**
    * Returns the Version within the SBML Level of the SBMLDocument object
-   * containing this object.
+   * containing @em this object.
    * 
    * *
  * 
@@ -2672,8 +2719,8 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   
 /**
-   * Returns the name of the SBML Level&nbsp;3 package in which this
-   * element is defined.
+   * Returns the name of the SBML Level&nbsp;3 package in which this element
+   * is defined.
    *
    * @return the name of the SBML package in which this element is defined.
    * The string <code>&quot;core&quot;</code> will be returned if this
@@ -2689,17 +2736,168 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
   
 /**
    * Returns the libSBML type code for this object.
-   * 
-   * This method may return the type code of this SBML object, or it may
-   * return @link libsbmlcs.libsbml.SBML_UNKNOWN SBML_UNKNOWN@endlink.  This
-   * is because subclasses of SBase are not required to implement this
-   * method to return a type code.  This method is meant primarily for the
-   * LibSBML C interface, in which class and subclass information is not
-   * readily available.
    *
-   * @return the @if clike #SBMLTypeCode_t value@else SBML object type code@endif
-   * of this SBML object or
-   * @link libsbmlcs.libsbml.SBML_UNKNOWN SBML_UNKNOWN@endlink (the default).
+   * *
+ * 
+ * LibSBML attaches an identifying code to every kind of SBML object.  These
+ * are integer constants known as <em>SBML type codes</em>.  The names of all
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * @if clike The set of possible type codes for core elements is defined in
+ * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
+ * SBML Level&nbsp;3 packages define their own extra enumerations of type
+ * codes (e.g., #SBMLLayoutTypeCode_t for the Level&nbsp;3 Layout
+ * package).@endif@if java In the Java language interface for libSBML, the
+ * type codes are defined as static integer constants in the interface class
+ * {@link libsbmlConstants}.  @endif@if python In the Python language
+ * interface for libSBML, the type codes are defined as static integer
+ * constants in the interface class @link libsbml@endlink.@endif@if csharp In
+ * the C# language interface for libSBML, the type codes are defined as
+ * static integer constants in the interface class
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
+ * package plug-ins may use overlapping type codes; to identify the package
+ * to which a given object belongs, call the <code>getPackageName()</code>
+ * method on the object.
+ *
+ *
+   *
+   * *
+ * 
+ * Here follow some additional general information about libSBML type codes:
+ *
+ * @li The codes are the possible return values (integers) for the following
+ * functions:
+ * <ul>
+ *     <li> SBase::getTypeCode()
+ *     <li> ListOf::getItemTypeCode()
+ * </ul>
+ * (Compatibility note: in libSBML 5, the type of return values of these
+ * functions changed from an enumeration to an integer for extensibility
+ * in the face of different programming languages.)
+ *
+ * @li Each package extension must define similar sets of values for each
+ * SBase subclass (e.g. <code>SBMLLayoutTypeCode_t</code> for the SBML Level&nbsp;3
+ * %Layout extension, <code>SBMLFbcTypeCode_t</code> for the SBML Level&nbsp;3 Flux
+ * Balance Constraints extension, etc.).
+ *
+ * @li The value of each package-specific type code can be duplicated between
+ * those of different packages.  (This is necessary because the development
+ * of libSBML extensions for different SBML packages may be undertaken by
+ * different developers at different times; requiring the developers to
+ * coordinate their use of type codes would be nettlesome and probably
+ * doomed to failure.)
+ *
+ * @li To distinguish between the type codes of different packages, both the
+ * return value of SBase::getTypeCode() and SBase::getPackageName() must be
+ * checked.  This is particularly important for functions that take an SBML
+ * type code as an argument, such as
+ * SBase::getAncestorOfType(@if java int, String@endif), which by
+ * default assumes you are handing it a core type, and will return @c null if
+ * the value you give it is actually from a package.
+ *
+ * The following example code illustrates the combined use of
+ * SBase::getPackageName() and SBase::getTypeCode():
+ * @if cpp
+ * @code{.cpp}
+ void example (SBase sb)
+ {
+   cons string pkgName = sb->getPackageName();
+   if (pkgName == 'core')
+   {
+     switch (sb->getTypeCode())
+     {
+       case SBML_MODEL:
+          ....
+          break;
+       case SBML_REACTION:
+          ....
+     }
+   }
+   else if (pkgName == 'layout')
+   {
+     switch (sb->getTypeCode())
+     {
+       case SBML_LAYOUT_LAYOUT:
+          ....
+          break;
+       case SBML_LAYOUT_REACTIONGLYPH:
+          ....
+     }
+   }
+   ...
+ }
+@endcode
+@endif
+@if python
+@code{.py}
+def example(item):
+  pkg_name  = item.getPackageName()
+  type_code = item.getTypeCode()
+  if pkg_name == 'core':
+    print('Got a ' + SBMLTypeCode_toString(type_code, 'core') + ' object')
+    if type_code == SBML_MODEL:
+      print('This is a very, very nice model')
+      # Do whatever the application wants to do with the model.
+    elif type_code == SBML_COMPARTMENT:
+      print('This is a very, very nice compartment')
+      # Do whatever the application wants to do with the compartment.
+    elif type_code == SBML_SPECIES:
+      print('This is a very, very nice species')
+      # Do whatever the application wants to do with the species.
+    elif ...
+      ...
+  elif pkg_name == 'layout':
+    print('Got a ' + SBMLTypeCode_toString(type_code, 'layout') + ' object')
+    if type_code == SBML_LAYOUT_POINT:
+      print('This is a very, very nice layout point')
+      # Do whatever the application wants to do with the layout point.
+    elif type_code == SBML_LAYOUT_BOUNDINGBOX:
+      print('This is a very, very nice layout bounding box')
+      # Do whatever the application wants to do with the layout bounding box.
+    elif ...
+      ...
+  elif pkg_name == 'unknown':
+    print('Something went wrong -- libSBML did not recognize the object type')
+    # Handle errors
+@endcode
+@endif
+@if java
+@code{.java}
+void example (SBase sb)
+{
+  String pkgName = sb.getPackageName();
+  if (pkgName.equals('core'))
+  {
+    switch (sb.getTypeCode())
+    {
+      case libsbml.SBML_MODEL:
+         ....
+         break;
+      case libsbml.SBML_REACTION:
+         ....
+    }
+  }
+  else if (pkgName.equals('layout'))
+  {
+    switch (sb.getTypeCode())
+    {
+      case libsbml.SBML_LAYOUT_LAYOUT:
+         ....
+         break;
+      case libsbml.SBML_LAYOUT_REACTIONGLYPH:
+         ....
+    }
+  }
+  ...
+}
+@endcode
+@endif
+ *
+ *
+   *
+   * @return the @if clike #SBMLTypeCode_t value@else SBML object type
+   * code@endif of this SBML object, or @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink (the default).  The latter is possible because
+   * subclasses of SBase are not required to implement this method to return
+   * a type code.
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -2709,9 +2907,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
  *
  *
    *
-   * @see getElementName()
    * @see getPackageName()
-   */ public
+   * @see getElementName()
+   */ public new
  int getTypeCode() {
     int ret = libsbmlPINVOKE.SBase_getTypeCode(swigCPtr);
     return ret;
@@ -2750,7 +2948,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * SBML component.  For example, Model defines it as returning @c
    * 'model', CompartmentType defines it as returning @c 'compartmentType',
    * and so on.
-   */ public
+   */ public new
  string getElementName() {
     string ret = libsbmlPINVOKE.SBase_getElementName(swigCPtr);
     return ret;
@@ -2904,10 +3102,10 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
+   * @li @link libsbmlcs#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
    *
    * @see disablePackage(string pkgURI, string pkgPrefix)
    */ public
@@ -2928,14 +3126,15 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * An example of when this may be useful is during construction of model
    * components when mixing existing and new models.  Suppose your
    * application read an SBML document containing a model that used the SBML
-   * Hierarchical Model Composition (&ldquo;comp&rdquo;) package, and
+   * Hierarchical %Model Composition (&ldquo;comp&rdquo;) package, and
    * extracted parts of that model in order to construct a new model in
    * memory.  The new, in-memory model will not accept a component drawn from
    * an other SBMLDocument with different package namespace declarations.
    * You could reconstruct the same namespaces in the in-memory model first,
    * but as a shortcut, you could also disable the package namespace on the
    * object being added.  Here is a code example to help clarify this:
-   * @if clike @verbatim
+   * @if cpp
+@code{.cpp}
 // We read in an SBML L3V1 model that uses the 'comp' package namespace
 doc = readSBML('sbml-file-with-comp-elements.xml');
 
@@ -2957,38 +3156,72 @@ Model  newModel = new Model(3,1);
 s1->disablePackage('http://www.sbml.org/sbml/level3/version1/comp/version1',
                    'comp');
 newModel->addSpecies(s1);
-@endverbatim
-@endif@if python
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
 import sys
 import os.path
 from libsbml import *
 
-# We read in an SBML L3V1 model that uses the 'comp' package namespace
+# We read an SBML L3V1 model that uses the 'comp' package.
+
 doc = readSBML('sbml-file-with-comp-elements.xml');
+if doc.getNumErrors() > 0:
+  print('readSBML encountered errors while reading the file.')
+  doc.printErrors()
+  sys.exit(1)
 
 # We extract one of the species from the model we just read in.
-s1 = doc.getModel().getSpecies(0);
 
-# We construct a new model.  This model does not use the 'comp' package.
-newDoc = SBMLDocument(3, 1);
-newModel = newDoc.createModel();
+model = doc.getModel()
+if model == None:
+  print('Unable to retrieve Model object')
+  sys.exit(1)
 
-# The following would fail with an error, because addSpecies() would
-# first check that the parent of the given object has namespaces
-# declared, and will discover that s1 does but newModel does not.
+s1 = model.getSpecies(0)
+if s1 == None:
+  print('Unable to retrieve Species object')
+  sys.exit(1)
 
-# newModel.addSpecies(s1);
+# We construct a new model.
+# This model does not use the 'comp' package.
 
-# However, if we disable the 'comp' package on s1, then the call
-# to addSpecies will work.
+try:
+  newDoc = SBMLDocument(3, 1)
+except ValueError:
+  print('Could not create SBMLDocument object')
+  sys.exit(1)
 
-s1.disablePackage('http://www.sbml.org/sbml/level3/version1/comp/version1',
-                  'comp');
-newModel.addSpecies(s1);
-@endverbatim
-@endif@if java
-@verbatim
+newModel = newDoc.createModel()
+if newModel == None:
+  print('Unable to create new Model object')
+  sys.exit(1)
+
+# The following would normally fail with an error, because
+# addSpecies() would first check that the parent of the given
+# object has namespaces declared, and will discover that s1
+# does but newModel does not.
+
+#   newModel.addSpecies(s1)
+
+# However, if we disable the 'comp' package on s1, then the
+# call to addSpecies will work.
+
+compNS = 'http://www.sbml.org/sbml/level3/version1/comp/version1'
+status = s1.disablePackage(compNS, 'comp')
+if status != LIBSBML_OPERATION_SUCCESS:
+  print('Unable to disable package.')
+  sys.exit(1)
+
+newSpecies = newModel.addSpecies(s1)   # This will work now.
+if newSpecies == None:
+  print('Could not add Species')       # (This will not happen,
+  sys.exit(1)                          # but always check errors.)
+@endcode
+@endif
+@if java
+@code{.java}
 // We read in an SBML L3V1 model that uses the 'comp' package namespace
 SBMLReader reader = new SBMLReader();
 SBMLDocument doc = reader.readSBML('sbml-file-with-comp-elements.xml');
@@ -3011,7 +3244,7 @@ Model newModel = new Model(3,1);
 s1->disablePackage('http://www.sbml.org/sbml/level3/version1/comp/version1',
                    'comp');
 newModel.addSpecies(s1);
-@endverbatim
+@endcode
 @endif
    *
    * @param pkgURI the URI of the package
@@ -3022,10 +3255,10 @@ newModel.addSpecies(s1);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
+   * @li @link libsbmlcs#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
    *
    * @see enablePackage(string pkgURI, string pkgPrefix, bool flag)
    */ public
@@ -3048,7 +3281,7 @@ newModel.addSpecies(s1);
    * @see setSBMLDocument()
    * @endif
    * @see connectToChild()
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void enablePackageInternal(string pkgURI, string pkgPrefix, bool flag) {
     libsbmlPINVOKE.SBase_enablePackageInternal(swigCPtr, pkgURI, pkgPrefix, flag);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -3064,7 +3297,7 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c 
    * false otherwise.
    *
-   * @see isPackageEnabled(@if java String pkgName@endif)
+   * @see isPackageEnabled(@if java String@endif)
    */ public
  bool isPackageURIEnabled(string pkgURI) {
     bool ret = libsbmlPINVOKE.SBase_isPackageURIEnabled(swigCPtr, pkgURI);
@@ -3084,7 +3317,7 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c
    * false otherwise.
    *
-   * @see isPackageURIEnabled(@if java String pkgURI@endif)
+   * @see isPackageURIEnabled(@if java String@endif)
    */ public
  bool isPackageEnabled(string pkgName) {
     bool ret = libsbmlPINVOKE.SBase_isPackageEnabled(swigCPtr, pkgName);
@@ -3102,10 +3335,10 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c 
    * false otherwise.
    *
-   * @see isPkgEnabled(@if java String pkgName@endif)
+   * @see isPkgEnabled(@if java String@endif)
    *
    * @deprecated Replaced in libSBML 5.2.0 by
-   * isPackageURIEnabled(@if java String pkgURI@endif)
+   * isPackageURIEnabled(@if java String@endif)
    */ public
  bool isPkgURIEnabled(string pkgURI) {
     bool ret = libsbmlPINVOKE.SBase_isPkgURIEnabled(swigCPtr, pkgURI);
@@ -3125,10 +3358,10 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c
    * false otherwise.
    *
-   * @see isPkgURIEnabled(@if java String pkgURI@endif)
+   * @see isPkgURIEnabled(@if java String@endif)
    *
    * @deprecated Replaced in libSBML 5.2.0 by
-   * isPackageEnabled(@if java String pkgName@endif)
+   * isPackageEnabled(@if java String@endif)
    */ public
  bool isPkgEnabled(string pkgName) {
     bool ret = libsbmlPINVOKE.SBase_isPkgEnabled(swigCPtr, pkgName);
@@ -3141,21 +3374,21 @@ newModel.addSpecies(s1);
    * Writes out contained SBML objects of package extensions (if any)
    * as XML elements.
    *
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void writeExtensionElements(XMLOutputStream stream) {
     libsbmlPINVOKE.SBase_writeExtensionElements(swigCPtr, XMLOutputStream.getCPtr(stream));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.SBase_hasRequiredAttributes(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool hasRequiredElements() {
     bool ret = libsbmlPINVOKE.SBase_hasRequiredElements(swigCPtr);
     return ret;
@@ -3175,7 +3408,7 @@ newModel.addSpecies(s1);
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  SBMLNamespaces getSBMLNamespaces() {
 	SBMLNamespaces ret
 	    = (SBMLNamespaces) libsbml.DowncastSBMLNamespaces(libsbmlPINVOKE.SBase_getSBMLNamespaces(swigCPtr), false);
@@ -3191,7 +3424,7 @@ newModel.addSpecies(s1);
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  UnitDefinition getDerivedUnitDefinition() {
     IntPtr cPtr = libsbmlPINVOKE.SBase_getDerivedUnitDefinition(swigCPtr);
     UnitDefinition ret = (cPtr == IntPtr.Zero) ? null : new UnitDefinition(cPtr, false);
@@ -3199,7 +3432,7 @@ newModel.addSpecies(s1);
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool containsUndeclaredUnits() {
     bool ret = libsbmlPINVOKE.SBase_containsUndeclaredUnits(swigCPtr);
     return ret;
@@ -3221,9 +3454,9 @@ newModel.addSpecies(s1);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   */ public
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public new
  int removeFromParentAndDelete() {
     int ret = libsbmlPINVOKE.SBase_removeFromParentAndDelete(swigCPtr);
     return ret;
@@ -3235,7 +3468,7 @@ newModel.addSpecies(s1);
    * as the given object's XML namespaces.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -3261,7 +3494,7 @@ newModel.addSpecies(s1);
    * of the given object's XML namespaces.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A

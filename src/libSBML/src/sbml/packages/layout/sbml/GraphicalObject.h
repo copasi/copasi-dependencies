@@ -27,8 +27,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class GraphicalObject
- * @sbmlbrief{layout} The basic &ldquo;layout&rdquo; package element for
- * storing layout information.
+ * @sbmlbrief{layout} Base class of objects that store layouts.
  *
  * All the more specific layout elements (CompartmentGlyph, GeneralGlyph,
  * SpeciesGlyph, ReactionGlyph, ReferenceGlyph, TextGlyph, and
@@ -279,11 +278,15 @@ public:
   virtual void writeElements (XMLOutputStream& stream) const;
   /** @endcond */
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const ;
+
 
   /**
    * Creates and returns a deep copy of this GraphicalObject.
@@ -299,7 +302,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_GRAPHICALOBJECT SBML_LAYOUT_GRAPHICALOBJECT@endlink
+   * @sbmlconstant{SBML_LAYOUT_GRAPHICALOBJECT, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -429,8 +432,7 @@ protected:
 
 /**
  * @class ListOfGraphicalObjects
- * @sbmlbrief{layout} Implementation of the %ListOfAdditionalGraphicalObjects
- * construct from the &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A list of GraphicalObject objects.
  * 
  * The ListOfGraphicalObjects class in libSBML actually represents the
  * ListOfAdditionalGraphicalObjects class in the &ldquo;layout&rdquo;
@@ -474,7 +476,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_LAYOUT_GRAPHICALOBJECT SBML_LAYOUT_GRAPHICALOBJECT@endlink (default).
+   * @sbmlconstant{SBML_LAYOUT_GRAPHICALOBJECT, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -484,8 +486,11 @@ public:
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const;
+
 
   /** @cond doxygenLibsbmlInternal */
   /* 

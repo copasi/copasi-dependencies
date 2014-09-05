@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Representation of a qualified XML name.
+@htmlinclude pkg-marker-core.html A qualified XML name.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -108,7 +108,7 @@ public class XMLTriple : IDisposable {
    * @param uri a string, URI of the XMLTriple.
    * @param prefix a string, prefix for the URI of the XMLTriple,
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  XMLTriple(string name, string uri, string prefix) : this(libsbmlPINVOKE.new_XMLTriple__SWIG_1(name, uri, prefix), true) {
@@ -129,10 +129,10 @@ public class XMLTriple : IDisposable {
    * @param triplet a string representing the triplet as above
    * @param sepchar a character, the sepchar used in the triplet
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLTriple(string triplet, char sepchar) : this(libsbmlPINVOKE.new_XMLTriple__SWIG_2(triplet, sepchar), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -152,10 +152,10 @@ public class XMLTriple : IDisposable {
    * @param triplet a string representing the triplet as above
    * @param sepchar a character, the sepchar used in the triplet
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLTriple(string triplet) : this(libsbmlPINVOKE.new_XMLTriple__SWIG_3(triplet), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -167,7 +167,7 @@ public class XMLTriple : IDisposable {
    *
    * @param orig the XMLTriple object to copy.
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  XMLTriple(XMLTriple orig) : this(libsbmlPINVOKE.new_XMLTriple__SWIG_4(XMLTriple.getCPtr(orig)), true) {
@@ -176,9 +176,9 @@ public class XMLTriple : IDisposable {
 
   
 /**
-   * Creates and returns a deep copy of this XMLTriple set.
-   * 
-   * @return a (deep) copy of this XMLTriple set.
+   * Creates and returns a deep copy of this XMLTriple object.
+   *
+   * @return the (deep) copy of this XMLTriple object.
    */ public
  XMLTriple clone() {
     IntPtr cPtr = libsbmlPINVOKE.XMLTriple_clone(swigCPtr);

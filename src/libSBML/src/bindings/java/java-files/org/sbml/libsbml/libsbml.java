@@ -79,6 +79,41 @@ public class libsbml implements libsbmlConstants {
   /**
    * @internal
    */
+  public static SBMLConverter DowncastSBMLConverter(long cPtr, boolean owner)
+  {
+    if (cPtr == 0) return null;
+                
+    SBMLConverter con = new SBMLConverter(cPtr, false);
+    String conName = con.getName();
+    
+    if (conName.equals("SBML Units Converter"))
+      return new SBMLUnitsConverter(cPtr,owner);
+    else if (conName.equals("SBML Strip Package Converter"))
+      return new SBMLStripPackageConverter(cPtr,owner);
+    else if (conName.equals("SBML Rule Converter"))
+      return new SBMLRuleConverter(cPtr,owner);
+    else if (conName.equals("SBML Reaction Converter"))
+      return new SBMLReactionConverter(cPtr,owner);
+    else if (conName.equals("SBML Local Parameter Converter"))
+      return new SBMLLocalParameterConverter(cPtr,owner);
+    else if (conName.equals("SBML Level Version Converter"))
+      return new SBMLLevelVersionConverter(cPtr,owner);
+    else if (conName.equals("SBML Initial Assignment Converter"))
+      return new SBMLInitialAssignmentConverter(cPtr,owner);
+    else if (conName.equals("SBML Infer Units Converter"))
+      return new SBMLInferUnitsConverter(cPtr,owner);
+    else if (conName.equals("SBML Id Converter"))
+      return new SBMLIdConverter(cPtr,owner);
+    else if (conName.equals("SBML Function Definition Converter"))
+      return new SBMLFunctionDefinitionConverter(cPtr,owner);
+
+		
+    return new SBMLConverter(cPtr,owner);
+  }
+  
+  /**
+   * @internal
+   */
   public static SBMLNamespaces DowncastSBMLNamespaces(long cPtr, boolean owner)
   {
     if (cPtr == 0) return null;
@@ -531,53 +566,74 @@ public class libsbml implements libsbmlConstants {
 
   
 /**
- * Reads an SBML document from the given file <code>filename</code>.
+ * <p>
+ * Reads an SBML document from the given file.
  <p>
- * If <code>filename</code> does not exist, or it is not an SBML file, an error will
- * be logged in the error log of the {@link SBMLDocument} object returned by this
- * method.  Calling programs can inspect this error log to determine
- * the nature of the problem.  Please refer to the definition of
- * SBMLDocument_t for more information about the error reporting mechanism.
+ * If the file named <code>filename</code> does not exist or its content is not
+ * valid SBML, one or more errors will be logged with the
+ * {@link SBMLDocument}
+ * object returned by this method.  Callers can use the methods on
+ * {@link SBMLDocument} such as
+ * {@link SBMLDocument#getNumErrors()}
+ * and
+ * {@link SBMLDocument#getError(long)}
+ * to get the errors.  The object returned by
+ * {@link SBMLDocument#getError(long)}
+ * is an {@link SBMLError} object, and it has methods to get the error code,
+ * category, and severity level of the problem, as well as a textual
+ * description of the problem.  The possible severity levels range from
+ * informational messages to fatal errors; see the documentation for
+ * {@link SBMLError}
+ * for more information.
  <p>
- * <code>
- *   SBMLReader_t   *sr;
+ * If the file <code>filename</code> could not be read, the file-reading error will
+ * appear first.  The error code  can provide a clue about what
+ * happened.  For example, a file might be unreadable (either because it does
+ * not actually exist or because the user does not have the necessary access
+ * priviledges to read it) or some sort of file operation error may have been
+ * reported by the underlying operating system.  Callers can check for these
+ * situations using a program fragment such as the following:
+ <p>
+<pre class='fragment'>
+{@link SBMLReader} reader = new {@link SBMLReader}();
+{@link SBMLDocument} doc  = reader.readSBMLFromFile(filename);
 
- *   SBMLDocument_t *d;
+if (doc.getNumErrors() &gt; 0)
+{
+    if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileUnreadable)
+    {
+        // Handle case of unreadable file here.
+    }
+    else if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileOperationError)
+    {
+        // Handle case of other file operation error here.
+    }
+    else
+    {
+        // Handle other error cases.
+    }
+}
+</pre>
+<p>
+ * <p>
+ * If the given filename ends with the suffix <code>'.gz'</code> (for example, 
+ * <code>'myfile.xml.gz'</code>), the file is assumed to be compressed in <em>gzip</em>
+ * format and will be automatically decompressed upon reading.
+ * Similarly, if the given filename ends with <code>'.zip'</code> or <code>'.bz2'</code>, the
+ * file is assumed to be compressed in <em>zip</em> or <em>bzip2</em> format
+ * (respectively).  Files whose names lack these suffixes will be read
+ * uncompressed.  Note that if the file is in <em>zip</em> format but the
+ * archive contains more than one file, only the first file in the
+ * archive will be read and the rest ignored.
  <p>
- *   sr = SBMLReader_create();
- <p>
- *   d = SBMLReader_readSBML(reader, filename);
- <p>
- *   if (SBMLDocument_getNumErrors(d) > 0)
-
- *   {
-
- *     if (XMLError_getId(SBMLDocument_getError(d, 0))
- *                                           == SBML_READ_ERROR_FILE_NOT_FOUND)
-
- *     if (XMLError_getId(SBMLDocument_getError(d, 0))
- *                                           == SBML_READ_ERROR_NOT_SBML)
-
- *   }
-
- * </code>
- <p>
- * If the filename ends with @em .gz, the file will be read as a <em>gzip</em> file.
- * Similary, if the filename ends with @em .zip or @em .bz2, the file will be
- * read as a <em>zip</em> or <em>bzip2</em> file, respectively. Otherwise, the fill will be
- * read as an uncompressed file.
- * If the filename ends with @em .zip, only the first file in the archive will
- * be read if the zip archive contains two or more files.
- <p>
- * To read a gzip/zip file, underlying libSBML needs to be linked with zlib
- * at compile time. Also, underlying libSBML needs to be linked with bzip2 
- * to read a bzip2 file. File unreadable error will be logged if a compressed 
- * file name is given and underlying libSBML is not linked with the corresponding 
- * required library.
- * SBMLReader_hasZlib() and SBMLReader_hasBzip2() can be used to check 
- * whether libSBML is linked with each library.
- <p>
- * @return a pointer to the {@link SBMLDocument} read.
+ * <p>
+ * To read a gzip/zip file, libSBML needs to be configured and linked with the
+ * <a target='_blank' href='http://www.zlib.net/'>zlib</a> library at compile
+ * time.  It also needs to be linked with the <a target='_blank'
+ * href=''>bzip2</a> library to read files in <em>bzip2</em> format.  (Both of
+ * these are the default configurations for libSBML.)  Errors about unreadable
+ * files will be logged if a compressed filename is given and libSBML was
+ * <em>not</em> linked with the corresponding required library.
  */ public
  static SBMLDocument readSBML(String filename) {
     long cPtr = libsbmlJNI.readSBML(libsbml.getAbsolutePath(filename));
@@ -586,54 +642,79 @@ public class libsbml implements libsbmlConstants {
 
   
 /**
- * Reads an SBML document from the given file <code>filename</code>.
+ * <p>
+ * Reads an SBML document from the given file.
  <p>
- * If <code>filename</code> does not exist, or it is not an SBML file, an error will
- * be logged in the error log of the {@link SBMLDocument} object returned by this
- * method.  Calling programs can inspect this error log to determine
- * the nature of the problem.  Please refer to the definition of
- * SBMLDocument_t for more information about the error reporting mechanism.
+ * If the file named <code>filename</code> does not exist or its content is not
+ * valid SBML, one or more errors will be logged with the
+ * {@link SBMLDocument}
+ * object returned by this method.  Callers can use the methods on
+ * {@link SBMLDocument} such as
+ * {@link SBMLDocument#getNumErrors()}
+ * and
+ * {@link SBMLDocument#getError(long)}
+ * to get the errors.  The object returned by
+ * {@link SBMLDocument#getError(long)}
+ * is an {@link SBMLError} object, and it has methods to get the error code,
+ * category, and severity level of the problem, as well as a textual
+ * description of the problem.  The possible severity levels range from
+ * informational messages to fatal errors; see the documentation for
+ * {@link SBMLError}
+ * for more information.
  <p>
+ * If the file <code>filename</code> could not be read, the file-reading error will
+ * appear first.  The error code  can provide a clue about what
+ * happened.  For example, a file might be unreadable (either because it does
+ * not actually exist or because the user does not have the necessary access
+ * priviledges to read it) or some sort of file operation error may have been
+ * reported by the underlying operating system.  Callers can check for these
+ * situations using a program fragment such as the following:
  <p>
- * <code>
- *   SBMLReader_t   *sr;
+<pre class='fragment'>
+{@link SBMLReader} reader = new {@link SBMLReader}();
+{@link SBMLDocument} doc  = reader.readSBMLFromFile(filename);
 
- *   SBMLDocument_t *d;
+if (doc.getNumErrors() &gt; 0)
+{
+    if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileUnreadable)
+    {
+        // Handle case of unreadable file here.
+    }
+    else if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileOperationError)
+    {
+        // Handle case of other file operation error here.
+    }
+    else
+    {
+        // Handle other error cases.
+    }
+}
+</pre>
+<p>
+ * <p>
+ * If the given filename ends with the suffix <code>'.gz'</code> (for example, 
+ * <code>'myfile.xml.gz'</code>), the file is assumed to be compressed in <em>gzip</em>
+ * format and will be automatically decompressed upon reading.
+ * Similarly, if the given filename ends with <code>'.zip'</code> or <code>'.bz2'</code>, the
+ * file is assumed to be compressed in <em>zip</em> or <em>bzip2</em> format
+ * (respectively).  Files whose names lack these suffixes will be read
+ * uncompressed.  Note that if the file is in <em>zip</em> format but the
+ * archive contains more than one file, only the first file in the
+ * archive will be read and the rest ignored.
  <p>
- *   sr = SBMLReader_create();
+ * <p>
+ * To read a gzip/zip file, libSBML needs to be configured and linked with the
+ * <a target='_blank' href='http://www.zlib.net/'>zlib</a> library at compile
+ * time.  It also needs to be linked with the <a target='_blank'
+ * href=''>bzip2</a> library to read files in <em>bzip2</em> format.  (Both of
+ * these are the default configurations for libSBML.)  Errors about unreadable
+ * files will be logged if a compressed filename is given and libSBML was
+ * <em>not</em> linked with the corresponding required library.
  <p>
- *   d = SBMLReader_readSBML(reader, filename);
+ * @param filename the name or full pathname of the file to be read.
  <p>
- *   if (SBMLDocument_getNumErrors(d) > 0)
-
- *   {
-
- *     if (XMLError_getId(SBMLDocument_getError(d, 0))
- *                                           == SBML_READ_ERROR_FILE_NOT_FOUND)
-
- *     if (XMLError_getId(SBMLDocument_getError(d, 0))
- *                                           == SBML_READ_ERROR_NOT_SBML)
-
- *   }
-
- * </code>
- <p>
- * If the filename ends with @em .gz, the file will be read as a <em>gzip</em> file.
- * Similary, if the filename ends with @em .zip or @em .bz2, the file will be
- * read as a <em>zip</em> or <em>bzip2</em> file, respectively. Otherwise, the fill will be
- * read as an uncompressed file.
- * If the filename ends with @em .zip, only the first file in the archive will
- * be read if the zip archive contains two or more files.
- <p>
- * To read a gzip/zip file, underlying libSBML needs to be linked with zlib
- * at compile time. Also, underlying libSBML needs to be linked with bzip2 
- * to read a bzip2 file. File unreadable error will be logged if a compressed 
- * file name is given and underlying libSBML is not linked with the corresponding 
- * required library.
- * SBMLReader_hasZlib() and SBMLReader_hasBzip2() can be used to check 
- * whether libSBML is linked with each library.
- <p>
- * @return a pointer to the {@link SBMLDocument} read.
+ * @return a pointer to the {@link SBMLDocument} structure created from the SBML
+ * content in <code>filename</code>.
  */ public
  static SBMLDocument readSBMLFromFile(String filename) {
     long cPtr = libsbmlJNI.readSBMLFromFile(libsbml.getAbsolutePath(filename));
@@ -642,29 +723,36 @@ public class libsbml implements libsbmlConstants {
 
   
 /**
- * Reads an SBML document from the given XML string <code>xml</code>.
+ * <p>
+ * Reads an SBML document from a text string.
  <p>
- * If the string does not begin with XML declaration,
- *<div class='fragment'><pre class='fragment'>
+ * This method is flexible with respect to the presence of an XML
+ * declaration at the beginning of the string.  In particular, if the
+ * string in <code>xml</code> does not begin with the XML declaration
+ * <pre class='fragment'>
 &lt;?xml version='1.0' encoding='UTF-8'?&gt;
-</pre></div>
+</pre>
+ * then this method will automatically prepend the declaration
+ * to <code>xml</code>.
  <p>
- * an XML declaration string will be prepended.
+ * This method will log a fatal error if the content given in the parameter
+ * <code>xml</code> is not in SBML format.  See the method documentation for
+ * {@link SBMLReader#readSBML(String)} for an example of code for
+ * testing the returned error code.
  <p>
- * This method will report an error if the given string <code>xml</code> is not SBML.
- * The error will be logged in the error log of the SBMLDocument_t structure
- * returned by this method.  Calling programs can inspect this error log to
- * determine the nature of the problem.  Please refer to the definition of
- * {@link SBMLDocument} for more information about the error reporting mechanism.
+ * @param xml a string containing a full SBML model
  <p>
- * @return a pointer to the SBMLDocument_t read.
+ * @return a pointer to the {@link SBMLDocument} structure created from the SBML
+ * content in <code>xml</code>.
  <p>
- * @note When using this method to read an {@link SBMLDocument} that uses 
- * the SBML L3 Hierarchical {@link Model} Composition package (comp) the
- * document location cannot be set automatically. Thus, if the model
- * contains references to ExternalModelDefinitions, it will be necessary
- * to manually set the document URI location (setLocationURI) in order 
- * to facilitate resolving these models.
+ * <p>
+ * @note When using this method to read an {@link SBMLDocument} that uses the SBML
+ * Level&nbsp;3 Hierarchical Model Composition package (comp) the document
+ * location cannot be set automatically. Thus, if the model contains
+ * references to ExternalModelDefinition objects, it will be necessary to
+ * manually set the document URI location
+ * ({@link SBMLDocument#setLocationURI(String)} in order to facilitate
+ * resolving these models.
  */ public
  static SBMLDocument readSBMLFromString(String xml) {
     long cPtr = libsbmlJNI.readSBMLFromString(xml);
@@ -774,8 +862,6 @@ Similarly, the filename in the archive will be
  * similar) when the compression functionality has not been enabled in
  * the underlying copy of libSBML.
  <p>
- <p>
- <p>
  * @see SBMLWriter#hasZlib()
  * @see SBMLWriter#hasBzip2()
  */ public
@@ -814,8 +900,8 @@ Similarly, the filename in the archive will be
  * This function behaves exactly like C's <code>==</code> operator, except
  * for the following two cases:
  * <ul>
- * <li>{@link  libsbmlConstants#UNIT_KIND_LITER UNIT_KIND_LITER} <code>==</code> {@link  libsbmlConstants#UNIT_KIND_LITRE UNIT_KIND_LITRE}
- * <li>{@link  libsbmlConstants#UNIT_KIND_METER UNIT_KIND_METER} <code>==</code> {@link  libsbmlConstants#UNIT_KIND_METRE UNIT_KIND_METRE}
+  * <li>{@link libsbmlConstants#UNIT_KIND_LITER UNIT_KIND_LITER} <code>==</code> {@link libsbmlConstants#UNIT_KIND_LITRE UNIT_KIND_LITRE}
+ * <li>{@link libsbmlConstants#UNIT_KIND_METER UNIT_KIND_METER} <code>==</code> {@link libsbmlConstants#UNIT_KIND_METRE UNIT_KIND_METRE}
  * </ul>
  <p>
  * In the two cases above, C equality comparison would yield <code>false</code>
@@ -860,7 +946,6 @@ Similarly, the filename in the archive will be
  * @param uk a value from the set of <code>UNIT_KIND_</code> codes
  * defined in the class {@link libsbmlConstants}
  <p>
- <p>
  * @return the name corresponding to the given unit code.
  <p>
  * @note For more information about the libSBML unit codes, please refer to
@@ -892,67 +977,103 @@ Similarly, the filename in the archive will be
     return libsbmlJNI.UnitKind_isValidUnitKindString(str, level, version);
   }
 
-  public static boolean representsNumber(int type) {
+  
+/**
+ * Note to developers: leave at least one comment here.  Without it, something
+ * doesn't go right when docs are generated.
+ * @internal
+ */ public
+ static boolean representsNumber(int type) {
     return libsbmlJNI.representsNumber(type);
   }
 
-  public static boolean representsFunction(int type, ASTBasePlugin plugin) {
+  
+/** * @internal */ public
+ static boolean representsFunction(int type, ASTBasePlugin plugin) {
     return libsbmlJNI.representsFunction__SWIG_0(type, ASTBasePlugin.getCPtr(plugin), plugin);
   }
 
-  public static boolean representsFunction(int type) {
+  
+/** * @internal */ public
+ static boolean representsFunction(int type) {
     return libsbmlJNI.representsFunction__SWIG_1(type);
   }
 
-  public static boolean representsUnaryFunction(int type, ASTBasePlugin plugin) {
+  
+/** * @internal */ public
+ static boolean representsUnaryFunction(int type, ASTBasePlugin plugin) {
     return libsbmlJNI.representsUnaryFunction__SWIG_0(type, ASTBasePlugin.getCPtr(plugin), plugin);
   }
 
-  public static boolean representsUnaryFunction(int type) {
+  
+/** * @internal */ public
+ static boolean representsUnaryFunction(int type) {
     return libsbmlJNI.representsUnaryFunction__SWIG_1(type);
   }
 
-  public static boolean representsBinaryFunction(int type, ASTBasePlugin plugin) {
+  
+/** * @internal */ public
+ static boolean representsBinaryFunction(int type, ASTBasePlugin plugin) {
     return libsbmlJNI.representsBinaryFunction__SWIG_0(type, ASTBasePlugin.getCPtr(plugin), plugin);
   }
 
-  public static boolean representsBinaryFunction(int type) {
+  
+/** * @internal */ public
+ static boolean representsBinaryFunction(int type) {
     return libsbmlJNI.representsBinaryFunction__SWIG_1(type);
   }
 
-  public static boolean representsNaryFunction(int type, ASTBasePlugin plugin) {
+  
+/** * @internal */ public
+ static boolean representsNaryFunction(int type, ASTBasePlugin plugin) {
     return libsbmlJNI.representsNaryFunction__SWIG_0(type, ASTBasePlugin.getCPtr(plugin), plugin);
   }
 
-  public static boolean representsNaryFunction(int type) {
+  
+/** * @internal */ public
+ static boolean representsNaryFunction(int type) {
     return libsbmlJNI.representsNaryFunction__SWIG_1(type);
   }
 
-  public static boolean representsQualifier(int type, ASTBasePlugin plugin) {
+  
+/** * @internal */ public
+ static boolean representsQualifier(int type, ASTBasePlugin plugin) {
     return libsbmlJNI.representsQualifier__SWIG_0(type, ASTBasePlugin.getCPtr(plugin), plugin);
   }
 
-  public static boolean representsQualifier(int type) {
+  
+/** * @internal */ public
+ static boolean representsQualifier(int type) {
     return libsbmlJNI.representsQualifier__SWIG_1(type);
   }
 
-  public static boolean representsFunctionRequiringAtLeastTwoArguments(int type) {
+  
+/** * @internal */ public
+ static boolean representsFunctionRequiringAtLeastTwoArguments(int type) {
     return libsbmlJNI.representsFunctionRequiringAtLeastTwoArguments(type);
   }
 
-  public static int getCoreTypeFromName(String name) {
+  
+/** * @internal */ public
+ static int getCoreTypeFromName(String name) {
     return libsbmlJNI.getCoreTypeFromName(name);
   }
 
-  public static String getNameFromCoreType(int type) {
+  
+/** * @internal */ public
+ static String getNameFromCoreType(int type) {
     return libsbmlJNI.getNameFromCoreType(type);
   }
 
-  public static boolean isCoreTopLevelMathMLFunctionNodeTag(String name) {
+  
+/** * @internal */ public
+ static boolean isCoreTopLevelMathMLFunctionNodeTag(String name) {
     return libsbmlJNI.isCoreTopLevelMathMLFunctionNodeTag(name);
   }
 
-  public static boolean isCoreTopLevelMathMLNumberNodeTag(String name) {
+  
+/** * @internal */ public
+ static boolean isCoreTopLevelMathMLNumberNodeTag(String name) {
     return libsbmlJNI.isCoreTopLevelMathMLNumberNodeTag(name);
   }
 
@@ -1010,18 +1131,24 @@ Similarly, the filename in the archive will be
 
   
 /**
- * Parses the given SBML formula and returns a representation of it as an
- * Abstract Syntax Tree (AST).
+ * Parses a text string as a mathematical formula and returns an AST
+ * representation of it.
  <p>
  * <p>
  * The text-string form of mathematical formulas produced by
- * <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * and read by <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String formula)</a></code>
- * use a simple C-inspired infix notation taken from SBML Level&nbsp;1.  A
- * formula in this text-string form therefore can be handed to a program
- * that understands SBML Level&nbsp;1 mathematical expressions, or used as
- * part of a formula translation system.  The syntax is described in detail
- * in the documentation for {@link ASTNode}. 
+ * <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a> and read by
+ * <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> use a simple C-inspired infix
+ * notation taken from SBML Level&nbsp;1.  A formula in this text-string form
+ * therefore can be handed to a program that understands SBML Level&nbsp;1
+ * mathematical expressions, or used as part of a formula translation system.
+ * The syntax is described in detail in the documentation for {@link ASTNode}.  The
+ * following are illustrative examples of formulas expressed using this syntax:
+ * <pre class='fragment'>
+0.10 * k4^2
+</pre>
+<pre class='fragment'>
+(vm * s1)/(km + s1)
+</pre>
  <p>
  * Note that this facility is provided as a convenience by libSBML&mdash;the
  * MathML standard does not actually define a 'string-form' equivalent to
@@ -1085,8 +1212,8 @@ text-string format for mathematical expressions used by SBML_parseFormula().
      <th align="left" width="60">Name</th>
      <th align="left" width="35">Args</th>
      <th align="left">Formula or meaning</th>
-     <th align="left" width="110">Argument Constraints</th>
-     <th align="left" width="100">Result constraints</th>
+     <th align="left" width="90">Argument Constraints</th>
+     <th align="left" width="90">Result constraints</th>
  </tr>
 <tr><td><code>abs</code></td><td><em>x</em></td><td>absolute value of <em>x</em></td><td></td><td></td></tr>
 <tr><td><code>acos</code></td><td><em>x</em></td><td>arc cosine of <em>x</em> in radians</td><td>-1.0 &le; <em>x</em> &le; 1.0</td><td>0 &le; <em>acos(x)</em> &le; &pi;</td></tr>
@@ -1117,31 +1244,41 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * is <code>&lt;ln/&gt;</code>.  Application writers are urged to be careful
  * when translating between text forms and MathML forms, especially if they
  * provide a direct text-string input facility to users of their software
- * systems.</span> 
- <p>
- * <p>
- * @warning <span class='warning'>We urge developers to keep in mind that
- * the text-string formula syntax is specific to SBML Level&nbsp;1's C-like
- * mathematical formula syntax.  In particular, it is <em>not a
- * general-purpose mathematical expression syntax</em>.  LibSBML provides
- * methods for parsing and transforming text-string math formulas back and
- * forth from AST structures, but it is important to keep the system's
- * limitations in mind.</span>
+ * systems.</span>
  <p>
  * @param formula the text-string formula expression to be parsed
  <p>
  * @return the root node of the AST corresponding to the <code>formula</code>, or 
  * <code>null</code> if an error occurred in parsing the formula
  <p>
+ * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
+ * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see L3ParserSettings
  <p>
+ * <p>
+ * @note
+ * Callers using SBML Level&nbsp;3 are encouraged to use the facilities
+ * provided by libSBML's newer and more powerful Level&nbsp;3-oriented
+ * formula parser and formatter.  The entry points to this second system are
+ * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> and
+ * <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>.  The Level&nbsp;1-oriented
+ * system (i.e., what is provided by <a href='libsbml.html#formulaToString(java.lang.String)'><code>libsbml.formulaToString(String)</code></a>
+ * and <a href='libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)'><code>libsbml.parseFormula(ASTNode)</code></a>) is provided 
+ * untouched for backwards compatibility.
  <p>
- <p>
- * @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
+ * <p>
+ * @note We urge developers to keep in mind that the text-string formula
+ * syntax is specific to libSBML.  <em>Neither MathML nor SBML define a
+ * text-string format for mathematical formulas.</em> LibSBML's particular
+ * syntax should not be considered to be a canonical or standard
+ * general-purpose mathematical expression syntax.  LibSBML provides methods
+ * for parsing and transforming text-string math formulas back and forth from
+ * AST structures for the convenience of calling applications, but it is
+ * important to keep the system's limitations in mind.
  */ public
  static ASTNode parseFormula(String formula) {
     long cPtr = libsbmlJNI.parseFormula(formula);
@@ -1150,186 +1287,32 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
 
   
 /**
- * Converts an AST to a string representation of a formula using a syntax
- * basically derived from SBML Level&nbsp;1.
+ * Converts an AST to a text string representation of a formula using an
+ * extended syntax.
  <p>
  * <p>
- * The text-string form of mathematical formulas produced by
- * <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * and read by <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String formula)</a></code>
- * use a simple C-inspired infix notation taken from SBML Level&nbsp;1.  A
- * formula in this text-string form therefore can be handed to a program
- * that understands SBML Level&nbsp;1 mathematical expressions, or used as
- * part of a formula translation system.  The syntax is described in detail
- * in the documentation for {@link ASTNode}. 
+ * The text-string form of mathematical formulas read by the function
+ * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> and written by the function
+ * <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a> uses an expanded version of
+ * the syntax read and written by <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * and <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>, respectively.  The
+ * latter two libSBML functions were originally developed to support
+ * conversion between SBML Levels&nbsp;1 and&nbsp;2, and were focused on the
+ * syntax of mathematical formulas used in SBML Level&nbsp;1.  With time, and
+ * the use of MathML in SBML Levels&nbsp;2 and&nbsp;3, it became clear that
+ * supporting Level&nbsp;2 and&nbsp;3's expanded mathematical syntax would be
+ * useful for software developers.  To maintain backwards compatibility for
+ * libSBML users, the original <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * and <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> have been left untouched,
+ * and instead, the new functionality is provided in the form of
+ * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> and
+ * <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>.
  <p>
- * Note that this facility is provided as a convenience by libSBML&mdash;the
- * MathML standard does not actually define a 'string-form' equivalent to
- * MathML expression trees, so the choice of formula syntax is somewhat
- * arbitrary.  The approach taken by libSBML is to use the syntax defined by
- * SBML Level&nbsp;1 (which in fact used a text-string representation of
- * formulas and not MathML).  This formula syntax is based mostly on C
- * programming syntax, and may contain operators, function calls, symbols,
- * and white space characters.  The following table provides the precedence
- * rules for the different entities that may appear in formula strings.
- <p>
- * <table border="0" class="centered text-table width80 normal-font alt-row-colors" style="padding-bottom: 0.5em">
- <tr style="background: lightgray; font-size: 14px;">
-     <th align="left">Token</th>
-     <th align="left">Operation</th>
-     <th align="left">Class</th>
-     <th>Precedence</th>
-     <th align="left">Associates</th>
- </tr>
-<tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align="center">6</td><td>n/a</td></tr>
-<tr><td><code>(</code><em>expression</em><code>)</code></td><td>expression grouping</td><td>operand</td><td align="center">6</td><td>n/a</td></tr>
-<tr><td><code>f(</code><em>...</em><code>)</code></td><td>function call</td><td>prefix</td><td align="center">6</td><td>left</td></tr>
-<tr><td><code>-</code></td><td>negation</td><td>unary</td><td align="center">5</td><td>right</td></tr>
-<tr><td><code>^</code></td><td>power</td><td>binary</td><td align="center">4</td><td>left</td></tr>
-<tr><td><code>*</code></td><td>multiplication</td><td>binary</td><td align="center">3</td><td>left</td></tr>
-<tr><td><code>/</code></td><td>divison</td><td>binary</td><td align="center">3</td><td>left</td></tr>
-<tr><td><code>+</code></td><td>addition</td><td>binary</td><td align="center">2</td><td>left</td></tr>
-<tr><td><code>-</code></td><td>subtraction</td><td>binary</td><td align="center">2</td><td>left</td></tr>
-<tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align="center">1</td><td>left</td></tr>
-<caption class="top-caption">A table of the expression operators and their precedence in the
-text-string format for mathematical expressions used by SBML_parseFormula().
-</caption>
-</table>
-
-
- <p>
- * In the table above, <em>operand</em> implies the construct is an operand, 
- * <em>prefix</em> implies the operation is applied to the following arguments, 
- * <em>unary</em> implies there is one argument, and <em>binary</em> implies there are
- * two arguments.  The values in the <b>Precedence</b> column show how the
- * order of different types of operation are determined.  For example, the
- * expression <code>a * b + c</code> is evaluated as <code>(a * b) +
- * c</code> because the @c * operator has higher precedence.  The
- * <b>Associates</b> column shows how the order of similar precedence
- * operations is determined; for example, <code>a - b + c</code> is
- * evaluated as <code>(a - b) + c</code> because the <code>+</code> and <code>-</code>
- * operators are left-associative.
- <p>
- * The function call syntax consists of a function name, followed by optional
- * white space, followed by an opening parenthesis token, followed by a
- * sequence of zero or more arguments separated by commas (with each comma
- * optionally preceded and/or followed by zero or more white space
- * characters, followed by a closing parenthesis token.  The function name
- * must be chosen from one of the pre-defined functions in SBML or a
- * user-defined function in the model.  The following table lists the names
- * of certain common mathematical functions; this table corresponds to
- * Table&nbsp;6 in the <a target='_blank' href='http://sbml.org/Documents/Specifications#SBML_Level_1_Version_2'>SBML Level&nbsp;1 Version&nbsp;2 specification</a>:
- <p>
- * <table border="0" class="centered text-table width80 normal-font alt-row-colors">
- <tr>
-     <th align="left" width="60">Name</th>
-     <th align="left" width="35">Args</th>
-     <th align="left">Formula or meaning</th>
-     <th align="left" width="110">Argument Constraints</th>
-     <th align="left" width="100">Result constraints</th>
- </tr>
-<tr><td><code>abs</code></td><td><em>x</em></td><td>absolute value of <em>x</em></td><td></td><td></td></tr>
-<tr><td><code>acos</code></td><td><em>x</em></td><td>arc cosine of <em>x</em> in radians</td><td>-1.0 &le; <em>x</em> &le; 1.0</td><td>0 &le; <em>acos(x)</em> &le; &pi;</td></tr>
-<tr><td><code>asin</code></td><td><em>x</em></td><td>arc sine of <em>x</em> in radians</td><td>-1.0 &le; <em>x</em> &le; 1.0</td><td>0 &le; <em>asin(x)</em> &le; &pi;</td></tr>
-<tr><td><code>atan</code></td><td><em>x</em></td><td>arc tangent of <em>x</em> in radians</td><td></td><td>0 &le; <em>atan(x)</em> &le; &pi;</td></tr>
-<tr><td><code>ceil</code></td><td><em>x</em></td><td>smallest number not less than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
-<tr><td><code>cos</code></td><td><em>x</em></td><td>cosine of <em>x</em></td><td></td><td></td></tr>
-<tr><td><code>exp</code></td><td><em>x</em></td><td><em>e</em><sup><em> x</em></sup>, where <em>e</em> is the base of the natural logarithm</td><td></td><td></td></tr>
-<tr><td><code>floor</code></td><td><em>x</em></td><td>the largest number not greater than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
-<tr><td><code>log</code></td><td><em>x</em></td><td>natural logarithm of <em>x</em></td><td><em>x</em> &gt; 0</td><td></td></tr>
-<tr><td><code>log10</code></td><td><em>x</em></td><td>base 10 logarithm of <em>x</em></td><td><em>x</em> &gt; 0</td><td></td></tr>
-<tr><td><code>pow</code></td><td><em>x, y</em></td><td><em>x</em><sup><em> y</em></sup></td><td></td><td></td></tr>
-<tr><td><code>sqr</code></td><td><em>x</em></td><td><em>x</em><sup><em>2</em></sup></td><td></td><td></td></tr>
-<tr><td><code>sqrt</code></td><td><em>x</em></td><td>&radic;<em>x</em></td><td><em>x</em> &gt; 0</td><td><em>sqrt(x)</em> &ge; 0</td></tr>
-<tr><td><code>sin</code></td><td><em>x</em></td><td>sine of <em>x</em></td><td></td><td></td></tr>
-<tr><td><code>tan</code></td><td><em>x</em></td><td>tangent of <em>x</em></td><td>x &ne; n*&pi;/2, for odd integer <em>n</em></td><td></td></tr>
-<caption class="bottom-caption">The names of mathematical functions defined in the SBML
-Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
-</table>
-
-
- <p>
- * @warning <span class='warning'>There are differences between the symbols
- * used to represent the common mathematical functions and the corresponding
- * MathML token names.  This is a potential source of incompatibilities.
- * Note in particular that in this text-string syntax, <code>log(x)</code>
- * represents the natural logarithm, whereas in MathML, the natural logarithm
- * is <code>&lt;ln/&gt;</code>.  Application writers are urged to be careful
- * when translating between text forms and MathML forms, especially if they
- * provide a direct text-string input facility to users of their software
- * systems.</span> 
- <p>
- * <p>
- * @warning <span class='warning'>We urge developers to keep in mind that
- * the text-string formula syntax is specific to SBML Level&nbsp;1's C-like
- * mathematical formula syntax.  In particular, it is <em>not a
- * general-purpose mathematical expression syntax</em>.  LibSBML provides
- * methods for parsing and transforming text-string math formulas back and
- * forth from AST structures, but it is important to keep the system's
- * limitations in mind.</span> 
- <p>
- * @param tree the AST to be converted.
- <p>
- * @return the formula from the given AST as an SBML Level 1 text-string
- * mathematical formula.  The caller owns the returned string and is
- * responsible for freeing it when it is no longer needed.
- <p>
- <p>
- <p>
- <p>
- * @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
- */ public
- static String formulaToString(ASTNode tree) {
-    return libsbmlJNI.formulaToString(ASTNode.getCPtr(tree), tree);
-  }
-
-  
-/**
- * Parses the given mathematical formula and returns a representation of it
- * as an Abstract Syntax Tree (AST).
- <p>
- * <p>
- * The text-string form of mathematical formulas read by the functions
- * <code><a
- * href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'>libsbml.formulaToL3String(ASTNode
- * tree)</a></code> and <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code> are expanded versions of the formats produced
- * and read by <code><a
- * href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString(ASTNode
- * tree)</a></code> and * <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code>, respectively.  The latter two libSBML
- * functions were originally developed to support conversion between SBML
- * Levels&nbsp;1 and&nbsp;2, and were focused on the syntax of mathematical
- * formulas used in SBML Level&nbsp;1.  With time, and the use of MathML in
- * SBML Levels&nbsp;2 and&nbsp;3, it became clear that supporting
- * Level&nbsp;2 and&nbsp;3's expanded mathematical syntax would be useful for
- * software developers.
- * To maintain backwards compatibility, the original
- * <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * and
- * <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String formula)</a></code>
- * have been left untouched, and instead, the new functionality is
- * provided in the form of
- * <cod
-e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * and <code><a
- * href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'>libsbml.formulaToL3String(ASTNode
- * tree)</a></code>.
- <p>
- * The following are the differences in the formula syntax supported by the
- * 'L3' versions of the formula parsers and formatters, compared to what is
- * supported by * <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code> and <code><a
- * href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'>libsbml.formulaToL3String(ASTNode
- * tree)</a></code>:
+ * The following lists the main differences in the formula syntax supported by
+ * the 'Level 3' or L3 versions of the formula parsers and formatters,
+ * compared to what is supported by the Level&nbsp;1-oriented
+ * <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> and
+ * <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>:
  <p>
  * <ul>
  * <li> Units may be asociated with bare numbers, using the following syntax:
@@ -1339,7 +1322,7 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
  * </div>
  * The <span class='code' style='background-color: #d0d0ee'>number</span>
  * may be in any form (an integer, real, or rational
- * number), and the 
+ * number), and the
  * <span class='code' style='background-color: #edd'>unit</span>
  * must conform to the syntax of an SBML identifier (technically, the
  * type defined as <code>SId</code> in the SBML specifications).  The whitespace between
@@ -1351,108 +1334,108 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
  * used.
  <p>
  * <li> The <em>modulo</em> operation is allowed as the symbol <code>@%</code> and will
- * produce a piecewise function in the MathML.
+ * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
+ * MathML output.
  <p>
  * <li> All inverse trigonometric functions may be defined in the infix either
  * using <code>arc</code> as a prefix or simply <code>a</code>; in other words, both <code>arccsc</code>
- * and <code>acsc</code> are interpreted as the operator <em>arccosecant</em> defined in
- * MathML.  (Many functions in the SBML Level&nbsp;1 infix-notation parser
- * implemented by * <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code> are defined this way as well, but not all.)
+ * and <code>acsc</code> are interpreted as the operator <em>arccosecant</em> as defined in
+ * MathML&nbsp;2.0.  (Many functions in the simpler SBML Level&nbsp;1
+ * oriented parser implemented by <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * are defined this way as well, but not all.)
  <p>
  * <li> The following expression is parsed as a rational number instead of
  * as a numerical division:
  * <pre style='display: block; margin-left: 25px'>
  * (<span class='code' style='background-color: #d0d0ee'>integer</span>/<span class='code' style='background-color: #d0d0ee'>integer</span>)</pre>
- * No spaces are allowed in this construct; in other words,
- * &quot;<code>(3 / 4)</code>&quot; will be parsed into the MathML
- * <code>&lt;divide&gt;</code> construct rather than a rational number.  The 
- * general number syntax allows you to assign units to a rational number, e.g.,
- * &quot;<code>(3/4) ml</code>&quot;.  (If the string is a division, units
- * are not interpreted in this way.)
+ * <strong>Spaces are not allowed</strong> in this construct; in other words,
+ * &quot;<code>(3 / 4)</code>&quot; (with whitespace between the numbers and
+ * the operator) will be parsed into the MathML <code>&lt;divide&gt;</code>
+ * construct rather than a rational number.  You can, however, assign units to a
+ * rational number as a whole; here is an example: &quot;<code>(3/4) ml</code>&quot;.
+ * (In the case of division rather than a rational number, units are not interpreted
+ * in this way.)
  <p>
- * <li> Various settings may be altered by using an {@link L3ParserSettings} object in
- * conjunction with the functions <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, {@link L3ParserSettings} settings)</a></code> and <code><a
- * href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'>libsbml.formulaToL3String(ASTNode
- * tree)</a></code>, including the following:
- * <ul>
- * <li> The function <code>log</code> with a single argument (&quot;<code>log(x)</code>&quot;) 
- * can be parsed as <code>log10(x)</code>, <code>ln(x)</code>, or treated
- * as an error, as desired.
- * <li> Unary minus signs can be collapsed or preserved; that is,
- * sequential pairs of unary minuses (e.g., &quot;<code>- -3</code>&quot;)
- * can be removed from the input entirely and single unary minuses can be
- * incorporated into the number node, or all minuses can be preserved in
- * the AST node structure.
- * <li> Parsing of units embedded in the input string can be turned on and
- * off.
- * <li> The string <code>avogadro</code> can be parsed as a MathML <em>csymbol</em> or
- * as an identifier.
- * <li> A {@link Model} object may optionally be provided to the parser using the
- * variant function call
- * <code><a
- * href='libsbml.html#parseL3FormulaWithModel(java.lang.String,
- * org.sbml.libsbml.Model)'>libsbml.parseL3FormulaWithModel(String formula,
- * {@link Model} model)</a></code> or stored in a {@link L3ParserSettings} object
- * passed to the variant function <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, {@link L3ParserSettings} settings)</a></code>.
- * When a {@link Model} object is provided, identifiers (values of type <code>SId</code>) from
- * that model are used in preference to pre-defined MathML definitions.  More
- * precisely, the {@link Model} entities whose identifiers will shadow identical
- * symbols in the mathematical formula are: {@link Species}, {@link Compartment}, {@link Parameter},
- * {@link Reaction}, and {@link SpeciesReference}.  For instance, if the parser is given a
- * {@link Model} containing a {@link Species} with the identifier
- * &quot;<code>pi</code>&quot;, and the formula to be parsed is
- * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
- * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the construct
- * <code>&lt;pi/&gt;</code>.  <li> Similarly, when a {@link Model} object is
- * provided, <code>SId</code> values of user-defined functions present in the model
- * will be used preferentially over pre-defined MathML functions.  For
- * example, if the passed-in {@link Model} contains a {@link FunctionDefinition} with the
- * identifier &quot;<code>sin</code>&quot;, that function will be used
- * instead of the predefined MathML function <code>&lt;sin/&gt;</code>.
- * </ul>
- * These configuration settings cannot be changed using the basic parser and
- * formatter functions, but can be changed on a per-call basis by using the
- * alternative functions <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, {@link L3ParserSettings} settings)</a></code> and <code><a
- * href='libsbml.html#formulaToL3StringWithSettings(const ASTNode_t tree,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(ASTNode tree
- * {@link L3ParserSettings} settings)</a></code>.
+ * <li> Various parser and formatter behaviors may be altered through the use
+ * of a {@link L3ParserSettings} object in conjunction with the functions
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> and
+ * <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * The settings available include the following:
+ * <ul style='list-style-type: circle'>
  *
  * </ul> <p>
- * The parser function <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, {@link L3ParserSettings} settings)</a></code>
- * returns the root node of the AST corresponding to the
- * formula given as the argument.  If the formula contains a syntax error,
- * the function will return <code>null</code> instead.  When <code>null</code> is returned, an
- * error is set; information about the error can be retrieved using
- * <code><a href='libsbml.html#getLastParseL3Error()'>libsbml.getLastParseL3Error()</a></code>.
+ * <li style='margin-bottom: 0.5em'> The function <code>log</code> with a single
+ * argument (&quot;<code>log(x)</code>&quot;) can be parsed as
+ * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
+ * desired.
  <p>
- * Note that this facility and the SBML Level&nbsp;1-based <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code> are provided as a convenience by
- * libSBML&mdash;the MathML standard does not actually define a 'string-form'
- * equivalent to MathML expressions, so the choice of formula syntax is
- * arbitrary.  The approach taken by libSBML is to start with the syntax
- * defined by SBML Level&nbsp;1 (which in fact used a text-string
- * representation of formulas, and not MathML), and expand it to include the
- * above functionality.  This formula syntax is based mostly on C programming
- * syntax, and may contain operators, function calls, symbols, and white
- * space characters.  The following table provides the precedence rules for
- * the different entities that may appear in formula strings.
+ * <li style='margin-bottom: 0.5em'> Unary minus signs can be collapsed or
+ * preserved; that is, sequential pairs of unary minuses (e.g., &quot;<code>-
+ * -3</code>&quot;) can be removed from the input entirely and single unary
+ * minuses can be incorporated into the number node, or all minuses can be
+ * preserved in the AST node structure.
  <p>
- * <table border="0" class="centered text-table width80 normal-font alt-row-colors" style="padding-bottom: 0.5em">
+ * <li style='margin-bottom: 0.5em'> Parsing of units embedded in the input
+ * string can be turned on and off.
+ <p>
+ * <li style='margin-bottom: 0.5em'> The string <code>avogadro</code> can be parsed as
+ * a MathML <em>csymbol</em> or as an identifier.
+ <p>
+ * <li style='margin-bottom: 0.5em'> A {@link Model} object may optionally be
+ * provided to the parser using the variant function call
+ * <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> or
+ * stored in a {@link L3ParserSettings} object passed to the variant function
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.  When a {@link Model} object is provided, identifiers
+ * (values of type <code>SId</code>) from that model are used in preference to
+ * pre-defined MathML definitions for both symbols and functions.
+ * More precisely:
+ * <ul style='list-style-type: square'>
+ <p>
+ * <li style='margin-bottom: 0.5em'> <em>In the case of symbols</em>: the
+ * {@link Model} entities whose identifiers will shadow identical symbols in the
+ * mathematical formula are: {@link Species}, {@link Compartment}, {@link Parameter}, {@link Reaction}, and
+ * {@link SpeciesReference}.  For instance, if the parser is given a {@link Model} containing
+ * a {@link Species} with the identifier &quot;<code>pi</code>&quot;, and the formula
+ * to be parsed is &quot;<code>3*pi</code>&quot;, the MathML produced will
+ * contain the construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of
+ * the construct <code>&lt;pi/&gt;</code>.
+ <p>
+ * <li style='margin-bottom: 0.5em'> <em>In the case of user-defined
+ * functions</em>: when a {@link Model} object is provided, <code>SId</code> values of
+ * user-defined functions present in the model will be used preferentially
+ * over pre-defined MathML functions.  For example, if the passed-in {@link Model}
+ * contains a {@link FunctionDefinition} object with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
+ * </ul>
+ <p>
+ * <li style='margin-bottom: 0.5em'> An {@link SBMLNamespaces} object may optionally
+ * be provided to identify SBML Level&nbsp;3 packages that extend the
+ * syntax understood by the formula parser.  When the namespaces are provided,
+ * the parser will interpret possible additional syntax defined by the libSBML
+ * plug-ins implementing the SBML Level&nbsp;3 packages; for example, it may
+ * understand vector/array extensions introduced by the SBML Level&nbsp;3 
+ * <em>Arrays</em> package.
+ * </ul>
+ <p>
+ * These configuration settings cannot be changed directly using the basic
+ * parser and formatter functions, but <em>can</em> be changed on a per-call basis
+ * by using the alternative functions <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> and
+ * <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>.
+ <p>
+ * Neither SBML nor the MathML standard define a 'string-form' equivalent to
+ * MathML expressions.  The approach taken by libSBML is to start with the
+ * formula syntax defined by SBML Level&nbsp;1 (which in fact used a custom
+ * text-string representation of formulas, and not MathML), and expand it to
+ * include the functionality described above.  This formula syntax is based
+ * mostly on C programming syntax, and may contain operators, function calls,
+ * symbols, and white space characters.  The following table provides the
+ * precedence rules for the different entities that may appear in formula
+ * strings.
+ <p>
+ * <table border="0" width="95%"
+       class="centered text-table normal-font alt-row-colors"
+       style="padding-bottom: 0.5em">
  <tr style="background: lightgray; font-size: 14px;">
      <th align="left">Token</th>
      <th align="left">Operation</th>
@@ -1470,8 +1453,9 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
 <tr><td><code>==, &lt;, &gt;, &lt=, &gt=, !=</code></td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align="center">3</td><td>left</td></tr>
 <tr><td><code>&&, ||</code></td><td>boolean 'and' and 'or'</td><td>binary</td><td align="center">2</td><td>left</td></tr>
 <tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align="center">1</td><td>left</td></tr>
-<caption class="top-caption">A table of the expression operators and their precedence in the
-text-string format for mathematical expressions used by SBML_parseL3Formula().
+
+<caption class="top-caption">Expression operators and their precedence in the
+"Level&nbsp;3" text-string format for mathematical expressions.
 </caption>
 </table>
 
@@ -1482,7 +1466,7 @@ text-string format for mathematical expressions used by SBML_parseL3Formula().
  * <em>unary</em> implies there is one argument, and <em>binary</em> implies there are
  * two arguments.  The values in the <b>Precedence</b> column show how the
  * order of different types of operation are determined.  For example, the
- * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code> 
+ * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code>
  * because the @c * operator has higher precedence.  The
  * <b>Associates</b> column shows how the order of similar precedence
  * operations is determined; for example, <code>a && b || c</code> is
@@ -1502,13 +1486,14 @@ text-string format for mathematical expressions used by SBML_parseL3Formula().
  * Level&nbsp;1 Version&nbsp;2 specification</a> with additions based on the
  * functions added in SBML Level 2 and Level 3:
  <p>
- * <table border="0" class="centered text-table width80 normal-font alt-row-colors">
+ * <table border="0" width="95%" 
+       class="centered text-table normal-font alt-row-colors">
  <tr>
-     <th align="left" width="100">Name</th>
-     <th align="left" width="100">Argument(s)</th>
+     <th align="left" width="60">Name</th>
+     <th align="left" width="75">Argument(s)</th>
      <th align="left">Formula or meaning</th>
-     <th align="left" width="110">Argument Constraints</th>
-     <th align="left" width="100">Result constraints</th>
+     <th align="left" width="90">Argument Constraints</th>
+     <th align="left" width="90">Result constraints</th>
  </tr>
 <tr><td><code>abs</code></td>   
     <td><em>x</em></td> 
@@ -1519,7 +1504,7 @@ text-string format for mathematical expressions used by SBML_parseL3Formula().
 <tr><td><code>acos</code>, <code>arccos</code></td>
     <td><em>x</em></td>
     <td>Arccosine of <em>x</em> in radians.</td>
-    <td>-1.0 &le; <em>x</em> &le; 1.0</td>
+    <td>&ndash;1.0 &le; <em>x</em> &le; 1.0</td>
     <td>0 &le; <em>acos(x)</em> &le; &pi;</td>
 </tr>
 <tr><td><code>acosh</code>, <code>arccosh</code></td>
@@ -1566,7 +1551,7 @@ text-string format for mathematical expressions used by SBML_parseL3Formula().
 </tr>
 <tr><td><code>asin</code>, <code>arcsin</code></td>
     <td><em>x</em></td><td>Arcsine of <em>x</em> in radians.</td>
-    <td>-1.0 &le; <em>x</em> &le; 1.0</td>
+    <td>&ndash;1.0 &le; <em>x</em> &le; 1.0</td>
     <td>0 &le; <em>asin(x)</em> &le; &pi;</td>
 </tr>
 <tr><td><code>atan</code>, <code>arctan</code></td>
@@ -1631,7 +1616,7 @@ text-string format for mathematical expressions used by SBML_parseL3Formula().
 </tr>
 <tr><td><code>factorial</code></td>
     <td><em>n</em></td>
-    <td>The factorial of <em>n</em>. Factorials are defined by n! = n*(n-1)* ... * 1.</td>
+    <td>The factorial of <em>n</em>. Factorials are defined by <em>n! = n*(n&ndash;1)* ... * 1</em>.</td>
     <td><em>n</em> must be an integer.</td>
     <td></td>
 </tr>
@@ -1739,79 +1724,79 @@ text-string format for mathematical expressions used by SBML_parseL3Formula().
 </tr>
 <tr><td><code>and</code></td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean and(<em>x, y, z...</em>): returns true if all of its arguments are true.  Note that 'and' is an n-ary function, taking 0 or more arguments, and that and() returns 'true'.</td>
+    <td>Boolean <em>and(x, y, z...)</em>: returns <code>true</code> if all of its arguments are true.  Note that <code>and</code> is an n-ary function, taking 0 or more arguments, and that <code>and()</code> returns <code>true</code>.</td>
     <td>All arguments must be boolean</td>
     <td></td>
 </tr>
 <tr><td><code>not</code></td>
     <td><em>x</em></td>
-    <td>Boolean not(<em>x</em>)</td>
+    <td>Boolean <em>not(x)</em></td>
     <td><em>x</em> must be boolean</td>
     <td></td>
 </tr>
 <tr><td><code>or</code></td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean or(<em>x, y, z...</em>): returns true if at least one of its arguments is true.  Note that 'or' is an n-ary function, taking 0 or more arguments, and that or() returns 'false'.</td>
+    <td>Boolean <em>or(x, y, z...)</em>: returns <code>true</code> if at least one of its arguments is true.  Note that <code>or</code> is an n-ary function, taking 0 or more arguments, and that <code>or()</code> returns <code>false</code>.</td>
     <td>All arguments must be boolean</td>
     <td></td>
 </tr>
 <tr><td><code>xor</code></td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean xor(<em>x, y, z...</em>): returns true if an odd number of its arguments is true.  Note that 'xor' is an n-ary function, taking 0 or more arguments, and that xor() returns 'false'.</td>
+    <td>Boolean <em>xor(x, y, z...)</em>: returns <code>true</code> if an odd number of its arguments is true.  Note that <code>xor</code> is an n-ary function, taking 0 or more arguments, and that <code>xor()</code> returns <code>false</code>.</td>
     <td>All arguments must be boolean</td>
     <td></td>
 </tr>
 <tr><td><code>eq</code></td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean eq(<em>x, y, z...</em>): returns true if all arguments are equal.  Note that 'eq' is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>eq(x, y, z...)</em>: returns <code>true</code> if all arguments are equal.  Note that <code>eq</code> is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
 <tr><td><code>geq</code></td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean geq(<em>x, y, z...</em>): returns true if each argument is greater than or equal to the argument following it.  Note that 'geq' is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>geq(x, y, z...)</em>: returns <code>true</code> if each argument is greater than or equal to the argument following it.  Note that <code>geq</code> is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
 <tr><td><code>gt</code></td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean gt(<em>x, y, z...</em>): returns true if each argument is greater than the argument following it.  Note that 'gt' is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>gt(x, y, z...)</em>: returns <code>true</code> if each argument is greater than the argument following it.  Note that <code>gt</code> is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
 <tr><td><code>leq</code></td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean leq(<em>x, y, z...</em>): returns true if each argument is less than or equal to the argument following it.  Note that 'leq' is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>leq(x, y, z...)</em>: returns <code>true</code> if each argument is less than or equal to the argument following it.  Note that <code>leq</code> is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
 <tr><td><code>lt</code></td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean lt(<em>x, y, z...</em>): returns true if each argument is less than the argument following it.  Note that 'lt' is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>lt(x, y, z...)</em>: returns <code>true</code> if each argument is less than the argument following it.  Note that <code>lt</code> is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
 <tr><td><code>neq</code></td>
     <td><em>x, y</em></td>
-    <td>Boolean <em>x</em> != <em>y</em>: returns true unless x and y are equal.</td>
+    <td>Boolean <em>x</em> != <em>y</em>: returns <code>true</code> unless x and y are equal.</td>
     <td></td>
     <td></td>
 </tr>
 <tr><td><code>plus</code></td>
     <td><em>x, y, z...</em></td>
-    <td><em>x</em> + <em>y</em> + <em>z</em> + <em>...</em>: The sum of the arguments of the function.  Note that 'plus' is an n-ary function taking 0 or more arguments, and that 'plus()' returns 0.</td>
+    <td><em>x</em> + <em>y</em> + <em>z</em> + <em>...</em>: The sum of the arguments of the function.  Note that <code>plus</code> is an n-ary function taking 0 or more arguments, and that <code>plus()</code> returns <code>0</code>.</td>
     <td></td>
     <td></td>
 </tr>
 <tr><td><code>times</code></td>
     <td><em>x, y, z...</em></td>
-    <td><em>x</em> * <em>y</em> * <em>z</em> * <em>...</em>: The product of the arguments of the function.  Note that 'times' is an n-ary function taking 0 or more arguments, and that 'times()' returns 1.</td>
+    <td><em>x</em> * <em>y</em> * <em>z</em> * <em>...</em>: The product of the arguments of the function.  Note that <code>times</code> is an n-ary function taking 0 or more arguments, and that <code>times()</code> returns <code>1</code>.</td>
     <td></td>
     <td></td>
 </tr>
 <tr><td><code>minus</code></td>
     <td><em>x, y</em></td>
-    <td><em>x</em> - <em>y</em>.</td>
+    <td><em>x</em> &ndash; <em>y</em>.</td>
     <td></td>
     <td></td>
 </tr>
@@ -1822,41 +1807,49 @@ text-string format for mathematical expressions used by SBML_parseL3Formula().
     <td></td>
 </tr>
 
-<caption class="top-caption">The names of mathematical functions defined
-in the text-string formula syntax understood by SBML_parseL3Formula() and
-related functions.</caption>
+<caption class="top-caption">Mathematical functions defined
+in the "Level&nbsp;3" text-string formula syntax.</caption>
 
 </table>
 
 
  <p>
- * Note that the manner in which the 'L3' versions of the formula parser and
- * formatter interpret the function &quot;<code>log</code>&quot; can be
- * changed.  To do so, callers should use the function <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, {@link L3ParserSettings} settings)</a></code> 
- * and pass it an appropriate {@link L3ParserSettings} object.  By default,
- * unlike the SBML Level&nbsp;1 parser implemented by <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code>, the string &quot;<code>log</code>&quot; is
- * interpreted as the base&nbsp;10 logarithm, and <em>not</em> as the natural
- * logarithm.  However, you can change the interpretation to be base-10 log,
- * natural log, or as an error; since the name 'log' by itself is ambiguous,
- * you require that the parser uses <code>log10</code> or <code>ln</code> instead, which are more
- * clear.  Please refer to <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, {@link L3ParserSettings} settings)</a></code>.
+ * Parsing of the various MathML functions and constants are all
+ * case-insensitive by default: function names such as <code>cos</code>,
+ * <code>Cos</code> and <code>COS</code> are all parsed as the MathML cosine
+ * operator, <code>&lt;cos&gt;</code>.  However, <em>when a {@link Model} object is
+ * used</em> in conjunction with either
+ * <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> or
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>, any identifiers found in that model will be
+ * parsed in a case-<em>sensitive</em> way.  For example, if a model contains
+ * a {@link Species} having the identifier <code>Pi</code>, the parser will parse
+ * &quot;<code>Pi</code>&quot; in the input as &quot;<code>&lt;ci&gt; Pi
+ * &lt;/ci&gt;</code>&quot; but will continue to parse the symbols
+ * &quot;<code>pi</code>&quot; and &quot;<code>PI</code>&quot; as
+ * &quot;<code>&lt;pi&gt;</code>&quot;.
+ <p>
+ * As mentioned above, the manner in which the 'L3' versions of the formula
+ * parser and formatter interpret the function &quot;<code>log</code>&quot;
+ * can be changed.  To do so, callers should use the function
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> and pass it an appropriate {@link L3ParserSettings}
+ * object.  By default, unlike the SBML Level&nbsp;1 parser implemented by
+ * <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>, the string
+ * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
+ * and <em>not</em> as the natural logarithm.  However, you can change the
+ * interpretation to be base-10 log, natural log, or as an error; since the
+ * name 'log' by itself is ambiguous, you require that the parser uses 
+ * <code>log10</code> or <code>ln</code> instead, which are more clear.  Please refer to
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.
  <p>
  * In addition, the following symbols will be translated to their MathML
  * equivalents, if no symbol with the same <code>SId</code> identifier string exists
  * in the {@link Model} object provided:
  <p>
- * <table border="0" class="centered text-table width80 normal-font alt-row-colors">
+ * <table border="0" width="95%"
+       class="centered text-table normal-font alt-row-colors">
  <tr>
      <th align="left" width="60">Name</th>
-     <th align="left" width="200">Meaning</th>
+     <th align="left" width="250">Meaning</th>
      <th align="left">MathML</th>
  </tr>
 <tr><td><code>true</code></td>   
@@ -1873,11 +1866,11 @@ related functions.</caption>
 </tr>
 <tr><td><code>avogadro</code></td>   
     <td>The numerical value of Avogadro's constant, as defined in the SBML specification</td>
-    <td><code>&lt;csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"&gt; avogadro &lt;/csymbol/&gt;</code></td>
+    <td><code style="letter-spacing: -1px">&lt;csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"&gt; avogadro &lt;/csymbol/&gt;</code></td>
 </tr>
 <tr><td><code>time</code></td>   
     <td>Simulation time as defined in SBML</td>
-    <td><code>&lt;csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"&gt; time &lt;/csymbol/&gt;</code></td>
+    <td><code style="letter-spacing: -1px">&lt;csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"&gt; time &lt;/csymbol/&gt;</code></td>
 </tr>
 <tr><td><code>inf</code> or <code>infinity</code></td>   
     <td>The mathematical constant "infinity"</td>
@@ -1888,40 +1881,892 @@ related functions.</caption>
     <td><code>&lt;notanumber/&gt;</code></td>
 </tr>
 
-<caption class="top-caption">The names of mathematical symbols defined
-in the text-string formula syntax understood by
-SBML_parseL3Formula() and related functions.
+<caption class="top-caption">Mathematical symbols defined
+in the "Level&nbsp;3" text-string formula syntax.
 </caption>
 </table>
 
  <p>
- * Note that whether the string &quot;<code>avogadro</code>&quot; is parsed
- * as an AST node of type {@link  libsbmlConstants#AST_NAME_AVOGADRO
- * AST_NAME_AVOGADRO} or {@link  libsbmlConstants#AST_NAME AST_NAME}
- * is configurable; use the alternate version of this function, called <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, {@link L3ParserSettings} settings)</a></code>.  This
+ * Again, as mentioned above, whether the string
+ * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
+ * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} or
+ * {@link libsbmlConstants#AST_NAME AST_NAME} is configurable; use the version of
+ * the parser function called <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.  This Avogadro-related
  * functionality is provided because SBML Level&nbsp;2 models may not use
- * {@link  libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} AST nodes.
+ * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} AST nodes.
+ <p>
+ * @param tree the AST to be converted.
+ <p>
+ * @return the formula from the given AST as text string, with a syntax
+ * oriented towards the capabilities defined in SBML Level&nbsp;3.  The
+ * caller owns the returned string and is responsible for freeing it when it
+ * is no longer needed.  If <code>tree</code> is a null pointer, then a null pointer is
+ * returned.
+ <p>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * @see L3ParserSettings
+ * @see <a href='libsbml.html#getDefaultL3ParserSettings()'><code>libsbml.getDefaultL3ParserSettings()</code></a>
+ * @see <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>
+ */ public
+ static String formulaToL3String(ASTNode tree) {
+    return libsbmlJNI.formulaToL3String(ASTNode.getCPtr(tree), tree);
+  }
+
+  
+/**
+ * Converts an AST to a text string representation of a formula, using
+ * specific formatter settings.
+ <p>
+ * This function behaves identically to <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a> but its behavior is controlled by two fields in the 
+ * <code>settings</code> object, namely:
+ <p>
+ * <ul>
+ * <li> <em>parseunits</em> ('parse units'): If this field in the <code>settings</code>
+ *     object is set to <code>true</code> (the default), the function will
+ *     write out the units of any numerical ASTNodes that have them,
+ *     producing (for example) &quot;<code>3 mL</code>&quot;,
+ *     &quot;<code>(3/4) m</code>&quot;, or &quot;<code>5.5e-10
+ *     M</code>&quot;.  If this is set to <code>false</code>, this function
+ *     will only write out the number itself (&quot;<code>3</code>&quot;,
+ *     &quot;<code>(3/4)</code>&quot;, and &quot;<code>5.5e-10</code>&quot;,
+ *     in the previous examples).
+ * <li> <em>collapseminus</em> ('collapse minus'): If this field in the 
+ *     <code>settings</code> object is set to <code>false</code> (the default), the
+ *     function will write out explicitly any doubly-nested unary minus
+ *     ASTNodes, producing (for example) &quot;<code>- -x</code>&quot; or
+ *     even &quot;<code>- - - - -3.1</code>&quot;.  If this is set to
+ *     <code>true</code>, the function will collapse the nodes before
+ *     producing the infix form, producing &quot;<code>x</code>&quot; and
+ *     &quot;<code>-3.1</code>&quot; in the previous examples.
+ *
+ * </ul> <p>
+ * All the other settings of the {@link L3ParserSettings} object passed in as 
+ * <code>settings</code> will be ignored for the purposes of this function: the
+ * <em>parselog</em> ('parse log') setting is ignored so that
+ * &quot;<code>log10(x)</code>&quot;, &quot;<code>ln(x)</code>&quot;, and
+ * &quot;<code>log(x, y)</code>&quot; are always produced; the
+ * <em>avocsymbol</em> ('Avogadro csymbol') is irrelevant to the behavior
+ * of this function; and nothing in the {@link Model} object set via the
+ * <em>model</em> setting is used.
+ <p>
+ * @param tree the AST to be converted.
 <p>
+ * @param settings the {@link L3ParserSettings} object used to modify the behavior of
+ * this function.
+ <p>
+ * @return the formula from the given AST as text string, with a syntax
+ * oriented towards the capabilities defined in SBML Level&nbsp;3.  The
+ * caller owns the returned string and is responsible for freeing it when it
+ * is no longer needed.  If <code>tree</code> is a null pointer, then a null pointer is
+ * returned.
+ <p>
+ * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * @see L3ParserSettings
+ * @see <a href='libsbml.html#getDefaultL3ParserSettings()'><code>libsbml.getDefaultL3ParserSettings()</code></a>
+ * @see <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>
+ */ public
+ static String formulaToL3StringWithSettings(ASTNode tree, L3ParserSettings settings) {
+    return libsbmlJNI.formulaToL3StringWithSettings(ASTNode.getCPtr(tree), tree, L3ParserSettings.getCPtr(settings), settings);
+  }
+
+  
+/**
+ * Converts an AST to a text string representation of a formula using a
+ * basic syntax derived from SBML Level&nbsp;1.
+ <p>
+ * <p>
+ * The text-string form of mathematical formulas produced by
+ * <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a> and read by
+ * <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> use a simple C-inspired infix
+ * notation taken from SBML Level&nbsp;1.  A formula in this text-string form
+ * therefore can be handed to a program that understands SBML Level&nbsp;1
+ * mathematical expressions, or used as part of a formula translation system.
+ * The syntax is described in detail in the documentation for {@link ASTNode}.  The
+ * following are illustrative examples of formulas expressed using this syntax:
+ * <pre class='fragment'>
+0.10 * k4^2
+</pre>
+<pre class='fragment'>
+(vm * s1)/(km + s1)
+</pre>
+ <p>
+ * Note that this facility is provided as a convenience by libSBML&mdash;the
+ * MathML standard does not actually define a 'string-form' equivalent to
+ * MathML expression trees, so the choice of formula syntax is somewhat
+ * arbitrary.  The approach taken by libSBML is to use the syntax defined by
+ * SBML Level&nbsp;1 (which in fact used a text-string representation of
+ * formulas and not MathML).  This formula syntax is based mostly on C
+ * programming syntax, and may contain operators, function calls, symbols,
+ * and white space characters.  The following table provides the precedence
+ * rules for the different entities that may appear in formula strings.
+ <p>
+ * <table border="0" class="centered text-table width80 normal-font alt-row-colors" style="padding-bottom: 0.5em">
+ <tr style="background: lightgray; font-size: 14px;">
+     <th align="left">Token</th>
+     <th align="left">Operation</th>
+     <th align="left">Class</th>
+     <th>Precedence</th>
+     <th align="left">Associates</th>
+ </tr>
+<tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align="center">6</td><td>n/a</td></tr>
+<tr><td><code>(</code><em>expression</em><code>)</code></td><td>expression grouping</td><td>operand</td><td align="center">6</td><td>n/a</td></tr>
+<tr><td><code>f(</code><em>...</em><code>)</code></td><td>function call</td><td>prefix</td><td align="center">6</td><td>left</td></tr>
+<tr><td><code>-</code></td><td>negation</td><td>unary</td><td align="center">5</td><td>right</td></tr>
+<tr><td><code>^</code></td><td>power</td><td>binary</td><td align="center">4</td><td>left</td></tr>
+<tr><td><code>*</code></td><td>multiplication</td><td>binary</td><td align="center">3</td><td>left</td></tr>
+<tr><td><code>/</code></td><td>divison</td><td>binary</td><td align="center">3</td><td>left</td></tr>
+<tr><td><code>+</code></td><td>addition</td><td>binary</td><td align="center">2</td><td>left</td></tr>
+<tr><td><code>-</code></td><td>subtraction</td><td>binary</td><td align="center">2</td><td>left</td></tr>
+<tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align="center">1</td><td>left</td></tr>
+<caption class="top-caption">A table of the expression operators and their precedence in the
+text-string format for mathematical expressions used by SBML_parseFormula().
+</caption>
+</table>
+
+
+ <p>
+ * In the table above, <em>operand</em> implies the construct is an operand, 
+ * <em>prefix</em> implies the operation is applied to the following arguments, 
+ * <em>unary</em> implies there is one argument, and <em>binary</em> implies there are
+ * two arguments.  The values in the <b>Precedence</b> column show how the
+ * order of different types of operation are determined.  For example, the
+ * expression <code>a * b + c</code> is evaluated as <code>(a * b) +
+ * c</code> because the @c * operator has higher precedence.  The
+ * <b>Associates</b> column shows how the order of similar precedence
+ * operations is determined; for example, <code>a - b + c</code> is
+ * evaluated as <code>(a - b) + c</code> because the <code>+</code> and <code>-</code>
+ * operators are left-associative.
+ <p>
+ * The function call syntax consists of a function name, followed by optional
+ * white space, followed by an opening parenthesis token, followed by a
+ * sequence of zero or more arguments separated by commas (with each comma
+ * optionally preceded and/or followed by zero or more white space
+ * characters, followed by a closing parenthesis token.  The function name
+ * must be chosen from one of the pre-defined functions in SBML or a
+ * user-defined function in the model.  The following table lists the names
+ * of certain common mathematical functions; this table corresponds to
+ * Table&nbsp;6 in the <a target='_blank' href='http://sbml.org/Documents/Specifications#SBML_Level_1_Version_2'>SBML Level&nbsp;1 Version&nbsp;2 specification</a>:
+ <p>
+ * <table border="0" class="centered text-table width80 normal-font alt-row-colors">
+ <tr>
+     <th align="left" width="60">Name</th>
+     <th align="left" width="35">Args</th>
+     <th align="left">Formula or meaning</th>
+     <th align="left" width="90">Argument Constraints</th>
+     <th align="left" width="90">Result constraints</th>
+ </tr>
+<tr><td><code>abs</code></td><td><em>x</em></td><td>absolute value of <em>x</em></td><td></td><td></td></tr>
+<tr><td><code>acos</code></td><td><em>x</em></td><td>arc cosine of <em>x</em> in radians</td><td>-1.0 &le; <em>x</em> &le; 1.0</td><td>0 &le; <em>acos(x)</em> &le; &pi;</td></tr>
+<tr><td><code>asin</code></td><td><em>x</em></td><td>arc sine of <em>x</em> in radians</td><td>-1.0 &le; <em>x</em> &le; 1.0</td><td>0 &le; <em>asin(x)</em> &le; &pi;</td></tr>
+<tr><td><code>atan</code></td><td><em>x</em></td><td>arc tangent of <em>x</em> in radians</td><td></td><td>0 &le; <em>atan(x)</em> &le; &pi;</td></tr>
+<tr><td><code>ceil</code></td><td><em>x</em></td><td>smallest number not less than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
+<tr><td><code>cos</code></td><td><em>x</em></td><td>cosine of <em>x</em></td><td></td><td></td></tr>
+<tr><td><code>exp</code></td><td><em>x</em></td><td><em>e</em><sup><em> x</em></sup>, where <em>e</em> is the base of the natural logarithm</td><td></td><td></td></tr>
+<tr><td><code>floor</code></td><td><em>x</em></td><td>the largest number not greater than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
+<tr><td><code>log</code></td><td><em>x</em></td><td>natural logarithm of <em>x</em></td><td><em>x</em> &gt; 0</td><td></td></tr>
+<tr><td><code>log10</code></td><td><em>x</em></td><td>base 10 logarithm of <em>x</em></td><td><em>x</em> &gt; 0</td><td></td></tr>
+<tr><td><code>pow</code></td><td><em>x, y</em></td><td><em>x</em><sup><em> y</em></sup></td><td></td><td></td></tr>
+<tr><td><code>sqr</code></td><td><em>x</em></td><td><em>x</em><sup><em>2</em></sup></td><td></td><td></td></tr>
+<tr><td><code>sqrt</code></td><td><em>x</em></td><td>&radic;<em>x</em></td><td><em>x</em> &gt; 0</td><td><em>sqrt(x)</em> &ge; 0</td></tr>
+<tr><td><code>sin</code></td><td><em>x</em></td><td>sine of <em>x</em></td><td></td><td></td></tr>
+<tr><td><code>tan</code></td><td><em>x</em></td><td>tangent of <em>x</em></td><td>x &ne; n*&pi;/2, for odd integer <em>n</em></td><td></td></tr>
+<caption class="bottom-caption">The names of mathematical functions defined in the SBML
+Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
+</table>
+
+
+ <p>
+ * @warning <span class='warning'>There are differences between the symbols
+ * used to represent the common mathematical functions and the corresponding
+ * MathML token names.  This is a potential source of incompatibilities.
+ * Note in particular that in this text-string syntax, <code>log(x)</code>
+ * represents the natural logarithm, whereas in MathML, the natural logarithm
+ * is <code>&lt;ln/&gt;</code>.  Application writers are urged to be careful
+ * when translating between text forms and MathML forms, especially if they
+ * provide a direct text-string input facility to users of their software
+ * systems.</span>
+ <p>
+ * @param tree the AST to be converted.
+ <p>
+ * @return the formula from the given AST as a text-string mathematical
+ * formula oriented towards SBML Level&nbsp;1.  The caller owns the returned
+ * string and is responsible for freeing it when it is no longer needed.
+ <p>
+ * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ <p>
+ * <p>
+ * @note
+ * Callers using SBML Level&nbsp;3 are encouraged to use the facilities
+ * provided by libSBML's newer and more powerful Level&nbsp;3-oriented
+ * formula parser and formatter.  The entry points to this second system are
+ * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> and
+ * <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>.  The Level&nbsp;1-oriented
+ * system (i.e., what is provided by <a href='libsbml.html#formulaToString(java.lang.String)'><code>libsbml.formulaToString(String)</code></a>
+ * and <a href='libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)'><code>libsbml.parseFormula(ASTNode)</code></a>) is provided 
+ * untouched for backwards compatibility.
+ <p>
+ * <p>
+ * @note We urge developers to keep in mind that the text-string formula
+ * syntax is specific to libSBML.  <em>Neither MathML nor SBML define a
+ * text-string format for mathematical formulas.</em> LibSBML's particular
+ * syntax should not be considered to be a canonical or standard
+ * general-purpose mathematical expression syntax.  LibSBML provides methods
+ * for parsing and transforming text-string math formulas back and forth from
+ * AST structures for the convenience of calling applications, but it is
+ * important to keep the system's limitations in mind.
+ */ public
+ static String formulaToString(ASTNode tree) {
+    return libsbmlJNI.formulaToString(ASTNode.getCPtr(tree), tree);
+  }
+
+  
+/**
+ * Parses a text string as a mathematical formula and returns an AST
+ * representation of it.
+ <p>
+ * <p>
+ * The text-string form of mathematical formulas read by the function
+ * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> and written by the function
+ * <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a> uses an expanded version of
+ * the syntax read and written by <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * and <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>, respectively.  The
+ * latter two libSBML functions were originally developed to support
+ * conversion between SBML Levels&nbsp;1 and&nbsp;2, and were focused on the
+ * syntax of mathematical formulas used in SBML Level&nbsp;1.  With time, and
+ * the use of MathML in SBML Levels&nbsp;2 and&nbsp;3, it became clear that
+ * supporting Level&nbsp;2 and&nbsp;3's expanded mathematical syntax would be
+ * useful for software developers.  To maintain backwards compatibility for
+ * libSBML users, the original <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * and <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> have been left untouched,
+ * and instead, the new functionality is provided in the form of
+ * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> and
+ * <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>.
+ <p>
+ * The following lists the main differences in the formula syntax supported by
+ * the 'Level 3' or L3 versions of the formula parsers and formatters,
+ * compared to what is supported by the Level&nbsp;1-oriented
+ * <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> and
+ * <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>:
+ <p>
+ * <ul>
+ * <li> Units may be asociated with bare numbers, using the following syntax:
+ * <div style='margin: 10px auto 10px 25px; display: block'>
+ * <span class='code' style='background-color: #d0d0ee'>number</span>
+ * <span class='code' style='background-color: #edd'>unit</span>
+ * </div>
+ * The <span class='code' style='background-color: #d0d0ee'>number</span>
+ * may be in any form (an integer, real, or rational
+ * number), and the
+ * <span class='code' style='background-color: #edd'>unit</span>
+ * must conform to the syntax of an SBML identifier (technically, the
+ * type defined as <code>SId</code> in the SBML specifications).  The whitespace between
+ * <span class='code' style='background-color: #d0d0ee'>number</span>
+ * and <span class='code' style='background-color: #edd'>unit</span>
+ * is optional.
+ <p>
+ * <li> The Boolean function symbols <code>&&</code>, <code>||</code>, <code>!</code>, and <code>!=</code> may be
+ * used.
+ <p>
+ * <li> The <em>modulo</em> operation is allowed as the symbol <code>@%</code> and will
+ * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
+ * MathML output.
+ <p>
+ * <li> All inverse trigonometric functions may be defined in the infix either
+ * using <code>arc</code> as a prefix or simply <code>a</code>; in other words, both <code>arccsc</code>
+ * and <code>acsc</code> are interpreted as the operator <em>arccosecant</em> as defined in
+ * MathML&nbsp;2.0.  (Many functions in the simpler SBML Level&nbsp;1
+ * oriented parser implemented by <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * are defined this way as well, but not all.)
+ <p>
+ * <li> The following expression is parsed as a rational number instead of
+ * as a numerical division:
+ * <pre style='display: block; margin-left: 25px'>
+ * (<span class='code' style='background-color: #d0d0ee'>integer</span>/<span class='code' style='background-color: #d0d0ee'>integer</span>)</pre>
+ * <strong>Spaces are not allowed</strong> in this construct; in other words,
+ * &quot;<code>(3 / 4)</code>&quot; (with whitespace between the numbers and
+ * the operator) will be parsed into the MathML <code>&lt;divide&gt;</code>
+ * construct rather than a rational number.  You can, however, assign units to a
+ * rational number as a whole; here is an example: &quot;<code>(3/4) ml</code>&quot;.
+ * (In the case of division rather than a rational number, units are not interpreted
+ * in this way.)
+ <p>
+ * <li> Various parser and formatter behaviors may be altered through the use
+ * of a {@link L3ParserSettings} object in conjunction with the functions
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> and
+ * <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * The settings available include the following:
+ * <ul style='list-style-type: circle'>
+ *
+ * </ul> <p>
+ * <li style='margin-bottom: 0.5em'> The function <code>log</code> with a single
+ * argument (&quot;<code>log(x)</code>&quot;) can be parsed as
+ * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
+ * desired.
+ <p>
+ * <li style='margin-bottom: 0.5em'> Unary minus signs can be collapsed or
+ * preserved; that is, sequential pairs of unary minuses (e.g., &quot;<code>-
+ * -3</code>&quot;) can be removed from the input entirely and single unary
+ * minuses can be incorporated into the number node, or all minuses can be
+ * preserved in the AST node structure.
+ <p>
+ * <li style='margin-bottom: 0.5em'> Parsing of units embedded in the input
+ * string can be turned on and off.
+ <p>
+ * <li style='margin-bottom: 0.5em'> The string <code>avogadro</code> can be parsed as
+ * a MathML <em>csymbol</em> or as an identifier.
+ <p>
+ * <li style='margin-bottom: 0.5em'> A {@link Model} object may optionally be
+ * provided to the parser using the variant function call
+ * <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> or
+ * stored in a {@link L3ParserSettings} object passed to the variant function
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.  When a {@link Model} object is provided, identifiers
+ * (values of type <code>SId</code>) from that model are used in preference to
+ * pre-defined MathML definitions for both symbols and functions.
+ * More precisely:
+ * <ul style='list-style-type: square'>
+ <p>
+ * <li style='margin-bottom: 0.5em'> <em>In the case of symbols</em>: the
+ * {@link Model} entities whose identifiers will shadow identical symbols in the
+ * mathematical formula are: {@link Species}, {@link Compartment}, {@link Parameter}, {@link Reaction}, and
+ * {@link SpeciesReference}.  For instance, if the parser is given a {@link Model} containing
+ * a {@link Species} with the identifier &quot;<code>pi</code>&quot;, and the formula
+ * to be parsed is &quot;<code>3*pi</code>&quot;, the MathML produced will
+ * contain the construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of
+ * the construct <code>&lt;pi/&gt;</code>.
+ <p>
+ * <li style='margin-bottom: 0.5em'> <em>In the case of user-defined
+ * functions</em>: when a {@link Model} object is provided, <code>SId</code> values of
+ * user-defined functions present in the model will be used preferentially
+ * over pre-defined MathML functions.  For example, if the passed-in {@link Model}
+ * contains a {@link FunctionDefinition} object with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
+ * </ul>
+ <p>
+ * <li style='margin-bottom: 0.5em'> An {@link SBMLNamespaces} object may optionally
+ * be provided to identify SBML Level&nbsp;3 packages that extend the
+ * syntax understood by the formula parser.  When the namespaces are provided,
+ * the parser will interpret possible additional syntax defined by the libSBML
+ * plug-ins implementing the SBML Level&nbsp;3 packages; for example, it may
+ * understand vector/array extensions introduced by the SBML Level&nbsp;3 
+ * <em>Arrays</em> package.
+ * </ul>
+ <p>
+ * These configuration settings cannot be changed directly using the basic
+ * parser and formatter functions, but <em>can</em> be changed on a per-call basis
+ * by using the alternative functions <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> and
+ * <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>.
+ <p>
+ * Neither SBML nor the MathML standard define a 'string-form' equivalent to
+ * MathML expressions.  The approach taken by libSBML is to start with the
+ * formula syntax defined by SBML Level&nbsp;1 (which in fact used a custom
+ * text-string representation of formulas, and not MathML), and expand it to
+ * include the functionality described above.  This formula syntax is based
+ * mostly on C programming syntax, and may contain operators, function calls,
+ * symbols, and white space characters.  The following table provides the
+ * precedence rules for the different entities that may appear in formula
+ * strings.
+ <p>
+ * <table border="0" width="95%"
+       class="centered text-table normal-font alt-row-colors"
+       style="padding-bottom: 0.5em">
+ <tr style="background: lightgray; font-size: 14px;">
+     <th align="left">Token</th>
+     <th align="left">Operation</th>
+     <th align="left">Class</th>
+     <th>Precedence</th>
+     <th align="left">Associates</th>
+ </tr>
+<tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
+<tr><td><code>(</code><em>expression</em><code>)</code></td><td>expression grouping</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
+<tr><td><code>f(</code><em>...</em><code>)</code></td><td>function call</td><td>prefix</td><td align="center">8</td><td>left</td></tr>
+<tr><td><code>^</code></td><td>power</td><td>binary</td><td align="center">7</td><td>left</td></tr>
+<tr><td><code>-, !</code></td><td>negation and boolean 'not'</td><td>unary</td><td align="center">6</td><td>right</td></tr>
+<tr><td><code>*, /, %</code></td><td>multiplication, division, and modulo</td><td>binary</td><td align="center">5</td><td>left</td></tr>
+<tr><td><code>+, -</code></td><td>addition and subtraction</td><td>binary</td><td align="center">4</td><td>left</td></tr>
+<tr><td><code>==, &lt;, &gt;, &lt=, &gt=, !=</code></td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align="center">3</td><td>left</td></tr>
+<tr><td><code>&&, ||</code></td><td>boolean 'and' and 'or'</td><td>binary</td><td align="center">2</td><td>left</td></tr>
+<tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align="center">1</td><td>left</td></tr>
+
+<caption class="top-caption">Expression operators and their precedence in the
+"Level&nbsp;3" text-string format for mathematical expressions.
+</caption>
+</table>
+
+
+ <p>
+ * In the table above, <em>operand</em> implies the construct is an operand, 
+ * <em>prefix</em> implies the operation is applied to the following arguments, 
+ * <em>unary</em> implies there is one argument, and <em>binary</em> implies there are
+ * two arguments.  The values in the <b>Precedence</b> column show how the
+ * order of different types of operation are determined.  For example, the
+ * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code>
+ * because the @c * operator has higher precedence.  The
+ * <b>Associates</b> column shows how the order of similar precedence
+ * operations is determined; for example, <code>a && b || c</code> is
+ * evaluated as <code>(a && b) || c</code> because the <code>&&</code> and <code>||</code>
+ * operators are left-associative and have the same precedence.
+ <p>
+ * The function call syntax consists of a function name, followed by optional
+ * white space, followed by an opening parenthesis token, followed by a
+ * sequence of zero or more arguments separated by commas (with each comma
+ * optionally preceded and/or followed by zero or more white space
+ * characters), followed by a closing parenthesis token.  The function name
+ * must be chosen from one of the pre-defined functions in SBML or a
+ * user-defined function in the model.  The following table lists the names
+ * of certain common mathematical functions; this table corresponds to
+ * Table&nbsp;6 in the <a target='_blank'
+ * href='http://sbml.org/Documents/Specifications#SBML_Level_1_Version_2'>SBML
+ * Level&nbsp;1 Version&nbsp;2 specification</a> with additions based on the
+ * functions added in SBML Level 2 and Level 3:
+ <p>
+ * <table border="0" width="95%" 
+       class="centered text-table normal-font alt-row-colors">
+ <tr>
+     <th align="left" width="60">Name</th>
+     <th align="left" width="75">Argument(s)</th>
+     <th align="left">Formula or meaning</th>
+     <th align="left" width="90">Argument Constraints</th>
+     <th align="left" width="90">Result constraints</th>
+ </tr>
+<tr><td><code>abs</code></td>   
+    <td><em>x</em></td> 
+    <td>Absolute value of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acos</code>, <code>arccos</code></td>
+    <td><em>x</em></td>
+    <td>Arccosine of <em>x</em> in radians.</td>
+    <td>&ndash;1.0 &le; <em>x</em> &le; 1.0</td>
+    <td>0 &le; <em>acos(x)</em> &le; &pi;</td>
+</tr>
+<tr><td><code>acosh</code>, <code>arccosh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arccosine of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acot</code>, <code>arccot</code></td>
+    <td><em>x</em></td>
+    <td>Arccotangent of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acoth</code>, <code>arccoth</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arccotangent of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acsc</code>, <code>arccsc</code></td>
+    <td><em>x</em></td>
+    <td>Arccosecant of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acsch</code>, <code>arccsch</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arccosecant of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>asec</code>, <code>arcsec</code></td>
+    <td><em>x</em></td>
+    <td>Arcsecant of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>asech</code>, <code>arcsech</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arcsecant of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>asin</code>, <code>arcsin</code></td>
+    <td><em>x</em></td><td>Arcsine of <em>x</em> in radians.</td>
+    <td>&ndash;1.0 &le; <em>x</em> &le; 1.0</td>
+    <td>0 &le; <em>asin(x)</em> &le; &pi;</td>
+</tr>
+<tr><td><code>atan</code>, <code>arctan</code></td>
+    <td><em>x</em></td>
+    <td>Arctangent of <em>x</em> in radians.</td>
+    <td></td>
+    <td>0 &le; <em>atan(x)</em> &le; &pi;</td>
+</tr>
+<tr><td><code>atanh</code>, <code>arctanh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arctangent of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>ceil</code>, <code>ceiling</code></td>
+    <td><em>x</em></td>
+    <td>Smallest number not less than <em>x</em> whose value is an exact integer.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>cos</code></td>
+    <td><em>x</em></td>
+    <td>Cosine of <em>x</em></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>cosh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic cosine of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>cot</code></td>
+    <td><em>x</em></td>
+    <td>Cotangent of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>coth</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic cotangent of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>csc</code></td>
+    <td><em>x</em></td>
+    <td>Cosecant of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>csch</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic cosecant of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>delay</code></td>
+    <td><em>x, y</em></td>
+    <td>The value of <em>x</em> at <em>y</em> time units in the past.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>factorial</code></td>
+    <td><em>n</em></td>
+    <td>The factorial of <em>n</em>. Factorials are defined by <em>n! = n*(n&ndash;1)* ... * 1</em>.</td>
+    <td><em>n</em> must be an integer.</td>
+    <td></td>
+</tr>
+<tr><td><code>exp</code></td>
+    <td><em>x</em></td>
+    <td><em>e</em><sup><em> x</em></sup>, where <em>e</em> is the base of the natural logarithm.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>floor</code></td>
+    <td><em>x</em></td>
+    <td>The largest number not greater than <em>x</em> whose value is an exact integer.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>ln</code></td>
+    <td><em>x</em></td>
+    <td>Natural logarithm of <em>x</em>.</td>
+    <td><em>x</em> &gt; 0</td>
+    <td></td>
+</tr>
+<tr><td><code>log</code></td>
+    <td><em>x</em></td>
+    <td>By default, the base 10 logarithm of <em>x</em>, but can be set to be the natural logarithm of <em>x</em>, or to be an illegal construct.</td>
+    <td><em>x</em> &gt; 0</td>
+    <td></td>
+</tr>
+<tr><td><code>log</code></td>
+    <td><em>x, y</em></td>
+    <td>The base <em>x</em> logarithm of <em>y</em>.</td>
+    <td><em>y</em> &gt; 0</td>
+    <td></td>
+</tr>
+<tr><td><code>log10</code></td>
+    <td><em>x</em></td>
+    <td>Base 10 logarithm of <em>x</em>.</td>
+    <td><em>x</em> &gt; 0</td>
+    <td></td>
+</tr>
+<tr><td><code>piecewise</code></td>
+    <td><em>x1, y1, [x2, y2,] [...] [z]</em></td>
+    <td>A piecewise function: if (<em>y1</em>), <em>x1</em>.  Otherwise, if (<em>y2</em>), <em>x2</em>, etc.  Otherwise, z. </td>
+    <td><em>y1, y2, y3 [etc]</em> must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>pow</code>, <code>power</code> </td>
+    <td><em>x, y</em></td>
+    <td><em>x</em><sup><em> y</em></sup>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>root</code></td>
+    <td><em>b, x</em></td>
+    <td>The root base <em>b</em> of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sec</code></td>
+    <td><em>x</em></td>
+    <td>Secant of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sech</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic secant of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sqr</code></td>
+    <td><em>x</em></td>
+    <td><em>x</em><sup><em>2</em></sup>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sqrt</code></td>
+    <td><em>x</em></td>
+    <td>&radic;<em>x</em>.</td>
+    <td><em>x</em> &gt; 0</td>
+    <td><em>sqrt(x)</em> &ge; 0</td>
+</tr>
+<tr><td><code>sin</code></td>
+    <td><em>x</em></td>
+    <td>Sine of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sinh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic sine of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>tan</code></td>
+    <td><em>x</em></td>
+    <td>Tangent of <em>x</em>.</td>
+    <td>x &ne; n*&pi;/2, for odd integer <em>n</em></td>
+    <td></td>
+</tr>
+<tr><td><code>tanh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic tangent of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>and</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>and(x, y, z...)</em>: returns <code>true</code> if all of its arguments are true.  Note that <code>and</code> is an n-ary function, taking 0 or more arguments, and that <code>and()</code> returns <code>true</code>.</td>
+    <td>All arguments must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>not</code></td>
+    <td><em>x</em></td>
+    <td>Boolean <em>not(x)</em></td>
+    <td><em>x</em> must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>or</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>or(x, y, z...)</em>: returns <code>true</code> if at least one of its arguments is true.  Note that <code>or</code> is an n-ary function, taking 0 or more arguments, and that <code>or()</code> returns <code>false</code>.</td>
+    <td>All arguments must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>xor</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>xor(x, y, z...)</em>: returns <code>true</code> if an odd number of its arguments is true.  Note that <code>xor</code> is an n-ary function, taking 0 or more arguments, and that <code>xor()</code> returns <code>false</code>.</td>
+    <td>All arguments must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>eq</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>eq(x, y, z...)</em>: returns <code>true</code> if all arguments are equal.  Note that <code>eq</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>geq</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>geq(x, y, z...)</em>: returns <code>true</code> if each argument is greater than or equal to the argument following it.  Note that <code>geq</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>gt</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>gt(x, y, z...)</em>: returns <code>true</code> if each argument is greater than the argument following it.  Note that <code>gt</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>leq</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>leq(x, y, z...)</em>: returns <code>true</code> if each argument is less than or equal to the argument following it.  Note that <code>leq</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>lt</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>lt(x, y, z...)</em>: returns <code>true</code> if each argument is less than the argument following it.  Note that <code>lt</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>neq</code></td>
+    <td><em>x, y</em></td>
+    <td>Boolean <em>x</em> != <em>y</em>: returns <code>true</code> unless x and y are equal.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>plus</code></td>
+    <td><em>x, y, z...</em></td>
+    <td><em>x</em> + <em>y</em> + <em>z</em> + <em>...</em>: The sum of the arguments of the function.  Note that <code>plus</code> is an n-ary function taking 0 or more arguments, and that <code>plus()</code> returns <code>0</code>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>times</code></td>
+    <td><em>x, y, z...</em></td>
+    <td><em>x</em> * <em>y</em> * <em>z</em> * <em>...</em>: The product of the arguments of the function.  Note that <code>times</code> is an n-ary function taking 0 or more arguments, and that <code>times()</code> returns <code>1</code>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>minus</code></td>
+    <td><em>x, y</em></td>
+    <td><em>x</em> &ndash; <em>y</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>divide</code></td>
+    <td><em>x, y</em></td>
+    <td><em>x</em> / <em>y</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<caption class="top-caption">Mathematical functions defined
+in the "Level&nbsp;3" text-string formula syntax.</caption>
+
+</table>
+
+
+ <p>
+ * Parsing of the various MathML functions and constants are all
+ * case-insensitive by default: function names such as <code>cos</code>,
+ * <code>Cos</code> and <code>COS</code> are all parsed as the MathML cosine
+ * operator, <code>&lt;cos&gt;</code>.  However, <em>when a {@link Model} object is
+ * used</em> in conjunction with either
+ * <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> or
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>, any identifiers found in that model will be
+ * parsed in a case-<em>sensitive</em> way.  For example, if a model contains
+ * a {@link Species} having the identifier <code>Pi</code>, the parser will parse
+ * &quot;<code>Pi</code>&quot; in the input as &quot;<code>&lt;ci&gt; Pi
+ * &lt;/ci&gt;</code>&quot; but will continue to parse the symbols
+ * &quot;<code>pi</code>&quot; and &quot;<code>PI</code>&quot; as
+ * &quot;<code>&lt;pi&gt;</code>&quot;.
+ <p>
+ * As mentioned above, the manner in which the 'L3' versions of the formula
+ * parser and formatter interpret the function &quot;<code>log</code>&quot;
+ * can be changed.  To do so, callers should use the function
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> and pass it an appropriate {@link L3ParserSettings}
+ * object.  By default, unlike the SBML Level&nbsp;1 parser implemented by
+ * <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>, the string
+ * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
+ * and <em>not</em> as the natural logarithm.  However, you can change the
+ * interpretation to be base-10 log, natural log, or as an error; since the
+ * name 'log' by itself is ambiguous, you require that the parser uses 
+ * <code>log10</code> or <code>ln</code> instead, which are more clear.  Please refer to
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.
+ <p>
+ * In addition, the following symbols will be translated to their MathML
+ * equivalents, if no symbol with the same <code>SId</code> identifier string exists
+ * in the {@link Model} object provided:
+ <p>
+ * <table border="0" width="95%"
+       class="centered text-table normal-font alt-row-colors">
+ <tr>
+     <th align="left" width="60">Name</th>
+     <th align="left" width="250">Meaning</th>
+     <th align="left">MathML</th>
+ </tr>
+<tr><td><code>true</code></td>   
+    <td>The boolean value <code>true</code></td>
+    <td><code>&lt;true/&gt;</code></td>
+</tr>
+<tr><td><code>false</code></td>   
+    <td>The boolean value <code>false</code></td>
+    <td><code>&lt;false/&gt;</code></td>
+</tr>
+<tr><td><code>pi</code></td>   
+    <td>The mathematical constant pi</td>
+    <td><code>&lt;pi/&gt;</code></td>
+</tr>
+<tr><td><code>avogadro</code></td>   
+    <td>The numerical value of Avogadro's constant, as defined in the SBML specification</td>
+    <td><code style="letter-spacing: -1px">&lt;csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"&gt; avogadro &lt;/csymbol/&gt;</code></td>
+</tr>
+<tr><td><code>time</code></td>   
+    <td>Simulation time as defined in SBML</td>
+    <td><code style="letter-spacing: -1px">&lt;csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"&gt; time &lt;/csymbol/&gt;</code></td>
+</tr>
+<tr><td><code>inf</code> or <code>infinity</code></td>   
+    <td>The mathematical constant "infinity"</td>
+    <td><code>&lt;infinity/&gt;</code></td>
+</tr>
+<tr><td><code>nan</code> or <code>notanumber</code></td>   
+    <td>The mathematical concept "not a number"</td>
+    <td><code>&lt;notanumber/&gt;</code></td>
+</tr>
+
+<caption class="top-caption">Mathematical symbols defined
+in the "Level&nbsp;3" text-string formula syntax.
+</caption>
+</table>
+
+ <p>
+ * Again, as mentioned above, whether the string
+ * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
+ * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} or
+ * {@link libsbmlConstants#AST_NAME AST_NAME} is configurable; use the version of
+ * the parser function called <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.  This Avogadro-related
+ * functionality is provided because SBML Level&nbsp;2 models may not use
+ * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} AST nodes.
+ <p>
  * @param formula the text-string formula expression to be parsed
  <p>
- * @return the root node of an AST representing the mathematical formula,
- * or <code>null</code> if an error occurred while parsing the formula.  When <code>null</code>
- * is returned, an error is recorded internally; information about the
- * error can be retrieved using 
- * <code><a href='libsbml.html#getLastParseL3Error()'>libsbml.getLastParseL3Error()</a></code>.
+ * @return the root node of an AST representing the mathematical formula, or
+ * <code>null</code> if an error occurred while parsing the formula.  When <code>null</code> is
+ * returned, an error is recorded internally; information about the error can
+ * be retrieved using <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>.
  <p>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * @see L3ParserSettings
+ * @see <a href='libsbml.html#getDefaultL3ParserSettings()'><code>libsbml.getDefaultL3ParserSettings()</code></a>
+ * @see <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>
  <p>
- <p>
- <p>
- * @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
+ * <p>
+ * @note We urge developers to keep in mind that the text-string formula
+ * syntax is specific to libSBML.  <em>Neither MathML nor SBML define a
+ * text-string format for mathematical formulas.</em> LibSBML's particular
+ * syntax should not be considered to be a canonical or standard
+ * general-purpose mathematical expression syntax.  LibSBML provides methods
+ * for parsing and transforming text-string math formulas back and forth from
+ * AST structures for the convenience of calling applications, but it is
+ * important to keep the system's limitations in mind.
  */ public
  static ASTNode parseL3Formula(String formula) {
     long cPtr = libsbmlJNI.parseL3Formula(formula);
@@ -1930,17 +2775,14 @@ SBML_parseL3Formula() and related functions.
 
   
 /**
- * Parses the given mathematical formula using specific a specific {@link Model} to
- * resolve symbols, and returns an Abstract Syntax Tree (AST)
- * representation of the result.
+ * Parses a text string as a mathematical formula using a {@link Model} to resolve
+ * symbols, and returns an AST representation of the result.
  <p>
- * This is identical to
- * <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>,
- * except that this function uses the given model in the argument <code>model</code>
- * to check against identifiers that appear in the <code>formula</code>.
- <p>
- * For more details about the parser, please see the definition of
- * the function <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>.
+ * This is identical to <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>, except
+ * that this function uses the given model in the argument <code>model</code> to check
+ * against identifiers that appear in the <code>formula</code>.  For more information
+ * about the parser, please see the definition of {@link L3ParserSettings} and
+ * the function <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>.
  <p>
  * @param formula the mathematical formula expression to be parsed
  <p>
@@ -1949,17 +2791,14 @@ SBML_parseL3Formula() and related functions.
  * @return the root node of an AST representing the mathematical formula,
  * or <code>null</code> if an error occurred while parsing the formula.  When <code>null</code>
  * is returned, an error is recorded internally; information about the
- * error can be retrieved using
- * <code><a href='libsbml.html#getLastParseL3Error()'>libsbml.getLastParseL3Error()</a></code>.
+ * error can be retrieved using <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>.
  <p>
- <p>
- <p>
- <p>
- * @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
+ * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * @see <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>
+ * @see L3ParserSettings
  */ public
  static ASTNode parseL3FormulaWithModel(String formula, Model model) {
     long cPtr = libsbmlJNI.parseL3FormulaWithModel(formula, Model.getCPtr(model), model);
@@ -1968,48 +2807,66 @@ SBML_parseL3Formula() and related functions.
 
   
 /**
- * Parses the given mathematical formula using specific parser settings and
- * returns an Abstract Syntax Tree (AST) representation of the result.
+ * Parses a text string as a mathematical formula using specific parser
+ * settings and returns an AST representation of the result.
  <p>
- * This is identical to
- <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>,
- * except that this function uses the parser settings given in the argument
- * <code>settings</code>.  The settings override the default parsing behavior.
+ * This is identical to <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>, except
+ * that this function uses the parser settings given in the argument 
+ * <code>settings</code>.  The settings override the default parsing behavior.  The
+ * following parsing behaviors can be configured:
  <p>
- * The parameter <code>settings</code> allows callers to change the following parsing
- * behaviors:
- <p>
+ * <p>
  * <ul>
- * <li> Use a specific {@link Model} object against which identifiers to compare
- * identifiers.  This causes the parser to search the {@link Model} for identifiers
- * that the parser encounters in the formula.  If a given symbol in the
- * formula matches the identifier of a {@link Species}, {@link Compartment}, {@link Parameter},
- * {@link Reaction}, {@link SpeciesReference} or {@link FunctionDefinition} in the {@link Model}, then the
- * symbol is assumed to refer to that model entity instead of any possible
- * mathematical terms with the same symbol.  For example, if the parser is
- * given a {@link Model} containing a {@link Species} with the identifier
+ * <li> A {@link Model} object may optionally be provided to use identifiers (values
+ * of type <code>SId</code>) from the model in preference to pre-defined MathML symbols
+ * More precisely, the {@link Model} entities whose identifiers will shadow identical
+ * symbols in the mathematical formula are: {@link Species}, {@link Compartment}, {@link Parameter},
+ * {@link Reaction}, and {@link SpeciesReference}.  For instance, if the parser is given a
+ * {@link Model} containing a {@link Species} with the identifier
  * &quot;<code>pi</code>&quot;, and the formula to be parsed is
- * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
- * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the
- * construct <code>&lt;pi/&gt;</code>.
- * <li> Whether to parse &quot;<code>log(x)</code>&quot; with a single
- * argument as the base 10
- * logarithm of x, the natural logarithm of x, or treat the case as an
- * error.
- * <li> Whether to parse &quot;<code>number id</code>&quot; by interpreting
- * <code>id</code> as the identifier of a unit of measurement associated with the
- * number, or whether to treat the case as an error.
- * <li> Whether to parse &quot;<code>avogadro</code>&quot; as an {@link ASTNode} of
- * type {@link  libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} or
- * as type {@link  libsbmlConstants#AST_NAME AST_NAME}.
- * <li> Whether to always create explicit ASTNodes of type {@link 
- * libsbmlConstants#AST_MINUS AST_MINUS} for all unary minuses, or
- * collapse and remove minuses where possible.
+ * &quot;<code>3*pi</code>&quot;, the MathML produced by the parser will
+ * contain the construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of
+ * the construct <code>&lt;pi/&gt;</code>.  Another example, if the passed-in
+ * {@link Model} contains a {@link FunctionDefinition} with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
+ * <li> The function <code>log</code> with a single argument
+ * (&quot;<code>log(x)</code>&quot;) can be parsed as <code>log10(x)</code>,
+ * <code>ln(x)</code>, or treated as an error, as desired.
+ * <li> Unary minus signs can be either collapsed or preserved; that is, the
+ * parser can either (1) remove sequential pairs of unary minuses (e.g.,
+ * &quot;<code>- -3</code>&quot;) from the input and incorporate single unary
+ * minuses into the number node, or (2) preserve all minuses in the AST node
+ * structure, turning them into {@link ASTNode} objects of type
+ * {@link libsbmlConstants#AST_MINUS AST_MINUS}.
+ * <li> The character sequence &quot;<code>number id</code>&quot; can be
+ * interpreted as a numerical value <code>number</code> followed by units of measurement
+ * indicated by <code>id</code>, or it can be treated as a syntax error.  (In
+ * Level&nbsp;3, MathML <code>&lt;cn&gt;</code> elements can have an
+ * attribute named <code>units</code> placed in the SBML namespace, which can be used
+ * to indicate the units to be associated with the number.  The text-string
+ * infix formula parser allows units to be placed after raw numbers; they are
+ * interpreted as unit identifiers for units defined by the SBML
+ * specification or in the containing {@link Model} object.)
+ * <li> The symbol <code>avogadro</code> can be parsed either as a MathML <em>csymbol</em> or
+ * as a identifier.  More specifically, &quot;<code>avogadro</code>&quot; can
+ * be treated as an {@link ASTNode} of type
+ * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} or of type
+ * {@link libsbmlConstants#AST_NAME AST_NAME}.
+ * <li> Strings that match built-in functions and constants can either be parsed
+ * as a match regardless of capitalization, or may be required to be
+ * all-lower-case to be considered a match.  
+ * <li> LibSBML plug-ins implementing support for SBML Level&nbsp;3 packages
+ * may introduce extensions to the syntax understood by the parser.  The
+ * precise nature of the extensions will be documented by the individual
+ * package plug-ins.  An example of a possible extension is a notation for
+ * vectors and arrays, introduced by the SBML Level&nbsp;3 <em>Arrays</em>
+ * package.
  *
- * </ul> <p>
+ * </ul>
+ <p>
  * For more details about the parser, please see the definition of
- * {@link L3ParserSettings} and
- * <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>.
+ * {@link L3ParserSettings} and <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.
  <p>
  * @param formula the mathematical formula expression to be parsed
  <p>
@@ -2018,17 +2875,14 @@ SBML_parseL3Formula() and related functions.
  * @return the root node of an AST representing the mathematical formula,
  * or <code>null</code> if an error occurred while parsing the formula.  When <code>null</code>
  * is returned, an error is recorded internally; information about the
- * error can be retrieved using
- * <code><a href='libsbml.html#getLastParseL3Error()'>libsbml.getLastParseL3Error()</a></code>.
+ * error can be retrieved using <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>.
  <p>
- <p>
- <p>
- <p>
- * @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
+ * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * @see <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>
+ * @see L3ParserSettings
  */ public
  static ASTNode parseL3FormulaWithSettings(String formula, L3ParserSettings settings) {
     long cPtr = libsbmlJNI.parseL3FormulaWithSettings(formula, L3ParserSettings.getCPtr(settings), settings);
@@ -2037,51 +2891,623 @@ SBML_parseL3Formula() and related functions.
 
   
 /**
- * Returns a copy of the default parser settings used by <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>.
+ * Returns a copy of the default Level&nbsp;3 ('L3') formula parser settings.
  <p>
- * The settings structure allows callers to change the following parsing
- * behaviors:
+ * The data structure storing the settings allows callers to change the
+ * following parsing behaviors:
+ <p>
+ * <p>
+ * The text-string form of mathematical formulas read by the function
+ * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> and written by the function
+ * <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a> uses an expanded version of
+ * the syntax read and written by <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * and <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>, respectively.  The
+ * latter two libSBML functions were originally developed to support
+ * conversion between SBML Levels&nbsp;1 and&nbsp;2, and were focused on the
+ * syntax of mathematical formulas used in SBML Level&nbsp;1.  With time, and
+ * the use of MathML in SBML Levels&nbsp;2 and&nbsp;3, it became clear that
+ * supporting Level&nbsp;2 and&nbsp;3's expanded mathematical syntax would be
+ * useful for software developers.  To maintain backwards compatibility for
+ * libSBML users, the original <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * and <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> have been left untouched,
+ * and instead, the new functionality is provided in the form of
+ * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> and
+ * <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>.
+ <p>
+ * The following lists the main differences in the formula syntax supported by
+ * the 'Level 3' or L3 versions of the formula parsers and formatters,
+ * compared to what is supported by the Level&nbsp;1-oriented
+ * <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> and
+ * <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>:
  <p>
  * <ul>
- * <li> Use a specific {@link Model} object against which identifiers to compare
- * identifiers.  This causes the parser to search the {@link Model} for identifiers
- * that the parser encounters in the formula.  If a given symbol in the
- * formula matches the identifier of a {@link Species}, {@link Compartment}, {@link Parameter},
- * {@link Reaction}, {@link SpeciesReference} or {@link FunctionDefinition} in the {@link Model}, then the
- * symbol is assumed to refer to that model entity instead of any possible
- * mathematical terms with the same symbol.  For example, if the parser is
- * given a {@link Model} containing a {@link Species} with the identifier
- * &quot;<code>pi</code>&quot;, and the formula to be parsed is
- * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
- * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the
- * construct <code>&lt;pi/&gt;</code>.
- * <li> Whether to parse &quot;<code>log(x)</code>&quot; with a single
- * argument as the base 10
- * logarithm of x, the natural logarithm of x, or treat the case as an
- * error.
- * <li> Whether to parse &quot;<code>number id</code>&quot; by interpreting
- * <code>id</code> as the identifier of a unit of measurement associated with the
- * number, or whether to treat the case as an error.
- * <li> Whether to parse &quot;<code>avogadro</code>&quot; as an {@link ASTNode} of
- * type {@link  libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} or
- * as type {@link  libsbmlConstants#AST_NAME AST_NAME}.
- * <li> Whether to always create explicit ASTNodes of type {@link 
- * libsbmlConstants#AST_MINUS AST_MINUS} for all unary minuses, or
- * collapse and remove minuses where possible.
+ * <li> Units may be asociated with bare numbers, using the following syntax:
+ * <div style='margin: 10px auto 10px 25px; display: block'>
+ * <span class='code' style='background-color: #d0d0ee'>number</span>
+ * <span class='code' style='background-color: #edd'>unit</span>
+ * </div>
+ * The <span class='code' style='background-color: #d0d0ee'>number</span>
+ * may be in any form (an integer, real, or rational
+ * number), and the
+ * <span class='code' style='background-color: #edd'>unit</span>
+ * must conform to the syntax of an SBML identifier (technically, the
+ * type defined as <code>SId</code> in the SBML specifications).  The whitespace between
+ * <span class='code' style='background-color: #d0d0ee'>number</span>
+ * and <span class='code' style='background-color: #edd'>unit</span>
+ * is optional.
+ <p>
+ * <li> The Boolean function symbols <code>&&</code>, <code>||</code>, <code>!</code>, and <code>!=</code> may be
+ * used.
+ <p>
+ * <li> The <em>modulo</em> operation is allowed as the symbol <code>@%</code> and will
+ * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
+ * MathML output.
+ <p>
+ * <li> All inverse trigonometric functions may be defined in the infix either
+ * using <code>arc</code> as a prefix or simply <code>a</code>; in other words, both <code>arccsc</code>
+ * and <code>acsc</code> are interpreted as the operator <em>arccosecant</em> as defined in
+ * MathML&nbsp;2.0.  (Many functions in the simpler SBML Level&nbsp;1
+ * oriented parser implemented by <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * are defined this way as well, but not all.)
+ <p>
+ * <li> The following expression is parsed as a rational number instead of
+ * as a numerical division:
+ * <pre style='display: block; margin-left: 25px'>
+ * (<span class='code' style='background-color: #d0d0ee'>integer</span>/<span class='code' style='background-color: #d0d0ee'>integer</span>)</pre>
+ * <strong>Spaces are not allowed</strong> in this construct; in other words,
+ * &quot;<code>(3 / 4)</code>&quot; (with whitespace between the numbers and
+ * the operator) will be parsed into the MathML <code>&lt;divide&gt;</code>
+ * construct rather than a rational number.  You can, however, assign units to a
+ * rational number as a whole; here is an example: &quot;<code>(3/4) ml</code>&quot;.
+ * (In the case of division rather than a rational number, units are not interpreted
+ * in this way.)
+ <p>
+ * <li> Various parser and formatter behaviors may be altered through the use
+ * of a {@link L3ParserSettings} object in conjunction with the functions
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> and
+ * <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * The settings available include the following:
+ * <ul style='list-style-type: circle'>
  *
  * </ul> <p>
+ * <li style='margin-bottom: 0.5em'> The function <code>log</code> with a single
+ * argument (&quot;<code>log(x)</code>&quot;) can be parsed as
+ * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
+ * desired.
+ <p>
+ * <li style='margin-bottom: 0.5em'> Unary minus signs can be collapsed or
+ * preserved; that is, sequential pairs of unary minuses (e.g., &quot;<code>-
+ * -3</code>&quot;) can be removed from the input entirely and single unary
+ * minuses can be incorporated into the number node, or all minuses can be
+ * preserved in the AST node structure.
+ <p>
+ * <li style='margin-bottom: 0.5em'> Parsing of units embedded in the input
+ * string can be turned on and off.
+ <p>
+ * <li style='margin-bottom: 0.5em'> The string <code>avogadro</code> can be parsed as
+ * a MathML <em>csymbol</em> or as an identifier.
+ <p>
+ * <li style='margin-bottom: 0.5em'> A {@link Model} object may optionally be
+ * provided to the parser using the variant function call
+ * <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> or
+ * stored in a {@link L3ParserSettings} object passed to the variant function
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.  When a {@link Model} object is provided, identifiers
+ * (values of type <code>SId</code>) from that model are used in preference to
+ * pre-defined MathML definitions for both symbols and functions.
+ * More precisely:
+ * <ul style='list-style-type: square'>
+ <p>
+ * <li style='margin-bottom: 0.5em'> <em>In the case of symbols</em>: the
+ * {@link Model} entities whose identifiers will shadow identical symbols in the
+ * mathematical formula are: {@link Species}, {@link Compartment}, {@link Parameter}, {@link Reaction}, and
+ * {@link SpeciesReference}.  For instance, if the parser is given a {@link Model} containing
+ * a {@link Species} with the identifier &quot;<code>pi</code>&quot;, and the formula
+ * to be parsed is &quot;<code>3*pi</code>&quot;, the MathML produced will
+ * contain the construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of
+ * the construct <code>&lt;pi/&gt;</code>.
+ <p>
+ * <li style='margin-bottom: 0.5em'> <em>In the case of user-defined
+ * functions</em>: when a {@link Model} object is provided, <code>SId</code> values of
+ * user-defined functions present in the model will be used preferentially
+ * over pre-defined MathML functions.  For example, if the passed-in {@link Model}
+ * contains a {@link FunctionDefinition} object with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
+ * </ul>
+ <p>
+ * <li style='margin-bottom: 0.5em'> An {@link SBMLNamespaces} object may optionally
+ * be provided to identify SBML Level&nbsp;3 packages that extend the
+ * syntax understood by the formula parser.  When the namespaces are provided,
+ * the parser will interpret possible additional syntax defined by the libSBML
+ * plug-ins implementing the SBML Level&nbsp;3 packages; for example, it may
+ * understand vector/array extensions introduced by the SBML Level&nbsp;3 
+ * <em>Arrays</em> package.
+ * </ul>
+ <p>
+ * These configuration settings cannot be changed directly using the basic
+ * parser and formatter functions, but <em>can</em> be changed on a per-call basis
+ * by using the alternative functions <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> and
+ * <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>.
+ <p>
+ * Neither SBML nor the MathML standard define a 'string-form' equivalent to
+ * MathML expressions.  The approach taken by libSBML is to start with the
+ * formula syntax defined by SBML Level&nbsp;1 (which in fact used a custom
+ * text-string representation of formulas, and not MathML), and expand it to
+ * include the functionality described above.  This formula syntax is based
+ * mostly on C programming syntax, and may contain operators, function calls,
+ * symbols, and white space characters.  The following table provides the
+ * precedence rules for the different entities that may appear in formula
+ * strings.
+ <p>
+ * <table border="0" width="95%"
+       class="centered text-table normal-font alt-row-colors"
+       style="padding-bottom: 0.5em">
+ <tr style="background: lightgray; font-size: 14px;">
+     <th align="left">Token</th>
+     <th align="left">Operation</th>
+     <th align="left">Class</th>
+     <th>Precedence</th>
+     <th align="left">Associates</th>
+ </tr>
+<tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
+<tr><td><code>(</code><em>expression</em><code>)</code></td><td>expression grouping</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
+<tr><td><code>f(</code><em>...</em><code>)</code></td><td>function call</td><td>prefix</td><td align="center">8</td><td>left</td></tr>
+<tr><td><code>^</code></td><td>power</td><td>binary</td><td align="center">7</td><td>left</td></tr>
+<tr><td><code>-, !</code></td><td>negation and boolean 'not'</td><td>unary</td><td align="center">6</td><td>right</td></tr>
+<tr><td><code>*, /, %</code></td><td>multiplication, division, and modulo</td><td>binary</td><td align="center">5</td><td>left</td></tr>
+<tr><td><code>+, -</code></td><td>addition and subtraction</td><td>binary</td><td align="center">4</td><td>left</td></tr>
+<tr><td><code>==, &lt;, &gt;, &lt=, &gt=, !=</code></td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align="center">3</td><td>left</td></tr>
+<tr><td><code>&&, ||</code></td><td>boolean 'and' and 'or'</td><td>binary</td><td align="center">2</td><td>left</td></tr>
+<tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align="center">1</td><td>left</td></tr>
+
+<caption class="top-caption">Expression operators and their precedence in the
+"Level&nbsp;3" text-string format for mathematical expressions.
+</caption>
+</table>
+
+
+ <p>
+ * In the table above, <em>operand</em> implies the construct is an operand, 
+ * <em>prefix</em> implies the operation is applied to the following arguments, 
+ * <em>unary</em> implies there is one argument, and <em>binary</em> implies there are
+ * two arguments.  The values in the <b>Precedence</b> column show how the
+ * order of different types of operation are determined.  For example, the
+ * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code>
+ * because the @c * operator has higher precedence.  The
+ * <b>Associates</b> column shows how the order of similar precedence
+ * operations is determined; for example, <code>a && b || c</code> is
+ * evaluated as <code>(a && b) || c</code> because the <code>&&</code> and <code>||</code>
+ * operators are left-associative and have the same precedence.
+ <p>
+ * The function call syntax consists of a function name, followed by optional
+ * white space, followed by an opening parenthesis token, followed by a
+ * sequence of zero or more arguments separated by commas (with each comma
+ * optionally preceded and/or followed by zero or more white space
+ * characters), followed by a closing parenthesis token.  The function name
+ * must be chosen from one of the pre-defined functions in SBML or a
+ * user-defined function in the model.  The following table lists the names
+ * of certain common mathematical functions; this table corresponds to
+ * Table&nbsp;6 in the <a target='_blank'
+ * href='http://sbml.org/Documents/Specifications#SBML_Level_1_Version_2'>SBML
+ * Level&nbsp;1 Version&nbsp;2 specification</a> with additions based on the
+ * functions added in SBML Level 2 and Level 3:
+ <p>
+ * <table border="0" width="95%" 
+       class="centered text-table normal-font alt-row-colors">
+ <tr>
+     <th align="left" width="60">Name</th>
+     <th align="left" width="75">Argument(s)</th>
+     <th align="left">Formula or meaning</th>
+     <th align="left" width="90">Argument Constraints</th>
+     <th align="left" width="90">Result constraints</th>
+ </tr>
+<tr><td><code>abs</code></td>   
+    <td><em>x</em></td> 
+    <td>Absolute value of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acos</code>, <code>arccos</code></td>
+    <td><em>x</em></td>
+    <td>Arccosine of <em>x</em> in radians.</td>
+    <td>&ndash;1.0 &le; <em>x</em> &le; 1.0</td>
+    <td>0 &le; <em>acos(x)</em> &le; &pi;</td>
+</tr>
+<tr><td><code>acosh</code>, <code>arccosh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arccosine of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acot</code>, <code>arccot</code></td>
+    <td><em>x</em></td>
+    <td>Arccotangent of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acoth</code>, <code>arccoth</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arccotangent of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acsc</code>, <code>arccsc</code></td>
+    <td><em>x</em></td>
+    <td>Arccosecant of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>acsch</code>, <code>arccsch</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arccosecant of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>asec</code>, <code>arcsec</code></td>
+    <td><em>x</em></td>
+    <td>Arcsecant of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>asech</code>, <code>arcsech</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arcsecant of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>asin</code>, <code>arcsin</code></td>
+    <td><em>x</em></td><td>Arcsine of <em>x</em> in radians.</td>
+    <td>&ndash;1.0 &le; <em>x</em> &le; 1.0</td>
+    <td>0 &le; <em>asin(x)</em> &le; &pi;</td>
+</tr>
+<tr><td><code>atan</code>, <code>arctan</code></td>
+    <td><em>x</em></td>
+    <td>Arctangent of <em>x</em> in radians.</td>
+    <td></td>
+    <td>0 &le; <em>atan(x)</em> &le; &pi;</td>
+</tr>
+<tr><td><code>atanh</code>, <code>arctanh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic arctangent of <em>x</em> in radians.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>ceil</code>, <code>ceiling</code></td>
+    <td><em>x</em></td>
+    <td>Smallest number not less than <em>x</em> whose value is an exact integer.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>cos</code></td>
+    <td><em>x</em></td>
+    <td>Cosine of <em>x</em></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>cosh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic cosine of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>cot</code></td>
+    <td><em>x</em></td>
+    <td>Cotangent of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>coth</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic cotangent of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>csc</code></td>
+    <td><em>x</em></td>
+    <td>Cosecant of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>csch</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic cosecant of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>delay</code></td>
+    <td><em>x, y</em></td>
+    <td>The value of <em>x</em> at <em>y</em> time units in the past.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>factorial</code></td>
+    <td><em>n</em></td>
+    <td>The factorial of <em>n</em>. Factorials are defined by <em>n! = n*(n&ndash;1)* ... * 1</em>.</td>
+    <td><em>n</em> must be an integer.</td>
+    <td></td>
+</tr>
+<tr><td><code>exp</code></td>
+    <td><em>x</em></td>
+    <td><em>e</em><sup><em> x</em></sup>, where <em>e</em> is the base of the natural logarithm.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>floor</code></td>
+    <td><em>x</em></td>
+    <td>The largest number not greater than <em>x</em> whose value is an exact integer.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>ln</code></td>
+    <td><em>x</em></td>
+    <td>Natural logarithm of <em>x</em>.</td>
+    <td><em>x</em> &gt; 0</td>
+    <td></td>
+</tr>
+<tr><td><code>log</code></td>
+    <td><em>x</em></td>
+    <td>By default, the base 10 logarithm of <em>x</em>, but can be set to be the natural logarithm of <em>x</em>, or to be an illegal construct.</td>
+    <td><em>x</em> &gt; 0</td>
+    <td></td>
+</tr>
+<tr><td><code>log</code></td>
+    <td><em>x, y</em></td>
+    <td>The base <em>x</em> logarithm of <em>y</em>.</td>
+    <td><em>y</em> &gt; 0</td>
+    <td></td>
+</tr>
+<tr><td><code>log10</code></td>
+    <td><em>x</em></td>
+    <td>Base 10 logarithm of <em>x</em>.</td>
+    <td><em>x</em> &gt; 0</td>
+    <td></td>
+</tr>
+<tr><td><code>piecewise</code></td>
+    <td><em>x1, y1, [x2, y2,] [...] [z]</em></td>
+    <td>A piecewise function: if (<em>y1</em>), <em>x1</em>.  Otherwise, if (<em>y2</em>), <em>x2</em>, etc.  Otherwise, z. </td>
+    <td><em>y1, y2, y3 [etc]</em> must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>pow</code>, <code>power</code> </td>
+    <td><em>x, y</em></td>
+    <td><em>x</em><sup><em> y</em></sup>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>root</code></td>
+    <td><em>b, x</em></td>
+    <td>The root base <em>b</em> of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sec</code></td>
+    <td><em>x</em></td>
+    <td>Secant of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sech</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic secant of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sqr</code></td>
+    <td><em>x</em></td>
+    <td><em>x</em><sup><em>2</em></sup>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sqrt</code></td>
+    <td><em>x</em></td>
+    <td>&radic;<em>x</em>.</td>
+    <td><em>x</em> &gt; 0</td>
+    <td><em>sqrt(x)</em> &ge; 0</td>
+</tr>
+<tr><td><code>sin</code></td>
+    <td><em>x</em></td>
+    <td>Sine of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>sinh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic sine of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>tan</code></td>
+    <td><em>x</em></td>
+    <td>Tangent of <em>x</em>.</td>
+    <td>x &ne; n*&pi;/2, for odd integer <em>n</em></td>
+    <td></td>
+</tr>
+<tr><td><code>tanh</code></td>
+    <td><em>x</em></td>
+    <td>Hyperbolic tangent of <em>x</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>and</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>and(x, y, z...)</em>: returns <code>true</code> if all of its arguments are true.  Note that <code>and</code> is an n-ary function, taking 0 or more arguments, and that <code>and()</code> returns <code>true</code>.</td>
+    <td>All arguments must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>not</code></td>
+    <td><em>x</em></td>
+    <td>Boolean <em>not(x)</em></td>
+    <td><em>x</em> must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>or</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>or(x, y, z...)</em>: returns <code>true</code> if at least one of its arguments is true.  Note that <code>or</code> is an n-ary function, taking 0 or more arguments, and that <code>or()</code> returns <code>false</code>.</td>
+    <td>All arguments must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>xor</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>xor(x, y, z...)</em>: returns <code>true</code> if an odd number of its arguments is true.  Note that <code>xor</code> is an n-ary function, taking 0 or more arguments, and that <code>xor()</code> returns <code>false</code>.</td>
+    <td>All arguments must be boolean</td>
+    <td></td>
+</tr>
+<tr><td><code>eq</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>eq(x, y, z...)</em>: returns <code>true</code> if all arguments are equal.  Note that <code>eq</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>geq</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>geq(x, y, z...)</em>: returns <code>true</code> if each argument is greater than or equal to the argument following it.  Note that <code>geq</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>gt</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>gt(x, y, z...)</em>: returns <code>true</code> if each argument is greater than the argument following it.  Note that <code>gt</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>leq</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>leq(x, y, z...)</em>: returns <code>true</code> if each argument is less than or equal to the argument following it.  Note that <code>leq</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>lt</code></td>
+    <td><em>x, y, z...</em></td>
+    <td>Boolean <em>lt(x, y, z...)</em>: returns <code>true</code> if each argument is less than the argument following it.  Note that <code>lt</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>neq</code></td>
+    <td><em>x, y</em></td>
+    <td>Boolean <em>x</em> != <em>y</em>: returns <code>true</code> unless x and y are equal.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>plus</code></td>
+    <td><em>x, y, z...</em></td>
+    <td><em>x</em> + <em>y</em> + <em>z</em> + <em>...</em>: The sum of the arguments of the function.  Note that <code>plus</code> is an n-ary function taking 0 or more arguments, and that <code>plus()</code> returns <code>0</code>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>times</code></td>
+    <td><em>x, y, z...</em></td>
+    <td><em>x</em> * <em>y</em> * <em>z</em> * <em>...</em>: The product of the arguments of the function.  Note that <code>times</code> is an n-ary function taking 0 or more arguments, and that <code>times()</code> returns <code>1</code>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>minus</code></td>
+    <td><em>x, y</em></td>
+    <td><em>x</em> &ndash; <em>y</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td><code>divide</code></td>
+    <td><em>x, y</em></td>
+    <td><em>x</em> / <em>y</em>.</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<caption class="top-caption">Mathematical functions defined
+in the "Level&nbsp;3" text-string formula syntax.</caption>
+
+</table>
+
+
+ <p>
+ * Parsing of the various MathML functions and constants are all
+ * case-insensitive by default: function names such as <code>cos</code>,
+ * <code>Cos</code> and <code>COS</code> are all parsed as the MathML cosine
+ * operator, <code>&lt;cos&gt;</code>.  However, <em>when a {@link Model} object is
+ * used</em> in conjunction with either
+ * <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> or
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>, any identifiers found in that model will be
+ * parsed in a case-<em>sensitive</em> way.  For example, if a model contains
+ * a {@link Species} having the identifier <code>Pi</code>, the parser will parse
+ * &quot;<code>Pi</code>&quot; in the input as &quot;<code>&lt;ci&gt; Pi
+ * &lt;/ci&gt;</code>&quot; but will continue to parse the symbols
+ * &quot;<code>pi</code>&quot; and &quot;<code>PI</code>&quot; as
+ * &quot;<code>&lt;pi&gt;</code>&quot;.
+ <p>
+ * As mentioned above, the manner in which the 'L3' versions of the formula
+ * parser and formatter interpret the function &quot;<code>log</code>&quot;
+ * can be changed.  To do so, callers should use the function
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a> and pass it an appropriate {@link L3ParserSettings}
+ * object.  By default, unlike the SBML Level&nbsp;1 parser implemented by
+ * <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>, the string
+ * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
+ * and <em>not</em> as the natural logarithm.  However, you can change the
+ * interpretation to be base-10 log, natural log, or as an error; since the
+ * name 'log' by itself is ambiguous, you require that the parser uses 
+ * <code>log10</code> or <code>ln</code> instead, which are more clear.  Please refer to
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.
+ <p>
+ * In addition, the following symbols will be translated to their MathML
+ * equivalents, if no symbol with the same <code>SId</code> identifier string exists
+ * in the {@link Model} object provided:
+ <p>
+ * <table border="0" width="95%"
+       class="centered text-table normal-font alt-row-colors">
+ <tr>
+     <th align="left" width="60">Name</th>
+     <th align="left" width="250">Meaning</th>
+     <th align="left">MathML</th>
+ </tr>
+<tr><td><code>true</code></td>   
+    <td>The boolean value <code>true</code></td>
+    <td><code>&lt;true/&gt;</code></td>
+</tr>
+<tr><td><code>false</code></td>   
+    <td>The boolean value <code>false</code></td>
+    <td><code>&lt;false/&gt;</code></td>
+</tr>
+<tr><td><code>pi</code></td>   
+    <td>The mathematical constant pi</td>
+    <td><code>&lt;pi/&gt;</code></td>
+</tr>
+<tr><td><code>avogadro</code></td>   
+    <td>The numerical value of Avogadro's constant, as defined in the SBML specification</td>
+    <td><code style="letter-spacing: -1px">&lt;csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"&gt; avogadro &lt;/csymbol/&gt;</code></td>
+</tr>
+<tr><td><code>time</code></td>   
+    <td>Simulation time as defined in SBML</td>
+    <td><code style="letter-spacing: -1px">&lt;csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"&gt; time &lt;/csymbol/&gt;</code></td>
+</tr>
+<tr><td><code>inf</code> or <code>infinity</code></td>   
+    <td>The mathematical constant "infinity"</td>
+    <td><code>&lt;infinity/&gt;</code></td>
+</tr>
+<tr><td><code>nan</code> or <code>notanumber</code></td>   
+    <td>The mathematical concept "not a number"</td>
+    <td><code>&lt;notanumber/&gt;</code></td>
+</tr>
+
+<caption class="top-caption">Mathematical symbols defined
+in the "Level&nbsp;3" text-string formula syntax.
+</caption>
+</table>
+
+ <p>
+ * Again, as mentioned above, whether the string
+ * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
+ * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} or
+ * {@link libsbmlConstants#AST_NAME AST_NAME} is configurable; use the version of
+ * the parser function called <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.  This Avogadro-related
+ * functionality is provided because SBML Level&nbsp;2 models may not use
+ * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} AST nodes.
+ <p>
  * For more details about the parser, please see the definition of
- * {@link L3ParserSettings} and
- * <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>.
+ * {@link L3ParserSettings} and <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>.
  <p>
- <p>
- <p>
- <p>
- * @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
+ * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see L3ParserSettings
  */ public
  static L3ParserSettings getDefaultL3ParserSettings() {
     long cPtr = libsbmlJNI.getDefaultL3ParserSettings();
@@ -2090,25 +3516,20 @@ SBML_parseL3Formula() and related functions.
 
   
 /**
- * Returns the last error reported by the parser.
+ * Returns the last error reported by the 'L3' mathematical formula parser.
  <p>
- * If <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>, 
- * <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, {@link L3ParserSettings} settings)</a></code>, or
- * <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>libsbml.parseL3FormulaWithModel(String formula, {@link Model} model)</a></code> return <code>null</code>, an error is set internally which is accessible
- * via this function. 
+ * If the functions <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>,
+ * <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>, or <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> return <code>null</code>, an error is set internally.
+ * This function allows callers to retrieve information about the error.
  <p>
  * @return a string describing the error that occurred.  This will contain
- * the string the parser was trying to parse, which character it had parsed
- * when it encountered the error, and a description of the error.
+ * the input string the parser was trying to parse, the character it had
+ * parsed when it encountered the error, and a description of the error.
  <p>
- <p>
- <p>
- <p>
- * @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
+ * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#getDefaultL3ParserSettings()'><code>libsbml.getDefaultL3ParserSettings()</code></a>
  */ public
  static String getLastParseL3Error() {
     return libsbmlJNI.getLastParseL3Error();

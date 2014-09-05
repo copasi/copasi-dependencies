@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's ListOfCompartmentTypes
- * construct.
+ *  A list of {@link CompartmentType} objects.
  <p>
  * <p>
  * The various ListOf___ classes in SBML
@@ -130,9 +129,9 @@ public class ListOfCompartmentTypes extends ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this {@link ListOfCompartmentTypes} instance.
+   * Creates and returns a deep copy of this {@link ListOfCompartmentTypes} object.
    <p>
-   * @return a (deep) copy of this {@link ListOfCompartmentTypes}.
+   * @return the (deep) copy of this {@link ListOfCompartmentTypes} object.
    */ public
  ListOfCompartmentTypes cloneObject() {
     long cPtr = libsbmlJNI.ListOfCompartmentTypes_cloneObject(swigCPtr, this);
@@ -147,16 +146,16 @@ public class ListOfCompartmentTypes extends ListOf {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this {@link ListOf}
-   * instance: {@link  libsbmlConstants#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE} (default).
+   * instance: {@link libsbmlConstants#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE} (default).
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -180,11 +179,11 @@ public class ListOfCompartmentTypes extends ListOf {
 
   
 /**
-   * Get a {@link CompartmentType} from the {@link ListOfCompartmentTypes}.
+   * Get a {@link CompartmentType} object from the {@link ListOfCompartmentTypes}.
    <p>
-   * @param n the index number of the {@link CompartmentType} to get.
+   * @param n the index number of the {@link CompartmentType} object to get.
    <p>
-   * @return the nth {@link CompartmentType} in this {@link ListOfCompartmentTypes}.
+   * @return the nth {@link CompartmentType} object in this {@link ListOfCompartmentTypes}.
    <p>
    * @see #size()
    */ public
@@ -195,15 +194,15 @@ public class ListOfCompartmentTypes extends ListOf {
 
   
 /**
-   * Get a {@link CompartmentType} from the {@link ListOfCompartmentTypes}
+   * Get a {@link CompartmentType} object from the {@link ListOfCompartmentTypes}
    * based on its identifier.
    <p>
-   * @param sid a string representing the identifier 
-   * of the {@link CompartmentType} to get.
+   * @param sid a string representing the identifier
+   * of the {@link CompartmentType} object to get.
    <p>
-   * @return {@link CompartmentType} in this {@link ListOfCompartmentTypes}
+   * @return {@link CompartmentType} object in this {@link ListOfCompartmentTypes}
    * with the given <code>sid</code> or <code>null</code> if no such
-   * {@link CompartmentType} exists.
+   * {@link CompartmentType} object exists.
    <p>
    * @see #get(long n)
    * @see #size()

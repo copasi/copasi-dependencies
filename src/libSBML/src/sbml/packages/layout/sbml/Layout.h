@@ -27,8 +27,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class Layout
- * @sbmlbrief{layout} Each Layout object stores a set of layout information
- * for objects in the Model.
+ * @sbmlbrief{layout} The layout of a diagram of an SBML model.
  *
  * The Layout class stores layout information for some or all elements of the
  * SBML model as well as additional objects that need not be connected to the
@@ -70,8 +69,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 /**
  * @class ListOfCompartmentGlyphs
- * @sbmlbrief{layout} Implementation of the %ListOfCompartmentGlyphs
- * construct from the &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A list of CompartmentGlyph objects.
  * 
  * The ListOfCompartmentGlyphs is a container for the CompartmentGlyph elements of a Layout.
  * 
@@ -112,16 +110,19 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_LAYOUT_COMPARTMENTGLYPH SBML_LAYOUT_COMPARTMENTGLYPH@endlink (default).
+   * @sbmlconstant{SBML_LAYOUT_COMPARTMENTGLYPH, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const;
 
@@ -232,8 +233,7 @@ protected:
 
 /**
  * @class ListOfSpeciesGlyphs
- * @sbmlbrief{layout} Implementation of the %ListOfSpeciesGlyphs construct
- * from the &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A list of SpeciesGlyph objects.
  * 
  * The ListOfSpeciesGlyphs is a container for the SpeciesGlyph elements of a Layout.
  * 
@@ -274,16 +274,19 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_LAYOUT_SPECIESGLYPH SBML_LAYOUT_SPECIESGLYPH@endlink (default).
+   * @sbmlconstant{SBML_LAYOUT_SPECIESGLYPH, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const;
 
@@ -393,8 +396,7 @@ protected:
 
 /**
  * @class ListOfReactionGlyphs
- * @sbmlbrief{layout} Implementation of the %ListOfReactionGlyphs construct
- * from the &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A list of ReactionGlyph objects.
  * 
  * The ListOfReactionGlyphs is a container for the ReactionGlyph elements of a Layout.
  * 
@@ -435,16 +437,19 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_LAYOUT_REACTIONGLYPH SBML_LAYOUT_REACTIONGLYPH@endlink (default).
+   * @sbmlconstant{SBML_LAYOUT_REACTIONGLYPH, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const;
 
@@ -554,8 +559,7 @@ protected:
 
 /**
  * @class ListOfTextGlyphs
- * @sbmlbrief{layout} Implementation of the %ListOfTextGlyphs construct from
- * the &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A list of TextGlyph objects.
  * 
  * The ListOfTextGlyphs is a container for the TextGlyph elements of a Layout.
  * 
@@ -596,16 +600,19 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_LAYOUT_TEXTGLYPH SBML_LAYOUT_TEXTGLYPH@endlink (default).
+   * @sbmlconstant{SBML_LAYOUT_TEXTGLYPH, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const;
 
@@ -1361,8 +1368,11 @@ public:
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const ;
+
 
   /**
    * Creates and returns a deep copy of this Layout.
@@ -1378,7 +1388,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_LAYOUT SBML_LAYOUT_LAYOUT@endlink
+   * @sbmlconstant{SBML_LAYOUT_LAYOUT, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -1499,8 +1509,7 @@ protected:
 
 /**
  * @class ListOfLayouts
- * @sbmlbrief{layout} Implementation of the * %ListOfLayouts construct from
- * the &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A list of Layout objects.
  * 
  * The ListOfLayouts is a container for the Layout elements of an extended Model element.
  * 
@@ -1541,16 +1550,19 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_LAYOUT_LAYOUT SBML_LAYOUT_LAYOUT@endlink (default).
+   * @sbmlconstant{SBML_LAYOUT_LAYOUT, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const;
 

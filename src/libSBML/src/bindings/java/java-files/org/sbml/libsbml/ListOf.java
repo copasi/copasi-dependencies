@@ -67,7 +67,7 @@ defined in SBML.
  * @see ListOfRules
  * @see ListOfConstraints
  * @see ListOfReactions
- * @see ListOfEvents 
+ * @see ListOfEvents
  */
 
 public class ListOf extends SBase {
@@ -122,6 +122,30 @@ public class ListOf extends SBase {
    * @param version the Version within the SBML Level; if not assigned,
    * defaults to the value of {@link SBMLDocument#getDefaultVersion()}.
    <p>
+   * <p>
+ * @note Bare {@link ListOf} objects are
+ * impossible to add to SBML models.  The {@link ListOf}
+ * class is simply the base
+ * of <em>other</em> classes in
+ * libSBML.  Calling programs are not intended to create bare {@link ListOf}
+ * objects themselves.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+   <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
 The native C++ implementation of this method defines a default argument
@@ -150,6 +174,30 @@ appears in the documentation.
    <p>
    * @param version the Version within the SBML Level; if not assigned,
    * defaults to the value of {@link SBMLDocument#getDefaultVersion()}.
+   <p>
+   * <p>
+ * @note Bare {@link ListOf} objects are
+ * impossible to add to SBML models.  The {@link ListOf}
+ * class is simply the base
+ * of <em>other</em> classes in
+ * libSBML.  Calling programs are not intended to create bare {@link ListOf}
+ * objects themselves.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -180,6 +228,30 @@ appears in the documentation.
    * @param version the Version within the SBML Level; if not assigned,
    * defaults to the value of {@link SBMLDocument#getDefaultVersion()}.
    <p>
+   * <p>
+ * @note Bare {@link ListOf} objects are
+ * impossible to add to SBML models.  The {@link ListOf}
+ * class is simply the base
+ * of <em>other</em> classes in
+ * libSBML.  Calling programs are not intended to create bare {@link ListOf}
+ * objects themselves.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+   <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
 The native C++ implementation of this method defines a default argument
@@ -201,10 +273,34 @@ appears in the documentation.
 
   
 /**
-   * Creates a new {@link ListOf} with {@link SBMLNamespaces} object.
+   * Creates a new {@link ListOf} with a given {@link SBMLNamespaces} object.
    <p>
    * @param sbmlns the set of SBML namespaces that this {@link ListOf} should
    * contain.
+   <p>
+   * <p>
+ * @note Bare {@link ListOf} objects are
+ * impossible to add to SBML models.  The {@link ListOf}
+ * class is simply the base
+ * of <em>other</em> classes in
+ * libSBML.  Calling programs are not intended to create bare {@link ListOf}
+ * objects themselves.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  ListOf(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_ListOf__SWIG_3(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -222,9 +318,9 @@ appears in the documentation.
 
   
 /**
-   * Creates and returns a deep copy of this {@link ListOf}.
+   * Creates and returns a deep copy of this {@link ListOf} object.
    <p>
-   * @return a (deep) copy of this {@link ListOf}.
+   * @return the (deep) copy of this {@link ListOf} object.
    */ public
  ListOf cloneObject() {
     long cPtr = libsbmlJNI.ListOf_cloneObject(swigCPtr, this);
@@ -238,10 +334,18 @@ appears in the documentation.
    * This method makes a clone of the <code>item</code> handed to it.  This means that
    * when the {@link ListOf} object is destroyed, the original items will not be
    * destroyed.  For a method with an alternative ownership behavior, see the
-   * {@link ListOf#appendAndOwn(SBase item)} method.
+   * {@link ListOf#appendAndOwn(SBase)} method.
    <p>
    * @param item the item to be added to the list.
    <p>
+   * @return integer value indicating success/failure of the
+   * function.   The possible values
+   * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   *
+   * </ul> <p>
    * @see #appendAndOwn(SBase item)
    * @see #appendFrom(ListOf list)
    */ public
@@ -260,6 +364,14 @@ appears in the documentation.
    <p>
    * @param item the item to be added to the list.
    <p>
+   * @return integer value indicating success/failure of the
+   * function.   The possible values
+   * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   *
+   * </ul> <p>
    * @see #append(SBase item)
    * @see #appendFrom(ListOf list)
    */ public
@@ -276,6 +388,14 @@ appears in the documentation.
    <p>
    * @param list a list of items to be added.
    <p>
+   * @return integer value indicating success/failure of the
+   * function.   The possible values
+   * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   *
+   * </ul> <p>
    * @see #append(SBase item)
    * @see #appendAndOwn(SBase item)
    */ public
@@ -288,13 +408,20 @@ appears in the documentation.
    * Inserts an item at a given position in this {@link ListOf}'s list of items.
    <p>
    * This variant of the method makes a clone of the <code>item</code> handed to it.
-   * This means that when the {@link ListOf} is destroyed, the original items will
-   * not be destroyed.  For an alternative method with different ownership
-   * behavior, see insertAndOwn(int location, {@link SBase} item).
+   * This means that when the {@link ListOf} is destroyed, the original <code>item</code> will
+   * <em>not</em> be destroyed.
    <p>
    * @param location the location in the list where to insert the item.
    * @param item the item to be inserted to the list.
    <p>
+   * @return integer value indicating success/failure of the
+   * function.   The possible values
+   * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   *
+   * </ul> <p>
    * @see #insertAndOwn(int location, SBase item)
    */ public
  int insert(int location, SBase item) {
@@ -305,13 +432,21 @@ appears in the documentation.
 /**
    * Inserts an item at a given position in this {@link ListOf}'s list of items.
    <p>
-   * This variant of the method makes a clone of the <code>item</code> handet to it.
-   * This means that when the {@link ListOf} is destroyed, the original items will
-   * not be destroyed.
+   * This variant of the method makes a clone of the <code>item</code> handed to it.
+   * This means that when the {@link ListOf} is destroyed, the original <code>item</code>
+   * <em>will</em> be destroyed.
    <p>
    * @param location the location where to insert the item
    * @param item the item to be inserted to the list
    <p>
+   * @return integer value indicating success/failure of the
+   * function.   The possible values
+   * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   *
+   * </ul> <p>
    * @see #insert(int location, SBase item)
    */ public
  int insertAndOwn(int location, SBase item) {
@@ -324,7 +459,8 @@ appears in the documentation.
    <p>
    * @param n the index number of the item to get.
    <p>
-   * @return the nth item in this {@link ListOf} items.
+   * @return the <em>n</em>th item in this {@link ListOf} items, or a null pointer if
+   * the index number <code>n</code> refers to a nonexistent position in this list.
    <p>
    * @see #size()
    */ public
@@ -337,9 +473,10 @@ appears in the documentation.
    * Returns the first child element found that has the given identifier.
    <p>
    * This method searches this {@link ListOf}'s list of items for SBML objects based
-   * on their 'id' attribute value in the model-wide SId namespace.
+   * on their 'id' attribute value in the model-wide <code>SId</code>
+   * identifier namespace.
    <p>
-   * @param id string representing the id of objects to find.
+   * @param id string representing the id of the object to find.
    <p>
    * @return the first element found with the given <code>id</code>, or <code>null</code> if no
    * such object is found.
@@ -350,9 +487,10 @@ appears in the documentation.
 
   
 /**
-   * Returns the first child element found with the given <code>metaid</code>.
+   * Returns the first child element found with the given meta-identifier.
    <p>
-   * @param metaid string representing the metaid of objects to find
+   * @param metaid string representing the 'metaid' attribute of the object
+   * to find.
    <p>
    * @return the first element found with the given <code>metaid</code>, or <code>null</code> if
    * no such object is found.
@@ -368,9 +506,9 @@ appears in the documentation.
    * If parameter <code>doDelete</code> is <code>true</code> (default), all items in this {@link ListOf}
    * object are deleted and cleared, and thus the caller doesn't have to
    * delete those items.  Otherwise, all items are cleared only from this
-   * {@link ListOf} object; the caller is still responsible for deleting all items.
-   * (In the latter case, callers are advised to store pointers to all items
-   * elsewhere before calling this function.)
+   * {@link ListOf} object; the caller is still responsible for deleting the actual
+   * items.  (In the latter case, callers are advised to store pointers to
+   * all items elsewhere before calling this function.)
    <p>
    * @param doDelete if <code>true</code> (default), all items are deleted and cleared.
    * Otherwise, all items are just cleared and not deleted.
@@ -401,9 +539,9 @@ appears in the documentation.
    * If parameter <code>doDelete</code> is <code>true</code> (default), all items in this {@link ListOf}
    * object are deleted and cleared, and thus the caller doesn't have to
    * delete those items.  Otherwise, all items are cleared only from this
-   * {@link ListOf} object; the caller is still responsible for deleting all items.
-   * (In the latter case, callers are advised to store pointers to all items
-   * elsewhere before calling this function.)
+   * {@link ListOf} object; the caller is still responsible for deleting the actual
+   * items.  (In the latter case, callers are advised to store pointers to
+   * all items elsewhere before calling this function.)
    <p>
    * @param doDelete if <code>true</code> (default), all items are deleted and cleared.
    * Otherwise, all items are just cleared and not deleted.
@@ -429,18 +567,18 @@ appears in the documentation.
 
   
 /**
-   * Because {@link ListOf} objects typically live as object children of their parent
-   * object and not as pointer children, this function clears itself, but
-   * does not attempt to do anything else.
+   * Removes all items in this {@link ListOf} object and deletes its properties too.
    <p>
-   * If a particular {@link ListOf} subclass does indeed exist as a pointer only,
-   * this function will need to be overridden.
+   * This performs a call to clear() with an argument of <code>true</code> (thus removing
+   * all the child objects in the list), followed by calls to various libSBML
+   * <code>unset<em>Foo</em></code> methods to delete everything else: {@link CVTerm}
+   * objects, model history objects, etc.
    <p>
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int removeFromParentAndDelete() {
@@ -449,7 +587,8 @@ appears in the documentation.
 
   
 /**
-   * Removes the <em>n</em>th item from this {@link ListOf} items and returns it.
+   * Removes the <em>n</em>th item from this {@link ListOf} list of items and returns
+   * it.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
    <p>
@@ -481,7 +620,6 @@ appears in the documentation.
    * Basically, this function needs to be called in
    * constructor, copy constructor and assignment operator.
    <p>
-   <p>
    * @internal
    */ public
  void connectToChild() {
@@ -491,21 +629,21 @@ appears in the documentation.
   
 /**
    * Returns the libSBML type code for this object, namely,
-   * {@link  libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}.
+   * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}.
    <p>
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_LIST_OF SBML_LIST_OF} (default).
+   * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF} (default).
    <p>
    * @note The various {@link ListOf} classes mostly differ from each other in what they
    * contain.  Hence, one must call getItemTypeCode() to fully determine the
@@ -532,21 +670,21 @@ appears in the documentation.
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
-   * Classes that inherit from the {@link ListOf} class should 
-   * override this function to return the SBML type code for 
-   * the objects contained in this {@link ListOf}.  If they do not, 
-   * {@link  libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN} is returned.
+   * Classes that inherit from the {@link ListOf} class should override this method
+   * to return the SBML type code for the objects contained in this {@link ListOf}.
+   * If they do not, this method will return
+   * {@link libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN}
    <p>
-   * @return The {@link ListOf} class itself contains no SBML objects, and 
-   * therefore returns {@link  libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN}.
+   * @return The {@link ListOf} base class contains no SBML objects, and therefore
+   * this method returns {@link libsbmlConstants#SBML_UNKNOWN SBML_UNKNOWN}.
    <p>
    * @see #getElementName()
    * @see #getPackageName()

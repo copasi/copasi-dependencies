@@ -27,7 +27,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class BoundingBox
- * @sbmlbrief{layout} Representation of a bounding box.
+ * @sbmlbrief{layout} A bounding box for an item in a diagram.
  */
 
 #ifndef BoundingBox_H__
@@ -327,6 +327,8 @@ public:
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element.
    */
   virtual const std::string& getElementName () const ;
 
@@ -344,7 +346,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_BOUNDINGBOX SBML_LAYOUT_BOUNDINGBOX@endlink
+   * @sbmlconstant{SBML_LAYOUT_BOUNDINGBOX, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *

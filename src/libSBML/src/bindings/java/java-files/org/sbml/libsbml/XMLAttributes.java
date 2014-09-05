@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Representation of attributes on an XML node.
+ *  An attribute on an XML node.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -127,7 +127,7 @@ public class XMLAttributes {
    <p>
    * <code>orig</code> the {@link XMLAttributes} object to copy.
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  XMLAttributes(XMLAttributes orig) throws org.sbml.libsbml.XMLConstructorException {
@@ -136,9 +136,9 @@ public class XMLAttributes {
 
   
 /**
-   * Creates and returns a deep copy of this {@link XMLAttributes} set.
+   * Creates and returns a deep copy of this {@link XMLAttributes} object.
    <p>
-   * @return a (deep) copy of this {@link XMLAttributes} set.
+   * @return the (deep) copy of this {@link XMLAttributes} object.
    */ public
  XMLAttributes cloneObject() {
     long cPtr = libsbmlJNI.XMLAttributes_cloneObject(swigCPtr, this);
@@ -159,7 +159,7 @@ public class XMLAttributes {
    * function.  The possible values returned by this
    * function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @note if local name with the same namespace URI already exists in this 
@@ -198,7 +198,7 @@ appears in the documentation.
    * function.  The possible values returned by this
    * function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @note if local name with the same namespace URI already exists in this 
@@ -237,7 +237,7 @@ appears in the documentation.
    * function.  The possible values returned by this
    * function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @note if local name with the same namespace URI already exists in this 
@@ -276,7 +276,7 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int add(XMLTriple triple, String value) {
@@ -292,8 +292,8 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int removeResource(int n) {
@@ -303,7 +303,7 @@ appears in the documentation.
   
 /**
    * Removes an attribute with the given index from this {@link XMLAttributes} set.  
-   * (This function is an alias of {@link XMLAttributes#removeResource(int n)} ).
+   * (This function is an alias of {@link XMLAttributes#removeResource(int)} ).
    <p>
    * @param n an integer the index of the resource to be deleted
    <p>
@@ -311,8 +311,8 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int remove(int n) {
@@ -331,8 +331,8 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int remove(String name, String uri) {
@@ -351,8 +351,8 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int remove(String name) {
@@ -369,8 +369,8 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int remove(XMLTriple triple) {
@@ -385,7 +385,7 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int clear() {
@@ -399,8 +399,8 @@ appears in the documentation.
    * @note A namespace bound to the name is not checked by this function.
    * Thus, if there are multiple attributes with the given local name and
    * different namespaces, the smallest index among those attributes will
-   * be returned.  {@link XMLAttributes#getIndex(String name, String uri)} const or
-   * {@link XMLAttributes#getIndex(XMLTriple triple)} const should be used to get an index of an
+   * be returned.  {@link XMLAttributes#getIndex(String name, String uri)} or
+   * {@link XMLAttributes#getIndex(XMLTriple triple)} should be used to get an index of an
    * attribute with the given local name and namespace.
    <p>
    * @param name a string, the local name of the attribute for which the 
@@ -472,7 +472,7 @@ appears in the documentation.
    * @return the local name of an attribute in this list (by position).  
    <p>
    * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(int index)} const to test for the attribute
+   * {@link XMLAttributes#hasAttribute(int index)} to test for the attribute
    * existence.
    */ public
  String getName(int index) {
@@ -490,7 +490,7 @@ appears in the documentation.
    * position).  
    <p>
    * @note If index is out of range, an empty string will be returned. Use
-   * {@link XMLAttributes#hasAttribute(int index)} const to test for the attribute
+   * {@link XMLAttributes#hasAttribute(int index)} to test for the attribute
    * existence.
    */ public
  String getPrefix(int index) {
@@ -508,7 +508,7 @@ appears in the documentation.
    * position).  
    <p>
    * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(int index)} const to test for attribute existence.
+   * {@link XMLAttributes#hasAttribute(int index)} to test for attribute existence.
    */ public
  String getPrefixedName(int index) {
     return libsbmlJNI.XMLAttributes_getPrefixedName(swigCPtr, this, index);
@@ -524,7 +524,7 @@ appears in the documentation.
    * @return the namespace URI of an attribute in this list (by position).
    <p>
    * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(int index)} const to test for attribute existence.
+   * {@link XMLAttributes#hasAttribute(int index)} to test for attribute existence.
    */ public
  String getURI(int index) {
     return libsbmlJNI.XMLAttributes_getURI(swigCPtr, this, index);
@@ -540,7 +540,7 @@ appears in the documentation.
    * @return the value of an attribute in the list (by position).  
    <p>
    * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(int index)} const to test for attribute existence.
+   * {@link XMLAttributes#hasAttribute(int index)} to test for attribute existence.
    */ public
  String getValue(int index) {
     return libsbmlJNI.XMLAttributes_getValue__SWIG_0(swigCPtr, this, index);
@@ -561,8 +561,8 @@ appears in the documentation.
    * is not checked by this function.  Thus, if there are multiple
    * attributes with the given local name and different namespaces, the
    * value of an attribute with the smallest index among those attributes
-   * will be returned.  {@link XMLAttributes#getValue(String name)} const or
-   * {@link XMLAttributes#getValue(XMLTriple triple)} const should be used to get a value of an
+   * will be returned.  {@link XMLAttributes#getValue(String name)} or
+   * {@link XMLAttributes#getValue(XMLTriple triple)} should be used to get a value of an
    * attribute with the given local name and namespace.
    */ public
  String getValue(String name) {
@@ -598,7 +598,7 @@ appears in the documentation.
    <p>
    * @note If an attribute with the given {@link XMLTriple} does not exist, an
    * empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(XMLTriple triple)} const to test for attribute existence.
+   * {@link XMLAttributes#hasAttribute(XMLTriple triple)} to test for attribute existence.
    */ public
  String getValue(XMLTriple triple) {
     return libsbmlJNI.XMLAttributes_getValue__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple);

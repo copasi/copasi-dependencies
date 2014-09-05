@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Methods for interacting with Systems Biology Ontology
- * terms.
+ *  Facilities for using the Systems Biology Ontology.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct

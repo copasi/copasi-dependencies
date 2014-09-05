@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Representation of a node in an XML document tree.
+@htmlinclude pkg-marker-core.html A node in libSBML's XML document tree.
  * 
  * Beginning with version 3.0.0, libSBML implements an XML abstraction
  * layer.  This layer presents a uniform XML interface to calling programs
@@ -24,7 +24,7 @@ namespace libsbmlcs {
  *
  * An XMLNode can contain any number of children.  Each child is another
  * XMLNode, thereby forming a tree.  The methods XMLNode::getNumChildren()
- * and XMLNode::getChild(@if java long n@endif) can be used to access the tree
+ * and XMLNode::getChild(@if java long@endif) can be used to access the tree
  * structure starting from a given node.
  *
  * Each XMLNode is subclassed from XMLToken, and thus has the same methods
@@ -40,16 +40,16 @@ namespace libsbmlcs {
  * <ul>
  * <li> XMLNode::toXMLString() returns a string representation of the XMLNode object. 
  *
- * <li> XMLNode::convertXMLNodeToString(@if java XMLNode node@endif)
+ * <li> XMLNode::convertXMLNodeToString(@if java XMLNode@endif)
  * (static function) returns a string representation 
  * of the given XMLNode object.
  *
- * <li> XMLNode::convertStringToXMLNode(@if java String xml@endif)
+ * <li> XMLNode::convertStringToXMLNode(@if java String@endif)
  * (static function) returns an XMLNode object converted 
  * from the given XML string.
  * </ul>
  *
- * The returned XMLNode object by XMLNode::convertStringToXMLNode(@if java String xml@endif)
+ * The returned XMLNode object by XMLNode::convertStringToXMLNode(@if java String@endif)
  * is a dummy root (container) XMLNode if the given XML string has two or
  * more top-level elements (e.g.,
  * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In the
@@ -234,7 +234,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces, long line, long column) : this(libsbmlPINVOKE.new_XMLNode__SWIG_2(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), XMLNamespaces.getCPtr(namespaces), line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -251,7 +251,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces, long line) : this(libsbmlPINVOKE.new_XMLNode__SWIG_3(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), XMLNamespaces.getCPtr(namespaces), line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -268,7 +268,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces) : this(libsbmlPINVOKE.new_XMLNode__SWIG_4(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), XMLNamespaces.getCPtr(namespaces)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -283,7 +283,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
   */ public
  XMLNode(XMLTriple triple, XMLAttributes attributes, long line, long column) : this(libsbmlPINVOKE.new_XMLNode__SWIG_5(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -298,7 +298,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
   */ public
  XMLNode(XMLTriple triple, XMLAttributes attributes, long line) : this(libsbmlPINVOKE.new_XMLNode__SWIG_6(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -313,7 +313,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
   */ public
  XMLNode(XMLTriple triple, XMLAttributes attributes) : this(libsbmlPINVOKE.new_XMLNode__SWIG_7(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -327,7 +327,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLNode(XMLTriple triple, long line, long column) : this(libsbmlPINVOKE.new_XMLNode__SWIG_8(XMLTriple.getCPtr(triple), line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -341,7 +341,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLNode(XMLTriple triple, long line) : this(libsbmlPINVOKE.new_XMLNode__SWIG_9(XMLTriple.getCPtr(triple), line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -355,7 +355,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLNode(XMLTriple triple) : this(libsbmlPINVOKE.new_XMLNode__SWIG_10(XMLTriple.getCPtr(triple)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -369,7 +369,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLNode(string chars, long line, long column) : this(libsbmlPINVOKE.new_XMLNode__SWIG_11(chars, line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -383,7 +383,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLNode(string chars, long line) : this(libsbmlPINVOKE.new_XMLNode__SWIG_12(chars, line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -397,7 +397,7 @@ public class XMLNode : XMLToken {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLNode(string chars) : this(libsbmlPINVOKE.new_XMLNode__SWIG_13(chars), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -423,7 +423,7 @@ public class XMLNode : XMLToken {
    * 
    * @param orig the XMLNode instance to copy.
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  XMLNode(XMLNode orig) : this(libsbmlPINVOKE.new_XMLNode__SWIG_15(XMLNode.getCPtr(orig)), true) {
@@ -432,9 +432,9 @@ public class XMLNode : XMLToken {
 
   
 /**
-   * Creates and returns a deep copy of this XMLNode.
-   * 
-   * @return a (deep) copy of this XMLNode.
+   * Creates and returns a deep copy of this XMLNode object.
+   *
+   * @return the (deep) copy of this XMLNode object.
    */ public new
  XMLNode clone() {
     IntPtr cPtr = libsbmlPINVOKE.XMLNode_clone(swigCPtr);
@@ -453,8 +453,8 @@ public class XMLNode : XMLToken {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @note The given node is added at the end of the children list.
    */ public
@@ -514,7 +514,7 @@ public class XMLNode : XMLToken {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int removeChildren() {
     int ret = libsbmlPINVOKE.XMLNode_removeChildren(swigCPtr);
@@ -680,7 +680,7 @@ public class XMLNode : XMLToken {
    * @return a XMLNode which is converted from string @p xmlstr.  If the
    * conversion failed, this method returns @c null.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  static XMLNode convertStringToXMLNode(string xmlstr, XMLNamespaces xmlns) {
     IntPtr cPtr = libsbmlPINVOKE.XMLNode_convertStringToXMLNode__SWIG_0(xmlstr, XMLNamespaces.getCPtr(xmlns));
@@ -713,7 +713,7 @@ public class XMLNode : XMLToken {
    * @return a XMLNode which is converted from string @p xmlstr.  If the
    * conversion failed, this method returns @c null.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  static XMLNode convertStringToXMLNode(string xmlstr) {
     IntPtr cPtr = libsbmlPINVOKE.XMLNode_convertStringToXMLNode__SWIG_1(xmlstr);

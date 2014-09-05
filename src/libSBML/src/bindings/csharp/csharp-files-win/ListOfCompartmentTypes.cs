@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %ListOfCompartmentTypes
- * construct.
+@htmlinclude pkg-marker-core.html A list of CompartmentType objects.
  * 
  * *
  * 
@@ -124,7 +123,7 @@ public class ListOfCompartmentTypes : ListOf {
    * Level and Version combination.
    *
    * @param level the SBML Level
-   * 
+   *
    * @param version the Version within the SBML Level
    */ public
  ListOfCompartmentTypes(long level, long version) : this(libsbmlPINVOKE.new_ListOfCompartmentTypes__SWIG_0(level, version), true) {
@@ -148,9 +147,9 @@ public class ListOfCompartmentTypes : ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this ListOfCompartmentTypes instance.
+   * Creates and returns a deep copy of this ListOfCompartmentTypes object.
    *
-   * @return a (deep) copy of this ListOfCompartmentTypes.
+   * @return the (deep) copy of this ListOfCompartmentTypes object.
    */ public new
  ListOfCompartmentTypes clone() {
     IntPtr cPtr = libsbmlPINVOKE.ListOfCompartmentTypes_clone(swigCPtr);
@@ -164,10 +163,10 @@ public class ListOfCompartmentTypes : ListOf {
    * (i.e., CompartmentType objects, if the list is non-empty).
    *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -179,15 +178,15 @@ public class ListOfCompartmentTypes : ListOf {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
  *
-   * 
+ *
+   *
    * @return the SBML type code for the objects contained in this ListOf
-   * instance: @link libsbmlcs.libsbml.SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE@endlink (default).
+   * instance: @link libsbmlcs#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -203,7 +202,7 @@ public class ListOfCompartmentTypes : ListOf {
    *
    * For ListOfCompartmentTypes, the XML element name is @c
    * 'listOfCompartmentTypes'.
-   * 
+   *
    * @return the name of this element, i.e., @c 'listOfCompartmentTypes'.
    */ public new
  string getElementName() {
@@ -213,11 +212,11 @@ public class ListOfCompartmentTypes : ListOf {
 
   
 /**
-   * Get a CompartmentType from the ListOfCompartmentTypes.
+   * Get a CompartmentType object from the ListOfCompartmentTypes.
    *
-   * @param n the index number of the CompartmentType to get.
-   * 
-   * @return the nth CompartmentType in this ListOfCompartmentTypes.
+   * @param n the index number of the CompartmentType object to get.
+   *
+   * @return the nth CompartmentType object in this ListOfCompartmentTypes.
    *
    * @see size()
    */ public new
@@ -229,15 +228,15 @@ public class ListOfCompartmentTypes : ListOf {
 
   
 /**
-   * Get a CompartmentType from the ListOfCompartmentTypes
+   * Get a CompartmentType object from the ListOfCompartmentTypes
    * based on its identifier.
    *
-   * @param sid a string representing the identifier 
-   * of the CompartmentType to get.
-   * 
-   * @return CompartmentType in this ListOfCompartmentTypes
+   * @param sid a string representing the identifier
+   * of the CompartmentType object to get.
+   *
+   * @return CompartmentType object in this ListOfCompartmentTypes
    * with the given @p sid or @c null if no such
-   * CompartmentType exists.
+   * CompartmentType object exists.
    *
    * @see get(long n)
    * @see size()

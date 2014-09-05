@@ -52,8 +52,6 @@
 #include <vector>
 #include <string>
 
-//using namespace std;
-
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 class ASTBasePlugin;
@@ -90,12 +88,11 @@ public:
    */
   virtual ASTBase* deepCopy () const = 0;
 
-  void loadASTPlugins(SBMLNamespaces* sbmlns);
+  void loadASTPlugins(const SBMLNamespaces* sbmlns);
 
   /**
    * Get the type of this ASTNode.  The value returned is one of the
-   * enumeration values such as @link ASTNodeType_t#AST_LAMBDA
-   * AST_LAMBDA@endlink, @link ASTNodeType_t#AST_PLUS AST_PLUS@endlink,
+   * enumeration values such as @sbmlconstant{AST_LAMBDA, ASTNodeType_t}, @sbmlconstant{AST_PLUS, ASTNodeType_t},
    * etc.
    * 
    * @return the type of this ASTNode.
@@ -118,8 +115,8 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
   virtual int setType (ASTNodeType_t type);
 
@@ -153,6 +150,9 @@ public:
   bool isUnaryFunction() const;
   virtual bool isUnknown() const;
   bool isUserFunction() const;
+
+  virtual bool representsBvar() const;
+  int setIsBvar(bool isbvar);
 
 
   
@@ -209,7 +209,7 @@ public:
   bool isChild() const;
 
 
-  void setIsChildFlag(bool flag);
+  virtual void setIsChildFlag(bool flag);
 
   // functions for MathML attributes
   std::string getClass() const;
@@ -332,6 +332,31 @@ public:
 
   virtual bool hasCnUnits() const;
   virtual const std::string& getUnitsPrefix() const;
+  
+  /**
+   * Returns true if this is a package function which should be written as
+   * "functionname(argumentlist)", false otherwise.
+   */
+  virtual bool isPackageInfixFunction() const;
+
+  /**
+   * Returns true if this is a package function which should be written
+   * special syntax that the package knows about, false otherwise.
+   */
+  virtual bool hasPackageOnlyInfixSyntax() const;
+
+  /**
+   * Returns the precedence of the functions within the package
+   */
+  virtual int getL3PackageInfixPrecedence() const;
+
+  /**
+   * Returns true if this is a package function which needs no special
+   * consideration when writng as infix, false otherwise.
+   */
+  virtual bool hasUnambiguousPackageInfixGrammar(const ASTNode *child) const;
+
+
 
 protected:
 
@@ -362,6 +387,7 @@ protected:
   virtual void syncMembersFrom(ASTBase* rhs);
   virtual void syncMembersAndResetParentsFrom(ASTBase* rhs);
   virtual void syncPluginsFrom(ASTBase* rhs);
+  virtual void syncMembersOnlyFrom(ASTBase* rhs);
 
   /* member variables */
 
@@ -382,6 +408,8 @@ protected:
 
   std::string mEmptyString;
 
+  bool mIsBvar;
+
   //char mChar;
 
   //----------------------------------------------------------------------
@@ -396,8 +424,9 @@ protected:
 
   /* functions and friends to facilitate extensions */
 
-  virtual double getValue() const;
   virtual unsigned int getNumChildren() const;
+
+  virtual double getValue() const;
 
   friend class ASTNumber;
   friend class ASTFunction;

@@ -73,8 +73,7 @@ public class ASTBase {
   
 /**
    * Get the type of this {@link ASTNode}.  The value returned is one of the
-   * enumeration values such as {@link  libsbmlConstants#AST_LAMBDA
-   * AST_LAMBDA}, {@link  libsbmlConstants#AST_PLUS AST_PLUS},
+   * enumeration values such as {@link libsbmlConstants#AST_LAMBDA AST_LAMBDA}, {@link libsbmlConstants#AST_PLUS AST_PLUS},
    * etc.
    <p>
    * @return the type of this {@link ASTNode}.
@@ -107,8 +106,8 @@ public class ASTBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * @internal
    * </ul>
    */ public
@@ -270,6 +269,18 @@ public class ASTBase {
 /** * @internal */ public
  boolean isUserFunction() {
     return libsbmlJNI.ASTBase_isUserFunction(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ boolean representsBvar() {
+    return libsbmlJNI.ASTBase_representsBvar(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ int setIsBvar(boolean isbvar) {
+    return libsbmlJNI.ASTBase_setIsBvar(swigCPtr, this, isbvar);
   }
 
   
@@ -511,24 +522,6 @@ public class ASTBase {
 
   
 /** * @internal */ public
- int setUserData(SWIGTYPE_p_void userData) {
-    return libsbmlJNI.ASTBase_setUserData(swigCPtr, this, SWIGTYPE_p_void.getCPtr(userData));
-  }
-
-  
-/**
-  * Returns the user data that has been previously set via setUserData().
-  <p>
-  * @return the user data of this node, or <code>null</code> if no user data has been
-  * set.
-  */ public
- SWIGTYPE_p_void getUserData() {
-    long cPtr = libsbmlJNI.ASTBase_getUserData(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
-  }
-
-  
-/** * @internal */ public
  boolean isSetUserData() {
     return libsbmlJNI.ASTBase_isSetUserData(swigCPtr, this);
   }
@@ -591,6 +584,45 @@ public class ASTBase {
 /** * @internal */ public
  String getUnitsPrefix() {
     return libsbmlJNI.ASTBase_getUnitsPrefix(swigCPtr, this);
+  }
+
+  
+/**
+   * Returns true if this is a package function which should be written as
+   * 'functionname(argumentlist)', false otherwise.
+   * @internal
+   */ public
+ boolean isPackageInfixFunction() {
+    return libsbmlJNI.ASTBase_isPackageInfixFunction(swigCPtr, this);
+  }
+
+  
+/**
+   * Returns true if this is a package function which should be written
+   * special syntax that the package knows about, false otherwise.
+   * @internal
+   */ public
+ boolean hasPackageOnlyInfixSyntax() {
+    return libsbmlJNI.ASTBase_hasPackageOnlyInfixSyntax(swigCPtr, this);
+  }
+
+  
+/**
+   * Returns the precedence of the functions within the package
+   * @internal
+   */ public
+ int getL3PackageInfixPrecedence() {
+    return libsbmlJNI.ASTBase_getL3PackageInfixPrecedence(swigCPtr, this);
+  }
+
+  
+/**
+   * Returns true if this is a package function which needs no special
+   * consideration when writng as infix, false otherwise.
+   * @internal
+   */ public
+ boolean hasUnambiguousPackageInfixGrammar(ASTNode child) {
+    return libsbmlJNI.ASTBase_hasUnambiguousPackageInfixGrammar(swigCPtr, this, ASTNode.getCPtr(child), child);
   }
 
 }

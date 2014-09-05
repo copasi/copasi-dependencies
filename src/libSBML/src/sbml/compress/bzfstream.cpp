@@ -157,11 +157,11 @@ bool
 bzfilebuf::open_mode(std::ios_base::openmode mode,
                      char* c_mode) const
 {
-  bool testb = mode & std::ios_base::binary;
-  bool testi = mode & std::ios_base::in;
-  bool testo = mode & std::ios_base::out;
-  bool testt = mode & std::ios_base::trunc;
-  bool testa = mode & std::ios_base::app;
+  bool testb = (mode & std::ios_base::binary) == std::ios_base::binary;
+  bool testi = (mode & std::ios_base::in) == std::ios_base::in;
+  bool testo = (mode & std::ios_base::out) == std::ios_base::out;
+  bool testt = (mode & std::ios_base::trunc) == std::ios_base::trunc;
+  bool testa = (mode & std::ios_base::app) == std::ios_base::app;
 
   // Check for valid flag combinations - see [27.8.1.3.2] (Table 92)
   // Original zfstream hardcoded the compression level to maximum here...
@@ -186,7 +186,8 @@ bzfilebuf::open_mode(std::ios_base::openmode mode,
   if (strlen(c_mode) == 0)
     return false;
   if (testb)
-    strcat(c_mode, "b");
+    c_mode[1] = 'b';
+    //strcat(c_mode, "b");
   return true;
 }
 
@@ -220,7 +221,7 @@ bzfilebuf::underflow()
 
   // Attempt to fill internal buffer from bzip2 file
   // (buffer must be guaranteed to exist...)
-  int bytes_read = BZ2_bzread(file, buffer, buffer_size);
+  int bytes_read = (int)BZ2_bzread(file, buffer, (int)buffer_size);
   // Indicates error or EOF
   if (bytes_read <= 0)
   {
@@ -252,7 +253,7 @@ bzfilebuf::overflow(int_type c)
       this->pbump(1);
     }
     // Number of characters to write to file
-    int bytes_to_write = this->pptr() - this->pbase();
+    int bytes_to_write = int(this->pptr() - this->pbase());
     // Overflow doesn't fail if nothing is to be written
     if (bytes_to_write > 0)
     {
@@ -340,7 +341,7 @@ bzfilebuf::enable_buffer()
     if (buffer_size > 0)
     {
       // Allocate internal buffer
-      buffer = new char_type[buffer_size];
+      buffer = new char_type[(unsigned int)buffer_size];
       // Get area starts empty and will be expanded by underflow as need arises
       this->setg(buffer, buffer, buffer);
       // Setup entire internal buffer as put area.
@@ -353,7 +354,7 @@ bzfilebuf::enable_buffer()
     {
       // Even in "unbuffered" case, (small?) get buffer is still required
       buffer_size = SMALLBUFSIZE;
-      buffer = new char_type[buffer_size];
+      buffer = new char_type[(unsigned int)buffer_size];
       this->setg(buffer, buffer, buffer);
       // "Unbuffered" means no put buffer
       this->setp(0, 0);

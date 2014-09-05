@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2013-2014 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *     3. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -34,7 +39,9 @@
 #include <sbml/packages/arrays/extension/ArraysSBMLDocumentPlugin.h>
 #include <sbml/packages/arrays/extension/ArraysSBasePlugin.h>
 
+#if (0)
 #include <sbml/packages/arrays/math/ASTArraysMatrixFunctionNode.h>
+#endif
 #include <sbml/packages/arrays/math/ASTArraysVectorFunctionNode.h>
 
 #include <sbml/packages/arrays/sbml/Dimension.h>

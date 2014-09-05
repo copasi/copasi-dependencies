@@ -59,7 +59,7 @@ public class ASTBasePlugin {
 /**
    * Creates and returns a deep copy of this {@link ASTBasePlugin} object.
    <p>
-   * @return a (deep) copy of this {@link SBase} object
+   * @return the (deep) copy of this {@link ASTBasePlugin} object.
    * @internal
    */ public
  ASTBasePlugin cloneObject() {
@@ -122,7 +122,7 @@ public class ASTBasePlugin {
    * This function is called when this object is created by
    * the parent element.
    * Subclasses must override this this function if they have one
-   * or more child elements. Also, {@link ASTBasePlugin#connectToParent(SBase sbase)}
+   * or more child elements. Also, {@link ASTBasePlugin#connectToParent(SBase)}
    * must be called in the overridden function.
    <p>
    * @param sbase the {@link SBase} object to use
@@ -212,8 +212,8 @@ public class ASTBasePlugin {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * @internal
    * </ul>
    */ public
@@ -450,6 +450,18 @@ public class ASTBasePlugin {
 /** * @internal */ public
  boolean representsNaryFunction(int type) {
     return libsbmlJNI.ASTBasePlugin_representsNaryFunction(swigCPtr, this, type);
+  }
+
+  
+/** * @internal */ public
+ boolean hasCorrectNumberArguments(int type) {
+    return libsbmlJNI.ASTBasePlugin_hasCorrectNumberArguments(swigCPtr, this, type);
+  }
+
+  
+/** * @internal */ public
+ boolean isWellFormedNode(int type) {
+    return libsbmlJNI.ASTBasePlugin_isWellFormedNode(swigCPtr, this, type);
   }
 
   

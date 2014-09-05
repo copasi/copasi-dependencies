@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Log of errors and other events encountered during SBML
- * processing.
+ *  Log of diagnostics reported during processing.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct

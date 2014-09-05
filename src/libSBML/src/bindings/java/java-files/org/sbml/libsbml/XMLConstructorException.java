@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Class of exceptions thrown by constructors of some
- * libSBML objects.
+ *  Exceptions thrown by some libSBML constructors.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct

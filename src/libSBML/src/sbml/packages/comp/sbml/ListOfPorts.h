@@ -24,8 +24,7 @@
  *------------------------------------------------------------------------- -->
  *
  * @class ListOfPorts
- * @sbmlbrief{comp} Implementation of the %ListOfPorts construct from the
- * &ldquo;comp&rdquo; package.
+ * @sbmlbrief{comp} A list of Port objects.
  * 
  * The ListOfPorts is a container for the extended 
  * Model for Port objects for that Model.
@@ -181,7 +180,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_COMP_PORT SBML_COMP_PORT@endlink (default).
+   * @sbmlconstant{SBML_COMP_PORT, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -193,7 +192,7 @@ public:
    * Returns the XML element name of
    * this SBML object.
    *
-   * @return the string of the name of this element.
+   * @return the name of this element, as a text string.
    */
   virtual const std::string& getElementName () const;
 

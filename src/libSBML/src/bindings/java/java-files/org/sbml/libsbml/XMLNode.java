@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Representation of a node in an XML document tree.
+ *  A node in libSBML's XML document tree.
  <p>
  * Beginning with version 3.0.0, libSBML implements an XML abstraction
  * layer.  This layer presents a uniform XML interface to calling programs
@@ -19,7 +19,7 @@ package org.sbml.libsbml;
  <p>
  * An {@link XMLNode} can contain any number of children.  Each child is another
  * {@link XMLNode}, thereby forming a tree.  The methods {@link XMLNode#getNumChildren()}
- * and {@link XMLNode#getChild(long n)} can be used to access the tree
+ * and {@link XMLNode#getChild(long)} can be used to access the tree
  * structure starting from a given node.
  <p>
  * Each {@link XMLNode} is subclassed from {@link XMLToken}, and thus has the same methods
@@ -35,23 +35,23 @@ package org.sbml.libsbml;
  * <ul>
  * <li> {@link XMLNode#toXMLString()} returns a string representation of the {@link XMLNode} object. 
  <p>
- * <li> {@link XMLNode#convertXMLNodeToString(XMLNode node)}
+ * <li> {@link XMLNode#convertXMLNodeToString(XMLNode)}
  * (static function) returns a string representation 
  * of the given {@link XMLNode} object.
  <p>
- * <li> {@link XMLNode#convertStringToXMLNode(String xml)}
+ * <li> {@link XMLNode#convertStringToXMLNode(String)}
  * (static function) returns an {@link XMLNode} object converted 
  * from the given XML string.
  * </ul>
  <p>
- * The returned {@link XMLNode} object by {@link XMLNode#convertStringToXMLNode(String xml)}
+ * The returned {@link XMLNode} object by {@link XMLNode#convertStringToXMLNode(String)}
  * is a dummy root (container) {@link XMLNode} if the given XML string has two or
  * more top-level elements (e.g.,
  * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In the
  * dummy root node, each top-level element in the given XML string is
  * contained as a child {@link XMLNode}. {@link XMLToken#isEOF()} can be used to identify
  * if the returned {@link XMLNode} object is a dummy node or not.  Here is an
- * example: <div class='fragment'><pre class='fragment'>
+ * example: <pre class='fragment'>
 // Checks if the returned {@link XMLNode} object is a dummy root node:
 
 String str = '...';
@@ -76,7 +76,7 @@ else
   // root node is NOT a dummy node
   ...
 }
-</pre></div>
+</pre>
  */
 
 public class XMLNode extends XMLToken {
@@ -547,7 +547,7 @@ appears in the documentation.
    <p>
    * @param orig the {@link XMLNode} instance to copy.
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  XMLNode(XMLNode orig) throws org.sbml.libsbml.XMLConstructorException {
@@ -556,9 +556,9 @@ appears in the documentation.
 
   
 /**
-   * Creates and returns a deep copy of this {@link XMLNode}.
+   * Creates and returns a deep copy of this {@link XMLNode} object.
    <p>
-   * @return a (deep) copy of this {@link XMLNode}.
+   * @return the (deep) copy of this {@link XMLNode} object.
    */ public
  XMLNode cloneObject() {
     long cPtr = libsbmlJNI.XMLNode_cloneObject(swigCPtr, this);
@@ -577,8 +577,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
    * @note The given node is added at the end of the children list.
@@ -635,7 +635,7 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int removeChildren() {

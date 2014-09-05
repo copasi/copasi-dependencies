@@ -1,8 +1,5 @@
 ###############################################################################
 #
-# $URL: https://svn.code.sf.net/p/sbml/code/trunk/libsbml/common.cmake $
-# $Id: common.cmake 19896 2014-03-19 03:53:56Z mhucka $
-# 
 # Description       : Common CMake macros for building libSBML
 # Original author(s): Frank Bergmann <fbergman@caltech.edu>
 # Organization      : California Institute of Technology

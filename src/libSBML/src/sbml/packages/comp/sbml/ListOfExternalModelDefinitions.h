@@ -24,8 +24,7 @@
  *------------------------------------------------------------------------- -->
  *
  * @class ListOfExternalModelDefinitions
- * @sbmlbrief{comp} Implementation of the %ListOfExternalModelDefinitions
- * construct from the &ldquo;comp&rdquo; package.
+ * @sbmlbrief{comp} A list of ExternalModelDefinition objects.
  * 
  * The ListOfExternalModelDefinitions is a container for the extended 
  * SBMLDocument that defines references to Models defined in external
@@ -187,7 +186,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_COMP_EXTERNALMODELDEFINITION SBML_COMP_EXTERNALMODELDEFINITION@endlink (default).
+   * @sbmlconstant{SBML_COMP_EXTERNALMODELDEFINITION, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -199,7 +198,7 @@ public:
    * Returns the XML element name of
    * this SBML object.
    *
-   * @return the string of the name of this element.
+   * @return the name of this element, as a text string.
    */
   virtual const std::string& getElementName () const;
 

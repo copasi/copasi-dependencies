@@ -44,6 +44,12 @@
 #include <limits.h>
 #include <check.h>
 
+#define XML_HEADER    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+#define MATHML_HEADER "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+#define MATHML_FOOTER "</math>"
+
+#define wrapMathML(s)   XML_HEADER MATHML_HEADER s MATHML_FOOTER
+
 #if defined(WIN32) && !defined(CYGWIN)
 #include <math.h>
 extern int isnan(double x); 
@@ -4081,50 +4087,6 @@ START_TEST (test_ASTNode_nested_children1)
 END_TEST
 
 
-START_TEST (test_ASTNode_getListOfNodes)
-{
-  // TO DO
-  //const char *gaussian =
-  //(
-  //  "(1 / (sigma * sqrt(2 * pi))) * exp( -(x - mu)^2 / (2 * sigma^2) )"
-  //);
-
-  //ASTNode_t *root, *node;
-  //List_t    *list;
-
-
-  //root = SBML_parseFormula(gaussian);
-  //list = ASTNode_getListOfNodes(root, (ASTNodePredicate) ASTNode_isName);
-
-  //fail_unless( List_size(list) == 4 );
-
-
-  //node = (ASTNode_t *) List_get(list, 0);
-
-  //fail_unless( ASTNode_isName(node) );
-  //fail_unless( !strcmp(ASTNode_getName(node), "sigma") );
-
-  //node = (ASTNode_t *) List_get(list, 1);
-
-  //fail_unless( ASTNode_isName(node) );
-  //fail_unless( !strcmp(ASTNode_getName(node), "x") );
-
-  //node = (ASTNode_t *) List_get(list, 2);
-
-  //fail_unless( ASTNode_isName(node) );
-  //fail_unless( !strcmp(ASTNode_getName(node), "mu") );
-
-  //node = (ASTNode_t *) List_get(list, 3);
-
-  //fail_unless( ASTNode_isName(node) );
-  //fail_unless( !strcmp(ASTNode_getName(node), "sigma") );
-
-  //List_free(list);
-  //ASTNode_free(root);
-}
-END_TEST
-
-
 START_TEST (test_ASTNode_getListOfNodes1)
 {
   ASTNode *node1 = new ASTNode();
@@ -4393,10 +4355,10 @@ START_TEST (test_ASTNode_swapChildren1)
 {
   ASTNode *node = new ASTNode();
   ASTNode *c1 = new ASTNode();
-  ASTNode *c2 = new ASTNode();
+  //ASTNode *c2 = new ASTNode();
   ASTNode *node_1 = new ASTNode();
   ASTNode *c1_1 = new ASTNode();
-  ASTNode *c2_1 = new ASTNode();
+  //ASTNode *c2_1 = new ASTNode();
   int i = 0;
 
   node->setType( AST_FUNCTION_COS);
@@ -5693,7 +5655,7 @@ START_TEST (test_ASTNode_testConvenienceIs)
   delete n;
 
   n = new ASTNode(AST_REAL);
-  n->setValue(numeric_limits<double>::infinity());
+  n->setValue(std::numeric_limits<double>::infinity());
   fail_unless(n->isAvogadro() == false);
   fail_unless(n->isBoolean() == false);
   fail_unless(n->isConstant() == false);
@@ -5890,7 +5852,7 @@ START_TEST (test_ASTNode_testConvenienceIs)
   delete n;
 
   n = new ASTNode(AST_REAL);
-  n->setValue(numeric_limits<double>::quiet_NaN());
+  n->setValue(std::numeric_limits<double>::quiet_NaN());
   fail_unless(n->isAvogadro() == false);
   fail_unless(n->isBoolean() == false);
   fail_unless(n->isConstant() == false);
@@ -5919,7 +5881,7 @@ START_TEST (test_ASTNode_testConvenienceIs)
   delete n;
 
   n = new ASTNode(AST_REAL);
-  n->setValue(-numeric_limits<double>::infinity());
+  n->setValue(-std::numeric_limits<double>::infinity());
   fail_unless(n->isAvogadro() == false);
   fail_unless(n->isBoolean() == false);
   fail_unless(n->isConstant() == false);
@@ -6409,31 +6371,6 @@ START_TEST (test_ASTNode_renameUnitSIdRefs)
 END_TEST
 
 
-START_TEST (test_ASTNode_replaceIDWithFunction_1)
-{
-  ASTNode *n = new ASTNode(AST_NAME);
-  n->setName("x");
-
-  ASTNode *replaced = new ASTNode(AST_PLUS);
-  ASTNode *c = new ASTNode();
-  c->setValue(1.0);
-  replaced->addChild(c);
-
-  fail_unless(strcmp(n->getName(), "x") == 0);
-  fail_unless(n->getType() == AST_NAME);
-  fail_unless(n->getNumChildren() == 0);
-
-  n->replaceIDWithFunction("x", replaced);
-
-  fail_unless(strcmp(n->getName(), "x") == 1);
-  fail_unless(n->getType() == AST_PLUS);
-  fail_unless(n->getNumChildren() == 1);
-
-  delete n;
-}
-END_TEST
-
-
 START_TEST (test_ASTNode_replaceIDWithFunction_2)
 {
   ASTNode *n = new ASTNode(AST_POWER);
@@ -6852,6 +6789,46 @@ START_TEST (test_ASTNode_replace)
 
 }
 END_TEST
+
+
+START_TEST (test_ASTNode_representsBvar)
+{
+  const char* original = wrapMathML
+  (
+    "<lambda>"
+    "  <bvar> <ci>x</ci> </bvar>"
+    "  <ci>y</ci>"
+    "</lambda>"
+  );
+
+  ASTNode * N = readMathMLFromString(original);
+
+  /* old behaviour - we should have 2 children */
+  fail_unless(N->getNumChildren() == 2);
+
+  fail_unless(N->getChild(0)->representsBvar() == true);
+  fail_unless(N->getChild(1)->representsBvar() == false);
+
+  ASTNode * newChild = new ASTNode(AST_NAME);
+  newChild->setName("newChild");
+  
+  int i = N->addChild(newChild);
+
+  fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(N->getNumChildren() == 3);
+
+  fail_unless(N->getChild(0)->representsBvar() == true);
+  fail_unless(N->getChild(1)->representsBvar() == true);
+  fail_unless(N->getChild(2)->representsBvar() == false);
+
+}
+END_TEST
+
+
+
+
+
+
 Suite *
 create_suite_NewASTNode (void) 
 { 
@@ -6953,9 +6930,6 @@ create_suite_NewASTNode (void)
   tcase_add_test( tcase, test_ASTNode_nested_children                );
   tcase_add_test( tcase, test_ASTNode_nested_children1                );
 
-  // need teh formula parse to test this as it is a nightmare to just create
-//  tcase_add_test( tcase, test_ASTNode_getListOfNodes          );
-
   tcase_add_test( tcase, test_ASTNode_getListOfNodes1          );
   tcase_add_test( tcase, test_ASTNode_replaceArgument         );
   tcase_add_test( tcase, test_ASTNode_removeChild             );
@@ -6982,9 +6956,6 @@ create_suite_NewASTNode (void)
   tcase_add_test( tcase, test_ASTNode_avogadro_1              );
   tcase_add_test( tcase, test_ASTNode_avogadro_bug            );
 
-  // not relevant in C++
-//  tcase_add_test( tcase, test_ASTNode_accessWithNULL          );
-  
   tcase_add_test( tcase, test_ASTNode_isBoolean               );
   tcase_add_test( tcase, test_ASTNode_returnsBoolean          );
   tcase_add_test( tcase, test_ASTNode_isAvogadro              );
@@ -6998,7 +6969,6 @@ create_suite_NewASTNode (void)
   tcase_add_test( tcase, test_ASTNode_hasUnits         );
   tcase_add_test( tcase, test_ASTNode_renameSIdRefs         );
   tcase_add_test( tcase, test_ASTNode_renameUnitSIdRefs         );
-  //tcase_add_test( tcase, test_ASTNode_replaceIDWithFunction_1        );
   tcase_add_test( tcase, test_ASTNode_replaceIDWithFunction_2        );
   tcase_add_test( tcase, test_ASTNode_reduceToBinary   );
   tcase_add_test( tcase, test_ASTNode_userData_1   );
@@ -7011,6 +6981,8 @@ create_suite_NewASTNode (void)
   tcase_add_test( tcase, test_ASTNode_csymbol_3   );
   tcase_add_test( tcase, test_ASTNode_csymbol_4   );
   
+  tcase_add_test( tcase, test_ASTNode_representsBvar   );
+
   suite_add_tcase(suite, tcase);
 
   return suite;

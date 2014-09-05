@@ -14,8 +14,8 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Class of object that encapsulates a conversion option.
- * 
+@htmlinclude pkg-marker-core.html A single configuration setting for an SBML converter.
+ *
  * @htmlinclude libsbml-facility-only-warning.html
  *
  * LibSBML provides a number of converters that can perform transformations
@@ -25,11 +25,15 @@ namespace libsbmlcs {
  * such objects, individual options are encapsulated using ConversionOption
  * objects.
  *
- * A ConversionOption object consists of four parts:
- * @li A @em key, acting as the name of the option;
- * @li A @em value of this option;
- * @li A @em type for the value; this is chosen from  the enumeration type
- * <a class='el' href='#ConversionOptionType_t'>ConversionOptionType_t</a>; and
+ * A ConversionOption @if conly structure @else object@endif consists of
+ * four parts:
+ * @li A @em key, acting as the name of the option.
+ * @li A @em value of this option.
+ * @li A @em type for the value; the type code is chosen from @if clike
+ * an enumeration @else a set of integer constants@endif whose names all
+ * begin with the prefix <code>CNV_TYPE_</code>.  (See the separate <a
+ * class='el' href='#ConversionOptionType_t'>subsection</a> below for more
+ * information.)
  * @li A @em description consisting of a text string that describes the
  * option in some way.
  *
@@ -40,10 +44,11 @@ namespace libsbmlcs {
  *
  * An option in ConversionOption must have a data type declared, to
  * indicate whether it is a string value, an integer, and so forth.  The
- * possible types of values are taken from the enumeration <a
- * class='el' href='#ConversionOptionType_t'>ConversionOptionType_t</a>.
- * The following are the possible values:
- * 
+ * possible types of values are taken from
+ * @if clike the enumeration ConversionOptionType_t @else a set of
+ * constants whose symbol names begin with the prefix
+ * <code>CNV_TYPE_</code>@endif. The following are the possible values:
+ *
  * <p>
  * <center>
  * <table width='90%' cellspacing='1' cellpadding='1' border='0' class='normal-font'>
@@ -52,23 +57,23 @@ namespace libsbmlcs {
  *      <td><strong>Meaning</strong></td>
  *  </tr>
  * <tr>
- * <td><code>@link libsbmlcs.libsbml.CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink</code></td>
+ * <td><code>@link libsbmlcs#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink</code></td>
  * <td>Indicates the value type is a Boolean.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs.libsbml.CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink</code></td>
+ * <td><code>@link libsbmlcs#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink</code></td>
  * <td>Indicates the value type is a double-sized float.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs.libsbml.CNV_TYPE_INT CNV_TYPE_INT@endlink</code></td>
+ * <td><code>@link libsbmlcs#CNV_TYPE_INT CNV_TYPE_INT@endlink</code></td>
  * <td>Indicates the value type is an integer.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs.libsbml.CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink</code></td>
+ * <td><code>@link libsbmlcs#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink</code></td>
  * <td>Indicates the value type is a float.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs.libsbml.CNV_TYPE_STRING CNV_TYPE_STRING@endlink</code></td>
+  * <td><code>@link libsbmlcs#CNV_TYPE_STRING CNV_TYPE_STRING@endlink</code></td>
  * <td>Indicates the value type is a string.</td>
  * </tr>
  * </table>
@@ -128,11 +133,23 @@ public class ConversionOption : IDisposable {
    *
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
-   * 
+   *
+   * *
+ * 
+ * The conversion @p type argument value must be one of
+ * @if clike the values defined in the enumeration
+ * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.@endif@if python the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * @link libsbml libsbml@endlink.@endif
+   *
    * @param key the key for this option
    * @param value an optional value for this option
    * @param type the type of this option
    * @param description the description for this option
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, string value, int type, string description) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_0(key, value, type, description), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -144,11 +161,23 @@ public class ConversionOption : IDisposable {
    *
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
-   * 
+   *
+   * *
+ * 
+ * The conversion @p type argument value must be one of
+ * @if clike the values defined in the enumeration
+ * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.@endif@if python the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * @link libsbml libsbml@endlink.@endif
+   *
    * @param key the key for this option
    * @param value an optional value for this option
    * @param type the type of this option
    * @param description the description for this option
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, string value, int type) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_1(key, value, type), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -160,11 +189,23 @@ public class ConversionOption : IDisposable {
    *
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
-   * 
+   *
+   * *
+ * 
+ * The conversion @p type argument value must be one of
+ * @if clike the values defined in the enumeration
+ * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.@endif@if python the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * @link libsbml libsbml@endlink.@endif
+   *
    * @param key the key for this option
    * @param value an optional value for this option
    * @param type the type of this option
    * @param description the description for this option
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, string value) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_2(key, value), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -176,11 +217,23 @@ public class ConversionOption : IDisposable {
    *
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
-   * 
+   *
+   * *
+ * 
+ * The conversion @p type argument value must be one of
+ * @if clike the values defined in the enumeration
+ * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.@endif@if python the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * @link libsbml libsbml@endlink.@endif
+   *
    * @param key the key for this option
    * @param value an optional value for this option
    * @param type the type of this option
    * @param description the description for this option
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_3(key), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -189,10 +242,12 @@ public class ConversionOption : IDisposable {
   
 /**
    * Creates a new ConversionOption specialized for string-type options.
-   * 
+   *
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, string value, string description) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_4(key, value, description), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -201,10 +256,12 @@ public class ConversionOption : IDisposable {
   
 /**
    * Creates a new ConversionOption specialized for Boolean-type options.
-   * 
+   *
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, bool value, string description) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_6(key, value, description), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -213,10 +270,12 @@ public class ConversionOption : IDisposable {
   
 /**
    * Creates a new ConversionOption specialized for Boolean-type options.
-   * 
+   *
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, bool value) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_7(key, value), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -225,10 +284,12 @@ public class ConversionOption : IDisposable {
   
 /**
    * Creates a new ConversionOption specialized for double-type options.
-   * 
+   *
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, double value, string description) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_8(key, value, description), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -237,10 +298,12 @@ public class ConversionOption : IDisposable {
   
 /**
    * Creates a new ConversionOption specialized for double-type options.
-   * 
+   *
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, double value) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_9(key, value), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -249,10 +312,12 @@ public class ConversionOption : IDisposable {
   
 /**
    * Creates a new ConversionOption specialized for float-type options.
-   * 
+   *
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, float value, string description) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_10(key, value, description), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -261,10 +326,12 @@ public class ConversionOption : IDisposable {
   
 /**
    * Creates a new ConversionOption specialized for float-type options.
-   * 
+   *
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, float value) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_11(key, value), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -273,10 +340,12 @@ public class ConversionOption : IDisposable {
   
 /**
    * Creates a new ConversionOption specialized for integer-type options.
-   * 
+   *
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, int value, string description) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_12(key, value, description), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -285,10 +354,12 @@ public class ConversionOption : IDisposable {
   
 /**
    * Creates a new ConversionOption specialized for integer-type options.
-   * 
+   *
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionOption(string key, int value) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_13(key, value), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -299,8 +370,8 @@ public class ConversionOption : IDisposable {
    * Copy constructor; creates a copy of an ConversionOption object.
    *
    * @param orig the ConversionOption object to copy.
-   * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   *
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  ConversionOption(ConversionOption orig) : this(libsbmlPINVOKE.new_ConversionOption__SWIG_14(ConversionOption.getCPtr(orig)), true) {
@@ -308,11 +379,11 @@ public class ConversionOption : IDisposable {
   }
 
   
-/** 
+/**
    * Creates and returns a deep copy of this ConversionOption object.
-   * 
-   * @return a (deep) copy of this ConversionOption object.
-   */ public
+   *
+   * @return the (deep) copy of this ConversionOption object.
+   */ public new
  ConversionOption clone() {
     IntPtr cPtr = libsbmlPINVOKE.ConversionOption_clone(swigCPtr);
     ConversionOption ret = (cPtr == IntPtr.Zero) ? null : new ConversionOption(cPtr, true);
@@ -322,7 +393,7 @@ public class ConversionOption : IDisposable {
   
 /**
    * Returns the key for this option.
-   * 
+   *
    * @return the key, as a string.
    */ public
  string getKey() {
@@ -333,7 +404,7 @@ public class ConversionOption : IDisposable {
   
 /**
    * Sets the key for this option.
-   * 
+   *
    * @param key a string representing the key to set.
    */ public
  void setKey(string key) {
@@ -344,7 +415,7 @@ public class ConversionOption : IDisposable {
   
 /**
    * Returns the value of this option.
-   * 
+   *
    * @return the value of this option, as a string.
    */ public
  string getValue() {
@@ -355,7 +426,7 @@ public class ConversionOption : IDisposable {
   
 /**
    * Sets the value for this option.
-   * 
+   *
    * @param value the value to set, as a string.
    */ public
  void setValue(string value) {
@@ -366,7 +437,7 @@ public class ConversionOption : IDisposable {
   
 /**
    * Returns the description string for this option.
-   * 
+   *
    * @return the description of this option.
    */ public
  string getDescription() {
@@ -377,7 +448,7 @@ public class ConversionOption : IDisposable {
   
 /**
    * Sets the description text for this option.
-   * 
+   *
    * @param description the description to set for this option.
    */ public
  void setDescription(string description) {
@@ -388,7 +459,7 @@ public class ConversionOption : IDisposable {
   
 /**
    * Returns the type of this option
-   * 
+   *
    * @return the type of this option.
    */ public
  int getType() {
@@ -399,7 +470,17 @@ public class ConversionOption : IDisposable {
   
 /**
    * Sets the type of this option.
-   * 
+   *
+   * *
+ * 
+ * The conversion @p type argument value must be one of
+ * @if clike the values defined in the enumeration
+ * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.@endif@if python the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * @link libsbml libsbml@endlink.@endif
+   *
    * @param type the type value to use.
    */ public
  void setType(int type) {
@@ -409,23 +490,23 @@ public class ConversionOption : IDisposable {
   
 /**
    * Returns the value of this option as a Boolean.
-   * 
+   *
    * @return the value of this option.
-   */ public
+   */ public new
  bool getBoolValue() {
     bool ret = libsbmlPINVOKE.ConversionOption_getBoolValue(swigCPtr);
     return ret;
   }
 
   
-/** 
+/**
    * Set the value of this option to a given Boolean value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs.libsbml.CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink.
-   * 
+   * @link libsbmlcs#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink.
+   *
    * @param value the Boolean value to set
-   */ public
+   */ public new
  void setBoolValue(bool value) {
     libsbmlPINVOKE.ConversionOption_setBoolValue(swigCPtr, value);
   }
@@ -433,23 +514,23 @@ public class ConversionOption : IDisposable {
   
 /**
    * Returns the value of this option as a @c double.
-   * 
+   *
    * @return the value of this option.
-   */ public
+   */ public new
  double getDoubleValue() {
     double ret = libsbmlPINVOKE.ConversionOption_getDoubleValue(swigCPtr);
     return ret;
   }
 
   
-/** 
+/**
    * Set the value of this option to a given @c double value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs.libsbml.CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink.
-   * 
+   * @link libsbmlcs#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink.
+   *
    * @param value the value to set
-   */ public
+   */ public new
  void setDoubleValue(double value) {
     libsbmlPINVOKE.ConversionOption_setDoubleValue(swigCPtr, value);
   }
@@ -457,23 +538,23 @@ public class ConversionOption : IDisposable {
   
 /**
    * Returns the value of this option as a @c float.
-   * 
+   *
    * @return the value of this option as a float
-   */ public
+   */ public new
  float getFloatValue() {
     float ret = libsbmlPINVOKE.ConversionOption_getFloatValue(swigCPtr);
     return ret;
   }
 
   
-/** 
+/**
    * Set the value of this option to a given @c float value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs.libsbml.CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink.
-   * 
+   * @link libsbmlcs#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink.
+   *
    * @param value the value to set
-   */ public
+   */ public new
  void setFloatValue(float value) {
     libsbmlPINVOKE.ConversionOption_setFloatValue(swigCPtr, value);
   }
@@ -481,23 +562,23 @@ public class ConversionOption : IDisposable {
   
 /**
    * Returns the value of this option as an @c integer.
-   * 
+   *
    * @return the value of this option, as an int
-   */ public
+   */ public new
  int getIntValue() {
     int ret = libsbmlPINVOKE.ConversionOption_getIntValue(swigCPtr);
     return ret;
   }
 
   
-/** 
+/**
    * Set the value of this option to a given @c int value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs.libsbml.CNV_TYPE_INT CNV_TYPE_INT@endlink.
-   * 
+   * @link libsbmlcs#CNV_TYPE_INT CNV_TYPE_INT@endlink.
+   *
    * @param value the value to set
-   */ public
+   */ public new
  void setIntValue(int value) {
     libsbmlPINVOKE.ConversionOption_setIntValue(swigCPtr, value);
   }

@@ -62,6 +62,7 @@
 #nav-tree .item {
   margin:0px;
   padding:0px;
+  margin-left: -12px;
 }
 
 #nav-tree {
@@ -93,18 +94,18 @@
 }
 
 .ui-resizable-e {
-  background-color: #bbb;
-  border-right: 1px dotted #666;
+  background-color: #ddd;
+  border-left: 1px dotted #aaa;
+  border-right: 1px dotted #aaa;
   border-top: none;
   border-bottom: 1px solid #888;
-  cursor:e-resize;
-  height:100%;
+  background: linear-gradient(45deg, white 25%, #ddd 25%, #ccc 50%, white 50%, white 75%);
+  background-size: 5px 5px;
+  cursor: e-resize;
+  height: 100%;
   right: 0;
   top: 0px;
   width: 8px;
-  box-shadow: 2px 0px 3px #999;
-  -webkit-box-shadow: 2px 0px 3px #999;
-  -moz-box-shadow: rgba(0, 0, 0, 0.15) 2px 0px 3px;
 }
 
 .ui-resizable-handle {
@@ -115,7 +116,7 @@
 }
 
 #nav-tree-contents {
-  font-family: Helvetica, Arial, Sans, sans-serif;
+  font-family: "Noto Sans", Helvetica, Arial, Sans, sans-serif;
   margin: 0px;
   padding-right: 0;
 }
@@ -145,14 +146,6 @@
     line-height: 18px;
 }
 
-#side-nav div.item:not(.selected) .label {
-
-}
-
-#side-nav img[src="ftv2mnode.png"] {
-
-}
-
 #side-nav .item span:not(.label):after {
     color: rgb(135, 158, 201);
     content: "\25cf";
@@ -169,6 +162,6 @@
 }
 
 #side-nav .label a {
-    font-family: Helvetica, Arial, Sans, sans-serif;
-    font-weight: bold;
+    font-family: "Noto Sans", Helvetica, Arial, Sans, sans-serif;
+    font-weight: 700;
 }    

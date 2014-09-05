@@ -31,7 +31,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class DefaultTerm
- * @sbmlbrief{qual} The DefaultTerm class for the Qualitative Models package.
+ * @sbmlbrief{qual} The default result of a Transition.
  *
  * The DefaultTerm defines the default result of a Transition. This term is
  * used if there are no other FunctionTerm elements or if none of the Math
@@ -150,8 +150,8 @@ public:
    *
    * @return integer value indicating success/failure of the
    * operation. The possible return values are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
   virtual int setResultLevel(int resultLevel);
 
@@ -161,17 +161,16 @@ public:
    *
    * @return integer value indicating success/failure of the
    * operation. The possible return values are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int unsetResultLevel();
 
 
   /**
-   * Returns the XML element name of this object, which for DefaultTerm, is
-   * always @c "defaultTerm".
+   * Returns the XML name of this object.
    *
-   * @return the name of this element, i.e. @c "defaultTerm".
+   * @return the name of this element.
    */
   virtual const std::string& getElementName () const;
 
@@ -182,7 +181,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLQualTypeCode_t#SBML_QUAL_DEFAULT_TERM SBML_QUAL_DEFAULT_TERM@endlink
+   * @sbmlconstant{SBML_QUAL_DEFAULT_TERM, SBMLQualTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -390,8 +389,8 @@ DefaultTerm_isSetResultLevel(DefaultTerm_t * dt);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
  *
  * @memberof DefaultTerm_t
  */
@@ -409,8 +408,8 @@ DefaultTerm_setResultLevel(DefaultTerm_t * dt, int resultLevel);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof DefaultTerm_t
  */

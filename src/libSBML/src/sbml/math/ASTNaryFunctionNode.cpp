@@ -37,6 +37,7 @@
 #include <sbml/math/ASTNumber.h>
 #include <sbml/math/ASTFunction.h>
 #include <sbml/math/ASTNode.h>
+#include <sbml/extension/ASTBasePlugin.h>
 
 /* open doxygen comment */
 
@@ -153,7 +154,7 @@ ASTNaryFunctionNode::getChild (unsigned int n) const
   else
   {
     /* HACK TO REPLICATE OLD AST */
-    /* do not return a node with teh degree type
+    /* do not return a node with the degree type
      * return the child of the degree
      */
     if (ASTFunctionBase::getNumChildren() <= n)
@@ -226,7 +227,7 @@ ASTNaryFunctionNode::isLog10() const
   if (getType() == AST_FUNCTION_LOG)
   {
     // a log can have either one child that is not the logbase qualifier
-    // or two where teh first is the logbase of 10
+    // or two where the first is the logbase of 10
     if (getNumChildren() == 1)
     {
       ASTBase * base1 = ASTFunctionBase::getChild(0);
@@ -300,7 +301,7 @@ ASTNaryFunctionNode::isSqrt() const
   if (getType() == AST_FUNCTION_ROOT)
   {
     // a sqrt can have either one child that is not the degree qualifier
-    // or two where teh first is the degree of 2
+    // or two where the first is the degree of 2
     if (getNumChildren() == 1)
     {
       /* HACK to replicate OLD AST whic says a sqrt must have two children*/
@@ -401,7 +402,7 @@ ASTNaryFunctionNode::write(XMLOutputStream& stream) const
      * and last is the value operated on
      * 
      * however if the node is read in with a logbase and then more than
-     * further children it uses teh first as the value operated on
+     * further children it uses the first as the value operated on
      */
     if (type == AST_FUNCTION_ROOT)
     {
@@ -604,6 +605,11 @@ ASTNaryFunctionNode::hasCorrectNumberArguments() const
     && numChildren < 2)
   {
     correctNumArgs = false;
+  }
+  else if (type == AST_ORIGINATES_IN_PACKAGE)
+  {
+    correctNumArgs = 
+      getPlugin(getPackageName())->hasCorrectNumberArguments(getExtendedType());
   }
 
   return correctNumArgs;

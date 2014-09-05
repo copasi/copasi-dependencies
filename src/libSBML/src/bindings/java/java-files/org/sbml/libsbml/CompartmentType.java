@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's Level&nbsp;2's CompartmentType
- * construct.
+ *  A <em>compartment type</em> in SBML Level&nbsp;2.
  <p>
  * SBML Level&nbsp;2 Versions&nbsp;2&ndash;4 provide the <em>compartment
  * type</em> as a grouping construct that can be used to establish a
@@ -94,8 +93,8 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Creates a new {@link CompartmentType} using the given SBML <code>level</code> and <code>version</code>
-   * values.
+   * Creates a new {@link CompartmentType} object using the given SBML <code>level</code> and
+   * <code>version</code> values.
    <p>
    * @param level a long integer, the SBML Level to assign to this
    * {@link CompartmentType}
@@ -103,23 +102,26 @@ public class CompartmentType extends SBase {
    * @param version a long integer, the SBML Version to assign to this
    * {@link CompartmentType}
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link CompartmentType} object to an {@link SBMLDocument} (e.g.,
- * using {@link Model#addCompartmentType(CompartmentType c)}), the SBML
- * Level, SBML Version and XML namespace of the document <em>override</em> the
- * values used when creating the {@link CompartmentType} object via the {@link CompartmentType}
- * constructors.  This is necessary to ensure that an SBML document has a
- * consistent overall structure.  Nevertheless, the ability to supply the
- * values at the time of creation of a {@link CompartmentType} is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  CompartmentType(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_CompartmentType__SWIG_0(level, version), true);
@@ -127,8 +129,8 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Creates a new {@link CompartmentType} using the given {@link SBMLNamespaces} object
-   * <code>sbmlns</code>.
+   * Creates a new {@link CompartmentType} object using the given {@link SBMLNamespaces}
+   * object <code>sbmlns</code>.
    <p>
    * <p>
  * The {@link SBMLNamespaces} object encapsulates SBML Level/Version/namespaces
@@ -140,30 +142,33 @@ public class CompartmentType extends SBase {
    <p>
    * It is worth emphasizing that although this constructor does not take an
    * identifier argument, in SBML Level&nbsp;2 and beyond, the 'id'
-   * (identifier) attribute of a {@link CompartmentType} is required to have a value.
-   * Thus, callers are cautioned to assign a value after calling this
+   * (identifier) attribute of a {@link CompartmentType} object is required to have a
+   * value.  Thus, callers are cautioned to assign a value after calling this
    * constructor.  Setting the identifier can be accomplished using the
-   * method setId(String id).
+   * method setId(String).
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link CompartmentType} object to an {@link SBMLDocument} (e.g.,
- * using {@link Model#addCompartmentType(CompartmentType c)}), the SBML
- * Level, SBML Version and XML namespace of the document <em>override</em> the
- * values used when creating the {@link CompartmentType} object via the {@link CompartmentType}
- * constructors.  This is necessary to ensure that an SBML document has a
- * consistent overall structure.  Nevertheless, the ability to supply the
- * values at the time of creation of a {@link CompartmentType} is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  CompartmentType(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_CompartmentType__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -171,11 +176,11 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Copy constructor; creates a copy of this {@link CompartmentType}.
+   * Copy constructor; creates a copy of this {@link CompartmentType} object.
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  CompartmentType(CompartmentType orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -184,9 +189,9 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Creates and returns a deep copy of this {@link CompartmentType}.
+   * Creates and returns a deep copy of this {@link CompartmentType} object.
    <p>
-   * @return a (deep) copy of this {@link CompartmentType}.
+   * @return the (deep) copy of this {@link CompartmentType} object.
    */ public
  CompartmentType cloneObject() {
     long cPtr = libsbmlJNI.CompartmentType_cloneObject(swigCPtr, this);
@@ -195,9 +200,14 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Returns the value of the 'id' attribute of this {@link CompartmentType}.
+   * Returns the value of the 'id' attribute of this {@link CompartmentType} object.
    <p>
-   * @return the id of this {@link CompartmentType}.
+   * @return the identifier of this {@link CompartmentType} object.
+   <p>
+   * @see #getName()
+   * @see #setId(String)
+   * @see #unsetId()
+   * @see #isSetId()
    */ public
  String getId() {
     return libsbmlJNI.CompartmentType_getId(swigCPtr, this);
@@ -205,9 +215,15 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Returns the value of the 'name' attribute of this {@link CompartmentType}.
+   * Returns the value of the 'name' attribute of this {@link CompartmentType}
+   * object.
    <p>
-   * @return the name of this {@link CompartmentType}.
+   * @return the name of this {@link CompartmentType} object.
+   <p>
+   * @see #getId()
+   * @see #isSetName()
+   * @see #setName(String)
+   * @see #unsetName()
    */ public
  String getName() {
     return libsbmlJNI.CompartmentType_getName(swigCPtr, this);
@@ -215,11 +231,15 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * {@link CompartmentType}'s 'id' attribute is set.
+   * Predicate returning <code>true</code> if this {@link CompartmentType} object's 'id'
+   * attribute is set.
    <p>
-   * @return <code>true</code> if the 'id' attribute of this {@link CompartmentType} is
+   * @return <code>true</code> if the 'id' attribute of this {@link CompartmentType} object is
    * set, <code>false</code> otherwise.
+   <p>
+   * @see #getId()
+   * @see #unsetId()
+   * @see #setId(String)
    */ public
  boolean isSetId() {
     return libsbmlJNI.CompartmentType_isSetId(swigCPtr, this);
@@ -227,11 +247,15 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * {@link CompartmentType}'s 'name' attribute is set.
+   * Predicate returning <code>true</code> if this {@link CompartmentType} object's 'name'
+   * attribute is set.
    <p>
-   * @return <code>true</code> if the 'name' attribute of this {@link CompartmentType} is
-   * set, <code>false</code> otherwise.
+   * @return <code>true</code> if the 'name' attribute of this {@link CompartmentType} object
+   * is set, <code>false</code> otherwise.
+   <p>
+   * @see #getName()
+   * @see #setName(String)
+   * @see #unsetName()
    */ public
  boolean isSetName() {
     return libsbmlJNI.CompartmentType_isSetName(swigCPtr, this);
@@ -239,22 +263,21 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Sets the value of the 'id' attribute of this {@link CompartmentType}.
+   * Sets the value of the 'id' attribute of this {@link CompartmentType} object.
    <p>
    * The string <code>sid</code> is copied.
    <p>
    * <p>
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter .= 'a'..'z','A'..'Z'
  * digit  .= '0'..'9'
  * idChar .= letter | digit | '_'
- * SId    .= ( letter | '_' ) idChar*
- * </pre>
+ * SId    .= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -270,9 +293,13 @@ public class CompartmentType extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   *
+   * </ul> <p>
+   * @see #getId()
+   * @see #unsetId()
+   * @see #isSetId()
    */ public
  int setId(String sid) {
     return libsbmlJNI.CompartmentType_setId(swigCPtr, this, sid);
@@ -280,7 +307,7 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Sets the value of the 'name' attribute of this {@link CompartmentType}.
+   * Sets the value of the 'name' attribute of this {@link CompartmentType} object.
    <p>
    * The string in <code>name</code> is copied.
    <p>
@@ -290,9 +317,13 @@ public class CompartmentType extends SBase {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   *
+   * </ul> <p>
+   * @see #getName()
+   * @see #isSetName()
+   * @see #unsetName()
    */ public
  int setName(String name) {
     return libsbmlJNI.CompartmentType_setName(swigCPtr, this, name);
@@ -300,15 +331,19 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Unsets the value of the 'name' attribute of this {@link CompartmentType}.
+   * Unsets the value of the 'name' attribute of this {@link CompartmentType} object.
    <p>
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * @see #getName()
+   * @see #setName(String)
+   * @see #isSetName()
    */ public
  int unsetName() {
     return libsbmlJNI.CompartmentType_unsetName(swigCPtr, this);
@@ -321,16 +356,16 @@ public class CompartmentType extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE} (default).
+   * {@link libsbmlConstants#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE} (default).
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -347,10 +382,14 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Returns the XML element name of this object, which for
-   * {@link CompartmentType}, is always <code>'compartmentType'.</code>
+   * Returns the XML element name of this object
    <p>
-   * @return the name of this element, i.e., <code>'compartmentType'.</code>
+   * For {@link CompartmentType}, the element name is always <code>'compartmentType'.</code>
+   <p>
+   * @return the name of this element.
+   <p>
+   * @see #getTypeCode()
+   * @see #getPackageName()
    */ public
  String getElementName() {
     return libsbmlJNI.CompartmentType_getElementName(swigCPtr, this);
@@ -358,17 +397,16 @@ public class CompartmentType extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if
-   * all the required attributes for this {@link CompartmentType} object
-   * have been set.
+   * Predicate returning <code>true</code> if all the required attributes for this
+   * {@link CompartmentType} object have been set.
    <p>
-   * @note The required attributes for a {@link CompartmentType} object are:
+   * The required attributes for a {@link CompartmentType} object are:
    * <ul>
    * <li> 'id'
    *
    * </ul> <p>
-   * @return a boolean value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return <code>true</code> if the required attributes have been set, <code>false</code>
+   * otherwise.
    */ public
  boolean hasRequiredAttributes() {
     return libsbmlJNI.CompartmentType_hasRequiredAttributes(swigCPtr, this);

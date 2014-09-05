@@ -451,6 +451,7 @@ public class libsbmlJNI {
   public final static native long Model_removeInitialAssignment__SWIG_1(long jarg1, Model jarg1_, String jarg2);
   public final static native long Model_removeRule__SWIG_0(long jarg1, Model jarg1_, long jarg2);
   public final static native long Model_removeRule__SWIG_1(long jarg1, Model jarg1_, String jarg2);
+  public final static native long Model_removeRuleByVariable(long jarg1, Model jarg1_, String jarg2);
   public final static native long Model_removeConstraint(long jarg1, Model jarg1_, long jarg2);
   public final static native long Model_removeReaction__SWIG_0(long jarg1, Model jarg1_, long jarg2);
   public final static native long Model_removeReaction__SWIG_1(long jarg1, Model jarg1_, String jarg2);
@@ -1481,6 +1482,14 @@ public class libsbmlJNI {
   public final static native boolean SBMLNamespaces_isSBMLNamespace(String jarg1);
   public final static native boolean SBMLNamespaces_isValidCombination(long jarg1, SBMLNamespaces jarg1_);
   public final static native String SBMLNamespaces_getPackageName(long jarg1, SBMLNamespaces jarg1_);
+  public final static native void SBMLTransforms_replaceFD__SWIG_0(long jarg1, ASTNode jarg1_, long jarg2, FunctionDefinition jarg2_, long jarg3, IdList jarg3_);
+  public final static native void SBMLTransforms_replaceFD__SWIG_1(long jarg1, ASTNode jarg1_, long jarg2, FunctionDefinition jarg2_);
+  public final static native void SBMLTransforms_replaceFD__SWIG_2(long jarg1, ASTNode jarg1_, long jarg2, ListOfFunctionDefinitions jarg2_, long jarg3, IdList jarg3_);
+  public final static native void SBMLTransforms_replaceFD__SWIG_3(long jarg1, ASTNode jarg1_, long jarg2, ListOfFunctionDefinitions jarg2_);
+  public final static native boolean SBMLTransforms_expandInitialAssignments(long jarg1, Model jarg1_);
+  public final static native double SBMLTransforms_evaluateASTNode__SWIG_0(long jarg1, ASTNode jarg1_, long jarg2, Model jarg2_);
+  public final static native double SBMLTransforms_evaluateASTNode__SWIG_1(long jarg1, ASTNode jarg1_);
+  public final static native long SBMLTransforms_mapComponentValues(long jarg1, Model jarg1_);
   public final static native void SBMLTransforms_clearComponentValues();
   public final static native long new_SBMLTransforms();
   public final static native void delete_SBMLTransforms(long jarg1);
@@ -1531,7 +1540,8 @@ public class libsbmlJNI {
   public final static native void ConversionProperties_setTargetNamespaces(long jarg1, ConversionProperties jarg1_, long jarg2, SBMLNamespaces jarg2_);
   public final static native String ConversionProperties_getDescription(long jarg1, ConversionProperties jarg1_, String jarg2);
   public final static native int ConversionProperties_getType(long jarg1, ConversionProperties jarg1_, String jarg2);
-  public final static native long ConversionProperties_getOption(long jarg1, ConversionProperties jarg1_, String jarg2);
+  public final static native long ConversionProperties_getOption__SWIG_0(long jarg1, ConversionProperties jarg1_, String jarg2);
+  public final static native long ConversionProperties_getOption__SWIG_1(long jarg1, ConversionProperties jarg1_, int jarg2);
   public final static native void ConversionProperties_addOption__SWIG_0(long jarg1, ConversionProperties jarg1_, long jarg2, ConversionOption jarg2_);
   public final static native void ConversionProperties_addOption__SWIG_1(long jarg1, ConversionProperties jarg1_, String jarg2, String jarg3, int jarg4, String jarg5);
   public final static native void ConversionProperties_addOption__SWIG_2(long jarg1, ConversionProperties jarg1_, String jarg2, String jarg3, int jarg4);
@@ -1558,8 +1568,10 @@ public class libsbmlJNI {
   public final static native void ConversionProperties_setFloatValue(long jarg1, ConversionProperties jarg1_, String jarg2, float jarg3);
   public final static native int ConversionProperties_getIntValue(long jarg1, ConversionProperties jarg1_, String jarg2);
   public final static native void ConversionProperties_setIntValue(long jarg1, ConversionProperties jarg1_, String jarg2, int jarg3);
+  public final static native int ConversionProperties_getNumOptions(long jarg1, ConversionProperties jarg1_);
   public final static native long new_SBMLConverter__SWIG_0();
-  public final static native long new_SBMLConverter__SWIG_1(long jarg1, SBMLConverter jarg1_);
+  public final static native long new_SBMLConverter__SWIG_1(String jarg1);
+  public final static native long new_SBMLConverter__SWIG_2(long jarg1, SBMLConverter jarg1_);
   public final static native void delete_SBMLConverter(long jarg1);
   public final static native long SBMLConverter_cloneObject(long jarg1, SBMLConverter jarg1_);
   public final static native long SBMLConverter_cloneObjectSwigExplicitSBMLConverter(long jarg1, SBMLConverter jarg1_);
@@ -1572,15 +1584,15 @@ public class libsbmlJNI {
   public final static native long SBMLConverter_getTargetNamespacesSwigExplicitSBMLConverter(long jarg1, SBMLConverter jarg1_);
   public final static native boolean SBMLConverter_matchesProperties(long jarg1, SBMLConverter jarg1_, long jarg2, ConversionProperties jarg2_);
   public final static native boolean SBMLConverter_matchesPropertiesSwigExplicitSBMLConverter(long jarg1, SBMLConverter jarg1_, long jarg2, ConversionProperties jarg2_);
-  public final static native int SBMLConverter_setDocument__SWIG_0(long jarg1, SBMLConverter jarg1_, long jarg2, SBMLDocument jarg2_);
-  public final static native int SBMLConverter_setDocumentSwigExplicitSBMLConverter__SWIG_0(long jarg1, SBMLConverter jarg1_, long jarg2, SBMLDocument jarg2_);
-  public final static native int SBMLConverter_setDocumentSwigExplicitSBMLConverter__SWIG_1(long jarg1, SBMLConverter jarg1_, long jarg2, SBMLDocument jarg2_);
+  public final static native int SBMLConverter_setDocument(long jarg1, SBMLConverter jarg1_, long jarg2, SBMLDocument jarg2_);
+  public final static native int SBMLConverter_setDocumentSwigExplicitSBMLConverter(long jarg1, SBMLConverter jarg1_, long jarg2, SBMLDocument jarg2_);
   public final static native int SBMLConverter_setProperties(long jarg1, SBMLConverter jarg1_, long jarg2, ConversionProperties jarg2_);
   public final static native int SBMLConverter_setPropertiesSwigExplicitSBMLConverter(long jarg1, SBMLConverter jarg1_, long jarg2, ConversionProperties jarg2_);
   public final static native long SBMLConverter_getProperties(long jarg1, SBMLConverter jarg1_);
   public final static native long SBMLConverter_getPropertiesSwigExplicitSBMLConverter(long jarg1, SBMLConverter jarg1_);
   public final static native int SBMLConverter_convert(long jarg1, SBMLConverter jarg1_);
   public final static native int SBMLConverter_convertSwigExplicitSBMLConverter(long jarg1, SBMLConverter jarg1_);
+  public final static native String SBMLConverter_getName(long jarg1, SBMLConverter jarg1_);
   public final static native void SBMLConverter_director_connect(SBMLConverter obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void SBMLConverter_change_ownership(SBMLConverter obj, long cptr, boolean take_or_release);
   public final static native long SBMLConverterRegistry_getInstance();
@@ -1597,6 +1609,22 @@ public class libsbmlJNI {
   public final static native boolean SBMLFunctionDefinitionConverter_matchesProperties(long jarg1, SBMLFunctionDefinitionConverter jarg1_, long jarg2, ConversionProperties jarg2_);
   public final static native int SBMLFunctionDefinitionConverter_convert(long jarg1, SBMLFunctionDefinitionConverter jarg1_);
   public final static native long SBMLFunctionDefinitionConverter_getDefaultProperties(long jarg1, SBMLFunctionDefinitionConverter jarg1_);
+  public final static native void SBMLIdConverter_init();
+  public final static native long new_SBMLIdConverter__SWIG_0();
+  public final static native long new_SBMLIdConverter__SWIG_1(long jarg1, SBMLIdConverter jarg1_);
+  public final static native long SBMLIdConverter_cloneObject(long jarg1, SBMLIdConverter jarg1_);
+  public final static native void delete_SBMLIdConverter(long jarg1);
+  public final static native boolean SBMLIdConverter_matchesProperties(long jarg1, SBMLIdConverter jarg1_, long jarg2, ConversionProperties jarg2_);
+  public final static native int SBMLIdConverter_convert(long jarg1, SBMLIdConverter jarg1_);
+  public final static native long SBMLIdConverter_getDefaultProperties(long jarg1, SBMLIdConverter jarg1_);
+  public final static native void SBMLInferUnitsConverter_init();
+  public final static native long new_SBMLInferUnitsConverter__SWIG_0();
+  public final static native long new_SBMLInferUnitsConverter__SWIG_1(long jarg1, SBMLInferUnitsConverter jarg1_);
+  public final static native void delete_SBMLInferUnitsConverter(long jarg1);
+  public final static native long SBMLInferUnitsConverter_cloneObject(long jarg1, SBMLInferUnitsConverter jarg1_);
+  public final static native boolean SBMLInferUnitsConverter_matchesProperties(long jarg1, SBMLInferUnitsConverter jarg1_, long jarg2, ConversionProperties jarg2_);
+  public final static native int SBMLInferUnitsConverter_convert(long jarg1, SBMLInferUnitsConverter jarg1_);
+  public final static native long SBMLInferUnitsConverter_getDefaultProperties(long jarg1, SBMLInferUnitsConverter jarg1_);
   public final static native void SBMLInitialAssignmentConverter_init();
   public final static native long new_SBMLInitialAssignmentConverter__SWIG_0();
   public final static native long new_SBMLInitialAssignmentConverter__SWIG_1(long jarg1, SBMLInitialAssignmentConverter jarg1_);
@@ -1616,6 +1644,23 @@ public class libsbmlJNI {
   public final static native long SBMLLevelVersionConverter_getTargetLevel(long jarg1, SBMLLevelVersionConverter jarg1_);
   public final static native long SBMLLevelVersionConverter_getTargetVersion(long jarg1, SBMLLevelVersionConverter jarg1_);
   public final static native boolean SBMLLevelVersionConverter_getValidityFlag(long jarg1, SBMLLevelVersionConverter jarg1_);
+  public final static native void SBMLLocalParameterConverter_init();
+  public final static native long new_SBMLLocalParameterConverter__SWIG_0();
+  public final static native long new_SBMLLocalParameterConverter__SWIG_1(long jarg1, SBMLLocalParameterConverter jarg1_);
+  public final static native long SBMLLocalParameterConverter_cloneObject(long jarg1, SBMLLocalParameterConverter jarg1_);
+  public final static native void delete_SBMLLocalParameterConverter(long jarg1);
+  public final static native boolean SBMLLocalParameterConverter_matchesProperties(long jarg1, SBMLLocalParameterConverter jarg1_, long jarg2, ConversionProperties jarg2_);
+  public final static native int SBMLLocalParameterConverter_convert(long jarg1, SBMLLocalParameterConverter jarg1_);
+  public final static native long SBMLLocalParameterConverter_getDefaultProperties(long jarg1, SBMLLocalParameterConverter jarg1_);
+  public final static native void SBMLReactionConverter_init();
+  public final static native long new_SBMLReactionConverter__SWIG_0();
+  public final static native long new_SBMLReactionConverter__SWIG_1(long jarg1, SBMLReactionConverter jarg1_);
+  public final static native long SBMLReactionConverter_cloneObject(long jarg1, SBMLReactionConverter jarg1_);
+  public final static native void delete_SBMLReactionConverter(long jarg1);
+  public final static native boolean SBMLReactionConverter_matchesProperties(long jarg1, SBMLReactionConverter jarg1_, long jarg2, ConversionProperties jarg2_);
+  public final static native int SBMLReactionConverter_convert(long jarg1, SBMLReactionConverter jarg1_);
+  public final static native long SBMLReactionConverter_getDefaultProperties(long jarg1, SBMLReactionConverter jarg1_);
+  public final static native int SBMLReactionConverter_setDocument(long jarg1, SBMLReactionConverter jarg1_, long jarg2, SBMLDocument jarg2_);
   public final static native void SBMLRuleConverter_init();
   public final static native long new_SBMLRuleConverter__SWIG_0();
   public final static native long new_SBMLRuleConverter__SWIG_1(long jarg1, SBMLRuleConverter jarg1_);
@@ -2274,6 +2319,8 @@ public class libsbmlJNI {
   public final static native boolean ASTBase_isUnaryFunction(long jarg1, ASTBase jarg1_);
   public final static native boolean ASTBase_isUnknown(long jarg1, ASTBase jarg1_);
   public final static native boolean ASTBase_isUserFunction(long jarg1, ASTBase jarg1_);
+  public final static native boolean ASTBase_representsBvar(long jarg1, ASTBase jarg1_);
+  public final static native int ASTBase_setIsBvar(long jarg1, ASTBase jarg1_, boolean jarg2);
   public final static native boolean ASTBase_isNumberNode(long jarg1, ASTBase jarg1_);
   public final static native boolean ASTBase_isFunctionNode(long jarg1, ASTBase jarg1_);
   public final static native boolean ASTBase_isTopLevelMathMLFunctionNodeTag(long jarg1, ASTBase jarg1_, String jarg2);
@@ -2309,8 +2356,6 @@ public class libsbmlJNI {
   public final static native long ASTBase_getNumPlugins(long jarg1, ASTBase jarg1_);
   public final static native int ASTBase_getTypeFromName(long jarg1, ASTBase jarg1_, String jarg2);
   public final static native String ASTBase_getNameFromType(long jarg1, ASTBase jarg1_, int jarg2);
-  public final static native int ASTBase_setUserData(long jarg1, ASTBase jarg1_, long jarg2);
-  public final static native long ASTBase_getUserData(long jarg1, ASTBase jarg1_);
   public final static native boolean ASTBase_isSetUserData(long jarg1, ASTBase jarg1_);
   public final static native int ASTBase_unsetUserData(long jarg1, ASTBase jarg1_);
   public final static native void ASTBase_writeNodeOfType__SWIG_0(long jarg1, ASTBase jarg1_, long jarg2, XMLOutputStream jarg2_, int jarg3, boolean jarg4);
@@ -2322,11 +2367,15 @@ public class libsbmlJNI {
   public final static native int ASTBase_setPackageName(long jarg1, ASTBase jarg1_, String jarg2);
   public final static native boolean ASTBase_hasCnUnits(long jarg1, ASTBase jarg1_);
   public final static native String ASTBase_getUnitsPrefix(long jarg1, ASTBase jarg1_);
+  public final static native boolean ASTBase_isPackageInfixFunction(long jarg1, ASTBase jarg1_);
+  public final static native boolean ASTBase_hasPackageOnlyInfixSyntax(long jarg1, ASTBase jarg1_);
+  public final static native int ASTBase_getL3PackageInfixPrecedence(long jarg1, ASTBase jarg1_);
+  public final static native boolean ASTBase_hasUnambiguousPackageInfixGrammar(long jarg1, ASTBase jarg1_, long jarg2, ASTNode jarg2_);
   public final static native long new_ASTNode__SWIG_0(int jarg1);
-  public final static native long new_ASTNode__SWIG_1(long jarg1, SBMLNamespaces jarg1_, int jarg2);
-  public final static native long new_ASTNode__SWIG_3();
-  public final static native long new_ASTNode__SWIG_5(long jarg1, SBMLNamespaces jarg1_);
-  public final static native long new_ASTNode__SWIG_6(long jarg1, ASTNode jarg1_);
+  public final static native long new_ASTNode__SWIG_1();
+  public final static native long new_ASTNode__SWIG_2(long jarg1, SBMLNamespaces jarg1_, int jarg2);
+  public final static native long new_ASTNode__SWIG_3(long jarg1, SBMLNamespaces jarg1_);
+  public final static native long new_ASTNode__SWIG_4(long jarg1, ASTNode jarg1_);
   public final static native void delete_ASTNode(long jarg1);
   public final static native int ASTNode_freeName(long jarg1, ASTNode jarg1_);
   public final static native boolean ASTNode_canonicalize(long jarg1, ASTNode jarg1_);
@@ -2400,12 +2449,13 @@ public class libsbmlJNI {
   public final static native int ASTNode_setValue__SWIG_1(long jarg1, ASTNode jarg1_, int jarg2, int jarg3);
   public final static native int ASTNode_setValue__SWIG_2(long jarg1, ASTNode jarg1_, double jarg2);
   public final static native int ASTNode_setValue__SWIG_3(long jarg1, ASTNode jarg1_, double jarg2, int jarg3);
-  public final static native int ASTNode_setType__SWIG_0(long jarg1, ASTNode jarg1_, int jarg2);
+  public final static native int ASTNode_setType(long jarg1, ASTNode jarg1_, int jarg2);
   public final static native int ASTNode_setUnits(long jarg1, ASTNode jarg1_, String jarg2);
   public final static native int ASTNode_swapChildren(long jarg1, ASTNode jarg1_, long jarg2, ASTNode jarg2_);
   public final static native void ASTNode_renameSIdRefs(long jarg1, ASTNode jarg1_, String jarg2, String jarg3);
   public final static native void ASTNode_renameUnitSIdRefs(long jarg1, ASTNode jarg1_, String jarg2, String jarg3);
   public final static native void ASTNode_replaceIDWithFunction(long jarg1, ASTNode jarg1_, String jarg2, long jarg3, ASTNode jarg3_);
+  public final static native void ASTNode_setIsChildFlag(long jarg1, ASTNode jarg1_, boolean jarg2);
   public final static native int ASTNode_unsetUnits(long jarg1, ASTNode jarg1_);
   public final static native int ASTNode_unsetId(long jarg1, ASTNode jarg1_);
   public final static native int ASTNode_unsetClass(long jarg1, ASTNode jarg1_);
@@ -2423,6 +2473,7 @@ public class libsbmlJNI {
   public final static native boolean ASTNode_isWellFormedASTNode(long jarg1, ASTNode jarg1_);
   public final static native boolean ASTNode_hasCorrectNumberArguments(long jarg1, ASTNode jarg1_);
   public final static native String ASTNode_getDefinitionURLString(long jarg1, ASTNode jarg1_);
+  public final static native boolean ASTNode_representsBvar(long jarg1, ASTNode jarg1_);
   public final static native void ASTNode_write(long jarg1, ASTNode jarg1_, long jarg2, XMLOutputStream jarg2_);
   public final static native boolean ASTNode_read__SWIG_0(long jarg1, ASTNode jarg1_, long jarg2, XMLInputStream jarg2_, String jarg3);
   public final static native boolean ASTNode_read__SWIG_1(long jarg1, ASTNode jarg1_, long jarg2, XMLInputStream jarg2_);
@@ -2436,6 +2487,8 @@ public class libsbmlJNI {
   public final static native long readMathMLFromStringWithNamespaces(String jarg1, long jarg2, XMLNamespaces jarg2_);
   public final static native String writeMathMLToString(long jarg1, ASTNode jarg1_);
   public final static native long parseFormula(String jarg1);
+  public final static native String formulaToL3String(long jarg1, ASTNode jarg1_);
+  public final static native String formulaToL3StringWithSettings(long jarg1, ASTNode jarg1_, long jarg2, L3ParserSettings jarg2_);
   public final static native String formulaToString(long jarg1, ASTNode jarg1_);
   public final static native long parseL3Formula(String jarg1);
   public final static native long parseL3FormulaWithModel(String jarg1, long jarg2, Model jarg2_);
@@ -2443,7 +2496,9 @@ public class libsbmlJNI {
   public final static native long getDefaultL3ParserSettings();
   public final static native String getLastParseL3Error();
   public final static native long new_L3ParserSettings__SWIG_0();
-  public final static native long new_L3ParserSettings__SWIG_1(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5);
+  public final static native long new_L3ParserSettings__SWIG_1(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6, long jarg7, SBMLNamespaces jarg7_);
+  public final static native long new_L3ParserSettings__SWIG_2(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6);
+  public final static native long new_L3ParserSettings__SWIG_3(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5);
   public final static native void delete_L3ParserSettings(long jarg1);
   public final static native void L3ParserSettings_setModel(long jarg1, L3ParserSettings jarg1_, long jarg2, Model jarg2_);
   public final static native long L3ParserSettings_getModel(long jarg1, L3ParserSettings jarg1_);
@@ -2456,6 +2511,10 @@ public class libsbmlJNI {
   public final static native boolean L3ParserSettings_getParseUnits(long jarg1, L3ParserSettings jarg1_);
   public final static native void L3ParserSettings_setParseAvogadroCsymbol(long jarg1, L3ParserSettings jarg1_, boolean jarg2);
   public final static native boolean L3ParserSettings_getParseAvogadroCsymbol(long jarg1, L3ParserSettings jarg1_);
+  public final static native void L3ParserSettings_setComparisonCaseSensitivity(long jarg1, L3ParserSettings jarg1_, boolean jarg2);
+  public final static native boolean L3ParserSettings_getComparisonCaseSensitivity(long jarg1, L3ParserSettings jarg1_);
+  public final static native void L3ParserSettings_setPlugins(long jarg1, L3ParserSettings jarg1_, long jarg2, SBMLNamespaces jarg2_);
+  public final static native void L3ParserSettings_visitPackageInfixSyntax(long jarg1, L3ParserSettings jarg1_, long jarg2, ASTNode jarg2_, long jarg3, ASTNode jarg3_, long jarg4);
   public final static native void delete_ASTBasePlugin(long jarg1);
   public final static native long ASTBasePlugin_cloneObject(long jarg1, ASTBasePlugin jarg1_);
   public final static native String ASTBasePlugin_getElementNamespace(long jarg1, ASTBasePlugin jarg1_);
@@ -2504,6 +2563,8 @@ public class libsbmlJNI {
   public final static native boolean ASTBasePlugin_representsUnaryFunction(long jarg1, ASTBasePlugin jarg1_, int jarg2);
   public final static native boolean ASTBasePlugin_representsBinaryFunction(long jarg1, ASTBasePlugin jarg1_, int jarg2);
   public final static native boolean ASTBasePlugin_representsNaryFunction(long jarg1, ASTBasePlugin jarg1_, int jarg2);
+  public final static native boolean ASTBasePlugin_hasCorrectNumberArguments(long jarg1, ASTBasePlugin jarg1_, int jarg2);
+  public final static native boolean ASTBasePlugin_isWellFormedNode(long jarg1, ASTBasePlugin jarg1_, int jarg2);
   public final static native boolean ASTBasePlugin_isTopLevelMathMLFunctionNodeTag(long jarg1, ASTBasePlugin jarg1_, String jarg2);
   public final static native boolean ASTBasePlugin_isTopLevelMathMLNumberNodeTag(long jarg1, ASTBasePlugin jarg1_, String jarg2);
   public final static native int ASTBasePlugin_getTypeFromName(long jarg1, ASTBasePlugin jarg1_, String jarg2);
@@ -2556,8 +2617,12 @@ public class libsbmlJNI {
   public final static native long Priority_SWIGUpcast(long jarg1);
   public final static native long StoichiometryMath_SWIGUpcast(long jarg1);
   public final static native long SBMLFunctionDefinitionConverter_SWIGUpcast(long jarg1);
+  public final static native long SBMLIdConverter_SWIGUpcast(long jarg1);
+  public final static native long SBMLInferUnitsConverter_SWIGUpcast(long jarg1);
   public final static native long SBMLInitialAssignmentConverter_SWIGUpcast(long jarg1);
   public final static native long SBMLLevelVersionConverter_SWIGUpcast(long jarg1);
+  public final static native long SBMLLocalParameterConverter_SWIGUpcast(long jarg1);
+  public final static native long SBMLReactionConverter_SWIGUpcast(long jarg1);
   public final static native long SBMLRuleConverter_SWIGUpcast(long jarg1);
   public final static native long SBMLStripPackageConverter_SWIGUpcast(long jarg1);
   public final static native long SBMLUnitsConverter_SWIGUpcast(long jarg1);
@@ -2593,10 +2658,7 @@ public class libsbmlJNI {
   public static boolean SwigDirector_SBMLConverter_matchesProperties(SBMLConverter self, long props) {
     return self.matchesProperties(new ConversionProperties(props, false));
   }
-  public static int SwigDirector_SBMLConverter_setDocument__SWIG_0(SBMLConverter self, long doc) {
-    return self.setDocument((doc == 0) ? null : new SBMLDocument(doc, false));
-  }
-  public static int SwigDirector_SBMLConverter_setDocument__SWIG_1(SBMLConverter self, long doc) {
+  public static int SwigDirector_SBMLConverter_setDocument(SBMLConverter self, long doc) {
     return self.setDocument((doc == 0) ? null : new SBMLDocument(doc, false));
   }
   public static int SwigDirector_SBMLConverter_setProperties(SBMLConverter self, long props) {

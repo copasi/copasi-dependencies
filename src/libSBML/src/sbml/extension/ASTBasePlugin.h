@@ -50,8 +50,9 @@
 #include <sbml/SBMLErrorLog.h>
 #include <sbml/math/ASTBase.h>
 #include <sbml/SBMLDocument.h>
+#include <sbml/util/StringBuffer.h>
 
-
+#include <sbml/math/L3ParserSettings.h>
 
 #ifdef __cplusplus
 
@@ -77,8 +78,8 @@ public:
 
   /**
    * Creates and returns a deep copy of this ASTBasePlugin object.
-   * 
-   * @return a (deep) copy of this SBase object
+   *
+   * @return the (deep) copy of this ASTBasePlugin object.
    */
   virtual ASTBasePlugin* clone () const;
 
@@ -130,7 +131,7 @@ public:
    * This function is called when this object is created by
    * the parent element.
    * Subclasses must override this this function if they have one
-   * or more child elements. Also, ASTBasePlugin::connectToParent(@if java SBase *sbase@endif)
+   * or more child elements. Also, ASTBasePlugin::connectToParent(@if java SBase@endif)
    * must be called in the overridden function.
    *
    * @param sbase the SBase object to use
@@ -227,8 +228,8 @@ public:
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
   int setElementNamespace(const std::string &uri);
 
@@ -321,6 +322,9 @@ public:
   virtual bool representsUnaryFunction(int type) const;
   virtual bool representsBinaryFunction(int type) const;
   virtual bool representsNaryFunction(int type) const;
+
+  virtual bool hasCorrectNumberArguments(int type) const;
+  virtual bool isWellFormedNode(int type) const;
   
   virtual bool isTopLevelMathMLFunctionNodeTag(const std::string& name) const;
 
@@ -331,7 +335,8 @@ public:
   virtual const char * getNameFromType(int type) const;
 
   /* end doxygen comment */
-
+  friend class L3ParserSettings;
+  friend class ASTBase;
 protected:
   /* open doxygen comment */
   /**
@@ -347,6 +352,65 @@ protected:
    */
   ASTBasePlugin(const ASTBasePlugin& orig);
 
+
+  /**
+   * Returns true if this is a package function which should be written as
+   * "functionname(argumentlist)", false otherwise.
+   */
+  virtual bool isPackageInfixFunction() const;
+
+  /**
+   * Returns true if this is a package function which should be written
+   * special syntax that the package knows about, false otherwise.
+   */
+  virtual bool hasPackageOnlyInfixSyntax() const;
+
+  /**
+   * Get the precedence of this package function, or -1 if unknown
+   */
+  virtual int getL3PackageInfixPrecedence() const;
+
+  /**
+   * Returns true if this is a package function which should be written
+   * special syntax that the package knows about, false otherwise.
+   */
+  virtual bool hasUnambiguousPackageInfixGrammar(const ASTNode *child) const;
+
+  /**
+   * Visits the given ASTNode_t and continues the inorder traversal for nodes whose syntax are determined by packages.
+   */
+  virtual void visitPackageInfixSyntax ( const ASTNode *parent,
+                                         const ASTNode *node,
+                                         StringBuffer_t  *sb,
+                                         const L3ParserSettings* settings) const;
+
+  /**
+   * This function checks the provided ASTNode function to see if it is a 
+   * known function with the wrong number of arguments.  If so, 'error' is
+   * set and '-1' is returned.  If it has the correct number of arguments,
+   * '1' is returned.  If the plugin knows nothing about the function, '0' 
+   * is returned.
+   */
+  virtual int checkNumArguments(const ASTNode* function, std::stringstream& error) const;
+
+  /**
+   * The generic parsing function for grammar lines that packages recognize, but not core.
+   * When a package recognizes the 'type', it will parse and return the correct ASTNode.
+   * If it does not recognize the 'type', or if the arguments are incorrect, NULL is returend.
+   */
+  virtual ASTNode* parsePackageInfix(L3ParserGrammarLineType_t type, 
+    std::vector<ASTNode*> *nodeList = NULL, std::vector<std::string*> *stringList = NULL,
+    std::vector<double> *doubleList = NULL) const;
+
+
+  /**
+   * The user input a string of the form "name(...)", and we want to know if
+   * 'name' is recognized by a package as being a particular function.  We already
+   * know that it is not used in the Model as a FunctionDefinition.  Should do
+   * caseless string comparison.  Return the type of the function, or AST_UNKNOWN
+   * if nothing found.
+   */
+  virtual int getPackageFunctionFor(const std::string& name) const;
 
   /*-- data members --*/
 

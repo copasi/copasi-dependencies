@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Representation of an extension point of SBML's package
- * extension.
+ *  Extension of an element by an SBML Level 3 package.
  <p>
  * @internal 
  <p>
@@ -18,20 +17,19 @@ package org.sbml.libsbml;
  * extension point is identified by a combination of a package name and a typecode of the 
  * element.
  <p>
- <p>
  * For example, an {@link SBaseExtensionPoint} object which represents an extension point of the model
  * element defined in the <em>core</em> package can be created as follows:
  <p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
       {@link SBaseExtensionPoint}  modelextp('core', SBML_MODEL);
-</pre></div>
+</pre>
  <p>
  * Similarly, an {@link SBaseExtensionPoint} object which represents an extension point of
  * the layout element defined in the layout extension can be created as follows:
  <p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
       {@link SBaseExtensionPoint}  layoutextp('layout', SBML_LAYOUT_LAYOUT);
-</pre></div>
+</pre>
  <p>
  * {@link SBaseExtensionPoint} object is required as one of arguments of the constructor 
  * of SBasePluginCreator&lt;class SBasePluginType, class SBMLExtensionType&gt;
@@ -41,7 +39,7 @@ package org.sbml.libsbml;
  * of the layout extension which is plugged in to the model element of the <em>core</em>
  * package can be created with the corresponding {@link SBaseExtensionPoint} object as follows:
  <p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
   // std.vector object that contains a list of URI (package versions) supported 
   // by the plugin object.
   std.vector&lt;String&gt; packageURIs;
@@ -53,7 +51,7 @@ package org.sbml.libsbml;
    
   // creates an SBasePluginCreator object 
   SBasePluginCreator&lt;LayoutModelPlugin, LayoutExtension&gt;  modelPluginCreator(modelExtPoint,packageURIs);
-</pre></div>
+</pre>
  <p>
  * This kind of code is implemented in init() function of each {@link SBMLExtension} derived classes.
  */
@@ -118,9 +116,9 @@ public class SBaseExtensionPoint {
 
   
 /**
-   * Creates and returns a deep copy of this {@link SBaseExtensionPoint}.
+   * Creates and returns a deep copy of this {@link SBaseExtensionPoint} object.
    <p>
-   * @return a (deep) copy of this {@link SBaseExtensionPoint}.
+   * @return the (deep) copy of this {@link SBaseExtensionPoint} object.
    */ public
  SBaseExtensionPoint cloneObject() {
     long cPtr = libsbmlJNI.SBaseExtensionPoint_cloneObject(swigCPtr, this);

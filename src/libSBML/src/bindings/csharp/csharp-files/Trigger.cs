@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of %SBML's %Trigger construct for %Event.
+@htmlinclude pkg-marker-core.html The trigger expression for an SBML <em>event</em>.
  *
  * An Event object defines when the event can occur, the variables that are
  * affected by the event, and how the variables are affected.  The Trigger
@@ -40,7 +40,7 @@ namespace libsbmlcs {
  * 'initialValue'.  This and other additional features introduced in SBML
  * Level&nbsp;3 are discussed further below.
  *
- * @section version-diffs Version differences
+ * @section trigger-version-diffs Version differences
  *
  * SBML Level&nbsp;3 Version&nbsp;1 introduces two required attributes
  * on the Trigger object: 'persistent' and 'initialValue'.  The rest of
@@ -168,7 +168,7 @@ public class Trigger : SBase {
    * @param version a long integer, the SBML Version to assign to this
    * Trigger
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
@@ -183,7 +183,7 @@ public class Trigger : SBase {
    * @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -195,7 +195,7 @@ public class Trigger : SBase {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
@@ -210,7 +210,7 @@ public class Trigger : SBase {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  Trigger(Trigger orig) : this(libsbmlPINVOKE.new_Trigger__SWIG_2(Trigger.getCPtr(orig)), true) {
@@ -219,9 +219,9 @@ public class Trigger : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this Trigger.
+   * Creates and returns a deep copy of this Trigger object.
    *
-   * @return a (deep) copy of this Trigger.
+   * @return the (deep) copy of this Trigger object.
    */ public new
  Trigger clone() {
     IntPtr cPtr = libsbmlPINVOKE.Trigger_clone(swigCPtr);
@@ -329,8 +329,8 @@ public class Trigger : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.Trigger_setMath(swigCPtr, ASTNode.getCPtr(math));
@@ -347,8 +347,8 @@ public class Trigger : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @note The attribute 'initialValue' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -368,8 +368,8 @@ public class Trigger : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @note The attribute 'persistent' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -384,10 +384,10 @@ public class Trigger : SBase {
    * Returns the libSBML type code of this object instance.
    *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -399,15 +399,15 @@ public class Trigger : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_TRIGGER SBML_TRIGGER@endlink (default).
+   * @link libsbmlcs#SBML_TRIGGER SBML_TRIGGER@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -439,10 +439,11 @@ public class Trigger : SBase {
 
   
 /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML.
-   *
    * *
+ * Replaces all uses of a given @c SIdRef type attribute value with another
+ * value.
+ *
+ * *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -456,15 +457,18 @@ public class Trigger : SBase {
  * explicitly name the data type.
  *
  *
-   * 
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of @p oldid.  If any matches are found, the
+ * matching values are replaced with @p newid.  The method does @em not
+ * descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.Trigger_renameSIdRefs(swigCPtr, oldid, newid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -472,9 +476,11 @@ public class Trigger : SBase {
 
   
 /**
-   * Renames all the @c UnitSIdRef attributes on this element.
-   *
    * *
+ * Replaces all uses of a given @c UnitSIdRef type attribute value with
+ * another value.
+ *
+ * *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
@@ -485,18 +491,20 @@ public class Trigger : SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
- * 
  *
-   *
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of @p oldid.  If any matches are found,
-   * the matching identifiers are replaced with @p newid.  The method does
-   * @em not descend into child elements.
-   * 
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ *
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of @p oldid.  If any matches
+ * are found, the matching values are replaced with @p newid.  The method
+ * does @em not descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameUnitSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.Trigger_renameUnitSIdRefs(swigCPtr, oldid, newid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -506,7 +514,7 @@ public class Trigger : SBase {
 /**
    * Replace all nodes with the name 'id' from the child 'math' object with the provided function. 
    *
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void replaceSIDWithFunction(string id, ASTNode function) {
     libsbmlPINVOKE.Trigger_replaceSIDWithFunction(swigCPtr, id, ASTNode.getCPtr(function));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -535,7 +543,7 @@ public class Trigger : SBase {
    * all the required attributes for this Trigger object
    * have been set.
    *
-   * @note The required attributes for a Trigger object are:
+   * The required attributes for a Trigger object are:
    * @li 'persistent' (required in SBML Level&nbsp;3)
    * @li 'initialValue' (required in SBML Level&nbsp;3)
    *
@@ -555,9 +563,9 @@ public class Trigger : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   */ public
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public new
  int removeFromParentAndDelete() {
     int ret = libsbmlPINVOKE.Trigger_removeFromParentAndDelete(swigCPtr);
     return ret;

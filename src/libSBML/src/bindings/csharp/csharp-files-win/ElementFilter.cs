@@ -14,8 +14,14 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html 
- * @internal
+@htmlinclude pkg-marker-core.html Base class for filter functions.
+ *
+ * @htmlinclude libsbml-facility-only-warning.html
+ *
+ * Some libSBML objects provide the ability to return lists of components.
+ * To provide callers with greater control over exactly what is
+ * returned, these methods take optional arguments in the form of filters.
+ * The ElementFilter class is the parent class for these filters.
  */
 
 public class ElementFilter : IDisposable {
@@ -63,11 +69,30 @@ public class ElementFilter : IDisposable {
     }
   }
 
-  public ElementFilter() : this(libsbmlPINVOKE.new_ElementFilter(), true) {
+  
+/**
+   * Creates a new ElementFilter object.
+   */ public
+ ElementFilter() : this(libsbmlPINVOKE.new_ElementFilter(), true) {
     SwigDirectorConnect();
   }
 
-  public virtual bool filter(SBase element) {
+  
+/**
+   * Predicate to test elements.
+   *
+   * This is the central predicate of the ElementFilter class.  In subclasses
+   * of ElementFilter, callers should implement this method such that it
+   * returns @c true for @p element arguments that are 'desirable' and @c
+   * false for those that are 'undesirable' in whatever filtering context the
+   * ElementFilter subclass is designed to be used.
+   *
+   * @param element the element to be tested.
+   *
+   * @return @c true if the @p element is desirable or should be kept,
+   * @c false otherwise.
+   */ public virtual
+ bool filter(SBase element) {
     bool ret = (SwigDerivedClassHasMethod("filter", swigMethodTypes0) ? libsbmlPINVOKE.ElementFilter_filterSwigExplicitElementFilter(swigCPtr, SBase.getCPtr(element)) : libsbmlPINVOKE.ElementFilter_filter(swigCPtr, SBase.getCPtr(element)));
     return ret;
   }

@@ -27,8 +27,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class GeneralGlyph
- * @sbmlbrief{layout} The %GeneralGlyph is used by the &ldquo;layout&rdquo;
- * package to represent any SBML object.
+ * @sbmlbrief{layout} A glyph for miscellaneous items.
  *
  * The GeneralGlyph is used to facilitate the representation of elements
  * other than Compartment, Species and Reaction and thus can be used for the
@@ -62,8 +61,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 /**
  * @class ListOfReferenceGlyphs
- * @sbmlbrief{layout} Implementation of the %ListOfReferenceGlyphs construct
- * from the &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A list of ReferenceGlyph objects.
  * 
  * The ListOfReferenceGlyphs is a container for the ReferenceGlyph elements of a GeneralGlyph.
  * 
@@ -102,16 +100,19 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_LAYOUT_REFERENCEGLYPH SBML_LAYOUT_REFERENCEGLYPH@endlink (default).
+   * @sbmlconstant{SBML_LAYOUT_REFERENCEGLYPH, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const;
 
@@ -306,16 +307,7 @@ public:
 
 
   /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML content (if such exists).
-   *
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renamesidref_common
    */
   virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
@@ -508,7 +500,7 @@ public:
   /**
    * Returns the index of the reference glyph with the given @p id.
    * If the glyph does not contain a reference glyph with this
-   * id, @if cpp numeric_limits<unsigned int>::max() @endif@if notcpp the
+   * id, @if cpp numeric_limits<unsigned int>::max() @else cpp the
    * value of the maximum long integer@endif@~ is returned as an indicator.
    */
   
@@ -518,7 +510,7 @@ public:
   /**
    * Returns the index of the subglyph with the given @p id.
    * If the glyph does not contain a subglyph with this
-   * id, @if cpp numeric_limits<unsigned int>::max() @endif@if notcpp the
+   * id, @if cpp numeric_limits<unsigned int>::max() @else cpp the
    * value of the maximum long integer@endif@~ is returned as an indicator.
    */
   
@@ -540,11 +532,15 @@ public:
   virtual void writeElements (XMLOutputStream& stream) const;
   /** @endcond */
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const ;
+
 
   /**
    * Creates and returns a deep copy of this GeneralGlyph.
@@ -560,7 +556,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_GENERALGLYPH SBML_LAYOUT_GENERALGLYPH@endlink
+   * @sbmlconstant{SBML_LAYOUT_GENERALGLYPH, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *

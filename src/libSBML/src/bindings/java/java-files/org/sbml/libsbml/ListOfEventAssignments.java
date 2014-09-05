@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's ListOfEventAssignments
- * construct.
+ *  A list of {@link EventAssignment} objects.
  <p>
  * <p>
  * The various ListOf___ classes in SBML
@@ -130,9 +129,9 @@ public class ListOfEventAssignments extends ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this {@link ListOfEventAssignments}.
+   * Creates and returns a deep copy of this {@link ListOfEventAssignments} object.
    <p>
-   * @return a (deep) copy of this {@link ListOfEventAssignments}.
+   * @return the (deep) copy of this {@link ListOfEventAssignments} object.
    */ public
  ListOfEventAssignments cloneObject() {
     long cPtr = libsbmlJNI.ListOfEventAssignments_cloneObject(swigCPtr, this);
@@ -147,16 +146,16 @@ public class ListOfEventAssignments extends ListOf {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
-   * {@link  libsbmlConstants#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT} (default).
+   * {@link libsbmlConstants#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT} (default).
    <p>
    * @see #getElementName()
    * @see #getPackageName()

@@ -495,6 +495,7 @@ SWIGINTERN ListWrapper< SBase > *SBasePlugin_getListOfAllElements__SWIG_0(SBaseP
 
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/MathML.h>
+#include <sbml/math/L3FormulaFormatter.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <sbml/math/FormulaParser.h>
 #include <sbml/math/L3Parser.h>
@@ -504,6 +505,7 @@ SWIGINTERN ListWrapper< SBase > *SBasePlugin_getListOfAllElements__SWIG_0(SBaseP
 
 #include <sbml/math-legacy/ASTNode.h>
 #include <sbml/math-legacy/MathML.h>
+#include <sbml/math-legacy/L3FormulaFormatter.h>
 #include <sbml/math-legacy/FormulaFormatter.h>
 #include <sbml/math-legacy/FormulaParser.h>
 #include <sbml/math-legacy/L3Parser.h>
@@ -590,6 +592,10 @@ void SwigDirector_ElementFilter::swig_init_callbacks() {
 }
 
 SwigDirector_SBMLConverter::SwigDirector_SBMLConverter() : SBMLConverter(), Swig::Director() {
+  swig_init_callbacks();
+}
+
+SwigDirector_SBMLConverter::SwigDirector_SBMLConverter(std::string const &name) : SBMLConverter(name), Swig::Director() {
   swig_init_callbacks();
 }
 
@@ -687,18 +693,7 @@ bool SwigDirector_SBMLConverter::matchesProperties(ConversionProperties const &p
 }
 
 int SwigDirector_SBMLConverter::setDocument(SBMLDocument const *doc) {
-  int c_result = SwigValueInit< int >() ;
-  int jresult = 0 ;
-  void * jdoc = 0 ;
-  
-  if (!swig_callbacksetDocument__SWIG_0) {
-    return SBMLConverter::setDocument(doc);
-  } else {
-    jdoc = (void *) doc; 
-    jresult = (int) swig_callbacksetDocument__SWIG_0(jdoc);
-    c_result = (int)jresult; 
-  }
-  return c_result;
+  return SBMLConverter::setDocument(doc);
 }
 
 int SwigDirector_SBMLConverter::setDocument(SBMLDocument *doc) {
@@ -706,11 +701,11 @@ int SwigDirector_SBMLConverter::setDocument(SBMLDocument *doc) {
   int jresult = 0 ;
   void * jdoc = 0 ;
   
-  if (!swig_callbacksetDocument__SWIG_1) {
+  if (!swig_callbacksetDocument) {
     return SBMLConverter::setDocument(doc);
   } else {
     jdoc = (void *) doc; 
-    jresult = (int) swig_callbacksetDocument__SWIG_1(jdoc);
+    jresult = (int) swig_callbacksetDocument(jdoc);
     c_result = (int)jresult; 
   }
   return c_result;
@@ -757,15 +752,14 @@ int SwigDirector_SBMLConverter::convert() {
   return c_result;
 }
 
-void SwigDirector_SBMLConverter::swig_connect_director(SWIG_Callback0_t callbackclone, SWIG_Callback1_t callbackgetDocument__SWIG_0, SWIG_Callback2_t callbackgetDocument__SWIG_1, SWIG_Callback3_t callbackgetDefaultProperties, SWIG_Callback4_t callbackgetTargetNamespaces, SWIG_Callback5_t callbackmatchesProperties, SWIG_Callback6_t callbacksetDocument__SWIG_0, SWIG_Callback7_t callbacksetDocument__SWIG_1, SWIG_Callback8_t callbacksetProperties, SWIG_Callback9_t callbackgetProperties, SWIG_Callback10_t callbackconvert) {
+void SwigDirector_SBMLConverter::swig_connect_director(SWIG_Callback0_t callbackclone, SWIG_Callback1_t callbackgetDocument__SWIG_0, SWIG_Callback2_t callbackgetDocument__SWIG_1, SWIG_Callback3_t callbackgetDefaultProperties, SWIG_Callback4_t callbackgetTargetNamespaces, SWIG_Callback5_t callbackmatchesProperties, SWIG_Callback6_t callbacksetDocument, SWIG_Callback7_t callbacksetProperties, SWIG_Callback8_t callbackgetProperties, SWIG_Callback9_t callbackconvert) {
   swig_callbackclone = callbackclone;
   swig_callbackgetDocument__SWIG_0 = callbackgetDocument__SWIG_0;
   swig_callbackgetDocument__SWIG_1 = callbackgetDocument__SWIG_1;
   swig_callbackgetDefaultProperties = callbackgetDefaultProperties;
   swig_callbackgetTargetNamespaces = callbackgetTargetNamespaces;
   swig_callbackmatchesProperties = callbackmatchesProperties;
-  swig_callbacksetDocument__SWIG_0 = callbacksetDocument__SWIG_0;
-  swig_callbacksetDocument__SWIG_1 = callbacksetDocument__SWIG_1;
+  swig_callbacksetDocument = callbacksetDocument;
   swig_callbacksetProperties = callbacksetProperties;
   swig_callbackgetProperties = callbackgetProperties;
   swig_callbackconvert = callbackconvert;
@@ -778,8 +772,7 @@ void SwigDirector_SBMLConverter::swig_init_callbacks() {
   swig_callbackgetDefaultProperties = 0;
   swig_callbackgetTargetNamespaces = 0;
   swig_callbackmatchesProperties = 0;
-  swig_callbacksetDocument__SWIG_0 = 0;
-  swig_callbacksetDocument__SWIG_1 = 0;
+  swig_callbacksetDocument = 0;
   swig_callbacksetProperties = 0;
   swig_callbackgetProperties = 0;
   swig_callbackconvert = 0;
@@ -7007,6 +7000,25 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Model_removeRule__SWIG_1(void * jarg1, char
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (Rule *)(arg1)->removeRule((std::string const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Model_removeRuleByVariable(void * jarg1, char * jarg2) {
+  void * jresult ;
+  Model *arg1 = (Model *) 0 ;
+  std::string *arg2 = 0 ;
+  Rule *result = 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (Rule *)(arg1)->removeRuleByVariable((std::string const &)*arg2);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22506,6 +22518,100 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_SBMLNamespaces_getPackageName(void * jarg1)
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLTransforms_replaceFD__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  FunctionDefinition *arg2 = (FunctionDefinition *) 0 ;
+  IdList *arg3 = (IdList *) 0 ;
+  
+  arg1 = (ASTNode *)jarg1; 
+  arg2 = (FunctionDefinition *)jarg2; 
+  arg3 = (IdList *)jarg3; 
+  SBMLTransforms::replaceFD(arg1,(FunctionDefinition const *)arg2,(IdList const *)arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLTransforms_replaceFD__SWIG_1(void * jarg1, void * jarg2) {
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  FunctionDefinition *arg2 = (FunctionDefinition *) 0 ;
+  
+  arg1 = (ASTNode *)jarg1; 
+  arg2 = (FunctionDefinition *)jarg2; 
+  SBMLTransforms::replaceFD(arg1,(FunctionDefinition const *)arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLTransforms_replaceFD__SWIG_2(void * jarg1, void * jarg2, void * jarg3) {
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  ListOfFunctionDefinitions *arg2 = (ListOfFunctionDefinitions *) 0 ;
+  IdList *arg3 = (IdList *) 0 ;
+  
+  arg1 = (ASTNode *)jarg1; 
+  arg2 = (ListOfFunctionDefinitions *)jarg2; 
+  arg3 = (IdList *)jarg3; 
+  SBMLTransforms::replaceFD(arg1,(ListOfFunctionDefinitions const *)arg2,(IdList const *)arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLTransforms_replaceFD__SWIG_3(void * jarg1, void * jarg2) {
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  ListOfFunctionDefinitions *arg2 = (ListOfFunctionDefinitions *) 0 ;
+  
+  arg1 = (ASTNode *)jarg1; 
+  arg2 = (ListOfFunctionDefinitions *)jarg2; 
+  SBMLTransforms::replaceFD(arg1,(ListOfFunctionDefinitions const *)arg2);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLTransforms_expandInitialAssignments(void * jarg1) {
+  unsigned int jresult ;
+  Model *arg1 = (Model *) 0 ;
+  bool result;
+  
+  arg1 = (Model *)jarg1; 
+  result = (bool)SBMLTransforms::expandInitialAssignments(arg1);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT double SWIGSTDCALL CSharp_SBMLTransforms_evaluateASTNode__SWIG_0(void * jarg1, void * jarg2) {
+  double jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  Model *arg2 = (Model *) 0 ;
+  double result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  arg2 = (Model *)jarg2; 
+  result = (double)SBMLTransforms::evaluateASTNode((ASTNode const *)arg1,(Model const *)arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT double SWIGSTDCALL CSharp_SBMLTransforms_evaluateASTNode__SWIG_1(void * jarg1) {
+  double jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  double result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  result = (double)SBMLTransforms::evaluateASTNode((ASTNode const *)arg1);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLTransforms_mapComponentValues(void * jarg1) {
+  void * jresult ;
+  Model *arg1 = (Model *) 0 ;
+  IdList result;
+  
+  arg1 = (Model *)jarg1; 
+  result = SBMLTransforms::mapComponentValues((Model const *)arg1);
+  jresult = new IdList((const IdList &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_SBMLTransforms_clearComponentValues() {
   SBMLTransforms::clearComponentValues();
 }
@@ -22601,29 +22707,32 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_SBMLConstructorException_getSBMLErrMsg(void
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_0(char * jarg1, char * jarg2, int jarg3, char * jarg4) {
   void * jresult ;
-  std::string arg1 ;
-  std::string arg2 ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
   ConversionOptionType_t arg3 ;
-  std::string arg4 ;
+  std::string *arg4 = 0 ;
   ConversionOption *result = 0 ;
   
   if (!jarg1) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (ConversionOptionType_t)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg4)->assign(jarg4); 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2,arg3,arg4);
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,(std::string const &)*arg2,arg3,(std::string const &)*arg4);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22631,8 +22740,8 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_0(char * jarg1, 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_1(char * jarg1, char * jarg2, int jarg3) {
   void * jresult ;
-  std::string arg1 ;
-  std::string arg2 ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
   ConversionOptionType_t arg3 ;
   ConversionOption *result = 0 ;
   
@@ -22640,14 +22749,16 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_1(char * jarg1, 
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (ConversionOptionType_t)jarg3; 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2,arg3);
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,(std::string const &)*arg2,arg3);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22655,21 +22766,23 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_1(char * jarg1, 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_2(char * jarg1, char * jarg2) {
   void * jresult ;
-  std::string arg1 ;
-  std::string arg2 ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
   ConversionOption *result = 0 ;
   
   if (!jarg1) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,(std::string const &)*arg2);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22677,15 +22790,16 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_2(char * jarg1, 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_3(char * jarg1) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   ConversionOption *result = 0 ;
   
   if (!jarg1) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
-  result = (ConversionOption *)new ConversionOption(arg1);
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22693,23 +22807,25 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_3(char * jarg1) 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_4(char * jarg1, char * jarg2, char * jarg3) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   char *arg2 = (char *) 0 ;
-  std::string arg3 ;
+  std::string *arg3 = 0 ;
   ConversionOption *result = 0 ;
   
   if (!jarg1) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   arg2 = (char *)jarg2; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg3)->assign(jarg3); 
-  result = (ConversionOption *)new ConversionOption(arg1,(char const *)arg2,arg3);
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,(char const *)arg2,(std::string const &)*arg3);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22717,23 +22833,25 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_4(char * jarg1, 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_6(char * jarg1, unsigned int jarg2, char * jarg3) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   bool arg2 ;
-  std::string arg3 ;
+  std::string *arg3 = 0 ;
   ConversionOption *result = 0 ;
   
   if (!jarg1) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   arg2 = jarg2 ? true : false; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg3)->assign(jarg3); 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2,arg3);
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,arg2,(std::string const &)*arg3);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22741,7 +22859,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_6(char * jarg1, 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_7(char * jarg1, unsigned int jarg2) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   bool arg2 ;
   ConversionOption *result = 0 ;
   
@@ -22749,9 +22867,10 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_7(char * jarg1, 
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   arg2 = jarg2 ? true : false; 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2);
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,arg2);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22759,23 +22878,25 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_7(char * jarg1, 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_8(char * jarg1, double jarg2, char * jarg3) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   double arg2 ;
-  std::string arg3 ;
+  std::string *arg3 = 0 ;
   ConversionOption *result = 0 ;
   
   if (!jarg1) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   arg2 = (double)jarg2; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg3)->assign(jarg3); 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2,arg3);
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,arg2,(std::string const &)*arg3);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22783,7 +22904,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_8(char * jarg1, 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_9(char * jarg1, double jarg2) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   double arg2 ;
   ConversionOption *result = 0 ;
   
@@ -22791,9 +22912,10 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_9(char * jarg1, 
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   arg2 = (double)jarg2; 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2);
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,arg2);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22801,23 +22923,25 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_9(char * jarg1, 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_10(char * jarg1, float jarg2, char * jarg3) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   float arg2 ;
-  std::string arg3 ;
+  std::string *arg3 = 0 ;
   ConversionOption *result = 0 ;
   
   if (!jarg1) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   arg2 = (float)jarg2; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg3)->assign(jarg3); 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2,arg3);
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,arg2,(std::string const &)*arg3);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22825,7 +22949,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_10(char * jarg1,
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_11(char * jarg1, float jarg2) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   float arg2 ;
   ConversionOption *result = 0 ;
   
@@ -22833,9 +22957,10 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_11(char * jarg1,
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   arg2 = (float)jarg2; 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2);
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,arg2);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22843,23 +22968,25 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_11(char * jarg1,
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_12(char * jarg1, int jarg2, char * jarg3) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   int arg2 ;
-  std::string arg3 ;
+  std::string *arg3 = 0 ;
   ConversionOption *result = 0 ;
   
   if (!jarg1) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   arg2 = (int)jarg2; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg3)->assign(jarg3); 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2,arg3);
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,arg2,(std::string const &)*arg3);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22867,7 +22994,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_12(char * jarg1,
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_13(char * jarg1, int jarg2) {
   void * jresult ;
-  std::string arg1 ;
+  std::string *arg1 = 0 ;
   int arg2 ;
   ConversionOption *result = 0 ;
   
@@ -22875,9 +23002,10 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ConversionOption__SWIG_13(char * jarg1,
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg1)->assign(jarg1); 
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
   arg2 = (int)jarg2; 
-  result = (ConversionOption *)new ConversionOption(arg1,arg2);
+  result = (ConversionOption *)new ConversionOption((std::string const &)*arg1,arg2);
   jresult = (void *)result; 
   return jresult;
 }
@@ -22922,78 +23050,81 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_ConversionOption_clone(void * jarg1) {
 SWIGEXPORT char * SWIGSTDCALL CSharp_ConversionOption_getKey(void * jarg1) {
   char * jresult ;
   ConversionOption *arg1 = (ConversionOption *) 0 ;
-  std::string result;
+  std::string *result = 0 ;
   
   arg1 = (ConversionOption *)jarg1; 
-  result = ((ConversionOption const *)arg1)->getKey();
-  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  result = (std::string *) &((ConversionOption const *)arg1)->getKey();
+  jresult = SWIG_csharp_string_callback(result->c_str()); 
   return jresult;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionOption_setKey(void * jarg1, char * jarg2) {
   ConversionOption *arg1 = (ConversionOption *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   
   arg1 = (ConversionOption *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
-  (arg1)->setKey(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  (arg1)->setKey((std::string const &)*arg2);
 }
 
 
 SWIGEXPORT char * SWIGSTDCALL CSharp_ConversionOption_getValue(void * jarg1) {
   char * jresult ;
   ConversionOption *arg1 = (ConversionOption *) 0 ;
-  std::string result;
+  std::string *result = 0 ;
   
   arg1 = (ConversionOption *)jarg1; 
-  result = ((ConversionOption const *)arg1)->getValue();
-  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  result = (std::string *) &((ConversionOption const *)arg1)->getValue();
+  jresult = SWIG_csharp_string_callback(result->c_str()); 
   return jresult;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionOption_setValue(void * jarg1, char * jarg2) {
   ConversionOption *arg1 = (ConversionOption *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   
   arg1 = (ConversionOption *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
-  (arg1)->setValue(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  (arg1)->setValue((std::string const &)*arg2);
 }
 
 
 SWIGEXPORT char * SWIGSTDCALL CSharp_ConversionOption_getDescription(void * jarg1) {
   char * jresult ;
   ConversionOption *arg1 = (ConversionOption *) 0 ;
-  std::string result;
+  std::string *result = 0 ;
   
   arg1 = (ConversionOption *)jarg1; 
-  result = ((ConversionOption const *)arg1)->getDescription();
-  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  result = (std::string *) &((ConversionOption const *)arg1)->getDescription();
+  jresult = SWIG_csharp_string_callback(result->c_str()); 
   return jresult;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionOption_setDescription(void * jarg1, char * jarg2) {
   ConversionOption *arg1 = (ConversionOption *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   
   arg1 = (ConversionOption *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
-  (arg1)->setDescription(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  (arg1)->setDescription((std::string const &)*arg2);
 }
 
 
@@ -23202,17 +23333,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setTargetNamespaces(void
 SWIGEXPORT char * SWIGSTDCALL CSharp_ConversionProperties_getDescription(void * jarg1, char * jarg2) {
   char * jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
-  std::string result;
+  std::string *arg2 = 0 ;
+  std::string *result = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = ((ConversionProperties const *)arg1)->getDescription(arg2);
-  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (std::string *) &((ConversionProperties const *)arg1)->getDescription((std::string const &)*arg2);
+  jresult = SWIG_csharp_string_callback(result->c_str()); 
   return jresult;
 }
 
@@ -23220,7 +23352,7 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_ConversionProperties_getDescription(void * 
 SWIGEXPORT int SWIGSTDCALL CSharp_ConversionProperties_getType(void * jarg1, char * jarg2) {
   int jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   ConversionOptionType_t result;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23228,17 +23360,18 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ConversionProperties_getType(void * jarg1, cha
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = (ConversionOptionType_t)((ConversionProperties const *)arg1)->getType(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (ConversionOptionType_t)((ConversionProperties const *)arg1)->getType((std::string const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_ConversionProperties_getOption(void * jarg1, char * jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_ConversionProperties_getOption__SWIG_0(void * jarg1, char * jarg2) {
   void * jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   ConversionOption *result = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23246,7 +23379,22 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_ConversionProperties_getOption(void * jarg1
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (ConversionOption *)((ConversionProperties const *)arg1)->getOption((std::string const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_ConversionProperties_getOption__SWIG_1(void * jarg1, int jarg2) {
+  void * jresult ;
+  ConversionProperties *arg1 = (ConversionProperties *) 0 ;
+  int arg2 ;
+  ConversionOption *result = 0 ;
+  
+  arg1 = (ConversionProperties *)jarg1; 
+  arg2 = (int)jarg2; 
   result = (ConversionOption *)((ConversionProperties const *)arg1)->getOption(arg2);
   jresult = (void *)result; 
   return jresult;
@@ -23269,36 +23417,39 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_0(void *
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_1(void * jarg1, char * jarg2, char * jarg3, int jarg4, char * jarg5) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
-  std::string arg3 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
   ConversionOptionType_t arg4 ;
-  std::string arg5 ;
+  std::string *arg5 = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg3)->assign(jarg3); 
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
   arg4 = (ConversionOptionType_t)jarg4; 
   if (!jarg5) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg5)->assign(jarg5); 
-  (arg1)->addOption(arg2,arg3,arg4,arg5);
+  std::string arg5_str(jarg5);
+  arg5 = &arg5_str; 
+  (arg1)->addOption((std::string const &)*arg2,(std::string const &)*arg3,arg4,(std::string const &)*arg5);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_2(void * jarg1, char * jarg2, char * jarg3, int jarg4) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
-  std::string arg3 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
   ConversionOptionType_t arg4 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23306,98 +23457,107 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_2(void *
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg3)->assign(jarg3); 
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
   arg4 = (ConversionOptionType_t)jarg4; 
-  (arg1)->addOption(arg2,arg3,arg4);
+  (arg1)->addOption((std::string const &)*arg2,(std::string const &)*arg3,arg4);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_3(void * jarg1, char * jarg2, char * jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
-  std::string arg3 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg3)->assign(jarg3); 
-  (arg1)->addOption(arg2,arg3);
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  (arg1)->addOption((std::string const &)*arg2,(std::string const &)*arg3);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_4(void * jarg1, char * jarg2) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
-  (arg1)->addOption(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  (arg1)->addOption((std::string const &)*arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_5(void * jarg1, char * jarg2, char * jarg3, char * jarg4) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   char *arg3 = (char *) 0 ;
-  std::string arg4 ;
+  std::string *arg4 = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (char *)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg4)->assign(jarg4); 
-  (arg1)->addOption(arg2,(char const *)arg3,arg4);
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  (arg1)->addOption((std::string const &)*arg2,(char const *)arg3,(std::string const &)*arg4);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_7(void * jarg1, char * jarg2, unsigned int jarg3, char * jarg4) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   bool arg3 ;
-  std::string arg4 ;
+  std::string *arg4 = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = jarg3 ? true : false; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg4)->assign(jarg4); 
-  (arg1)->addOption(arg2,arg3,arg4);
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  (arg1)->addOption((std::string const &)*arg2,arg3,(std::string const &)*arg4);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_8(void * jarg1, char * jarg2, unsigned int jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   bool arg3 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23405,37 +23565,40 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_8(void *
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = jarg3 ? true : false; 
-  (arg1)->addOption(arg2,arg3);
+  (arg1)->addOption((std::string const &)*arg2,arg3);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_9(void * jarg1, char * jarg2, double jarg3, char * jarg4) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   double arg3 ;
-  std::string arg4 ;
+  std::string *arg4 = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (double)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg4)->assign(jarg4); 
-  (arg1)->addOption(arg2,arg3,arg4);
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  (arg1)->addOption((std::string const &)*arg2,arg3,(std::string const &)*arg4);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_10(void * jarg1, char * jarg2, double jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   double arg3 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23443,37 +23606,40 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_10(void 
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (double)jarg3; 
-  (arg1)->addOption(arg2,arg3);
+  (arg1)->addOption((std::string const &)*arg2,arg3);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_11(void * jarg1, char * jarg2, float jarg3, char * jarg4) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   float arg3 ;
-  std::string arg4 ;
+  std::string *arg4 = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (float)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg4)->assign(jarg4); 
-  (arg1)->addOption(arg2,arg3,arg4);
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  (arg1)->addOption((std::string const &)*arg2,arg3,(std::string const &)*arg4);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_12(void * jarg1, char * jarg2, float jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   float arg3 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23481,37 +23647,40 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_12(void 
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (float)jarg3; 
-  (arg1)->addOption(arg2,arg3);
+  (arg1)->addOption((std::string const &)*arg2,arg3);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_13(void * jarg1, char * jarg2, int jarg3, char * jarg4) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   int arg3 ;
-  std::string arg4 ;
+  std::string *arg4 = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (int)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg4)->assign(jarg4); 
-  (arg1)->addOption(arg2,arg3,arg4);
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  (arg1)->addOption((std::string const &)*arg2,arg3,(std::string const &)*arg4);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_14(void * jarg1, char * jarg2, int jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   int arg3 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23519,16 +23688,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_addOption__SWIG_14(void 
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (int)jarg3; 
-  (arg1)->addOption(arg2,arg3);
+  (arg1)->addOption((std::string const &)*arg2,arg3);
 }
 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_ConversionProperties_removeOption(void * jarg1, char * jarg2) {
   void * jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   ConversionOption *result = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23536,8 +23706,9 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_ConversionProperties_removeOption(void * ja
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = (ConversionOption *)(arg1)->removeOption(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (ConversionOption *)(arg1)->removeOption((std::string const &)*arg2);
   jresult = (void *)result; 
   return jresult;
 }
@@ -23546,7 +23717,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_ConversionProperties_removeOption(void * ja
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ConversionProperties_hasOption(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   bool result;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23554,8 +23725,9 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ConversionProperties_hasOption(void *
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = (bool)((ConversionProperties const *)arg1)->hasOption(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (bool)((ConversionProperties const *)arg1)->hasOption((std::string const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -23564,45 +23736,48 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ConversionProperties_hasOption(void *
 SWIGEXPORT char * SWIGSTDCALL CSharp_ConversionProperties_getValue(void * jarg1, char * jarg2) {
   char * jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
-  std::string result;
+  std::string *arg2 = 0 ;
+  std::string *result = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = ((ConversionProperties const *)arg1)->getValue(arg2);
-  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (std::string *) &((ConversionProperties const *)arg1)->getValue((std::string const &)*arg2);
+  jresult = SWIG_csharp_string_callback(result->c_str()); 
   return jresult;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setValue(void * jarg1, char * jarg2, char * jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
-  std::string arg3 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
   
   arg1 = (ConversionProperties *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg3)->assign(jarg3); 
-  (arg1)->setValue(arg2,arg3);
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  (arg1)->setValue((std::string const &)*arg2,(std::string const &)*arg3);
 }
 
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ConversionProperties_getBoolValue(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   bool result;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23610,8 +23785,9 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ConversionProperties_getBoolValue(voi
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = (bool)((ConversionProperties const *)arg1)->getBoolValue(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (bool)((ConversionProperties const *)arg1)->getBoolValue((std::string const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -23619,7 +23795,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ConversionProperties_getBoolValue(voi
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setBoolValue(void * jarg1, char * jarg2, unsigned int jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   bool arg3 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23627,16 +23803,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setBoolValue(void * jarg
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = jarg3 ? true : false; 
-  (arg1)->setBoolValue(arg2,arg3);
+  (arg1)->setBoolValue((std::string const &)*arg2,arg3);
 }
 
 
 SWIGEXPORT double SWIGSTDCALL CSharp_ConversionProperties_getDoubleValue(void * jarg1, char * jarg2) {
   double jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   double result;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23644,8 +23821,9 @@ SWIGEXPORT double SWIGSTDCALL CSharp_ConversionProperties_getDoubleValue(void * 
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = (double)((ConversionProperties const *)arg1)->getDoubleValue(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (double)((ConversionProperties const *)arg1)->getDoubleValue((std::string const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -23653,7 +23831,7 @@ SWIGEXPORT double SWIGSTDCALL CSharp_ConversionProperties_getDoubleValue(void * 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setDoubleValue(void * jarg1, char * jarg2, double jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   double arg3 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23661,16 +23839,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setDoubleValue(void * ja
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (double)jarg3; 
-  (arg1)->setDoubleValue(arg2,arg3);
+  (arg1)->setDoubleValue((std::string const &)*arg2,arg3);
 }
 
 
 SWIGEXPORT float SWIGSTDCALL CSharp_ConversionProperties_getFloatValue(void * jarg1, char * jarg2) {
   float jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   float result;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23678,8 +23857,9 @@ SWIGEXPORT float SWIGSTDCALL CSharp_ConversionProperties_getFloatValue(void * ja
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = (float)((ConversionProperties const *)arg1)->getFloatValue(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (float)((ConversionProperties const *)arg1)->getFloatValue((std::string const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -23687,7 +23867,7 @@ SWIGEXPORT float SWIGSTDCALL CSharp_ConversionProperties_getFloatValue(void * ja
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setFloatValue(void * jarg1, char * jarg2, float jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   float arg3 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23695,16 +23875,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setFloatValue(void * jar
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (float)jarg3; 
-  (arg1)->setFloatValue(arg2,arg3);
+  (arg1)->setFloatValue((std::string const &)*arg2,arg3);
 }
 
 
 SWIGEXPORT int SWIGSTDCALL CSharp_ConversionProperties_getIntValue(void * jarg1, char * jarg2) {
   int jresult ;
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   int result;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23712,8 +23893,9 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ConversionProperties_getIntValue(void * jarg1,
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = (int)((ConversionProperties const *)arg1)->getIntValue(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (int)((ConversionProperties const *)arg1)->getIntValue((std::string const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -23721,7 +23903,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ConversionProperties_getIntValue(void * jarg1,
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setIntValue(void * jarg1, char * jarg2, int jarg3) {
   ConversionProperties *arg1 = (ConversionProperties *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   int arg3 ;
   
   arg1 = (ConversionProperties *)jarg1; 
@@ -23729,9 +23911,22 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ConversionProperties_setIntValue(void * jarg1
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   arg3 = (int)jarg3; 
-  (arg1)->setIntValue(arg2,arg3);
+  (arg1)->setIntValue((std::string const &)*arg2,arg3);
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_ConversionProperties_getNumOptions(void * jarg1) {
+  int jresult ;
+  ConversionProperties *arg1 = (ConversionProperties *) 0 ;
+  int result;
+  
+  arg1 = (ConversionProperties *)jarg1; 
+  result = (int)((ConversionProperties const *)arg1)->getNumOptions();
+  jresult = result; 
+  return jresult;
 }
 
 
@@ -23745,7 +23940,24 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLConverter__SWIG_0() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLConverter__SWIG_1(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLConverter__SWIG_1(char * jarg1) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  SBMLConverter *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  result = (SBMLConverter *)new SwigDirector_SBMLConverter((std::string const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLConverter__SWIG_2(void * jarg1) {
   void * jresult ;
   SBMLConverter *arg1 = 0 ;
   SBMLConverter *result = 0 ;
@@ -23913,7 +24125,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLConverter_matchesPropertiesSwigEx
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_SBMLConverter_setDocument__SWIG_0(void * jarg1, void * jarg2) {
+SWIGEXPORT int SWIGSTDCALL CSharp_SBMLConverter_setDocument(void * jarg1, void * jarg2) {
   int jresult ;
   SBMLConverter *arg1 = (SBMLConverter *) 0 ;
   SBMLDocument *arg2 = (SBMLDocument *) 0 ;
@@ -23921,27 +24133,13 @@ SWIGEXPORT int SWIGSTDCALL CSharp_SBMLConverter_setDocument__SWIG_0(void * jarg1
   
   arg1 = (SBMLConverter *)jarg1; 
   arg2 = (SBMLDocument *)jarg2; 
-  result = (int)(arg1)->setDocument((SBMLDocument const *)arg2);
+  result = (int)(arg1)->setDocument(arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_SBMLConverter_setDocumentSwigExplicitSBMLConverter__SWIG_0(void * jarg1, void * jarg2) {
-  int jresult ;
-  SBMLConverter *arg1 = (SBMLConverter *) 0 ;
-  SBMLDocument *arg2 = (SBMLDocument *) 0 ;
-  int result;
-  
-  arg1 = (SBMLConverter *)jarg1; 
-  arg2 = (SBMLDocument *)jarg2; 
-  result = (int)(arg1)->SBMLConverter::setDocument((SBMLDocument const *)arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT int SWIGSTDCALL CSharp_SBMLConverter_setDocumentSwigExplicitSBMLConverter__SWIG_1(void * jarg1, void * jarg2) {
+SWIGEXPORT int SWIGSTDCALL CSharp_SBMLConverter_setDocumentSwigExplicitSBMLConverter(void * jarg1, void * jarg2) {
   int jresult ;
   SBMLConverter *arg1 = (SBMLConverter *) 0 ;
   SBMLDocument *arg2 = (SBMLDocument *) 0 ;
@@ -24031,11 +24229,23 @@ SWIGEXPORT int SWIGSTDCALL CSharp_SBMLConverter_convertSwigExplicitSBMLConverter
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SBMLConverter_director_connect(void *objarg, SwigDirector_SBMLConverter::SWIG_Callback0_t callback0, SwigDirector_SBMLConverter::SWIG_Callback1_t callback1, SwigDirector_SBMLConverter::SWIG_Callback2_t callback2, SwigDirector_SBMLConverter::SWIG_Callback3_t callback3, SwigDirector_SBMLConverter::SWIG_Callback4_t callback4, SwigDirector_SBMLConverter::SWIG_Callback5_t callback5, SwigDirector_SBMLConverter::SWIG_Callback6_t callback6, SwigDirector_SBMLConverter::SWIG_Callback7_t callback7, SwigDirector_SBMLConverter::SWIG_Callback8_t callback8, SwigDirector_SBMLConverter::SWIG_Callback9_t callback9, SwigDirector_SBMLConverter::SWIG_Callback10_t callback10) {
+SWIGEXPORT char * SWIGSTDCALL CSharp_SBMLConverter_getName(void * jarg1) {
+  char * jresult ;
+  SBMLConverter *arg1 = (SBMLConverter *) 0 ;
+  std::string *result = 0 ;
+  
+  arg1 = (SBMLConverter *)jarg1; 
+  result = (std::string *) &((SBMLConverter const *)arg1)->getName();
+  jresult = SWIG_csharp_string_callback(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLConverter_director_connect(void *objarg, SwigDirector_SBMLConverter::SWIG_Callback0_t callback0, SwigDirector_SBMLConverter::SWIG_Callback1_t callback1, SwigDirector_SBMLConverter::SWIG_Callback2_t callback2, SwigDirector_SBMLConverter::SWIG_Callback3_t callback3, SwigDirector_SBMLConverter::SWIG_Callback4_t callback4, SwigDirector_SBMLConverter::SWIG_Callback5_t callback5, SwigDirector_SBMLConverter::SWIG_Callback6_t callback6, SwigDirector_SBMLConverter::SWIG_Callback7_t callback7, SwigDirector_SBMLConverter::SWIG_Callback8_t callback8, SwigDirector_SBMLConverter::SWIG_Callback9_t callback9) {
   SBMLConverter *obj = (SBMLConverter *)objarg;
   SwigDirector_SBMLConverter *director = dynamic_cast<SwigDirector_SBMLConverter *>(obj);
   if (director) {
-    director->swig_connect_director(callback0, callback1, callback2, callback3, callback4, callback5, callback6, callback7, callback8, callback9, callback10);
+    director->swig_connect_director(callback0, callback1, callback2, callback3, callback4, callback5, callback6, callback7, callback8, callback9);
   }
 }
 
@@ -24150,10 +24360,10 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLFunctionDefinitionConverter__SWIG_1
 SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLFunctionDefinitionConverter_clone(void * jarg1) {
   void * jresult ;
   SBMLFunctionDefinitionConverter *arg1 = (SBMLFunctionDefinitionConverter *) 0 ;
-  SBMLConverter *result = 0 ;
+  SBMLFunctionDefinitionConverter *result = 0 ;
   
   arg1 = (SBMLFunctionDefinitionConverter *)jarg1; 
-  result = (SBMLConverter *)((SBMLFunctionDefinitionConverter const *)arg1)->clone();
+  result = (SBMLFunctionDefinitionConverter *)((SBMLFunctionDefinitionConverter const *)arg1)->clone();
   jresult = (void *)result; 
   return jresult;
 }
@@ -24209,6 +24419,192 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLFunctionDefinitionConverter_getDefaultP
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLIdConverter_init() {
+  SBMLIdConverter::init();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLIdConverter__SWIG_0() {
+  void * jresult ;
+  SBMLIdConverter *result = 0 ;
+  
+  result = (SBMLIdConverter *)new SBMLIdConverter();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLIdConverter__SWIG_1(void * jarg1) {
+  void * jresult ;
+  SBMLIdConverter *arg1 = 0 ;
+  SBMLIdConverter *result = 0 ;
+  
+  arg1 = (SBMLIdConverter *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "SBMLIdConverter const & type is null", 0);
+    return 0;
+  } 
+  result = (SBMLIdConverter *)new SBMLIdConverter((SBMLIdConverter const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLIdConverter_clone(void * jarg1) {
+  void * jresult ;
+  SBMLIdConverter *arg1 = (SBMLIdConverter *) 0 ;
+  SBMLIdConverter *result = 0 ;
+  
+  arg1 = (SBMLIdConverter *)jarg1; 
+  result = (SBMLIdConverter *)((SBMLIdConverter const *)arg1)->clone();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_SBMLIdConverter(void * jarg1) {
+  SBMLIdConverter *arg1 = (SBMLIdConverter *) 0 ;
+  
+  arg1 = (SBMLIdConverter *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLIdConverter_matchesProperties(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  SBMLIdConverter *arg1 = (SBMLIdConverter *) 0 ;
+  ConversionProperties *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (SBMLIdConverter *)jarg1; 
+  arg2 = (ConversionProperties *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ConversionProperties const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((SBMLIdConverter const *)arg1)->matchesProperties((ConversionProperties const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_SBMLIdConverter_convert(void * jarg1) {
+  int jresult ;
+  SBMLIdConverter *arg1 = (SBMLIdConverter *) 0 ;
+  int result;
+  
+  arg1 = (SBMLIdConverter *)jarg1; 
+  result = (int)(arg1)->convert();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLIdConverter_getDefaultProperties(void * jarg1) {
+  void * jresult ;
+  SBMLIdConverter *arg1 = (SBMLIdConverter *) 0 ;
+  ConversionProperties result;
+  
+  arg1 = (SBMLIdConverter *)jarg1; 
+  result = ((SBMLIdConverter const *)arg1)->getDefaultProperties();
+  jresult = new ConversionProperties((const ConversionProperties &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLInferUnitsConverter_init() {
+  SBMLInferUnitsConverter::init();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLInferUnitsConverter__SWIG_0() {
+  void * jresult ;
+  SBMLInferUnitsConverter *result = 0 ;
+  
+  result = (SBMLInferUnitsConverter *)new SBMLInferUnitsConverter();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLInferUnitsConverter__SWIG_1(void * jarg1) {
+  void * jresult ;
+  SBMLInferUnitsConverter *arg1 = 0 ;
+  SBMLInferUnitsConverter *result = 0 ;
+  
+  arg1 = (SBMLInferUnitsConverter *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "SBMLInferUnitsConverter const & type is null", 0);
+    return 0;
+  } 
+  result = (SBMLInferUnitsConverter *)new SBMLInferUnitsConverter((SBMLInferUnitsConverter const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_SBMLInferUnitsConverter(void * jarg1) {
+  SBMLInferUnitsConverter *arg1 = (SBMLInferUnitsConverter *) 0 ;
+  
+  arg1 = (SBMLInferUnitsConverter *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLInferUnitsConverter_clone(void * jarg1) {
+  void * jresult ;
+  SBMLInferUnitsConverter *arg1 = (SBMLInferUnitsConverter *) 0 ;
+  SBMLInferUnitsConverter *result = 0 ;
+  
+  arg1 = (SBMLInferUnitsConverter *)jarg1; 
+  result = (SBMLInferUnitsConverter *)((SBMLInferUnitsConverter const *)arg1)->clone();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLInferUnitsConverter_matchesProperties(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  SBMLInferUnitsConverter *arg1 = (SBMLInferUnitsConverter *) 0 ;
+  ConversionProperties *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (SBMLInferUnitsConverter *)jarg1; 
+  arg2 = (ConversionProperties *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ConversionProperties const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((SBMLInferUnitsConverter const *)arg1)->matchesProperties((ConversionProperties const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_SBMLInferUnitsConverter_convert(void * jarg1) {
+  int jresult ;
+  SBMLInferUnitsConverter *arg1 = (SBMLInferUnitsConverter *) 0 ;
+  int result;
+  
+  arg1 = (SBMLInferUnitsConverter *)jarg1; 
+  result = (int)(arg1)->convert();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLInferUnitsConverter_getDefaultProperties(void * jarg1) {
+  void * jresult ;
+  SBMLInferUnitsConverter *arg1 = (SBMLInferUnitsConverter *) 0 ;
+  ConversionProperties result;
+  
+  arg1 = (SBMLInferUnitsConverter *)jarg1; 
+  result = ((SBMLInferUnitsConverter const *)arg1)->getDefaultProperties();
+  jresult = new ConversionProperties((const ConversionProperties &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_SBMLInitialAssignmentConverter_init() {
   SBMLInitialAssignmentConverter::init();
 }
@@ -24243,10 +24639,10 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLInitialAssignmentConverter__SWIG_1(
 SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLInitialAssignmentConverter_clone(void * jarg1) {
   void * jresult ;
   SBMLInitialAssignmentConverter *arg1 = (SBMLInitialAssignmentConverter *) 0 ;
-  SBMLConverter *result = 0 ;
+  SBMLInitialAssignmentConverter *result = 0 ;
   
   arg1 = (SBMLInitialAssignmentConverter *)jarg1; 
-  result = (SBMLConverter *)((SBMLInitialAssignmentConverter const *)arg1)->clone();
+  result = (SBMLInitialAssignmentConverter *)((SBMLInitialAssignmentConverter const *)arg1)->clone();
   jresult = (void *)result; 
   return jresult;
 }
@@ -24431,6 +24827,206 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLLevelVersionConverter_getValidity
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLLocalParameterConverter_init() {
+  SBMLLocalParameterConverter::init();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLLocalParameterConverter__SWIG_0() {
+  void * jresult ;
+  SBMLLocalParameterConverter *result = 0 ;
+  
+  result = (SBMLLocalParameterConverter *)new SBMLLocalParameterConverter();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLLocalParameterConverter__SWIG_1(void * jarg1) {
+  void * jresult ;
+  SBMLLocalParameterConverter *arg1 = 0 ;
+  SBMLLocalParameterConverter *result = 0 ;
+  
+  arg1 = (SBMLLocalParameterConverter *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "SBMLLocalParameterConverter const & type is null", 0);
+    return 0;
+  } 
+  result = (SBMLLocalParameterConverter *)new SBMLLocalParameterConverter((SBMLLocalParameterConverter const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLLocalParameterConverter_clone(void * jarg1) {
+  void * jresult ;
+  SBMLLocalParameterConverter *arg1 = (SBMLLocalParameterConverter *) 0 ;
+  SBMLLocalParameterConverter *result = 0 ;
+  
+  arg1 = (SBMLLocalParameterConverter *)jarg1; 
+  result = (SBMLLocalParameterConverter *)((SBMLLocalParameterConverter const *)arg1)->clone();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_SBMLLocalParameterConverter(void * jarg1) {
+  SBMLLocalParameterConverter *arg1 = (SBMLLocalParameterConverter *) 0 ;
+  
+  arg1 = (SBMLLocalParameterConverter *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLLocalParameterConverter_matchesProperties(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  SBMLLocalParameterConverter *arg1 = (SBMLLocalParameterConverter *) 0 ;
+  ConversionProperties *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (SBMLLocalParameterConverter *)jarg1; 
+  arg2 = (ConversionProperties *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ConversionProperties const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((SBMLLocalParameterConverter const *)arg1)->matchesProperties((ConversionProperties const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_SBMLLocalParameterConverter_convert(void * jarg1) {
+  int jresult ;
+  SBMLLocalParameterConverter *arg1 = (SBMLLocalParameterConverter *) 0 ;
+  int result;
+  
+  arg1 = (SBMLLocalParameterConverter *)jarg1; 
+  result = (int)(arg1)->convert();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLLocalParameterConverter_getDefaultProperties(void * jarg1) {
+  void * jresult ;
+  SBMLLocalParameterConverter *arg1 = (SBMLLocalParameterConverter *) 0 ;
+  ConversionProperties result;
+  
+  arg1 = (SBMLLocalParameterConverter *)jarg1; 
+  result = ((SBMLLocalParameterConverter const *)arg1)->getDefaultProperties();
+  jresult = new ConversionProperties((const ConversionProperties &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLReactionConverter_init() {
+  SBMLReactionConverter::init();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLReactionConverter__SWIG_0() {
+  void * jresult ;
+  SBMLReactionConverter *result = 0 ;
+  
+  result = (SBMLReactionConverter *)new SBMLReactionConverter();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLReactionConverter__SWIG_1(void * jarg1) {
+  void * jresult ;
+  SBMLReactionConverter *arg1 = 0 ;
+  SBMLReactionConverter *result = 0 ;
+  
+  arg1 = (SBMLReactionConverter *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "SBMLReactionConverter const & type is null", 0);
+    return 0;
+  } 
+  result = (SBMLReactionConverter *)new SBMLReactionConverter((SBMLReactionConverter const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLReactionConverter_clone(void * jarg1) {
+  void * jresult ;
+  SBMLReactionConverter *arg1 = (SBMLReactionConverter *) 0 ;
+  SBMLReactionConverter *result = 0 ;
+  
+  arg1 = (SBMLReactionConverter *)jarg1; 
+  result = (SBMLReactionConverter *)((SBMLReactionConverter const *)arg1)->clone();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_SBMLReactionConverter(void * jarg1) {
+  SBMLReactionConverter *arg1 = (SBMLReactionConverter *) 0 ;
+  
+  arg1 = (SBMLReactionConverter *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLReactionConverter_matchesProperties(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  SBMLReactionConverter *arg1 = (SBMLReactionConverter *) 0 ;
+  ConversionProperties *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (SBMLReactionConverter *)jarg1; 
+  arg2 = (ConversionProperties *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ConversionProperties const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((SBMLReactionConverter const *)arg1)->matchesProperties((ConversionProperties const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_SBMLReactionConverter_convert(void * jarg1) {
+  int jresult ;
+  SBMLReactionConverter *arg1 = (SBMLReactionConverter *) 0 ;
+  int result;
+  
+  arg1 = (SBMLReactionConverter *)jarg1; 
+  result = (int)(arg1)->convert();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLReactionConverter_getDefaultProperties(void * jarg1) {
+  void * jresult ;
+  SBMLReactionConverter *arg1 = (SBMLReactionConverter *) 0 ;
+  ConversionProperties result;
+  
+  arg1 = (SBMLReactionConverter *)jarg1; 
+  result = ((SBMLReactionConverter const *)arg1)->getDefaultProperties();
+  jresult = new ConversionProperties((const ConversionProperties &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_SBMLReactionConverter_setDocument(void * jarg1, void * jarg2) {
+  int jresult ;
+  SBMLReactionConverter *arg1 = (SBMLReactionConverter *) 0 ;
+  SBMLDocument *arg2 = (SBMLDocument *) 0 ;
+  int result;
+  
+  arg1 = (SBMLReactionConverter *)jarg1; 
+  arg2 = (SBMLDocument *)jarg2; 
+  result = (int)(arg1)->setDocument(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_SBMLRuleConverter_init() {
   SBMLRuleConverter::init();
 }
@@ -24465,10 +25061,10 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLRuleConverter__SWIG_1(void * jarg1)
 SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLRuleConverter_clone(void * jarg1) {
   void * jresult ;
   SBMLRuleConverter *arg1 = (SBMLRuleConverter *) 0 ;
-  SBMLConverter *result = 0 ;
+  SBMLRuleConverter *result = 0 ;
   
   arg1 = (SBMLRuleConverter *)jarg1; 
-  result = (SBMLConverter *)((SBMLRuleConverter const *)arg1)->clone();
+  result = (SBMLRuleConverter *)((SBMLRuleConverter const *)arg1)->clone();
   jresult = (void *)result; 
   return jresult;
 }
@@ -34754,7 +35350,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ASTBase_loadASTPlugins(void * jarg1, void * j
   
   arg1 = (ASTBase *)jarg1; 
   arg2 = (SBMLNamespaces *)jarg2; 
-  (arg1)->loadASTPlugins(arg2);
+  (arg1)->loadASTPlugins((SBMLNamespaces const *)arg2);
 }
 
 
@@ -35115,6 +35711,32 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBase_isUserFunction(void * jarg1) 
   
   arg1 = (ASTBase *)jarg1; 
   result = (bool)((ASTBase const *)arg1)->isUserFunction();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBase_representsBvar(void * jarg1) {
+  unsigned int jresult ;
+  ASTBase *arg1 = (ASTBase *) 0 ;
+  bool result;
+  
+  arg1 = (ASTBase *)jarg1; 
+  result = (bool)((ASTBase const *)arg1)->representsBvar();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_ASTBase_setIsBvar(void * jarg1, unsigned int jarg2) {
+  int jresult ;
+  ASTBase *arg1 = (ASTBase *) 0 ;
+  bool arg2 ;
+  int result;
+  
+  arg1 = (ASTBase *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (int)(arg1)->setIsBvar(arg2);
   jresult = result; 
   return jresult;
 }
@@ -35668,32 +36290,6 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_ASTBase_getNameFromType(void * jarg1, int j
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_ASTBase_setUserData(void * jarg1, void * jarg2) {
-  int jresult ;
-  ASTBase *arg1 = (ASTBase *) 0 ;
-  void *arg2 = (void *) 0 ;
-  int result;
-  
-  arg1 = (ASTBase *)jarg1; 
-  arg2 = (void *)jarg2; 
-  result = (int)(arg1)->setUserData(arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_ASTBase_getUserData(void * jarg1) {
-  void * jresult ;
-  ASTBase *arg1 = (ASTBase *) 0 ;
-  void *result = 0 ;
-  
-  arg1 = (ASTBase *)jarg1; 
-  result = (void *)((ASTBase const *)arg1)->getUserData();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBase_isSetUserData(void * jarg1) {
   unsigned int jresult ;
   ASTBase *arg1 = (ASTBase *) 0 ;
@@ -35843,33 +36439,69 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_ASTBase_getUnitsPrefix(void * jarg1) {
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBase_isPackageInfixFunction(void * jarg1) {
+  unsigned int jresult ;
+  ASTBase *arg1 = (ASTBase *) 0 ;
+  bool result;
+  
+  arg1 = (ASTBase *)jarg1; 
+  result = (bool)((ASTBase const *)arg1)->isPackageInfixFunction();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBase_hasPackageOnlyInfixSyntax(void * jarg1) {
+  unsigned int jresult ;
+  ASTBase *arg1 = (ASTBase *) 0 ;
+  bool result;
+  
+  arg1 = (ASTBase *)jarg1; 
+  result = (bool)((ASTBase const *)arg1)->hasPackageOnlyInfixSyntax();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_ASTBase_getL3PackageInfixPrecedence(void * jarg1) {
+  int jresult ;
+  ASTBase *arg1 = (ASTBase *) 0 ;
+  int result;
+  
+  arg1 = (ASTBase *)jarg1; 
+  result = (int)((ASTBase const *)arg1)->getL3PackageInfixPrecedence();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBase_hasUnambiguousPackageInfixGrammar(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ASTBase *arg1 = (ASTBase *) 0 ;
+  ASTNode *arg2 = (ASTNode *) 0 ;
+  bool result;
+  
+  arg1 = (ASTBase *)jarg1; 
+  arg2 = (ASTNode *)jarg2; 
+  result = (bool)((ASTBase const *)arg1)->hasUnambiguousPackageInfixGrammar((ASTNode const *)arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_0(int jarg1) {
   void * jresult ;
-  ASTNodeType_t arg1 ;
+  int arg1 ;
   ASTNode *result = 0 ;
   
-  arg1 = (ASTNodeType_t)jarg1; 
+  arg1 = (int)jarg1; 
   result = (ASTNode *)new ASTNode(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_1(void * jarg1, int jarg2) {
-  void * jresult ;
-  SBMLNamespaces *arg1 = (SBMLNamespaces *) 0 ;
-  ASTNodeType_t arg2 ;
-  ASTNode *result = 0 ;
-  
-  arg1 = (SBMLNamespaces *)jarg1; 
-  arg2 = (ASTNodeType_t)jarg2; 
-  result = (ASTNode *)new ASTNode(arg1,arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_3() {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_1() {
   void * jresult ;
   ASTNode *result = 0 ;
   
@@ -35879,7 +36511,21 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_3() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_5(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_2(void * jarg1, int jarg2) {
+  void * jresult ;
+  SBMLNamespaces *arg1 = (SBMLNamespaces *) 0 ;
+  int arg2 ;
+  ASTNode *result = 0 ;
+  
+  arg1 = (SBMLNamespaces *)jarg1; 
+  arg2 = (int)jarg2; 
+  result = (ASTNode *)new ASTNode(arg1,arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_3(void * jarg1) {
   void * jresult ;
   SBMLNamespaces *arg1 = (SBMLNamespaces *) 0 ;
   ASTNode *result = 0 ;
@@ -35891,7 +36537,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_5(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_6(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ASTNode__SWIG_4(void * jarg1) {
   void * jresult ;
   ASTNode *arg1 = 0 ;
   ASTNode *result = 0 ;
@@ -36854,14 +37500,14 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_setValue__SWIG_3(void * jarg1, double 
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_setType__SWIG_0(void * jarg1, int jarg2) {
+SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_setType(void * jarg1, int jarg2) {
   int jresult ;
   ASTNode *arg1 = (ASTNode *) 0 ;
-  ASTNodeType_t arg2 ;
+  int arg2 ;
   int result;
   
   arg1 = (ASTNode *)jarg1; 
-  arg2 = (ASTNodeType_t)jarg2; 
+  arg2 = (int)jarg2; 
   result = (int)(arg1)->setType(arg2);
   jresult = result; 
   return jresult;
@@ -36959,6 +37605,16 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ASTNode_replaceIDWithFunction(void * jarg1, c
   arg2 = &arg2_str; 
   arg3 = (ASTNode *)jarg3; 
   (arg1)->replaceIDWithFunction((std::string const &)*arg2,(ASTNode const *)arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ASTNode_setIsChildFlag(void * jarg1, unsigned int jarg2) {
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (ASTNode *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->setIsChildFlag(arg2);
 }
 
 
@@ -37182,6 +37838,18 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_ASTNode_getDefinitionURLString(void * jarg1
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_representsBvar(void * jarg1) {
+  unsigned int jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  bool result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  result = (bool)((ASTNode const *)arg1)->representsBvar();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_ASTNode_write(void * jarg1, void * jarg2) {
   ASTNode *arg1 = (ASTNode *) 0 ;
   XMLOutputStream *arg2 = 0 ;
@@ -37372,6 +38040,34 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_parseFormula(char * jarg1) {
 }
 
 
+SWIGEXPORT char * SWIGSTDCALL CSharp_formulaToL3String(void * jarg1) {
+  char * jresult ;
+  ASTNode_t *arg1 = (ASTNode_t *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (ASTNode_t *)jarg1; 
+  result = (char *)SBML_formulaToL3String((ASTNode const *)arg1);
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  free(result);
+  return jresult;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_formulaToL3StringWithSettings(void * jarg1, void * jarg2) {
+  char * jresult ;
+  ASTNode_t *arg1 = (ASTNode_t *) 0 ;
+  L3ParserSettings_t *arg2 = (L3ParserSettings_t *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (ASTNode_t *)jarg1; 
+  arg2 = (L3ParserSettings_t *)jarg2; 
+  result = (char *)SBML_formulaToL3StringWithSettings((ASTNode const *)arg1,(L3ParserSettings const *)arg2);
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  free(result);
+  return jresult;
+}
+
+
 SWIGEXPORT char * SWIGSTDCALL CSharp_formulaToString(void * jarg1) {
   char * jresult ;
   ASTNode_t *arg1 = (ASTNode_t *) 0 ;
@@ -37456,7 +38152,53 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_0() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_1(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_1(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5, unsigned int jarg6, void * jarg7) {
+  void * jresult ;
+  Model *arg1 = (Model *) 0 ;
+  ParseLogType_t arg2 ;
+  bool arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  bool arg6 ;
+  SBMLNamespaces *arg7 = (SBMLNamespaces *) 0 ;
+  L3ParserSettings *result = 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  arg2 = (ParseLogType_t)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  arg5 = jarg5 ? true : false; 
+  arg6 = jarg6 ? true : false; 
+  arg7 = (SBMLNamespaces *)jarg7; 
+  result = (L3ParserSettings *)new L3ParserSettings(arg1,arg2,arg3,arg4,arg5,arg6,arg7);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_2(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5, unsigned int jarg6) {
+  void * jresult ;
+  Model *arg1 = (Model *) 0 ;
+  ParseLogType_t arg2 ;
+  bool arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  bool arg6 ;
+  L3ParserSettings *result = 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  arg2 = (ParseLogType_t)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  arg5 = jarg5 ? true : false; 
+  arg6 = jarg6 ? true : false; 
+  result = (L3ParserSettings *)new L3ParserSettings(arg1,arg2,arg3,arg4,arg5,arg6);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_3(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5) {
   void * jresult ;
   Model *arg1 = (Model *) 0 ;
   ParseLogType_t arg2 ;
@@ -37599,6 +38341,52 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_L3ParserSettings_getParseAvogadroCsym
   result = (bool)((L3ParserSettings const *)arg1)->getParseAvogadroCsymbol();
   jresult = result; 
   return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_L3ParserSettings_setComparisonCaseSensitivity(void * jarg1, unsigned int jarg2) {
+  L3ParserSettings *arg1 = (L3ParserSettings *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (L3ParserSettings *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->setComparisonCaseSensitivity(arg2);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_L3ParserSettings_getComparisonCaseSensitivity(void * jarg1) {
+  unsigned int jresult ;
+  L3ParserSettings *arg1 = (L3ParserSettings *) 0 ;
+  bool result;
+  
+  arg1 = (L3ParserSettings *)jarg1; 
+  result = (bool)((L3ParserSettings const *)arg1)->getComparisonCaseSensitivity();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_L3ParserSettings_setPlugins(void * jarg1, void * jarg2) {
+  L3ParserSettings *arg1 = (L3ParserSettings *) 0 ;
+  SBMLNamespaces *arg2 = (SBMLNamespaces *) 0 ;
+  
+  arg1 = (L3ParserSettings *)jarg1; 
+  arg2 = (SBMLNamespaces *)jarg2; 
+  (arg1)->setPlugins((SBMLNamespaces const *)arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_L3ParserSettings_visitPackageInfixSyntax(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  L3ParserSettings *arg1 = (L3ParserSettings *) 0 ;
+  ASTNode_t *arg2 = (ASTNode_t *) 0 ;
+  ASTNode_t *arg3 = (ASTNode_t *) 0 ;
+  StringBuffer_t *arg4 = (StringBuffer_t *) 0 ;
+  
+  arg1 = (L3ParserSettings *)jarg1; 
+  arg2 = (ASTNode_t *)jarg2; 
+  arg3 = (ASTNode_t *)jarg3; 
+  arg4 = (StringBuffer_t *)jarg4; 
+  ((L3ParserSettings const *)arg1)->visitPackageInfixSyntax((ASTNode_t const *)arg2,(ASTNode_t const *)arg3,arg4);
 }
 
 
@@ -38324,6 +39112,34 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBasePlugin_representsNaryFunction(
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBasePlugin_hasCorrectNumberArguments(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  ASTBasePlugin *arg1 = (ASTBasePlugin *) 0 ;
+  int arg2 ;
+  bool result;
+  
+  arg1 = (ASTBasePlugin *)jarg1; 
+  arg2 = (int)jarg2; 
+  result = (bool)((ASTBasePlugin const *)arg1)->hasCorrectNumberArguments(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBasePlugin_isWellFormedNode(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  ASTBasePlugin *arg1 = (ASTBasePlugin *) 0 ;
+  int arg2 ;
+  bool result;
+  
+  arg1 = (ASTBasePlugin *)jarg1; 
+  arg2 = (int)jarg2; 
+  result = (bool)((ASTBasePlugin const *)arg1)->isWellFormedNode(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTBasePlugin_isTopLevelMathMLFunctionNodeTag(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   ASTBasePlugin *arg1 = (ASTBasePlugin *) 0 ;
@@ -38587,11 +39403,27 @@ SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLFunctionDefinitionConverter_SW
     return (SBMLConverter *)jarg1;
 }
 
+SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLIdConverter_SWIGUpcast(SBMLIdConverter *jarg1) {
+    return (SBMLConverter *)jarg1;
+}
+
+SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLInferUnitsConverter_SWIGUpcast(SBMLInferUnitsConverter *jarg1) {
+    return (SBMLConverter *)jarg1;
+}
+
 SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLInitialAssignmentConverter_SWIGUpcast(SBMLInitialAssignmentConverter *jarg1) {
     return (SBMLConverter *)jarg1;
 }
 
 SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLLevelVersionConverter_SWIGUpcast(SBMLLevelVersionConverter *jarg1) {
+    return (SBMLConverter *)jarg1;
+}
+
+SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLLocalParameterConverter_SWIGUpcast(SBMLLocalParameterConverter *jarg1) {
+    return (SBMLConverter *)jarg1;
+}
+
+SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLReactionConverter_SWIGUpcast(SBMLReactionConverter *jarg1) {
     return (SBMLConverter *)jarg1;
 }
 

@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Log of errors and other events encountered while
- * processing an XML file or data stream.
+@htmlinclude pkg-marker-core.html Log of diagnostics reported during XML processing.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -203,7 +202,7 @@ public class XMLErrorLog : IDisposable {
   }
 
   
-/** 
+/**
    * Writes all errors contained in this log to a string and returns it.
    *
    * This method uses printErrors() to format the diagnostic messages.
@@ -238,7 +237,7 @@ public class XMLErrorLog : IDisposable {
    * @param stream the ostream or ostringstream object indicating where
    * the output should be printed.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void printErrors(OStream stream) {
     libsbmlPINVOKE.XMLErrorLog_printErrors__SWIG_0(swigCPtr, SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()));
@@ -264,7 +263,7 @@ public class XMLErrorLog : IDisposable {
    * @param stream the ostream or ostringstream object indicating where
    * the output should be printed.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void printErrors() {
     libsbmlPINVOKE.XMLErrorLog_printErrors__SWIG_1(swigCPtr);
@@ -275,10 +274,22 @@ public class XMLErrorLog : IDisposable {
    * Returns a bool indicating whether or not the severity has been
    * overridden.
    *
+   * *
+ * 
+ * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
+   *
    * @return @c true if an error severity override has been set, @c false
    * otherwise.
    *
-   * @see setSeverityOverride(@if java int severity@endif)
+   * @see getSeverityOverride()
+   * @see setSeverityOverride(@if java int@endif)
+   * @see unsetSeverityOverride()
+   * @see changeErrorSeverity(@if java int, int, String@endif)
    */ public
  bool isSeverityOverridden() {
     bool ret = libsbmlPINVOKE.XMLErrorLog_isSeverityOverridden(swigCPtr);
@@ -289,7 +300,19 @@ public class XMLErrorLog : IDisposable {
 /**
    * Usets an existing override.
    *
-   * @see setSeverityOverride(@if java int severity@endif)
+   * *
+ * 
+ * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
+   *
+   * @see getSeverityOverride()
+   * @see setSeverityOverride(@if java int@endif)
+   * @see isSeverityOverridden()
+   * @see changeErrorSeverity(@if java int, int, String@endif)
    */ public
  void unsetSeverityOverride() {
     libsbmlPINVOKE.XMLErrorLog_unsetSeverityOverride(swigCPtr);
@@ -299,13 +322,25 @@ public class XMLErrorLog : IDisposable {
 /**
    * Returns the current override.
    *
+   * *
+ * 
+ * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
+   *
    * @return a severity override code.  The possible values are @if clike drawn
    * from the enumeration #XMLErrorSeverityOverride_t@endif:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink
+   * @li @link libsbmlcs#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
+   * @li @link libsbmlcs#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink
+   * @li @link libsbmlcs#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink
    *
-   * @see setSeverityOverride(@if java int severity@endif)
+   * @see isSeverityOverridden()
+   * @see setSeverityOverride(@if java int@endif)
+   * @see unsetSeverityOverride()
+   * @see changeErrorSeverity(@if java int, int, String@endif)
    */ public
  int getSeverityOverride() {
     int ret = libsbmlPINVOKE.XMLErrorLog_getSeverityOverride(swigCPtr);
@@ -314,18 +349,30 @@ public class XMLErrorLog : IDisposable {
 
   
 /**
-   * Set the severity override. 
-   * 
+   * Set the severity override.
+   *
+   * *
+ * 
+ * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
+   *
    * @param severity an override code indicating what to do.  If the value is
-   * @link libsbmlcs.libsbml.LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
+   * @link libsbmlcs#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
    * (the default setting) all errors logged will be given the severity
    * specified in their usual definition.   If the value is
-   * @link libsbmlcs.libsbml.LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink,
+   * @link libsbmlcs#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink,
    * then all errors will be logged as warnings.  If the value is 
-   * @link libsbmlcs.libsbml.LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink,
+   * @link libsbmlcs#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink,
    * no error will be logged, regardless of their severity.
    *
+   * @see isSeverityOverridden()
    * @see getSeverityOverride()
+   * @see unsetSeverityOverride()
+   * @see changeErrorSeverity(@if java int, int, String@endif)
    */ public
  void setSeverityOverride(int severity) {
     libsbmlPINVOKE.XMLErrorLog_setSeverityOverride(swigCPtr, severity);
@@ -336,10 +383,19 @@ public class XMLErrorLog : IDisposable {
    * Changes the severity override for errors in the log that have a given
    * severity.
    *
-   * This searches through the list of errors in the log, comparing each
-   * one's severity to the value of @p originalSeverity.  For each error
+   * This method searches through the list of errors in the log, comparing
+   * each one's severity to the value of @p originalSeverity.  For each error
    * encountered with that severity logged by the named @p package, the
    * severity of the error is reset to @p targetSeverity.
+   *
+   * *
+ * 
+ * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
    *
    * @param originalSeverity the severity code to match
    *
@@ -349,11 +405,15 @@ public class XMLErrorLog : IDisposable {
    * extension to use to narrow the search for errors.  A value of @c 'all'
    * signifies to match against errors logged from any package; a value of a
    * package nickname such as @c 'comp' signifies to limit consideration to
-   * errors from just that package.
+   * errors from just that package.  If no value is provided, @c 'all' is the
+   * default.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    *
+   * @see isSeverityOverridden()
    * @see getSeverityOverride()
+   * @see setSeverityOverride(@if java int@endif)
+   * @see unsetSeverityOverride()
    */ public
  void changeErrorSeverity(int originalSeverity, int targetSeverity, string package) {
     libsbmlPINVOKE.XMLErrorLog_changeErrorSeverity__SWIG_0(swigCPtr, originalSeverity, targetSeverity, package);
@@ -364,10 +424,19 @@ public class XMLErrorLog : IDisposable {
    * Changes the severity override for errors in the log that have a given
    * severity.
    *
-   * This searches through the list of errors in the log, comparing each
-   * one's severity to the value of @p originalSeverity.  For each error
+   * This method searches through the list of errors in the log, comparing
+   * each one's severity to the value of @p originalSeverity.  For each error
    * encountered with that severity logged by the named @p package, the
    * severity of the error is reset to @p targetSeverity.
+   *
+   * *
+ * 
+ * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
+ * applications handle error conditions in ways that may be more convenient
+ * for those applications.  It is possible to use the mechanism to override
+ * the severity code of errors logged by libSBML, and even to disable error
+ * logging completely.  An override stays in effect until the override is
+ * changed again by the calling application.
    *
    * @param originalSeverity the severity code to match
    *
@@ -377,11 +446,15 @@ public class XMLErrorLog : IDisposable {
    * extension to use to narrow the search for errors.  A value of @c 'all'
    * signifies to match against errors logged from any package; a value of a
    * package nickname such as @c 'comp' signifies to limit consideration to
-   * errors from just that package.
+   * errors from just that package.  If no value is provided, @c 'all' is the
+   * default.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    *
+   * @see isSeverityOverridden()
    * @see getSeverityOverride()
+   * @see setSeverityOverride(@if java int@endif)
+   * @see unsetSeverityOverride()
    */ public
  void changeErrorSeverity(int originalSeverity, int targetSeverity) {
     libsbmlPINVOKE.XMLErrorLog_changeErrorSeverity__SWIG_1(swigCPtr, originalSeverity, targetSeverity);

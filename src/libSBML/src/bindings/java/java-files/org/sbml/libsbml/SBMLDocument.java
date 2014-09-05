@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Container for an SBML document and interface for global
- * operations on SBML documents.
+ *  Overall SBML container object.
  <p>
  * LibSBML uses the class {@link SBMLDocument} as a top-level
  * container for storing SBML content and data associated with it (such as
@@ -21,7 +20,6 @@ package org.sbml.libsbml;
  * (e.g., using {@link SBMLDocument#getNumErrors()}), access the {@link Model} object, and
  * perform other actions such as consistency-checking and model
  * translation.
- <p>
  <p>
  * When creating fresh models programmatically, the starting point is
  * typically the creation of an {@link SBMLDocument} object instance.  The
@@ -39,10 +37,10 @@ package org.sbml.libsbml;
  * Level&nbsp;1, Level&nbsp;2 or Level&nbsp;3.)  In its barest form, when written out in
  * XML format for (e.g.) SBML Level&nbsp;2 Version&nbsp;4, the corresponding
  * structure is the following:
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
 &lt;sbml xmlns='http://www.sbml.org/sbml/level2/version4' level='2' version='4'&gt;
   ...
-&lt;/sbml&gt;</pre></div>
+&lt;/sbml&gt;</pre>
  <p>
  * {@link SBMLDocument} is derived from {@link SBase}, and therefore contains the usual {@link SBase}
  * attributes (in SBML Level&nbsp;2 and Level&nbsp;3) of 'metaid' and 'sboTerm', as
@@ -88,7 +86,6 @@ package org.sbml.libsbml;
  * {@link SBMLDocument#setConsistencyChecks(int categ, boolean onoff)} with
  * appropriate parameters.
  <p>
- <p>
  * These methods have slightly different relevance depending on whether a
  * model is created programmaticaly from scratch, or whether it is read in
  * from a file or data stream.  The following list summarizes the possible
@@ -125,8 +122,6 @@ package org.sbml.libsbml;
  * by calling {@link SBMLDocument#getNumErrors()}
  *
  * </ul> <p>
- <p>
- <p>
  * <h2>Converting documents between Levels and Versions of SBML</h2>
  <p>
  * LibSBML provides facilities for limited translation of SBML between
@@ -245,7 +240,7 @@ public class SBMLDocument extends SBase {
    <p>
    * <p>
  * This 'default Level' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.10.0
+ * Level available at the time libSBML version 5.10.2
  was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
@@ -267,7 +262,7 @@ public class SBMLDocument extends SBase {
    * <p>
  * This 'default Version' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.10.0
+ * 5.10.2
  was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
@@ -296,20 +291,20 @@ public class SBMLDocument extends SBase {
    * object has no associated XML attributes, including (but not limited
    * to) an XML namespace declaration.  The XML namespace declaration is
    * not added until the model is written out, <em>or</em> the method
-   * {@link SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)}
+   * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}
    * is called.  This may be important to keep in mind
    * if an application needs to add additional XML namespace declarations
    * on the <code>&lt;sbml&gt;</code> element.  Application writers should
    * either provide values for <code>level</code> and <code>version</code> on the call to this
    * constructor, or else call
-   * {@link SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)}
+   * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}
    * shortly after creating the {@link SBMLDocument} object.
    <p>
    * @param level an integer for the SBML Level
    <p>
    * @param version an integer for the Version within the SBML Level
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
@@ -329,7 +324,7 @@ appears in the documentation.
 </dd></dl>
  
    <p>
-   * @see SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)
+   * @see SBMLDocument#setLevelAndVersion(long, long, boolean)
    * @see #getDefaultLevel()
    * @see #getDefaultVersion()
    */ public
@@ -350,20 +345,20 @@ appears in the documentation.
    * object has no associated XML attributes, including (but not limited
    * to) an XML namespace declaration.  The XML namespace declaration is
    * not added until the model is written out, <em>or</em> the method
-   * {@link SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)}
+   * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}
    * is called.  This may be important to keep in mind
    * if an application needs to add additional XML namespace declarations
    * on the <code>&lt;sbml&gt;</code> element.  Application writers should
    * either provide values for <code>level</code> and <code>version</code> on the call to this
    * constructor, or else call
-   * {@link SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)}
+   * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}
    * shortly after creating the {@link SBMLDocument} object.
    <p>
    * @param level an integer for the SBML Level
    <p>
    * @param version an integer for the Version within the SBML Level
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
@@ -383,7 +378,7 @@ appears in the documentation.
 </dd></dl>
  
    <p>
-   * @see SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)
+   * @see SBMLDocument#setLevelAndVersion(long, long, boolean)
    * @see #getDefaultLevel()
    * @see #getDefaultVersion()
    */ public
@@ -404,20 +399,20 @@ appears in the documentation.
    * object has no associated XML attributes, including (but not limited
    * to) an XML namespace declaration.  The XML namespace declaration is
    * not added until the model is written out, <em>or</em> the method
-   * {@link SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)}
+   * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}
    * is called.  This may be important to keep in mind
    * if an application needs to add additional XML namespace declarations
    * on the <code>&lt;sbml&gt;</code> element.  Application writers should
    * either provide values for <code>level</code> and <code>version</code> on the call to this
    * constructor, or else call
-   * {@link SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)}
+   * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}
    * shortly after creating the {@link SBMLDocument} object.
    <p>
    * @param level an integer for the SBML Level
    <p>
    * @param version an integer for the Version within the SBML Level
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
@@ -437,7 +432,7 @@ appears in the documentation.
 </dd></dl>
  
    <p>
-   * @see SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)
+   * @see SBMLDocument#setLevelAndVersion(long, long, boolean)
    * @see #getDefaultLevel()
    * @see #getDefaultVersion()
    */ public
@@ -460,7 +455,7 @@ appears in the documentation.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
@@ -475,7 +470,7 @@ appears in the documentation.
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  SBMLDocument(SBMLDocument orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -484,9 +479,9 @@ appears in the documentation.
 
   
 /**
-   * Creates and returns a deep copy of this {@link SBMLDocument}.
+   * Creates and returns a deep copy of this {@link SBMLDocument} object.
    <p>
-   * @return a (deep) copy of this {@link SBMLDocument}.
+   * @return the (deep) copy of this {@link SBMLDocument} object.
    */ public
  SBMLDocument cloneObject() {
     long cPtr = libsbmlJNI.SBMLDocument_cloneObject(swigCPtr, this);
@@ -500,7 +495,7 @@ appears in the documentation.
    * It is important to note that this method <em>does not create</em> a
    * {@link Model} instance.  The model in the {@link SBMLDocument} must have been created
    * at some prior time, for example using {@link SBMLDocument#createModel()} 
-   * or {@link SBMLDocument#setModel(Model m)}.
+   * or {@link SBMLDocument#setModel(Model)}.
    * This method returns <code>null</code> if a model does not yet exist.
    <p>
    * @return the {@link Model} contained in this {@link SBMLDocument}.
@@ -631,7 +626,7 @@ appears in the documentation.
    * Strict conversion applies the additional criteria that both the
    * source and the target model must be consistent SBML.  Users can
    * control the consistency checks that are applied using the
-   * {@link SBMLDocument#setConsistencyChecksForConversion(int categ, boolean onoff)} method.  If either
+   * {@link SBMLDocument#setConsistencyChecksForConversion(int, boolean)} method.  If either
    * the source or the potential target model have validation errors, the
    * conversion is not performed.  When a strict conversion is successful,
    * the underlying SBML object model is altered to reflect the new level
@@ -725,7 +720,7 @@ appears in the documentation.
    * Strict conversion applies the additional criteria that both the
    * source and the target model must be consistent SBML.  Users can
    * control the consistency checks that are applied using the
-   * {@link SBMLDocument#setConsistencyChecksForConversion(int categ, boolean onoff)} method.  If either
+   * {@link SBMLDocument#setConsistencyChecksForConversion(int, boolean)} method.  If either
    * the source or the potential target model have validation errors, the
    * conversion is not performed.  When a strict conversion is successful,
    * the underlying SBML object model is altered to reflect the new level
@@ -819,7 +814,7 @@ appears in the documentation.
    * Strict conversion applies the additional criteria that both the
    * source and the target model must be consistent SBML.  Users can
    * control the consistency checks that are applied using the
-   * {@link SBMLDocument#setConsistencyChecksForConversion(int categ, boolean onoff)} method.  If either
+   * {@link SBMLDocument#setConsistencyChecksForConversion(int, boolean)} method.  If either
    * the source or the potential target model have validation errors, the
    * conversion is not performed.  When a strict conversion is successful,
    * the underlying SBML object model is altered to reflect the new level
@@ -899,9 +894,9 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
    *
    * </ul> <p>
    * @see #createModel()
@@ -939,7 +934,7 @@ appears in the documentation.
  
    <p>
    * @see #getModel()
-   * @see SBMLDocument#setModel(Model m)
+   * @see SBMLDocument#setModel(Model)
    */ public
  Model createModel(String sid) {
     long cPtr = libsbmlJNI.SBMLDocument_createModel__SWIG_0(swigCPtr, this, sid);
@@ -974,7 +969,7 @@ appears in the documentation.
  
    <p>
    * @see #getModel()
-   * @see SBMLDocument#setModel(Model m)
+   * @see SBMLDocument#setModel(Model)
    */ public
  Model createModel() {
     long cPtr = libsbmlJNI.SBMLDocument_createModel__SWIG_1(swigCPtr, this);
@@ -1018,61 +1013,55 @@ appears in the documentation.
    * second argument (<code>apply</code>, a boolean) indicates whether to turn it on
    * (value of <code>true</code>) or off (value of <code>false</code>).
    <p>
-   * * The possible categories (values to the argument <code>category</code>) are the
+   * The possible categories (values to the argument <code>category</code>) are the
    * set of constants whose names begin with the characters <code>LIBSBML_CAT_</code>
    * in the interface class {@link libsbmlConstants}.
    * The following are the possible choices:
    <p>
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_GENERAL_CONSISTENCY
-   * LIBSBML_CAT_GENERAL_CONSISTENCY}: Correctness and consistency
-   * of specific SBML language constructs.  Performing this set of checks
-   * is highly recommended.  With respect to the SBML specification, these
-   * concern failures in applying the validation rules numbered 2xxxx in
-   * the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1
-   * specifications.
-   <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_IDENTIFIER_CONSISTENCY
-   * LIBSBML_CAT_IDENTIFIER_CONSISTENCY}: Correctness and
-   * consistency of identifiers used for model entities.  An example of
-   * inconsistency would be using a species identifier in a reaction rate
-   * formula without first having declared the species.  With respect to
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY}:
+   * Correctness and consistency of specific SBML language constructs.
+   * Performing this set of checks is highly recommended.  With respect to
    * the SBML specification, these concern failures in applying the
-   * validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
-   * and Level&nbsp;3 Version&nbsp;1 specifications.
-   <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_UNITS_CONSISTENCY
-   * LIBSBML_CAT_UNITS_CONSISTENCY}: Consistency of measurement
-   * units associated with quantities in a model.  With respect to the SBML
-   * specification, these concern failures in applying the validation rules
-   * numbered 105xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
-   * Version&nbsp;1 specifications.
-   <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_MATHML_CONSISTENCY
-   * LIBSBML_CAT_MATHML_CONSISTENCY}: Syntax of MathML constructs.
-   * With respect to the SBML specification, these concern failures in
-   * applying the validation rules numbered 102xx in the Level&nbsp;2
+   * validation rules numbered 2xxxx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_SBO_CONSISTENCY
-   * LIBSBML_CAT_SBO_CONSISTENCY}: Consistency and validity of SBO
-   * identifiers (if any) used in the model.  With respect to the SBML
-   * specification, these concern failures in applying the validation rules
-   * numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY}:
+   * Correctness and consistency of identifiers used for model entities.  An
+   * example of inconsistency would be using a species identifier in a
+   * reaction rate formula without first having declared the species.  With
+   * respect to the SBML specification, these concern failures in applying
+   * the validation rules numbered 103xx in the Level&nbsp;2
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   <p>
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY}:
+   * Consistency of measurement units associated with quantities in a model.
+   * With respect to the SBML specification, these concern failures in
+   * applying the validation rules numbered 105xx in the Level&nbsp;2
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   <p>
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY}:
+   * Syntax of MathML constructs.  With respect to the SBML specification,
+   * these concern failures in applying the validation rules numbered 102xx
+   * in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
    * Version&nbsp;1 specifications.
    <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_OVERDETERMINED_MODEL
-   * LIBSBML_CAT_OVERDETERMINED_MODEL}: Static analysis of whether
-   * the system of equations implied by a model is mathematically
-   * overdetermined.  With respect to the SBML specification, this is
-   * validation rule #10601 in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and
-   * Level&nbsp;3 Version&nbsp;1 specifications.
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY}:
+   * Consistency and validity of SBO identifiers (if any) used in the model.
+   * With respect to the SBML specification, these concern failures in
+   * applying the validation rules numbered 107xx in the Level&nbsp;2
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_MODELING_PRACTICE
-   * LIBSBML_CAT_MODELING_PRACTICE}: Additional checks for
-   * recommended good modeling practice. (These are tests performed by
-   * libSBML and do not have equivalent SBML validation rules.)
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL}:
+   * Static analysis of whether the system of equations implied by a model is
+   * mathematically overdetermined.  With respect to the SBML specification,
+   * this is validation rule #10601 in the Level&nbsp;2
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   <p>
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE}:
+   * Additional checks for recommended good modeling practice. (These are
+   * tests performed by libSBML and do not have equivalent SBML validation
+   * rules.)  </ul>
    <p>
    * <em>By default, all validation checks are applied</em> to the model in
    * an {@link SBMLDocument} object <em>unless</em>
@@ -1105,7 +1094,7 @@ appears in the documentation.
   
 /**
    * Controls the consistency checks that are performed when
-   * {@link SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)} is called.
+   * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)} is called.
    <p>
    * This method works by adding or subtracting consistency checks from the
    * set of all possible checks that may be performed to avoid conversion
@@ -1117,75 +1106,71 @@ appears in the documentation.
    * second argument (<code>apply</code>, a boolean) indicates whether to turn it on
    * (value of <code>true</code>) or off (value of <code>false</code>).
    <p>
-   * * The possible categories (values to the argument <code>category</code>) are the
+   * The possible categories (values to the argument <code>category</code>) are the
    * set of constants whose names begin with the characters <code>LIBSBML_CAT_</code>
    * in the interface class {@link libsbmlConstants}.
    * The following are the possible choices:
    <p>
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_GENERAL_CONSISTENCY
-   * LIBSBML_CAT_GENERAL_CONSISTENCY}: Correctness and consistency
-   * of specific SBML language constructs.  Performing this set of checks
-   * is highly recommended.  With respect to the SBML specification, these
-   * concern failures in applying the validation rules numbered 2xxxx in
-   * the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1
-   * specifications.
-   <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_IDENTIFIER_CONSISTENCY
-   * LIBSBML_CAT_IDENTIFIER_CONSISTENCY}: Correctness and
-   * consistency of identifiers used for model entities.  An example of
-   * inconsistency would be using a species identifier in a reaction rate
-   * formula without first having declared the species.  With respect to
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY}:
+   * Correctness and consistency of specific SBML language constructs.
+   * Performing this set of checks is highly recommended.  With respect to
    * the SBML specification, these concern failures in applying the
-   * validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
-   * and Level&nbsp;3 Version&nbsp;1 specifications.
-   <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_UNITS_CONSISTENCY
-   * LIBSBML_CAT_UNITS_CONSISTENCY}: Consistency of measurement
-   * units associated with quantities in a model.  With respect to the SBML
-   * specification, these concern failures in applying the validation rules
-   * numbered 105xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
-   * Version&nbsp;1 specifications.
-   <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_MATHML_CONSISTENCY
-   * LIBSBML_CAT_MATHML_CONSISTENCY}: Syntax of MathML constructs.
-   * With respect to the SBML specification, these concern failures in
-   * applying the validation rules numbered 102xx in the Level&nbsp;2
+   * validation rules numbered 2xxxx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_SBO_CONSISTENCY
-   * LIBSBML_CAT_SBO_CONSISTENCY}: Consistency and validity of SBO
-   * identifiers (if any) used in the model.  With respect to the SBML
-   * specification, these concern failures in applying the validation rules
-   * numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY}:
+   * Correctness and consistency of identifiers used for model entities.  An
+   * example of inconsistency would be using a species identifier in a
+   * reaction rate formula without first having declared the species.  With
+   * respect to the SBML specification, these concern failures in applying
+   * the validation rules numbered 103xx in the Level&nbsp;2
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   <p>
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY}:
+<p>
+   * Consistency of measurement units associated with quantities in a model.
+   * With respect to the SBML specification, these concern failures in
+   * applying the validation rules numbered 105xx in the Level&nbsp;2
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   <p>
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY}:
+   * Syntax of MathML constructs.  With respect to the SBML specification,
+   * these concern failures in applying the validation rules numbered 102xx
+   * in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
    * Version&nbsp;1 specifications.
    <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_OVERDETERMINED_MODEL
-   * LIBSBML_CAT_OVERDETERMINED_MODEL}: Static analysis of whether
-   * the system of equations implied by a model is mathematically
-   * overdetermined.  With respect to the SBML specification, this is
-   * validation rule #10601 in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and
-   * Level&nbsp;3 Version&nbsp;1 specifications.
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY}:
+   * Consistency and validity of SBO identifiers (if any) used in the model.
+   * With respect to the SBML specification, these concern failures in
+   * applying the validation rules numbered 107xx in the Level&nbsp;2
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    <p>
-   * <li> {@link  libsbmlConstants#LIBSBML_CAT_MODELING_PRACTICE
-   * LIBSBML_CAT_MODELING_PRACTICE}: Additional checks for
-   * recommended good modeling practice. (These are tests performed by
-   * libSBML and do not have equivalent SBML validation rules.)
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL}:
+   * Static analysis of whether the system of equations implied by a model is
+   * mathematically overdetermined.  With respect to the SBML specification,
+   * this is validation rule #10601 in the Level&nbsp;2
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   <p>
+   * <li> {@link libsbmlConstants#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE}:
+   * Additional checks for recommended good modeling practice. (These are
+   * tests performed by libSBML and do not have equivalent SBML validation
+   * rules.)
    * </ul>
    <p>
    * <em>By default, all validation checks are applied</em> to the model in
    * an {@link SBMLDocument} object <em>unless</em>
-   * {@link SBMLDocument#setConsistencyChecks(int categ, boolean onoff)}
+   * {@link SBMLDocument#setConsistencyChecks(int, boolean)}
    * is called to indicate that only a subset should be applied.  Further,
    * this default (i.e., performing all checks) applies separately to
    * <em>each new {@link SBMLDocument} object</em> created.  In other words, each
-   * time a model is read using {@link SBMLReader#readSBML(String filename)},
-   * {@link SBMLReader#readSBMLFromString(String xml)},
+   * time a model is read using {@link SBMLReader#readSBML(String)},
+   * {@link SBMLReader#readSBMLFromString(String)},
    * or the global functions readSBML() and readSBMLFromString(), a new
    * {@link SBMLDocument} is created and for that document, a call to
    * {@link SBMLDocument#checkConsistency()} will default to applying all possible checks.
    * Calling programs must invoke
-   * {@link SBMLDocument#setConsistencyChecks(int categ, boolean onoff)}
+   * {@link SBMLDocument#setConsistencyChecks(int, boolean)}
    * for each such new model if they wish to change the consistency checks
    * applied.
    <p>
@@ -1195,7 +1180,7 @@ appears in the documentation.
    * @param apply a boolean indicating whether the checks indicated by
    * <code>category</code> should be applied or not.
    <p>
-   * @see SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)
+   * @see SBMLDocument#setLevelAndVersion(long, long, boolean)
    */ public
  void setConsistencyChecksForConversion(int category, boolean apply) {
     libsbmlJNI.SBMLDocument_setConsistencyChecksForConversion(swigCPtr, this, category, apply);
@@ -1209,7 +1194,7 @@ appears in the documentation.
    * consistency checks have failed for SBML document), the failures may be
    * due to warnings <em>or</em> errors.  Callers should inspect the severity
    * flag in the individual {@link SBMLError} objects returned by
-   * {@link SBMLDocument#getError(long n)} to determine the nature of the failures.
+   * {@link SBMLDocument#getError(long)} to determine the nature of the failures.
    <p>
    * @return the number of failed checks (errors) encountered.
    <p>
@@ -1227,7 +1212,7 @@ appears in the documentation.
    * consistency checks have failed for SBML document), the failures may be
    * due to warnings <em>or</em> errors.  Callers should inspect the severity
    * flag in the individual {@link SBMLError} objects returned by
-   * {@link SBMLDocument#getError(long n)} to determine the nature of the failures.
+   * {@link SBMLDocument#getError(long)} to determine the nature of the failures.
    <p>
    * @note unlike checkConsistency this method will write the document
    *       in order to determine all errors for the document. This will 
@@ -1247,7 +1232,7 @@ appears in the documentation.
    * an SBML {@link Model}.
    <p>
    * Callers should query the results of the consistency check by calling
-   * {@link SBMLDocument#getError(long n)}.
+   * {@link SBMLDocument#getError(long)}.
    <p>
    * @return the number of failed checks (errors) encountered.
    <p>
@@ -1272,7 +1257,7 @@ appears in the documentation.
    * to Level&nbsp;1.
    <p>
    * Callers should query the results of the consistency check by calling
-   * {@link SBMLDocument#getError(long n)}.
+   * {@link SBMLDocument#getError(long)}.
    <p>
    * @return the number of failed checks (errors) encountered.
    */ public
@@ -1287,7 +1272,7 @@ appears in the documentation.
    * be converted to Level&nbsp;2 Version&nbsp;1.
    <p>
    * Callers should query the results of the consistency check by calling
-   * {@link SBMLDocument#getError(long n)}.
+   * {@link SBMLDocument#getError(long)}.
    <p>
    * @return the number of failed checks (errors) encountered.
    */ public
@@ -1302,7 +1287,7 @@ appears in the documentation.
    * be converted to Level&nbsp;2 Version&nbsp;2.
    <p>
    * Callers should query the results of the consistency check by calling
-   * {@link SBMLDocument#getError(long n)}.
+   * {@link SBMLDocument#getError(long)}.
    <p>
    * @return the number of failed checks (errors) encountered.
    */ public
@@ -1317,7 +1302,7 @@ appears in the documentation.
    * be converted to Level&nbsp;2 Version&nbsp;3.
    <p>
    * Callers should query the results of the consistency check by calling
-   * {@link SBMLDocument#getError(long n)}.
+   * {@link SBMLDocument#getError(long)}.
    <p>
    * @return the number of failed checks (errors) encountered.
    */ public
@@ -1332,7 +1317,7 @@ appears in the documentation.
    * be converted to Level&nbsp;2 Version&nbsp;4.
    <p>
    * Callers should query the results of the consistency check by calling
-   * {@link SBMLDocument#getError(long n)}.
+   * {@link SBMLDocument#getError(long)}.
    <p>
    * @return the number of failed checks (errors) encountered.
    */ public
@@ -1347,7 +1332,7 @@ appears in the documentation.
    * be converted to Level&nbsp;3 Version&nbsp;1.
    <p>
    * Callers should query the results of the consistency check by calling
-   * {@link SBMLDocument#getError(long n)}.
+   * {@link SBMLDocument#getError(long)}.
    <p>
    * @return the number of failed checks (errors) encountered.
    */ public
@@ -1418,10 +1403,10 @@ appears in the documentation.
    * output will be sent to the stream.
    <p>
    * The format of the output is:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
    N error(s):
      line NNN: (id) message
- </pre></div>
+ </pre>
    <p>
    * @param stream the ostream or ostringstream object indicating where
    * the output should be printed.
@@ -1462,10 +1447,10 @@ appears in the documentation.
    * output will be sent to the stream.
    <p>
    * The format of the output is:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
    N error(s):
      line NNN: (id) message
- </pre></div>
+ </pre>
    <p>
    * @param stream the ostream or ostringstream object indicating where
    * the output should be printed.
@@ -1522,10 +1507,9 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED  }
-   * <li> {@link  libsbmlConstants#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE  }
-   * @internal
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE}
    * </ul>
    */ public
  int convert(ConversionProperties props) {
@@ -1553,16 +1537,16 @@ appears in the documentation.
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_DOCUMENT SBML_DOCUMENT} (default).
+   * {@link libsbmlConstants#SBML_DOCUMENT SBML_DOCUMENT} (default).
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -1631,8 +1615,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION}
    * </ul>
    */ public
  int enableDefaultNS(String arg0, boolean flag) {
@@ -1671,8 +1655,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION}
    * </ul>
    */ public
  int setPackageRequired(String arg0, boolean flag) {
@@ -1763,12 +1747,12 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION}
    *
    * </ul> <p>
    * @deprecated <div class='deprecated'>Replaced in libSBML 5.2.0 by
-   * setPackageRequired(String package, boolean flag)
+   * setPackageRequired(String, boolean)
    </div>
    * */ public
  int setPkgRequired(String arg0, boolean flag) {
@@ -1789,7 +1773,7 @@ appears in the documentation.
    * being required in this SBML document.
    <p>
    * @deprecated <div class='deprecated'>Replaced in libSBML 5.2.0 by
-   * getPackageRequired(String package flag)
+   * getPackageRequired(String)
    </div>
    * */ public
  boolean getPkgRequired(String arg0) {
@@ -1809,7 +1793,7 @@ appears in the documentation.
    * @return a Boolean value.
    <p>
    * @deprecated <div class='deprecated'>Replaced in libSBML 5.2.0 by
-   * isSetPackageRequired(String package flag)
+   * isSetPackageRequired(String)
    </div>
    * */ public
  boolean isSetPkgRequired(String arg0) {
@@ -1829,7 +1813,7 @@ appears in the documentation.
    * @return a boolean
    <p>
    * @deprecated <div class='deprecated'>Replaced in libSBML 5.2.0 by
-   * isIgnoredPackage(String pkgURI flag)
+   * isIgnoredPackage(String)
    </div>
    * */ public
  boolean isIgnoredPkg(String pkgURI) {

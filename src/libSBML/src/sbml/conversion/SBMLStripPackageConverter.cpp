@@ -54,8 +54,8 @@ void SBMLStripPackageConverter::init()
 /** @endcond */
 
 
-SBMLStripPackageConverter::SBMLStripPackageConverter () :
-    SBMLConverter()
+SBMLStripPackageConverter::SBMLStripPackageConverter () 
+  : SBMLConverter("SBML Strip Package Converter")
 {
 }
 
@@ -63,8 +63,8 @@ SBMLStripPackageConverter::SBMLStripPackageConverter () :
 /*
  * Copy constructor.
  */
-SBMLStripPackageConverter::SBMLStripPackageConverter(const SBMLStripPackageConverter& orig) :
-    SBMLConverter(orig)
+SBMLStripPackageConverter::SBMLStripPackageConverter(const SBMLStripPackageConverter& orig) 
+  : SBMLConverter(orig)
 {
 }
 
@@ -107,11 +107,21 @@ ConversionProperties
 SBMLStripPackageConverter::getDefaultProperties() const
 {
   static ConversionProperties prop;
-  prop.addOption("stripPackage", true,
-                 "Strip SBML Level 3 package constructs from the model");
-  prop.addOption("package", "",
-                 "Name of the SBML Level 3 package to be stripped");
-  return prop;
+  static bool init = false;
+
+  if (init) 
+  {
+    return prop;
+  }
+  else
+  {
+    prop.addOption("stripPackage", true,
+                   "Strip SBML Level 3 package constructs from the model");
+    prop.addOption("package", "",
+                   "Name of the SBML Level 3 package to be stripped");
+    init = true;
+    return prop;
+  }
 }
 
 

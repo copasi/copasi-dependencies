@@ -14,10 +14,9 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Representation of an extension point of SBML's package
- * extension.
+@htmlinclude pkg-marker-core.html Extension of an element by an SBML Level 3 package.
  * 
- * @if notclike @internal @endif
+ * @ifnot clike @internal @endif
  *
  * SBaseExtensionPoint represents an element to be extended (extension point) and the
  * extension point is identified by a combination of a package name and a typecode of the 
@@ -126,9 +125,9 @@ public class SBaseExtensionPoint : IDisposable {
 
   
 /**
-   * Creates and returns a deep copy of this SBaseExtensionPoint.
-   * 
-   * @return a (deep) copy of this SBaseExtensionPoint.
+   * Creates and returns a deep copy of this SBaseExtensionPoint object.
+   *
+   * @return the (deep) copy of this SBaseExtensionPoint object.
    */ public
  SBaseExtensionPoint clone() {
     IntPtr cPtr = libsbmlPINVOKE.SBaseExtensionPoint_clone(swigCPtr);
@@ -148,7 +147,7 @@ public class SBaseExtensionPoint : IDisposable {
   
 /**
    * Returns the typecode of this extension point.
-   */ public
+   */ public new
  int getTypeCode() {
     int ret = libsbmlPINVOKE.SBaseExtensionPoint_getTypeCode(swigCPtr);
     return ret;

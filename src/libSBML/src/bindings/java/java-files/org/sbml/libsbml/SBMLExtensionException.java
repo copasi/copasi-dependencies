@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Exceptions for libSBML extensions for SBML Level 3 packages.
+ *  Exceptions thrown by SBML Level 3 package plug-ins.
  */
 
 public class SBMLExtensionException {

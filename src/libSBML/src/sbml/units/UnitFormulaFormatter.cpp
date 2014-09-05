@@ -300,7 +300,7 @@ UnitFormulaFormatter::getUnitDefinition(const ASTNode * node,
   if (ud->getNumUnits() == 0)
   {
     mContainsUndeclaredUnits = true;
-    mCanIgnoreUndeclaredUnits = false;
+    mCanIgnoreUndeclaredUnits = 0;
   }
 
   return ud;
@@ -469,149 +469,59 @@ UnitDefinition *
 UnitFormulaFormatter::getUnitDefinitionFromPower(const ASTNode * node,
                                                  bool inKL, int reactNo)
 { 
+  unsigned int numChildren = node->getNumChildren();
 
-  UnitDefinition * ud;
-  /* this only works is the exponent is an integer - 
-   * since a unit can only have an integral exponent 
-   * but the mathml might do something like
-   * pow(sqrt(m) * 2, 2) - which would be okay
-   * unless we challenge the sqrt(m) !!
-   */
-
-  UnitDefinition * tempUD;
-  UnitDefinition * tempUD2 = NULL;
-  unsigned int i;
-  int newExp = 0;
-  Unit * unit;
-  ASTNode * child;
-  unsigned int found = 0;
-
-  tempUD = getUnitDefinition(node->getLeftChild(), inKL, reactNo);
-  ud = new UnitDefinition(model->getSBMLNamespaces());
-  
-  if (node->getNumChildren() == 1)
-    return ud;
-
-  /** 
-    * if the value set is not an integer need to flag as not to check units
-    */
-  double value = 0.0;
-
-  child = node->getRightChild();
-  for (i = 0; i < tempUD->getNumUnits(); i++)
+  if (numChildren == 0 || numChildren > 2)
   {
-    unit = tempUD->getUnit(i);
-    // need to check type
-    if (child->isInteger()) 
-    {
-      unit->setExponentUnitChecking((int)(child->getInteger() * unit->getExponent()));
-    }
-    else if (child->isName())
-    {
-      /**
-       * if the child is a name then it will be a parameter 
-       * and may be global or local if we are in a kineticLaw
-       * in L3 could be a speciesReference
-       * (if it is a species/compartment units must be messy)
-       */
-      if (inKL == 1)
-      {
-        if (model->getReaction(reactNo)->
-          getKineticLaw()->getParameter(child->getName()))
-        {
-          value = (model->getReaction(reactNo)->
-            getKineticLaw()->getParameter(child->getName()))->getValue();
-          found = 1;
-        }
-      }
-      
-      if (found == 0) // not local parameter
-      {
-        if (model->getParameter(child->getName()))
-        {
-          if (!model->getParameter(child->getName())->isSetValue())
-          {
-            SBMLTransforms::mapComponentValues(model);
-            value = SBMLTransforms::evaluateASTNode(child, model);
-            SBMLTransforms::clearComponentValues();
-          }
-          else
-          {
-            value = model->getParameter(child->getName())->getValue();
-          }
-        }
-        else if (model->getSpeciesReference(child->getName()))
-        {
-          if (!model->getSpeciesReference(child->getName())->isSetStoichiometry())
-          {
-            SBMLTransforms::mapComponentValues(model);
-            value = SBMLTransforms::evaluateASTNode(child, model);
-            SBMLTransforms::clearComponentValues();
-          }
-          else
-          {
-            value = model->getSpeciesReference(child->getName())
-                                                  ->getStoichiometry();
-          }
-        }
-
-      }
-      
-      if (floor(value) != value)
-        mContainsUndeclaredUnits = true;
-      
-      newExp = (int) (value);
-
-      unit->setExponentUnitChecking(newExp * unit->getExponent());
-    }
-    else if (child->isReal())
-    {
-      value = child->getReal();
-      if (floor(value) != value)
-        mContainsUndeclaredUnits = true;
-      newExp = (int) (value);
-      
-      unit->setExponentUnitChecking(newExp * unit->getExponent());
-    }
-    else
-    {
-      tempUD2 = getUnitDefinition(child, inKL, reactNo);
-      UnitDefinition::simplify(tempUD2);
-
-      if (tempUD2->isVariantOfDimensionless())
-      {
-        SBMLTransforms::mapComponentValues(model);
-        value = SBMLTransforms::evaluateASTNode(child);
-        SBMLTransforms::clearComponentValues();
-        if (!util_isNaN(value))
-        {
-          if (floor(value) != value)
-            mContainsUndeclaredUnits = true;
-          newExp = (int) (value);
-          
-          unit->setExponentUnitChecking(newExp * unit->getExponent());
-        }
-        else
-        {
-          mContainsUndeclaredUnits = true;
-        }
-      }
-      else
-      {
-        /* here the child is an expression with units
-        * flag the expression as not checked
-        */
-        mContainsUndeclaredUnits = true;
-      }
-    }
-    ud->addUnit(unit);
+    UnitDefinition * ud = new UnitDefinition(model->getSBMLNamespaces());
+    return ud;
   }
 
-  delete tempUD;
-  if (tempUD2 != NULL)
-    delete tempUD2;
+  UnitDefinition * variableUD = getUnitDefinition(
+                                       node->getLeftChild(), inKL, reactNo);
 
-  return ud;
+  if (numChildren == 1)
+  {
+    mContainsUndeclaredUnits = true;
+    return variableUD;
+  }
+
+  // save the undeclared status of variable
+  bool varHasUndeclared = mContainsUndeclaredUnits;
+  unsigned int varCanIgnoreUndeclared = mCanIgnoreUndeclaredUnits;
+
+  double exponentValue = 0.0;
+  ASTNode * exponentNode = node->getRightChild();
+
+  // is the exponent dimensionless or a number because if not it is a problem
+  UnitDefinition* exponentUD = getUnitDefinition(exponentNode, inKL, reactNo);
+  UnitDefinition::simplify(exponentUD);
+
+  if (exponentNode->isInteger() == true ||
+    exponentNode->isReal() == true ||
+    exponentUD->isVariantOfDimensionless())
+  {
+    SBMLTransforms::mapComponentValues(model);
+    exponentValue = SBMLTransforms::evaluateASTNode(node->getRightChild(), model);
+    SBMLTransforms::clearComponentValues();
+
+    for (unsigned int n = 0; n < variableUD->getNumUnits(); n++)
+    {
+      Unit * unit = variableUD->getUnit(n);
+      unit->setExponentUnitChecking(exponentValue * unit->getExponentAsDouble());
+    }
+
+    // restore undeclared status as it should come from variable
+    mContainsUndeclaredUnits = varHasUndeclared;
+    mCanIgnoreUndeclaredUnits = varCanIgnoreUndeclared;
+  }
+  else
+  {
+    mContainsUndeclaredUnits = true;
+  }
+
+  return variableUD;
+
 }
 /* @endcond */
 
@@ -826,16 +736,16 @@ UnitFormulaFormatter::getUnitDefinitionFromArgUnitsReturnFunction
 
   /* get first arg that is not a parameter with undeclared units */
   ud = getUnitDefinition(node->getChild(i), inKL, reactNo);
-  while (getContainsUndeclaredUnits() && mCanIgnoreUndeclaredUnits != 1
+  while (getContainsUndeclaredUnits() == true
     && i < node->getNumChildren()-1)
   {
-    if (originalUndeclaredValue == 1)
+    if (originalUndeclaredValue == true)
       currentIgnore = 0;
     else
       currentIgnore = 1;
 
 
-    currentUndeclared = 1;
+    currentUndeclared = true;
 
     i++;
     delete ud;
@@ -857,7 +767,7 @@ UnitFormulaFormatter::getUnitDefinitionFromArgUnitsReturnFunction
       tempUd = getUnitDefinition(node->getChild(n), inKL, reactNo);
       if (getContainsUndeclaredUnits())
       {
-        currentUndeclared = 1;
+        currentUndeclared = true;
         currentIgnore = 1;
       }
       delete tempUd;
@@ -953,7 +863,7 @@ UnitFormulaFormatter::getUnitDefinitionFromOther(const ASTNode * node,
   else if (node->getType() == AST_CONSTANT_PI)
   {
     unit = new Unit(model->getSBMLNamespaces());
-    unit->setKind(UNIT_KIND_RADIAN);
+    unit->setKind(UNIT_KIND_DIMENSIONLESS);
     unit->initDefaults();
     ud   = new UnitDefinition(model->getSBMLNamespaces());
     
@@ -991,7 +901,7 @@ UnitFormulaFormatter::getUnitDefinitionFromOther(const ASTNode * node,
     else
     {
       found = 0;
-      n = 0;
+      //n = 0;
       if (inKL)
       {
         if (model->getReaction(reactNo)->isSetKineticLaw())
@@ -1153,7 +1063,7 @@ UnitFormulaFormatter::getUnitDefinitionFromOther(const ASTNode * node,
             else
             {
               mContainsUndeclaredUnits = true;
-              mCanIgnoreUndeclaredUnits = false;
+              mCanIgnoreUndeclaredUnits = 0;
             }
 
             std::string timeUnits = model->getTimeUnits();
@@ -1192,7 +1102,7 @@ UnitFormulaFormatter::getUnitDefinitionFromOther(const ASTNode * node,
             else
             {
               mContainsUndeclaredUnits = true;
-              mCanIgnoreUndeclaredUnits = false;
+              mCanIgnoreUndeclaredUnits = 0;
             }
           }
         }
@@ -1516,6 +1426,7 @@ UnitFormulaFormatter::getUnitDefinitionFromSpecies(const Species * species)
       }
 
       delete unit;
+      unit = NULL;
     }
     else
     {
@@ -1541,6 +1452,7 @@ UnitFormulaFormatter::getUnitDefinitionFromSpecies(const Species * species)
       subsUD->addUnit(unit);
 
       delete unit;
+      unit = NULL;
     }
     else 
     {
@@ -1566,6 +1478,7 @@ UnitFormulaFormatter::getUnitDefinitionFromSpecies(const Species * species)
             subsUD->addUnit(unit);
 
             delete unit;
+            unit = NULL;
           }
         }
       }
@@ -1587,6 +1500,7 @@ UnitFormulaFormatter::getUnitDefinitionFromSpecies(const Species * species)
         subsUD->addUnit(unit);
 
         delete unit;
+        unit = NULL;
       }
     }
     else if (subsUD == NULL)
@@ -1641,6 +1555,7 @@ UnitFormulaFormatter::getUnitDefinitionFromSpecies(const Species * species)
       sizeUD->addUnit(unit);
 
       delete unit;
+      unit = NULL;
     }
     else 
     {
@@ -1666,6 +1581,7 @@ UnitFormulaFormatter::getUnitDefinitionFromSpecies(const Species * species)
             sizeUD->addUnit(unit);
 
             delete unit;
+            unit = NULL;
           }
         }
       }
@@ -1701,7 +1617,7 @@ UnitFormulaFormatter::getUnitDefinitionFromSpecies(const Species * species)
         unit->initDefaults();
         sizeUD->addUnit(unit);
       }
-
+      if (unit != NULL)
       delete unit;
     }
   }
@@ -2353,7 +2269,7 @@ UnitFormulaFormatter::inferUnitDefinition(UnitDefinition* expectedUD,
   ASTNode * child1 = NULL, * child2 = NULL;
   unsigned int numChildren = math->getNumChildren();
 
-  // is teh math just the ci element
+  // is the math just the ci element
   if (numChildren == 0 && math->getType() == AST_NAME
     && math->getName() == id)
   {
@@ -2367,7 +2283,7 @@ UnitFormulaFormatter::inferUnitDefinition(UnitDefinition* expectedUD,
     if (numChildren != 2)
     {
       /* dont support this yet */
-      isolated = true;
+      //isolated = true;
       resultUD = NULL;
       break;
     }
@@ -2414,7 +2330,7 @@ UnitFormulaFormatter::inferUnitDefinition(UnitDefinition* expectedUD,
     }
     else
     {
-      isolated = true;
+      //isolated = true;
       resultUD = NULL;
       break;
     }

@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Methods for checking syntax of SBML identifiers and other
- * strings.
+@htmlinclude pkg-marker-core.html Methods for checking the validity of SBML identifiers.
  * 
  * @htmlinclude not-sbml-warning.html
  * 
@@ -102,15 +101,14 @@ public class SyntaxChecker : IDisposable {
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter ::= 'a'..'z','A'..'Z'
  * digit  ::= '0'..'9'
  * idChar ::= letter | digit | '_'
- * SId    ::= ( letter | '_' ) idChar*
- * </pre>
+ * SId    ::= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -119,7 +117,7 @@ public class SyntaxChecker : IDisposable {
  * conditions for the uniqueness of identifiers in an SBML model.  Please
  * consult the SBML specifications for the exact details of the uniqueness
  * requirements.
- * 
+ *
  *
    *
    * *
@@ -130,6 +128,8 @@ public class SyntaxChecker : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @see @if clike isValidUnitSId(string sid) @else SyntaxChecker::isValidUnitSId(string sid) @endif
    * @see @if clike isValidXMLID(string sid) @else SyntaxChecker::isValidXMLID(string sid) @endif
@@ -155,7 +155,7 @@ public class SyntaxChecker : IDisposable {
  * within an SBML file.  The latter point is important, because the
  * uniqueness criterion applies across <em>any</em> attribute with type
  * <code>ID</code> anywhere in the file, not just the 'metaid' attribute used
- * by SBML&mdash;something to be aware of if your application-specific XML
+ * by SBML---something to be aware of if your application-specific XML
  * content inside the 'annotation' subelement happens to use the XML
  * <code>ID</code> type.  Although SBML itself specifies the use of <a
  * href='http://www.w3.org/TR/REC-xml/#id'>XML <code>ID</code></a> only for
@@ -165,7 +165,7 @@ public class SyntaxChecker : IDisposable {
  * 'annotation' subelement.  Finally, note that LibSBML does not provide an
  * explicit XML <code>ID</code> data type; it uses ordinary character
  * strings, which is easier for applications to support.
- * 
+ *
  * 
    *
    * This method provides programs with the ability to test explicitly that
@@ -189,6 +189,8 @@ public class SyntaxChecker : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    * 
    * @see @if clike isValidSBMLSId(string sid) @else SyntaxChecker::isValidSBMLSId(string sid) @endif
    * @see @if clike isValidUnitSId(string sid) @else SyntaxChecker::isValidUnitSId(string sid) @endif
@@ -232,6 +234,8 @@ public class SyntaxChecker : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isValidXMLanyURI(string uri) {
     bool ret = libsbmlPINVOKE.SyntaxChecker_isValidXMLanyURI(uri);
@@ -271,6 +275,8 @@ public class SyntaxChecker : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @see @if clike isValidSBMLSId(string sid) @else SyntaxChecker::isValidSBMLSId(string sid) @endif
    * @see @if clike isValidXMLID(string sid) @else SyntaxChecker::isValidXMLID(string sid) @endif
@@ -303,7 +309,7 @@ public class SyntaxChecker : IDisposable {
  * href='http://sbml.org/Documents/Specifications'>SBML specifications</a>
  * for specific SBML Levels.  To help verify the formatting of 'notes'
  * content, libSBML provides the static utility method
- * SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); The
+ * SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); this
  * method implements a verification process that lets callers check whether
  * the content of a given XMLNode object conforms to the SBML requirements
  * for 'notes' and 'message' structure.  Developers are urged to consult the
@@ -378,8 +384,10 @@ public class SyntaxChecker : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  static bool hasExpectedXHTMLSyntax(XMLNode xhtml, SBMLNamespaces sbmlns) {
     bool ret = libsbmlPINVOKE.SyntaxChecker_hasExpectedXHTMLSyntax__SWIG_0(XMLNode.getCPtr(xhtml), SBMLNamespaces.getCPtr(sbmlns));
@@ -409,7 +417,7 @@ public class SyntaxChecker : IDisposable {
  * href='http://sbml.org/Documents/Specifications'>SBML specifications</a>
  * for specific SBML Levels.  To help verify the formatting of 'notes'
  * content, libSBML provides the static utility method
- * SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); The
+ * SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); this
  * method implements a verification process that lets callers check whether
  * the content of a given XMLNode object conforms to the SBML requirements
  * for 'notes' and 'message' structure.  Developers are urged to consult the
@@ -484,8 +492,10 @@ public class SyntaxChecker : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  static bool hasExpectedXHTMLSyntax(XMLNode xhtml) {
     bool ret = libsbmlPINVOKE.SyntaxChecker_hasExpectedXHTMLSyntax__SWIG_1(XMLNode.getCPtr(xhtml));

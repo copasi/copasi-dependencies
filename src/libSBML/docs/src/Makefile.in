@@ -123,6 +123,8 @@ extra_distclean =                           \
         doxygen-config-octave.txt           \
         doxygen-config-perl.txt             \
         doxygen-config-python.txt           \
+        libsbml-accessing.html              \
+        libsbml-converters.txt              \
         libsbml-group-comp-intro.html       \
         libsbml-group-core-intro.html       \
         libsbml-group-fbc-intro.html        \
@@ -156,6 +158,7 @@ distfiles =                                                  \
         common-graphics/ftv2folderopen.png                   \
         common-graphics/hellojsp-screenshot.png              \
         common-graphics/icon-format-pdf-44px.jpg             \
+        common-graphics/icon-format-html-44px.jpg            \
         common-graphics/layout-example.png                   \
         common-graphics/listof-illustration.svg              \
         common-graphics/model-qualifiers.png                 \
@@ -185,6 +188,9 @@ distfiles =                                                  \
         common-text/level-1-uses-text-string-math.html       \
         common-text/enzymatic-reaction-equation.html         \
         common-text/libsbml-facility-only-warning.html       \
+        common-text/libsbml-coding-copydetails-example.html  \
+        common-text/libsbml-coding-copydoc-example.html      \
+        common-text/libsbml-coding-link-example.html         \
         common-text/libsbml-version.html.in                  \
         common-text/listof-illustration.txt                  \
         common-text/math-functions.html                      \
@@ -214,10 +220,12 @@ distfiles =                                                  \
         common-text/warn-default-args-in-docs.html           \
         common-text/xmlid-syntax.html                        \
         css/libsbml-base-stylesheet.css                      \
+        css/libsbml-c-stylesheet.css                         \
         css/libsbml-doxygen-navtree.css                      \
         css/libsbml-doxygen-stylesheet.css                   \
         css/libsbml-doxygen-tabs.css                         \
         css/libsbml-javadoc-stylesheet.css                   \
+        css/libsbml-python-stylesheet.css                    \
         css/libsbml-reset-stylesheet.css                     \
         css/search.css                                       \
         css/search.png                                       \
@@ -237,6 +245,7 @@ distfiles =                                                  \
         doxygen-config-python.txt.in                         \
         doxygen-footer.html                                  \
         doxygen-header.html                                  \
+        doxygen-layout-c.xml                                 \
         doxygen-layout-cpp.xml                               \
         doxygen-layout-csharp.xml                            \
         doxygen-layout-notcpp.xml                            \
@@ -259,7 +268,7 @@ distfiles =                                                  \
         java-substitutions/libsbmlConstants.java.in          \
         libsbml-doxygen.html                                 \
         libsbml-extending.txt                                \
-        libsbml-accessing.html                               \
+        libsbml-accessing.html.in                            \
         libsbml-accessing.txt                                \
         libsbml-authors.html                                 \
         libsbml-blurb.html                                   \
@@ -320,14 +329,13 @@ distfiles =                                                  \
         libsbml-papers.html                                  \
         libsbml-programming.txt                              \
         libsbml-programming-csharp.txt                       \
-        libsbml-programming-python.txt                       \
         libsbml-python-creating-model.txt                    \
         libsbml-python-example-files.txt                     \
-        libsbml-python-mainpage.txt                          \
         libsbml-python-reading-files.txt                     \
         libsbml-reading-files.txt                            \
         libsbml-release-info.txt                             \
         python-substitutions/ASTNodeList.py                  \
+        python-substitutions/SBaseList.py                    \
         python-substitutions/CVTermList.py                   \
         python-substitutions/CompPkgNamespaces.py            \
         python-substitutions/DateList.py                     \
@@ -339,9 +347,10 @@ distfiles =                                                  \
         python-substitutions/libsbml.py                      \
         sbml.js                                              \
         utilities/compare-constants.py                       \
-        utilities/generate-pkg-stylesheet.py                 \
         utilities/generate-class-name-list.py                \
+        utilities/generate-converters-list.py                \
         utilities/generate-extensions-summary.py             \
+        utilities/generate-pkg-stylesheet.py                 \
         utilities/prettify/README.txt                        \
         utilities/prettify/prettify.css                      \
         utilities/prettify/prettify.js                       \
@@ -441,6 +450,7 @@ doxygen-config-octave.txt:  $(doxygen-octave-conf) $(TOP_SRCDIR)/VERSION.txt
 	cd $(TOP_BUILDDIR) && $(SHELL) ./config.status $(thisdir)/$@
 
 expanded-html-files =		  \
+  libsbml-accessing.html          \
   libsbml-group-comp-intro.html	  \
   libsbml-group-core-intro.html	  \
   libsbml-group-fbc-intro.html	  \
@@ -448,17 +458,24 @@ expanded-html-files =		  \
   libsbml-group-qual-intro.html   \
   libsbml-installation.html
 
-core-sources = \
-  $(wildcard ../../src/sbml/*.[cpp,h]) \
-  $(wildcard ../../src/sbml/*/*.[cpp,h]) \
+other-generated-files = \
+  libsbml-converters.txt
+
+core-sources =					  \
+  $(wildcard ../../src/sbml/*.[cpp,h])		  \
+  $(wildcard ../../src/sbml/*/*.[cpp,h])	  \
   $(wildcard ../../src/sbml/packages/*/*.[cpp,h]) \
-  $(wildcard ../../src/sbml/bindings/*/*.[cpp,h]) \
-  $(wildcard libsbml-*.txt) \
+  $(wildcard ../../src/sbml/bindings/*/*.[cpp,h])
+
+all-sources =		     \
+  $(wildcard libsbml-*.txt)  \
   $(wildcard libsbml-*.html) \
-  $(expanded-html-files)
+  $(core-sources)	     \
+  $(expanded-html-files)     \
+  $(other-generated-files)
 
 css/libsbml-package-stylesheet.css: utilities/generate-pkg-stylesheet.py \
-  $(core-sources) css/libsbml-javadoc-stylesheet.css
+  $(all-sources) css/libsbml-javadoc-stylesheet.css
 	utilities/generate-pkg-stylesheet.py $(TOP_SRCDIR)/src/sbml/packages > $@
 
 css-files =			     \
@@ -469,7 +486,19 @@ css-files =			     \
   css/libsbml-doxygen-tabs.css	     \
   css/libsbml-javadoc-stylesheet.css \
   css/libsbml-package-stylesheet.css \
+  css/libsbml-python-stylesheet.css  \
   css/libsbml-reset-stylesheet.css	
+
+# The file class-list.txt is used in a couple of places, and one of them is
+# not immediately obvious: it's used by filters/doc-filter-c.py, which is
+# called by Doxygen when creating the C manual.  The configuration setting
+# that references doc-filter-c.py is in doxygen-config-c.txt.
+
+class-list.txt: $(core-sources) utilities/generate-class-name-list.py
+	utilities/generate-class-name-list.py $(TOP_SRCDIR)/src > $@
+
+libsbml-converters.txt: class-list.txt utilities/generate-converters-list.py
+	utilities/generate-converters-list.py class-list.txt > $@
 
 define compare_constants
   utilities/compare-constants.py $(1) $(2)
@@ -560,19 +589,13 @@ define postprocess_doxygen
   cp -rf css/libsbml-doxygen-navtree.css $(1)/navtree.css
 endef
 
-cpp-manual $(cpp-manual): doxygen-config-cpp.txt $(core-sources) $(css-files)
+cpp-manual $(cpp-manual): doxygen-config-cpp.txt $(all-sources) $(css-files)
 	mkdir -p $(cpp-manual)
 	$(call preprocess_doxygen)
 	$(call run_doxygen,doxygen-config-cpp.txt,$(cpp-manual),"")
 	$(call postprocess_doxygen,$(cpp-manual))
 
-# The file class-list.txt is needed by filters/doc-filter-c.py, which is
-# called by Doxygen.  The configuration setting is in doxygen-config-c.txt.
-
-class-list.txt: $(core-sources) utilities/generate-class-name-list.py
-	utilities/generate-class-name-list.py $(TOP_SRCDIR)/src > class-list.txt
-
-c-manual $(c-manual): doxygen-config-c.txt $(core-sources) $(css-files) \
+c-manual $(c-manual): doxygen-config-c.txt $(all-sources) $(css-files) \
   filters/doc-filter-c.py class-list.txt
 	mkdir -p $(c-manual)
 	$(call preprocess_doxygen)
@@ -581,25 +604,38 @@ c-manual $(c-manual): doxygen-config-c.txt $(core-sources) $(css-files) \
 	cp -f css/libsbml-c-stylesheet.css $(c-manual)
 
 ifdef USE_PYTHON
-python-input     = ../../src/bindings/python/libsbml-doxygen.py
-python-subst-dir = python-substitutions
+
+python-input	     = ../../src/bindings/python/libsbml-doxygen.py
+python-subst-dir     = python-substitutions
+python-substitutions = $(wildcard $(python-subst-dir)/*.py)
+python-sources	     =	     \
+  $(wildcard libsbml-*.txt)  \
+  $(wildcard libsbml-*.html) \
+  $(python-input)	     \
+  $(python-substitions)	     \
+  $(expanded-html-files)     \
+  $(other-generated-files)   \
+  $(css-files)
 
 # Certain things like parameters will never match up in Doxygen.
 # Ignore those warnings to avoid confusing people.
 
 python-ignorable-warnings = \
-  "is not found in the argument list|The following parameters of libsbml|parameter 'args'"
+  "is not found in the argument list|The following parameters of libsbml|parameter 'args'|multiple use of section label"
 
 python-manual $(python-manual): doxygen-config-python.txt $(python-sources)
 	mkdir -p $(python-manual)
 	$(call compare_constants,$(python-input),python-substitutions/libsbml.py)
-	utilities/pythondocpreprocessor.py $(python-input) libsbml.py $(wildcard $(python-subst-dir)/*.py)
+	utilities/pythondocpreprocessor.py $(python-input) libsbml.py $(python-substitutions)
 	$(call preprocess_doxygen)
 	$(call run_doxygen,doxygen-config-python.txt,$(python-manual),$(python-ignorable-warnings))
 	$(call postprocess_doxygen,$(python-manual))
+	cp -f css/libsbml-python-stylesheet.css $(python-manual)
+
 endif
 
 ifdef USE_PERL
+
 perl-sources = ../../src/bindings/perl/LibSBML.pm
 
 perl-manual $(perl-manual): doxygen-config-perl.txt $(perl-sources)
@@ -607,9 +643,11 @@ perl-manual $(perl-manual): doxygen-config-perl.txt $(perl-sources)
 	$(call preprocess_doxygen)
 	$(call run_doxygen,doxygen-config-perl.txt,$(c-manual),"")
 	$(call postprocess_doxygen,$(perl-manual))
+
 endif
 
 ifdef USE_MATLAB
+
 matlab-sources = \
   $(wildcard ../../src/bindings/matlab/*.m ../../src/bindings/matlab/*.c)
 
@@ -621,6 +659,7 @@ matlab-manual $(matlab-manual): doxygen-config-matlab.txt $(matlab-sources)
 endif
 
 ifdef USE_OCTAVE
+
 octave-sources = \
   $(wildcard ../../src/bindings/octave/*.m ../../src/bindings/octave/*.c)
 
@@ -629,6 +668,7 @@ octave-manual $(octave-manual): doxygen-config-octave.txt $(octave-sources)
 	$(call preprocess_doxygen)
 	$(DOXYGEN) doxygen-config-octave.txt
 	$(call postprocess_doxygen,$(octave-manual))
+
 endif
 
 ifdef USE_CSHARP
@@ -639,12 +679,13 @@ ifdef USE_CSHARP
 cs-ignorable-warnings = \
   "is not found in the argument list of|explicit link request to 'GO' could not be resolved"
 
-csharp-manual $(csharp-manual): doxygen-config-csharp.txt $(core-sources) \
+csharp-manual $(csharp-manual): doxygen-config-csharp.txt $(all-sources) \
   $(css-files)
 	mkdir -p $(csharp-manual)
 	$(call preprocess_doxygen)
 	$(call run_doxygen,doxygen-config-csharp.txt,$(csharp-manual),$(cs-ignorable-warnings))
 	$(call postprocess_doxygen,$(csharp-manual))
+
 endif
 
 else
@@ -745,6 +786,11 @@ endef
 SBMLDoclet.class: SBMLDoclet.java
 	$(JAVAC) -nowarn -cp $(JAVADOC_JAR) $<
 
+# Rerun configure if needed.
+
+java-substitutions/libsbmlConstants.java: java-substitutions/libsbmlConstants.java.in
+	cd $(TOP_BUILDDIR) && $(SHELL) ./config.status $(thisdir)/$@
+
 # There are certain things I can't figure out how to make compatible
 # between doxygen and javadoc.  Let's ignore the warnings to avoid
 # confusing users.
@@ -769,7 +815,8 @@ java-subst-dir	    = java-substitutions
 java-class-path	    = org/sbml/libsbml
 java-constants-file = $(java-source-dir)/org/sbml/libsbml/libsbmlConstants.java
 
-java-manual $(java-manual): $(core-sources) $(css-files) SBMLDoclet.class
+java-manual $(java-manual): $(all-sources) $(css-files) SBMLDoclet.class \
+    java-substitutions/libsbmlConstants.java
 	$(call compare_constants,$(java-constants-file),$(java-subst-dir)/libsbmlConstants.java)
 	rm -rf $(java-local-dir)
 	mkdir -p $(java-local-dir)/$(java-class-path)
@@ -777,7 +824,7 @@ java-manual $(java-manual): $(core-sources) $(css-files) SBMLDoclet.class
 	cp -rp $(java-subst-dir)/* $(java-local-dir)/$(java-class-path)
 	$(JAVA) -cp $(JAVADOC_JAR):. SBMLDoclet \
 	    -use -public -version -author -sourcetab 4 -keywords -nohelp \
-	    -link http://java.sun.com/j2se/1.5.0/docs/api \
+	    -link http://docs.oracle.com/javase/1.6.0/docs/api \
 	    -header $(javadoc-header) \
 	    -bottom $(javadoc-footer) \
 	    -windowtitle $(javadoc-windowtitle) \

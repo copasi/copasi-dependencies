@@ -14,7 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %Constraint construct.
+@htmlinclude pkg-marker-core.html An SBML <em>constraint</em>, for stating validity assumptions.
  *
  * The Constraint object class was introduced in SBML Level&nbsp;2
  * Version&nbsp;2 as a mechanism for stating the assumptions under which a
@@ -147,23 +147,27 @@ public class Constraint : SBase {
    * @param version a long integer, the SBML Version to assign to this
    * Constraint
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    * 
-   * * 
- * @note Upon the addition of a Constraint object to an SBMLDocument
- * (e.g., using Model::addConstraint(@if java Constraint c@endif)), the
- * SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the Constraint object via this
- * constructor.  This is necessary to ensure that an SBML document is a
- * consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a Constraint is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and
- * Version determine whether it is valid to assign a particular value to
- * an attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  Constraint(long level, long version) : this(libsbmlPINVOKE.new_Constraint__SWIG_0(level, version), true) {
@@ -176,7 +180,7 @@ public class Constraint : SBase {
    * @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -188,23 +192,27 @@ public class Constraint : SBase {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    * 
-   * * 
- * @note Upon the addition of a Constraint object to an SBMLDocument
- * (e.g., using Model::addConstraint(@if java Constraint c@endif)), the
- * SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the Constraint object via this
- * constructor.  This is necessary to ensure that an SBML document is a
- * consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a Constraint is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and
- * Version determine whether it is valid to assign a particular value to
- * an attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  Constraint(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_Constraint__SWIG_1(SBMLNamespaces.getCPtr(sbmlns)), true) {
@@ -217,7 +225,7 @@ public class Constraint : SBase {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  Constraint(Constraint orig) : this(libsbmlPINVOKE.new_Constraint__SWIG_2(Constraint.getCPtr(orig)), true) {
@@ -226,9 +234,9 @@ public class Constraint : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this Constraint.
-   * 
-   * @return a (deep) copy of this Constraint.
+   * Creates and returns a deep copy of this Constraint object.
+   *
+   * @return the (deep) copy of this Constraint object.
    */ public new
  Constraint clone() {
     IntPtr cPtr = libsbmlPINVOKE.Constraint_clone(swigCPtr);
@@ -309,8 +317,8 @@ public class Constraint : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int setMessage(XMLNode xhtml) {
     int ret = libsbmlPINVOKE.Constraint_setMessage(swigCPtr, XMLNode.getCPtr(xhtml));
@@ -329,8 +337,8 @@ public class Constraint : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.Constraint_setMath(swigCPtr, ASTNode.getCPtr(math));
@@ -345,8 +353,8 @@ public class Constraint : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetMessage() {
     int ret = libsbmlPINVOKE.Constraint_unsetMessage(swigCPtr);
@@ -355,10 +363,11 @@ public class Constraint : SBase {
 
   
 /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML.
-   *
    * *
+ * Replaces all uses of a given @c SIdRef type attribute value with another
+ * value.
+ *
+ * *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -372,24 +381,29 @@ public class Constraint : SBase {
  * explicitly name the data type.
  *
  *
-   * 
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of @p oldid.  If any matches are found, the
+ * matching values are replaced with @p newid.  The method does @em not
+ * descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.Constraint_renameSIdRefs(swigCPtr, oldid, newid);
   }
 
   
 /**
-   * Renames all the @c UnitSIdRef attributes on this element.
-   *
    * *
+ * Replaces all uses of a given @c UnitSIdRef type attribute value with
+ * another value.
+ *
+ * *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
@@ -400,18 +414,20 @@ public class Constraint : SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
- * 
  *
-   *
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of @p oldid.  If any matches are found,
-   * the matching identifiers are replaced with @p newid.  The method does
-   * @em not descend into child elements.
-   * 
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ *
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of @p oldid.  If any matches
+ * are found, the matching values are replaced with @p newid.  The method
+ * does @em not descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameUnitSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.Constraint_renameUnitSIdRefs(swigCPtr, oldid, newid);
   }
@@ -420,7 +436,7 @@ public class Constraint : SBase {
 /**
    * Replace all nodes with the name 'id' from the child 'math' object with the provided function. 
    *
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void replaceSIDWithFunction(string id, ASTNode function) {
     libsbmlPINVOKE.Constraint_replaceSIDWithFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
@@ -430,10 +446,10 @@ public class Constraint : SBase {
    * Returns the libSBML type code for this SBML object.
    * 
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -445,15 +461,15 @@ public class Constraint : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
+   * @link libsbmlcs#SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible

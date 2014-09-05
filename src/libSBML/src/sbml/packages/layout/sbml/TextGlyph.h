@@ -27,11 +27,11 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class TextGlyph
- * @sbmlbrief{layout} The %TextGlyph class describes the position and
- * dimension of text labels in the &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A glyph for a text label.
  *
- * It inherits from GraphicalObject and adds the attributes graphicalObject,
- * text and originOfText.
+ * The %TextGlyph class describes the position and dimension of text labels
+ * in the &ldquo;layout&rdquo; package.  It inherits from GraphicalObject and
+ * adds the attributes graphicalObject, text and originOfText.
  */
 
 #ifndef TextGlyph_H__
@@ -129,16 +129,7 @@ public:
         
 
   /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML content (if such exists).
-   *
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renamesidref_common
    */
   virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
@@ -218,11 +209,15 @@ public:
   virtual void writeElements (XMLOutputStream& stream) const;
   /** @endcond */
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const ;
+
 
   /**
    * Creates and returns a deep copy of this TextGlyph.
@@ -238,7 +233,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_TEXTGLYPH SBML_LAYOUT_TEXTGLYPH@endlink
+   * @sbmlconstant{SBML_LAYOUT_TEXTGLYPH, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *

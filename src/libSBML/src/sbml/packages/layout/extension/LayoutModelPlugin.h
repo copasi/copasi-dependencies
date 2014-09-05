@@ -32,9 +32,8 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class LayoutModelPlugin
- * @sbmlbrief{layout} Implementation of the 'layout' package extention to the
- * %Model construct.
-  */
+ * @sbmlbrief{layout} Extension of Model.
+ */
 
 #ifndef LayoutModelPlugin_h
 #define LayoutModelPlugin_h
@@ -266,7 +265,7 @@ public:
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */ 
   int addLayout (const Layout* layout);
 

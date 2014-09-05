@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- * 
+ *  
  <p>
  * @internal
  */

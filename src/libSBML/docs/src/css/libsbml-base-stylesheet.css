@@ -7,6 +7,9 @@
  * information about SBML, and the latest version of libSBML.
  */
 
+@import url(http://fonts.googleapis.com/css?family=Noto+Sans:400,700);
+@import url(http://fonts.googleapis.com/css?family=Anonymous+Pro:400,700);
+
 body 
 {
     background-color: white;
@@ -17,10 +20,10 @@ body
 body, table, div, p, dl
 {
     color: #444;
-    font-family: Verdana, Helvetica, Arial, Sans, sans-serif;
+    font-family: 'Noto Sans', Verdana, Helvetica, Arial, Sans, sans-serif;
     font-size: 12px;
     font-weight: normal;
-    line-height: 130%;
+    line-height: 140%;
 }
 
 body 
@@ -36,23 +39,23 @@ p
 
 h1, h2, h3, h4, h5
 {
-    font-family: Helvetica, Arial, Sans, sans-serif;
-    font-weight: bold;
+    font-family: 'Noto Sans', Helvetica, Arial, Sans, sans-serif;
+    font-weight: 700;
     margin-top: 1em;
     margin-bottom: 0.5em;
     color: #383838;
+    line-height: 120%;
 }
 
 h1
 {
     font-size: 15pt;
-    letter-spacing: 1px;
 }
 
 h2, h2 a
 {
-    font-size: 14pt;
-    font-weight: bold;
+    font-size: 13pt;
+    font-weight: 700;
     padding-top: 0.5em;
     color: #383838;
     line-height: 120%;
@@ -61,6 +64,11 @@ h2, h2 a
 h2
 {
     padding-bottom: 2px;
+}
+
+/* This is for the words "Detailed Description" in Doxygen class pages. */
+h2.groupheader {
+    font-size: 16pt;    
 }
 
 h2 a.anchor,
@@ -78,7 +86,7 @@ h3, h3 a
 {
     font-size: 12pt;
     font-style: italic;
-    font-weight: bold;
+    font-weight: 700;
     padding-bottom: 3px;
 }
 
@@ -92,7 +100,7 @@ h4, h4 a
     color: #383838;
     font-style: italic;
     font-size: 11pt;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 h4 code
@@ -100,14 +108,21 @@ h4 code
     font-size: 12px;
 }
 
+/* The margin-right adjustment is because Noto Sans doesn't seem to
+do the right thing when transitioning from italic back to regular font.
+The spacing is too tight.  This improves it, and yet doesn't look too
+wrong even when we fall back to other fonts. */
+
 em
 {
+    font-family: 'Noto Sans', Helvetica, Arial, Sans, sans-serif;
     font-style: italic;
+    margin-right: 1px;
 }
 
 strong, b
 {
-    font-weight: bold;
+    font-weight: 700;
 }
 
 ul
@@ -144,9 +159,11 @@ tt
 
 pre, code
 {
-    font-family: "Courier New", Courier, monospace, fixed;
-    font-weight: bold;
-    font-size: 10pt;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-weight: 700;
+    font-size: 13px;
+    padding-left: 2px;
+    padding-right: 2px;
     color: black;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -154,22 +171,22 @@ pre, code
 
 .code
 {
-    font-family: "Courier New", Courier, monospace, fixed;
-    font-weight: bold !important;;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-weight: 700 !important;;
     font-size: 10pt !important;
     color: black;
 }
 
 pre a
 {
-    font-family: "Courier New", Courier, monospace, fixed;
-    font-weight: bold;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
+    font-weight: 700;
     font-size: 10pt;
 }
 
 dt
 {
-    font-weight: bold;
+    font-weight: 700;
 }
 
 blockquote
@@ -201,7 +218,7 @@ table
 
 table th 
 {
-    font-weight: bold;
+    font-weight: 700;
 }
 
 body > table
@@ -264,10 +281,32 @@ a:hover
 
 .placeholder
 { 
+    font-family: 'Noto Sans', Verdana, Helvetica, Arial, Sans, sans-serif;
+    font-weight: normal;
     font-style: italic;
+    font-size: 12px;
+    margin-left: -1px;
+    margin-right: -1px;
+    padding-right: 0px;
+    padding-left: 0px;
+    background-color: #ffeaba;
+    border-left: 3px solid #ffeaba;
+    border-right: 3px solid #ffeaba;
+}
+
+.placeholder-nospace
+{ 
+    font-family: 'Noto Sans', Verdana, Helvetica, Arial, Sans, sans-serif;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 12px;
+    margin-left: -1px;
+    margin-right: -1px;
+    padding-right: 0px;
+    padding-left: 0px;
     background-color: #ffeaba;
     border-left: 1px solid #ffeaba;
-    border-right: 3px solid #ffeaba;
+    border-right: 1px solid #ffeaba;
 }
 
 .screenshot
@@ -368,14 +407,15 @@ object.centered
 
 pre.fragment
 {
-    font-family: "Courier New", Courier, monospace, fixed;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace, fixed;
     font-size: 9pt;
-    font-weight: bold;
-    border: 1px solid orange;
+    font-weight: 700;
+    border: 1px solid #fdcba6;
     background-color: #f0f0f0;
     color: black;
     padding: 5px;
     padding-top: 0.5em;
+    padding-left: 0.75em;
     margin: 0.75em 1em;
     overflow: auto;
     word-wrap: break-word;
@@ -389,7 +429,7 @@ div.fragment
 {
     word-wrap: break-word;
     line-height: 125%;
-    border: 1px solid orange;
+    border: 1px solid #fdcba6;
     background-color: #f0f0f0;
     border-radius: 8px;
     -webkit-border-radius: 8px;
@@ -405,7 +445,7 @@ div.fragment
 
 .warning
 {
-    color: #cc0000;
+    color: #9b0000;
 }
 
 
@@ -482,30 +522,90 @@ code.language-java .str
 /* Color codes used in common-text/sbmlerror-table.html. */
 
 td.s-fatal {
-  background-color: #ff2233 !important;
-  font-weight: bold;
+  background-color: darkred !important;
+  color: white;
+  font-weight: 700;
   text-align: center;
+  letter-spacing: -1px;
+  padding: 0px;
+}
+
+td.s-fatal:before {
+  content: "F";
 }
 
 td.s-error {
-  background-color: #ff99aa !important;
-  font-weight: bold;
+  background-color: #dc143c !important;
+  color: white;
+  font-weight: 700;
   text-align: center;
+  letter-spacing: -1px;
+  padding: 0px;
+}
+
+td.s-error:before {
+  content: "E";
 }
 
 td.s-warning {
   background-color: gold !important;
-  font-weight: bold;
+  color: white;
+  font-weight: 700;
   text-align: center;
+  letter-spacing: -1px;
+  padding: 0px;
+}
+
+td.s-warning:before {
+  content: "W";
+}
+
+td.s-na {
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -1px;
+  padding: 0px;
+}
+
+td.s-na:before {
+  content: "NA";
 }
 
 td.s-info {
   background-color: #4c4 !important;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
+  padding: 0px;
 }
 
-td.s-na {
-  font-weight: bold;
-  text-align: center;
+td.code {
+  font-size: 8pt;
+}
+
+td.meaning {
+  font-size: 8pt;
+}
+
+td.meaning code {
+  letter-spacing: -1px;
+}
+
+
+
+#sbmlerror-table td,
+#sbmlerror-table th {
+  border: none;
+  padding: 1px;
+}
+
+#sbmlerror-table th {
+  border-bottom: 1px solid #ccc;
+}
+
+#sbmlerror-table td {
+  border-bottom: 1px solid white;
+}
+
+#sbmlerror-table tr:last-child > td {
+  border-bottom: none;
 }

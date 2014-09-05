@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2013-2014 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *     3. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -58,8 +63,8 @@ protected:
   std::string   mId;
   std::string   mName;
   std::string   mSize;
-  unsigned int  mDim;
-  bool          mIsSetDim;
+  unsigned int  mArrayDimension;
+  bool          mIsSetArrayDimension;
 
 
 public:
@@ -126,6 +131,30 @@ public:
 
 
   /**
+   * Returns the value of the "name" attribute of this Dimension.
+   *
+   * @return the value of the "name" attribute of this Dimension as a string.
+   */
+  virtual const std::string& getName() const;
+
+
+  /**
+   * Returns the value of the "size" attribute of this Dimension.
+   *
+   * @return the value of the "size" attribute of this Dimension as a string.
+   */
+  virtual const std::string& getSize() const;
+
+
+  /**
+   * Returns the value of the "arrayDimension" attribute of this Dimension.
+   *
+   * @return the value of the "arrayDimension" attribute of this Dimension as a unsigned integer.
+   */
+  virtual const unsigned int getArrayDimension() const;
+
+
+  /**
    * Predicate returning @c true or @c false depending on whether this
    * Dimension's "id" attribute has been set.
    *
@@ -133,6 +162,36 @@ public:
    * otherwise @c false is returned.
    */
   virtual bool isSetId() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * Dimension's "name" attribute has been set.
+   *
+   * @return @c true if this Dimension's "name" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetName() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * Dimension's "size" attribute has been set.
+   *
+   * @return @c true if this Dimension's "size" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetSize() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * Dimension's "arrayDimension" attribute has been set.
+   *
+   * @return @c true if this Dimension's "arrayDimension" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetArrayDimension() const;
 
 
   /**
@@ -151,37 +210,6 @@ public:
 
 
   /**
-   * Unsets the value of the "id" attribute of this Dimension.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetId();
-
-
-  /**
-   * Returns the value of the "name" attribute of this Dimension.
-   *
-   * @return the value of the "name" attribute of this Dimension as a string.
-   */
-  virtual const std::string& getName() const;
-
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * Dimension's "name" attribute has been set.
-   *
-   * @return @c true if this Dimension's "name" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetName() const;
-
-
-  /**
    * Sets the value of the "name" attribute of this Dimension.
    *
    * @param name; const std::string& value of the "name" attribute to be set
@@ -194,37 +222,6 @@ public:
    * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
    */
   virtual int setName(const std::string& name);
-
-
-  /**
-   * Unsets the value of the "name" attribute of this Dimension.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetName();
-
-
-  /**
-   * Returns the value of the "size" attribute of this Dimension.
-   *
-   * @return the value of the "size" attribute of this Dimension as a string.
-   */
-  virtual const std::string& getSize() const;
-
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * Dimension's "size" attribute has been set.
-   *
-   * @return @c true if this Dimension's "size" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetSize() const;
 
 
   /**
@@ -243,6 +240,47 @@ public:
 
 
   /**
+   * Sets the value of the "arrayDimension" attribute of this Dimension.
+   *
+   * @param arrayDimension; unsigned int value of the "arrayDimension" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setArrayDimension(unsigned int arrayDimension);
+
+
+  /**
+   * Unsets the value of the "id" attribute of this Dimension.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetId();
+
+
+  /**
+   * Unsets the value of the "name" attribute of this Dimension.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetName();
+
+
+  /**
    * Unsets the value of the "size" attribute of this Dimension.
    *
    * @return integer value indicating success/failure of the
@@ -256,40 +294,7 @@ public:
 
 
   /**
-   * Returns the value of the "dim" attribute of this Dimension.
-   *
-   * @return the value of the "dim" attribute of this Dimension as a unsigned integer.
-   */
-  virtual const unsigned int getDim() const;
-
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * Dimension's "dim" attribute has been set.
-   *
-   * @return @c true if this Dimension's "dim" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetDim() const;
-
-
-  /**
-   * Sets the value of the "dim" attribute of this Dimension.
-   *
-   * @param dim; unsigned int value of the "dim" attribute to be set
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  virtual int setDim(unsigned int dim);
-
-
-  /**
-   * Unsets the value of the "dim" attribute of this Dimension.
+   * Unsets the value of the "arrayDimension" attribute of this Dimension.
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -298,7 +303,7 @@ public:
    * @li LIBSBML_OPERATION_SUCCESS
    * @li LIBSBML_OPERATION_FAILED
    */
-  virtual int unsetDim();
+  virtual int unsetArrayDimension();
 
 
   /**
@@ -364,7 +369,7 @@ public:
    *
    * @note The required attributes for a Dimension object are:
    * @li "size"
-   * @li "dim"
+   * @li "arrayDimension"
    *
    * @return a boolean value indicating whether all the required
    * attributes for this object have been defined.
@@ -727,7 +732,7 @@ Dimension_getSize(Dimension_t * d);
 
 LIBSBML_EXTERN
 unsigned int
-Dimension_getDim(Dimension_t * d);
+Dimension_getArrayDimension(Dimension_t * d);
 
 
 LIBSBML_EXTERN
@@ -747,7 +752,7 @@ Dimension_isSetSize(Dimension_t * d);
 
 LIBSBML_EXTERN
 int
-Dimension_isSetDim(Dimension_t * d);
+Dimension_isSetArrayDimension(Dimension_t * d);
 
 
 LIBSBML_EXTERN
@@ -767,7 +772,7 @@ Dimension_setSize(Dimension_t * d, const char * size);
 
 LIBSBML_EXTERN
 int
-Dimension_setDim(Dimension_t * d, unsigned int dim);
+Dimension_setArrayDimension(Dimension_t * d, unsigned int arrayDimension);
 
 
 LIBSBML_EXTERN
@@ -787,7 +792,7 @@ Dimension_unsetSize(Dimension_t * d);
 
 LIBSBML_EXTERN
 int
-Dimension_unsetDim(Dimension_t * d);
+Dimension_unsetArrayDimension(Dimension_t * d);
 
 
 LIBSBML_EXTERN

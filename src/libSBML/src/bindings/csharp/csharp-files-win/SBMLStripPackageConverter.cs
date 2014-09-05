@@ -14,20 +14,182 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html SBML converter for removing packages.
- * 
+@htmlinclude pkg-marker-core.html Converter that removes SBML Level 3 packages.
+ *
  * @htmlinclude libsbml-facility-only-warning.html
  *
- * This SBML converter takes an SBML document and removes (strips) a package
- * from it.  No conversion is performed; the package constructs are simply
- * removed from the SBML document.  The package to be stripped is determined
- * by the value of the option 'package' on the conversion properties.
+ * This SBML converter takes an SBML document and removes (strips) an SBML
+ * Level&nbsp;3 package from it.  No conversion is performed; the package
+ * constructs are simply removed from the SBML document.  The package to be
+ * stripped is determined by the value of the option @c 'package' on the
+ * conversion properties.
  *
- * @see SBMLFunctionDefinitionConverter
- * @see SBMLLevelVersionConverter
- * @see SBMLRuleConverter
- * @see SBMLLevelVersionConverter
- * @see SBMLUnitsConverter
+ * @section SBMLStripPackageConverter-usage Configuration and use of SBMLStripPackageConverter
+ *
+ * SBMLStripPackageConverter is enabled by creating a ConversionProperties
+ * object with the option @c 'stripPackage', and passing this properties
+ * object to SBMLDocument::convert(@if java ConversionProperties@endif).
+ * This converter takes one required option:
+ *
+ * @li @c 'package': the value of this option should be a text string, the
+ * nickname of the SBML Level&nbsp;3 package to be stripped from the model.
+ *
+ * *
+ * @section using-converters General information about the use of SBML converters
+ *
+ * The use of all the converters follows a similar approach.  First, one
+ * creates a ConversionProperties object and calls
+ * ConversionProperties::addOption(@if java ConversionOption@endif)
+ * on this object with one arguments: a text string that identifies the desired
+ * converter.  (The text string is specific to each converter; consult the
+ * documentation for a given converter to find out how it should be enabled.)
+ *
+ * Next, for some converters, the caller can optionally set some
+ * converter-specific properties using additional calls to
+ * ConversionProperties::addOption(@if java ConversionOption@endif).
+ * Many converters provide the ability to
+ * configure their behavior to some extent; this is realized through the use
+ * of properties that offer different options.  The default property values
+ * for each converter can be interrogated using the method
+ * SBMLConverter::getDefaultProperties() on the converter class in question .
+ *
+ * Finally, the caller should invoke the method
+ * SBMLDocument::convert(@if java ConversionProperties@endif)
+ * with the ConversionProperties object as an argument.
+ *
+ * @subsection converter-example Example of invoking an SBML converter
+ *
+ * The following code fragment illustrates an example using
+ * SBMLReactionConverter, which is invoked using the option string @c
+ * 'replaceReactions':
+ *
+ * @if cpp
+ * @code{.cpp}
+ConversionProperties props;
+props.addOption('replaceReactions');
+@endcode
+@endif
+@if python
+@code{.py}
+config = ConversionProperties()
+if config != None:
+  config.addOption('replaceReactions')
+@endcode
+@endif
+@if java
+@code{.java}
+ConversionProperties props = new ConversionProperties();
+if (props != null) {
+  props.addOption('replaceReactions');
+} else {
+  // Deal with error.
+}
+@endcode
+@endif
+ *
+ * In the case of SBMLReactionConverter, there are no options to affect
+ * its behavior, so the next step is simply to invoke the converter on
+ * an SBMLDocument object.  Continuing the example code:
+ *
+ * @if cpp
+ * @code{.cpp}
+// Assume that the variable 'document' has been set to an SBMLDocument object.
+int status = document->convert(props);
+if (status != LIBSBML_OPERATION_SUCCESS)
+{
+  cerr << 'Unable to perform conversion due to the following:' << endl;
+  document->printErrors(cerr);
+}
+@endcode
+@endif
+@if python
+@code{.py}
+  # Assume that the variable 'document' has been set to an SBMLDocument object.
+  status = document.convert(config)
+  if status != LIBSBML_OPERATION_SUCCESS:
+    # Handle error somehow.
+    print('Error: conversion failed due to the following:')
+    document.printErrors()
+@endcode
+@endif
+@if java
+@code{.java}
+  // Assume that the variable 'document' has been set to an SBMLDocument object.
+  status = document.convert(config);
+  if (status != libsbml.LIBSBML_OPERATION_SUCCESS)
+  {
+    // Handle error somehow.
+    System.out.println('Error: conversion failed due to the following:');
+    document.printErrors();
+  }
+@endcode
+@endif
+ *
+ * Here is an example of using a converter that offers an option. The
+ * following code invokes SBMLStripPackageConverter to remove the
+ * SBML Level&nbsp;3 @em %Layout package from a model.  It sets the name
+ * of the package to be removed by adding a value for the option named
+ * @c 'package' defined by that converter:
+ *
+ * @if cpp
+ * @code{.cpp}
+ConversionProperties props;
+props.addOption('stripPackage');
+props.addOption('package', 'layout');
+
+int status = document->convert(props);
+if (status != LIBSBML_OPERATION_SUCCESS)
+{
+    cerr << 'Unable to strip the Layout package from the model';
+    cerr << 'Error returned: ' << status;
+}
+@endcode
+@endif
+@if python
+@code{.py}
+def strip_layout_example(document):
+  config = ConversionProperties()
+  if config != None:
+    config.addOption('stripPackage')
+    config.addOption('package', 'layout')
+    status = document.convert(config)
+    if status != LIBSBML_OPERATION_SUCCESS:
+      # Handle error somehow.
+      print('Error: unable to strip the Layout package.')
+      print('LibSBML returned error: ' + OperationReturnValue_toString(status).strip())
+  else:
+    # Handle error somehow.
+    print('Error: unable to create ConversionProperties object')
+@endcode
+@endif
+@if java
+@code{.java}
+ConversionProperties config = new ConversionProperties();
+if (config != None) {
+  config.addOption('stripPackage');
+  config.addOption('package', 'layout');
+  status = document.convert(config);
+  if (status != LIBSBML_OPERATION_SUCCESS) {
+    // Handle error somehow.
+    System.out.println('Error: unable to strip the Layout package');
+    document.printErrors();
+  }
+} else {
+  // Handle error somehow.
+  System.out.println('Error: unable to create ConversionProperties object');
+}
+@endcode
+@endif
+ *
+ * @subsection available-converters Available SBML converters in libSBML
+ *
+ * LibSBML provides a number of built-in converters; by convention, their
+ * names end in @em Converter. The following are the built-in converters
+ * provided by libSBML @htmlinclude libsbml-version.html:
+ *
+ * @copydetails doc_list_of_libsbml_converters
+ *
+ *
  */
 
 public class SBMLStripPackageConverter : SBMLConverter {
@@ -101,9 +263,9 @@ public class SBMLStripPackageConverter : SBMLConverter {
 /**
    * Creates and returns a deep copy of this SBMLStripPackageConverter
    * object.
-   * 
-   * @return a (deep) copy of this converter.
-   */ public
+   *
+   * @return the (deep) copy of this converter object.
+   */ public new
  SBMLConverter clone() {
     IntPtr cPtr = libsbmlPINVOKE.SBMLStripPackageConverter_clone(swigCPtr);
     SBMLStripPackageConverter ret = (cPtr == IntPtr.Zero) ? null : new SBMLStripPackageConverter(cPtr, true);
@@ -119,15 +281,15 @@ public class SBMLStripPackageConverter : SBMLConverter {
    * object, setting the options desired, and then calling this method on
    * an SBMLStripPackageConverter object to find out if the object's
    * property values match the given ones.  This method is also used by
-   * SBMLConverterRegistry::getConverterFor(@if java ConversionProperties props@endif)
+   * SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
    * to search across all registered converters for one matching particular
    * properties.
-   * 
+   *
    * @param props the properties to match.
-   * 
+   *
    * @return @c true if this converter's properties match, @c false
    * otherwise.
-   */ public
+   */ public new
  bool matchesProperties(ConversionProperties props) {
     bool ret = libsbmlPINVOKE.SBMLStripPackageConverter_matchesProperties(swigCPtr, ConversionProperties.getCPtr(props));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -135,22 +297,23 @@ public class SBMLStripPackageConverter : SBMLConverter {
   }
 
   
-/** 
+/**
    * Perform the conversion.
    *
    * This method causes the converter to do the actual conversion work,
    * that is, to convert the SBMLDocument object set by
-   * SBMLConverter::setDocument(@if java SBMLDocument doc@endif) and
+   * SBMLConverter::setDocument(@if java SBMLDocument@endif) and
    * with the configuration options set by
-   * SBMLConverter::setProperties(@if java ConversionProperties props@endif).
-   * 
+   * SBMLConverter::setProperties(@if java ConversionProperties@endif).
+   *
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   */ public
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN@endlink
+   */ public new
  int convert() {
     int ret = libsbmlPINVOKE.SBMLStripPackageConverter_convert(swigCPtr);
     return ret;
@@ -159,7 +322,7 @@ public class SBMLStripPackageConverter : SBMLConverter {
   
 /**
    * Returns the default properties of this converter.
-   * 
+   *
    * A given converter exposes one or more properties that can be adjusted
    * in order to influence the behavior of the converter.  This method
    * returns the @em default property settings for this converter.  It is
@@ -168,7 +331,7 @@ public class SBMLStripPackageConverter : SBMLConverter {
    *
    * @return the ConversionProperties object describing the default properties
    * for this converter.
-   */ public
+   */ public new
  ConversionProperties getDefaultProperties() {
     ConversionProperties ret = new ConversionProperties(libsbmlPINVOKE.SBMLStripPackageConverter_getDefaultProperties(swigCPtr), true);
     return ret;

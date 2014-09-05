@@ -27,8 +27,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class ReactionGlyph
- * @sbmlbrief{layout} The %ReactionGlyph is used to represent Reaction
- * elements in the layout.
+ * @sbmlbrief{layout} A glyph for an SBML reaction.
  *
  * Analogous to how a Reaction object has to at least have one reactant or
  * product, the ReactionGlyph has to at least have one SpeciesReferenceGlyph
@@ -68,8 +67,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 /**
  * @class ListOfSpeciesReferenceGlyphs
- * @sbmlbrief{layout} Implementation of the %ListOfSpeciesReferenceGlyphs
- * construct from the &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A list of SpeciesReferenceGlyph objects.
  * 
  * The ListOfSpeciesReferenceGlyphs is a container for the SpeciesReferenceGlyphs elements of a ReactionGlyph.
  * 
@@ -108,16 +106,19 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_LAYOUT_SPECIESREFERENCEGLYPH SBML_LAYOUT_SPECIESREFERENCEGLYPH@endlink (default).
+   * @sbmlconstant{SBML_LAYOUT_SPECIESREFERENCEGLYPH, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
    */
   virtual int getItemTypeCode () const;
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const;
 
@@ -373,17 +374,9 @@ public:
    */
   virtual List* getAllElements(ElementFilter* filter=NULL);
 
+
   /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML content (if such exists).
-   *
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renamesidref_common
    */
   virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
@@ -456,7 +449,7 @@ public:
   /**
    * Returns the index of the species reference glyph with the given @p id.
    * If the reaction glyph does not contain a species reference glyph with this
-   * id, @if cpp numeric_limits<unsigned int>::max() @endif@if notcpp the
+   * id, @if cpp numeric_limits<unsigned int>::max() @else the
    * value of the maximum long integer@endif@~ is returned as an indicator.
    */
   
@@ -478,11 +471,15 @@ public:
   virtual void writeElements (XMLOutputStream& stream) const;
   /** @endcond */
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const ;
+
 
   /**
    * Creates and returns a deep copy of this ReactionGlyph object.
@@ -498,7 +495,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_REACTIONGLYPH SBML_LAYOUT_REACTIONGLYPH@endlink
+   * @sbmlconstant{SBML_LAYOUT_REACTIONGLYPH, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *

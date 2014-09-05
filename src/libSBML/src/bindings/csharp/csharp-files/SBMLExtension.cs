@@ -14,9 +14,9 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html The core component of SBML's package extension.
+@htmlinclude pkg-marker-core.html Core class for SBML Level 3 package plug-ins.
  * 
- * @if notclike @internal @endif
+ * @ifnot clike @internal @endif
  *
  * SBMLExtension class (abstract class) is a core component of package extension
  * which needs to be extended by package developers. 
@@ -589,7 +589,7 @@ public class SBMLExtension : IDisposable {
    * Creates and returns a deep copy of this SBMLExtension object.
    *
    * @return a (deep) copy of this SBase object
-   */ public
+   */ public new
  SBMLExtension clone() {
         SBMLExtension ret
 	    = (SBMLExtension) libsbml.DowncastExtension(libsbmlPINVOKE.SBMLExtension_clone(swigCPtr), true);
@@ -604,7 +604,7 @@ public class SBMLExtension : IDisposable {
    * Returns the name of this package (e.g. 'layout', 'multi').
    *
    * @return the name of package extension
-   */ public
+   */ public new
  string getName() {
     string ret = libsbmlPINVOKE.SBMLExtension_getName(swigCPtr);
     return ret;
@@ -622,7 +622,7 @@ public class SBMLExtension : IDisposable {
    * @param pkgVersion the version of package
    *
    * @return a string of the package URI
-   */ public
+   */ public new
  string getURI(long sbmlLevel, long sbmlVersion, long pkgVersion) {
     string ret = libsbmlPINVOKE.SBMLExtension_getURI(swigCPtr, sbmlLevel, sbmlVersion, pkgVersion);
     return ret;
@@ -637,7 +637,7 @@ public class SBMLExtension : IDisposable {
    *
    * @param uri the string of URI that represents a versions of the package
    * @return the SBML level associated with the given URI of this package.
-   */ public
+   */ public new
  long getLevel(string uri) { return (long)libsbmlPINVOKE.SBMLExtension_getLevel(swigCPtr, uri); }
 
   
@@ -649,7 +649,7 @@ public class SBMLExtension : IDisposable {
    *
    * @param uri the string of URI that represents a versions of the package
    * @return the SBML version associated with the given URI of this package.
-   */ public
+   */ public new
  long getVersion(string uri) { return (long)libsbmlPINVOKE.SBMLExtension_getVersion(swigCPtr, uri); }
 
   
@@ -661,7 +661,7 @@ public class SBMLExtension : IDisposable {
    *
    * @param uri the string of URI that represents a versions of this package
    * @return the package version associated with the given URI of this package.
-   */ public
+   */ public new
  long getPackageVersion(string uri) { return (long)libsbmlPINVOKE.SBMLExtension_getPackageVersion(swigCPtr, uri); }
 
   
@@ -671,7 +671,7 @@ public class SBMLExtension : IDisposable {
    *
    * This method takes a type code of this package and returns a string 
    * representing the code.
-   */ public
+   */ public new
  string getStringFromTypeCode(int typeCode) {
     string ret = libsbmlPINVOKE.SBMLExtension_getStringFromTypeCode(swigCPtr, typeCode);
     return ret;
@@ -692,7 +692,7 @@ public class SBMLExtension : IDisposable {
    * @return an SBMLExtensionNamespaces<class SBMLExtensionType> object. null
    *         will be returned if the given uri is not defined in the corresponding 
    *         package. 
-   */ public
+   */ public new
  SBMLNamespaces getSBMLExtensionNamespaces(string uri) {
 	SBMLNamespaces ret
 	    = (SBMLNamespaces) libsbml.DowncastSBMLNamespaces(libsbmlPINVOKE.SBMLExtension_getSBMLExtensionNamespaces(swigCPtr, uri), false);
@@ -731,7 +731,7 @@ public class SBMLExtension : IDisposable {
    *
    * This method should be overridden by all extensions that want to serialize
    * to an L2 annotation.
-   */ public
+   */ public new
  void removeL2Namespaces(XMLNamespaces xmlns) {
     libsbmlPINVOKE.SBMLExtension_removeL2Namespaces(swigCPtr, XMLNamespaces.getCPtr(xmlns));
   }
@@ -742,7 +742,7 @@ public class SBMLExtension : IDisposable {
    * 
    * This method should be overridden by all extensions that want to serialize
    * to an L2 annotation.
-   */ public
+   */ public new
  void addL2Namespaces(XMLNamespaces xmlns) {
     libsbmlPINVOKE.SBMLExtension_addL2Namespaces(swigCPtr, XMLNamespaces.getCPtr(xmlns));
   }
@@ -753,7 +753,7 @@ public class SBMLExtension : IDisposable {
    *
    * If the extension supports serialization to SBML L2 Annotations, this 
    * method should be overrridden, so it will be activated.
-   */ public
+   */ public new
  void enableL2NamespaceForDocument(SBMLDocument doc) {
     libsbmlPINVOKE.SBMLExtension_enableL2NamespaceForDocument(swigCPtr, SBMLDocument.getCPtr(doc));
   }
@@ -770,14 +770,14 @@ public class SBMLExtension : IDisposable {
    * 
    * @return a bool indicating whether the extension is actually being used
    *         by the document. 
-   */ public
+   */ public new
  bool isInUse(SBMLDocument doc) {
     bool ret = libsbmlPINVOKE.SBMLExtension_isInUse(swigCPtr, SBMLDocument.getCPtr(doc));
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  long getErrorTableIndex(long errorId) { return (long)libsbmlPINVOKE.SBMLExtension_getErrorTableIndex(swigCPtr, errorId); }
 
   public virtual long getErrorIdOffset() { return (long)libsbmlPINVOKE.SBMLExtension_getErrorIdOffset(swigCPtr); }

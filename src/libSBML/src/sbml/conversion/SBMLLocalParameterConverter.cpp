@@ -63,7 +63,8 @@ void SBMLLocalParameterConverter::init()
 /** @endcond */
 
 
-SBMLLocalParameterConverter::SBMLLocalParameterConverter() : SBMLConverter()
+SBMLLocalParameterConverter::SBMLLocalParameterConverter() 
+  : SBMLConverter("SBML Local Parameter Converter")
 {
 
 }
@@ -74,7 +75,7 @@ SBMLLocalParameterConverter::SBMLLocalParameterConverter(const SBMLLocalParamete
 {
 }
 
-SBMLConverter* 
+SBMLLocalParameterConverter* 
 SBMLLocalParameterConverter::clone() const
 {
   return new SBMLLocalParameterConverter(*this);
@@ -93,9 +94,19 @@ ConversionProperties
 SBMLLocalParameterConverter::getDefaultProperties() const
 {
   static ConversionProperties prop;
-  prop.addOption("promoteLocalParameters", true,
-                 "Promotes all Local Parameters to Global ones");
-  return prop;
+  static bool init = false;
+
+  if (init) 
+  {
+    return prop;
+  }
+  else
+  {
+    prop.addOption("promoteLocalParameters", true,
+                   "Promotes all Local Parameters to Global ones");
+    init = true;
+    return prop;
+  }
 }
 
 

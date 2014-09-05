@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Representation of a plug-in object of SBML's package
- * extension.
+@htmlinclude pkg-marker-core.html A libSBML plug-in object for an SBML Level 3 package.
  * 
  * Additional attributes and/or elements of a package extension which are directly 
  * contained by some pre-defined element are contained/accessed by <a href='#SBasePlugin'> 
@@ -306,9 +305,9 @@ public class SBasePlugin : IDisposable {
   
 /**
    * Creates and returns a deep copy of this SBasePlugin object.
-   * 
-   * @return a (deep) copy of this SBase object
-   */ public
+   *
+   * @return the (deep) copy of this SBasePlugin object.
+   */ public new
  SBasePlugin clone() {
         SBasePlugin ret = (SBasePlugin) libsbml.DowncastSBasePlugin(libsbmlPINVOKE.SBasePlugin_clone(swigCPtr), true);
         return ret;
@@ -321,7 +320,7 @@ public class SBasePlugin : IDisposable {
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
-   */ public
+   */ public new
  SBase getElementBySId(string id) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.SBasePlugin_getElementBySId(swigCPtr, id), false);
 	return ret;
@@ -334,7 +333,7 @@ public class SBasePlugin : IDisposable {
    * @param metaid string representing the metaid of objects to find
    *
    * @return pointer to the first element found with the given @p metaid.
-   */ public
+   */ public new
  SBase getElementByMetaId(string metaid) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.SBasePlugin_getElementByMetaId(swigCPtr, metaid), false);
 	return ret;
@@ -349,7 +348,7 @@ public class SBasePlugin : IDisposable {
    * This function is called when this object is created by
    * the parent element.
    * Subclasses must override this this function if they have one
-   * or more child elements. Also, SBasePlugin::connectToParent(@if java SBase sbase@endif)
+   * or more child elements. Also, SBasePlugin::connectToParent(@if java SBase@endif)
    * must be called in the overridden function.
    *
    * @param sbase the SBase object to use
@@ -358,7 +357,7 @@ public class SBasePlugin : IDisposable {
    * @see setSBMLDocument()
    * @see enablePackageInternal()
    * @endif
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void connectToParent(SBase sbase) {
     libsbmlPINVOKE.SBasePlugin_connectToParent(swigCPtr, SBase.getCPtr(sbase));
   }
@@ -378,13 +377,13 @@ public class SBasePlugin : IDisposable {
    * @see setSBMLDocument()
    * @see connectToParent()
    * @endif
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void enablePackageInternal(string pkgURI, string pkgPrefix, bool flag) {
     libsbmlPINVOKE.SBasePlugin_enablePackageInternal(swigCPtr, pkgURI, pkgPrefix, flag);
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool stripPackage(string pkgPrefix, bool flag) {
     bool ret = libsbmlPINVOKE.SBasePlugin_stripPackage(swigCPtr, pkgPrefix, flag);
     return ret;
@@ -454,8 +453,8 @@ public class SBasePlugin : IDisposable {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setElementNamespace(string uri) {
     int ret = libsbmlPINVOKE.SBasePlugin_setElementNamespace(swigCPtr, uri);
@@ -497,7 +496,7 @@ public class SBasePlugin : IDisposable {
    * If this object has a child 'math' object (or anything with ASTNodes in general), replace all nodes with the name 'id' with the provided function. 
    *
    * @note This function does nothing itself--subclasses with ASTNode subelements must override this function.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void replaceSIDWithFunction(string id, ASTNode function) {
     libsbmlPINVOKE.SBasePlugin_replaceSIDWithFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
@@ -507,7 +506,7 @@ public class SBasePlugin : IDisposable {
    * If the function of this object is to assign a value has a child 'math' object (or anything with ASTNodes in general), replace  the 'math' object with the function (existing/function).  
    *
    * @note This function does nothing itself--subclasses with ASTNode subelements must override this function.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void divideAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.SBasePlugin_divideAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
@@ -515,7 +514,7 @@ public class SBasePlugin : IDisposable {
   
 /**
    * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing*function). 
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void multiplyAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.SBasePlugin_multiplyAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
@@ -523,7 +522,7 @@ public class SBasePlugin : IDisposable {
   
 /**
    * Check to see if the given prefix is used by any of the IDs defined by extension elements.  A package that defines its own 'id' attribute for a core element would check that attribute here.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  bool hasIdentifierBeginningWith(string prefix) {
     bool ret = libsbmlPINVOKE.SBasePlugin_hasIdentifierBeginningWith(swigCPtr, prefix);
     return ret;
@@ -532,14 +531,14 @@ public class SBasePlugin : IDisposable {
   
 /**
    * Add the given string to all identifiers in the object.  If the string is added to anything other than an id or a metaid, this code is responsible for tracking down and renaming all *idRefs in the package extention that identifier comes from.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  int prependStringToAllIdentifiers(string prefix) {
     int ret = libsbmlPINVOKE.SBasePlugin_prependStringToAllIdentifiers(swigCPtr, prefix);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  int transformIdentifiers(IdentifierTransformer sidTransformer) {
     int ret = libsbmlPINVOKE.SBasePlugin_transformIdentifiers(swigCPtr, IdentifierTransformer.getCPtr(sidTransformer));
     return ret;
@@ -598,7 +597,7 @@ public class SBasePlugin : IDisposable {
  long getColumn() { return (long)libsbmlPINVOKE.SBasePlugin_getColumn(swigCPtr); }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  SBMLNamespaces getSBMLNamespaces() {
 	SBMLNamespaces ret
 	    = (SBMLNamespaces) libsbml.DowncastSBMLNamespaces(libsbmlPINVOKE.SBasePlugin_getSBMLNamespaces(swigCPtr), false);
@@ -608,7 +607,7 @@ public class SBasePlugin : IDisposable {
   
 /**
    * Helper to log a common type of error for elements.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void logUnknownElement(string element, long sbmlLevel, long sbmlVersion, long pkgVersion) {
     libsbmlPINVOKE.SBasePlugin_logUnknownElement(swigCPtr, element, sbmlLevel, sbmlVersion, pkgVersion);
   }

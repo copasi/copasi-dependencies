@@ -40,6 +40,39 @@ public class libsbml {
 		
 	}
 	
+	
+	public static SBMLConverter DowncastSBMLConverter(IntPtr cPtr, bool owner)
+	{
+		if (cPtr.Equals(IntPtr.Zero)) return null;
+		
+		SBMLConverter con = new SBMLConverter(cPtr, false);
+		string conName = con.getName();
+		
+		if (conName == "SBML Units Converter")
+		  return new SBMLUnitsConverter(cPtr,owner);
+		else if (conName == "SBML Strip Package Converter")
+		  return new SBMLStripPackageConverter(cPtr,owner);
+		else if (conName == "SBML Rule Converter")
+		  return new SBMLRuleConverter(cPtr,owner);
+		else if (conName == "SBML Reaction Converter")
+		  return new SBMLReactionConverter(cPtr,owner);
+		else if (conName == "SBML Local Parameter Converter")
+		  return new SBMLLocalParameterConverter(cPtr,owner);
+		else if (conName == "SBML Level Version Converter")
+		  return new SBMLLevelVersionConverter(cPtr,owner);
+		else if (conName == "SBML Initial Assignment Converter")
+		  return new SBMLInitialAssignmentConverter(cPtr,owner);
+		else if (conName == "SBML Infer Units Converter")
+		  return new SBMLInferUnitsConverter(cPtr,owner);
+		else if (conName == "SBML Id Converter")
+		  return new SBMLIdConverter(cPtr,owner);
+		else if (conName == "SBML Function Definition Converter")
+		  return new SBMLFunctionDefinitionConverter(cPtr,owner);	
+
+			
+		return new SBMLConverter(cPtr,owner);
+	}
+	
 	public static SBasePlugin DowncastSBasePlugin(IntPtr cPtr, bool owner)
 	{
 		if (cPtr.Equals(IntPtr.Zero)) return null;
@@ -407,53 +440,170 @@ public class libsbml {
 
   
 /**
- * Reads an SBML document from the given file @p filename.
+ * *
+ * Reads an SBML document from the given file.
  *
- * If @p filename does not exist, or it is not an SBML file, an error will
- * be logged in the error log of the SBMLDocument object returned by this
- * method.  Calling programs can inspect this error log to determine
- * the nature of the problem.  Please refer to the definition of
- * SBMLDocument_t for more information about the error reporting mechanism.
+ * If the file named @p filename does not exist or its content is not
+ * valid SBML, one or more errors will be logged with the
+ * @if python @link libsbml.SBMLDocument SBMLDocument@endlink@else SBMLDocument@endif
+ * object returned by this method.  Callers can use the methods on
+ * @if python @link libsbml.SBMLDocument SBMLDocument@endlink@else SBMLDocument@endif such as
+ * @if python @link libsbml.SBMLDocument.getNumErrors() SBMLDocument.getNumErrors()@endlink@else SBMLDocument::getNumErrors()@endif
+ * and
+ * @if python @link libsbml.SBMLDocument.getError() SBMLDocument.getError()@endlink@endif@if java SBMLDocument::getError(long)@endif@if cpp SBMLDocument::getError()@endif@if csharp SBMLDocument::getError()@endif
+ * to get the errors.  The object returned by
+ * @if python @link libsbml.SBMLDocument.getError() SBMLDocument.getError()@endlink@endif@if java SBMLDocument::getError(long)@endif@if cpp SBMLDocument::getError()@endif@if csharp SBMLDocument::getError()@endif
+ * is an SBMLError object, and it has methods to get the error code,
+ * category, and severity level of the problem, as well as a textual
+ * description of the problem.  The possible severity levels range from
+ * informational messages to fatal errors; see the documentation for
+ * @if python @link libsbml.SBMLError SBMLError@endlink@else SBMLError@endif
+ * for more information.
  *
- * <code>
- *   SBMLReader_t   *sr;
+ * If the file @p filename could not be read, the file-reading error will
+ * appear first.  The error code @if clike (a value drawn from the
+ * enumeration #XMLErrorCode_t)@endif can provide a clue about what
+ * happened.  For example, a file might be unreadable (either because it does
+ * not actually exist or because the user does not have the necessary access
+ * priviledges to read it) or some sort of file operation error may have been
+ * reported by the underlying operating system.  Callers can check for these
+ * situations using a program fragment such as the following:
+ * @if cpp
+@code{.cpp}
+SBMLReader reader;
+SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
- *   SBMLDocument_t *d;
- *
- *   sr = SBMLReader_create();
- *
- *   d = SBMLReader_readSBML(reader, filename);
- *
- *   if (SBMLDocument_getNumErrors(d) > 0)
+if (doc->getNumErrors() > 0)
+{
+  if (doc->getError(0)->getErrorId() == XMLError::XMLFileUnreadable)
+  {
+    // Handle case of unreadable file here.
+  }
+  else if (doc->getError(0)->getErrorId() == XMLError::XMLFileOperationError)
+  {
+    // Handle case of other file operation error here.
+  }
+  else
+  {
+    // Handle other cases -- see error codes defined in XMLErrorCode_t
+    // for other possible cases to check.
+  }
+}
+@endcode
+@endif
+@if conly
+@code{.c}
+SBMLReader_t   *sr;
+SBMLDocument_t *d;
 
- *   {
+sr = SBMLReader_create();
 
- *     if (XMLError_getId(SBMLDocument_getError(d, 0))
- *                                           == SBML_READ_ERROR_FILE_NOT_FOUND)
+d = SBMLReader_readSBML(sr, filename);
 
- *     if (XMLError_getId(SBMLDocument_getError(d, 0))
- *                                           == SBML_READ_ERROR_NOT_SBML)
+if (SBMLDocument_getNumErrors(d) > 0)
+{
+  if (XMLError_getId(SBMLDocument_getError(d, 0))
+      == SBML_READ_ERROR_FILE_NOT_FOUND)
+  {
+     ...
+  }
+  if (XMLError_getId(SBMLDocument_getError(d, 0))
+      == SBML_READ_ERROR_NOT_SBML)
+  {
+     ...
+  }
+}
+@endcode
+@endif
+@if java
+@code{.java}
+SBMLReader reader = new SBMLReader();
+SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
- *   }
+if (doc.getNumErrors() > 0)
+{
+    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    {
+        // Handle case of unreadable file here.
+    }
+    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    {
+        // Handle case of other file operation error here.
+    }
+    else
+    {
+        // Handle other error cases.
+    }
+}
+@endcode
+@endif
+@if python
+@code{.py}
+reader = SBMLReader()
+if reader == None:
+  # Handle the truly exceptional case of no object created here.
 
- * </code>
+doc = reader.readSBMLFromFile(filename)
+if doc.getNumErrors() > 0:
+  if doc.getError(0).getErrorId() == XMLFileUnreadable:
+    # Handle case of unreadable file here.
+  elif doc.getError(0).getErrorId() == XMLFileOperationError:
+    # Handle case of other file error here.
+  else:
+    # Handle other error cases here.
+@endcode
+@endif
+@if csharp
+@code{.cs}
+SBMLReader reader = new SBMLReader();
+SBMLDocument doc = reader.readSBMLFromFile(filename);
+
+if (doc.getNumErrors() > 0)
+{
+    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    {
+         // Handle case of unreadable file here.
+    }
+    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    {
+         // Handle case of other file operation error here.
+    }
+    else
+    {
+         // Handle other cases -- see error codes defined in XMLErrorCode_t
+         // for other possible cases to check.
+    }
+ }
+@endcode
+@endif
  *
- * If the filename ends with @em .gz, the file will be read as a @em gzip file.
- * Similary, if the filename ends with @em .zip or @em .bz2, the file will be
- * read as a @em zip or @em bzip2 file, respectively. Otherwise, the fill will be
- * read as an uncompressed file.
- * If the filename ends with @em .zip, only the first file in the archive will
- * be read if the zip archive contains two or more files.
+ * *
+ * 
+ * If the given filename ends with the suffix @c '.gz' (for example, @c
+ * 'myfile.xml.gz'), the file is assumed to be compressed in @em gzip
+ * format and will be automatically decompressed upon reading.
+ * Similarly, if the given filename ends with @c '.zip' or @c '.bz2', the
+ * file is assumed to be compressed in @em zip or @em bzip2 format
+ * (respectively).  Files whose names lack these suffixes will be read
+ * uncompressed.  Note that if the file is in @em zip format but the
+ * archive contains more than one file, only the first file in the
+ * archive will be read and the rest ignored.
  *
- * To read a gzip/zip file, underlying libSBML needs to be linked with zlib
- * at compile time. Also, underlying libSBML needs to be linked with bzip2 
- * to read a bzip2 file. File unreadable error will be logged if a compressed 
- * file name is given and underlying libSBML is not linked with the corresponding 
- * required library.
- * SBMLReader_hasZlib() and SBMLReader_hasBzip2() can be used to check 
- * whether libSBML is linked with each library.
  *
- * @return a pointer to the SBMLDocument read.
+ *
+ * *
+ * 
+ * To read a gzip/zip file, libSBML needs to be configured and linked with the
+ * <a target='_blank' href='http://www.zlib.net/'>zlib</a> library at compile
+ * time.  It also needs to be linked with the <a target='_blank'
+ * href=''>bzip2</a> library to read files in <em>bzip2</em> format.  (Both of
+ * these are the default configurations for libSBML.)  Errors about unreadable
+ * files will be logged if a compressed filename is given and libSBML was
+ * <em>not</em> linked with the corresponding required library.
+ *
+ *
+ *
+ *
  *
  * @if conly
  * @memberof SBMLReader_t
@@ -467,54 +617,175 @@ public class libsbml {
 
   
 /**
- * Reads an SBML document from the given file @p filename.
+ * *
+ * Reads an SBML document from the given file.
  *
- * If @p filename does not exist, or it is not an SBML file, an error will
- * be logged in the error log of the SBMLDocument object returned by this
- * method.  Calling programs can inspect this error log to determine
- * the nature of the problem.  Please refer to the definition of
- * SBMLDocument_t for more information about the error reporting mechanism.
+ * If the file named @p filename does not exist or its content is not
+ * valid SBML, one or more errors will be logged with the
+ * @if python @link libsbml.SBMLDocument SBMLDocument@endlink@else SBMLDocument@endif
+ * object returned by this method.  Callers can use the methods on
+ * @if python @link libsbml.SBMLDocument SBMLDocument@endlink@else SBMLDocument@endif such as
+ * @if python @link libsbml.SBMLDocument.getNumErrors() SBMLDocument.getNumErrors()@endlink@else SBMLDocument::getNumErrors()@endif
+ * and
+ * @if python @link libsbml.SBMLDocument.getError() SBMLDocument.getError()@endlink@endif@if java SBMLDocument::getError(long)@endif@if cpp SBMLDocument::getError()@endif@if csharp SBMLDocument::getError()@endif
+ * to get the errors.  The object returned by
+ * @if python @link libsbml.SBMLDocument.getError() SBMLDocument.getError()@endlink@endif@if java SBMLDocument::getError(long)@endif@if cpp SBMLDocument::getError()@endif@if csharp SBMLDocument::getError()@endif
+ * is an SBMLError object, and it has methods to get the error code,
+ * category, and severity level of the problem, as well as a textual
+ * description of the problem.  The possible severity levels range from
+ * informational messages to fatal errors; see the documentation for
+ * @if python @link libsbml.SBMLError SBMLError@endlink@else SBMLError@endif
+ * for more information.
  *
- *
- * <code>
- *   SBMLReader_t   *sr;
+ * If the file @p filename could not be read, the file-reading error will
+ * appear first.  The error code @if clike (a value drawn from the
+ * enumeration #XMLErrorCode_t)@endif can provide a clue about what
+ * happened.  For example, a file might be unreadable (either because it does
+ * not actually exist or because the user does not have the necessary access
+ * priviledges to read it) or some sort of file operation error may have been
+ * reported by the underlying operating system.  Callers can check for these
+ * situations using a program fragment such as the following:
+ * @if cpp
+@code{.cpp}
+SBMLReader reader;
+SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
- *   SBMLDocument_t *d;
- *
- *   sr = SBMLReader_create();
- *
- *   d = SBMLReader_readSBML(reader, filename);
- *
- *   if (SBMLDocument_getNumErrors(d) > 0)
+if (doc->getNumErrors() > 0)
+{
+  if (doc->getError(0)->getErrorId() == XMLError::XMLFileUnreadable)
+  {
+    // Handle case of unreadable file here.
+  }
+  else if (doc->getError(0)->getErrorId() == XMLError::XMLFileOperationError)
+  {
+    // Handle case of other file operation error here.
+  }
+  else
+  {
+    // Handle other cases -- see error codes defined in XMLErrorCode_t
+    // for other possible cases to check.
+  }
+}
+@endcode
+@endif
+@if conly
+@code{.c}
+SBMLReader_t   *sr;
+SBMLDocument_t *d;
 
- *   {
+sr = SBMLReader_create();
 
- *     if (XMLError_getId(SBMLDocument_getError(d, 0))
- *                                           == SBML_READ_ERROR_FILE_NOT_FOUND)
+d = SBMLReader_readSBML(sr, filename);
 
- *     if (XMLError_getId(SBMLDocument_getError(d, 0))
- *                                           == SBML_READ_ERROR_NOT_SBML)
+if (SBMLDocument_getNumErrors(d) > 0)
+{
+  if (XMLError_getId(SBMLDocument_getError(d, 0))
+      == SBML_READ_ERROR_FILE_NOT_FOUND)
+  {
+     ...
+  }
+  if (XMLError_getId(SBMLDocument_getError(d, 0))
+      == SBML_READ_ERROR_NOT_SBML)
+  {
+     ...
+  }
+}
+@endcode
+@endif
+@if java
+@code{.java}
+SBMLReader reader = new SBMLReader();
+SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
- *   }
+if (doc.getNumErrors() > 0)
+{
+    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    {
+        // Handle case of unreadable file here.
+    }
+    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    {
+        // Handle case of other file operation error here.
+    }
+    else
+    {
+        // Handle other error cases.
+    }
+}
+@endcode
+@endif
+@if python
+@code{.py}
+reader = SBMLReader()
+if reader == None:
+  # Handle the truly exceptional case of no object created here.
 
- * </code>
+doc = reader.readSBMLFromFile(filename)
+if doc.getNumErrors() > 0:
+  if doc.getError(0).getErrorId() == XMLFileUnreadable:
+    # Handle case of unreadable file here.
+  elif doc.getError(0).getErrorId() == XMLFileOperationError:
+    # Handle case of other file error here.
+  else:
+    # Handle other error cases here.
+@endcode
+@endif
+@if csharp
+@code{.cs}
+SBMLReader reader = new SBMLReader();
+SBMLDocument doc = reader.readSBMLFromFile(filename);
+
+if (doc.getNumErrors() > 0)
+{
+    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    {
+         // Handle case of unreadable file here.
+    }
+    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    {
+         // Handle case of other file operation error here.
+    }
+    else
+    {
+         // Handle other cases -- see error codes defined in XMLErrorCode_t
+         // for other possible cases to check.
+    }
+ }
+@endcode
+@endif
  *
- * If the filename ends with @em .gz, the file will be read as a @em gzip file.
- * Similary, if the filename ends with @em .zip or @em .bz2, the file will be
- * read as a @em zip or @em bzip2 file, respectively. Otherwise, the fill will be
- * read as an uncompressed file.
- * If the filename ends with @em .zip, only the first file in the archive will
- * be read if the zip archive contains two or more files.
+ * *
+ * 
+ * If the given filename ends with the suffix @c '.gz' (for example, @c
+ * 'myfile.xml.gz'), the file is assumed to be compressed in @em gzip
+ * format and will be automatically decompressed upon reading.
+ * Similarly, if the given filename ends with @c '.zip' or @c '.bz2', the
+ * file is assumed to be compressed in @em zip or @em bzip2 format
+ * (respectively).  Files whose names lack these suffixes will be read
+ * uncompressed.  Note that if the file is in @em zip format but the
+ * archive contains more than one file, only the first file in the
+ * archive will be read and the rest ignored.
  *
- * To read a gzip/zip file, underlying libSBML needs to be linked with zlib
- * at compile time. Also, underlying libSBML needs to be linked with bzip2 
- * to read a bzip2 file. File unreadable error will be logged if a compressed 
- * file name is given and underlying libSBML is not linked with the corresponding 
- * required library.
- * SBMLReader_hasZlib() and SBMLReader_hasBzip2() can be used to check 
- * whether libSBML is linked with each library.
  *
- * @return a pointer to the SBMLDocument read.
+ *
+ * *
+ * 
+ * To read a gzip/zip file, libSBML needs to be configured and linked with the
+ * <a target='_blank' href='http://www.zlib.net/'>zlib</a> library at compile
+ * time.  It also needs to be linked with the <a target='_blank'
+ * href=''>bzip2</a> library to read files in <em>bzip2</em> format.  (Both of
+ * these are the default configurations for libSBML.)  Errors about unreadable
+ * files will be logged if a compressed filename is given and libSBML was
+ * <em>not</em> linked with the corresponding required library.
+ *
+ *
+ *
+ *
+ *
+ * @param filename the name or full pathname of the file to be read.
+ *
+ * @return a pointer to the SBMLDocument structure created from the SBML
+ * content in @p filename.
  *
  * @if conly
  * @memberof SBMLReader_t
@@ -528,29 +799,38 @@ public class libsbml {
 
   
 /**
- * Reads an SBML document from the given XML string @p xml.
+ * *
+ * Reads an SBML document from a text string.
  *
- * If the string does not begin with XML declaration,
- *@verbatim
+ * This method is flexible with respect to the presence of an XML
+ * declaration at the beginning of the string.  In particular, if the
+ * string in @p xml does not begin with the XML declaration
+ * @verbatim
 <?xml version='1.0' encoding='UTF-8'?>
 @endverbatim
+ * then this method will automatically prepend the declaration
+ * to @p xml.
  *
- * an XML declaration string will be prepended.
+ * This method will log a fatal error if the content given in the parameter
+ * @p xml is not in SBML format.  See the method documentation for
+ * SBMLReader::readSBML(@if java String@endif) for an example of code for
+ * testing the returned error code.
  *
- * This method will report an error if the given string @p xml is not SBML.
- * The error will be logged in the error log of the SBMLDocument_t structure
- * returned by this method.  Calling programs can inspect this error log to
- * determine the nature of the problem.  Please refer to the definition of
- * SBMLDocument for more information about the error reporting mechanism.
  *
- * @return a pointer to the SBMLDocument_t read.
  *
- * @note When using this method to read an SBMLDocument that uses 
- * the SBML L3 Hierarchical Model Composition package (comp) the
- * document location cannot be set automatically. Thus, if the model
- * contains references to ExternalModelDefinitions, it will be necessary
- * to manually set the document URI location (setLocationURI) in order 
- * to facilitate resolving these models.
+ * @param xml a string containing a full SBML model
+ *
+ * @return a pointer to the SBMLDocument structure created from the SBML
+ * content in @p xml.
+ *
+ * *
+ * @note When using this method to read an SBMLDocument that uses the SBML
+ * Level&nbsp;3 Hierarchical %Model Composition package (comp) the document
+ * location cannot be set automatically. Thus, if the model contains
+ * references to ExternalModelDefinition objects, it will be necessary to
+ * manually set the document URI location
+ * (SBMLDocument::setLocationURI(@if java String@endif) in order to facilitate
+ * resolving these models.
  *
  * @if conly
  * @memberof SBMLReader_t
@@ -709,8 +989,8 @@ public class libsbml {
  * This function behaves exactly like C's <code>==</code> operator, except
  * for the following two cases:
  * <ul>
- * <li>@link libsbmlcs.libsbml.UNIT_KIND_LITER UNIT_KIND_LITER@endlink <code>==</code> @link libsbmlcs.libsbml.UNIT_KIND_LITRE UNIT_KIND_LITRE@endlink
- * <li>@link libsbmlcs.libsbml.UNIT_KIND_METER UNIT_KIND_METER@endlink <code>==</code> @link libsbmlcs.libsbml.UNIT_KIND_METRE UNIT_KIND_METRE@endlink
+  * <li>@link libsbmlcs#UNIT_KIND_LITER UNIT_KIND_LITER@endlink <code>==</code> @link libsbmlcs#UNIT_KIND_LITRE UNIT_KIND_LITRE@endlink
+ * <li>@link libsbmlcs#UNIT_KIND_METER UNIT_KIND_METER@endlink <code>==</code> @link libsbmlcs#UNIT_KIND_METRE UNIT_KIND_METRE@endlink
  * </ul>
  *
  * In the two cases above, C equality comparison would yield @c false
@@ -815,84 +1095,119 @@ public class libsbml {
     return ret;
   }
 
-  public static bool representsNumber(int type) {
+  
+/**
+ * Note to developers: leave at least one comment here.  Without it, something
+ * doesn't go right when docs are generated.
+ */ /* libsbml-internal */ public
+ static bool representsNumber(int type) {
     bool ret = libsbmlPINVOKE.representsNumber(type);
     return ret;
   }
 
-  public static bool representsFunction(int type, ASTBasePlugin plugin) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsFunction(int type, ASTBasePlugin plugin) {
     bool ret = libsbmlPINVOKE.representsFunction__SWIG_0(type, ASTBasePlugin.getCPtr(plugin));
     return ret;
   }
 
-  public static bool representsFunction(int type) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsFunction(int type) {
     bool ret = libsbmlPINVOKE.representsFunction__SWIG_1(type);
     return ret;
   }
 
-  public static bool representsUnaryFunction(int type, ASTBasePlugin plugin) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsUnaryFunction(int type, ASTBasePlugin plugin) {
     bool ret = libsbmlPINVOKE.representsUnaryFunction__SWIG_0(type, ASTBasePlugin.getCPtr(plugin));
     return ret;
   }
 
-  public static bool representsUnaryFunction(int type) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsUnaryFunction(int type) {
     bool ret = libsbmlPINVOKE.representsUnaryFunction__SWIG_1(type);
     return ret;
   }
 
-  public static bool representsBinaryFunction(int type, ASTBasePlugin plugin) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsBinaryFunction(int type, ASTBasePlugin plugin) {
     bool ret = libsbmlPINVOKE.representsBinaryFunction__SWIG_0(type, ASTBasePlugin.getCPtr(plugin));
     return ret;
   }
 
-  public static bool representsBinaryFunction(int type) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsBinaryFunction(int type) {
     bool ret = libsbmlPINVOKE.representsBinaryFunction__SWIG_1(type);
     return ret;
   }
 
-  public static bool representsNaryFunction(int type, ASTBasePlugin plugin) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsNaryFunction(int type, ASTBasePlugin plugin) {
     bool ret = libsbmlPINVOKE.representsNaryFunction__SWIG_0(type, ASTBasePlugin.getCPtr(plugin));
     return ret;
   }
 
-  public static bool representsNaryFunction(int type) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsNaryFunction(int type) {
     bool ret = libsbmlPINVOKE.representsNaryFunction__SWIG_1(type);
     return ret;
   }
 
-  public static bool representsQualifier(int type, ASTBasePlugin plugin) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsQualifier(int type, ASTBasePlugin plugin) {
     bool ret = libsbmlPINVOKE.representsQualifier__SWIG_0(type, ASTBasePlugin.getCPtr(plugin));
     return ret;
   }
 
-  public static bool representsQualifier(int type) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsQualifier(int type) {
     bool ret = libsbmlPINVOKE.representsQualifier__SWIG_1(type);
     return ret;
   }
 
-  public static bool representsFunctionRequiringAtLeastTwoArguments(int type) {
+  
+/** */ /* libsbml-internal */ public
+ static bool representsFunctionRequiringAtLeastTwoArguments(int type) {
     bool ret = libsbmlPINVOKE.representsFunctionRequiringAtLeastTwoArguments(type);
     return ret;
   }
 
-  public static int getCoreTypeFromName(string name) {
+  
+/** */ /* libsbml-internal */ public
+ static int getCoreTypeFromName(string name) {
     int ret = libsbmlPINVOKE.getCoreTypeFromName(name);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static string getNameFromCoreType(int type) {
+  
+/** */ /* libsbml-internal */ public
+ static string getNameFromCoreType(int type) {
     string ret = libsbmlPINVOKE.getNameFromCoreType(type);
     return ret;
   }
 
-  public static bool isCoreTopLevelMathMLFunctionNodeTag(string name) {
+  
+/** */ /* libsbml-internal */ public
+ static bool isCoreTopLevelMathMLFunctionNodeTag(string name) {
     bool ret = libsbmlPINVOKE.isCoreTopLevelMathMLFunctionNodeTag(name);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static bool isCoreTopLevelMathMLNumberNodeTag(string name) {
+  
+/** */ /* libsbml-internal */ public
+ static bool isCoreTopLevelMathMLNumberNodeTag(string name) {
     bool ret = libsbmlPINVOKE.isCoreTopLevelMathMLNumberNodeTag(name);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
     return ret;
@@ -967,21 +1282,27 @@ public class libsbml {
 
   
 /**
- * Parses the given SBML formula and returns a representation of it as an
- * Abstract Syntax Tree (AST).
+ * Parses a text string as a mathematical formula and returns an AST
+ * representation of it.
  *
  * *
  * 
  * The text-string form of mathematical formulas produced by
- * @if clike libsbmlcs.libsbml.formulaToString()@endif@if csharp libsbmlcs.libsbml.formulaToString()@endif@if python libsbml.formulaToString()@endif@if java <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString(ASTNode tree)</a></code>@endif
- * and read by @if clike libsbmlcs.libsbml.parseFormula()@endif@if csharp libsbmlcs.libsbml.parseFormula()@endif@if python libsbml.parseFormula()@endif@if java <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String formula)</a></code>@endif
- * use a simple C-inspired infix notation taken from SBML Level&nbsp;1.  A
- * formula in this text-string form therefore can be handed to a program
- * that understands SBML Level&nbsp;1 mathematical expressions, or used as
- * part of a formula translation system.  The syntax is described in detail
- * in the documentation for ASTNode. 
+ * @sbmlfunction{formulaToString, ASTNode} and read by
+ * @sbmlfunction{parseFormula, String} use a simple C-inspired infix
+ * notation taken from SBML Level&nbsp;1.  A formula in this text-string form
+ * therefore can be handed to a program that understands SBML Level&nbsp;1
+ * mathematical expressions, or used as part of a formula translation system.
+ * The syntax is described in detail in the documentation for ASTNode.  The
+ * following are illustrative examples of formulas expressed using this syntax:
+ * @verbatim
+0.10 * k4^2
+@endverbatim
+@verbatim
+(vm * s1)/(km + s1)
+@endverbatim
  *
- * Note that this facility is provided as a convenience by libSBML&mdash;the
+ * Note that this facility is provided as a convenience by libSBML---the
  * MathML standard does not actually define a 'string-form' equivalent to
  * MathML expression trees, so the choice of formula syntax is somewhat
  * arbitrary.  The approach taken by libSBML is to use the syntax defined by
@@ -992,7 +1313,7 @@ public class libsbml {
  * rules for the different entities that may appear in formula strings.
  *
  * @htmlinclude math-precedence-table.html
- * 
+ *
  * In the table above, @em operand implies the construct is an operand, @em
  * prefix implies the operation is applied to the following arguments, @em
  * unary implies there is one argument, and @em binary implies there are
@@ -1027,52 +1348,45 @@ public class libsbml {
  * provide a direct text-string input facility to users of their software
  * systems.</span>
  *
- * 
  *
- * * 
- * @warning <span class='warning'>We urge developers to keep in mind that
- * the text-string formula syntax is specific to SBML Level&nbsp;1's C-like
- * mathematical formula syntax.  In particular, it is <em>not a
- * general-purpose mathematical expression syntax</em>.  LibSBML provides
- * methods for parsing and transforming text-string math formulas back and
- * forth from AST structures, but it is important to keep the system's
- * limitations in mind.</span>
- * 
  *
- * 
  * @param formula the text-string formula expression to be parsed
  *
  * @return the root node of the AST corresponding to the @p formula, or @c
  * null if an error occurred in parsing the formula
  *
- * @if clike @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if csharp @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if python @see libsbml.formulaToString()
- * @see libsbml.parseL3FormulaWithSettings()
- * @see libsbml.parseL3Formula()
- * @see libsbml.parseL3FormulaWithModel()
- * @see libsbml.getLastParseL3Error()
- * @see libsbml.getDefaultL3ParserSettings()
- * @endif
- * @if java @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
- * @endif
+ * @see @sbmlfunction{parseL3Formula, String}
+ * @see @sbmlfunction{formulaToString, ASTNode}
+ * @see @sbmlfunction{formulaToL3String, ASTNode}
+ * @see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+ * @see L3ParserSettings
+ *
+ * *
+ * @note
+ * Callers using SBML Level&nbsp;3 are encouraged to use the facilities
+ * provided by libSBML's newer and more powerful Level&nbsp;3-oriented
+ * formula parser and formatter.  The entry points to this second system are
+ * @sbmlfunction{parseL3Formula, String} and
+ * @sbmlfunction{formulaToL3String, ASTNode}.  The Level&nbsp;1-oriented
+ * system (i.e., what is provided by @sbmlfunction{formulaToString, String}
+ * and @sbmlfunction{parseFormula, ASTNode}) is provided 
+ * untouched for backwards compatibility.
+ *
+ *
+ *
+ * *
+ * @note We urge developers to keep in mind that the text-string formula
+ * syntax is specific to libSBML.  <em>Neither MathML nor SBML define a
+ * text-string format for mathematical formulas.</em> LibSBML's particular
+ * syntax should not be considered to be a canonical or standard
+ * general-purpose mathematical expression syntax.  LibSBML provides methods
+ * for parsing and transforming text-string math formulas back and forth from
+ * AST structures for the convenience of calling applications, but it is
+ * important to keep the system's limitations in mind.
+ *
+ *
  *
  * @if conly
  * @memberof ASTNode_t
@@ -1086,179 +1400,33 @@ public class libsbml {
 
   
 /**
- * Converts an AST to a string representation of a formula using a syntax
- * basically derived from SBML Level&nbsp;1.
+ * Converts an AST to a text string representation of a formula using an
+ * extended syntax.
  *
  * *
  * 
- * The text-string form of mathematical formulas produced by
- * @if clike libsbmlcs.libsbml.formulaToString()@endif@if csharp libsbmlcs.libsbml.formulaToString()@endif@if python libsbml.formulaToString()@endif@if java <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString(ASTNode tree)</a></code>@endif
- * and read by @if clike libsbmlcs.libsbml.parseFormula()@endif@if csharp libsbmlcs.libsbml.parseFormula()@endif@if python libsbml.parseFormula()@endif@if java <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String formula)</a></code>@endif
- * use a simple C-inspired infix notation taken from SBML Level&nbsp;1.  A
- * formula in this text-string form therefore can be handed to a program
- * that understands SBML Level&nbsp;1 mathematical expressions, or used as
- * part of a formula translation system.  The syntax is described in detail
- * in the documentation for ASTNode. 
+ * The text-string form of mathematical formulas read by the function
+ * @sbmlfunction{parseL3Formula, String} and written by the function
+ * @sbmlfunction{formulaToL3String, ASTNode} uses an expanded version of
+ * the syntax read and written by @sbmlfunction{parseFormula, String}
+ * and @sbmlfunction{formulaToString, ASTNode}, respectively.  The
+ * latter two libSBML functions were originally developed to support
+ * conversion between SBML Levels&nbsp;1 and&nbsp;2, and were focused on the
+ * syntax of mathematical formulas used in SBML Level&nbsp;1.  With time, and
+ * the use of MathML in SBML Levels&nbsp;2 and&nbsp;3, it became clear that
+ * supporting Level&nbsp;2 and&nbsp;3's expanded mathematical syntax would be
+ * useful for software developers.  To maintain backwards compatibility for
+ * libSBML users, the original @sbmlfunction{formulaToString, ASTNode}
+ * and @sbmlfunction{parseFormula, String} have been left untouched,
+ * and instead, the new functionality is provided in the form of
+ * @sbmlfunction{parseL3Formula, String} and
+ * @sbmlfunction{formulaToL3String, ASTNode}.
  *
- * Note that this facility is provided as a convenience by libSBML&mdash;the
- * MathML standard does not actually define a 'string-form' equivalent to
- * MathML expression trees, so the choice of formula syntax is somewhat
- * arbitrary.  The approach taken by libSBML is to use the syntax defined by
- * SBML Level&nbsp;1 (which in fact used a text-string representation of
- * formulas and not MathML).  This formula syntax is based mostly on C
- * programming syntax, and may contain operators, function calls, symbols,
- * and white space characters.  The following table provides the precedence
- * rules for the different entities that may appear in formula strings.
- *
- * @htmlinclude math-precedence-table.html
- * 
- * In the table above, @em operand implies the construct is an operand, @em
- * prefix implies the operation is applied to the following arguments, @em
- * unary implies there is one argument, and @em binary implies there are
- * two arguments.  The values in the <b>Precedence</b> column show how the
- * order of different types of operation are determined.  For example, the
- * expression <code>a * b + c</code> is evaluated as <code>(a * b) +
- * c</code> because the @c * operator has higher precedence.  The
- * <b>Associates</b> column shows how the order of similar precedence
- * operations is determined; for example, <code>a - b + c</code> is
- * evaluated as <code>(a - b) + c</code> because the @c + and @c -
- * operators are left-associative.
- *
- * The function call syntax consists of a function name, followed by optional
- * white space, followed by an opening parenthesis token, followed by a
- * sequence of zero or more arguments separated by commas (with each comma
- * optionally preceded and/or followed by zero or more white space
- * characters, followed by a closing parenthesis token.  The function name
- * must be chosen from one of the pre-defined functions in SBML or a
- * user-defined function in the model.  The following table lists the names
- * of certain common mathematical functions; this table corresponds to
- * Table&nbsp;6 in the <a target='_blank' href='http://sbml.org/Documents/Specifications#SBML_Level_1_Version_2'>SBML Level&nbsp;1 Version&nbsp;2 specification</a>:
- *
- * @htmlinclude string-functions-table.html
- *
- * @warning <span class='warning'>There are differences between the symbols
- * used to represent the common mathematical functions and the corresponding
- * MathML token names.  This is a potential source of incompatibilities.
- * Note in particular that in this text-string syntax, <code>log(x)</code>
- * represents the natural logarithm, whereas in MathML, the natural logarithm
- * is <code>&lt;ln/&gt;</code>.  Application writers are urged to be careful
- * when translating between text forms and MathML forms, especially if they
- * provide a direct text-string input facility to users of their software
- * systems.</span>
- *
- * 
- *
- * * 
- * @warning <span class='warning'>We urge developers to keep in mind that
- * the text-string formula syntax is specific to SBML Level&nbsp;1's C-like
- * mathematical formula syntax.  In particular, it is <em>not a
- * general-purpose mathematical expression syntax</em>.  LibSBML provides
- * methods for parsing and transforming text-string math formulas back and
- * forth from AST structures, but it is important to keep the system's
- * limitations in mind.</span>
- * 
- * 
- *
- * @param tree the AST to be converted.
- * 
- * @return the formula from the given AST as an SBML Level 1 text-string
- * mathematical formula.  The caller owns the returned string and is
- * responsible for freeing it when it is no longer needed.
- *
- * @if clike @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if csharp @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if python @see libsbml.formulaToString()
- * @see libsbml.parseL3FormulaWithSettings()
- * @see libsbml.parseL3Formula()
- * @see libsbml.parseL3FormulaWithModel()
- * @see libsbml.getLastParseL3Error()
- * @see libsbml.getDefaultL3ParserSettings()
- * @endif
- * @if java @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
- * @endif
- *
- * @if conly
- * @memberof ASTNode_t
- * @endif
- */ public
- static string formulaToString(ASTNode tree) {
-    string ret = libsbmlPINVOKE.formulaToString(ASTNode.getCPtr(tree));
-    return ret;
-  }
-
-  
-/**
- * Parses the given mathematical formula and returns a representation of it
- * as an Abstract Syntax Tree (AST).
- *
- * *
- * 
- * The text-string form of mathematical formulas read by the functions
- * @if clike SBML_formulaToL3String()@endif@if csharp
- * SBML_formulaL3ToString()@endif@if python
- * libsbml.formulaToL3String()@endif@if java <code><a
- * href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'>libsbml.formulaToL3String(ASTNode
- * tree)</a></code>@endif and @if clike SBML_parseL3Formula()@endif@if csharp
- * SBML_parseL3Formula()@endif@if python
- * libsbml.parseL3Formula()@endif@if java <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code>@endif are expanded versions of the formats produced
- * and read by @if clike libsbmlcs.libsbml.formulaToString()@endif@if csharp
- * libsbmlcs.libsbml.formulaToString()@endif@if python libsbml.formulaToString()@endif@if java <code><a
- * href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString(ASTNode
- * tree)</a></code>@endif and @if clike libsbmlcs.libsbml.parseFormula()@endif@if csharp
- * libsbmlcs.libsbml.parseFormula()@endif@if python libsbml.parseFormula()@endif@if java
- * <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code>@endif, respectively.  The latter two libSBML
- * functions were originally developed to support conversion between SBML
- * Levels&nbsp;1 and&nbsp;2, and were focused on the syntax of mathematical
- * formulas used in SBML Level&nbsp;1.  With time, and the use of MathML in
- * SBML Levels&nbsp;2 and&nbsp;3, it became clear that supporting
- * Level&nbsp;2 and&nbsp;3's expanded mathematical syntax would be useful for
- * software developers.
- * To maintain backwards compatibility, the original
- * @if clike libsbmlcs.libsbml.formulaToString()@endif@if csharp libsbmlcs.libsbml.formulaToString()@endif@if python libsbml.formulaToString()@endif@if java <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString(ASTNode tree)</a></code>@endif
- * and
- * @if clike libsbmlcs.libsbml.parseFormula()@endif@if csharp libsbmlcs.libsbml.parseFormula()@endif@if python libsbml.parseFormula()@endif@if java <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String formula)</a></code>@endif
- * have been left untouched, and instead, the new functionality is
- * provided in the form of
- * @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <cod
-e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>@endif
- * and @if clike SBML_formulaToL3String()@endif@if csharp
- * SBML_formulaL3ToString()@endif@if python
- * libsbml.formulaToL3String()@endif@if java <code><a
- * href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'>libsbml.formulaToL3String(ASTNode
- * tree)</a></code>@endif.
- *
- * The following are the differences in the formula syntax supported by the
- * 'L3' versions of the formula parsers and formatters, compared to what is
- * supported by @if clike libsbmlcs.libsbml.parseFormula()@endif@if csharp
- * libsbmlcs.libsbml.parseFormula()@endif@if python libsbml.parseFormula()@endif@if java
- * <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code>@endif and @if clike
- * SBML_formulaToL3String()@endif@if csharp SBML_formulaL3ToString()@endif@if python
- * libsbml.formulaToL3String()@endif@if java <code><a
- * href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'>libsbml.formulaToL3String(ASTNode
- * tree)</a></code>@endif:
+ * The following lists the main differences in the formula syntax supported by
+ * the 'Level 3' or L3 versions of the formula parsers and formatters,
+ * compared to what is supported by the Level&nbsp;1-oriented
+ * @sbmlfunction{parseFormula, String} and
+ * @sbmlfunction{formulaToString, ASTNode}:
  *
  * @li Units may be asociated with bare numbers, using the following syntax:
  * <div style='margin: 10px auto 10px 25px; display: block'>
@@ -1267,7 +1435,7 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
  * </div>
  * The <span class='code' style='background-color: #d0d0ee'>number</span>
  * may be in any form (an integer, real, or rational
- * number), and the 
+ * number), and the
  * <span class='code' style='background-color: #edd'>unit</span>
  * must conform to the syntax of an SBML identifier (technically, the
  * type defined as @c SId in the SBML specifications).  The whitespace between
@@ -1279,137 +1447,115 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
  * used.
  *
  * @li The @em modulo operation is allowed as the symbol @c @% and will
- * produce a piecewise function in the MathML.
+ * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
+ * MathML output.
  *
  * @li All inverse trigonometric functions may be defined in the infix either
  * using @c arc as a prefix or simply @c a; in other words, both @c arccsc
- * and @c acsc are interpreted as the operator @em arccosecant defined in
- * MathML.  (Many functions in the SBML Level&nbsp;1 infix-notation parser
- * implemented by @if clike libsbmlcs.libsbml.parseFormula()@endif@if csharp
- * libsbmlcs.libsbml.parseFormula()@endif@if python libsbml.parseFormula()@endif@if java
- * <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code>@endif are defined this way as well, but not all.)
+ * and @c acsc are interpreted as the operator @em arccosecant as defined in
+ * MathML&nbsp;2.0.  (Many functions in the simpler SBML Level&nbsp;1
+ * oriented parser implemented by @sbmlfunction{parseFormula, String}
+ * are defined this way as well, but not all.)
  *
  * @li The following expression is parsed as a rational number instead of
  * as a numerical division:
  * <pre style='display: block; margin-left: 25px'>
  * (<span class='code' style='background-color: #d0d0ee'>integer</span>/<span class='code' style='background-color: #d0d0ee'>integer</span>)</pre>
- * No spaces are allowed in this construct; in other words,
- * &quot;<code>(3 / 4)</code>&quot; will be parsed into the MathML
- * <code>&lt;divide&gt;</code> construct rather than a rational number.  The 
- * general number syntax allows you to assign units to a rational number, e.g.,
- * &quot;<code>(3/4) ml</code>&quot;.  (If the string is a division, units
- * are not interpreted in this way.)
+ * <strong>Spaces are not allowed</strong> in this construct; in other words,
+ * &quot;<code>(3 / 4)</code>&quot; (with whitespace between the numbers and
+ * the operator) will be parsed into the MathML <code>&lt;divide&gt;</code>
+ * construct rather than a rational number.  You can, however, assign units to a
+ * rational number as a whole; here is an example: &quot;<code>(3/4) ml</code>&quot;.
+ * (In the case of division rather than a rational number, units are not interpreted
+ * in this way.)
  *
- * @li Various settings may be altered by using an L3ParserSettings object in
- * conjunction with the functions @if clike
- * SBML_parseL3FormulaWithSettings()@endif@if csharp
- * SBML_parseL3FormulaWithSettings()@endif@if python
- * libsbml.parseL3FormulaWithSettings()@endif@if java <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, L3ParserSettings settings)</a></code>@endif and @if clike
- * SBML_formulaToL3String()@endif@if csharp SBML_formulaL3ToString()@endif@if python
- * libsbml.formulaToL3String()@endif@if java <code><a
- * href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'>libsbml.formulaToL3String(ASTNode
- * tree)</a></code>@endif, including the following:
- * <ul>
- * <li> The function @c log with a single argument (&quot;<code>log(x)</code>&quot;) 
- * can be parsed as <code>log10(x)</code>, <code>ln(x)</code>, or treated
- * as an error, as desired.
- * <li> Unary minus signs can be collapsed or preserved; that is,
- * sequential pairs of unary minuses (e.g., &quot;<code>- -3</code>&quot;)
- * can be removed from the input entirely and single unary minuses can be
- * incorporated into the number node, or all minuses can be preserved in
- * the AST node structure.
- * <li> Parsing of units embedded in the input string can be turned on and
- * off.
- * <li> The string @c avogadro can be parsed as a MathML @em csymbol or
- * as an identifier.
- * <li> A Model object may optionally be provided to the parser using the
- * variant function call
- * @if clike SBML_parseL3FormulaWithModel()@endif@if csharp
- * SBML_parseL3FormulaWithModel()@endif@if python
- * libsbml.SBML_parseL3FormulaWithModel()@endif@if java <code><a
- * href='libsbml.html#parseL3FormulaWithModel(java.lang.String,
- * org.sbml.libsbml.Model)'>libsbml.parseL3FormulaWithModel(String formula,
- * Model model)</a></code>@endif or stored in a L3ParserSettings object
- * passed to the variant function @if clike
- * SBML_parseL3FormulaWithSettings()@endif@if csharp
- * SBML_parseL3FormulaWithSettings()@endif@if python
- * libsbml.parseL3FormulaWithSettings()@endif@if java <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, L3ParserSettings settings)</a></code>@endif.
- * When a Model object is provided, identifiers (values of type @c SId) from
- * that model are used in preference to pre-defined MathML definitions.  More
- * precisely, the Model entities whose identifiers will shadow identical
- * symbols in the mathematical formula are: Species, Compartment, Parameter,
- * Reaction, and SpeciesReference.  For instance, if the parser is given a
- * Model containing a Species with the identifier
- * &quot;<code>pi</code>&quot;, and the formula to be parsed is
- * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
- * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the construct
- * <code>&lt;pi/&gt;</code>.  <li> Similarly, when a Model object is
- * provided, @c SId values of user-defined functions present in the model
- * will be used preferentially over pre-defined MathML functions.  For
- * example, if the passed-in Model contains a FunctionDefinition with the
- * identifier &quot;<code>sin</code>&quot;, that function will be used
- * instead of the predefined MathML function <code>&lt;sin/&gt;</code>.
+ * @li Various parser and formatter behaviors may be altered through the use
+ * of a L3ParserSettings object in conjunction with the functions
+ * @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings} and
+ * @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+ * The settings available include the following:
+ * <ul style='list-style-type: circle'>
+ *
+ * <li style='margin-bottom: 0.5em'> The function @c log with a single
+ * argument (&quot;<code>log(x)</code>&quot;) can be parsed as
+ * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
+ * desired.
+ *
+ * <li style='margin-bottom: 0.5em'> Unary minus signs can be collapsed or
+ * preserved; that is, sequential pairs of unary minuses (e.g., &quot;<code>-
+ * -3</code>&quot;) can be removed from the input entirely and single unary
+ * minuses can be incorporated into the number node, or all minuses can be
+ * preserved in the AST node structure.
+ *
+ * <li style='margin-bottom: 0.5em'> Parsing of units embedded in the input
+ * string can be turned on and off.
+ *
+ * <li style='margin-bottom: 0.5em'> The string @c avogadro can be parsed as
+ * a MathML @em csymbol or as an identifier.
+ *
+ * <li style='margin-bottom: 0.5em'> A Model object may optionally be
+ * provided to the parser using the variant function call
+ * @sbmlfunction{parseL3FormulaWithModel, String\, Model} or
+ * stored in a L3ParserSettings object passed to the variant function
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}.  When a Model object is provided, identifiers
+ * (values of type @c SId) from that model are used in preference to
+ * pre-defined MathML definitions for both symbols and functions.
+ * More precisely:
+ * <ul style='list-style-type: square'>
+ *
+ * <li style='margin-bottom: 0.5em'> <em>In the case of symbols</em>: the
+ * Model entities whose identifiers will shadow identical symbols in the
+ * mathematical formula are: Species, Compartment, Parameter, Reaction, and
+ * SpeciesReference.  For instance, if the parser is given a Model containing
+ * a Species with the identifier &quot;<code>pi</code>&quot;, and the formula
+ * to be parsed is &quot;<code>3*pi</code>&quot;, the MathML produced will
+ * contain the construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of
+ * the construct <code>&lt;pi/&gt;</code>.
+ *
+ * <li style='margin-bottom: 0.5em'> <em>In the case of user-defined
+ * functions</em>: when a Model object is provided, @c SId values of
+ * user-defined functions present in the model will be used preferentially
+ * over pre-defined MathML functions.  For example, if the passed-in Model
+ * contains a FunctionDefinition object with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
  * </ul>
- * These configuration settings cannot be changed using the basic parser and
- * formatter functions, but can be changed on a per-call basis by using the
- * alternative functions @if clike
- * SBML_parseL3FormulaWithSettings()@endif@if csharp
- * SBML_parseL3FormulaWithSettings()@endif@if python
- * libsbml.parseL3FormulaWithSettings()@endif@if java <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, L3ParserSettings settings)</a></code>@endif and @if clike
- * SBML_formulaToL3StringWithSettings()@endif@if csharp
- * SBML_formulaToL3StringWithSettings()@endif@if python
- * libsbml.formulaToL3StringWithSettings()@endif@if java <code><a
- * href='libsbml.html#formulaToL3StringWithSettings(ASTNode_t tree,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(ASTNode tree
- * L3ParserSettings settings)</a></code>@endif.
  *
- * The parser function @if clike
- * SBML_parseL3FormulaWithSettings()@endif@if csharp
- * SBML_parseL3FormulaWithSettings()@endif@if python
- * libsbml.parseL3FormulaWithSettings()@endif@if java <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, L3ParserSettings settings)</a></code>@endif
- * returns the root node of the AST corresponding to the
- * formula given as the argument.  If the formula contains a syntax error,
- * the function will return @c null instead.  When @c null is returned, an
- * error is set; information about the error can be retrieved using
- * @if clike SBML_getLastParseL3Error()@endif@if csharp SBML_getLastParseL3Error()@endif@if python libsbml.getLastParseL3Error()@endif@if java <code><a href='libsbml.html#getLastParseL3Error()'>libsbml.getLastParseL3Error()</a></code>@endif.
+ * <li style='margin-bottom: 0.5em'> An SBMLNamespaces object may optionally
+ * be provided to identify SBML Level&nbsp;3 packages that extend the
+ * syntax understood by the formula parser.  When the namespaces are provided,
+ * the parser will interpret possible additional syntax defined by the libSBML
+ * plug-ins implementing the SBML Level&nbsp;3 packages; for example, it may
+ * understand vector/array extensions introduced by the SBML Level&nbsp;3 @em
+ * Arrays package.
+ * </ul>
  *
- * Note that this facility and the SBML Level&nbsp;1-based @if clike
- * libsbmlcs.libsbml.parseFormula()@endif@if csharp libsbmlcs.libsbml.parseFormula()@endif@if python
- * libsbml.parseFormula()@endif@if java <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code>@endif are provided as a convenience by
- * libSBML&mdash;the MathML standard does not actually define a 'string-form'
- * equivalent to MathML expressions, so the choice of formula syntax is
- * arbitrary.  The approach taken by libSBML is to start with the syntax
- * defined by SBML Level&nbsp;1 (which in fact used a text-string
- * representation of formulas, and not MathML), and expand it to include the
- * above functionality.  This formula syntax is based mostly on C programming
- * syntax, and may contain operators, function calls, symbols, and white
- * space characters.  The following table provides the precedence rules for
- * the different entities that may appear in formula strings.
+ * These configuration settings cannot be changed directly using the basic
+ * parser and formatter functions, but @em can be changed on a per-call basis
+ * by using the alternative functions @sbmlfunction{parseL3FormulaWithSettings,
+ * String\, L3ParserSettings} and
+ * @sbmlfunction{formulaToL3StringWithSettings, ASTNode\,
+ * L3ParserSettings}.
+ *
+ * Neither SBML nor the MathML standard define a 'string-form' equivalent to
+ * MathML expressions.  The approach taken by libSBML is to start with the
+ * formula syntax defined by SBML Level&nbsp;1 (which in fact used a custom
+ * text-string representation of formulas, and not MathML), and expand it to
+ * include the functionality described above.  This formula syntax is based
+ * mostly on C programming syntax, and may contain operators, function calls,
+ * symbols, and white space characters.  The following table provides the
+ * precedence rules for the different entities that may appear in formula
+ * strings.
  *
  * @htmlinclude math-precedence-table-l3.html
- * 
+ *
  * In the table above, @em operand implies the construct is an operand, @em
  * prefix implies the operation is applied to the following arguments, @em
  * unary implies there is one argument, and @em binary implies there are
  * two arguments.  The values in the <b>Precedence</b> column show how the
  * order of different types of operation are determined.  For example, the
- * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code> 
+ * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code>
  * because the @c * operator has higher precedence.  The
  * <b>Associates</b> column shows how the order of similar precedence
  * operations is determined; for example, <code>a && b || c</code> is
@@ -1431,93 +1577,514 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
  *
  * @htmlinclude string-functions-table-l3.html
  *
- * Note that the manner in which the 'L3' versions of the formula parser and
- * formatter interpret the function &quot;<code>log</code>&quot; can be
- * changed.  To do so, callers should use the function @if clike
- * SBML_parseL3FormulaWithSettings()@endif@if csharp
- * SBML_parseL3FormulaWithSettings()@endif@if python
- * libsbml.parseL3FormulaWithSettings()@endif@if java <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, L3ParserSettings settings)</a></code>@endif 
- * and pass it an appropriate L3ParserSettings object.  By default,
- * unlike the SBML Level&nbsp;1 parser implemented by @if clike
- * libsbmlcs.libsbml.parseFormula()@endif@if csharp libsbmlcs.libsbml.parseFormula()@endif@if python
- * libsbml.parseFormula()@endif@if java <code><a
- * href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String
- * formula)</a></code>@endif, the string &quot;<code>log</code>&quot; is
- * interpreted as the base&nbsp;10 logarithm, and @em not as the natural
- * logarithm.  However, you can change the interpretation to be base-10 log,
- * natural log, or as an error; since the name 'log' by itself is ambiguous,
- * you require that the parser uses @c log10 or @c ln instead, which are more
- * clear.  Please refer to @if clike
- * SBML_parseL3FormulaWithSettings()@endif@if csharp
- * SBML_parseL3FormulaWithSettings()@endif@if python
- * libsbml.parseL3FormulaWithSettings()@endif@if java <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, L3ParserSettings settings)</a></code>@endif.
- * 
+ * Parsing of the various MathML functions and constants are all
+ * case-insensitive by default: function names such as <code>cos</code>,
+ * <code>Cos</code> and <code>COS</code> are all parsed as the MathML cosine
+ * operator, <code>&lt;cos&gt;</code>.  However, <em>when a Model object is
+ * used</em> in conjunction with either
+ * @sbmlfunction{parseL3FormulaWithModel, String\, Model} or
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}, any identifiers found in that model will be
+ * parsed in a case-<em>sensitive</em> way.  For example, if a model contains
+ * a Species having the identifier <code>Pi</code>, the parser will parse
+ * &quot;<code>Pi</code>&quot; in the input as &quot;<code>&lt;ci&gt; Pi
+ * &lt;/ci&gt;</code>&quot; but will continue to parse the symbols
+ * &quot;<code>pi</code>&quot; and &quot;<code>PI</code>&quot; as
+ * &quot;<code>&lt;pi&gt;</code>&quot;.
+ *
+ * As mentioned above, the manner in which the 'L3' versions of the formula
+ * parser and formatter interpret the function &quot;<code>log</code>&quot;
+ * can be changed.  To do so, callers should use the function
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings} and pass it an appropriate L3ParserSettings
+ * object.  By default, unlike the SBML Level&nbsp;1 parser implemented by
+ * @sbmlfunction{parseFormula, String}, the string
+ * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
+ * and @em not as the natural logarithm.  However, you can change the
+ * interpretation to be base-10 log, natural log, or as an error; since the
+ * name 'log' by itself is ambiguous, you require that the parser uses @c
+ * log10 or @c ln instead, which are more clear.  Please refer to
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}.
+ *
  * In addition, the following symbols will be translated to their MathML
  * equivalents, if no symbol with the same @c SId identifier string exists
  * in the Model object provided:
  *
  * @htmlinclude string-values-table-l3.html
- * 
- * Note that whether the string &quot;<code>avogadro</code>&quot; is parsed
- * as an AST node of type @link libsbmlcs.libsbml.AST_NAME_AVOGADRO
- * AST_NAME_AVOGADRO@endlink or @link libsbmlcs.libsbml.AST_NAME AST_NAME@endlink
- * is configurable; use the alternate version of this function, called @if clike
- * SBML_parseL3FormulaWithSettings()@endif@if csharp
- * SBML_parseL3FormulaWithSettings()@endif@if python
- * libsbml.parseL3FormulaWithSettings()@endif@if java <code><a
- * href='libsbml.html#parseL3FormulaWithSettings(java.lang.String,
- * org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String
- * formula, L3ParserSettings settings)</a></code>@endif.  This
+ *
+ * Again, as mentioned above, whether the string
+ * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
+ * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
+ * @link libsbmlcs#AST_NAME AST_NAME@endlink is configurable; use the version of
+ * the parser function called @sbmlfunction{parseL3FormulaWithSettings,
+ * String\, L3ParserSettings}.  This Avogadro-related
  * functionality is provided because SBML Level&nbsp;2 models may not use
- * @link libsbmlcs.libsbml.AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
+ * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
  *
  *
+ *
+ * @param tree the AST to be converted.
+ *
+ * @return the formula from the given AST as text string, with a syntax
+ * oriented towards the capabilities defined in SBML Level&nbsp;3.  The
+ * caller owns the returned string and is responsible for freeing it when it
+ * is no longer needed.  If @p tree is a null pointer, then a null pointer is
+ * returned.
+ *
+ * @see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+ * @see @sbmlfunction{formulaToString, ASTNode}
+ * @see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+ * @see @sbmlfunction{parseFormula, String}
+ * @see L3ParserSettings
+ * @see @sbmlfunction{getDefaultL3ParserSettings,}
+ * @see @sbmlfunction{getLastParseL3Error,}
+ *
+ * @if conly
+ * @memberof ASTNode_t
+ * @endif
+ */ public
+ static string formulaToL3String(ASTNode tree) {
+    string ret = libsbmlPINVOKE.formulaToL3String(ASTNode.getCPtr(tree));
+    return ret;
+  }
 
+  
+/**
+ * Converts an AST to a text string representation of a formula, using
+ * specific formatter settings.
+ *
+ * This function behaves identically to @sbmlfunction{formulaToL3String,
+ * ASTNode} but its behavior is controlled by two fields in the @p
+ * settings object, namely:
+ *
+ * @li <em>parseunits</em> ('parse units'): If this field in the @p settings
+ *     object is set to <code>true</code> (the default), the function will
+ *     write out the units of any numerical ASTNodes that have them,
+ *     producing (for example) &quot;<code>3 mL</code>&quot;,
+ *     &quot;<code>(3/4) m</code>&quot;, or &quot;<code>5.5e-10
+ *     M</code>&quot;.  If this is set to <code>false</code>, this function
+ *     will only write out the number itself (&quot;<code>3</code>&quot;,
+ *     &quot;<code>(3/4)</code>&quot;, and &quot;<code>5.5e-10</code>&quot;,
+ *     in the previous examples).
+ * @li <em>collapseminus</em> ('collapse minus'): If this field in the @p
+ *     settings object is set to <code>false</code> (the default), the
+ *     function will write out explicitly any doubly-nested unary minus
+ *     ASTNodes, producing (for example) &quot;<code>- -x</code>&quot; or
+ *     even &quot;<code>- - - - -3.1</code>&quot;.  If this is set to
+ *     <code>true</code>, the function will collapse the nodes before
+ *     producing the infix form, producing &quot;<code>x</code>&quot; and
+ *     &quot;<code>-3.1</code>&quot; in the previous examples.
+ *
+ * All the other settings of the L3ParserSettings object passed in as @p
+ * settings will be ignored for the purposes of this function: the
+ * <em>parselog</em> ('parse log') setting is ignored so that
+ * &quot;<code>log10(x)</code>&quot;, &quot;<code>ln(x)</code>&quot;, and
+ * &quot;<code>log(x, y)</code>&quot; are always produced; the
+ * <em>avocsymbol</em> ('Avogadro csymbol') is irrelevant to the behavior
+ * of this function; and nothing in the Model object set via the
+ * <em>model</em> setting is used.
+ *
+ * @param tree the AST to be converted.
+
+ * @param settings the L3ParserSettings object used to modify the behavior of
+ * this function.
+ *
+ * @return the formula from the given AST as text string, with a syntax
+ * oriented towards the capabilities defined in SBML Level&nbsp;3.  The
+ * caller owns the returned string and is responsible for freeing it when it
+ * is no longer needed.  If @p tree is a null pointer, then a null pointer is
+ * returned.
+ *
+ * @see @sbmlfunction{formulaToL3String, ASTNode}
+ * @see @sbmlfunction{formulaToString, ASTNode}
+ * @see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+ * @see @sbmlfunction{parseFormula, String}
+ * @see L3ParserSettings
+ * @see @sbmlfunction{getDefaultL3ParserSettings,}
+ * @see @sbmlfunction{getLastParseL3Error,}
+ *
+ * @if conly
+ * @memberof ASTNode_t
+ * @endif
+ */ public
+ static string formulaToL3StringWithSettings(ASTNode tree, L3ParserSettings settings) {
+    string ret = libsbmlPINVOKE.formulaToL3StringWithSettings(ASTNode.getCPtr(tree), L3ParserSettings.getCPtr(settings));
+    return ret;
+  }
+
+  
+/**
+ * Converts an AST to a text string representation of a formula using a
+ * basic syntax derived from SBML Level&nbsp;1.
+ *
+ * *
+ * 
+ * The text-string form of mathematical formulas produced by
+ * @sbmlfunction{formulaToString, ASTNode} and read by
+ * @sbmlfunction{parseFormula, String} use a simple C-inspired infix
+ * notation taken from SBML Level&nbsp;1.  A formula in this text-string form
+ * therefore can be handed to a program that understands SBML Level&nbsp;1
+ * mathematical expressions, or used as part of a formula translation system.
+ * The syntax is described in detail in the documentation for ASTNode.  The
+ * following are illustrative examples of formulas expressed using this syntax:
+ * @verbatim
+0.10 * k4^2
+@endverbatim
+@verbatim
+(vm * s1)/(km + s1)
+@endverbatim
+ *
+ * Note that this facility is provided as a convenience by libSBML---the
+ * MathML standard does not actually define a 'string-form' equivalent to
+ * MathML expression trees, so the choice of formula syntax is somewhat
+ * arbitrary.  The approach taken by libSBML is to use the syntax defined by
+ * SBML Level&nbsp;1 (which in fact used a text-string representation of
+ * formulas and not MathML).  This formula syntax is based mostly on C
+ * programming syntax, and may contain operators, function calls, symbols,
+ * and white space characters.  The following table provides the precedence
+ * rules for the different entities that may appear in formula strings.
+ *
+ * @htmlinclude math-precedence-table.html
+ *
+ * In the table above, @em operand implies the construct is an operand, @em
+ * prefix implies the operation is applied to the following arguments, @em
+ * unary implies there is one argument, and @em binary implies there are
+ * two arguments.  The values in the <b>Precedence</b> column show how the
+ * order of different types of operation are determined.  For example, the
+ * expression <code>a * b + c</code> is evaluated as <code>(a * b) +
+ * c</code> because the @c * operator has higher precedence.  The
+ * <b>Associates</b> column shows how the order of similar precedence
+ * operations is determined; for example, <code>a - b + c</code> is
+ * evaluated as <code>(a - b) + c</code> because the @c + and @c -
+ * operators are left-associative.
+ *
+ * The function call syntax consists of a function name, followed by optional
+ * white space, followed by an opening parenthesis token, followed by a
+ * sequence of zero or more arguments separated by commas (with each comma
+ * optionally preceded and/or followed by zero or more white space
+ * characters, followed by a closing parenthesis token.  The function name
+ * must be chosen from one of the pre-defined functions in SBML or a
+ * user-defined function in the model.  The following table lists the names
+ * of certain common mathematical functions; this table corresponds to
+ * Table&nbsp;6 in the <a target='_blank' href='http://sbml.org/Documents/Specifications#SBML_Level_1_Version_2'>SBML Level&nbsp;1 Version&nbsp;2 specification</a>:
+ *
+ * @htmlinclude string-functions-table.html
+ *
+ * @warning <span class='warning'>There are differences between the symbols
+ * used to represent the common mathematical functions and the corresponding
+ * MathML token names.  This is a potential source of incompatibilities.
+ * Note in particular that in this text-string syntax, <code>log(x)</code>
+ * represents the natural logarithm, whereas in MathML, the natural logarithm
+ * is <code>&lt;ln/&gt;</code>.  Application writers are urged to be careful
+ * when translating between text forms and MathML forms, especially if they
+ * provide a direct text-string input facility to users of their software
+ * systems.</span>
+ *
+ *
+ *
+ * @param tree the AST to be converted.
+ *
+ * @return the formula from the given AST as a text-string mathematical
+ * formula oriented towards SBML Level&nbsp;1.  The caller owns the returned
+ * string and is responsible for freeing it when it is no longer needed.
+ *
+ * @see @sbmlfunction{formulaToL3String, ASTNode}
+ * @see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+ * @see @sbmlfunction{parseFormula, String}
+ *
+ * *
+ * @note
+ * Callers using SBML Level&nbsp;3 are encouraged to use the facilities
+ * provided by libSBML's newer and more powerful Level&nbsp;3-oriented
+ * formula parser and formatter.  The entry points to this second system are
+ * @sbmlfunction{parseL3Formula, String} and
+ * @sbmlfunction{formulaToL3String, ASTNode}.  The Level&nbsp;1-oriented
+ * system (i.e., what is provided by @sbmlfunction{formulaToString, String}
+ * and @sbmlfunction{parseFormula, ASTNode}) is provided 
+ * untouched for backwards compatibility.
+ *
+ *
+ *
+ * *
+ * @note We urge developers to keep in mind that the text-string formula
+ * syntax is specific to libSBML.  <em>Neither MathML nor SBML define a
+ * text-string format for mathematical formulas.</em> LibSBML's particular
+ * syntax should not be considered to be a canonical or standard
+ * general-purpose mathematical expression syntax.  LibSBML provides methods
+ * for parsing and transforming text-string math formulas back and forth from
+ * AST structures for the convenience of calling applications, but it is
+ * important to keep the system's limitations in mind.
+ *
+ *
+ *
+ * @if conly
+ * @memberof ASTNode_t
+ * @endif
+ */ public
+ static string formulaToString(ASTNode tree) {
+    string ret = libsbmlPINVOKE.formulaToString(ASTNode.getCPtr(tree));
+    return ret;
+  }
+
+  
+/**
+ * Parses a text string as a mathematical formula and returns an AST
+ * representation of it.
+ *
+ * *
+ * 
+ * The text-string form of mathematical formulas read by the function
+ * @sbmlfunction{parseL3Formula, String} and written by the function
+ * @sbmlfunction{formulaToL3String, ASTNode} uses an expanded version of
+ * the syntax read and written by @sbmlfunction{parseFormula, String}
+ * and @sbmlfunction{formulaToString, ASTNode}, respectively.  The
+ * latter two libSBML functions were originally developed to support
+ * conversion between SBML Levels&nbsp;1 and&nbsp;2, and were focused on the
+ * syntax of mathematical formulas used in SBML Level&nbsp;1.  With time, and
+ * the use of MathML in SBML Levels&nbsp;2 and&nbsp;3, it became clear that
+ * supporting Level&nbsp;2 and&nbsp;3's expanded mathematical syntax would be
+ * useful for software developers.  To maintain backwards compatibility for
+ * libSBML users, the original @sbmlfunction{formulaToString, ASTNode}
+ * and @sbmlfunction{parseFormula, String} have been left untouched,
+ * and instead, the new functionality is provided in the form of
+ * @sbmlfunction{parseL3Formula, String} and
+ * @sbmlfunction{formulaToL3String, ASTNode}.
+ *
+ * The following lists the main differences in the formula syntax supported by
+ * the 'Level 3' or L3 versions of the formula parsers and formatters,
+ * compared to what is supported by the Level&nbsp;1-oriented
+ * @sbmlfunction{parseFormula, String} and
+ * @sbmlfunction{formulaToString, ASTNode}:
+ *
+ * @li Units may be asociated with bare numbers, using the following syntax:
+ * <div style='margin: 10px auto 10px 25px; display: block'>
+ * <span class='code' style='background-color: #d0d0ee'>number</span>
+ * <span class='code' style='background-color: #edd'>unit</span>
+ * </div>
+ * The <span class='code' style='background-color: #d0d0ee'>number</span>
+ * may be in any form (an integer, real, or rational
+ * number), and the
+ * <span class='code' style='background-color: #edd'>unit</span>
+ * must conform to the syntax of an SBML identifier (technically, the
+ * type defined as @c SId in the SBML specifications).  The whitespace between
+ * <span class='code' style='background-color: #d0d0ee'>number</span>
+ * and <span class='code' style='background-color: #edd'>unit</span>
+ * is optional.
+ *
+ * @li The Boolean function symbols @c &&, @c ||, @c !, and @c != may be
+ * used.
+ *
+ * @li The @em modulo operation is allowed as the symbol @c @% and will
+ * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
+ * MathML output.
+ *
+ * @li All inverse trigonometric functions may be defined in the infix either
+ * using @c arc as a prefix or simply @c a; in other words, both @c arccsc
+ * and @c acsc are interpreted as the operator @em arccosecant as defined in
+ * MathML&nbsp;2.0.  (Many functions in the simpler SBML Level&nbsp;1
+ * oriented parser implemented by @sbmlfunction{parseFormula, String}
+ * are defined this way as well, but not all.)
+ *
+ * @li The following expression is parsed as a rational number instead of
+ * as a numerical division:
+ * <pre style='display: block; margin-left: 25px'>
+ * (<span class='code' style='background-color: #d0d0ee'>integer</span>/<span class='code' style='background-color: #d0d0ee'>integer</span>)</pre>
+ * <strong>Spaces are not allowed</strong> in this construct; in other words,
+ * &quot;<code>(3 / 4)</code>&quot; (with whitespace between the numbers and
+ * the operator) will be parsed into the MathML <code>&lt;divide&gt;</code>
+ * construct rather than a rational number.  You can, however, assign units to a
+ * rational number as a whole; here is an example: &quot;<code>(3/4) ml</code>&quot;.
+ * (In the case of division rather than a rational number, units are not interpreted
+ * in this way.)
+ *
+ * @li Various parser and formatter behaviors may be altered through the use
+ * of a L3ParserSettings object in conjunction with the functions
+ * @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings} and
+ * @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+ * The settings available include the following:
+ * <ul style='list-style-type: circle'>
+ *
+ * <li style='margin-bottom: 0.5em'> The function @c log with a single
+ * argument (&quot;<code>log(x)</code>&quot;) can be parsed as
+ * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
+ * desired.
+ *
+ * <li style='margin-bottom: 0.5em'> Unary minus signs can be collapsed or
+ * preserved; that is, sequential pairs of unary minuses (e.g., &quot;<code>-
+ * -3</code>&quot;) can be removed from the input entirely and single unary
+ * minuses can be incorporated into the number node, or all minuses can be
+ * preserved in the AST node structure.
+ *
+ * <li style='margin-bottom: 0.5em'> Parsing of units embedded in the input
+ * string can be turned on and off.
+ *
+ * <li style='margin-bottom: 0.5em'> The string @c avogadro can be parsed as
+ * a MathML @em csymbol or as an identifier.
+ *
+ * <li style='margin-bottom: 0.5em'> A Model object may optionally be
+ * provided to the parser using the variant function call
+ * @sbmlfunction{parseL3FormulaWithModel, String\, Model} or
+ * stored in a L3ParserSettings object passed to the variant function
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}.  When a Model object is provided, identifiers
+ * (values of type @c SId) from that model are used in preference to
+ * pre-defined MathML definitions for both symbols and functions.
+ * More precisely:
+ * <ul style='list-style-type: square'>
+ *
+ * <li style='margin-bottom: 0.5em'> <em>In the case of symbols</em>: the
+ * Model entities whose identifiers will shadow identical symbols in the
+ * mathematical formula are: Species, Compartment, Parameter, Reaction, and
+ * SpeciesReference.  For instance, if the parser is given a Model containing
+ * a Species with the identifier &quot;<code>pi</code>&quot;, and the formula
+ * to be parsed is &quot;<code>3*pi</code>&quot;, the MathML produced will
+ * contain the construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of
+ * the construct <code>&lt;pi/&gt;</code>.
+ *
+ * <li style='margin-bottom: 0.5em'> <em>In the case of user-defined
+ * functions</em>: when a Model object is provided, @c SId values of
+ * user-defined functions present in the model will be used preferentially
+ * over pre-defined MathML functions.  For example, if the passed-in Model
+ * contains a FunctionDefinition object with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
+ * </ul>
+ *
+ * <li style='margin-bottom: 0.5em'> An SBMLNamespaces object may optionally
+ * be provided to identify SBML Level&nbsp;3 packages that extend the
+ * syntax understood by the formula parser.  When the namespaces are provided,
+ * the parser will interpret possible additional syntax defined by the libSBML
+ * plug-ins implementing the SBML Level&nbsp;3 packages; for example, it may
+ * understand vector/array extensions introduced by the SBML Level&nbsp;3 @em
+ * Arrays package.
+ * </ul>
+ *
+ * These configuration settings cannot be changed directly using the basic
+ * parser and formatter functions, but @em can be changed on a per-call basis
+ * by using the alternative functions @sbmlfunction{parseL3FormulaWithSettings,
+ * String\, L3ParserSettings} and
+ * @sbmlfunction{formulaToL3StringWithSettings, ASTNode\,
+ * L3ParserSettings}.
+ *
+ * Neither SBML nor the MathML standard define a 'string-form' equivalent to
+ * MathML expressions.  The approach taken by libSBML is to start with the
+ * formula syntax defined by SBML Level&nbsp;1 (which in fact used a custom
+ * text-string representation of formulas, and not MathML), and expand it to
+ * include the functionality described above.  This formula syntax is based
+ * mostly on C programming syntax, and may contain operators, function calls,
+ * symbols, and white space characters.  The following table provides the
+ * precedence rules for the different entities that may appear in formula
+ * strings.
+ *
+ * @htmlinclude math-precedence-table-l3.html
+ *
+ * In the table above, @em operand implies the construct is an operand, @em
+ * prefix implies the operation is applied to the following arguments, @em
+ * unary implies there is one argument, and @em binary implies there are
+ * two arguments.  The values in the <b>Precedence</b> column show how the
+ * order of different types of operation are determined.  For example, the
+ * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code>
+ * because the @c * operator has higher precedence.  The
+ * <b>Associates</b> column shows how the order of similar precedence
+ * operations is determined; for example, <code>a && b || c</code> is
+ * evaluated as <code>(a && b) || c</code> because the @c && and @c ||
+ * operators are left-associative and have the same precedence.
+ *
+ * The function call syntax consists of a function name, followed by optional
+ * white space, followed by an opening parenthesis token, followed by a
+ * sequence of zero or more arguments separated by commas (with each comma
+ * optionally preceded and/or followed by zero or more white space
+ * characters), followed by a closing parenthesis token.  The function name
+ * must be chosen from one of the pre-defined functions in SBML or a
+ * user-defined function in the model.  The following table lists the names
+ * of certain common mathematical functions; this table corresponds to
+ * Table&nbsp;6 in the <a target='_blank'
+ * href='http://sbml.org/Documents/Specifications#SBML_Level_1_Version_2'>SBML
+ * Level&nbsp;1 Version&nbsp;2 specification</a> with additions based on the
+ * functions added in SBML Level 2 and Level 3:
+ *
+ * @htmlinclude string-functions-table-l3.html
+ *
+ * Parsing of the various MathML functions and constants are all
+ * case-insensitive by default: function names such as <code>cos</code>,
+ * <code>Cos</code> and <code>COS</code> are all parsed as the MathML cosine
+ * operator, <code>&lt;cos&gt;</code>.  However, <em>when a Model object is
+ * used</em> in conjunction with either
+ * @sbmlfunction{parseL3FormulaWithModel, String\, Model} or
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}, any identifiers found in that model will be
+ * parsed in a case-<em>sensitive</em> way.  For example, if a model contains
+ * a Species having the identifier <code>Pi</code>, the parser will parse
+ * &quot;<code>Pi</code>&quot; in the input as &quot;<code>&lt;ci&gt; Pi
+ * &lt;/ci&gt;</code>&quot; but will continue to parse the symbols
+ * &quot;<code>pi</code>&quot; and &quot;<code>PI</code>&quot; as
+ * &quot;<code>&lt;pi&gt;</code>&quot;.
+ *
+ * As mentioned above, the manner in which the 'L3' versions of the formula
+ * parser and formatter interpret the function &quot;<code>log</code>&quot;
+ * can be changed.  To do so, callers should use the function
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings} and pass it an appropriate L3ParserSettings
+ * object.  By default, unlike the SBML Level&nbsp;1 parser implemented by
+ * @sbmlfunction{parseFormula, String}, the string
+ * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
+ * and @em not as the natural logarithm.  However, you can change the
+ * interpretation to be base-10 log, natural log, or as an error; since the
+ * name 'log' by itself is ambiguous, you require that the parser uses @c
+ * log10 or @c ln instead, which are more clear.  Please refer to
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}.
+ *
+ * In addition, the following symbols will be translated to their MathML
+ * equivalents, if no symbol with the same @c SId identifier string exists
+ * in the Model object provided:
+ *
+ * @htmlinclude string-values-table-l3.html
+ *
+ * Again, as mentioned above, whether the string
+ * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
+ * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
+ * @link libsbmlcs#AST_NAME AST_NAME@endlink is configurable; use the version of
+ * the parser function called @sbmlfunction{parseL3FormulaWithSettings,
+ * String\, L3ParserSettings}.  This Avogadro-related
+ * functionality is provided because SBML Level&nbsp;2 models may not use
+ * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
+ *
+ *
+ *
  * @param formula the text-string formula expression to be parsed
  *
- * @return the root node of an AST representing the mathematical formula,
- * or @c null if an error occurred while parsing the formula.  When @c null
- * is returned, an error is recorded internally; information about the
- * error can be retrieved using 
- * @if clike SBML_getLastParseL3Error()@endif@if csharp SBML_getLastParseL3Error()@endif@if python libsbml.getLastParseL3Error()@endif@if java <code><a href='libsbml.html#getLastParseL3Error()'>libsbml.getLastParseL3Error()</a></code>@endif.
+ * @return the root node of an AST representing the mathematical formula, or
+ * @c null if an error occurred while parsing the formula.  When @c null is
+ * returned, an error is recorded internally; information about the error can
+ * be retrieved using @sbmlfunction{getLastParseL3Error,}.
  *
- * @if clike @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_formulaToL3String()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if csharp @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_formulaToL3String()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if python @see libsbml.formulaToString()
- * @see libsbml.formulaToL3String()
- * @see libsbml.parseL3FormulaWithSettings()
- * @see libsbml.parseL3Formula()
- * @see libsbml.parseL3FormulaWithModel()
- * @see libsbml.getLastParseL3Error()
- * @see libsbml.getDefaultL3ParserSettings()
- * @endif
- * @if java @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
- * @endif
+ * @see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+ * @see @sbmlfunction{parseFormula, String}
+ * @see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+ * @see @sbmlfunction{formulaToL3String, ASTNode}
+ * @see @sbmlfunction{formulaToString, ASTNode}
+ * @see L3ParserSettings
+ * @see @sbmlfunction{getDefaultL3ParserSettings,}
+ * @see @sbmlfunction{getLastParseL3Error,}
+ *
+ * *
+ * @note We urge developers to keep in mind that the text-string formula
+ * syntax is specific to libSBML.  <em>Neither MathML nor SBML define a
+ * text-string format for mathematical formulas.</em> LibSBML's particular
+ * syntax should not be considered to be a canonical or standard
+ * general-purpose mathematical expression syntax.  LibSBML provides methods
+ * for parsing and transforming text-string math formulas back and forth from
+ * AST structures for the convenience of calling applications, but it is
+ * important to keep the system's limitations in mind.
+ *
+ *
  *
  * @if conly
  * @memberof ASTNode_t
@@ -1531,17 +2098,14 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
 
   
 /**
- * Parses the given mathematical formula using specific a specific Model to
- * resolve symbols, and returns an Abstract Syntax Tree (AST)
- * representation of the result.
+ * Parses a text string as a mathematical formula using a Model to resolve
+ * symbols, and returns an AST representation of the result.
  *
- * This is identical to
- * @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>@endif,
- * except that this function uses the given model in the argument @p model
- * to check against identifiers that appear in the @p formula.
- *
- * For more details about the parser, please see the definition of
- * the function @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>@endif.
+ * This is identical to @sbmlfunction{parseL3Formula, String}, except
+ * that this function uses the given model in the argument @p model to check
+ * against identifiers that appear in the @p formula.  For more information
+ * about the parser, please see the definition of L3ParserSettings and
+ * the function @sbmlfunction{parseL3Formula, String}.
  *
  * @param formula the mathematical formula expression to be parsed
  *
@@ -1550,33 +2114,14 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
  * @return the root node of an AST representing the mathematical formula,
  * or @c null if an error occurred while parsing the formula.  When @c null
  * is returned, an error is recorded internally; information about the
- * error can be retrieved using
- * @if clike SBML_getLastParseL3Error()@endif@if csharp SBML_getLastParseL3Error()@endif@if python libsbml.getLastParseL3Error()@endif@if java <code><a href='libsbml.html#getLastParseL3Error()'>libsbml.getLastParseL3Error()</a></code>@endif.
- * 
- * @if clike @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if csharp @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if python @see libsbml.formulaToString()
- * @see libsbml.parseL3FormulaWithSettings()
- * @see libsbml.parseL3Formula()
- * @see libsbml.getLastParseL3Error()
- * @see libsbml.getDefaultL3ParserSettings()
- * @endif
- * @if java @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
- * @endif
+ * error can be retrieved using @sbmlfunction{getLastParseL3Error,}.
+ *
+ * @see @sbmlfunction{parseL3Formula, String}
+ * @see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+ * @see @sbmlfunction{parseFormula, String}
+ * @see @sbmlfunction{getLastParseL3Error,}
+ * @see L3ParserSettings
  *
  * @if conly
  * @memberof ASTNode_t
@@ -1590,46 +2135,66 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
 
   
 /**
- * Parses the given mathematical formula using specific parser settings and
- * returns an Abstract Syntax Tree (AST) representation of the result.
+ * Parses a text string as a mathematical formula using specific parser
+ * settings and returns an AST representation of the result.
  *
- * This is identical to
- @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>@endif,
- * except that this function uses the parser settings given in the argument
- * @p settings.  The settings override the default parsing behavior.
+ * This is identical to @sbmlfunction{parseL3Formula, String}, except
+ * that this function uses the parser settings given in the argument @p
+ * settings.  The settings override the default parsing behavior.  The
+ * following parsing behaviors can be configured:
  *
- * The parameter @p settings allows callers to change the following parsing
- * behaviors:
- *
- * @li Use a specific Model object against which identifiers to compare
- * identifiers.  This causes the parser to search the Model for identifiers
- * that the parser encounters in the formula.  If a given symbol in the
- * formula matches the identifier of a Species, Compartment, Parameter,
- * Reaction, SpeciesReference or FunctionDefinition in the Model, then the
- * symbol is assumed to refer to that model entity instead of any possible
- * mathematical terms with the same symbol.  For example, if the parser is
- * given a Model containing a Species with the identifier
+ * *
+ * @li A Model object may optionally be provided to use identifiers (values
+ * of type @c SId) from the model in preference to pre-defined MathML symbols
+ * More precisely, the Model entities whose identifiers will shadow identical
+ * symbols in the mathematical formula are: Species, Compartment, Parameter,
+ * Reaction, and SpeciesReference.  For instance, if the parser is given a
+ * Model containing a Species with the identifier
  * &quot;<code>pi</code>&quot;, and the formula to be parsed is
- * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
- * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the
- * construct <code>&lt;pi/&gt;</code>.
- * @li Whether to parse &quot;<code>log(x)</code>&quot; with a single
- * argument as the base 10
- * logarithm of x, the natural logarithm of x, or treat the case as an
- * error.
- * @li Whether to parse &quot;<code>number id</code>&quot; by interpreting
- * @c id as the identifier of a unit of measurement associated with the
- * number, or whether to treat the case as an error.
- * @li Whether to parse &quot;<code>avogadro</code>&quot; as an ASTNode of
- * type @link libsbmlcs.libsbml.AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
- * as type @link libsbmlcs.libsbml.AST_NAME AST_NAME@endlink.
- * @li Whether to always create explicit ASTNodes of type @link
- * libsbmlcs.libsbml.AST_MINUS AST_MINUS@endlink for all unary minuses, or
- * collapse and remove minuses where possible.
+ * &quot;<code>3*pi</code>&quot;, the MathML produced by the parser will
+ * contain the construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of
+ * the construct <code>&lt;pi/&gt;</code>.  Another example, if the passed-in
+ * Model contains a FunctionDefinition with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
+ * @li The function @c log with a single argument
+ * (&quot;<code>log(x)</code>&quot;) can be parsed as <code>log10(x)</code>,
+ * <code>ln(x)</code>, or treated as an error, as desired.
+ * @li Unary minus signs can be either collapsed or preserved; that is, the
+ * parser can either (1) remove sequential pairs of unary minuses (e.g.,
+ * &quot;<code>- -3</code>&quot;) from the input and incorporate single unary
+ * minuses into the number node, or (2) preserve all minuses in the AST node
+ * structure, turning them into ASTNode objects of type
+ * @link libsbmlcs#AST_MINUS AST_MINUS@endlink.
+ * @li The character sequence &quot;<code>number id</code>&quot; can be
+ * interpreted as a numerical value @c number followed by units of measurement
+ * indicated by @c id, or it can be treated as a syntax error.  (In
+ * Level&nbsp;3, MathML <code>&lt;cn&gt;</code> elements can have an
+ * attribute named @c units placed in the SBML namespace, which can be used
+ * to indicate the units to be associated with the number.  The text-string
+ * infix formula parser allows units to be placed after raw numbers; they are
+ * interpreted as unit identifiers for units defined by the SBML
+ * specification or in the containing Model object.)
+ * @li The symbol @c avogadro can be parsed either as a MathML @em csymbol or
+ * as a identifier.  More specifically, &quot;<code>avogadro</code>&quot; can
+ * be treated as an ASTNode of type
+ * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or of type
+ * @link libsbmlcs#AST_NAME AST_NAME@endlink.
+ * @li Strings that match built-in functions and constants can either be parsed
+ * as a match regardless of capitalization, or may be required to be
+ * all-lower-case to be considered a match.  
+ * @li LibSBML plug-ins implementing support for SBML Level&nbsp;3 packages
+ * may introduce extensions to the syntax understood by the parser.  The
+ * precise nature of the extensions will be documented by the individual
+ * package plug-ins.  An example of a possible extension is a notation for
+ * vectors and arrays, introduced by the SBML Level&nbsp;3 @em Arrays
+ * package.
+ *
+ *
  *
  * For more details about the parser, please see the definition of
- * L3ParserSettings and
- * @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>@endif.
+ * L3ParserSettings and @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}.
  *
  * @param formula the mathematical formula expression to be parsed
  *
@@ -1638,33 +2203,14 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
  * @return the root node of an AST representing the mathematical formula,
  * or @c null if an error occurred while parsing the formula.  When @c null
  * is returned, an error is recorded internally; information about the
- * error can be retrieved using
- * @if clike SBML_getLastParseL3Error()@endif@if csharp SBML_getLastParseL3Error()@endif@if python libsbml.getLastParseL3Error()@endif@if java <code><a href='libsbml.html#getLastParseL3Error()'>libsbml.getLastParseL3Error()</a></code>@endif.
- * 
- * @if clike @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if csharp @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if python @see libsbml.formulaToString()
- * @see libsbml.parseL3Formula()
- * @see libsbml.parseL3FormulaWithModel()
- * @see libsbml.getLastParseL3Error()
- * @see libsbml.getDefaultL3ParserSettings()
- * @endif
- * @if java @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
- * @endif
+ * error can be retrieved using @sbmlfunction{getLastParseL3Error,}.
+ *
+ * @see @sbmlfunction{parseL3Formula, String}
+ * @see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+ * @see @sbmlfunction{parseFormula, String}
+ * @see @sbmlfunction{getLastParseL3Error,}
+ * @see L3ParserSettings
  *
  * @if conly
  * @memberof ASTNode_t
@@ -1678,65 +2224,239 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
 
   
 /**
- * Returns a copy of the default parser settings used by @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>@endif.
+ * Returns a copy of the default Level&nbsp;3 ('L3') formula parser settings.
+ *
+ * The data structure storing the settings allows callers to change the
+ * following parsing behaviors:
+ *
+ * *
  * 
- * The settings structure allows callers to change the following parsing
- * behaviors:
- * 
- * @li Use a specific Model object against which identifiers to compare
- * identifiers.  This causes the parser to search the Model for identifiers
- * that the parser encounters in the formula.  If a given symbol in the
- * formula matches the identifier of a Species, Compartment, Parameter,
- * Reaction, SpeciesReference or FunctionDefinition in the Model, then the
- * symbol is assumed to refer to that model entity instead of any possible
- * mathematical terms with the same symbol.  For example, if the parser is
- * given a Model containing a Species with the identifier
- * &quot;<code>pi</code>&quot;, and the formula to be parsed is
- * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
- * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the
- * construct <code>&lt;pi/&gt;</code>.
- * @li Whether to parse &quot;<code>log(x)</code>&quot; with a single
- * argument as the base 10
- * logarithm of x, the natural logarithm of x, or treat the case as an
- * error.
- * @li Whether to parse &quot;<code>number id</code>&quot; by interpreting
- * @c id as the identifier of a unit of measurement associated with the
- * number, or whether to treat the case as an error.
- * @li Whether to parse &quot;<code>avogadro</code>&quot; as an ASTNode of
- * type @link libsbmlcs.libsbml.AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
- * as type @link libsbmlcs.libsbml.AST_NAME AST_NAME@endlink.
- * @li Whether to always create explicit ASTNodes of type @link
- * libsbmlcs.libsbml.AST_MINUS AST_MINUS@endlink for all unary minuses, or
- * collapse and remove minuses where possible.
+ * The text-string form of mathematical formulas read by the function
+ * @sbmlfunction{parseL3Formula, String} and written by the function
+ * @sbmlfunction{formulaToL3String, ASTNode} uses an expanded version of
+ * the syntax read and written by @sbmlfunction{parseFormula, String}
+ * and @sbmlfunction{formulaToString, ASTNode}, respectively.  The
+ * latter two libSBML functions were originally developed to support
+ * conversion between SBML Levels&nbsp;1 and&nbsp;2, and were focused on the
+ * syntax of mathematical formulas used in SBML Level&nbsp;1.  With time, and
+ * the use of MathML in SBML Levels&nbsp;2 and&nbsp;3, it became clear that
+ * supporting Level&nbsp;2 and&nbsp;3's expanded mathematical syntax would be
+ * useful for software developers.  To maintain backwards compatibility for
+ * libSBML users, the original @sbmlfunction{formulaToString, ASTNode}
+ * and @sbmlfunction{parseFormula, String} have been left untouched,
+ * and instead, the new functionality is provided in the form of
+ * @sbmlfunction{parseL3Formula, String} and
+ * @sbmlfunction{formulaToL3String, ASTNode}.
+ *
+ * The following lists the main differences in the formula syntax supported by
+ * the 'Level 3' or L3 versions of the formula parsers and formatters,
+ * compared to what is supported by the Level&nbsp;1-oriented
+ * @sbmlfunction{parseFormula, String} and
+ * @sbmlfunction{formulaToString, ASTNode}:
+ *
+ * @li Units may be asociated with bare numbers, using the following syntax:
+ * <div style='margin: 10px auto 10px 25px; display: block'>
+ * <span class='code' style='background-color: #d0d0ee'>number</span>
+ * <span class='code' style='background-color: #edd'>unit</span>
+ * </div>
+ * The <span class='code' style='background-color: #d0d0ee'>number</span>
+ * may be in any form (an integer, real, or rational
+ * number), and the
+ * <span class='code' style='background-color: #edd'>unit</span>
+ * must conform to the syntax of an SBML identifier (technically, the
+ * type defined as @c SId in the SBML specifications).  The whitespace between
+ * <span class='code' style='background-color: #d0d0ee'>number</span>
+ * and <span class='code' style='background-color: #edd'>unit</span>
+ * is optional.
+ *
+ * @li The Boolean function symbols @c &&, @c ||, @c !, and @c != may be
+ * used.
+ *
+ * @li The @em modulo operation is allowed as the symbol @c @% and will
+ * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
+ * MathML output.
+ *
+ * @li All inverse trigonometric functions may be defined in the infix either
+ * using @c arc as a prefix or simply @c a; in other words, both @c arccsc
+ * and @c acsc are interpreted as the operator @em arccosecant as defined in
+ * MathML&nbsp;2.0.  (Many functions in the simpler SBML Level&nbsp;1
+ * oriented parser implemented by @sbmlfunction{parseFormula, String}
+ * are defined this way as well, but not all.)
+ *
+ * @li The following expression is parsed as a rational number instead of
+ * as a numerical division:
+ * <pre style='display: block; margin-left: 25px'>
+ * (<span class='code' style='background-color: #d0d0ee'>integer</span>/<span class='code' style='background-color: #d0d0ee'>integer</span>)</pre>
+ * <strong>Spaces are not allowed</strong> in this construct; in other words,
+ * &quot;<code>(3 / 4)</code>&quot; (with whitespace between the numbers and
+ * the operator) will be parsed into the MathML <code>&lt;divide&gt;</code>
+ * construct rather than a rational number.  You can, however, assign units to a
+ * rational number as a whole; here is an example: &quot;<code>(3/4) ml</code>&quot;.
+ * (In the case of division rather than a rational number, units are not interpreted
+ * in this way.)
+ *
+ * @li Various parser and formatter behaviors may be altered through the use
+ * of a L3ParserSettings object in conjunction with the functions
+ * @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings} and
+ * @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+ * The settings available include the following:
+ * <ul style='list-style-type: circle'>
+ *
+ * <li style='margin-bottom: 0.5em'> The function @c log with a single
+ * argument (&quot;<code>log(x)</code>&quot;) can be parsed as
+ * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
+ * desired.
+ *
+ * <li style='margin-bottom: 0.5em'> Unary minus signs can be collapsed or
+ * preserved; that is, sequential pairs of unary minuses (e.g., &quot;<code>-
+ * -3</code>&quot;) can be removed from the input entirely and single unary
+ * minuses can be incorporated into the number node, or all minuses can be
+ * preserved in the AST node structure.
+ *
+ * <li style='margin-bottom: 0.5em'> Parsing of units embedded in the input
+ * string can be turned on and off.
+ *
+ * <li style='margin-bottom: 0.5em'> The string @c avogadro can be parsed as
+ * a MathML @em csymbol or as an identifier.
+ *
+ * <li style='margin-bottom: 0.5em'> A Model object may optionally be
+ * provided to the parser using the variant function call
+ * @sbmlfunction{parseL3FormulaWithModel, String\, Model} or
+ * stored in a L3ParserSettings object passed to the variant function
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}.  When a Model object is provided, identifiers
+ * (values of type @c SId) from that model are used in preference to
+ * pre-defined MathML definitions for both symbols and functions.
+ * More precisely:
+ * <ul style='list-style-type: square'>
+ *
+ * <li style='margin-bottom: 0.5em'> <em>In the case of symbols</em>: the
+ * Model entities whose identifiers will shadow identical symbols in the
+ * mathematical formula are: Species, Compartment, Parameter, Reaction, and
+ * SpeciesReference.  For instance, if the parser is given a Model containing
+ * a Species with the identifier &quot;<code>pi</code>&quot;, and the formula
+ * to be parsed is &quot;<code>3*pi</code>&quot;, the MathML produced will
+ * contain the construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of
+ * the construct <code>&lt;pi/&gt;</code>.
+ *
+ * <li style='margin-bottom: 0.5em'> <em>In the case of user-defined
+ * functions</em>: when a Model object is provided, @c SId values of
+ * user-defined functions present in the model will be used preferentially
+ * over pre-defined MathML functions.  For example, if the passed-in Model
+ * contains a FunctionDefinition object with the identifier
+ * &quot;<code>sin</code>&quot;, that function will be used instead of the
+ * predefined MathML function <code>&lt;sin/&gt;</code>.
+ * </ul>
+ *
+ * <li style='margin-bottom: 0.5em'> An SBMLNamespaces object may optionally
+ * be provided to identify SBML Level&nbsp;3 packages that extend the
+ * syntax understood by the formula parser.  When the namespaces are provided,
+ * the parser will interpret possible additional syntax defined by the libSBML
+ * plug-ins implementing the SBML Level&nbsp;3 packages; for example, it may
+ * understand vector/array extensions introduced by the SBML Level&nbsp;3 @em
+ * Arrays package.
+ * </ul>
+ *
+ * These configuration settings cannot be changed directly using the basic
+ * parser and formatter functions, but @em can be changed on a per-call basis
+ * by using the alternative functions @sbmlfunction{parseL3FormulaWithSettings,
+ * String\, L3ParserSettings} and
+ * @sbmlfunction{formulaToL3StringWithSettings, ASTNode\,
+ * L3ParserSettings}.
+ *
+ * Neither SBML nor the MathML standard define a 'string-form' equivalent to
+ * MathML expressions.  The approach taken by libSBML is to start with the
+ * formula syntax defined by SBML Level&nbsp;1 (which in fact used a custom
+ * text-string representation of formulas, and not MathML), and expand it to
+ * include the functionality described above.  This formula syntax is based
+ * mostly on C programming syntax, and may contain operators, function calls,
+ * symbols, and white space characters.  The following table provides the
+ * precedence rules for the different entities that may appear in formula
+ * strings.
+ *
+ * @htmlinclude math-precedence-table-l3.html
+ *
+ * In the table above, @em operand implies the construct is an operand, @em
+ * prefix implies the operation is applied to the following arguments, @em
+ * unary implies there is one argument, and @em binary implies there are
+ * two arguments.  The values in the <b>Precedence</b> column show how the
+ * order of different types of operation are determined.  For example, the
+ * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code>
+ * because the @c * operator has higher precedence.  The
+ * <b>Associates</b> column shows how the order of similar precedence
+ * operations is determined; for example, <code>a && b || c</code> is
+ * evaluated as <code>(a && b) || c</code> because the @c && and @c ||
+ * operators are left-associative and have the same precedence.
+ *
+ * The function call syntax consists of a function name, followed by optional
+ * white space, followed by an opening parenthesis token, followed by a
+ * sequence of zero or more arguments separated by commas (with each comma
+ * optionally preceded and/or followed by zero or more white space
+ * characters), followed by a closing parenthesis token.  The function name
+ * must be chosen from one of the pre-defined functions in SBML or a
+ * user-defined function in the model.  The following table lists the names
+ * of certain common mathematical functions; this table corresponds to
+ * Table&nbsp;6 in the <a target='_blank'
+ * href='http://sbml.org/Documents/Specifications#SBML_Level_1_Version_2'>SBML
+ * Level&nbsp;1 Version&nbsp;2 specification</a> with additions based on the
+ * functions added in SBML Level 2 and Level 3:
+ *
+ * @htmlinclude string-functions-table-l3.html
+ *
+ * Parsing of the various MathML functions and constants are all
+ * case-insensitive by default: function names such as <code>cos</code>,
+ * <code>Cos</code> and <code>COS</code> are all parsed as the MathML cosine
+ * operator, <code>&lt;cos&gt;</code>.  However, <em>when a Model object is
+ * used</em> in conjunction with either
+ * @sbmlfunction{parseL3FormulaWithModel, String\, Model} or
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}, any identifiers found in that model will be
+ * parsed in a case-<em>sensitive</em> way.  For example, if a model contains
+ * a Species having the identifier <code>Pi</code>, the parser will parse
+ * &quot;<code>Pi</code>&quot; in the input as &quot;<code>&lt;ci&gt; Pi
+ * &lt;/ci&gt;</code>&quot; but will continue to parse the symbols
+ * &quot;<code>pi</code>&quot; and &quot;<code>PI</code>&quot; as
+ * &quot;<code>&lt;pi&gt;</code>&quot;.
+ *
+ * As mentioned above, the manner in which the 'L3' versions of the formula
+ * parser and formatter interpret the function &quot;<code>log</code>&quot;
+ * can be changed.  To do so, callers should use the function
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings} and pass it an appropriate L3ParserSettings
+ * object.  By default, unlike the SBML Level&nbsp;1 parser implemented by
+ * @sbmlfunction{parseFormula, String}, the string
+ * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
+ * and @em not as the natural logarithm.  However, you can change the
+ * interpretation to be base-10 log, natural log, or as an error; since the
+ * name 'log' by itself is ambiguous, you require that the parser uses @c
+ * log10 or @c ln instead, which are more clear.  Please refer to
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}.
+ *
+ * In addition, the following symbols will be translated to their MathML
+ * equivalents, if no symbol with the same @c SId identifier string exists
+ * in the Model object provided:
+ *
+ * @htmlinclude string-values-table-l3.html
+ *
+ * Again, as mentioned above, whether the string
+ * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
+ * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
+ * @link libsbmlcs#AST_NAME AST_NAME@endlink is configurable; use the version of
+ * the parser function called @sbmlfunction{parseL3FormulaWithSettings,
+ * String\, L3ParserSettings}.  This Avogadro-related
+ * functionality is provided because SBML Level&nbsp;2 models may not use
+ * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
+ *
+ *
  *
  * For more details about the parser, please see the definition of
- * L3ParserSettings and
- * @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>@endif.
- * 
- * @if clike @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @endif
- * @if csharp @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getLastParseL3Error()
- * @endif
- * @if python @see libsbml.formulaToString()
- * @see libsbml.parseL3FormulaWithSettings()
- * @see libsbml.parseL3Formula()
- * @see libsbml.parseL3FormulaWithModel()
- * @see libsbml.getLastParseL3Error()
- * @endif
- * @if java @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getLastParseL3Error()'>getLastParseL3Error()</a></code>
- * @endif
+ * L3ParserSettings and @sbmlfunction{parseL3Formula, String}.
+ *
+ * @see @sbmlfunction{parseL3Formula, String}
+ * @see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+ * @see @sbmlfunction{formulaToL3StringWithSettings, ASTNode\, L3ParserSettings}
+ * @see L3ParserSettings
  *
  * @if conly
  * @memberof L3ParserSettings_t
@@ -1750,41 +2470,22 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
 
   
 /**
- * Returns the last error reported by the parser.
+ * Returns the last error reported by the 'L3' mathematical formula parser.
  *
- * If @if clike SBML_parseL3Formula()@endif@if csharp SBML_parseL3Formula()@endif@if python libsbml.parseL3Formula()@endif@if java <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>@endif, 
- * @if clike SBML_parseL3FormulaWithSettings()@endif@if csharp SBML_parseL3FormulaWithSettings()@endif@if python libsbml.parseL3FormulaWithSettings()@endif@if java <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>@endif, or
- * @if clike SBML_parseL3FormulaWithModel()@endif@if csharp SBML_parseL3FormulaWithModel()@endif@if python libsbml.parseL3FormulaWithModel()@endif@if java <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>libsbml.parseL3FormulaWithModel(String formula, Model model)</a></code>@endif return @c null, an error is set internally which is accessible
- * via this function. 
+ * If the functions @sbmlfunction{parseL3Formula, String},
+ * @sbmlfunction{parseL3FormulaWithSettings, String\,
+ * L3ParserSettings}, or @sbmlfunction{parseL3FormulaWithModel,
+ * String\, Model} return @c null, an error is set internally.
+ * This function allows callers to retrieve information about the error.
  *
  * @return a string describing the error that occurred.  This will contain
- * the string the parser was trying to parse, which character it had parsed
- * when it encountered the error, and a description of the error.
+ * the input string the parser was trying to parse, the character it had
+ * parsed when it encountered the error, and a description of the error.
  *
- * @if clike @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if csharp @see libsbmlcs.libsbml.formulaToString()
- * @see SBML_parseL3FormulaWithSettings()
- * @see SBML_parseL3Formula()
- * @see SBML_parseL3FormulaWithModel()
- * @see SBML_getDefaultL3ParserSettings()
- * @endif
- * @if python @see libsbml.formulaToString()
- * @see libsbml.parseL3FormulaWithSettings()
- * @see libsbml.parseL3Formula()
- * @see libsbml.parseL3FormulaWithModel()
- * @see libsbml.getDefaultL3ParserSettings()
- * @endif
- * @if java @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode tree)'>libsbml.formulaToString(ASTNode tree)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'>libsbml.parseL3FormulaWithSettings(String formula, L3ParserSettings settings)</a></code>
- * @see <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * @see <code><a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'>parseL3FormulaWithModel(String formula, Model model)</a></code>
- * @see <code><a href='libsbml.html#getDefaultL3ParserSettings()'>getDefaultL3ParserSettings()</a></code>
- * @endif
+ * @see @sbmlfunction{parseL3Formula, String}
+ * @see @sbmlfunction{parseL3FormulaWithSettings, String\, L3ParserSettings}
+ * @see @sbmlfunction{parseL3FormulaWithModel, String\, Model}
+ * @see @sbmlfunction{getDefaultL3ParserSettings,}
  *
  * @if conly
  * @memberof ASTNode_t
@@ -1795,9 +2496,9 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
     return ret;
   }
 
-  public const string LIBSBML_DOTTED_VERSION = "5.10.0";
-  public const int LIBSBML_VERSION = 51000;
-  public const string LIBSBML_VERSION_STRING = "51000";
+  public const string LIBSBML_DOTTED_VERSION = "5.10.2";
+  public const int LIBSBML_VERSION = 51002;
+  public const string LIBSBML_VERSION_STRING = "51002";
   // OperationReturnValues_t 
   public const int LIBSBML_OPERATION_SUCCESS = 0;
   public const int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -2561,6 +3262,13 @@ e><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula
   public const bool L3P_NO_UNITS = false;
   public const bool L3P_AVOGADRO_IS_CSYMBOL = true;
   public const bool L3P_AVOGADRO_IS_NAME = false;
+  public const bool L3P_COMPARE_BUILTINS_CASE_INSENSITIVE = false;
+  public const bool L3P_COMPARE_BUILTINS_CASE_SENSITIVE = true;
+  // L3ParserGrammarLineType_t 
+  public const int INFIX_SYNTAX_NAMED_SQUARE_BRACKETS = 0;
+  public const int INFIX_SYNTAX_CURLY_BRACES = INFIX_SYNTAX_NAMED_SQUARE_BRACKETS + 1;
+  public const int INFIX_SYNTAX_CURLY_BRACES_SEMICOLON = INFIX_SYNTAX_CURLY_BRACES + 1;
+
 }
 
 }

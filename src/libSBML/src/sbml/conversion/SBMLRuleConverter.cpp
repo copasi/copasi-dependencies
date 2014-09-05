@@ -63,7 +63,8 @@ void SBMLRuleConverter::init()
 }
 /** @endcond */
 
-SBMLRuleConverter::SBMLRuleConverter() : SBMLConverter()
+SBMLRuleConverter::SBMLRuleConverter() 
+  : SBMLConverter("SBML Rule Converter")
 {
 
 }
@@ -73,7 +74,7 @@ SBMLConverter(orig)
 {
 }
 
-SBMLConverter* 
+SBMLRuleConverter* 
 SBMLRuleConverter::clone() const
 {
   return new SBMLRuleConverter(*this);
@@ -88,12 +89,22 @@ SBMLRuleConverter::~SBMLRuleConverter ()
 
 
 ConversionProperties
-  SBMLRuleConverter::getDefaultProperties() const
+SBMLRuleConverter::getDefaultProperties() const
 {
   static ConversionProperties prop;
-  prop.addOption("sortRules", true,
+  static bool init = false;
+
+  if (init) 
+  {
+    return prop;
+  }
+  else
+  {
+    prop.addOption("sortRules", true,
                  "Sort AssignmentRules and InitialAssignments in the model");
-  return prop;
+    init = true;
+    return prop;
+  }
 }
 
 bool 

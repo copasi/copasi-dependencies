@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML Level&nbsp;2's ListOfCompartments
- * construct.
+ *  A list of {@link Compartment} objects.
  <p>
  * <p>
  * The various ListOf___ classes in SBML
@@ -130,9 +129,9 @@ public class ListOfCompartments extends ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this {@link ListOfCompartments} instance.
+   * Creates and returns a deep copy of this {@link ListOfCompartments} object.
    <p>
-   * @return a (deep) copy of this {@link ListOfCompartments}.
+   * @return the (deep) copy of this {@link ListOfCompartments} object.
    */ public
  ListOfCompartments cloneObject() {
     long cPtr = libsbmlJNI.ListOfCompartments_cloneObject(swigCPtr, this);
@@ -147,16 +146,16 @@ public class ListOfCompartments extends ListOf {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this {@link ListOf}
-   * instance: {@link  libsbmlConstants#SBML_COMPARTMENT SBML_COMPARTMENT} (default).
+   * instance: {@link libsbmlConstants#SBML_COMPARTMENT SBML_COMPARTMENT} (default).
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -169,9 +168,10 @@ public class ListOfCompartments extends ListOf {
 /**
    * Returns the XML element name of this object.
    <p>
-   * For {@link ListOfCompartments}, the XML element name is <code>'listOfCompartments'.</code>
+   * For {@link ListOfCompartments}, the XML element name is always
+   * <code>'listOfCompartments'.</code>
    <p>
-   * @return the name of this element, i.e., <code>'listOfCompartments'.</code>
+   * @return the name of this element.
    */ public
  String getElementName() {
     return libsbmlJNI.ListOfCompartments_getElementName(swigCPtr, this);
@@ -179,11 +179,11 @@ public class ListOfCompartments extends ListOf {
 
   
 /**
-   * Get a {@link Compartment} from the {@link ListOfCompartments}.
+   * Get a {@link Compartment} object from the {@link ListOfCompartments}.
    <p>
-   * @param n the index number of the {@link Compartment} to get.
+   * @param n the index number of the {@link Compartment} object to get.
    <p>
-   * @return the nth {@link Compartment} in this {@link ListOfCompartments}.
+   * @return the nth {@link Compartment} object in this {@link ListOfCompartments}.
    <p>
    * @see #size()
    */ public
@@ -194,15 +194,15 @@ public class ListOfCompartments extends ListOf {
 
   
 /**
-   * Get a {@link Compartment} from the {@link ListOfCompartments}
+   * Get a {@link Compartment} object from the {@link ListOfCompartments}
    * based on its identifier.
    <p>
-   * @param sid a string representing the identifier 
-   * of the {@link Compartment} to get.
+   * @param sid a string representing the identifier
+   * of the {@link Compartment} object to get.
    <p>
-   * @return {@link Compartment} in this {@link ListOfCompartments}
+   * @return {@link Compartment} object in this {@link ListOfCompartments}
    * with the given <code>sid</code> or <code>null</code> if no such
-   * {@link Compartment} exists.
+   * {@link Compartment} object exists.
    <p>
    * @see #get(long n)
    * @see #size()

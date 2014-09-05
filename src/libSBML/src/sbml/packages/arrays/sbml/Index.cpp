@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2013-2014 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *     3. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -44,8 +49,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 Index::Index (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
    ,mReferencedAttribute ("")
-   ,mDim (SBML_INT_MAX)
-   ,mIsSetDim (false)
+   ,mArrayDimension (SBML_INT_MAX)
+   ,mIsSetArrayDimension (false)
    ,mMath (NULL)
 {
   // set an SBMLNamespaces derived object of this package
@@ -62,8 +67,8 @@ Index::Index (unsigned int level, unsigned int version, unsigned int pkgVersion)
 Index::Index (ArraysPkgNamespaces* arraysns)
   : SBase(arraysns)
    ,mReferencedAttribute ("")
-   ,mDim (SBML_INT_MAX)
-   ,mIsSetDim (false)
+   ,mArrayDimension (SBML_INT_MAX)
+   ,mIsSetArrayDimension (false)
    ,mMath (NULL)
 {
   // set the element namespace of this object
@@ -87,8 +92,8 @@ Index::Index (const Index& orig)
   else
   {
     mReferencedAttribute  = orig.mReferencedAttribute;
-    mDim  = orig.mDim;
-    mIsSetDim  = orig.mIsSetDim;
+    mArrayDimension  = orig.mArrayDimension;
+    mIsSetArrayDimension  = orig.mIsSetArrayDimension;
     if (orig.mMath != NULL)
     {
       mMath = orig.mMath->deepCopy();
@@ -115,8 +120,8 @@ Index::operator=(const Index& rhs)
   {
     SBase::operator=(rhs);
     mReferencedAttribute  = rhs.mReferencedAttribute;
-    mDim  = rhs.mDim;
-    mIsSetDim  = rhs.mIsSetDim;
+    mArrayDimension  = rhs.mArrayDimension;
+    mIsSetArrayDimension  = rhs.mIsSetArrayDimension;
     if (rhs.mMath != NULL)
     {
       mMath = rhs.mMath->deepCopy();
@@ -160,12 +165,12 @@ Index::getReferencedAttribute() const
 
 
 /*
- * Returns the value of the "dim" attribute of this Index.
+ * Returns the value of the "arrayDimension" attribute of this Index.
  */
 const unsigned int
-Index::getDim() const
+Index::getArrayDimension() const
 {
-  return mDim;
+  return mArrayDimension;
 }
 
 
@@ -197,12 +202,12 @@ Index::isSetReferencedAttribute() const
 
 
 /*
- * Returns true/false if dim is set.
+ * Returns true/false if arrayDimension is set.
  */
 bool
-Index::isSetDim() const
+Index::isSetArrayDimension() const
 {
-  return mIsSetDim;
+  return mIsSetArrayDimension;
 }
 
 
@@ -235,13 +240,13 @@ Index::setReferencedAttribute(const std::string& referencedAttribute)
 
 
 /*
- * Sets dim and returns value indicating success.
+ * Sets arrayDimension and returns value indicating success.
  */
 int
-Index::setDim(unsigned int dim)
+Index::setArrayDimension(unsigned int arrayDimension)
 {
-  mDim = dim;
-  mIsSetDim = true;
+  mArrayDimension = arrayDimension;
+  mIsSetArrayDimension = true;
   return LIBSBML_OPERATION_SUCCESS;
 }
 
@@ -300,15 +305,15 @@ Index::unsetReferencedAttribute()
 
 
 /*
- * Unsets dim and returns value indicating success.
+ * Unsets arrayDimension and returns value indicating success.
  */
 int
-Index::unsetDim()
+Index::unsetArrayDimension()
 {
-  mDim = SBML_INT_MAX;
-  mIsSetDim = false;
+  mArrayDimension = SBML_INT_MAX;
+  mIsSetArrayDimension = false;
 
-  if (isSetDim() == false)
+  if (isSetArrayDimension() == false)
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -377,7 +382,7 @@ Index::hasRequiredAttributes () const
   if (isSetReferencedAttribute() == false)
     allPresent = false;
 
-  if (isSetDim() == false)
+  if (isSetArrayDimension() == false)
     allPresent = false;
 
   return allPresent;
@@ -478,7 +483,7 @@ Index::addExpectedAttributes(ExpectedAttributes& attributes)
   SBase::addExpectedAttributes(attributes);
 
   attributes.add("referencedAttribute");
-  attributes.add("dim");
+  attributes.add("arrayDimension");
 }
 
 
@@ -580,12 +585,12 @@ Index::readAttributes (const XMLAttributes& attributes,
   }
 
   //
-  // dim unsigned int   ( use = "required" )
+  // arrayDimension unsigned int   ( use = "required" )
   //
   numErrs = getErrorLog()->getNumErrors();
-  mIsSetDim = attributes.readInto("dim", mDim);
+  mIsSetArrayDimension = attributes.readInto("arrayDimension", mArrayDimension);
 
-  if (mIsSetDim == false)
+  if (mIsSetArrayDimension == false)
   {
     if (getErrorLog() != NULL)
     {
@@ -598,7 +603,7 @@ Index::readAttributes (const XMLAttributes& attributes,
       }
       else
       {
-        std::string message = "Arrays attribute 'dim' is missing.";
+        std::string message = "Arrays attribute 'arrayDimension' is missing.";
         getErrorLog()->logPackageError("arrays", ArraysUnknownError,
                        getPackageVersion(), sbmlLevel, sbmlVersion, message);
       }
@@ -662,8 +667,8 @@ Index::writeAttributes (XMLOutputStream& stream) const
   if (isSetReferencedAttribute() == true)
     stream.writeAttribute("referencedAttribute", getPrefix(), mReferencedAttribute);
 
-  if (isSetDim() == true)
-    stream.writeAttribute("dim", getPrefix(), mDim);
+  if (isSetArrayDimension() == true)
+    stream.writeAttribute("arrayDimension", getPrefix(), mArrayDimension);
 
   SBase::writeExtensionAttributes(stream);
 
@@ -926,9 +931,9 @@ Index_getReferencedAttribute(Index_t * i)
  */
 LIBSBML_EXTERN
 unsigned int
-Index_getDim(Index_t * i)
+Index_getArrayDimension(Index_t * i)
 {
-  return (i != NULL) ? i->getDim() : SBML_INT_MAX;
+  return (i != NULL) ? i->getArrayDimension() : SBML_INT_MAX;
 }
 
 
@@ -948,9 +953,9 @@ Index_isSetReferencedAttribute(Index_t * i)
  */
 LIBSBML_EXTERN
 int
-Index_isSetDim(Index_t * i)
+Index_isSetArrayDimension(Index_t * i)
 {
-  return (i != NULL) ? static_cast<int>(i->isSetDim()) : 0;
+  return (i != NULL) ? static_cast<int>(i->isSetArrayDimension()) : 0;
 }
 
 
@@ -970,9 +975,9 @@ Index_setReferencedAttribute(Index_t * i, const char * referencedAttribute)
  */
 LIBSBML_EXTERN
 int
-Index_setDim(Index_t * i, unsigned int dim)
+Index_setArrayDimension(Index_t * i, unsigned int arrayDimension)
 {
-  return (i != NULL) ? i->setDim(dim) : LIBSBML_INVALID_OBJECT;
+  return (i != NULL) ? i->setArrayDimension(arrayDimension) : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -992,9 +997,9 @@ Index_unsetReferencedAttribute(Index_t * i)
  */
 LIBSBML_EXTERN
 int
-Index_unsetDim(Index_t * i)
+Index_unsetArrayDimension(Index_t * i)
 {
-  return (i != NULL) ? i->unsetDim() : LIBSBML_INVALID_OBJECT;
+  return (i != NULL) ? i->unsetArrayDimension() : LIBSBML_INVALID_OBJECT;
 }
 
 

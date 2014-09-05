@@ -14,8 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %ListOfInitialAssignments
- * construct.
+@htmlinclude pkg-marker-core.html A list of InitialAssignment objects.
  *
  * *
  * 
@@ -148,9 +147,9 @@ public class ListOfInitialAssignments : ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this ListOfInitialAssignments instance.
+   * Creates and returns a deep copy of this ListOfInitialAssignments object.
    *
-   * @return a (deep) copy of this ListOfInitialAssignments.
+   * @return the (deep) copy of this ListOfInitialAssignments object.
    */ public new
  ListOfInitialAssignments clone() {
     IntPtr cPtr = libsbmlPINVOKE.ListOfInitialAssignments_clone(swigCPtr);
@@ -164,10 +163,10 @@ public class ListOfInitialAssignments : ListOf {
    * (i.e., InitialAssignment objects, if the list is non-empty).
    * 
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -179,15 +178,15 @@ public class ListOfInitialAssignments : ListOf {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs.libsbml.SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
+   * @link libsbmlcs#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -298,7 +297,7 @@ public class ListOfInitialAssignments : ListOf {
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
-   */ public
+   */ public new
  SBase getElementBySId(string id) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.ListOfInitialAssignments_getElementBySId(swigCPtr, id), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();

@@ -24,12 +24,12 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLFileResolver
- * @sbmlbrief{comp} A resolver for documents stored on a file system.
+ * @sbmlbrief{comp} Resolves documents stored on a file system.
  *
  * @htmlinclude libsbml-facility-only-warning.html
  *
  * In SBML, @em resolvers come into play with the SBML Level&nbsp;3
- * Hierarchical Model Composition package (&ldquo;comp&rdquo;); this package
+ * Hierarchical %Model Composition package (&ldquo;comp&rdquo;); this package
  * includes features that allow a model to be composed from pieces that are
  * external to a given SBML document, which implies the need to be able to
  * identify and locate those external pieces.  The identifiers used in
@@ -41,7 +41,7 @@
  * files.  It works on the local file system only.  It can resolve relative
  * and absolute paths, and directories to be searched can be specified using
  * the methods @if clike SBMLFileResolver::setAdditionalDirs(), @endif
- * SBMLFileResolver::addAdditionalDir(@if java String dir@endif) and
+ * SBMLFileResolver::addAdditionalDir(@if java String@endif) and
  * SBMLFileResolver::clearAdditionalDirs().
  *
  * @see SBMLResolver
@@ -76,7 +76,7 @@ public:
    *
    * @param c the SBMLFileResolver object to copy.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   SBMLFileResolver(const SBMLFileResolver& c);
@@ -94,7 +94,7 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   SBMLFileResolver& operator=(const SBMLFileResolver& rhs);
@@ -138,13 +138,13 @@ public:
    * Sets the list of directories in which to search for files to resolve.
    *
    * Unlike the similar
-   * SBMLFileResolver::addAdditionalDir(@if java String dir@endif), this
+   * SBMLFileResolver::addAdditionalDir(@if java String@endif), this
    * method replaces any current list of search directories with the given
    * list of @p dirs.
    *
    * @param dirs A vector of strings which contain directories
    *
-   * @see addAdditionalDir(@if java String dir@endif)
+   * @see addAdditionalDir(@if java String@endif)
    * @see clearAdditionalDirs()
    */
   virtual void setAdditionalDirs(const std::vector<std::string>& dirs);
@@ -153,13 +153,13 @@ public:
   /**
    * Removes the list of directories to search for files to resolve.
    *
-   * After this method is called,
-   * SBMLFileResolver::resolve(const std::string &uri, const std::string& baseUri)
-   * will only search absolute or relative directories.  New directories can
-   * be added using SBMLFileResolver::addAdditionalDir(@if java String
-   * dir@endif) @if clike or setAdditionalDirs()@endif.
+   * After this method is called, SBMLFileResolver::resolve(const std::string
+   * &uri, const std::string& baseUri) will only search absolute or relative
+   * directories.  New directories can be added using
+   * SBMLFileResolver::addAdditionalDir(@if java String@endif) @if clike or
+   * setAdditionalDirs()@endif.
    *
-   * @see addAdditionalDir(@if java String dir@endif)
+   * @see addAdditionalDir(@if java String@endif)
    * @if clike @see setAdditionalDirs()@endif
    */
   virtual void clearAdditionalDirs();

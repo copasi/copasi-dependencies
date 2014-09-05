@@ -9,10 +9,9 @@
 package org.sbml.libsbml;
 
 /** 
- *  Template class for the SBMLDocument Plugin class needed
- * by all packages.
+ *  Base class for SBML Level 3 package plug-ins.
  <p>
- * Plugin objects for the {@link SBMLDocument} element must be this class or a
+ * Plug-in objects for the {@link SBMLDocument} element must be this class or a
  * derived class of this class.  Package developers should use this class
  * as-is if only 'required' attribute is added in the {@link SBMLDocument} element by
  * their packages.  Otherwise, developers must implement a derived class of
@@ -86,7 +85,7 @@ public class SBMLDocumentPlugin extends SBasePlugin {
 /**
    * Creates and returns a deep copy of this {@link SBMLDocumentPlugin} object.
    <p>
-   * @return a (deep) copy of this object
+   * @return the (deep) copy of this {@link SBMLDocumentPlugin} object.
    */ public
  SBasePlugin cloneObject() {
     long cPtr = libsbmlJNI.SBMLDocumentPlugin_cloneObject(swigCPtr, this);
@@ -106,8 +105,8 @@ public class SBMLDocumentPlugin extends SBasePlugin {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    * </ul>
    */ public
  int setRequired(boolean value) {
@@ -147,8 +146,8 @@ public class SBMLDocumentPlugin extends SBasePlugin {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetRequired() {

@@ -281,6 +281,7 @@ ASTNode::ASTNode (int type) :
     {
       if (found == false 
         && (representsFunction(type, ASTBase::getPlugin(i)) == true
+        || representsQualifier(type, ASTBase::getPlugin(i)) == true
         || isTopLevelMathMLFunctionNodeTag(getNameFromType(type)) == true))
       {
         mFunction = new ASTFunction (type);
@@ -739,7 +740,7 @@ ASTNode::getName () const
     {
       /* HACK TO REPLICATE OLD AST */
       /* did not expect some things like AST_PLUS etc to have a name
-       * my code uses teh getnameFromType to write the MathmL so these
+       * my code uses the getNameFromType to write the MathmL so these
        * do have names
        */
       if (getType() >= AST_NAME_TIME)
@@ -1291,21 +1292,40 @@ ASTNode::setType (int type)
     bool found = false;
     for (unsigned int i = 0; i < ASTBase::getNumPlugins(); i++)
     {
-      if (found == false 
-        && representsFunction(type, ASTBase::getPlugin(i)) == true)
+      if (found == false)
       {
-        mFunction = new ASTFunction (type);
-        if (copyNumber != NULL)
+        const char * name = ASTBase::getPlugin(i)->getNameFromType(type);
+        if (representsFunction(type, ASTBase::getPlugin(i)) == true)
         {
-          mFunction->syncMembersAndTypeFrom(copyNumber, type);
-          this->ASTBase::syncMembersAndResetParentsFrom(mFunction);
+          mFunction = new ASTFunction (type);
+          if (copyNumber != NULL)
+          {
+            mFunction->syncMembersAndTypeFrom(copyNumber, type);
+            this->ASTBase::syncMembersAndResetParentsFrom(mFunction);
+          }
+          else if (copyFunction != NULL)
+          {
+            mFunction->syncMembersAndTypeFrom(copyFunction, type);
+            this->ASTBase::syncMembersAndResetParentsFrom(mFunction);
+          }
+          found = true;
         }
-        else if (copyFunction != NULL)
+        else if (ASTBase::getPlugin(i)
+                          ->isTopLevelMathMLFunctionNodeTag(name) == true)
         {
-          mFunction->syncMembersAndTypeFrom(copyFunction, type);
-          this->ASTBase::syncMembersAndResetParentsFrom(mFunction);
+          mFunction = new ASTFunction (type);
+          if (copyNumber != NULL)
+          {
+            mFunction->syncMembersAndTypeFrom(copyNumber, type);
+            this->ASTBase::syncMembersAndResetParentsFrom(mFunction);
+          }
+          else if (copyFunction != NULL)
+          {
+            mFunction->syncPackageMembersAndTypeFrom(copyFunction, type);
+            this->ASTBase::syncMembersAndResetParentsFrom(mFunction);
+          }
+          found = true;
         }
-        found = true;
       }
 
     }
@@ -1482,12 +1502,13 @@ ASTNode::setValue(long numerator, long denominator)
     mNumber->syncMembersAndTypeFrom(copyNumber, type);
     this->ASTBase::syncMembersFrom(mNumber);
   }
-  else if (copyFunction != NULL)
+  else if (copyFunction != NULL && mNumber != NULL)
   {
     mNumber->syncMembersAndTypeFrom(copyFunction, type);
     this->ASTBase::syncMembersFrom(mNumber);
   }
 
+  if (mNumber != NULL)
   success = mNumber->setValue(numerator, denominator);
 
   if (copyNumber != NULL)
@@ -1586,12 +1607,13 @@ ASTNode::setValue(double mantissa, long exponent)
     mNumber->syncMembersAndTypeFrom(copyNumber, type);
     this->ASTBase::syncMembersFrom(mNumber);
   }
-  else if (copyFunction != NULL)
+  else if (copyFunction != NULL && mNumber!= NULL)
   {
     mNumber->syncMembersAndTypeFrom(copyFunction, type);
     this->ASTBase::syncMembersFrom(mNumber);
   }
 
+  if (mNumber != NULL)
   success = mNumber->setValue(mantissa, exponent);
 
   if (copyNumber != NULL)
@@ -1607,6 +1629,30 @@ ASTNode::setValue(double mantissa, long exponent)
   return success;
 }
 
+
+/** @cond doxygenLibsbmlInternal */
+void 
+ASTNode::setIsChildFlag(bool flag)
+{
+  ASTBase::setIsChildFlag(flag);
+
+  if (mNumber != NULL)
+  {
+    mNumber->setIsChildFlag(flag);
+  }
+  else if (mFunction != NULL)
+  {
+    mFunction->setIsChildFlag(flag);
+  }
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+bool
+ASTNode::representsBvar() const
+{
+  return ASTBase::representsBvar();
+}
 
   /* isSet functions */
   
@@ -3133,7 +3179,7 @@ ASTNode::getNumVariablesWithUndeclaredUnits(Model * m) const
   {    
     // should we look for reactions or speciesreferences in the math
     bool allowReactionId = true;
-    bool allowSpeciesRef = false;
+    //bool allowSpeciesRef = false;
 
     if ( (m->getLevel() < 2) 
      || ((m->getLevel() == 2) && (m->getVersion() == 1)) )
@@ -3141,10 +3187,10 @@ ASTNode::getNumVariablesWithUndeclaredUnits(Model * m) const
       allowReactionId = false;
     }
 
-    if (m->getLevel() > 2)
+    /*if (m->getLevel() > 2)
     {
       allowSpeciesRef = true;
-    }
+    }*/
 
     // loop thru the list and check the unit status of each variable
     for (unsigned int v = 0; v < variables->size(); v++)
@@ -4495,6 +4541,50 @@ int
 ASTNode_true(const ASTNode *node)
 {
   return 1;
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+LIBSBML_EXTERN
+int
+ASTNode_isPackageInfixFunction(const ASTNode *node)
+{
+  if(node==NULL) return 0;
+  return node->isPackageInfixFunction();
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+LIBSBML_EXTERN
+int
+ASTNode_hasPackageOnlyInfixSyntax(const ASTNode *node)
+{
+  if(node==NULL) return 0;
+  return node->hasPackageOnlyInfixSyntax();
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+LIBSBML_EXTERN
+int
+ASTNode_getL3PackageInfixPrecedence(const ASTNode *node)
+{
+  if(node==NULL) return 8;
+  return node->getL3PackageInfixPrecedence();
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+LIBSBML_EXTERN
+int
+ASTNode_hasUnambiguousPackageInfixGrammar(const ASTNode *node, const ASTNode *child)
+{
+  if(node==NULL) return 0;
+  return (int)node->hasUnambiguousPackageInfixGrammar(child);
 }
 /** @endcond */
 

@@ -180,6 +180,7 @@ public:
 
   int swapChildren(ASTFunction* that);
 
+  void setIsChildFlag(bool flag);
 
   /************************************* 
    * semantics functions 
@@ -262,6 +263,7 @@ protected:
   /* sync the member variables when changing asts */
   void syncMembersAndTypeFrom(ASTNumber* rhs, int type);
   void syncMembersAndTypeFrom(ASTFunction* rhs, int type);
+  void syncPackageMembersAndTypeFrom(ASTFunction* rhs, int type);
   
   int setNameAndChangeType(const std::string& name);
 
@@ -287,6 +289,12 @@ protected:
 
   bool readSemantics(XMLInputStream& stream, const std::string& reqd_prefix,
                   const XMLToken& currentElement);
+
+  bool readFunctionNode(XMLInputStream& stream, const std::string& reqd_prefix,
+                  const XMLToken& nextElement, bool& read, int type, 
+                  unsigned int numChildren, ASTBasePlugin* plugin = NULL);
+
+  bool representsQualifierNode(int type);
 
   friend class ASTNode;
   friend class ASTSemanticsNode;

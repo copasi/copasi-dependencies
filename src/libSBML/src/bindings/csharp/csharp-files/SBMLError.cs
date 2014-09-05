@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Representation of errors, warnings and other diagnostics
+@htmlinclude pkg-marker-core.html An error, warning or other diagnostic.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -37,7 +37,7 @@ namespace libsbmlcs {
  * to five digits long, and it will be listed in one of two enumerations:
  * <a class='el' href='#SBMLErrorCode_t'> SBMLErrorCode_t</a> (described <a
  * class='el' href='#SBMLErrorCode_t'> below</a>) or @link
- * XMLError::XMLErrorCode_t XMLErrorCode_t @endlink (described in the
+ * XMLError::XMLErrorCode_t XMLErrorCode_t@endlink (described in the
  * documentation for the class XMLError).  The former enumeration contains
  * all the SBML validation rule numbers listed in the appendices of the
  * SBML specification documents, as well as some additional
@@ -87,9 +87,9 @@ namespace libsbmlcs {
  * Categories are used to partition errors into distinct conceptual groups.
  * This is principally used by the libSBML validation system to group
  * classes of validation checks.  For example, 
- * @link libsbmlcs.libsbml.LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
+ * @link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
  * is the category for tests that check identifier consistency;
- * @link libsbmlcs.libsbml.LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
+ * @link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
  * is the category for MathML consistency checking; and
  * so on.
  * @endif@if java
@@ -102,9 +102,9 @@ namespace libsbmlcs {
  * separate section below.  Categories are used to partition errors into
  * distinct conceptual groups.  This is principally used by the libSBML
  * validation system to group classes of validation checks.  For example,
- * @link libsbmlcs.libsbml.LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
+ * @link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
  * is the category for tests that check identifier consistency;
- * @link libsbmlcs.libsbml.LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
+ * @link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
  * is the category for MathML consistency checking; and
  * so on.
  * @endif@if python
@@ -116,9 +116,9 @@ namespace libsbmlcs {
  * separate section below.  Categories are used to partition errors into
  * distinct conceptual groups.  This is principally used by the libSBML
  * validation system to group classes of validation checks.  For example,
- * @link libsbmlcs.libsbml.LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
+ * @link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
  * is the category for tests that check identifier consistency;
- * @link libsbmlcs.libsbml.LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
+ * @link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
  * is the category for MathML consistency checking; and
  * so on.
  * @endif
@@ -127,12 +127,23 @@ namespace libsbmlcs {
  * retrieved using the method SBMLError::getSeverity().  The possible
  * severity values are the same as those reported by @if clike XMLError.@endif@if python XMLError.@endif@if java <code><a href='XMLError.html'>XMLError</a></code>.@endif 
  * Severity levels currently range from informational
- * (@link libsbmlcs.libsbml.LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink)
+ * (@link libsbmlcs#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink)
  * to fatal errors
- * (@link libsbmlcs.libsbml.LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
+ * (@link libsbmlcs#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
  * They can be
  * used by an application to evaluate how serious a given problem
  * is. 
+ *
+ * SBMLError also tracks the Level&nbsp;3 package extension, if any, was
+ * responsible for a given warning or error.  Each diagnostic code logged by
+ * an libSBML extension for SBML Level&nbsp;3 packages includes a record of
+ * the package that logged it.  It can be retrieved using
+ * SBMLError::getPackage().  The information is a simple text string; the
+ * string will be the nickname of the package, such as @c 'comp' for the
+ * Hierarchical %Model Composition package, @c 'fbc' for the Flux Balance
+ * Constraints package, and so on.  If the value returned by
+ * SBMLError::getPackage() is an empty string or has the value @c 'core',
+ * then the error came from libSBML core.
  *
  * Finally, SBMLError records the line and column near where the problem
  * occurred in the SBML content.  The values may be retrieved using the
@@ -158,11 +169,11 @@ namespace libsbmlcs {
  * SBMLErrorCode_t is an enumeration of all SBML-level error, warning and
  * informational diagnostic codes.  Every SBMLError object has an error
  * code value that can be either a value from this enumeration, or a value
- * from the @link XMLError::XMLErrorCode_t XMLErrorCode_t @endlink
+ * from the @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink
  * enumeration (see the documentation for XMLError).  The latter values
  * apply when the error or warning signifies a basic XML issue rather than
  * an SBML issue per se.  The values of SBMLErrorCode_t are distinguished
- * from those of @link XMLError::XMLErrorCode_t XMLErrorCode_t @endlink by
+ * from those of @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink by
  * being numbered 10000 and higher, while the XML layer's codes are 9999 and
  * lower.  The method SBMLError::getErrorId() returns the error code of a
  * given SBMLError object instance.
@@ -211,11 +222,10 @@ namespace libsbmlcs {
  * @endif
  *
  * <table cellspacing='1' cellpadding='2' border='0' class='normal-font'>
- * <tr><td class='s-na'>N</td><td>= Not applicable</td></tr>
- * <tr><td class='s-info'>I</td><td>= Informational</td></tr>
- * <tr><td class='s-warning'>W</td><td>= Warning</td></tr>
- * <tr><td class='s-error'>E</td><td>= Error</td></tr>
- * <tr><td class='s-fatal'>F</td><td>= Fatal</td></tr>
+ * <tr><td class='s-na'></td><td>= Not applicable</td></tr>
+ * <tr><td class='s-warning'></td><td>= Warning</td></tr>
+ * <tr><td class='s-error'></td><td>= Error</td></tr>
+ * <tr><td class='s-fatal'></td><td>= Fatal</td></tr>
  * </table>
  *
  * The text shown in the 'Meaning' is the text returned by the
@@ -228,7 +238,7 @@ namespace libsbmlcs {
  * @if clike The errors below come from #XMLErrorCode_t and #SBMLErrorCode_t
  * (for core), and #CompSBMLErrorCode_t, #FbcSBMLErrorCode_t,
  * #LayoutSBMLErrorCode_t, and #QualSBMLErrorCode_t (for packages).@endif
- * @if notclike However, in the language interfaces other than C++, all
+ * @ifnot clike However, in the language interfaces other than C++, all
  * libSBML error codes are ultimately represented as integer constants rather
  * than separate enumerations lists, and they are all stored in a single
  * interface class.  Codes from different libSBML extensions have names that
@@ -241,7024 +251,8231 @@ namespace libsbmlcs {
  *
  * *
  * 
-<table width='95%' cellspacing='1' cellpadding='2' border='0'
-       class='centered text-table small-font alt-row-colors'>
+<table id='sbmlerror-table'
+       class='text-table small-font alt-row-colors'
+       width='95%' cellspacing='1' cellpadding='2' border='0'>
  <tr style='background: lightgray' class='normal-font'>
      <th valign='bottom'><strong>Enumerator</strong></th>
      <th valign='bottom'><strong>Meaning</strong></th>
-     <th align='center' width='15'>L 1 V 1</th>
-     <th align='center' width='15'>L 1 V 2</th>
-     <th align='center' width='15'>L 2 V 1</th>
-     <th align='center' width='15'>L 2 V 2</th>
-     <th align='center' width='15'>L 2 V 3</th>
-     <th align='center' width='15'>L 2 V 4</th>
-     <th align='center' width='15'>L 3 V 1</th>
+     <th align='center' width='10'>L1 V1</th>
+     <th align='center' width='10'>L1 V2</th>
+     <th align='center' width='10'>L2 V1</th>
+     <th align='center' width='10'>L2 V2</th>
+     <th align='center' width='10'>L2 V3</th>
+     <th align='center' width='10'>L2 V4</th>
+     <th align='center' width='10'>L3 V1</th>
  </tr>
-<tr><td><code>@link libsbmlcs.libsbml.UnknownError UnknownError @endlink</code></td>
-<td>Encountered unknown internal libSBML error</td>
-<td class='s-fatal'>F</td>
-<td class='s-fatal'>F</td>
-<td class='s-fatal'>F</td>
-<td class='s-fatal'>F</td>
-<td class='s-fatal'>F</td>
-<td class='s-fatal'>F</td>
-<td class='s-fatal'>F</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NotUTF8 NotUTF8 @endlink</code></td>
-<td>File does not use UTF-8 encoding</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UnrecognizedElement UnrecognizedElement @endlink</code></td>
-<td>Encountered unrecognized element</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NotSchemaConformant NotSchemaConformant @endlink</code></td>
-<td>Document does not conform to the SBML XML schema</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3NotSchemaConformant L3NotSchemaConformant @endlink</code></td>
-<td>Document is not well-formed XML</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidMathElement InvalidMathElement @endlink</code></td>
-<td>Invalid MathML</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DisallowedMathMLSymbol DisallowedMathMLSymbol @endlink</code></td>
-<td>Disallowed MathML symbol found</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DisallowedMathMLEncodingUse DisallowedMathMLEncodingUse @endlink</code></td>
-<td>Use of the MathML 'encoding' attribute is not allowed on this element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DisallowedDefinitionURLUse DisallowedDefinitionURLUse @endlink</code></td>
-<td>Use of the MathML 'definitionURL' attribute is not allowed on this element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.BadCsymbolDefinitionURLValue BadCsymbolDefinitionURLValue @endlink</code></td>
-<td>Invalid <code>&lt;csymbol&gt;</code> 'definitionURL' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DisallowedMathTypeAttributeUse DisallowedMathTypeAttributeUse @endlink</code></td>
-<td>Use of the MathML 'type' attribute is not allowed on this element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DisallowedMathTypeAttributeValue DisallowedMathTypeAttributeValue @endlink</code></td>
-<td>Disallowed MathML 'type' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LambdaOnlyAllowedInFunctionDef LambdaOnlyAllowedInFunctionDef @endlink</code></td>
-<td>Use of <code>&lt;lambda&gt;</code> not permitted outside of FunctionDefinition objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.BooleanOpsNeedBooleanArgs BooleanOpsNeedBooleanArgs @endlink</code></td>
-<td>Non-Boolean argument given to Boolean operator</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NumericOpsNeedNumericArgs NumericOpsNeedNumericArgs @endlink</code></td>
-<td>Non-numerical argument given to numerical operator</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ArgsToEqNeedSameType ArgsToEqNeedSameType @endlink</code></td>
-<td>Arguments to <code>&lt;eq&gt;</code> and <code>&lt;neq&gt;</code> must have the same data types</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.PiecewiseNeedsConsistentTypes PiecewiseNeedsConsistentTypes @endlink</code></td>
-<td>Terms in a <code>&lt;piecewise&gt;</code> expression must have consistent data types</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.PieceNeedsBoolean PieceNeedsBoolean @endlink</code></td>
-<td>The second argument of a <code>&lt;piece&gt;</code> expression must yield a Boolean value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ApplyCiMustBeUserFunction ApplyCiMustBeUserFunction @endlink</code></td>
-<td>A <code>&lt;ci&gt;</code> element in this context must refer to a function definition</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ApplyCiMustBeModelComponent ApplyCiMustBeModelComponent @endlink</code></td>
-<td>A <code>&lt;ci&gt;</code> element in this context must refer to a model component</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.KineticLawParametersAreLocalOnly KineticLawParametersAreLocalOnly @endlink</code></td>
-<td>Cannot use a KineticLaw local parameter outside of its local scope</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MathResultMustBeNumeric MathResultMustBeNumeric @endlink</code></td>
-<td>A formula's result in this context must be a numerical value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OpsNeedCorrectNumberOfArgs OpsNeedCorrectNumberOfArgs @endlink</code></td>
-<td>Incorrect number of arguments given to MathML operator</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidNoArgsPassedToFunctionDef InvalidNoArgsPassedToFunctionDef @endlink</code></td>
-<td>Incorrect number of arguments given to function invocation</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DisallowedMathUnitsUse DisallowedMathUnitsUse @endlink</code></td>
-<td>Attribute 'units' is only permitted on <code>&lt;cn&gt;</code> elements</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidUnitsValue InvalidUnitsValue @endlink</code></td>
-<td>Invalid value given for the 'units' attribute</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DuplicateComponentId DuplicateComponentId @endlink</code></td>
-<td>Duplicate 'id' attribute value</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DuplicateUnitDefinitionId DuplicateUnitDefinitionId @endlink</code></td>
-<td>Duplicate unit definition 'id' attribute value</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DuplicateLocalParameterId DuplicateLocalParameterId @endlink</code></td>
-<td>Duplicate local parameter 'id' attribute value</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MultipleAssignmentOrRateRules MultipleAssignmentOrRateRules @endlink</code></td>
-<td>Multiple rules for the same variable are not allowed</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MultipleEventAssignmentsForId MultipleEventAssignmentsForId @endlink</code></td>
-<td>Multiple event assignments for the same variable are not allowed</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EventAndAssignmentRuleForId EventAndAssignmentRuleForId @endlink</code></td>
-<td>An event assignment and an assignment rule must not have the same value for 'variable'</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DuplicateMetaId DuplicateMetaId @endlink</code></td>
-<td>Duplicate 'metaid' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSBOTermSyntax InvalidSBOTermSyntax @endlink</code></td>
-<td>Invalid syntax for an 'sboTerm' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidMetaidSyntax InvalidMetaidSyntax @endlink</code></td>
-<td>Invalid syntax for a 'metaid' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidIdSyntax InvalidIdSyntax @endlink</code></td>
-<td>Invalid syntax for an 'id' attribute value</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidUnitIdSyntax InvalidUnitIdSyntax @endlink</code></td>
-<td>Invalid syntax for the identifier of a unit</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidNameSyntax InvalidNameSyntax @endlink</code></td>
-<td>Invalid syntax for a 'name' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MissingAnnotationNamespace MissingAnnotationNamespace @endlink</code></td>
-<td>Missing declaration of the XML namespace for the annotation</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DuplicateAnnotationNamespaces DuplicateAnnotationNamespaces @endlink</code></td>
-<td>Multiple annotations using the same XML namespace</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SBMLNamespaceInAnnotation SBMLNamespaceInAnnotation @endlink</code></td>
-<td>The SBML XML namespace cannot be used in an Annotation object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MultipleAnnotations MultipleAnnotations @endlink</code></td>
-<td>Only one Annotation object is permitted under a given SBML object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InconsistentArgUnits InconsistentArgUnits @endlink</code></td>
-<td>The units of the function call's arguments are not consistent with its definition</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InconsistentKineticLawUnitsL3 InconsistentKineticLawUnitsL3 @endlink</code></td>
-<td>The kinetic law's units are inconsistent with those of other kinetic laws in the model</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AssignRuleCompartmentMismatch AssignRuleCompartmentMismatch @endlink</code></td>
-<td>Mismatched units in assignment rule for compartment</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AssignRuleSpeciesMismatch AssignRuleSpeciesMismatch @endlink</code></td>
-<td>Mismatched units in assignment rule for species</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AssignRuleParameterMismatch AssignRuleParameterMismatch @endlink</code></td>
-<td>Mismatched units in assignment rule for parameter</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AssignRuleStoichiometryMismatch AssignRuleStoichiometryMismatch @endlink</code></td>
-<td>Mismatched units in assignment rule for stoichiometry</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InitAssignCompartmenMismatch InitAssignCompartmenMismatch @endlink</code></td>
-<td>Mismatched units in initial assignment to compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InitAssignSpeciesMismatch InitAssignSpeciesMismatch @endlink</code></td>
-<td>Mismatched units in initial assignment to species</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InitAssignParameterMismatch InitAssignParameterMismatch @endlink</code></td>
-<td>Mismatched units in initial assignment to parameter</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InitAssignStoichiometryMismatch InitAssignStoichiometryMismatch @endlink</code></td>
-<td>Mismatched units in initial assignment to stoichiometry</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RateRuleCompartmentMismatch RateRuleCompartmentMismatch @endlink</code></td>
-<td>Mismatched units in rate rule for compartment</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RateRuleSpeciesMismatch RateRuleSpeciesMismatch @endlink</code></td>
-<td>Mismatched units in rate rule for species</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RateRuleParameterMismatch RateRuleParameterMismatch @endlink</code></td>
-<td>Mismatched units in rate rule for parameter</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RateRuleStoichiometryMismatch RateRuleStoichiometryMismatch @endlink</code></td>
-<td>Mismatched units in rate rule for stoichiometry</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.KineticLawNotSubstancePerTime KineticLawNotSubstancePerTime @endlink</code></td>
-<td>The units of the kinetic law are not 'substance'/'time'</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpeciesInvalidExtentUnits SpeciesInvalidExtentUnits @endlink</code></td>
-<td>The species' units are not consistent with units of extent</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DelayUnitsNotTime DelayUnitsNotTime @endlink</code></td>
-<td>The units of the delay expression are not units of time</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EventAssignCompartmentMismatch EventAssignCompartmentMismatch @endlink</code></td>
-<td>Mismatched units in event assignment for compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EventAssignSpeciesMismatch EventAssignSpeciesMismatch @endlink</code></td>
-<td>Mismatched units in event assignment for species</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EventAssignParameterMismatch EventAssignParameterMismatch @endlink</code></td>
-<td>Mismatched units in event assignment for parameter</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EventAssignStoichiometryMismatch EventAssignStoichiometryMismatch @endlink</code></td>
-<td>Mismatched units in event assignment for stoichiometry</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.PriorityUnitsNotDimensionless PriorityUnitsNotDimensionless @endlink</code></td>
-<td>The units of a priority expression must be 'dimensionless'</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UpperUnitBound UpperUnitBound @endlink</code></td>
-<td>Upper boundary of unit validation diagnostic codes</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OverdeterminedSystem OverdeterminedSystem @endlink</code></td>
-<td>The model is overdetermined</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidModelSBOTerm InvalidModelSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a Model object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidFunctionDefSBOTerm InvalidFunctionDefSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a FunctionDefinition object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidParameterSBOTerm InvalidParameterSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a Parameter object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidInitAssignSBOTerm InvalidInitAssignSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for an InitialAssignment object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidRuleSBOTerm InvalidRuleSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a Rule object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidConstraintSBOTerm InvalidConstraintSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a Constraint object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidReactionSBOTerm InvalidReactionSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a Reaction object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSpeciesReferenceSBOTerm InvalidSpeciesReferenceSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a SpeciesReference object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidKineticLawSBOTerm InvalidKineticLawSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a KineticLaw object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidEventSBOTerm InvalidEventSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for an Event object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidEventAssignmentSBOTerm InvalidEventAssignmentSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for an EventAssignment object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidCompartmentSBOTerm InvalidCompartmentSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a Compartment object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSpeciesSBOTerm InvalidSpeciesSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a Species object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidCompartmentTypeSBOTerm InvalidCompartmentTypeSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a CompartmentType object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSpeciesTypeSBOTerm InvalidSpeciesTypeSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for a SpeciesType object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidTriggerSBOTerm InvalidTriggerSBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for an Event Trigger object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidDelaySBOTerm InvalidDelaySBOTerm @endlink</code></td>
-<td>Invalid 'sboTerm' attribute value for an Event Delay object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NotesNotInXHTMLNamespace NotesNotInXHTMLNamespace @endlink</code></td>
-<td>Notes must be placed in the XHTML XML namespace</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NotesContainsXMLDecl NotesContainsXMLDecl @endlink</code></td>
-<td>XML declarations are not permitted in Notes objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NotesContainsDOCTYPE NotesContainsDOCTYPE @endlink</code></td>
-<td>XML DOCTYPE elements are not permitted in Notes objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidNotesContent InvalidNotesContent @endlink</code></td>
-<td>Invalid notes content found</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyOneNotesElementAllowed OnlyOneNotesElementAllowed @endlink</code></td>
-<td>Only one Notes subobject is permitted on a given SBML object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidNamespaceOnSBML InvalidNamespaceOnSBML @endlink</code></td>
-<td>Invalid XML namespace for the SBML container element</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MissingOrInconsistentLevel MissingOrInconsistentLevel @endlink</code></td>
-<td>Missing or inconsistent value for the 'level' attribute</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MissingOrInconsistentVersion MissingOrInconsistentVersion @endlink</code></td>
-<td>Missing or inconsistent value for the 'version' attribute</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.PackageNSMustMatch PackageNSMustMatch @endlink</code></td>
-<td>Inconsistent or invalid SBML Level/Version for the package namespace declaration</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LevelPositiveInteger LevelPositiveInteger @endlink</code></td>
-<td>The 'level' attribute must have a positive integer value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.VersionPositiveInteger VersionPositiveInteger @endlink</code></td>
-<td>The 'version' attribute must have a positive integer value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnSBML AllowedAttributesOnSBML @endlink</code></td>
-<td>Invalid attribute found on the SBML container element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3PackageOnLowerSBML L3PackageOnLowerSBML @endlink</code></td>
-<td>An L3 package ns found on the SBML container element.</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MissingModel MissingModel @endlink</code></td>
-<td>No model definition found</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.IncorrectOrderInModel IncorrectOrderInModel @endlink</code></td>
-<td>Incorrect ordering of components within the Model object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EmptyListElement EmptyListElement @endlink</code></td>
-<td>Empty ListOf___ object found</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NeedCompartmentIfHaveSpecies NeedCompartmentIfHaveSpecies @endlink</code></td>
-<td>The presence of a species requires a compartment</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneOfEachListOf OneOfEachListOf @endlink</code></td>
-<td>Only one of each kind of ListOf___ object is allowed inside a Model object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyFuncDefsInListOfFuncDefs OnlyFuncDefsInListOfFuncDefs @endlink</code></td>
-<td>Only FunctionDefinition, Notes and Annotation objects are allowed in ListOfFunctionDefinitions</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyUnitDefsInListOfUnitDefs OnlyUnitDefsInListOfUnitDefs @endlink</code></td>
-<td>Only UnitDefinition, Notes and Annotation objects are allowed in ListOfUnitDefinitions objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyCompartmentsInListOfCompartments OnlyCompartmentsInListOfCompartments @endlink</code></td>
-<td>Only Compartment, Notes and Annotation objects are allowed in ListOfCompartments objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlySpeciesInListOfSpecies OnlySpeciesInListOfSpecies @endlink</code></td>
-<td>Only Species, Notes and Annotation objects are allowed in ListOfSpecies objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyParametersInListOfParameters OnlyParametersInListOfParameters @endlink</code></td>
-<td>Only Parameter, Notes and Annotation objects are allowed in ListOfParameters objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyInitAssignsInListOfInitAssigns OnlyInitAssignsInListOfInitAssigns @endlink</code></td>
-<td>Only InitialAssignment, Notes and Annotation objects are allowed in ListOfInitialAssignments objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyRulesInListOfRules OnlyRulesInListOfRules @endlink</code></td>
-<td>Only Rule, Notes and Annotation objects are allowed in ListOfRules objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyConstraintsInListOfConstraints OnlyConstraintsInListOfConstraints @endlink</code></td>
-<td>Only Constraint, Notes and Annotation objects are allowed in ListOfConstraints objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyReactionsInListOfReactions OnlyReactionsInListOfReactions @endlink</code></td>
-<td>Only Reaction, Notes and Annotation objects are allowed in ListOfReactions objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyEventsInListOfEvents OnlyEventsInListOfEvents @endlink</code></td>
-<td>Only Event, Notes and Annotation objects are allowed in ListOfEvents objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3ConversionFactorOnModel L3ConversionFactorOnModel @endlink</code></td>
-<td>A 'conversionFactor' attribute value must reference a Parameter object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3TimeUnitsOnModel L3TimeUnitsOnModel @endlink</code></td>
-<td>Invalid 'timeUnits' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3VolumeUnitsOnModel L3VolumeUnitsOnModel @endlink</code></td>
-<td>Invalid 'volumeUnits' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3AreaUnitsOnModel L3AreaUnitsOnModel @endlink</code></td>
-<td>Invalid 'areaUnits' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3LengthUnitsOnModel L3LengthUnitsOnModel @endlink</code></td>
-<td>Invalid 'lengthUnits' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3ExtentUnitsOnModel L3ExtentUnitsOnModel @endlink</code></td>
-<td>Invalid 'extentUnits' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnModel AllowedAttributesOnModel @endlink</code></td>
-<td>Invalid attribute found on the Model object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfFuncs AllowedAttributesOnListOfFuncs @endlink</code></td>
-<td>Invalid attribute found on the ListOfFunctionDefinitions object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfUnitDefs AllowedAttributesOnListOfUnitDefs @endlink</code></td>
-<td>Invalid attribute found on the ListOfUnitDefinitions object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfComps AllowedAttributesOnListOfComps @endlink</code></td>
-<td>Invalid attribute found on the ListOfCompartments object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfSpecies AllowedAttributesOnListOfSpecies @endlink</code></td>
-<td>Invalid attribute found on the ListOfSpecies object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfParams AllowedAttributesOnListOfParams @endlink</code></td>
-<td>Invalid attribute found on the ListOfParameters object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfInitAssign AllowedAttributesOnListOfInitAssign @endlink</code></td>
-<td>Invalid attribute found on the ListOfInitialAssignments object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfRules AllowedAttributesOnListOfRules @endlink</code></td>
-<td>Invalid attribute found on the ListOfRules object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfConstraints AllowedAttributesOnListOfConstraints @endlink</code></td>
-<td>Invalid attribute found on the ListOfConstraints object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfReactions AllowedAttributesOnListOfReactions @endlink</code></td>
-<td>Invalid attribute found on the ListOfReactions object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfEvents AllowedAttributesOnListOfEvents @endlink</code></td>
-<td>Invalid attribute found on the ListOfEvents object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FunctionDefMathNotLambda FunctionDefMathNotLambda @endlink</code></td>
-<td>Invalid expression found in the function definition</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidApplyCiInLambda InvalidApplyCiInLambda @endlink</code></td>
-<td>Invalid forward reference in the MathML <code>&lt;apply&gt;</code><code>&lt;ci&gt;</code>...<code>&lt;/ci&gt;</code><code>&lt;/apply&gt;</code> expression</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RecursiveFunctionDefinition RecursiveFunctionDefinition @endlink</code></td>
-<td>Recursive function definitions are not permitted</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidCiInLambda InvalidCiInLambda @endlink</code></td>
-<td>Invalid <code>&lt;ci&gt;</code> reference found inside the <code>&lt;lambda&gt;</code> mathematical formula</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidFunctionDefReturnType InvalidFunctionDefReturnType @endlink</code></td>
-<td>A function's return type must be either a number or a Boolean</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMathElementPerFunc OneMathElementPerFunc @endlink</code></td>
-<td>A FunctionDefinition object must contain one <code>&lt;math&gt;</code> element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnFunc AllowedAttributesOnFunc @endlink</code></td>
-<td>Invalid attribute found on the FunctionDefinition object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidUnitDefId InvalidUnitDefId @endlink</code></td>
-<td>Invalid 'id' attribute value for a UnitDefinition object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSubstanceRedefinition InvalidSubstanceRedefinition @endlink</code></td>
-<td>Invalid redefinition of built-in type 'substance'</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidLengthRedefinition InvalidLengthRedefinition @endlink</code></td>
-<td>Invalid redefinition of built-in type 'length'</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidAreaRedefinition InvalidAreaRedefinition @endlink</code></td>
-<td>Invalid redefinition of built-in type name 'area'</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidTimeRedefinition InvalidTimeRedefinition @endlink</code></td>
-<td>Invalid redefinition of built-in type name 'time'</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidVolumeRedefinition InvalidVolumeRedefinition @endlink</code></td>
-<td>Invalid redefinition of built-in type name 'volume'</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.VolumeLitreDefExponentNotOne VolumeLitreDefExponentNotOne @endlink</code></td>
-<td>Must use 'exponent'=1 when defining 'volume' in terms of litres</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.VolumeMetreDefExponentNot3 VolumeMetreDefExponentNot3 @endlink</code></td>
-<td>Must use 'exponent'=3 when defining 'volume' in terms of metres</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EmptyListOfUnits EmptyListOfUnits @endlink</code></td>
-<td>An empty list of Unit objects is not permitted in a UnitDefinition object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidUnitKind InvalidUnitKind @endlink</code></td>
-<td>Invalid value for the 'kind' attribute of a UnitDefinition object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OffsetNoLongerValid OffsetNoLongerValid @endlink</code></td>
-<td>Unit attribute 'offset' is not supported in this Level+Version of SBML</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CelsiusNoLongerValid CelsiusNoLongerValid @endlink</code></td>
-<td>Unit name 'Celsius' is not defined in this Level+Version of SBML</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EmptyUnitListElement EmptyUnitListElement @endlink</code></td>
-<td>A ListOfUnits object must not be empty</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneListOfUnitsPerUnitDef OneListOfUnitsPerUnitDef @endlink</code></td>
-<td>At most one ListOfUnits object is allowed inside a UnitDefinition object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyUnitsInListOfUnits OnlyUnitsInListOfUnits @endlink</code></td>
-<td>Only Unit, Notes and Annotation objects are allowed in ListOfUnits objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnUnitDefinition AllowedAttributesOnUnitDefinition @endlink</code></td>
-<td>Invalid attribute found on the UnitDefinition object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfUnits AllowedAttributesOnListOfUnits @endlink</code></td>
-<td>Invalid attribute found on the ListOfUnits object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnUnit AllowedAttributesOnUnit @endlink</code></td>
-<td>Invalid attribute found on the Unit object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ZeroDimensionalCompartmentSize ZeroDimensionalCompartmentSize @endlink</code></td>
-<td>Invalid use of the 'size' attribute for a zero-dimensional compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ZeroDimensionalCompartmentUnits ZeroDimensionalCompartmentUnits @endlink</code></td>
-<td>Invalid use of the 'units' attribute for a zero-dimensional compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ZeroDimensionalCompartmentConst ZeroDimensionalCompartmentConst @endlink</code></td>
-<td>Zero-dimensional compartments must be defined to be constant</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UndefinedOutsideCompartment UndefinedOutsideCompartment @endlink</code></td>
-<td>Invalid value for the 'outside' attribute of a Compartment object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RecursiveCompartmentContainment RecursiveCompartmentContainment @endlink</code></td>
-<td>Recursive nesting of compartments via the 'outside' attribute is not permitted</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ZeroDCompartmentContainment ZeroDCompartmentContainment @endlink</code></td>
-<td>Invalid nesting of zero-dimensional compartments</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.Invalid1DCompartmentUnits Invalid1DCompartmentUnits @endlink</code></td>
-<td>Invalid value for the 'units' attribute of a one-dimensional compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.Invalid2DCompartmentUnits Invalid2DCompartmentUnits @endlink</code></td>
-<td>Invalid value for the 'units' attribute of a two-dimensional compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.Invalid3DCompartmentUnits Invalid3DCompartmentUnits @endlink</code></td>
-<td>Invalid value for the 'units' attribute of a three-dimensional compartment</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidCompartmentTypeRef InvalidCompartmentTypeRef @endlink</code></td>
-<td>Invalid value for the 'compartmentType' attribute of a compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneDimensionalCompartmentUnits OneDimensionalCompartmentUnits @endlink</code></td>
-<td>No units defined for 1-D compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.TwoDimensionalCompartmentUnits TwoDimensionalCompartmentUnits @endlink</code></td>
-<td>No units defined for 2-D compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ThreeDimensionalCompartmentUnits ThreeDimensionalCompartmentUnits @endlink</code></td>
-<td>No units defined for 3-D Compartment object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnCompartment AllowedAttributesOnCompartment @endlink</code></td>
-<td>Invalid attribute found on Compartment object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoUnitsOnCompartment NoUnitsOnCompartment @endlink</code></td>
-<td>No units defined for Compartment object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSpeciesCompartmentRef InvalidSpeciesCompartmentRef @endlink</code></td>
-<td>Invalid value found for Species 'compartment' attribute</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.HasOnlySubsNoSpatialUnits HasOnlySubsNoSpatialUnits @endlink</code></td>
-<td>Attribute 'spatialSizeUnits' must not be set if 'hasOnlySubstanceUnits'='true'</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSpatialUnitsInZeroD NoSpatialUnitsInZeroD @endlink</code></td>
-<td>Attribute 'spatialSizeUnits' must not be set if the compartment is zero-dimensional</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoConcentrationInZeroD NoConcentrationInZeroD @endlink</code></td>
-<td>Attribute 'initialConcentration' must not be set if the compartment is zero-dimensional</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpatialUnitsInOneD SpatialUnitsInOneD @endlink</code></td>
-<td>Invalid value for 'spatialSizeUnits' attribute of a one-dimensional compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpatialUnitsInTwoD SpatialUnitsInTwoD @endlink</code></td>
-<td>Invalid value for the 'spatialSizeUnits' attribute of a two-dimensional compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpatialUnitsInThreeD SpatialUnitsInThreeD @endlink</code></td>
-<td>Invalid value for the 'spatialSizeUnits' attribute of a three-dimensional compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSpeciesSusbstanceUnits InvalidSpeciesSusbstanceUnits @endlink</code></td>
-<td>Invalid value for a Species 'units' attribute</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.BothAmountAndConcentrationSet BothAmountAndConcentrationSet @endlink</code></td>
-<td>Cannot set both 'initialConcentration' and 'initialAmount' attributes simultaneously</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NonBoundarySpeciesAssignedAndUsed NonBoundarySpeciesAssignedAndUsed @endlink</code></td>
-<td>Cannot use a non-boundary species in both reactions and rules simultaneously</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NonConstantSpeciesUsed NonConstantSpeciesUsed @endlink</code></td>
-<td>Cannot use a constant, non-boundary species as a reactant or product</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSpeciesTypeRef InvalidSpeciesTypeRef @endlink</code></td>
-<td>Invalid value for the 'speciesType' attribute of a species</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MultSpeciesSameTypeInCompartment MultSpeciesSameTypeInCompartment @endlink</code></td>
-<td>Cannot have multiple species of the same species type in the same compartment</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MissingSpeciesCompartment MissingSpeciesCompartment @endlink</code></td>
-<td>Missing value for the 'compartment' attribute</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpatialSizeUnitsRemoved SpatialSizeUnitsRemoved @endlink</code></td>
-<td>Attribute 'spatialSizeUnits' is not supported in this Level+Version of SBML</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SubstanceUnitsOnSpecies SubstanceUnitsOnSpecies @endlink</code></td>
-<td>No substance units defined for the species</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConversionFactorOnSpecies ConversionFactorOnSpecies @endlink</code></td>
-<td>Invalid value for the 'conversionFactor' attribute</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnSpecies AllowedAttributesOnSpecies @endlink</code></td>
-<td>Invalid attribute found on Species object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidParameterUnits InvalidParameterUnits @endlink</code></td>
-<td>Invalid value for the 'units' attribute of a Parameter object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ParameterUnits ParameterUnits @endlink</code></td>
-<td>No units defined for the parameter</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConversionFactorMustConstant ConversionFactorMustConstant @endlink</code></td>
-<td>A conversion factor must reference a Parameter object declared to be a constant</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnParameter AllowedAttributesOnParameter @endlink</code></td>
-<td>Invalid attribute found on Parameter object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidInitAssignSymbol InvalidInitAssignSymbol @endlink</code></td>
-<td>Invalid value for the 'symbol' attribute of an InitialAssignment object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MultipleInitAssignments MultipleInitAssignments @endlink</code></td>
-<td>Multiple initial assignments for the same 'symbol' value are not allowed</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InitAssignmentAndRuleForSameId InitAssignmentAndRuleForSameId @endlink</code></td>
-<td>Cannot set a value using both an initial assignment and an assignment rule simultaneously</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMathElementPerInitialAssign OneMathElementPerInitialAssign @endlink</code></td>
-<td>An InitialAssignment object must contain one <code>&lt;math&gt;</code> element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnInitialAssign AllowedAttributesOnInitialAssign @endlink</code></td>
-<td>Invalid attribute found on an InitialAssignment object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidAssignRuleVariable InvalidAssignRuleVariable @endlink</code></td>
-<td>Invalid value for the 'variable' attribute of an AssignmentRule object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidRateRuleVariable InvalidRateRuleVariable @endlink</code></td>
-<td>Invalid value for the 'variable' attribute of a RateRule object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AssignmentToConstantEntity AssignmentToConstantEntity @endlink</code></td>
-<td>An assignment rule cannot assign an entity declared to be constant</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RateRuleForConstantEntity RateRuleForConstantEntity @endlink</code></td>
-<td>A rate rule cannot assign an entity declared to be constant</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CircularRuleDependency CircularRuleDependency @endlink</code></td>
-<td>Circular dependencies involving rules and reactions are not permitted</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMathElementPerRule OneMathElementPerRule @endlink</code></td>
-<td>A rule object must contain one <code>&lt;math&gt;</code> element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnAssignRule AllowedAttributesOnAssignRule @endlink</code></td>
-<td>Invalid attribute found on an AssignmentRule object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnRateRule AllowedAttributesOnRateRule @endlink</code></td>
-<td>Invalid attribute found on a RateRule object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnAlgRule AllowedAttributesOnAlgRule @endlink</code></td>
-<td>Invalid attribute found on an AlgebraicRule object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConstraintMathNotBoolean ConstraintMathNotBoolean @endlink</code></td>
-<td>A Constraint object's <code>&lt;math&gt;</code> must evaluate to a Boolean value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.IncorrectOrderInConstraint IncorrectOrderInConstraint @endlink</code></td>
-<td>Subobjects inside the Constraint object are not in the prescribed order</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConstraintNotInXHTMLNamespace ConstraintNotInXHTMLNamespace @endlink</code></td>
-<td>A Constraint's Message subobject must be in the XHTML XML namespace</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConstraintContainsXMLDecl ConstraintContainsXMLDecl @endlink</code></td>
-<td>XML declarations are not permitted within Constraint's Message objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConstraintContainsDOCTYPE ConstraintContainsDOCTYPE @endlink</code></td>
-<td>XML DOCTYPE elements are not permitted within Constraint's Message objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidConstraintContent InvalidConstraintContent @endlink</code></td>
-<td>Invalid content for a Constraint object's Message object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMathElementPerConstraint OneMathElementPerConstraint @endlink</code></td>
-<td>A Constraint object must contain one <code>&lt;math&gt;</code> element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMessageElementPerConstraint OneMessageElementPerConstraint @endlink</code></td>
-<td>A Constraint object must contain one Message subobject</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnConstraint AllowedAttributesOnConstraint @endlink</code></td>
-<td>Invalid attribute found on Constraint object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoReactantsOrProducts NoReactantsOrProducts @endlink</code></td>
-<td>Cannot have a reaction with neither reactants nor products</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.IncorrectOrderInReaction IncorrectOrderInReaction @endlink</code></td>
-<td>Subobjects inside the Reaction object are not in the prescribed order</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EmptyListInReaction EmptyListInReaction @endlink</code></td>
-<td>Reaction components, if present, cannot be empty</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidReactantsProductsList InvalidReactantsProductsList @endlink</code></td>
-<td>Invalid object found in the list of reactants or products</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidModifiersList InvalidModifiersList @endlink</code></td>
-<td>Invalid object found in the list of modifiers</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneSubElementPerReaction OneSubElementPerReaction @endlink</code></td>
-<td>A Reaction object can only contain one of each allowed type of object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompartmentOnReaction CompartmentOnReaction @endlink</code></td>
-<td>Invalid value for the Reaction 'compartment' attribute</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnReaction AllowedAttributesOnReaction @endlink</code></td>
-<td>Invalid attribute for a Reaction object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSpeciesReference InvalidSpeciesReference @endlink</code></td>
-<td>Invalid 'species' attribute value in SpeciesReference object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.BothStoichiometryAndMath BothStoichiometryAndMath @endlink</code></td>
-<td>The 'stoichiometry' attribute and StoichiometryMath subobject are mutually exclusive</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnSpeciesReference AllowedAttributesOnSpeciesReference @endlink</code></td>
-<td>Invalid attribute found on the SpeciesReference object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnModifier AllowedAttributesOnModifier @endlink</code></td>
-<td>Invalid attribute found on the ModifierSpeciesReference object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UndeclaredSpeciesRef UndeclaredSpeciesRef @endlink</code></td>
-<td>Unknown species referenced in the kinetic law <code>&lt;math&gt;</code> formula</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.IncorrectOrderInKineticLaw IncorrectOrderInKineticLaw @endlink</code></td>
-<td>Incorrect ordering of components in the KineticLaw object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EmptyListInKineticLaw EmptyListInKineticLaw @endlink</code></td>
-<td>The list of parameters, if present, cannot be empty</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NonConstantLocalParameter NonConstantLocalParameter @endlink</code></td>
-<td>Parameters local to a KineticLaw object must have a 'constant' attribute value of 'true'</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SubsUnitsNoLongerValid SubsUnitsNoLongerValid @endlink</code></td>
-<td>Attribute 'substanceUnits' is not supported in this Level+Version of SBML</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.TimeUnitsNoLongerValid TimeUnitsNoLongerValid @endlink</code></td>
-<td>Attribute 'timeUnits' is not supported in this Level+Version of SBML</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneListOfPerKineticLaw OneListOfPerKineticLaw @endlink</code></td>
-<td>Only one ListOfLocalParameters object is permitted within a KineticLaw object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyLocalParamsInListOfLocalParams OnlyLocalParamsInListOfLocalParams @endlink</code></td>
-<td>Only LocalParameter, Notes and Annotation objects are allowed in ListOfLocalParameter objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfLocalParam AllowedAttributesOnListOfLocalParam @endlink</code></td>
-<td>Invalid attribute found on the ListOfLocalParameters object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMathPerKineticLaw OneMathPerKineticLaw @endlink</code></td>
-<td>Only one <code>&lt;math&gt;</code> element is allowed in a KineticLaw object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UndeclaredSpeciesInStoichMath UndeclaredSpeciesInStoichMath @endlink</code></td>
-<td>Unknown species referenced in the StoichiometryMath object's <code>&lt;math&gt;</code> formula</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnKineticLaw AllowedAttributesOnKineticLaw @endlink</code></td>
-<td>Invalid attribute found on the KineticLaw object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfSpeciesRef AllowedAttributesOnListOfSpeciesRef @endlink</code></td>
-<td>Invalid attribute found on the ListOfSpeciesReferences object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfMods AllowedAttributesOnListOfMods @endlink</code></td>
-<td>Invalid attribute found on the ListOfModifiers object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnLocalParameter AllowedAttributesOnLocalParameter @endlink</code></td>
-<td>Invalid attribute found on the LocalParameter object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MissingTriggerInEvent MissingTriggerInEvent @endlink</code></td>
-<td>The Event object is missing a Trigger subobject</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.TriggerMathNotBoolean TriggerMathNotBoolean @endlink</code></td>
-<td>A Trigger object's <code>&lt;math&gt;</code> expression must evaluate to a Boolean value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MissingEventAssignment MissingEventAssignment @endlink</code></td>
-<td>The Event object is missing an EventAssignment subobject</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.TimeUnitsEvent TimeUnitsEvent @endlink</code></td>
-<td>Units referenced by 'timeUnits' attribute are not compatible with units of time</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.IncorrectOrderInEvent IncorrectOrderInEvent @endlink</code></td>
-<td>Incorrect ordering of components in Event object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ValuesFromTriggerTimeNeedDelay ValuesFromTriggerTimeNeedDelay @endlink</code></td>
-<td>Attribute 'useValuesFromTriggerTime'='false', but the Event object does not define a delay</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DelayNeedsValuesFromTriggerTime DelayNeedsValuesFromTriggerTime @endlink</code></td>
-<td>The use of a Delay object requires the Event attribute 'useValuesFromTriggerTime'</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMathPerTrigger OneMathPerTrigger @endlink</code></td>
-<td>A Trigger object must have one <code>&lt;math&gt;</code> element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMathPerDelay OneMathPerDelay @endlink</code></td>
-<td>A Delay object must have one <code>&lt;math&gt;</code> element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidEventAssignmentVariable InvalidEventAssignmentVariable @endlink</code></td>
-<td>Invalid 'variable' attribute value in Event object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EventAssignmentForConstantEntity EventAssignmentForConstantEntity @endlink</code></td>
-<td>An EventAssignment object cannot assign to a component having attribute 'constant'='true'</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMathPerEventAssignment OneMathPerEventAssignment @endlink</code></td>
-<td>An EventAssignment object must have one <code>&lt;math&gt;</code> element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnEventAssignment AllowedAttributesOnEventAssignment @endlink</code></td>
-<td>Invalid attribute found on the EventAssignment object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyOneDelayPerEvent OnlyOneDelayPerEvent @endlink</code></td>
-<td>An Event object can only have one Delay subobject</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneListOfEventAssignmentsPerEvent OneListOfEventAssignmentsPerEvent @endlink</code></td>
-<td>An Event object can only have one ListOfEventAssignments subobject</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyEventAssignInListOfEventAssign OnlyEventAssignInListOfEventAssign @endlink</code></td>
-<td>Only EventAssignment, Notes and Annotation objects are allowed in ListOfEventAssignments</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnListOfEventAssign AllowedAttributesOnListOfEventAssign @endlink</code></td>
-<td>Invalid attribute found on the ListOfEventAssignments object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnEvent AllowedAttributesOnEvent @endlink</code></td>
-<td>Invalid attribute found on the Event object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnTrigger AllowedAttributesOnTrigger @endlink</code></td>
-<td>Invalid attribute found on the Trigger object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnDelay AllowedAttributesOnDelay @endlink</code></td>
-<td>Invalid attribute found on the Delay object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.PersistentNotBoolean PersistentNotBoolean @endlink</code></td>
-<td>The Trigger attribute 'persistent' must evaluate to a Boolean value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InitialValueNotBoolean InitialValueNotBoolean @endlink</code></td>
-<td>The Trigger attribute 'initialValue' must evaluate to a Boolean value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OnlyOnePriorityPerEvent OnlyOnePriorityPerEvent @endlink</code></td>
-<td>An Event object can only have one Priority subobject</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OneMathPerPriority OneMathPerPriority @endlink</code></td>
-<td>A Priority object must have one <code>&lt;math&gt;</code> element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AllowedAttributesOnPriority AllowedAttributesOnPriority @endlink</code></td>
-<td>Invalid attribute found on the Priority object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.GeneralWarningNotSpecified GeneralWarningNotSpecified @endlink</code></td>
-<td>Unknown error</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompartmentShouldHaveSize CompartmentShouldHaveSize @endlink</code></td>
-<td>It's best to define a size for every compartment in a model</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpeciesShouldHaveValue SpeciesShouldHaveValue @endlink</code></td>
-<td>It's best to define an initial amount or initial concentration for every species in a model</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ParameterShouldHaveUnits ParameterShouldHaveUnits @endlink</code></td>
-<td>It's best to declare units for every parameter in a model</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LocalParameterShadowsId LocalParameterShadowsId @endlink</code></td>
-<td>Local parameters defined within a kinetic law shadow global object symbols</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CannotConvertToL1V1 CannotConvertToL1V1 @endlink</code></td>
-<td>Cannot convert to SBML Level 1 Version 1</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoEventsInL1 NoEventsInL1 @endlink</code></td>
-<td>SBML Level 1 does not support events</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoFunctionDefinitionsInL1 NoFunctionDefinitionsInL1 @endlink</code></td>
-<td>SBML Level 1 does not support function definitions</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoConstraintsInL1 NoConstraintsInL1 @endlink</code></td>
-<td>SBML Level 1 does not support constraints</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoInitialAssignmentsInL1 NoInitialAssignmentsInL1 @endlink</code></td>
-<td>SBML Level 1 does not support initial assignments</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSpeciesTypesInL1 NoSpeciesTypesInL1 @endlink</code></td>
-<td>SBML Level 1 does not support species types</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoCompartmentTypeInL1 NoCompartmentTypeInL1 @endlink</code></td>
-<td>SBML Level 1 does not support compartment types</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoNon3DCompartmentsInL1 NoNon3DCompartmentsInL1 @endlink</code></td>
-<td>SBML Level 1 only supports three-dimensional compartments</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoFancyStoichiometryMathInL1 NoFancyStoichiometryMathInL1 @endlink</code></td>
-<td>SBML Level 1 does not support non-integer nor non-rational stoichiometry formulas</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoNonIntegerStoichiometryInL1 NoNonIntegerStoichiometryInL1 @endlink</code></td>
-<td>SBML Level 1 does not support non-integer 'stoichiometry' attribute values</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoUnitMultipliersOrOffsetsInL1 NoUnitMultipliersOrOffsetsInL1 @endlink</code></td>
-<td>SBML Level 1 does not support multipliers or offsets in unit definitions</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpeciesCompartmentRequiredInL1 SpeciesCompartmentRequiredInL1 @endlink</code></td>
-<td>In SBML Level 1, a value for 'compartment' is mandatory in species definitions</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSpeciesSpatialSizeUnitsInL1 NoSpeciesSpatialSizeUnitsInL1 @endlink</code></td>
-<td>SBML Level 1 does not support species 'spatialSizeUnits' settings</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSBOTermsInL1 NoSBOTermsInL1 @endlink</code></td>
-<td>SBML Level 1 does not support the 'sboTerm' attribute</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.StrictUnitsRequiredInL1 StrictUnitsRequiredInL1 @endlink</code></td>
-<td>SBML Level 1 requires strict unit consistency</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConversionFactorNotInL1 ConversionFactorNotInL1 @endlink</code></td>
-<td>SBML Level 1 does not support the 'conversionFactor' attribute</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompartmentNotOnL1Reaction CompartmentNotOnL1Reaction @endlink</code></td>
-<td>SBML Level 1 does not support the 'compartment' attribute on Reaction objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ExtentUnitsNotSubstance ExtentUnitsNotSubstance @endlink</code></td>
-<td>Units of extent must be compatible with units of substance</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.GlobalUnitsNotDeclared GlobalUnitsNotDeclared @endlink</code></td>
-<td>Global units must be refer to unit kind or unitDefinition.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.HasOnlySubstanceUnitsNotinL1 HasOnlySubstanceUnitsNotinL1 @endlink</code></td>
-<td>The concept of hasOnlySubstanceUnits was not available in SBML Level 1.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AvogadroNotSupported AvogadroNotSupported @endlink</code></td>
-<td>Avogadro not supported in Levels 2 and 1.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoConstraintsInL2v1 NoConstraintsInL2v1 @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support Constraint objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoInitialAssignmentsInL2v1 NoInitialAssignmentsInL2v1 @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support InitialAssignment objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSpeciesTypeInL2v1 NoSpeciesTypeInL2v1 @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support SpeciesType objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoCompartmentTypeInL2v1 NoCompartmentTypeInL2v1 @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support CompartmentType objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSBOTermsInL2v1 NoSBOTermsInL2v1 @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support the 'sboTerm' attribute</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoIdOnSpeciesReferenceInL2v1 NoIdOnSpeciesReferenceInL2v1 @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support the 'id' attribute on SpeciesReference objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoDelayedEventAssignmentInL2v1 NoDelayedEventAssignmentInL2v1 @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support the 'useValuesFromTriggerTime' attribute</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.StrictUnitsRequiredInL2v1 StrictUnitsRequiredInL2v1 @endlink</code></td>
-<td>SBML Level 2 Version 1 requires strict unit consistency</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.IntegerSpatialDimensions IntegerSpatialDimensions @endlink</code></td>
-<td>SBML Level 2 Version 1 requires that compartments have spatial dimensions of 0-3</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.StoichiometryMathNotYetSupported StoichiometryMathNotYetSupported @endlink</code></td>
-<td>Conversion to StoichiometryMath objects not yet supported</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.PriorityLostFromL3 PriorityLostFromL3 @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support priorities on Event objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NonPersistentNotSupported NonPersistentNotSupported @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support the 'persistent' attribute on Trigger objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InitialValueFalseEventNotSupported InitialValueFalseEventNotSupported @endlink</code></td>
-<td>SBML Level 2 Version 1 does not support the 'initialValue' attribute on Trigger objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SBOTermNotUniversalInL2v2 SBOTermNotUniversalInL2v2 @endlink</code></td>
-<td>The 'sboTerm' attribute is invalid for this component in SBML Level 2 Version 2</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoUnitOffsetInL2v2 NoUnitOffsetInL2v2 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'offset' attribute on Unit objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoKineticLawTimeUnitsInL2v2 NoKineticLawTimeUnitsInL2v2 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoKineticLawSubstanceUnitsInL2v2 NoKineticLawSubstanceUnitsInL2v2 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoDelayedEventAssignmentInL2v2 NoDelayedEventAssignmentInL2v2 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ModelSBOBranchChangedBeyondL2v2 ModelSBOBranchChangedBeyondL2v2 @endlink</code></td>
-<td>The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.StrictUnitsRequiredInL2v2 StrictUnitsRequiredInL2v2 @endlink</code></td>
-<td>SBML Level 2 Version 2 requires strict unit consistency</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.StrictSBORequiredInL2v2 StrictSBORequiredInL2v2 @endlink</code></td>
-<td>SBML Level 2 Version 2 requires strict SBO term consistency</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DuplicateAnnotationInvalidInL2v2 DuplicateAnnotationInvalidInL2v2 @endlink</code></td>
-<td>Duplicate top-level annotations are invalid in SBML Level 2 Version 2</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoUnitOffsetInL2v3 NoUnitOffsetInL2v3 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'offset' attribute on Unit objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoKineticLawTimeUnitsInL2v3 NoKineticLawTimeUnitsInL2v3 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoKineticLawSubstanceUnitsInL2v3 NoKineticLawSubstanceUnitsInL2v3 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSpeciesSpatialSizeUnitsInL2v3 NoSpeciesSpatialSizeUnitsInL2v3 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoEventTimeUnitsInL2v3 NoEventTimeUnitsInL2v3 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoDelayedEventAssignmentInL2v3 NoDelayedEventAssignmentInL2v3 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ModelSBOBranchChangedBeyondL2v3 ModelSBOBranchChangedBeyondL2v3 @endlink</code></td>
-<td>The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.StrictUnitsRequiredInL2v3 StrictUnitsRequiredInL2v3 @endlink</code></td>
-<td>SBML Level 2 Version 3 requires strict unit consistency</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.StrictSBORequiredInL2v3 StrictSBORequiredInL2v3 @endlink</code></td>
-<td>SBML Level 2 Version 3 requires strict SBO term consistency</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DuplicateAnnotationInvalidInL2v3 DuplicateAnnotationInvalidInL2v3 @endlink</code></td>
-<td>Duplicate top-level annotations are invalid in SBML Level 2 Version 3</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoUnitOffsetInL2v4 NoUnitOffsetInL2v4 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'offset' attribute on Unit objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoKineticLawTimeUnitsInL2v4 NoKineticLawTimeUnitsInL2v4 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoKineticLawSubstanceUnitsInL2v4 NoKineticLawSubstanceUnitsInL2v4 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSpeciesSpatialSizeUnitsInL2v4 NoSpeciesSpatialSizeUnitsInL2v4 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoEventTimeUnitsInL2v4 NoEventTimeUnitsInL2v4 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ModelSBOBranchChangedInL2v4 ModelSBOBranchChangedInL2v4 @endlink</code></td>
-<td>The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DuplicateAnnotationInvalidInL2v4 DuplicateAnnotationInvalidInL2v4 @endlink</code></td>
-<td>Duplicate top-level annotations are invalid in SBML Level 2 Version 4</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSpeciesTypeInL3v1 NoSpeciesTypeInL3v1 @endlink</code></td>
-<td>SBML Level 3 Version 1 does not support SpeciesType objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoCompartmentTypeInL3v1 NoCompartmentTypeInL3v1 @endlink</code></td>
-<td>SBML Level 3 Version 1 does not support CompartmentType objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoUnitOffsetInL3v1 NoUnitOffsetInL3v1 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'offset' attribute on Unit objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoKineticLawTimeUnitsInL3v1 NoKineticLawTimeUnitsInL3v1 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoKineticLawSubstanceUnitsInL3v1 NoKineticLawSubstanceUnitsInL3v1 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoSpeciesSpatialSizeUnitsInL3v1 NoSpeciesSpatialSizeUnitsInL3v1 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoEventTimeUnitsInL3v1 NoEventTimeUnitsInL3v1 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ModelSBOBranchChangedInL3v1 ModelSBOBranchChangedInL3v1 @endlink</code></td>
-<td>The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DuplicateAnnotationInvalidInL3v1 DuplicateAnnotationInvalidInL3v1 @endlink</code></td>
-<td>Duplicate top-level annotations are invalid in SBML Level 3 Version 1</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoCompartmentOutsideInL3v1 NoCompartmentOutsideInL3v1 @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'outside' attribute on Compartment objects</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoStoichiometryMathInL3v1 NoStoichiometryMathInL3v1 @endlink</code></td>
-<td>This Level+Version of SBML does not support the StoichiometryMath object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidSBMLLevelVersion InvalidSBMLLevelVersion @endlink</code></td>
-<td>Unknown Level+Version combination of SBML</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AnnotationNotesNotAllowedLevel1 AnnotationNotesNotAllowedLevel1 @endlink</code></td>
-<td>Annotation objects on the SBML container element are not permitted in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidRuleOrdering InvalidRuleOrdering @endlink</code></td>
-<td>Invalid ordering of rules</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RequiredPackagePresent RequiredPackagePresent @endlink</code></td>
-<td>The SBML document requires an SBML Level 3 package unavailable in this software</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UnrequiredPackagePresent UnrequiredPackagePresent @endlink</code></td>
-<td>The SBML document uses an SBML Level 3 package unavailable in this software</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.PackageRequiredShouldBeFalse PackageRequiredShouldBeFalse @endlink</code></td>
-<td>This package expects required to be false.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SubsUnitsAllowedInKL SubsUnitsAllowedInKL @endlink</code></td>
-<td>Disallowed value for attribute 'substanceUnits' on KineticLaw object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.TimeUnitsAllowedInKL TimeUnitsAllowedInKL @endlink</code></td>
-<td>Disallowed value for attribute 'timeUnits' on KineticLaw object</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FormulaInLevel1KL FormulaInLevel1KL @endlink</code></td>
-<td>Only predefined functions are allowed in SBML Level 1 formulas</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3SubstanceUnitsOnModel L3SubstanceUnitsOnModel @endlink</code></td>
-<td>Invalid 'substanceUnits' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.TimeUnitsRemoved TimeUnitsRemoved @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.BadMathML BadMathML @endlink</code></td>
-<td>Invalid MathML expression</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FailedMathMLReadOfDouble FailedMathMLReadOfDouble @endlink</code></td>
-<td>Missing or invalid floating-point number in MathML expression</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FailedMathMLReadOfInteger FailedMathMLReadOfInteger @endlink</code></td>
-<td>Missing or invalid integer in MathML expression</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FailedMathMLReadOfExponential FailedMathMLReadOfExponential @endlink</code></td>
-<td>Missing or invalid exponential expression in MathML</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FailedMathMLReadOfRational FailedMathMLReadOfRational @endlink</code></td>
-<td>Missing or invalid rational expression in MathML</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.BadMathMLNodeType BadMathMLNodeType @endlink</code></td>
-<td>Invalid MathML element</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoTimeSymbolInFunctionDef NoTimeSymbolInFunctionDef @endlink</code></td>
-<td>Use of <code>&lt;csymbol&gt;</code> for 'time' not allowed within FunctionDefinition objects</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NoBodyInFunctionDef NoBodyInFunctionDef @endlink</code></td>
-<td>There must be a <code>&lt;lambda&gt;</code> body within the <code>&lt;math&gt;</code> element of a FunctionDefinition object</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.DanglingUnitSIdRef DanglingUnitSIdRef @endlink</code></td>
-<td>Units must refer to valid unit or unitDefinition</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RDFMissingAboutTag RDFMissingAboutTag @endlink</code></td>
-<td>RDF missing the <code>&lt;about&gt;</code> tag.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RDFEmptyAboutTag RDFEmptyAboutTag @endlink</code></td>
-<td>RDF empty <code>&lt;about&gt;</code> tag.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RDFAboutTagNotMetaid RDFAboutTagNotMetaid @endlink</code></td>
-<td>RDF <code>&lt;about&gt;</code> tag is not metaid.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RDFNotCompleteModelHistory RDFNotCompleteModelHistory @endlink</code></td>
-<td>RDF does not contain valid ModelHistory.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.RDFNotModelHistory RDFNotModelHistory @endlink</code></td>
-<td>RDF does not result in a ModelHistory.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.AnnotationNotElement AnnotationNotElement @endlink</code></td>
-<td>Annotation must contain element.</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UndeclaredUnits UndeclaredUnits @endlink</code></td>
-<td>Missing unit declarations on parameters or literal numbers in expression</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UndeclaredTimeUnitsL3 UndeclaredTimeUnitsL3 @endlink</code></td>
-<td>Unable to verify consistency of units: the unit of time has not been declared</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UndeclaredExtentUnitsL3 UndeclaredExtentUnitsL3 @endlink</code></td>
-<td>Unable to verify consistency of units: the units of reaction extent have not been declared</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UndeclaredObjectUnitsL3 UndeclaredObjectUnitsL3 @endlink</code></td>
-<td>Unable to verify consistency of units: encountered a model entity with no declared units</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UnrecognisedSBOTerm UnrecognisedSBOTerm @endlink</code></td>
-<td>Unrecognized 'sboTerm' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ObseleteSBOTerm ObseleteSBOTerm @endlink</code></td>
-<td>Obsolete 'sboTerm' attribute value</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.IncorrectCompartmentSpatialDimensions IncorrectCompartmentSpatialDimensions @endlink</code></td>
-<td>In SBML Level 1, only three-dimensional compartments are allowed</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompartmentTypeNotValidAttribute CompartmentTypeNotValidAttribute @endlink</code></td>
-<td>CompartmentType objects are not available in this Level+Version of SBML</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConstantNotValidAttribute ConstantNotValidAttribute @endlink</code></td>
-<td>This Level+Version of SBML does not support the 'constant' attribute on this component</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MetaIdNotValidAttribute MetaIdNotValidAttribute @endlink</code></td>
-<td>Attribute 'metaid' is not available in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SBOTermNotValidAttributeBeforeL2V3 SBOTermNotValidAttributeBeforeL2V3 @endlink</code></td>
-<td>The 'sboTerm' attribute is not available on this component before SBML Level 2 Version 3</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidL1CompartmentUnits InvalidL1CompartmentUnits @endlink</code></td>
-<td>Invalid units for a compartment in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L1V1CompartmentVolumeReqd L1V1CompartmentVolumeReqd @endlink</code></td>
-<td>In SBML Level 1, a compartment's volume must be specified</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompartmentTypeNotValidComponent CompartmentTypeNotValidComponent @endlink</code></td>
-<td>CompartmentType objects are not available in this Level+Version of SBML</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConstraintNotValidComponent ConstraintNotValidComponent @endlink</code></td>
-<td>Constraint objects are not available in this Level+Version of SBML</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.EventNotValidComponent EventNotValidComponent @endlink</code></td>
-<td>Event objects are not available in this Level+Version of SBML</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SBOTermNotValidAttributeBeforeL2V2 SBOTermNotValidAttributeBeforeL2V2 @endlink</code></td>
-<td>The 'sboTerm' attribute is invalid for this component before Level 2 Version 2</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FuncDefNotValidComponent FuncDefNotValidComponent @endlink</code></td>
-<td>FunctionDefinition objects are not available in this Level+Version of SBML</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InitialAssignNotValidComponent InitialAssignNotValidComponent @endlink</code></td>
-<td>InitialAssignment objects are not available in this Level+Version of SBML</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.VariableNotValidAttribute VariableNotValidAttribute @endlink</code></td>
-<td>Attribute 'variable' is not available on this component in this Level+Version of SBML</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.UnitsNotValidAttribute UnitsNotValidAttribute @endlink</code></td>
-<td>Attribute 'units' is not available on this component in this Level+Version of SBML</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.ConstantSpeciesNotValidAttribute ConstantSpeciesNotValidAttribute @endlink</code></td>
-<td>Attribute 'constant' is not available on Species objects in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpatialSizeUnitsNotValidAttribute SpatialSizeUnitsNotValidAttribute @endlink</code></td>
-<td>Attribute 'spatialSizeUnits' is not available on Species objects in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpeciesTypeNotValidAttribute SpeciesTypeNotValidAttribute @endlink</code></td>
-<td>Attribute 'speciesType' is not available on Species objects in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.HasOnlySubsUnitsNotValidAttribute HasOnlySubsUnitsNotValidAttribute @endlink</code></td>
-<td>Attribute 'hasOnlySubstanceUnits' is not available on Species objects in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.IdNotValidAttribute IdNotValidAttribute @endlink</code></td>
-<td>Attribute 'id' is not available on SpeciesReference objects in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.NameNotValidAttribute NameNotValidAttribute @endlink</code></td>
-<td>Attribute 'name' is not available on SpeciesReference objects in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.SpeciesTypeNotValidComponent SpeciesTypeNotValidComponent @endlink</code></td>
-<td>The SpeciesType object is not supported in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.StoichiometryMathNotValidComponent StoichiometryMathNotValidComponent @endlink</code></td>
-<td>The StoichiometryMath object is not supported in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.MultiplierNotValidAttribute MultiplierNotValidAttribute @endlink</code></td>
-<td>Attribute 'multiplier' on Unit objects is not supported in SBML Level 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.OffsetNotValidAttribute OffsetNotValidAttribute @endlink</code></td>
-<td>Attribute 'offset' on Unit objects is only available in SBML Level 2 Version 1</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3SpatialDimensionsUnset L3SpatialDimensionsUnset @endlink</code></td>
-<td>No value given for 'spatialDimensions' attribute; assuming a value of 3</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.PackageConversionNotSupported PackageConversionNotSupported @endlink</code></td>
-<td>Conversion of SBML Level 3 package constructs is not yet supported</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.InvalidTargetLevelVersion InvalidTargetLevelVersion @endlink</code></td>
-<td>The requested SBML Level/Version combination is not known to exist</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.L3NotSupported L3NotSupported @endlink</code></td>
-<td>SBML Level 3 is not yet supported</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompUnknown CompUnknown @endlink</code></td>
-<td> Unknown error from comp </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompNSUndeclared CompNSUndeclared @endlink</code></td>
-<td> The comp ns is not correctly declared </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompElementNotInNs CompElementNotInNs @endlink</code></td>
-<td> Element not in comp namespace </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompDuplicateComponentId CompDuplicateComponentId @endlink</code></td>
-<td> Duplicate 'id' attribute value </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompUniqueModelIds CompUniqueModelIds @endlink</code></td>
-<td> Model and ExternalModelDefinitions must have unique ids </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompUniquePortIds CompUniquePortIds @endlink</code></td>
-<td> Ports must have unique ids </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidSIdSyntax CompInvalidSIdSyntax @endlink</code></td>
-<td> Invalid SId syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidSubmodelRefSyntax CompInvalidSubmodelRefSyntax @endlink</code></td>
-<td> Invalid submodelRef syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidDeletionSyntax CompInvalidDeletionSyntax @endlink</code></td>
-<td> Invalid deletion syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidConversionFactorSyntax CompInvalidConversionFactorSyntax @endlink</code></td>
-<td> Invalid conversionFactor syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidNameSyntax CompInvalidNameSyntax @endlink</code></td>
-<td> Invalid name syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedUnitsShouldMatch CompReplacedUnitsShouldMatch @endlink</code></td>
-<td> Units of replaced elements should match replacement units. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompOneListOfReplacedElements CompOneListOfReplacedElements @endlink</code></td>
-<td> Only one <code>&lt;listOfReplacedElements&gt;</code> allowed. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOReplaceElementsAllowedElements CompLOReplaceElementsAllowedElements @endlink</code></td>
-<td> Allowed children of <code>&lt;listOfReplacedElements&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOReplacedElementsAllowedAttribs CompLOReplacedElementsAllowedAttribs @endlink</code></td>
-<td> Allowed <code>&lt;listOfReplacedElements&gt;</code> attributes </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompEmptyLOReplacedElements CompEmptyLOReplacedElements @endlink</code></td>
-<td> <code>&lt;listOfReplacedElements&gt;</code> must not be empty </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompOneReplacedByElement CompOneReplacedByElement @endlink</code></td>
-<td> Only one <code>&lt;replacedBy&gt;</code> object allowed. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompAttributeRequiredMissing CompAttributeRequiredMissing @endlink</code></td>
-<td> Required comp:required attribute on <code>&lt;sbml&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompAttributeRequiredMustBeBoolean CompAttributeRequiredMustBeBoolean @endlink</code></td>
-<td> The comp:required attribute must be Boolean </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompRequiredTrueIfElementsRemain CompRequiredTrueIfElementsRemain @endlink</code></td>
-<td> The comp:required attribute must be 'true' if math changes. NOTE:  Deprecated </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompRequiredFalseIfAllElementsReplaced CompRequiredFalseIfAllElementsReplaced @endlink</code></td>
-<td> The comp:required attribute must be 'false' if math does not change. NOTE:  Deprecated </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompOneListOfModelDefinitions CompOneListOfModelDefinitions @endlink</code></td>
-<td> Only one <code>&lt;listOfModelDefinitions&gt;</code> allowed. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompEmptyLOModelDefs CompEmptyLOModelDefs @endlink</code></td>
-<td> <code>&lt;listOfModelDefinitions&gt;</code> and <code>&lt;listOfExternalModelDefinitions&gt;</code> must not be empty </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOModelDefsAllowedElements CompLOModelDefsAllowedElements @endlink</code></td>
-<td> Only <code>&lt;modelDefinitions&gt;</code> in <code>&lt;listOfModelDefinitions&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOExtModelDefsAllowedElements CompLOExtModelDefsAllowedElements @endlink</code></td>
-<td> Only <code>&lt;externalModelDefinitions&gt;</code> in <code>&lt;listOfExternalModelDefinitions&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOModelDefsAllowedAttributes CompLOModelDefsAllowedAttributes @endlink</code></td>
-<td> Allowed <code>&lt;listOfModelDefinitions&gt;</code> attributes </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOExtModDefsAllowedAttributes CompLOExtModDefsAllowedAttributes @endlink</code></td>
-<td> Allowed <code>&lt;listOfExternalModelDefinitions&gt;</code> attributes </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompOneListOfExtModelDefinitions CompOneListOfExtModelDefinitions @endlink</code></td>
-<td> Only one <code>&lt;listOfExternalModelDefinitions&gt;</code> allowed. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompAttributeRequiredMustBeTrue CompAttributeRequiredMustBeTrue @endlink</code></td>
-<td> The comp:required attribute must be 'true' </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompExtModDefAllowedCoreAttributes CompExtModDefAllowedCoreAttributes @endlink</code></td>
-<td> Allowed <code>&lt;externalModelDefinitions&gt;</code> core attributes </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompExtModDefAllowedElements CompExtModDefAllowedElements @endlink</code></td>
-<td> Allowed <code>&lt;externalModelDefinitions&gt;</code> elements </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompExtModDefAllowedAttributes CompExtModDefAllowedAttributes @endlink</code></td>
-<td> Allowed <code>&lt;externalModelDefinitions&gt;</code> attributes </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReferenceMustBeL3 CompReferenceMustBeL3 @endlink</code></td>
-<td> External models must be L3 </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompModReferenceMustIdOfModel CompModReferenceMustIdOfModel @endlink</code></td>
-<td> 'modelRef' must be the 'id' of a model in the 'source' document </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompExtModMd5DoesNotMatch CompExtModMd5DoesNotMatch @endlink</code></td>
-<td> MD5 checksum does not match the 'source' document </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidSourceSyntax CompInvalidSourceSyntax @endlink</code></td>
-<td> The 'comp:source' attribute must be of type 'anyURI' </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidModelRefSyntax CompInvalidModelRefSyntax @endlink</code></td>
-<td> The 'comp:modelRef' attribute must have the syntax of 'SId' </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidMD5Syntax CompInvalidMD5Syntax @endlink</code></td>
-<td> The 'comp:md5' attribute must have the syntax of 'string' </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompCircularExternalModelReference CompCircularExternalModelReference @endlink</code></td>
-<td> Circular reference in <code>&lt;externalModelDefinition&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompOneListOfOnModel CompOneListOfOnModel @endlink</code></td>
-<td> Only one <code>&lt;listOfSubmodels&gt;</code> and one <code>&lt;listOfPorts&gt;</code> allowed </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompNoEmptyListOfOnModel CompNoEmptyListOfOnModel @endlink</code></td>
-<td> No empty listOf elements allowed </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOSubmodelsAllowedElements CompLOSubmodelsAllowedElements @endlink</code></td>
-<td> Allowed elements on <code>&lt;listOfSubmodels&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOPortsAllowedElements CompLOPortsAllowedElements @endlink</code></td>
-<td> Allowed elements on <code>&lt;listOfPorts&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOSubmodelsAllowedAttributes CompLOSubmodelsAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on <code>&lt;listOfSubmodels&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLOPortsAllowedAttributes CompLOPortsAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on <code>&lt;listOfPorts&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompSubmodelAllowedCoreAttributes CompSubmodelAllowedCoreAttributes @endlink</code></td>
-<td> Allowed core attributes on <code>&lt;submodel&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompSubmodelAllowedElements CompSubmodelAllowedElements @endlink</code></td>
-<td> Allowed elements on <code>&lt;submodel&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompOneListOfDeletionOnSubmodel CompOneListOfDeletionOnSubmodel @endlink</code></td>
-<td> Only one <code>&lt;listOfDeletions&gt;</code> on a <code>&lt;submodel&gt;</code> allowed </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompSubmodelNoEmptyLODeletions CompSubmodelNoEmptyLODeletions @endlink</code></td>
-<td> No empty listOfDeletions elements allowed </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLODeletionsAllowedElements CompLODeletionsAllowedElements @endlink</code></td>
-<td> Allowed elements on <code>&lt;listOfDeletions&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLODeletionAllowedAttributes CompLODeletionAllowedAttributes @endlink</code></td>
-<td> Allowed <code>&lt;listOfDeletions&gt;</code> attributes </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompSubmodelAllowedAttributes CompSubmodelAllowedAttributes @endlink</code></td>
-<td> Allowed <code>&lt;submodel&gt;</code> attributes </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompModReferenceSyntax CompModReferenceSyntax @endlink</code></td>
-<td> 'comp:modelRef' must conform to SId syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidTimeConvFactorSyntax CompInvalidTimeConvFactorSyntax @endlink</code></td>
-<td> 'comp:timeConversionFactor' must conform to SId syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidExtentConvFactorSyntax CompInvalidExtentConvFactorSyntax @endlink</code></td>
-<td> 'comp:extentConversionFactor' must conform to SId syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompSubmodelMustReferenceModel CompSubmodelMustReferenceModel @endlink</code></td>
-<td> The 'comp:modelRef' attribute must reference a model </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompSubmodelCannotReferenceSelf CompSubmodelCannotReferenceSelf @endlink</code></td>
-<td> The 'comp:modelRef' attribute cannot reference own model </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompModCannotCircularlyReferenceSelf CompModCannotCircularlyReferenceSelf @endlink</code></td>
-<td> <code>&lt;model&gt;</code> may not reference <code>&lt;submodel&gt;</code> that references itself. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompTimeConversionMustBeParameter CompTimeConversionMustBeParameter @endlink</code></td>
-<td> The 'comp:timeConversionFactor' must reference a parameter </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompExtentConversionMustBeParameter CompExtentConversionMustBeParameter @endlink</code></td>
-<td> The 'comp:extentConversionFactor' must reference a parameter </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompPortRefMustReferencePort CompPortRefMustReferencePort @endlink</code></td>
-<td> The 'comp:portRef' attribute must be the 'id' of a <code>&lt;port&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompIdRefMustReferenceObject CompIdRefMustReferenceObject @endlink</code></td>
-<td> The 'comp:idRef' attribute must be the 'id' of a model element </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompUnitRefMustReferenceUnitDef CompUnitRefMustReferenceUnitDef @endlink</code></td>
-<td> The 'comp:unitRef' attribute must be the 'id' of a UnitDefinition </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompMetaIdRefMustReferenceObject CompMetaIdRefMustReferenceObject @endlink</code></td>
-<td> The 'comp:metaIdRef' attribute must be the 'metaid' of an object </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompParentOfSBRefChildMustBeSubmodel CompParentOfSBRefChildMustBeSubmodel @endlink</code></td>
-<td> If <code>&lt;sBaseRef&gt;</code> has a child <code>&lt;sBaseRef&gt;</code> its parent must be a <code>&lt;submodel&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidPortRefSyntax CompInvalidPortRefSyntax @endlink</code></td>
-<td> The 'comp:portRef' attribute must have the syntax of an SBML SId </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidIdRefSyntax CompInvalidIdRefSyntax @endlink</code></td>
-<td> The 'comp:idRef' attribute must have the syntax of an SBML SId </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidUnitRefSyntax CompInvalidUnitRefSyntax @endlink</code></td>
-<td> The 'comp:unitRef' attribute must have the syntax of an SBML SId </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompInvalidMetaIdRefSyntax CompInvalidMetaIdRefSyntax @endlink</code></td>
-<td> The 'comp:metaIdRef' attribute must have the syntax of an XML ID </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompOneSBaseRefOnly CompOneSBaseRefOnly @endlink</code></td>
-<td> Only one <code>&lt;sbaseRef&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompDeprecatedSBaseRefSpelling CompDeprecatedSBaseRefSpelling @endlink</code></td>
-<td> The spelling 'sbaseRef' is deprecated </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompSBaseRefMustReferenceObject CompSBaseRefMustReferenceObject @endlink</code></td>
-<td> An SBaseRef must reference an object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompSBaseRefMustReferenceOnlyOneObject CompSBaseRefMustReferenceOnlyOneObject @endlink</code></td>
-<td> An SBaseRef must reference only one other object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompNoMultipleReferences CompNoMultipleReferences @endlink</code></td>
-<td> Objects may not be referenced by mutiple SBaseRef constructs. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompPortMustReferenceObject CompPortMustReferenceObject @endlink</code></td>
-<td> Port must reference an object </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompPortMustReferenceOnlyOneObject CompPortMustReferenceOnlyOneObject @endlink</code></td>
-<td> Port must reference only one other object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompPortAllowedAttributes CompPortAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on a Port </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompPortReferencesUnique CompPortReferencesUnique @endlink</code></td>
-<td> Port definitions must be unique. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompDeletionMustReferenceObject CompDeletionMustReferenceObject @endlink</code></td>
-<td> Deletion must reference an object </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompDeletionMustReferOnlyOneObject CompDeletionMustReferOnlyOneObject @endlink</code></td>
-<td> Deletion must reference only one other object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompDeletionAllowedAttributes CompDeletionAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on a Deletion </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedElementMustRefObject CompReplacedElementMustRefObject @endlink</code></td>
-<td> ReplacedElement must reference an object </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedElementMustRefOnlyOne CompReplacedElementMustRefOnlyOne @endlink</code></td>
-<td> ReplacedElement must reference only one other object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedElementAllowedAttributes CompReplacedElementAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on <code>&lt;replacedElement&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedElementSubModelRef CompReplacedElementSubModelRef @endlink</code></td>
-<td> The 'comp:submodelRef' attribute must point to a <code>&lt;submodel&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedElementDeletionRef CompReplacedElementDeletionRef @endlink</code></td>
-<td> The 'comp:deletion' attribute must point to a <code>&lt;deletion&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedElementConvFactorRef CompReplacedElementConvFactorRef @endlink</code></td>
-<td> The 'comp:conversionFactor attribute must point to a <code>&lt;parameter&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedElementSameReference CompReplacedElementSameReference @endlink</code></td>
-<td> No <code>&lt;replacedElement&gt;</code> refer to same object </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedElementNoDelAndConvFact CompReplacedElementNoDelAndConvFact @endlink</code></td>
-<td> No <code>&lt;replacedElement&gt;</code> with deletion and conversionfactor </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedByMustRefObject CompReplacedByMustRefObject @endlink</code></td>
-<td> ReplacedBy must reference an object </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedByMustRefOnlyOne CompReplacedByMustRefOnlyOne @endlink</code></td>
-<td> ReplacedBy must reference only one other object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedByAllowedAttributes CompReplacedByAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on <code>&lt;replacedBy&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompReplacedBySubModelRef CompReplacedBySubModelRef @endlink</code></td>
-<td> The 'comp:submodelRef' attribute must point to a <code>&lt;submodel&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompMustReplaceSameClass CompMustReplaceSameClass @endlink</code></td>
-<td> Replaced classes must match. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompMustReplaceIDs CompMustReplaceIDs @endlink</code></td>
-<td> Replaced IDs must be replaced with IDs. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompMustReplaceMetaIDs CompMustReplaceMetaIDs @endlink</code></td>
-<td> Replaced metaids must be replaced with metaids. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompMustReplacePackageIDs CompMustReplacePackageIDs @endlink</code></td>
-<td> Replaced package IDs must be replaced with package IDs. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompUnresolvedReference CompUnresolvedReference @endlink</code></td>
-<td> Unresolved reference. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompNoModelInReference CompNoModelInReference @endlink</code></td>
-<td> No model in referenced document. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompExtModDefBad CompExtModDefBad @endlink</code></td>
-<td> Referenced <code>&lt;externalModelDefinition&gt;</code> unresolvable. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompModelFlatteningFailed CompModelFlatteningFailed @endlink</code></td>
-<td> Model failed to flatten. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompFlatModelNotValid CompFlatModelNotValid @endlink</code></td>
-<td> Flat model not valid. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompLineNumbersUnreliable CompLineNumbersUnreliable @endlink</code></td>
-<td> Line numbers unreliable. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompFlatteningNotRecognisedReqd CompFlatteningNotRecognisedReqd @endlink</code></td>
-<td> Flattening not implemented for required package. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompFlatteningNotRecognisedNotReqd CompFlatteningNotRecognisedNotReqd @endlink</code></td>
-<td> Flattening not implemented for unrequired package. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompFlatteningNotImplementedNotReqd CompFlatteningNotImplementedNotReqd @endlink</code></td>
-<td> Flattening not implemented for unrequired package. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompFlatteningNotImplementedReqd CompFlatteningNotImplementedReqd @endlink</code></td>
-<td> Flattening not implemented for required package. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompFlatteningWarning CompFlatteningWarning @endlink</code></td>
-<td> Flattening reference may come from package. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompDeprecatedDeleteFunction CompDeprecatedDeleteFunction @endlink</code></td>
-<td> The performDeletions functions is deprecated. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompDeprecatedReplaceFunction CompDeprecatedReplaceFunction @endlink</code></td>
-<td> The performReplacementsAndConversions fuctions is deprecated. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompDeletedReplacement CompDeletedReplacement @endlink</code></td>
-<td> Element deleted before a subelement could be replaced. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompIdRefMayReferenceUnknownPackage CompIdRefMayReferenceUnknownPackage @endlink</code></td>
-<td> The 'comp:idRef' attribute must be the 'id' of a model element </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.CompMetaIdRefMayReferenceUnknownPkg CompMetaIdRefMayReferenceUnknownPkg @endlink</code></td>
-<td> The 'comp:metaIdRef' attribute must be the 'metaid' of a model element </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcUnknown FbcUnknown @endlink</code></td>
-<td> Unknown error from fbc </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcNSUndeclared FbcNSUndeclared @endlink</code></td>
-<td> The fbc ns is not correctly declared </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcElementNotInNs FbcElementNotInNs @endlink</code></td>
-<td> Element not in fbc namespace </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcDuplicateComponentId FbcDuplicateComponentId @endlink</code></td>
-<td> Duplicate 'id' attribute value </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcSBMLSIdSyntax FbcSBMLSIdSyntax @endlink</code></td>
-<td> Invalid 'id' attribute </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcAttributeRequiredMissing FbcAttributeRequiredMissing @endlink</code></td>
-<td> Required fbc:required attribute on <code>&lt;sbml&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcAttributeRequiredMustBeBoolean FbcAttributeRequiredMustBeBoolean @endlink</code></td>
-<td> The fbc:required attribute must be Boolean </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcRequiredFalse FbcRequiredFalse @endlink</code></td>
-<td> The fbc:required attribute must be 'false' </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcOnlyOneEachListOf FbcOnlyOneEachListOf @endlink</code></td>
-<td> One of each list of allowed </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcNoEmptyListOfs FbcNoEmptyListOfs @endlink</code></td>
-<td> ListOf elements cannot be empty </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcLOFluxBoundsAllowedElements FbcLOFluxBoundsAllowedElements @endlink</code></td>
-<td> Allowed elements on ListOfFluxBounds </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcLOObjectivesAllowedElements FbcLOObjectivesAllowedElements @endlink</code></td>
-<td> Allowed elements on ListOfObjectives </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcLOFluxBoundsAllowedAttributes FbcLOFluxBoundsAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on ListOfFluxBounds </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcLOObjectivesAllowedAttributes FbcLOObjectivesAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on ListOfObjectives </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcActiveObjectiveSyntax FbcActiveObjectiveSyntax @endlink</code></td>
-<td> Type of activeObjective attribute </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcActiveObjectiveRefersObjective FbcActiveObjectiveRefersObjective @endlink</code></td>
-<td> ActiveObjective must reference Objective </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcSpeciesAllowedL3Attributes FbcSpeciesAllowedL3Attributes @endlink</code></td>
-<td> Species allowed attributes </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcSpeciesChargeMustBeInteger FbcSpeciesChargeMustBeInteger @endlink</code></td>
-<td> Charge must be integer </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcSpeciesFormulaMustBeString FbcSpeciesFormulaMustBeString @endlink</code></td>
-<td> Chemical formula must be string </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxBoundAllowedL3Attributes FbcFluxBoundAllowedL3Attributes @endlink</code></td>
-<td> <code>&lt;fluxBound&gt;</code> may only have 'metaId' and 'sboTerm' from L3 namespace </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxBoundAllowedElements FbcFluxBoundAllowedElements @endlink</code></td>
-<td> <code>&lt;fluxBound&gt;</code> may only have <code>&lt;notes&gt;</code> and <code>&lt;annotations&gt;</code> from L3 Core </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxBoundRequiredAttributes FbcFluxBoundRequiredAttributes @endlink</code></td>
-<td> Invalid attribute found on <code>&lt;fluxBound&gt;</code> object </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxBoundRectionMustBeSIdRef FbcFluxBoundRectionMustBeSIdRef @endlink</code></td>
-<td> Datatype for 'fbc:reaction' must be SIdRef </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxBoundNameMustBeString FbcFluxBoundNameMustBeString @endlink</code></td>
-<td> The attribute 'fbc:name' must be of the data type string </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxBoundOperationMustBeEnum FbcFluxBoundOperationMustBeEnum @endlink</code></td>
-<td> The attribute 'fbc:operation' must be of data type FbcOperation </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxBoundValueMustBeDouble FbcFluxBoundValueMustBeDouble @endlink</code></td>
-<td> The attribute 'fbc:value' must be of the data type double </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxBoundReactionMustExist FbcFluxBoundReactionMustExist @endlink</code></td>
-<td> 'fbc:reaction' must refer to valid reaction </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxBoundsForReactionConflict FbcFluxBoundsForReactionConflict @endlink</code></td>
-<td> Conflicting set of FluxBounds for a reaction </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcObjectiveAllowedL3Attributes FbcObjectiveAllowedL3Attributes @endlink</code></td>
-<td> <code>&lt;objective&gt;</code> may only have 'metaId' and 'sboTerm' from L3 namespace </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcObjectiveAllowedElements FbcObjectiveAllowedElements @endlink</code></td>
-<td> <code>&lt;objective&gt;</code> may only have <code>&lt;notes&gt;</code> and <code>&lt;annotations&gt;</code> from L3 Core </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcObjectiveRequiredAttributes FbcObjectiveRequiredAttributes @endlink</code></td>
-<td> Invalid attribute found on <code>&lt;objective&gt;</code> object </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcObjectiveNameMustBeString FbcObjectiveNameMustBeString @endlink</code></td>
-<td> The attribute 'fbc:name' must be of the data type string </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcObjectiveTypeMustBeEnum FbcObjectiveTypeMustBeEnum @endlink</code></td>
-<td> The attribute 'fbc:type' must be of data type FbcType. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcObjectiveOneListOfObjectives FbcObjectiveOneListOfObjectives @endlink</code></td>
-<td> An <code>&lt;objective&gt;</code> must have one <code>&lt;listOfFluxObjectives&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcObjectiveLOFluxObjMustNotBeEmpty FbcObjectiveLOFluxObjMustNotBeEmpty @endlink</code></td>
-<td> <code>&lt;listOfFluxObjectives&gt;</code> subobject must not be empty </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcObjectiveLOFluxObjOnlyFluxObj FbcObjectiveLOFluxObjOnlyFluxObj @endlink</code></td>
-<td> Invalid element found in <code>&lt;listOfFluxObjectives&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcObjectiveLOFluxObjAllowedAttribs FbcObjectiveLOFluxObjAllowedAttribs @endlink</code></td>
-<td> <code>&lt;listOfFluxObjectives&gt;</code> may only have 'metaId' and 'sboTerm' from L3 core </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxObjectAllowedL3Attributes FbcFluxObjectAllowedL3Attributes @endlink</code></td>
-<td> <code>&lt;fluxObjective&gt;</code> may only have 'metaId' and 'sboTerm' from L3 namespace </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxObjectAllowedElements FbcFluxObjectAllowedElements @endlink</code></td>
-<td> <code>&lt;fluxObjective&gt;</code> may only have <code>&lt;notes&gt;</code> and <code>&lt;annotations&gt;</code> from L3 Core </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxObjectRequiredAttributes FbcFluxObjectRequiredAttributes @endlink</code></td>
-<td> Invalid attribute found on <code>&lt;fluxObjective&gt;</code> object </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxObjectNameMustBeString FbcFluxObjectNameMustBeString @endlink</code></td>
-<td> The attribute 'fbc:name' must be of the data type string </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxObjectReactionMustBeSIdRef FbcFluxObjectReactionMustBeSIdRef @endlink</code></td>
-<td> Datatype for 'fbc:reaction' must be SIdRef </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxObjectReactionMustExist FbcFluxObjectReactionMustExist @endlink</code></td>
-<td> 'fbc:reaction' must refer to valid reaction </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.FbcFluxObjectCoefficientMustBeDouble FbcFluxObjectCoefficientMustBeDouble @endlink</code></td>
-<td> The attribute 'fbc:coefficient' must be of the data type double </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutUnknownError LayoutUnknownError @endlink</code></td>
-<td> Unknown error from layout </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutNSUndeclared LayoutNSUndeclared @endlink</code></td>
-<td> The layout ns is not correctly declared </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutElementNotInNs LayoutElementNotInNs @endlink</code></td>
-<td> Element not in layout namespace </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutDuplicateComponentId LayoutDuplicateComponentId @endlink</code></td>
-<td> Duplicate 'id' attribute value </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSIdSyntax LayoutSIdSyntax @endlink</code></td>
-<td> 'id' attribute incorrect syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutXsiTypeAllowedLocations LayoutXsiTypeAllowedLocations @endlink</code></td>
-<td> 'xsi:type' allowed locations </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutXsiTypeSyntax LayoutXsiTypeSyntax @endlink</code></td>
-<td> 'xsi:type' attribute incorrect syntax </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutAttributeRequiredMissing LayoutAttributeRequiredMissing @endlink</code></td>
-<td> Required layout:required attribute on <code>&lt;sbml&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutAttributeRequiredMustBeBoolean LayoutAttributeRequiredMustBeBoolean @endlink</code></td>
-<td> The layout:required attribute must be Boolean </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRequiredFalse LayoutRequiredFalse @endlink</code></td>
-<td> The layout:required attribute must be 'false' </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutOnlyOneLOLayouts LayoutOnlyOneLOLayouts @endlink</code></td>
-<td> Only one listOfLayouts on <code>&lt;model&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOLayoutsNotEmpty LayoutLOLayoutsNotEmpty @endlink</code></td>
-<td> ListOf elements cannot be empty </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOLayoutsAllowedElements LayoutLOLayoutsAllowedElements @endlink</code></td>
-<td> Allowed elements on ListOfLayouts </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOLayoutsAllowedAttributes LayoutLOLayoutsAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on ListOfLayouts </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLayoutAllowedElements LayoutLayoutAllowedElements @endlink</code></td>
-<td> Allowed elements on Layout </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLayoutAllowedCoreAttributes LayoutLayoutAllowedCoreAttributes @endlink</code></td>
-<td> Allowed core attributes on Layout </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutOnlyOneEachListOf LayoutOnlyOneEachListOf @endlink</code></td>
-<td> Only one each listOf on <code>&lt;layout&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutNoEmptyListOfs LayoutNoEmptyListOfs @endlink</code></td>
-<td> ListOf elements cannot be empty </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLayoutAllowedAttributes LayoutLayoutAllowedAttributes @endlink</code></td>
-<td> <code>&lt;layout&gt;</code> must have 'id' and may have 'name' </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLayoutNameMustBeString LayoutLayoutNameMustBeString @endlink</code></td>
-<td> 'name' must be string </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOCompGlyphAllowedAttributes LayoutLOCompGlyphAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfCompartmentGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOCompGlyphAllowedElements LayoutLOCompGlyphAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;listOfCompartmentGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOSpeciesGlyphAllowedAttributes LayoutLOSpeciesGlyphAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfSpeciesGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOSpeciesGlyphAllowedElements LayoutLOSpeciesGlyphAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;listOfSpeciesGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLORnGlyphAllowedAttributes LayoutLORnGlyphAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfReactionGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLORnGlyphAllowedElements LayoutLORnGlyphAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;listOfReactionGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOAddGOAllowedAttribut LayoutLOAddGOAllowedAttribut @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfAdditionalGraphicalObjectGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOAddGOAllowedElements LayoutLOAddGOAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;listOfAdditionalGraphicalObjectGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLayoutMustHaveDimensions LayoutLayoutMustHaveDimensions @endlink</code></td>
-<td> Layout must have <code>&lt;dimensions&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOTextGlyphAllowedAttributes LayoutLOTextGlyphAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfTextGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOTextGlyphAllowedElements LayoutLOTextGlyphAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;listOfTextGlyphs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGOAllowedCoreElements LayoutGOAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;graphicalObject&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGOAllowedCoreAttributes LayoutGOAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;graphicalObject&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGOAllowedElements LayoutGOAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;graphicalObject&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGOAllowedAttributes LayoutGOAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;graphicalObject&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGOMetaIdRefMustBeIDREF LayoutGOMetaIdRefMustBeIDREF @endlink</code></td>
-<td> Layout 'metIdRef' must be IDREF. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGOMetaIdRefMustReferenceObject LayoutGOMetaIdRefMustReferenceObject @endlink</code></td>
-<td> Layout 'metIdRef' must reference existing object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGOMustContainBoundingBox LayoutGOMustContainBoundingBox @endlink</code></td>
-<td> A <code>&lt;graphicalObject&gt;</code> must contain a <code>&lt;boundingBox&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGAllowedCoreElements LayoutCGAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;compartmentGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGAllowedCoreAttributes LayoutCGAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;compartmentGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGAllowedElements LayoutCGAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;compartmentGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGAllowedAttributes LayoutCGAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;compartmentGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGMetaIdRefMustBeIDREF LayoutCGMetaIdRefMustBeIDREF @endlink</code></td>
-<td> Layout 'metIdRef' must be IDREF. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGMetaIdRefMustReferenceObject LayoutCGMetaIdRefMustReferenceObject @endlink</code></td>
-<td> Layout 'metIdRef' must reference existing object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGCompartmentSyntax LayoutCGCompartmentSyntax @endlink</code></td>
-<td> CompartmentGlyph 'compartment' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGCompartmentMustRefComp LayoutCGCompartmentMustRefComp @endlink</code></td>
-<td> CompartmentGlyph compartment must reference existing compartment. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGNoDuplicateReferences LayoutCGNoDuplicateReferences @endlink</code></td>
-<td> CompartmentGlyph cannot reference two objects. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCGOrderMustBeDouble LayoutCGOrderMustBeDouble @endlink</code></td>
-<td> CompartmentGlyph order must be double. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSGAllowedCoreElements LayoutSGAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;speciesGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSGAllowedCoreAttributes LayoutSGAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;speciesGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSGAllowedElements LayoutSGAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;speciesGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSGAllowedAttributes LayoutSGAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;speciesGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSGMetaIdRefMustBeIDREF LayoutSGMetaIdRefMustBeIDREF @endlink</code></td>
-<td> Layout 'metIdRef' must be IDREF. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSGMetaIdRefMustReferenceObject LayoutSGMetaIdRefMustReferenceObject @endlink</code></td>
-<td> Layout 'metIdRef' must reference existing object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSGSpeciesSyntax LayoutSGSpeciesSyntax @endlink</code></td>
-<td> SpeciesGlyph 'species' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSGSpeciesMustRefSpecies LayoutSGSpeciesMustRefSpecies @endlink</code></td>
-<td> SpeciesGlyph species must reference existing species. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSGNoDuplicateReferences LayoutSGNoDuplicateReferences @endlink</code></td>
-<td> SpeciesGlyph cannot reference two objects. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRGAllowedCoreElements LayoutRGAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;reactionGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRGAllowedCoreAttributes LayoutRGAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;reactionGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRGAllowedElements LayoutRGAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;reactionGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRGAllowedAttributes LayoutRGAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;reactionGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRGMetaIdRefMustBeIDREF LayoutRGMetaIdRefMustBeIDREF @endlink</code></td>
-<td> Layout 'metIdRef' must be IDREF. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRGMetaIdRefMustReferenceObject LayoutRGMetaIdRefMustReferenceObject @endlink</code></td>
-<td> Layout 'metIdRef' must reference existing object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRGReactionSyntax LayoutRGReactionSyntax @endlink</code></td>
-<td> ReactionGlyph 'reaction' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRGReactionMustRefReaction LayoutRGReactionMustRefReaction @endlink</code></td>
-<td> ReactionGlyph reaction must reference existing reaction. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutRGNoDuplicateReferences LayoutRGNoDuplicateReferences @endlink</code></td>
-<td> ReactionGlyph cannot reference two objects. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOSpeciesRefGlyphAllowedElements LayoutLOSpeciesRefGlyphAllowedElements @endlink</code></td>
-<td> Allowed elements on ListOfSpeciesReferenceGlyphs </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOSpeciesRefGlyphAllowedAttribs LayoutLOSpeciesRefGlyphAllowedAttribs @endlink</code></td>
-<td> Allowed attributes on ListOfSpeciesReferenceGlyphs </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOSpeciesRefGlyphNotEmpty LayoutLOSpeciesRefGlyphNotEmpty @endlink</code></td>
-<td> ListOfSpeciesReferenceGlyphs not empty </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGGAllowedCoreElements LayoutGGAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;generalGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGGAllowedCoreAttributes LayoutGGAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;generalGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGGAllowedElements LayoutGGAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;generalGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGGAllowedAttributes LayoutGGAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;generalGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGGMetaIdRefMustBeIDREF LayoutGGMetaIdRefMustBeIDREF @endlink</code></td>
-<td> Layout 'metIdRef' must be IDREF. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGGMetaIdRefMustReferenceObject LayoutGGMetaIdRefMustReferenceObject @endlink</code></td>
-<td> Layout 'metIdRef' must reference existing object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGGReferenceSyntax LayoutGGReferenceSyntax @endlink</code></td>
-<td> GeneralGlyph 'reference' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGGReferenceMustRefObject LayoutGGReferenceMustRefObject @endlink</code></td>
-<td> GeneralGlyph 'reference' must reference existing element. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutGGNoDuplicateReferences LayoutGGNoDuplicateReferences @endlink</code></td>
-<td> GeneralGlyph cannot reference two objects. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOReferenceGlyphAllowedElements LayoutLOReferenceGlyphAllowedElements @endlink</code></td>
-<td> Allowed elements on ListOfReferenceGlyphs </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOReferenceGlyphAllowedAttribs LayoutLOReferenceGlyphAllowedAttribs @endlink</code></td>
-<td> Allowed attributes on ListOfReferenceGlyphs </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOSubGlyphAllowedElements LayoutLOSubGlyphAllowedElements @endlink</code></td>
-<td> Allowed elements on ListOfSubGlyphs </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOSubGlyphAllowedAttribs LayoutLOSubGlyphAllowedAttribs @endlink</code></td>
-<td> Allowed attributes on ListOfSubGlyphs </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGAllowedCoreElements LayoutTGAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;textGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGAllowedCoreAttributes LayoutTGAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;textGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGAllowedElements LayoutTGAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;textGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGAllowedAttributes LayoutTGAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;textGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGMetaIdRefMustBeIDREF LayoutTGMetaIdRefMustBeIDREF @endlink</code></td>
-<td> Layout 'metIdRef' must be IDREF. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGMetaIdRefMustReferenceObject LayoutTGMetaIdRefMustReferenceObject @endlink</code></td>
-<td> Layout 'metIdRef' must reference existing object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGOriginOfTextSyntax LayoutTGOriginOfTextSyntax @endlink</code></td>
-<td> TextGlyph 'originOfText' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGOriginOfTextMustRefObject LayoutTGOriginOfTextMustRefObject @endlink</code></td>
-<td> TextGlyph 'originOfText' must reference existing element. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGNoDuplicateReferences LayoutTGNoDuplicateReferences @endlink</code></td>
-<td> TextGlyph cannot reference two objects. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGGraphicalObjectSyntax LayoutTGGraphicalObjectSyntax @endlink</code></td>
-<td> TextGlyph 'graphicalObject' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGGraphicalObjectMustRefObject LayoutTGGraphicalObjectMustRefObject @endlink</code></td>
-<td> TextGlyph 'graphicalObject' must reference existing element. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutTGTextMustBeString LayoutTGTextMustBeString @endlink</code></td>
-<td> TextGlyph 'text' must be string. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGAllowedCoreElements LayoutSRGAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;speciesReferenceGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGAllowedCoreAttributes LayoutSRGAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;speciesReferenceGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGAllowedElements LayoutSRGAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;speciesReferenceGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGAllowedAttributes LayoutSRGAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;speciesReferenceGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGMetaIdRefMustBeIDREF LayoutSRGMetaIdRefMustBeIDREF @endlink</code></td>
-<td> Layout 'metIdRef' must be IDREF. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGMetaIdRefMustReferenceObject LayoutSRGMetaIdRefMustReferenceObject @endlink</code></td>
-<td> Layout 'metIdRef' must reference existing object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGSpeciesReferenceSyntax LayoutSRGSpeciesReferenceSyntax @endlink</code></td>
-<td> SpeciesReferenceGlyph 'speciesReference' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGSpeciesRefMustRefObject LayoutSRGSpeciesRefMustRefObject @endlink</code></td>
-<td> SpeciesReferenceGlyph 'speciesReference' must reference existing element. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGNoDuplicateReferences LayoutSRGNoDuplicateReferences @endlink</code></td>
-<td> SpeciesReferenceGlyph cannot reference two objects. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGSpeciesGlyphSyntax LayoutSRGSpeciesGlyphSyntax @endlink</code></td>
-<td> SpeciesReferenceGlyph 'speciesGlyph' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGSpeciesGlyphMustRefObject LayoutSRGSpeciesGlyphMustRefObject @endlink</code></td>
-<td> SpeciesReferenceGlyph 'speciesGlyph' must reference existing element. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutSRGRoleSyntax LayoutSRGRoleSyntax @endlink</code></td>
-<td> SpeciesReferenceGlyph 'role' must be string from enumeration. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGAllowedCoreElements LayoutREFGAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;referenceGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGAllowedCoreAttributes LayoutREFGAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;referenceGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGAllowedElements LayoutREFGAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;referenceGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGAllowedAttributes LayoutREFGAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;referenceGlyph&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGMetaIdRefMustBeIDREF LayoutREFGMetaIdRefMustBeIDREF @endlink</code></td>
-<td> Layout 'metIdRef' must be IDREF. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGMetaIdRefMustReferenceObject LayoutREFGMetaIdRefMustReferenceObject @endlink</code></td>
-<td> Layout 'metIdRef' must reference existing object. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGReferenceSyntax LayoutREFGReferenceSyntax @endlink</code></td>
-<td> ReferenceGlyph 'reference' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGReferenceMustRefObject LayoutREFGReferenceMustRefObject @endlink</code></td>
-<td> ReferenceGlyph 'reference' must reference existing element. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGNoDuplicateReferences LayoutREFGNoDuplicateReferences @endlink</code></td>
-<td> ReferenceGlyph cannot reference two objects. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGGlyphSyntax LayoutREFGGlyphSyntax @endlink</code></td>
-<td> ReferenceGlyph 'glyph' must have SIdRef syntax. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGGlyphMustRefObject LayoutREFGGlyphMustRefObject @endlink</code></td>
-<td> ReferenceGlyph 'glyph' must reference existing element. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutREFGRoleSyntax LayoutREFGRoleSyntax @endlink</code></td>
-<td> ReferenceGlyph 'role' must be string. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutPointAllowedCoreElements LayoutPointAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;point&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutPointAllowedCoreAttributes LayoutPointAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;point&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutPointAllowedAttributes LayoutPointAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;point&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutPointAttributesMustBeDouble LayoutPointAttributesMustBeDouble @endlink</code></td>
-<td> Layout 'x', 'y' and 'z' must be double. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutBBoxAllowedCoreElements LayoutBBoxAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;boundingBox&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutBBoxAllowedCoreAttributes LayoutBBoxAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;boundingBox&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutBBoxAllowedElements LayoutBBoxAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;boundingBox&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutBBoxAllowedAttributes LayoutBBoxAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;boundingBox&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutBBoxConsistent3DDefinition LayoutBBoxConsistent3DDefinition @endlink</code></td>
-<td> Layout consistent dimensions on a <code>&lt;boundingBox&gt;</code> </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCurveAllowedCoreElements LayoutCurveAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;curve&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCurveAllowedCoreAttributes LayoutCurveAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;curve&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCurveAllowedElements LayoutCurveAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;curve&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCurveAllowedAttributes LayoutCurveAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;curve&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOCurveSegsAllowedAttributes LayoutLOCurveSegsAllowedAttributes @endlink</code></td>
-<td> Allowed attributes on ListOfCurveSegments </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOCurveSegsAllowedElements LayoutLOCurveSegsAllowedElements @endlink</code></td>
-<td> Allowed elements on ListOfCurveSegments </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLOCurveSegsNotEmpty LayoutLOCurveSegsNotEmpty @endlink</code></td>
-<td> No empty ListOfCurveSegments </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLSegAllowedCoreElements LayoutLSegAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;lineSegment&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLSegAllowedCoreAttributes LayoutLSegAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;lineSegment&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLSegAllowedElements LayoutLSegAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;lineSegment&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutLSegAllowedAttributes LayoutLSegAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;lineSegment&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCBezAllowedCoreElements LayoutCBezAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;cubicBezier&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCBezAllowedCoreAttributes LayoutCBezAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;cubicBezier&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCBezAllowedElements LayoutCBezAllowedElements @endlink</code></td>
-<td> %Layout elements allowed on <code>&lt;cubicBezier&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutCBezAllowedAttributes LayoutCBezAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;cubicBezier&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutDimsAllowedCoreElements LayoutDimsAllowedCoreElements @endlink</code></td>
-<td> Core elements allowed on <code>&lt;dimensions&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutDimsAllowedCoreAttributes LayoutDimsAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;dimensions&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutDimsAllowedAttributes LayoutDimsAllowedAttributes @endlink</code></td>
-<td> %Layout attributes allowed on <code>&lt;dimensions&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.LayoutDimsAttributesMustBeDouble LayoutDimsAttributesMustBeDouble @endlink</code></td>
-<td> Layout 'width', 'height' and 'depth' must be double. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualUnknown QualUnknown @endlink</code></td>
-<td> Unknown error from qual. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualNSUndeclared QualNSUndeclared @endlink</code></td>
-<td> The qual ns is not correctly declared. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualElementNotInNs QualElementNotInNs @endlink</code></td>
-<td> Element not in qual namespace. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualFunctionTermBool QualFunctionTermBool @endlink</code></td>
-<td> FunctionTerm should return bool. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualMathCSymbolDisallowed QualMathCSymbolDisallowed @endlink</code></td>
-<td> CSymbol time or delay not allowed. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-warning'>W</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualDuplicateComponentId QualDuplicateComponentId @endlink</code></td>
-<td> Duplicate 'id' attribute value. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualAttributeRequiredMissing QualAttributeRequiredMissing @endlink</code></td>
-<td> Required qual:required attribute on <code>&lt;sbml&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualAttributeRequiredMustBeBoolean QualAttributeRequiredMustBeBoolean @endlink</code></td>
-<td> The qual:required attribute must be Boolean. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualRequiredTrueIfTransitions QualRequiredTrueIfTransitions @endlink</code></td>
-<td> The qual:required attribute must be 'true' if math changes. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOneListOfTransOrQS QualOneListOfTransOrQS @endlink</code></td>
-<td> Only one <code>&lt;listOfTransitions&gt;</code> or <code>&lt;listOfQualitativeSpeciesgt;</code> allowed. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualEmptyLONotAllowed QualEmptyLONotAllowed @endlink</code></td>
-<td> Empty <code>&lt;listOfTransitions&gt;</code> or <code>&lt;listOfQualitativeSpeciesgt;</code> not allowed. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualLOTransitiondAllowedElements QualLOTransitiondAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;listOfTransitions&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualLOQualSpeciesAllowedElements QualLOQualSpeciesAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;listOfTransitions&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualLOQualSpeciesAllowedAttributes QualLOQualSpeciesAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfQualitativeSpeciesgt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualLOTransitionsAllowedAttributes QualLOTransitionsAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfTransitions&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualQualSpeciesAllowedCoreAttributes QualQualSpeciesAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;qualitativeSpeciesgt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualQualSpeciesAllowedElements QualQualSpeciesAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;qualitativeSpeciesgt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualQualSpeciesAllowedAttributes QualQualSpeciesAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;qualitativeSpeciesgt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualConstantMustBeBool QualConstantMustBeBool @endlink</code></td>
-<td> Attribute 'constant' on <code>&lt;qualitativeSpeciesgt;</code> must be bool. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualNameMustBeString QualNameMustBeString @endlink</code></td>
-<td> Attribute 'name' on <code>&lt;qualitativeSpeciesgt;</code> must be string. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInitialLevelMustBeInt QualInitialLevelMustBeInt @endlink</code></td>
-<td> Attribute 'initialLevel' on <code>&lt;qualitativeSpeciesgt;</code> must be integer. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualMaxLevelMustBeInt QualMaxLevelMustBeInt @endlink</code></td>
-<td> Attribute 'maxLevel' on <code>&lt;qualitativeSpeciesgt;</code> must be integer. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualCompartmentMustReferExisting QualCompartmentMustReferExisting @endlink</code></td>
-<td> Attribute 'compartment' on <code>&lt;qualitativeSpeciesgt;</code> must reference compartment. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInitialLevelCannotExceedMax QualInitialLevelCannotExceedMax @endlink</code></td>
-<td> Attribute 'initialLevel' on <code>&lt;qualitativeSpeciesgt;</code> cannot exceed maxLevel. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualConstantQSCannotBeOutput QualConstantQSCannotBeOutput @endlink</code></td>
-<td> Constant <code>&lt;qualitativeSpeciesgt;</code> cannot be an Output. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualQSAssignedOnlyOnce QualQSAssignedOnlyOnce @endlink</code></td>
-<td> A <code>&lt;qualitativeSpeciesgt;</code> can only be assigned once. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInitalLevelNotNegative QualInitalLevelNotNegative @endlink</code></td>
-<td> Attribute 'initialLevel' on <code>&lt;qualitativeSpeciesgt;</code> cannot be negative. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualMaxLevelNotNegative QualMaxLevelNotNegative @endlink</code></td>
-<td> Attribute 'maxLevel' on <code>&lt;qualitativeSpeciesgt;</code> cannot be negative. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionAllowedCoreAttributes QualTransitionAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;transition&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionAllowedElements QualTransitionAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;transition&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionAllowedAttributes QualTransitionAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;transition&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionNameMustBeString QualTransitionNameMustBeString @endlink</code></td>
-<td> Attribute 'name' on <code>&lt;transition&gt;</code> must be string. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionLOElements QualTransitionLOElements @endlink</code></td>
-<td> ListOf elements on <code>&lt;transition&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionEmptyLOElements QualTransitionEmptyLOElements @endlink</code></td>
-<td> ListOf elements on <code>&lt;transition&gt;</code> not empty. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionLOInputElements QualTransitionLOInputElements @endlink</code></td>
-<td> Elements on <code>&lt;listOfInputs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionLOOutputElements QualTransitionLOOutputElements @endlink</code></td>
-<td> Elements on <code>&lt;listOfOutputs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionLOFuncTermElements QualTransitionLOFuncTermElements @endlink</code></td>
-<td> Elements on <code>&lt;listOfFunctionTerms&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionLOInputAttributes QualTransitionLOInputAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfInputs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionLOOutputAttributes QualTransitionLOOutputAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfOutputs&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionLOFuncTermAttributes QualTransitionLOFuncTermAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;listOfFunctionTerms&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionLOFuncTermExceedMax QualTransitionLOFuncTermExceedMax @endlink</code></td>
-<td> <code>&lt;listOfFunctionTerms&gt;</code> cannot make qualitativeSpecies exceed maxLevel. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualTransitionLOFuncTermNegative QualTransitionLOFuncTermNegative @endlink</code></td>
-<td> <code>&lt;listOfFunctionTerms&gt;</code> cannot make qualitativeSpecies negative. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputAllowedCoreAttributes QualInputAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;input&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputAllowedElements QualInputAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;input&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputAllowedAttributes QualInputAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;input&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputNameMustBeString QualInputNameMustBeString @endlink</code></td>
-<td> Attribute 'name' on <code>&lt;input&gt;</code> must be string. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputSignMustBeSignEnum QualInputSignMustBeSignEnum @endlink</code></td>
-<td> Attribute 'sign' on <code>&lt;input&gt;</code> must be enum. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputTransEffectMustBeInputEffect QualInputTransEffectMustBeInputEffect @endlink</code></td>
-<td> Attribute 'transitionEffect' on <code>&lt;input&gt;</code> must be enum. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputThreshMustBeInteger QualInputThreshMustBeInteger @endlink</code></td>
-<td> Attribute 'thresholdLevel' on <code>&lt;input&gt;</code> must be non negative integer. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputQSMustBeExistingQS QualInputQSMustBeExistingQS @endlink</code></td>
-<td> Attribute 'qualitativeSpecies' on <code>&lt;input&gt;</code> must refer to existing. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputConstantCannotBeConsumed QualInputConstantCannotBeConsumed @endlink</code></td>
-<td> Constant <code>&lt;input&gt;</code> cannot be consumed. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualInputThreshMustBeNonNegative QualInputThreshMustBeNonNegative @endlink</code></td>
-<td> Attribute 'thresholdLevel' on <code>&lt;input&gt;</code> must be non negative integer. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputAllowedCoreAttributes QualOutputAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;output&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputAllowedElements QualOutputAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;output&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputAllowedAttributes QualOutputAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;output&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputNameMustBeString QualOutputNameMustBeString @endlink</code></td>
-<td> Attribute 'name' on <code>&lt;output&gt;</code> must be string. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputTransEffectMustBeOutput QualOutputTransEffectMustBeOutput @endlink</code></td>
-<td> Attribute 'transitionEffect' on <code>&lt;output&gt;</code> must be enum. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputLevelMustBeInteger QualOutputLevelMustBeInteger @endlink</code></td>
-<td> Attribute 'outputLevel' on <code>&lt;output&gt;</code> must be non negative integer. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputQSMustBeExistingQS QualOutputQSMustBeExistingQS @endlink</code></td>
-<td> Attribute 'qualitativeSpecies' on <code>&lt;output&gt;</code> must refer to existing. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputConstantMustBeFalse QualOutputConstantMustBeFalse @endlink</code></td>
-<td> Constant 'qualitativeSpecies' cannot be <code>&lt;output&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputProductionMustHaveLevel QualOutputProductionMustHaveLevel @endlink</code></td>
-<td> <code>&lt;output&gt;</code> being produced must have level. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualOutputLevelMustBeNonNegative QualOutputLevelMustBeNonNegative @endlink</code></td>
-<td> Attribute 'outputLevel' on <code>&lt;output&gt;</code> must be non negative integer. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualDefaultTermAllowedCoreAttributes QualDefaultTermAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;defaultTerm&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualDefaultTermAllowedElements QualDefaultTermAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;defaultTerm&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualDefaultTermAllowedAttributes QualDefaultTermAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;defaultTerm&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualDefaultTermResultMustBeInteger QualDefaultTermResultMustBeInteger @endlink</code></td>
-<td> Attribute 'resultLevel' on <code>&lt;defaultTerm&gt;</code> must be non negative integer. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualDefaultTermResultMustBeNonNeg QualDefaultTermResultMustBeNonNeg @endlink</code></td>
-<td> Attribute 'resultLevel' on <code>&lt;defaultTerm&gt;</code> must be non negative integer. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualFuncTermAllowedCoreAttributes QualFuncTermAllowedCoreAttributes @endlink</code></td>
-<td> Core attributes allowed on <code>&lt;functionTerm&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualFuncTermAllowedElements QualFuncTermAllowedElements @endlink</code></td>
-<td> Elements allowed on <code>&lt;functionTerm&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualFuncTermAllowedAttributes QualFuncTermAllowedAttributes @endlink</code></td>
-<td> Attributes allowed on <code>&lt;functionTerm&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualFuncTermOnlyOneMath QualFuncTermOnlyOneMath @endlink</code></td>
-<td> Only one <code>&lt;math&gt;</code> on <code>&lt;functionTerm&gt;</code>. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualFuncTermResultMustBeInteger QualFuncTermResultMustBeInteger @endlink</code></td>
-<td> Attribute 'resultLevel' on <code>&lt;functionTerm&gt;</code> must be non negative integer. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
-<tr><td><code>@link libsbmlcs.libsbml.QualFuncTermResultMustBeNonNeg QualFuncTermResultMustBeNonNeg @endlink</code></td>
-<td> Attribute 'resultLevel' on <code>&lt;functionTerm&gt;</code> must be non negative integer.. </td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-na'>N</td>
-<td class='s-error'>E</td></tr>
+<tr><td class='code'>@link libsbmlcs#XMLUnknownError XMLUnknownError@endlink</td>
+<td class='meaning'>Unknown error</td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLOutOfMemory XMLOutOfMemory@endlink</td>
+<td class='meaning'>Out of memory</td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLFileUnreadable XMLFileUnreadable@endlink</td>
+<td class='meaning'>File unreadable</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLFileUnwritable XMLFileUnwritable@endlink</td>
+<td class='meaning'>File unwritable</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLFileOperationError XMLFileOperationError@endlink</td>
+<td class='meaning'>File operation error</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLNetworkAccessError XMLNetworkAccessError@endlink</td>
+<td class='meaning'>Network access error</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InternalXMLParserError InternalXMLParserError@endlink</td>
+<td class='meaning'>Internal XML parser error</td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UnrecognizedXMLParserCode UnrecognizedXMLParserCode@endlink</td>
+<td class='meaning'>Unrecognized XML parser code</td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLTranscoderError XMLTranscoderError@endlink</td>
+<td class='meaning'>Transcoder error</td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingXMLDecl MissingXMLDecl@endlink</td>
+<td class='meaning'>Missing XML declaration</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingXMLEncoding MissingXMLEncoding@endlink</td>
+<td class='meaning'>Missing XML encoding attribute</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLDecl BadXMLDecl@endlink</td>
+<td class='meaning'>Bad XML declaration</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLDOCTYPE BadXMLDOCTYPE@endlink</td>
+<td class='meaning'>Bad XML DOCTYPE</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidCharInXML InvalidCharInXML@endlink</td>
+<td class='meaning'>Invalid character</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadlyFormedXML BadlyFormedXML@endlink</td>
+<td class='meaning'>Badly formed XML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UnclosedXMLToken UnclosedXMLToken@endlink</td>
+<td class='meaning'>Unclosed token</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidXMLConstruct InvalidXMLConstruct@endlink</td>
+<td class='meaning'>Invalid XML construct</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLTagMismatch XMLTagMismatch@endlink</td>
+<td class='meaning'>XML tag mismatch</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateXMLAttribute DuplicateXMLAttribute@endlink</td>
+<td class='meaning'>Duplicate attribute</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UndefinedXMLEntity UndefinedXMLEntity@endlink</td>
+<td class='meaning'>Undefined XML entity</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadProcessingInstruction BadProcessingInstruction@endlink</td>
+<td class='meaning'>Bad XML processing instruction</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLPrefix BadXMLPrefix@endlink</td>
+<td class='meaning'>Bad XML prefix</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLPrefixValue BadXMLPrefixValue@endlink</td>
+<td class='meaning'>Bad XML prefix value</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingXMLRequiredAttribute MissingXMLRequiredAttribute@endlink</td>
+<td class='meaning'>Missing required attribute</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLAttributeTypeMismatch XMLAttributeTypeMismatch@endlink</td>
+<td class='meaning'>Attribute type mismatch</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLBadUTF8Content XMLBadUTF8Content@endlink</td>
+<td class='meaning'>Bad UTF8 content</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingXMLAttributeValue MissingXMLAttributeValue@endlink</td>
+<td class='meaning'>Missing attribute value</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLAttributeValue BadXMLAttributeValue@endlink</td>
+<td class='meaning'>Bad attribute value</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLAttribute BadXMLAttribute@endlink</td>
+<td class='meaning'>Bad XML attribute</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UnrecognizedXMLElement UnrecognizedXMLElement@endlink</td>
+<td class='meaning'>Unrecognized XML element</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLComment BadXMLComment@endlink</td>
+<td class='meaning'>Bad XML comment</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLDeclLocation BadXMLDeclLocation@endlink</td>
+<td class='meaning'>Bad XML declaration location</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLUnexpectedEOF XMLUnexpectedEOF@endlink</td>
+<td class='meaning'>Unexpected EOF</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLIDValue BadXMLIDValue@endlink</td>
+<td class='meaning'>Bad XML ID value</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLIDRef BadXMLIDRef@endlink</td>
+<td class='meaning'>Bad XML IDREF</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UninterpretableXMLContent UninterpretableXMLContent@endlink</td>
+<td class='meaning'>Uninterpretable XML content</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadXMLDocumentStructure BadXMLDocumentStructure@endlink</td>
+<td class='meaning'>Bad XML document structure</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidAfterXMLContent InvalidAfterXMLContent@endlink</td>
+<td class='meaning'>Invalid content after XML content</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLExpectedQuotedString XMLExpectedQuotedString@endlink</td>
+<td class='meaning'>Expected quoted string</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLEmptyValueNotPermitted XMLEmptyValueNotPermitted@endlink</td>
+<td class='meaning'>Empty value not permitted</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLBadNumber XMLBadNumber@endlink</td>
+<td class='meaning'>Bad number</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLBadColon XMLBadColon@endlink</td>
+<td class='meaning'>Colon character not permitted</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingXMLElements MissingXMLElements@endlink</td>
+<td class='meaning'>Missing XML elements</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#XMLContentEmpty XMLContentEmpty@endlink</td>
+<td class='meaning'>Empty XML content</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UnknownError UnknownError@endlink</td>
+<td class='meaning'>Encountered unknown internal libSBML error</td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+<td class='s-fatal'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NotUTF8 NotUTF8@endlink</td>
+<td class='meaning'>File does not use UTF-8 encoding</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UnrecognizedElement UnrecognizedElement@endlink</td>
+<td class='meaning'>Encountered unrecognized element</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NotSchemaConformant NotSchemaConformant@endlink</td>
+<td class='meaning'>Document does not conform to the SBML XML schema</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3NotSchemaConformant L3NotSchemaConformant@endlink</td>
+<td class='meaning'>Document is not well-formed XML</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidMathElement InvalidMathElement@endlink</td>
+<td class='meaning'>Invalid MathML</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DisallowedMathMLSymbol DisallowedMathMLSymbol@endlink</td>
+<td class='meaning'>Disallowed MathML symbol found</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DisallowedMathMLEncodingUse DisallowedMathMLEncodingUse@endlink</td>
+<td class='meaning'>Use of the MathML 'encoding' attribute is not allowed on this element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DisallowedDefinitionURLUse DisallowedDefinitionURLUse@endlink</td>
+<td class='meaning'>Use of the MathML 'definitionURL' attribute is not allowed on this element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadCsymbolDefinitionURLValue BadCsymbolDefinitionURLValue@endlink</td>
+<td class='meaning'>Invalid <code>&lt;csymbol&gt;</code> 'definitionURL' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DisallowedMathTypeAttributeUse DisallowedMathTypeAttributeUse@endlink</td>
+<td class='meaning'>Use of the MathML 'type' attribute is not allowed on this element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DisallowedMathTypeAttributeValue DisallowedMathTypeAttributeValue@endlink</td>
+<td class='meaning'>Disallowed MathML 'type' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LambdaOnlyAllowedInFunctionDef LambdaOnlyAllowedInFunctionDef@endlink</td>
+<td class='meaning'>Use of <code>&lt;lambda&gt;</code> not permitted outside of FunctionDefinition objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BooleanOpsNeedBooleanArgs BooleanOpsNeedBooleanArgs@endlink</td>
+<td class='meaning'>Non-Boolean argument given to Boolean operator</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NumericOpsNeedNumericArgs NumericOpsNeedNumericArgs@endlink</td>
+<td class='meaning'>Non-numerical argument given to numerical operator</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ArgsToEqNeedSameType ArgsToEqNeedSameType@endlink</td>
+<td class='meaning'>Arguments to <code>&lt;eq&gt;</code> and <code>&lt;neq&gt;</code> must have the same data types</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#PiecewiseNeedsConsistentTypes PiecewiseNeedsConsistentTypes@endlink</td>
+<td class='meaning'>Terms in a <code>&lt;piecewise&gt;</code> expression must have consistent data types</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#PieceNeedsBoolean PieceNeedsBoolean@endlink</td>
+<td class='meaning'>The second argument of a <code>&lt;piece&gt;</code> expression must yield a Boolean value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ApplyCiMustBeUserFunction ApplyCiMustBeUserFunction@endlink</td>
+<td class='meaning'>A <code>&lt;ci&gt;</code> element in this context must refer to a function definition</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ApplyCiMustBeModelComponent ApplyCiMustBeModelComponent@endlink</td>
+<td class='meaning'>A <code>&lt;ci&gt;</code> element in this context must refer to a model component</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#KineticLawParametersAreLocalOnly KineticLawParametersAreLocalOnly@endlink</td>
+<td class='meaning'>Cannot use a KineticLaw local parameter outside of its local scope</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MathResultMustBeNumeric MathResultMustBeNumeric@endlink</td>
+<td class='meaning'>A formula's result in this context must be a numerical value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OpsNeedCorrectNumberOfArgs OpsNeedCorrectNumberOfArgs@endlink</td>
+<td class='meaning'>Incorrect number of arguments given to MathML operator</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidNoArgsPassedToFunctionDef InvalidNoArgsPassedToFunctionDef@endlink</td>
+<td class='meaning'>Incorrect number of arguments given to function invocation</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DisallowedMathUnitsUse DisallowedMathUnitsUse@endlink</td>
+<td class='meaning'>Attribute 'units' is only permitted on <code>&lt;cn&gt;</code> elements</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidUnitsValue InvalidUnitsValue@endlink</td>
+<td class='meaning'>Invalid value given for the 'units' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateComponentId DuplicateComponentId@endlink</td>
+<td class='meaning'>Duplicate 'id' attribute value</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateUnitDefinitionId DuplicateUnitDefinitionId@endlink</td>
+<td class='meaning'>Duplicate unit definition 'id' attribute value</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateLocalParameterId DuplicateLocalParameterId@endlink</td>
+<td class='meaning'>Duplicate local parameter 'id' attribute value</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MultipleAssignmentOrRateRules MultipleAssignmentOrRateRules@endlink</td>
+<td class='meaning'>Multiple rules for the same variable are not allowed</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MultipleEventAssignmentsForId MultipleEventAssignmentsForId@endlink</td>
+<td class='meaning'>Multiple event assignments for the same variable are not allowed</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EventAndAssignmentRuleForId EventAndAssignmentRuleForId@endlink</td>
+<td class='meaning'>An event assignment and an assignment rule must not have the same value for 'variable'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateMetaId DuplicateMetaId@endlink</td>
+<td class='meaning'>Duplicate 'metaid' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSBOTermSyntax InvalidSBOTermSyntax@endlink</td>
+<td class='meaning'>Invalid syntax for an 'sboTerm' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidMetaidSyntax InvalidMetaidSyntax@endlink</td>
+<td class='meaning'>Invalid syntax for a 'metaid' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidIdSyntax InvalidIdSyntax@endlink</td>
+<td class='meaning'>Invalid syntax for an 'id' attribute value</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidUnitIdSyntax InvalidUnitIdSyntax@endlink</td>
+<td class='meaning'>Invalid syntax for the identifier of a unit</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidNameSyntax InvalidNameSyntax@endlink</td>
+<td class='meaning'>Invalid syntax for a 'name' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingAnnotationNamespace MissingAnnotationNamespace@endlink</td>
+<td class='meaning'>Missing declaration of the XML namespace for the annotation</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateAnnotationNamespaces DuplicateAnnotationNamespaces@endlink</td>
+<td class='meaning'>Multiple annotations using the same XML namespace</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SBMLNamespaceInAnnotation SBMLNamespaceInAnnotation@endlink</td>
+<td class='meaning'>The SBML XML namespace cannot be used in an Annotation object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MultipleAnnotations MultipleAnnotations@endlink</td>
+<td class='meaning'>Only one Annotation object is permitted under a given SBML object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InconsistentArgUnits InconsistentArgUnits@endlink</td>
+<td class='meaning'>The units of the function call's arguments are not consistent with its definition</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InconsistentKineticLawUnitsL3 InconsistentKineticLawUnitsL3@endlink</td>
+<td class='meaning'>The kinetic law's units are inconsistent with those of other kinetic laws in the model</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AssignRuleCompartmentMismatch AssignRuleCompartmentMismatch@endlink</td>
+<td class='meaning'>Mismatched units in assignment rule for compartment</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AssignRuleSpeciesMismatch AssignRuleSpeciesMismatch@endlink</td>
+<td class='meaning'>Mismatched units in assignment rule for species</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AssignRuleParameterMismatch AssignRuleParameterMismatch@endlink</td>
+<td class='meaning'>Mismatched units in assignment rule for parameter</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AssignRuleStoichiometryMismatch AssignRuleStoichiometryMismatch@endlink</td>
+<td class='meaning'>Mismatched units in assignment rule for stoichiometry</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InitAssignCompartmenMismatch InitAssignCompartmenMismatch@endlink</td>
+<td class='meaning'>Mismatched units in initial assignment to compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InitAssignSpeciesMismatch InitAssignSpeciesMismatch@endlink</td>
+<td class='meaning'>Mismatched units in initial assignment to species</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InitAssignParameterMismatch InitAssignParameterMismatch@endlink</td>
+<td class='meaning'>Mismatched units in initial assignment to parameter</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InitAssignStoichiometryMismatch InitAssignStoichiometryMismatch@endlink</td>
+<td class='meaning'>Mismatched units in initial assignment to stoichiometry</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RateRuleCompartmentMismatch RateRuleCompartmentMismatch@endlink</td>
+<td class='meaning'>Mismatched units in rate rule for compartment</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RateRuleSpeciesMismatch RateRuleSpeciesMismatch@endlink</td>
+<td class='meaning'>Mismatched units in rate rule for species</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RateRuleParameterMismatch RateRuleParameterMismatch@endlink</td>
+<td class='meaning'>Mismatched units in rate rule for parameter</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RateRuleStoichiometryMismatch RateRuleStoichiometryMismatch@endlink</td>
+<td class='meaning'>Mismatched units in rate rule for stoichiometry</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#KineticLawNotSubstancePerTime KineticLawNotSubstancePerTime@endlink</td>
+<td class='meaning'>The units of the kinetic law are not 'substance'/'time'</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpeciesInvalidExtentUnits SpeciesInvalidExtentUnits@endlink</td>
+<td class='meaning'>The species' units are not consistent with units of extent</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DelayUnitsNotTime DelayUnitsNotTime@endlink</td>
+<td class='meaning'>The units of the delay expression are not units of time</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EventAssignCompartmentMismatch EventAssignCompartmentMismatch@endlink</td>
+<td class='meaning'>Mismatched units in event assignment for compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EventAssignSpeciesMismatch EventAssignSpeciesMismatch@endlink</td>
+<td class='meaning'>Mismatched units in event assignment for species</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EventAssignParameterMismatch EventAssignParameterMismatch@endlink</td>
+<td class='meaning'>Mismatched units in event assignment for parameter</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EventAssignStoichiometryMismatch EventAssignStoichiometryMismatch@endlink</td>
+<td class='meaning'>Mismatched units in event assignment for stoichiometry</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#PriorityUnitsNotDimensionless PriorityUnitsNotDimensionless@endlink</td>
+<td class='meaning'>The units of a priority expression must be 'dimensionless'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OverdeterminedSystem OverdeterminedSystem@endlink</td>
+<td class='meaning'>The model is overdetermined</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidModelSBOTerm InvalidModelSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a Model object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidFunctionDefSBOTerm InvalidFunctionDefSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a FunctionDefinition object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidParameterSBOTerm InvalidParameterSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a Parameter object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidInitAssignSBOTerm InvalidInitAssignSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for an InitialAssignment object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidRuleSBOTerm InvalidRuleSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a Rule object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidConstraintSBOTerm InvalidConstraintSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a Constraint object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidReactionSBOTerm InvalidReactionSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a Reaction object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSpeciesReferenceSBOTerm InvalidSpeciesReferenceSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a SpeciesReference object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidKineticLawSBOTerm InvalidKineticLawSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a KineticLaw object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidEventSBOTerm InvalidEventSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for an Event object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidEventAssignmentSBOTerm InvalidEventAssignmentSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for an EventAssignment object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidCompartmentSBOTerm InvalidCompartmentSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a Compartment object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSpeciesSBOTerm InvalidSpeciesSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a Species object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidCompartmentTypeSBOTerm InvalidCompartmentTypeSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a CompartmentType object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSpeciesTypeSBOTerm InvalidSpeciesTypeSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for a SpeciesType object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidTriggerSBOTerm InvalidTriggerSBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for an Event Trigger object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidDelaySBOTerm InvalidDelaySBOTerm@endlink</td>
+<td class='meaning'>Invalid 'sboTerm' attribute value for an Event Delay object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NotesNotInXHTMLNamespace NotesNotInXHTMLNamespace@endlink</td>
+<td class='meaning'>Notes must be placed in the XHTML XML namespace</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NotesContainsXMLDecl NotesContainsXMLDecl@endlink</td>
+<td class='meaning'>XML declarations are not permitted in Notes objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NotesContainsDOCTYPE NotesContainsDOCTYPE@endlink</td>
+<td class='meaning'>XML DOCTYPE elements are not permitted in Notes objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidNotesContent InvalidNotesContent@endlink</td>
+<td class='meaning'>Invalid notes content found</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyOneNotesElementAllowed OnlyOneNotesElementAllowed@endlink</td>
+<td class='meaning'>Only one Notes subobject is permitted on a given SBML object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidNamespaceOnSBML InvalidNamespaceOnSBML@endlink</td>
+<td class='meaning'>Invalid XML namespace for the SBML container element</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingOrInconsistentLevel MissingOrInconsistentLevel@endlink</td>
+<td class='meaning'>Missing or inconsistent value for the 'level' attribute</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingOrInconsistentVersion MissingOrInconsistentVersion@endlink</td>
+<td class='meaning'>Missing or inconsistent value for the 'version' attribute</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#PackageNSMustMatch PackageNSMustMatch@endlink</td>
+<td class='meaning'>Inconsistent or invalid SBML Level/Version for the package namespace declaration</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LevelPositiveInteger LevelPositiveInteger@endlink</td>
+<td class='meaning'>The 'level' attribute must have a positive integer value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#VersionPositiveInteger VersionPositiveInteger@endlink</td>
+<td class='meaning'>The 'version' attribute must have a positive integer value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnSBML AllowedAttributesOnSBML@endlink</td>
+<td class='meaning'>Invalid attribute found on the SBML container element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3PackageOnLowerSBML L3PackageOnLowerSBML@endlink</td>
+<td class='meaning'>An L3 package ns found on the SBML container element</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingModel MissingModel@endlink</td>
+<td class='meaning'>No model definition found</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#IncorrectOrderInModel IncorrectOrderInModel@endlink</td>
+<td class='meaning'>Incorrect ordering of components within the Model object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EmptyListElement EmptyListElement@endlink</td>
+<td class='meaning'>Empty ListOf___ object found</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NeedCompartmentIfHaveSpecies NeedCompartmentIfHaveSpecies@endlink</td>
+<td class='meaning'>The presence of a species requires a compartment</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneOfEachListOf OneOfEachListOf@endlink</td>
+<td class='meaning'>Only one of each kind of ListOf___ object is allowed inside a Model object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyFuncDefsInListOfFuncDefs OnlyFuncDefsInListOfFuncDefs@endlink</td>
+<td class='meaning'>Only FunctionDefinition, Notes and Annotation objects are allowed in ListOfFunctionDefinitions</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyUnitDefsInListOfUnitDefs OnlyUnitDefsInListOfUnitDefs@endlink</td>
+<td class='meaning'>Only UnitDefinition, Notes and Annotation objects are allowed in ListOfUnitDefinitions objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyCompartmentsInListOfCompartments OnlyCompartmentsInListOfCompartments@endlink</td>
+<td class='meaning'>Only Compartment, Notes and Annotation objects are allowed in ListOfCompartments objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlySpeciesInListOfSpecies OnlySpeciesInListOfSpecies@endlink</td>
+<td class='meaning'>Only Species, Notes and Annotation objects are allowed in ListOfSpecies objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyParametersInListOfParameters OnlyParametersInListOfParameters@endlink</td>
+<td class='meaning'>Only Parameter, Notes and Annotation objects are allowed in ListOfParameters objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyInitAssignsInListOfInitAssigns OnlyInitAssignsInListOfInitAssigns@endlink</td>
+<td class='meaning'>Only InitialAssignment, Notes and Annotation objects are allowed in ListOfInitialAssignments objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyRulesInListOfRules OnlyRulesInListOfRules@endlink</td>
+<td class='meaning'>Only Rule, Notes and Annotation objects are allowed in ListOfRules objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyConstraintsInListOfConstraints OnlyConstraintsInListOfConstraints@endlink</td>
+<td class='meaning'>Only Constraint, Notes and Annotation objects are allowed in ListOfConstraints objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyReactionsInListOfReactions OnlyReactionsInListOfReactions@endlink</td>
+<td class='meaning'>Only Reaction, Notes and Annotation objects are allowed in ListOfReactions objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyEventsInListOfEvents OnlyEventsInListOfEvents@endlink</td>
+<td class='meaning'>Only Event, Notes and Annotation objects are allowed in ListOfEvents objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3ConversionFactorOnModel L3ConversionFactorOnModel@endlink</td>
+<td class='meaning'>A 'conversionFactor' attribute value must reference a Parameter object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3TimeUnitsOnModel L3TimeUnitsOnModel@endlink</td>
+<td class='meaning'>Invalid 'timeUnits' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3VolumeUnitsOnModel L3VolumeUnitsOnModel@endlink</td>
+<td class='meaning'>Invalid 'volumeUnits' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3AreaUnitsOnModel L3AreaUnitsOnModel@endlink</td>
+<td class='meaning'>Invalid 'areaUnits' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3LengthUnitsOnModel L3LengthUnitsOnModel@endlink</td>
+<td class='meaning'>Invalid 'lengthUnits' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3ExtentUnitsOnModel L3ExtentUnitsOnModel@endlink</td>
+<td class='meaning'>Invalid 'extentUnits' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnModel AllowedAttributesOnModel@endlink</td>
+<td class='meaning'>Invalid attribute found on the Model object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfFuncs AllowedAttributesOnListOfFuncs@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfFunctionDefinitions object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfUnitDefs AllowedAttributesOnListOfUnitDefs@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfUnitDefinitions object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfComps AllowedAttributesOnListOfComps@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfCompartments object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfSpecies AllowedAttributesOnListOfSpecies@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfSpecies object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfParams AllowedAttributesOnListOfParams@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfParameters object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfInitAssign AllowedAttributesOnListOfInitAssign@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfInitialAssignments object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfRules AllowedAttributesOnListOfRules@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfRules object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfConstraints AllowedAttributesOnListOfConstraints@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfConstraints object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfReactions AllowedAttributesOnListOfReactions@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfReactions object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfEvents AllowedAttributesOnListOfEvents@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfEvents object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FunctionDefMathNotLambda FunctionDefMathNotLambda@endlink</td>
+<td class='meaning'>Invalid expression found in the function definition</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidApplyCiInLambda InvalidApplyCiInLambda@endlink</td>
+<td class='meaning'>Invalid forward reference in the MathML <code>&lt;apply&gt;</code><code>&lt;ci&gt;</code>...<code>&lt;/ci&gt;</code><code>&lt;/apply&gt;</code> expression</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RecursiveFunctionDefinition RecursiveFunctionDefinition@endlink</td>
+<td class='meaning'>Recursive function definitions are not permitted</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidCiInLambda InvalidCiInLambda@endlink</td>
+<td class='meaning'>Invalid <code>&lt;ci&gt;</code> reference found inside the <code>&lt;lambda&gt;</code> mathematical formula</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidFunctionDefReturnType InvalidFunctionDefReturnType@endlink</td>
+<td class='meaning'>A function's return type must be either a number or a Boolean</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMathElementPerFunc OneMathElementPerFunc@endlink</td>
+<td class='meaning'>A FunctionDefinition object must contain one <code>&lt;math&gt;</code> element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnFunc AllowedAttributesOnFunc@endlink</td>
+<td class='meaning'>Invalid attribute found on the FunctionDefinition object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidUnitDefId InvalidUnitDefId@endlink</td>
+<td class='meaning'>Invalid 'id' attribute value for a UnitDefinition object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSubstanceRedefinition InvalidSubstanceRedefinition@endlink</td>
+<td class='meaning'>Invalid redefinition of built-in type 'substance'</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidLengthRedefinition InvalidLengthRedefinition@endlink</td>
+<td class='meaning'>Invalid redefinition of built-in type 'length'</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidAreaRedefinition InvalidAreaRedefinition@endlink</td>
+<td class='meaning'>Invalid redefinition of built-in type name 'area'</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidTimeRedefinition InvalidTimeRedefinition@endlink</td>
+<td class='meaning'>Invalid redefinition of built-in type name 'time'</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidVolumeRedefinition InvalidVolumeRedefinition@endlink</td>
+<td class='meaning'>Invalid redefinition of built-in type name 'volume'</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#VolumeLitreDefExponentNotOne VolumeLitreDefExponentNotOne@endlink</td>
+<td class='meaning'>Must use 'exponent'=1 when defining 'volume' in terms of litres</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#VolumeMetreDefExponentNot3 VolumeMetreDefExponentNot3@endlink</td>
+<td class='meaning'>Must use 'exponent'=3 when defining 'volume' in terms of metres</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EmptyListOfUnits EmptyListOfUnits@endlink</td>
+<td class='meaning'>An empty list of Unit objects is not permitted in a UnitDefinition object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidUnitKind InvalidUnitKind@endlink</td>
+<td class='meaning'>Invalid value for the 'kind' attribute of a UnitDefinition object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OffsetNoLongerValid OffsetNoLongerValid@endlink</td>
+<td class='meaning'>Unit attribute 'offset' is not supported in this Level+Version of SBML</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CelsiusNoLongerValid CelsiusNoLongerValid@endlink</td>
+<td class='meaning'>Unit name 'Celsius' is not defined in this Level+Version of SBML</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EmptyUnitListElement EmptyUnitListElement@endlink</td>
+<td class='meaning'>A ListOfUnits object must not be empty</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneListOfUnitsPerUnitDef OneListOfUnitsPerUnitDef@endlink</td>
+<td class='meaning'>At most one ListOfUnits object is allowed inside a UnitDefinition object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyUnitsInListOfUnits OnlyUnitsInListOfUnits@endlink</td>
+<td class='meaning'>Only Unit, Notes and Annotation objects are allowed in ListOfUnits objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnUnitDefinition AllowedAttributesOnUnitDefinition@endlink</td>
+<td class='meaning'>Invalid attribute found on the UnitDefinition object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfUnits AllowedAttributesOnListOfUnits@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfUnits object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnUnit AllowedAttributesOnUnit@endlink</td>
+<td class='meaning'>Invalid attribute found on the Unit object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ZeroDimensionalCompartmentSize ZeroDimensionalCompartmentSize@endlink</td>
+<td class='meaning'>Invalid use of the 'size' attribute for a zero-dimensional compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ZeroDimensionalCompartmentUnits ZeroDimensionalCompartmentUnits@endlink</td>
+<td class='meaning'>Invalid use of the 'units' attribute for a zero-dimensional compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ZeroDimensionalCompartmentConst ZeroDimensionalCompartmentConst@endlink</td>
+<td class='meaning'>Zero-dimensional compartments must be defined to be constant</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UndefinedOutsideCompartment UndefinedOutsideCompartment@endlink</td>
+<td class='meaning'>Invalid value for the 'outside' attribute of a Compartment object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RecursiveCompartmentContainment RecursiveCompartmentContainment@endlink</td>
+<td class='meaning'>Recursive nesting of compartments via the 'outside' attribute is not permitted</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ZeroDCompartmentContainment ZeroDCompartmentContainment@endlink</td>
+<td class='meaning'>Invalid nesting of zero-dimensional compartments</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#Invalid1DCompartmentUnits Invalid1DCompartmentUnits@endlink</td>
+<td class='meaning'>Invalid value for the 'units' attribute of a one-dimensional compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#Invalid2DCompartmentUnits Invalid2DCompartmentUnits@endlink</td>
+<td class='meaning'>Invalid value for the 'units' attribute of a two-dimensional compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#Invalid3DCompartmentUnits Invalid3DCompartmentUnits@endlink</td>
+<td class='meaning'>Invalid value for the 'units' attribute of a three-dimensional compartment</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidCompartmentTypeRef InvalidCompartmentTypeRef@endlink</td>
+<td class='meaning'>Invalid value for the 'compartmentType' attribute of a compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneDimensionalCompartmentUnits OneDimensionalCompartmentUnits@endlink</td>
+<td class='meaning'>No units defined for 1-D compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#TwoDimensionalCompartmentUnits TwoDimensionalCompartmentUnits@endlink</td>
+<td class='meaning'>No units defined for 2-D compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ThreeDimensionalCompartmentUnits ThreeDimensionalCompartmentUnits@endlink</td>
+<td class='meaning'>No units defined for 3-D Compartment object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnCompartment AllowedAttributesOnCompartment@endlink</td>
+<td class='meaning'>Invalid attribute found on Compartment object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoUnitsOnCompartment NoUnitsOnCompartment@endlink</td>
+<td class='meaning'>No units defined for Compartment object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSpeciesCompartmentRef InvalidSpeciesCompartmentRef@endlink</td>
+<td class='meaning'>Invalid value found for Species 'compartment' attribute</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#HasOnlySubsNoSpatialUnits HasOnlySubsNoSpatialUnits@endlink</td>
+<td class='meaning'>Attribute 'spatialSizeUnits' must not be set if 'hasOnlySubstanceUnits'='true'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSpatialUnitsInZeroD NoSpatialUnitsInZeroD@endlink</td>
+<td class='meaning'>Attribute 'spatialSizeUnits' must not be set if the compartment is zero-dimensional</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoConcentrationInZeroD NoConcentrationInZeroD@endlink</td>
+<td class='meaning'>Attribute 'initialConcentration' must not be set if the compartment is zero-dimensional</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpatialUnitsInOneD SpatialUnitsInOneD@endlink</td>
+<td class='meaning'>Invalid value for 'spatialSizeUnits' attribute of a one-dimensional compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpatialUnitsInTwoD SpatialUnitsInTwoD@endlink</td>
+<td class='meaning'>Invalid value for the 'spatialSizeUnits' attribute of a two-dimensional compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpatialUnitsInThreeD SpatialUnitsInThreeD@endlink</td>
+<td class='meaning'>Invalid value for the 'spatialSizeUnits' attribute of a three-dimensional compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSpeciesSusbstanceUnits InvalidSpeciesSusbstanceUnits@endlink</td>
+<td class='meaning'>Invalid value for a Species 'units' attribute</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BothAmountAndConcentrationSet BothAmountAndConcentrationSet@endlink</td>
+<td class='meaning'>Cannot set both 'initialConcentration' and 'initialAmount' attributes simultaneously</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NonBoundarySpeciesAssignedAndUsed NonBoundarySpeciesAssignedAndUsed@endlink</td>
+<td class='meaning'>Cannot use a non-boundary species in both reactions and rules simultaneously</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NonConstantSpeciesUsed NonConstantSpeciesUsed@endlink</td>
+<td class='meaning'>Cannot use a constant, non-boundary species as a reactant or product</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSpeciesTypeRef InvalidSpeciesTypeRef@endlink</td>
+<td class='meaning'>Invalid value for the 'speciesType' attribute of a species</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MultSpeciesSameTypeInCompartment MultSpeciesSameTypeInCompartment@endlink</td>
+<td class='meaning'>Cannot have multiple species of the same species type in the same compartment</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingSpeciesCompartment MissingSpeciesCompartment@endlink</td>
+<td class='meaning'>Missing value for the 'compartment' attribute</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpatialSizeUnitsRemoved SpatialSizeUnitsRemoved@endlink</td>
+<td class='meaning'>Attribute 'spatialSizeUnits' is not supported in this Level+Version of SBML</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SubstanceUnitsOnSpecies SubstanceUnitsOnSpecies@endlink</td>
+<td class='meaning'>No substance units defined for the species</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConversionFactorOnSpecies ConversionFactorOnSpecies@endlink</td>
+<td class='meaning'>Invalid value for the 'conversionFactor' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnSpecies AllowedAttributesOnSpecies@endlink</td>
+<td class='meaning'>Invalid attribute found on Species object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidParameterUnits InvalidParameterUnits@endlink</td>
+<td class='meaning'>Invalid value for the 'units' attribute of a Parameter object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ParameterUnits ParameterUnits@endlink</td>
+<td class='meaning'>No units defined for the parameter</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConversionFactorMustConstant ConversionFactorMustConstant@endlink</td>
+<td class='meaning'>A conversion factor must reference a Parameter object declared to be a constant</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnParameter AllowedAttributesOnParameter@endlink</td>
+<td class='meaning'>Invalid attribute found on Parameter object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidInitAssignSymbol InvalidInitAssignSymbol@endlink</td>
+<td class='meaning'>Invalid value for the 'symbol' attribute of an InitialAssignment object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MultipleInitAssignments MultipleInitAssignments@endlink</td>
+<td class='meaning'>Multiple initial assignments for the same 'symbol' value are not allowed</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InitAssignmentAndRuleForSameId InitAssignmentAndRuleForSameId@endlink</td>
+<td class='meaning'>Cannot set a value using both an initial assignment and an assignment rule simultaneously</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMathElementPerInitialAssign OneMathElementPerInitialAssign@endlink</td>
+<td class='meaning'>An InitialAssignment object must contain one <code>&lt;math&gt;</code> element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnInitialAssign AllowedAttributesOnInitialAssign@endlink</td>
+<td class='meaning'>Invalid attribute found on an InitialAssignment object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidAssignRuleVariable InvalidAssignRuleVariable@endlink</td>
+<td class='meaning'>Invalid value for the 'variable' attribute of an AssignmentRule object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidRateRuleVariable InvalidRateRuleVariable@endlink</td>
+<td class='meaning'>Invalid value for the 'variable' attribute of a RateRule object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AssignmentToConstantEntity AssignmentToConstantEntity@endlink</td>
+<td class='meaning'>An assignment rule cannot assign an entity declared to be constant</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RateRuleForConstantEntity RateRuleForConstantEntity@endlink</td>
+<td class='meaning'>A rate rule cannot assign an entity declared to be constant</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CircularRuleDependency CircularRuleDependency@endlink</td>
+<td class='meaning'>Circular dependencies involving rules and reactions are not permitted</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMathElementPerRule OneMathElementPerRule@endlink</td>
+<td class='meaning'>A rule object must contain one <code>&lt;math&gt;</code> element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnAssignRule AllowedAttributesOnAssignRule@endlink</td>
+<td class='meaning'>Invalid attribute found on an AssignmentRule object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnRateRule AllowedAttributesOnRateRule@endlink</td>
+<td class='meaning'>Invalid attribute found on a RateRule object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnAlgRule AllowedAttributesOnAlgRule@endlink</td>
+<td class='meaning'>Invalid attribute found on an AlgebraicRule object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConstraintMathNotBoolean ConstraintMathNotBoolean@endlink</td>
+<td class='meaning'>A Constraint object's <code>&lt;math&gt;</code> must evaluate to a Boolean value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#IncorrectOrderInConstraint IncorrectOrderInConstraint@endlink</td>
+<td class='meaning'>Subobjects inside the Constraint object are not in the prescribed order</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConstraintNotInXHTMLNamespace ConstraintNotInXHTMLNamespace@endlink</td>
+<td class='meaning'>A Constraint's Message subobject must be in the XHTML XML namespace</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConstraintContainsXMLDecl ConstraintContainsXMLDecl@endlink</td>
+<td class='meaning'>XML declarations are not permitted within Constraint's Message objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConstraintContainsDOCTYPE ConstraintContainsDOCTYPE@endlink</td>
+<td class='meaning'>XML DOCTYPE elements are not permitted within Constraint's Message objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidConstraintContent InvalidConstraintContent@endlink</td>
+<td class='meaning'>Invalid content for a Constraint object's Message object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMathElementPerConstraint OneMathElementPerConstraint@endlink</td>
+<td class='meaning'>A Constraint object must contain one <code>&lt;math&gt;</code> element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMessageElementPerConstraint OneMessageElementPerConstraint@endlink</td>
+<td class='meaning'>A Constraint object must contain one Message subobject</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnConstraint AllowedAttributesOnConstraint@endlink</td>
+<td class='meaning'>Invalid attribute found on Constraint object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoReactantsOrProducts NoReactantsOrProducts@endlink</td>
+<td class='meaning'>Cannot have a reaction with neither reactants nor products</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#IncorrectOrderInReaction IncorrectOrderInReaction@endlink</td>
+<td class='meaning'>Subobjects inside the Reaction object are not in the prescribed order</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EmptyListInReaction EmptyListInReaction@endlink</td>
+<td class='meaning'>Reaction components, if present, cannot be empty</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidReactantsProductsList InvalidReactantsProductsList@endlink</td>
+<td class='meaning'>Invalid object found in the list of reactants or products</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidModifiersList InvalidModifiersList@endlink</td>
+<td class='meaning'>Invalid object found in the list of modifiers</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneSubElementPerReaction OneSubElementPerReaction@endlink</td>
+<td class='meaning'>A Reaction object can only contain one of each allowed type of object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompartmentOnReaction CompartmentOnReaction@endlink</td>
+<td class='meaning'>Invalid value for the Reaction 'compartment' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnReaction AllowedAttributesOnReaction@endlink</td>
+<td class='meaning'>Invalid attribute for a Reaction object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSpeciesReference InvalidSpeciesReference@endlink</td>
+<td class='meaning'>Invalid 'species' attribute value in SpeciesReference object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BothStoichiometryAndMath BothStoichiometryAndMath@endlink</td>
+<td class='meaning'>The 'stoichiometry' attribute and StoichiometryMath subobject are mutually exclusive</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnSpeciesReference AllowedAttributesOnSpeciesReference@endlink</td>
+<td class='meaning'>Invalid attribute found on the SpeciesReference object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnModifier AllowedAttributesOnModifier@endlink</td>
+<td class='meaning'>Invalid attribute found on the ModifierSpeciesReference object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UndeclaredSpeciesRef UndeclaredSpeciesRef@endlink</td>
+<td class='meaning'>Unknown species referenced in the kinetic law <code>&lt;math&gt;</code> formula</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#IncorrectOrderInKineticLaw IncorrectOrderInKineticLaw@endlink</td>
+<td class='meaning'>Incorrect ordering of components in the KineticLaw object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EmptyListInKineticLaw EmptyListInKineticLaw@endlink</td>
+<td class='meaning'>The list of parameters, if present, cannot be empty</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NonConstantLocalParameter NonConstantLocalParameter@endlink</td>
+<td class='meaning'>Parameters local to a KineticLaw object must have a 'constant' attribute value of 'true'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SubsUnitsNoLongerValid SubsUnitsNoLongerValid@endlink</td>
+<td class='meaning'>Attribute 'substanceUnits' is not supported in this Level+Version of SBML</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#TimeUnitsNoLongerValid TimeUnitsNoLongerValid@endlink</td>
+<td class='meaning'>Attribute 'timeUnits' is not supported in this Level+Version of SBML</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneListOfPerKineticLaw OneListOfPerKineticLaw@endlink</td>
+<td class='meaning'>Only one ListOfLocalParameters object is permitted within a KineticLaw object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyLocalParamsInListOfLocalParams OnlyLocalParamsInListOfLocalParams@endlink</td>
+<td class='meaning'>Only LocalParameter, Notes and Annotation objects are allowed in ListOfLocalParameter objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfLocalParam AllowedAttributesOnListOfLocalParam@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfLocalParameters object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMathPerKineticLaw OneMathPerKineticLaw@endlink</td>
+<td class='meaning'>Only one <code>&lt;math&gt;</code> element is allowed in a KineticLaw object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UndeclaredSpeciesInStoichMath UndeclaredSpeciesInStoichMath@endlink</td>
+<td class='meaning'>Unknown species referenced in the StoichiometryMath object's <code>&lt;math&gt;</code> formula</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnKineticLaw AllowedAttributesOnKineticLaw@endlink</td>
+<td class='meaning'>Invalid attribute found on the KineticLaw object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfSpeciesRef AllowedAttributesOnListOfSpeciesRef@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfSpeciesReferences object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfMods AllowedAttributesOnListOfMods@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfModifiers object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnLocalParameter AllowedAttributesOnLocalParameter@endlink</td>
+<td class='meaning'>Invalid attribute found on the LocalParameter object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingTriggerInEvent MissingTriggerInEvent@endlink</td>
+<td class='meaning'>The Event object is missing a Trigger subobject</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#TriggerMathNotBoolean TriggerMathNotBoolean@endlink</td>
+<td class='meaning'>A Trigger object's <code>&lt;math&gt;</code> expression must evaluate to a Boolean value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MissingEventAssignment MissingEventAssignment@endlink</td>
+<td class='meaning'>The Event object is missing an EventAssignment subobject</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#TimeUnitsEvent TimeUnitsEvent@endlink</td>
+<td class='meaning'>Units referenced by 'timeUnits' attribute are not compatible with units of time</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#IncorrectOrderInEvent IncorrectOrderInEvent@endlink</td>
+<td class='meaning'>Incorrect ordering of components in Event object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ValuesFromTriggerTimeNeedDelay ValuesFromTriggerTimeNeedDelay@endlink</td>
+<td class='meaning'>Attribute 'useValuesFromTriggerTime'='false', but the Event object does not define a delay</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DelayNeedsValuesFromTriggerTime DelayNeedsValuesFromTriggerTime@endlink</td>
+<td class='meaning'>The use of a Delay object requires the Event attribute 'useValuesFromTriggerTime'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMathPerTrigger OneMathPerTrigger@endlink</td>
+<td class='meaning'>A Trigger object must have one <code>&lt;math&gt;</code> element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMathPerDelay OneMathPerDelay@endlink</td>
+<td class='meaning'>A Delay object must have one <code>&lt;math&gt;</code> element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidEventAssignmentVariable InvalidEventAssignmentVariable@endlink</td>
+<td class='meaning'>Invalid 'variable' attribute value in Event object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EventAssignmentForConstantEntity EventAssignmentForConstantEntity@endlink</td>
+<td class='meaning'>An EventAssignment object cannot assign to a component having attribute 'constant'='true'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMathPerEventAssignment OneMathPerEventAssignment@endlink</td>
+<td class='meaning'>An EventAssignment object must have one <code>&lt;math&gt;</code> element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnEventAssignment AllowedAttributesOnEventAssignment@endlink</td>
+<td class='meaning'>Invalid attribute found on the EventAssignment object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyOneDelayPerEvent OnlyOneDelayPerEvent@endlink</td>
+<td class='meaning'>An Event object can only have one Delay subobject</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneListOfEventAssignmentsPerEvent OneListOfEventAssignmentsPerEvent@endlink</td>
+<td class='meaning'>An Event object can only have one ListOfEventAssignments subobject</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyEventAssignInListOfEventAssign OnlyEventAssignInListOfEventAssign@endlink</td>
+<td class='meaning'>Only EventAssignment, Notes and Annotation objects are allowed in ListOfEventAssignments</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnListOfEventAssign AllowedAttributesOnListOfEventAssign@endlink</td>
+<td class='meaning'>Invalid attribute found on the ListOfEventAssignments object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnEvent AllowedAttributesOnEvent@endlink</td>
+<td class='meaning'>Invalid attribute found on the Event object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnTrigger AllowedAttributesOnTrigger@endlink</td>
+<td class='meaning'>Invalid attribute found on the Trigger object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnDelay AllowedAttributesOnDelay@endlink</td>
+<td class='meaning'>Invalid attribute found on the Delay object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#PersistentNotBoolean PersistentNotBoolean@endlink</td>
+<td class='meaning'>The Trigger attribute 'persistent' must evaluate to a Boolean value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InitialValueNotBoolean InitialValueNotBoolean@endlink</td>
+<td class='meaning'>The Trigger attribute 'initialValue' must evaluate to a Boolean value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OnlyOnePriorityPerEvent OnlyOnePriorityPerEvent@endlink</td>
+<td class='meaning'>An Event object can only have one Priority subobject</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OneMathPerPriority OneMathPerPriority@endlink</td>
+<td class='meaning'>A Priority object must have one <code>&lt;math&gt;</code> element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AllowedAttributesOnPriority AllowedAttributesOnPriority@endlink</td>
+<td class='meaning'>Invalid attribute found on the Priority object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompartmentShouldHaveSize CompartmentShouldHaveSize@endlink</td>
+<td class='meaning'>It's best to define a size for every compartment in a model</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpeciesShouldHaveValue SpeciesShouldHaveValue@endlink</td>
+<td class='meaning'>It's best to define an initial amount or initial concentration for every species in a model</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ParameterShouldHaveUnits ParameterShouldHaveUnits@endlink</td>
+<td class='meaning'>It's best to declare units for every parameter in a model</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LocalParameterShadowsId LocalParameterShadowsId@endlink</td>
+<td class='meaning'>Local parameters defined within a kinetic law shadow global object symbols</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CannotConvertToL1V1 CannotConvertToL1V1@endlink</td>
+<td class='meaning'>Cannot convert to SBML Level 1 Version 1</td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoEventsInL1 NoEventsInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support events</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoFunctionDefinitionsInL1 NoFunctionDefinitionsInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support function definitions</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoConstraintsInL1 NoConstraintsInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support constraints</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoInitialAssignmentsInL1 NoInitialAssignmentsInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support initial assignments</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSpeciesTypesInL1 NoSpeciesTypesInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support species types</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoCompartmentTypeInL1 NoCompartmentTypeInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support compartment types</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoNon3DCompartmentsInL1 NoNon3DCompartmentsInL1@endlink</td>
+<td class='meaning'>SBML Level 1 only supports three-dimensional compartments</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoFancyStoichiometryMathInL1 NoFancyStoichiometryMathInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support non-integer nor non-rational stoichiometry formulas</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoNonIntegerStoichiometryInL1 NoNonIntegerStoichiometryInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support non-integer 'stoichiometry' attribute values</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoUnitMultipliersOrOffsetsInL1 NoUnitMultipliersOrOffsetsInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support multipliers or offsets in unit definitions</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpeciesCompartmentRequiredInL1 SpeciesCompartmentRequiredInL1@endlink</td>
+<td class='meaning'>In SBML Level 1, a value for 'compartment' is mandatory in species definitions</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSpeciesSpatialSizeUnitsInL1 NoSpeciesSpatialSizeUnitsInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support species 'spatialSizeUnits' settings</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSBOTermsInL1 NoSBOTermsInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support the 'sboTerm' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#StrictUnitsRequiredInL1 StrictUnitsRequiredInL1@endlink</td>
+<td class='meaning'>SBML Level 1 requires strict unit consistency</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConversionFactorNotInL1 ConversionFactorNotInL1@endlink</td>
+<td class='meaning'>SBML Level 1 does not support the 'conversionFactor' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompartmentNotOnL1Reaction CompartmentNotOnL1Reaction@endlink</td>
+<td class='meaning'>SBML Level 1 does not support the 'compartment' attribute on Reaction objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ExtentUnitsNotSubstance ExtentUnitsNotSubstance@endlink</td>
+<td class='meaning'>Units of extent must be compatible with units of substance</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#GlobalUnitsNotDeclared GlobalUnitsNotDeclared@endlink</td>
+<td class='meaning'>Global units must be refer to unit kind or unitDefinition.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#HasOnlySubstanceUnitsNotinL1 HasOnlySubstanceUnitsNotinL1@endlink</td>
+<td class='meaning'>The concept of hasOnlySubstanceUnits was not available in SBML Level 1.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AvogadroNotSupported AvogadroNotSupported@endlink</td>
+<td class='meaning'>Avogadro not supported in Levels 2 and 1.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoConstraintsInL2v1 NoConstraintsInL2v1@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support Constraint objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoInitialAssignmentsInL2v1 NoInitialAssignmentsInL2v1@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support InitialAssignment objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSpeciesTypeInL2v1 NoSpeciesTypeInL2v1@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support SpeciesType objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoCompartmentTypeInL2v1 NoCompartmentTypeInL2v1@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support CompartmentType objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSBOTermsInL2v1 NoSBOTermsInL2v1@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support the 'sboTerm' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoIdOnSpeciesReferenceInL2v1 NoIdOnSpeciesReferenceInL2v1@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support the 'id' attribute on SpeciesReference objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoDelayedEventAssignmentInL2v1 NoDelayedEventAssignmentInL2v1@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support the 'useValuesFromTriggerTime' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#StrictUnitsRequiredInL2v1 StrictUnitsRequiredInL2v1@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 requires strict unit consistency</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#IntegerSpatialDimensions IntegerSpatialDimensions@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 requires that compartments have spatial dimensions of 0-3</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#StoichiometryMathNotYetSupported StoichiometryMathNotYetSupported@endlink</td>
+<td class='meaning'>Conversion to StoichiometryMath objects not yet supported</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#PriorityLostFromL3 PriorityLostFromL3@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support priorities on Event objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NonPersistentNotSupported NonPersistentNotSupported@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support the 'persistent' attribute on Trigger objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InitialValueFalseEventNotSupported InitialValueFalseEventNotSupported@endlink</td>
+<td class='meaning'>SBML Level 2 Version 1 does not support the 'initialValue' attribute on Trigger objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SBOTermNotUniversalInL2v2 SBOTermNotUniversalInL2v2@endlink</td>
+<td class='meaning'>The 'sboTerm' attribute is invalid for this component in SBML Level 2 Version 2</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoUnitOffsetInL2v2 NoUnitOffsetInL2v2@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'offset' attribute on Unit objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoKineticLawTimeUnitsInL2v2 NoKineticLawTimeUnitsInL2v2@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoKineticLawSubstanceUnitsInL2v2 NoKineticLawSubstanceUnitsInL2v2@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoDelayedEventAssignmentInL2v2 NoDelayedEventAssignmentInL2v2@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ModelSBOBranchChangedBeyondL2v2 ModelSBOBranchChangedBeyondL2v2@endlink</td>
+<td class='meaning'>The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#StrictUnitsRequiredInL2v2 StrictUnitsRequiredInL2v2@endlink</td>
+<td class='meaning'>SBML Level 2 Version 2 requires strict unit consistency</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#StrictSBORequiredInL2v2 StrictSBORequiredInL2v2@endlink</td>
+<td class='meaning'>SBML Level 2 Version 2 requires strict SBO term consistency</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateAnnotationInvalidInL2v2 DuplicateAnnotationInvalidInL2v2@endlink</td>
+<td class='meaning'>Duplicate top-level annotations are invalid in SBML Level 2 Version 2</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoUnitOffsetInL2v3 NoUnitOffsetInL2v3@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'offset' attribute on Unit objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoKineticLawTimeUnitsInL2v3 NoKineticLawTimeUnitsInL2v3@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoKineticLawSubstanceUnitsInL2v3 NoKineticLawSubstanceUnitsInL2v3@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSpeciesSpatialSizeUnitsInL2v3 NoSpeciesSpatialSizeUnitsInL2v3@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoEventTimeUnitsInL2v3 NoEventTimeUnitsInL2v3@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoDelayedEventAssignmentInL2v3 NoDelayedEventAssignmentInL2v3@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ModelSBOBranchChangedBeyondL2v3 ModelSBOBranchChangedBeyondL2v3@endlink</td>
+<td class='meaning'>The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#StrictUnitsRequiredInL2v3 StrictUnitsRequiredInL2v3@endlink</td>
+<td class='meaning'>SBML Level 2 Version 3 requires strict unit consistency</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#StrictSBORequiredInL2v3 StrictSBORequiredInL2v3@endlink</td>
+<td class='meaning'>SBML Level 2 Version 3 requires strict SBO term consistency</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateAnnotationInvalidInL2v3 DuplicateAnnotationInvalidInL2v3@endlink</td>
+<td class='meaning'>Duplicate top-level annotations are invalid in SBML Level 2 Version 3</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoUnitOffsetInL2v4 NoUnitOffsetInL2v4@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'offset' attribute on Unit objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoKineticLawTimeUnitsInL2v4 NoKineticLawTimeUnitsInL2v4@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoKineticLawSubstanceUnitsInL2v4 NoKineticLawSubstanceUnitsInL2v4@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSpeciesSpatialSizeUnitsInL2v4 NoSpeciesSpatialSizeUnitsInL2v4@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoEventTimeUnitsInL2v4 NoEventTimeUnitsInL2v4@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ModelSBOBranchChangedInL2v4 ModelSBOBranchChangedInL2v4@endlink</td>
+<td class='meaning'>The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateAnnotationInvalidInL2v4 DuplicateAnnotationInvalidInL2v4@endlink</td>
+<td class='meaning'>Duplicate top-level annotations are invalid in SBML Level 2 Version 4</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSpeciesTypeInL3v1 NoSpeciesTypeInL3v1@endlink</td>
+<td class='meaning'>SBML Level 3 Version 1 does not support SpeciesType objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoCompartmentTypeInL3v1 NoCompartmentTypeInL3v1@endlink</td>
+<td class='meaning'>SBML Level 3 Version 1 does not support CompartmentType objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoUnitOffsetInL3v1 NoUnitOffsetInL3v1@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'offset' attribute on Unit objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoKineticLawTimeUnitsInL3v1 NoKineticLawTimeUnitsInL3v1@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoKineticLawSubstanceUnitsInL3v1 NoKineticLawSubstanceUnitsInL3v1@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoSpeciesSpatialSizeUnitsInL3v1 NoSpeciesSpatialSizeUnitsInL3v1@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoEventTimeUnitsInL3v1 NoEventTimeUnitsInL3v1@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ModelSBOBranchChangedInL3v1 ModelSBOBranchChangedInL3v1@endlink</td>
+<td class='meaning'>The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DuplicateAnnotationInvalidInL3v1 DuplicateAnnotationInvalidInL3v1@endlink</td>
+<td class='meaning'>Duplicate top-level annotations are invalid in SBML Level 3 Version 1</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoCompartmentOutsideInL3v1 NoCompartmentOutsideInL3v1@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'outside' attribute on Compartment objects</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoStoichiometryMathInL3v1 NoStoichiometryMathInL3v1@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the StoichiometryMath object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidSBMLLevelVersion InvalidSBMLLevelVersion@endlink</td>
+<td class='meaning'>Unknown Level+Version combination of SBML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AnnotationNotesNotAllowedLevel1 AnnotationNotesNotAllowedLevel1@endlink</td>
+<td class='meaning'>Annotation objects on the SBML container element are not permitted in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidRuleOrdering InvalidRuleOrdering@endlink</td>
+<td class='meaning'>Invalid ordering of rules</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RequiredPackagePresent RequiredPackagePresent@endlink</td>
+<td class='meaning'>The SBML document requires an SBML Level 3 package unavailable in this software</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UnrequiredPackagePresent UnrequiredPackagePresent@endlink</td>
+<td class='meaning'>The SBML document uses an SBML Level 3 package unavailable in this software</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#PackageRequiredShouldBeFalse PackageRequiredShouldBeFalse@endlink</td>
+<td class='meaning'>This package expects required to be false</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SubsUnitsAllowedInKL SubsUnitsAllowedInKL@endlink</td>
+<td class='meaning'>Disallowed value for attribute 'substanceUnits' on KineticLaw object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#TimeUnitsAllowedInKL TimeUnitsAllowedInKL@endlink</td>
+<td class='meaning'>Disallowed value for attribute 'timeUnits' on KineticLaw object</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FormulaInLevel1KL FormulaInLevel1KL@endlink</td>
+<td class='meaning'>Only predefined functions are allowed in SBML Level 1 formulas</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3SubstanceUnitsOnModel L3SubstanceUnitsOnModel@endlink</td>
+<td class='meaning'>Invalid 'substanceUnits' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#TimeUnitsRemoved TimeUnitsRemoved@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadMathML BadMathML@endlink</td>
+<td class='meaning'>Invalid MathML expression</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FailedMathMLReadOfDouble FailedMathMLReadOfDouble@endlink</td>
+<td class='meaning'>Missing or invalid floating-point number in MathML expression</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FailedMathMLReadOfInteger FailedMathMLReadOfInteger@endlink</td>
+<td class='meaning'>Missing or invalid integer in MathML expression</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FailedMathMLReadOfExponential FailedMathMLReadOfExponential@endlink</td>
+<td class='meaning'>Missing or invalid exponential expression in MathML</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FailedMathMLReadOfRational FailedMathMLReadOfRational@endlink</td>
+<td class='meaning'>Missing or invalid rational expression in MathML</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#BadMathMLNodeType BadMathMLNodeType@endlink</td>
+<td class='meaning'>Invalid MathML element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidMathMLAttribute InvalidMathMLAttribute@endlink</td>
+<td class='meaning'>Invalid MathML attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoTimeSymbolInFunctionDef NoTimeSymbolInFunctionDef@endlink</td>
+<td class='meaning'>Use of <code>&lt;csymbol&gt;</code> for 'time' not allowed within FunctionDefinition objects</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NoBodyInFunctionDef NoBodyInFunctionDef@endlink</td>
+<td class='meaning'>There must be a <code>&lt;lambda&gt;</code> body within the <code>&lt;math&gt;</code> element of a FunctionDefinition object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#DanglingUnitSIdRef DanglingUnitSIdRef@endlink</td>
+<td class='meaning'>Units must refer to valid unit or unitDefinition</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RDFMissingAboutTag RDFMissingAboutTag@endlink</td>
+<td class='meaning'>RDF missing the <code>&lt;about&gt;</code> tag</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RDFEmptyAboutTag RDFEmptyAboutTag@endlink</td>
+<td class='meaning'>RDF empty <code>&lt;about&gt;</code> tag</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RDFAboutTagNotMetaid RDFAboutTagNotMetaid@endlink</td>
+<td class='meaning'>RDF <code>&lt;about&gt;</code> tag is not metaid</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RDFNotCompleteModelHistory RDFNotCompleteModelHistory@endlink</td>
+<td class='meaning'>RDF does not contain valid ModelHistory</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#RDFNotModelHistory RDFNotModelHistory@endlink</td>
+<td class='meaning'>RDF does not result in a ModelHistory</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#AnnotationNotElement AnnotationNotElement@endlink</td>
+<td class='meaning'>Annotation must contain element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UndeclaredUnits UndeclaredUnits@endlink</td>
+<td class='meaning'>Missing unit declarations on parameters or literal numbers in expression</td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UndeclaredTimeUnitsL3 UndeclaredTimeUnitsL3@endlink</td>
+<td class='meaning'>Unable to verify consistency of units: the unit of time has not been declared</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UndeclaredExtentUnitsL3 UndeclaredExtentUnitsL3@endlink</td>
+<td class='meaning'>Unable to verify consistency of units: the units of reaction extent have not been declared</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UndeclaredObjectUnitsL3 UndeclaredObjectUnitsL3@endlink</td>
+<td class='meaning'>Unable to verify consistency of units: encountered a model entity with no declared units</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UnrecognisedSBOTerm UnrecognisedSBOTerm@endlink</td>
+<td class='meaning'>Unrecognized 'sboTerm' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ObseleteSBOTerm ObseleteSBOTerm@endlink</td>
+<td class='meaning'>Obsolete 'sboTerm' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#IncorrectCompartmentSpatialDimensions IncorrectCompartmentSpatialDimensions@endlink</td>
+<td class='meaning'>In SBML Level 1, only three-dimensional compartments are allowed</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompartmentTypeNotValidAttribute CompartmentTypeNotValidAttribute@endlink</td>
+<td class='meaning'>CompartmentType objects are not available in this Level+Version of SBML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConstantNotValidAttribute ConstantNotValidAttribute@endlink</td>
+<td class='meaning'>This Level+Version of SBML does not support the 'constant' attribute on this component</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MetaIdNotValidAttribute MetaIdNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'metaid' is not available in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SBOTermNotValidAttributeBeforeL2V3 SBOTermNotValidAttributeBeforeL2V3@endlink</td>
+<td class='meaning'>The 'sboTerm' attribute is not available on this component before SBML Level 2 Version 3</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidL1CompartmentUnits InvalidL1CompartmentUnits@endlink</td>
+<td class='meaning'>Invalid units for a compartment in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L1V1CompartmentVolumeReqd L1V1CompartmentVolumeReqd@endlink</td>
+<td class='meaning'>In SBML Level 1, a compartment's volume must be specified</td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompartmentTypeNotValidComponent CompartmentTypeNotValidComponent@endlink</td>
+<td class='meaning'>CompartmentType objects are not available in this Level+Version of SBML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConstraintNotValidComponent ConstraintNotValidComponent@endlink</td>
+<td class='meaning'>Constraint objects are not available in this Level+Version of SBML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#EventNotValidComponent EventNotValidComponent@endlink</td>
+<td class='meaning'>Event objects are not available in this Level+Version of SBML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SBOTermNotValidAttributeBeforeL2V2 SBOTermNotValidAttributeBeforeL2V2@endlink</td>
+<td class='meaning'>The 'sboTerm' attribute is invalid for this component before Level 2 Version 2</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FuncDefNotValidComponent FuncDefNotValidComponent@endlink</td>
+<td class='meaning'>FunctionDefinition objects are not available in this Level+Version of SBML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InitialAssignNotValidComponent InitialAssignNotValidComponent@endlink</td>
+<td class='meaning'>InitialAssignment objects are not available in this Level+Version of SBML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#VariableNotValidAttribute VariableNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'variable' is not available on this component in this Level+Version of SBML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#UnitsNotValidAttribute UnitsNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'units' is not available on this component in this Level+Version of SBML</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#ConstantSpeciesNotValidAttribute ConstantSpeciesNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'constant' is not available on Species objects in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpatialSizeUnitsNotValidAttribute SpatialSizeUnitsNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'spatialSizeUnits' is not available on Species objects in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpeciesTypeNotValidAttribute SpeciesTypeNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'speciesType' is not available on Species objects in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#HasOnlySubsUnitsNotValidAttribute HasOnlySubsUnitsNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'hasOnlySubstanceUnits' is not available on Species objects in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#IdNotValidAttribute IdNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'id' is not available on SpeciesReference objects in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#NameNotValidAttribute NameNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'name' is not available on SpeciesReference objects in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#SpeciesTypeNotValidComponent SpeciesTypeNotValidComponent@endlink</td>
+<td class='meaning'>The SpeciesType object is not supported in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#StoichiometryMathNotValidComponent StoichiometryMathNotValidComponent@endlink</td>
+<td class='meaning'>The StoichiometryMath object is not supported in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#MultiplierNotValidAttribute MultiplierNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'multiplier' on Unit objects is not supported in SBML Level 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#OffsetNotValidAttribute OffsetNotValidAttribute@endlink</td>
+<td class='meaning'>Attribute 'offset' on Unit objects is only available in SBML Level 2 Version 1</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3SpatialDimensionsUnset L3SpatialDimensionsUnset@endlink</td>
+<td class='meaning'>No value given for 'spatialDimensions' attribute; assuming a value of 3</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#PackageConversionNotSupported PackageConversionNotSupported@endlink</td>
+<td class='meaning'>Conversion of SBML Level 3 package constructs is not yet supported</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#InvalidTargetLevelVersion InvalidTargetLevelVersion@endlink</td>
+<td class='meaning'>The requested SBML Level/Version combination is not known to exist</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#L3NotSupported L3NotSupported@endlink</td>
+<td class='meaning'>SBML Level 3 is not yet supported</td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompUnknown CompUnknown@endlink</td>
+<td class='meaning'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompNSUndeclared CompNSUndeclared@endlink</td>
+<td class='meaning'>The comp ns is not correctly declared</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompElementNotInNs CompElementNotInNs@endlink</td>
+<td class='meaning'>Element not in comp namespace</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompDuplicateComponentId CompDuplicateComponentId@endlink</td>
+<td class='meaning'>Duplicate 'id' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompUniqueModelIds CompUniqueModelIds@endlink</td>
+<td class='meaning'>Model and ExternalModelDefinitions must have unique ids</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompUniquePortIds CompUniquePortIds@endlink</td>
+<td class='meaning'>Ports must have unique ids</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidSIdSyntax CompInvalidSIdSyntax@endlink</td>
+<td class='meaning'>Invalid SId syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidSubmodelRefSyntax CompInvalidSubmodelRefSyntax@endlink</td>
+<td class='meaning'>Invalid submodelRef syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidDeletionSyntax CompInvalidDeletionSyntax@endlink</td>
+<td class='meaning'>Invalid deletion syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidConversionFactorSyntax CompInvalidConversionFactorSyntax@endlink</td>
+<td class='meaning'>Invalid conversionFactor syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidNameSyntax CompInvalidNameSyntax@endlink</td>
+<td class='meaning'>Invalid name syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedUnitsShouldMatch CompReplacedUnitsShouldMatch@endlink</td>
+<td class='meaning'>Units of replaced elements should match replacement units.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompOneListOfReplacedElements CompOneListOfReplacedElements@endlink</td>
+<td class='meaning'>Only one <code>&lt;listOfReplacedElements&gt;</code> allowed.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOReplaceElementsAllowedElements CompLOReplaceElementsAllowedElements@endlink</td>
+<td class='meaning'>Allowed children of <code>&lt;listOfReplacedElements&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOReplacedElementsAllowedAttribs CompLOReplacedElementsAllowedAttribs@endlink</td>
+<td class='meaning'>Allowed <code>&lt;listOfReplacedElements&gt;</code> attributes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompEmptyLOReplacedElements CompEmptyLOReplacedElements@endlink</td>
+<td class='meaning'><code>&lt;listOfReplacedElements&gt;</code> must not be empty</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompOneReplacedByElement CompOneReplacedByElement@endlink</td>
+<td class='meaning'>Only one <code>&lt;replacedBy&gt;</code> object allowed.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompAttributeRequiredMissing CompAttributeRequiredMissing@endlink</td>
+<td class='meaning'>Required comp:required attribute on <code>&lt;sbml&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompAttributeRequiredMustBeBoolean CompAttributeRequiredMustBeBoolean@endlink</td>
+<td class='meaning'>The comp:required attribute must be Boolean</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompRequiredTrueIfElementsRemain CompRequiredTrueIfElementsRemain@endlink</td>
+<td class='meaning'>The comp:required attribute must be 'true' if math changes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompRequiredFalseIfAllElementsReplaced CompRequiredFalseIfAllElementsReplaced@endlink</td>
+<td class='meaning'>The comp:required attribute must be 'false' if math does not change</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompOneListOfModelDefinitions CompOneListOfModelDefinitions@endlink</td>
+<td class='meaning'>Only one <code>&lt;listOfModelDefinitions&gt;</code> allowed.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompEmptyLOModelDefs CompEmptyLOModelDefs@endlink</td>
+<td class='meaning'><code>&lt;listOfModelDefinitions&gt;</code> and <code>&lt;listOfExternalModelDefinitions&gt;</code> must not be empty</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOModelDefsAllowedElements CompLOModelDefsAllowedElements@endlink</td>
+<td class='meaning'>Only <code>&lt;modelDefinitions&gt;</code> in <code>&lt;listOfModelDefinitions&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOExtModelDefsAllowedElements CompLOExtModelDefsAllowedElements@endlink</td>
+<td class='meaning'>Only <code>&lt;externalModelDefinitions&gt;</code> in <code>&lt;listOfExternalModelDefinitions&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOModelDefsAllowedAttributes CompLOModelDefsAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed <code>&lt;listOfModelDefinitions&gt;</code> attributes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOExtModDefsAllowedAttributes CompLOExtModDefsAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed <code>&lt;listOfExternalModelDefinitions&gt;</code> attributes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompOneListOfExtModelDefinitions CompOneListOfExtModelDefinitions@endlink</td>
+<td class='meaning'>Only one <code>&lt;listOfExternalModelDefinitions&gt;</code> allowed.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompAttributeRequiredMustBeTrue CompAttributeRequiredMustBeTrue@endlink</td>
+<td class='meaning'>The comp:required attribute must be 'true'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompExtModDefAllowedCoreAttributes CompExtModDefAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Allowed <code>&lt;externalModelDefinitions&gt;</code> core attributes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompExtModDefAllowedElements CompExtModDefAllowedElements@endlink</td>
+<td class='meaning'>Allowed <code>&lt;externalModelDefinitions&gt;</code> elements</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompExtModDefAllowedAttributes CompExtModDefAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed <code>&lt;externalModelDefinitions&gt;</code> attributes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReferenceMustBeL3 CompReferenceMustBeL3@endlink</td>
+<td class='meaning'>External models must be L3</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompModReferenceMustIdOfModel CompModReferenceMustIdOfModel@endlink</td>
+<td class='meaning'>'modelRef' must be the 'id' of a model in the 'source' document</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompExtModMd5DoesNotMatch CompExtModMd5DoesNotMatch@endlink</td>
+<td class='meaning'>MD5 checksum does not match the 'source' document</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidSourceSyntax CompInvalidSourceSyntax@endlink</td>
+<td class='meaning'>The 'comp:source' attribute must be of type 'anyURI'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidModelRefSyntax CompInvalidModelRefSyntax@endlink</td>
+<td class='meaning'>The 'comp:modelRef' attribute must have the syntax of 'SId'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidMD5Syntax CompInvalidMD5Syntax@endlink</td>
+<td class='meaning'>The 'comp:md5' attribute must have the syntax of 'string'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompCircularExternalModelReference CompCircularExternalModelReference@endlink</td>
+<td class='meaning'>Circular reference in <code>&lt;externalModelDefinition&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompOneListOfOnModel CompOneListOfOnModel@endlink</td>
+<td class='meaning'>Only one <code>&lt;listOfSubmodels&gt;</code> and one <code>&lt;listOfPorts&gt;</code> allowed</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompNoEmptyListOfOnModel CompNoEmptyListOfOnModel@endlink</td>
+<td class='meaning'>No empty listOf elements allowed</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOSubmodelsAllowedElements CompLOSubmodelsAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on <code>&lt;listOfSubmodels&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOPortsAllowedElements CompLOPortsAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on <code>&lt;listOfPorts&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOSubmodelsAllowedAttributes CompLOSubmodelsAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on <code>&lt;listOfSubmodels&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLOPortsAllowedAttributes CompLOPortsAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on <code>&lt;listOfPorts&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompSubmodelAllowedCoreAttributes CompSubmodelAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Allowed core attributes on <code>&lt;submodel&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompSubmodelAllowedElements CompSubmodelAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on <code>&lt;submodel&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompOneListOfDeletionOnSubmodel CompOneListOfDeletionOnSubmodel@endlink</td>
+<td class='meaning'>Only one <code>&lt;listOfDeletions&gt;</code> on a <code>&lt;submodel&gt;</code> allowed</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompSubmodelNoEmptyLODeletions CompSubmodelNoEmptyLODeletions@endlink</td>
+<td class='meaning'>No empty listOfDeletions elements allowed</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLODeletionsAllowedElements CompLODeletionsAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on <code>&lt;listOfDeletions&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLODeletionAllowedAttributes CompLODeletionAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed <code>&lt;listOfDeletions&gt;</code> attributes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompSubmodelAllowedAttributes CompSubmodelAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed <code>&lt;submodel&gt;</code> attributes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompModReferenceSyntax CompModReferenceSyntax@endlink</td>
+<td class='meaning'>'comp:modelRef' must conform to SId syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidTimeConvFactorSyntax CompInvalidTimeConvFactorSyntax@endlink</td>
+<td class='meaning'>'comp:timeConversionFactor' must conform to SId syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidExtentConvFactorSyntax CompInvalidExtentConvFactorSyntax@endlink</td>
+<td class='meaning'>'comp:extentConversionFactor' must conform to SId syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompSubmodelMustReferenceModel CompSubmodelMustReferenceModel@endlink</td>
+<td class='meaning'>The 'comp:modelRef' attribute must reference a model</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompSubmodelCannotReferenceSelf CompSubmodelCannotReferenceSelf@endlink</td>
+<td class='meaning'>The 'comp:modelRef' attribute cannot reference own model</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompModCannotCircularlyReferenceSelf CompModCannotCircularlyReferenceSelf@endlink</td>
+<td class='meaning'><code>&lt;model&gt;</code> may not reference <code>&lt;submodel&gt;</code> that references itself.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompTimeConversionMustBeParameter CompTimeConversionMustBeParameter@endlink</td>
+<td class='meaning'>The 'comp:timeConversionFactor' must reference a parameter</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompExtentConversionMustBeParameter CompExtentConversionMustBeParameter@endlink</td>
+<td class='meaning'>The 'comp:extentConversionFactor' must reference a parameter</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompPortRefMustReferencePort CompPortRefMustReferencePort@endlink</td>
+<td class='meaning'>The 'comp:portRef' attribute must be the 'id' of a <code>&lt;port&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompIdRefMustReferenceObject CompIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>The 'comp:idRef' attribute must be the 'id' of a model element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompUnitRefMustReferenceUnitDef CompUnitRefMustReferenceUnitDef@endlink</td>
+<td class='meaning'>The 'comp:unitRef' attribute must be the 'id' of a UnitDefinition</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompMetaIdRefMustReferenceObject CompMetaIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>The 'comp:metaIdRef' attribute must be the 'metaid' of an object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompParentOfSBRefChildMustBeSubmodel CompParentOfSBRefChildMustBeSubmodel@endlink</td>
+<td class='meaning'>If <code>&lt;sBaseRef&gt;</code> has a child <code>&lt;sBaseRef&gt;</code> its parent must be a <code>&lt;submodel&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidPortRefSyntax CompInvalidPortRefSyntax@endlink</td>
+<td class='meaning'>The 'comp:portRef' attribute must have the syntax of an SBML SId</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidIdRefSyntax CompInvalidIdRefSyntax@endlink</td>
+<td class='meaning'>The 'comp:idRef' attribute must have the syntax of an SBML SId</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidUnitRefSyntax CompInvalidUnitRefSyntax@endlink</td>
+<td class='meaning'>The 'comp:unitRef' attribute must have the syntax of an SBML SId</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompInvalidMetaIdRefSyntax CompInvalidMetaIdRefSyntax@endlink</td>
+<td class='meaning'>The 'comp:metaIdRef' attribute must have the syntax of an XML ID</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompOneSBaseRefOnly CompOneSBaseRefOnly@endlink</td>
+<td class='meaning'>Only one <code>&lt;sbaseRef&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompDeprecatedSBaseRefSpelling CompDeprecatedSBaseRefSpelling@endlink</td>
+<td class='meaning'>The spelling 'sbaseRef' is deprecated</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompSBaseRefMustReferenceObject CompSBaseRefMustReferenceObject@endlink</td>
+<td class='meaning'>An SBaseRef must reference an object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompSBaseRefMustReferenceOnlyOneObject CompSBaseRefMustReferenceOnlyOneObject@endlink</td>
+<td class='meaning'>An SBaseRef must reference only one other object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompNoMultipleReferences CompNoMultipleReferences@endlink</td>
+<td class='meaning'>Objects may not be referenced by mutiple SBaseRef constructs.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompPortMustReferenceObject CompPortMustReferenceObject@endlink</td>
+<td class='meaning'>Port must reference an object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompPortMustReferenceOnlyOneObject CompPortMustReferenceOnlyOneObject@endlink</td>
+<td class='meaning'>Port must reference only one other object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompPortAllowedAttributes CompPortAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on a Port</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompPortReferencesUnique CompPortReferencesUnique@endlink</td>
+<td class='meaning'>Port definitions must be unique.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompDeletionMustReferenceObject CompDeletionMustReferenceObject@endlink</td>
+<td class='meaning'>Deletion must reference an object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompDeletionMustReferOnlyOneObject CompDeletionMustReferOnlyOneObject@endlink</td>
+<td class='meaning'>Deletion must reference only one other object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompDeletionAllowedAttributes CompDeletionAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on a Deletion</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedElementMustRefObject CompReplacedElementMustRefObject@endlink</td>
+<td class='meaning'>ReplacedElement must reference an object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedElementMustRefOnlyOne CompReplacedElementMustRefOnlyOne@endlink</td>
+<td class='meaning'>ReplacedElement must reference only one other object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedElementAllowedAttributes CompReplacedElementAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on <code>&lt;replacedElement&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedElementSubModelRef CompReplacedElementSubModelRef@endlink</td>
+<td class='meaning'>The 'comp:submodelRef' attribute must point to a <code>&lt;submodel&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedElementDeletionRef CompReplacedElementDeletionRef@endlink</td>
+<td class='meaning'>The 'comp:deletion' attribute must point to a <code>&lt;deletion&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedElementConvFactorRef CompReplacedElementConvFactorRef@endlink</td>
+<td class='meaning'>The 'comp:conversionFactor attribute must point to a <code>&lt;parameter&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedElementSameReference CompReplacedElementSameReference@endlink</td>
+<td class='meaning'>No <code>&lt;replacedElement&gt;</code> refer to same object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedElementNoDelAndConvFact CompReplacedElementNoDelAndConvFact@endlink</td>
+<td class='meaning'>No <code>&lt;replacedElement&gt;</code> with deletion and conversionfactor</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedByMustRefObject CompReplacedByMustRefObject@endlink</td>
+<td class='meaning'>ReplacedBy must reference an object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedByMustRefOnlyOne CompReplacedByMustRefOnlyOne@endlink</td>
+<td class='meaning'>ReplacedBy must reference only one other object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedByAllowedAttributes CompReplacedByAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on <code>&lt;replacedBy&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompReplacedBySubModelRef CompReplacedBySubModelRef@endlink</td>
+<td class='meaning'>The 'comp:submodelRef' attribute must point to a <code>&lt;submodel&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompMustReplaceSameClass CompMustReplaceSameClass@endlink</td>
+<td class='meaning'>Replaced classes must match.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompMustReplaceIDs CompMustReplaceIDs@endlink</td>
+<td class='meaning'>Replaced IDs must be replaced with IDs.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompMustReplaceMetaIDs CompMustReplaceMetaIDs@endlink</td>
+<td class='meaning'>Replaced metaids must be replaced with metaids.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompMustReplacePackageIDs CompMustReplacePackageIDs@endlink</td>
+<td class='meaning'>Replaced package IDs must be replaced with package IDs.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompUnresolvedReference CompUnresolvedReference@endlink</td>
+<td class='meaning'>Unresolved reference.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompNoModelInReference CompNoModelInReference@endlink</td>
+<td class='meaning'>No model in referenced document.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompExtModDefBad CompExtModDefBad@endlink</td>
+<td class='meaning'>Referenced <code>&lt;externalModelDefinition&gt;</code> unresolvable.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompModelFlatteningFailed CompModelFlatteningFailed@endlink</td>
+<td class='meaning'>Model failed to flatten.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompFlatModelNotValid CompFlatModelNotValid@endlink</td>
+<td class='meaning'>Flat model not valid.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompLineNumbersUnreliable CompLineNumbersUnreliable@endlink</td>
+<td class='meaning'>Line numbers unreliable.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompFlatteningNotRecognisedReqd CompFlatteningNotRecognisedReqd@endlink</td>
+<td class='meaning'>Flattening not implemented for required package.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompFlatteningNotRecognisedNotReqd CompFlatteningNotRecognisedNotReqd@endlink</td>
+<td class='meaning'>Flattening not implemented for unrequired package.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompFlatteningNotImplementedNotReqd CompFlatteningNotImplementedNotReqd@endlink</td>
+<td class='meaning'>Flattening not implemented for unrequired package.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompFlatteningNotImplementedReqd CompFlatteningNotImplementedReqd@endlink</td>
+<td class='meaning'>Flattening not implemented for required package.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompFlatteningWarning CompFlatteningWarning@endlink</td>
+<td class='meaning'>Flattening reference may come from package.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompDeprecatedDeleteFunction CompDeprecatedDeleteFunction@endlink</td>
+<td class='meaning'>The performDeletions functions is deprecated.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompDeprecatedReplaceFunction CompDeprecatedReplaceFunction@endlink</td>
+<td class='meaning'>The performReplacementsAndConversions fuctions is deprecated.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompDeletedReplacement CompDeletedReplacement@endlink</td>
+<td class='meaning'>Element deleted before a subelement could be replaced.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompIdRefMayReferenceUnknownPackage CompIdRefMayReferenceUnknownPackage@endlink</td>
+<td class='meaning'>The 'comp:idRef' attribute must be the 'id' of a model element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#CompMetaIdRefMayReferenceUnknownPkg CompMetaIdRefMayReferenceUnknownPkg@endlink</td>
+<td class='meaning'>The 'comp:metaIdRef' attribute must be the 'metaid' of a model element</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcUnknown FbcUnknown@endlink</td>
+<td class='meaning'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcNSUndeclared FbcNSUndeclared@endlink</td>
+<td class='meaning'>The fbc ns is not correctly declared</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcElementNotInNs FbcElementNotInNs@endlink</td>
+<td class='meaning'>Element not in fbc namespace</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcDuplicateComponentId FbcDuplicateComponentId@endlink</td>
+<td class='meaning'>Duplicate 'id' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcSBMLSIdSyntax FbcSBMLSIdSyntax@endlink</td>
+<td class='meaning'>Invalid 'id' attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcAttributeRequiredMissing FbcAttributeRequiredMissing@endlink</td>
+<td class='meaning'>Required fbc:required attribute on <code>&lt;sbml&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcAttributeRequiredMustBeBoolean FbcAttributeRequiredMustBeBoolean@endlink</td>
+<td class='meaning'>The fbc:required attribute must be Boolean</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcRequiredFalse FbcRequiredFalse@endlink</td>
+<td class='meaning'>The fbc:required attribute must be 'false'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcOnlyOneEachListOf FbcOnlyOneEachListOf@endlink</td>
+<td class='meaning'>One of each list of allowed</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcNoEmptyListOfs FbcNoEmptyListOfs@endlink</td>
+<td class='meaning'>ListOf elements cannot be empty</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcLOFluxBoundsAllowedElements FbcLOFluxBoundsAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on ListOfFluxBounds</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcLOObjectivesAllowedElements FbcLOObjectivesAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on ListOfObjectives</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcLOFluxBoundsAllowedAttributes FbcLOFluxBoundsAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on ListOfFluxBounds</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcLOObjectivesAllowedAttributes FbcLOObjectivesAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on ListOfObjectives</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcActiveObjectiveSyntax FbcActiveObjectiveSyntax@endlink</td>
+<td class='meaning'>Type of activeObjective attribute</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcActiveObjectiveRefersObjective FbcActiveObjectiveRefersObjective@endlink</td>
+<td class='meaning'>ActiveObjective must reference Objective</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcSpeciesAllowedL3Attributes FbcSpeciesAllowedL3Attributes@endlink</td>
+<td class='meaning'>Species allowed attributes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcSpeciesChargeMustBeInteger FbcSpeciesChargeMustBeInteger@endlink</td>
+<td class='meaning'>Charge must be integer</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcSpeciesFormulaMustBeString FbcSpeciesFormulaMustBeString@endlink</td>
+<td class='meaning'>Chemical formula must be string</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxBoundAllowedL3Attributes FbcFluxBoundAllowedL3Attributes@endlink</td>
+<td class='meaning'><code>&lt;fluxBound&gt;</code> may only have 'metaId' and 'sboTerm' from L3 namespace</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxBoundAllowedElements FbcFluxBoundAllowedElements@endlink</td>
+<td class='meaning'><code>&lt;fluxBound&gt;</code> may only have <code>&lt;notes&gt;</code> and <code>&lt;annotations&gt;</code> from L3 Core</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxBoundRequiredAttributes FbcFluxBoundRequiredAttributes@endlink</td>
+<td class='meaning'>Invalid attribute found on <code>&lt;fluxBound&gt;</code> object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxBoundRectionMustBeSIdRef FbcFluxBoundRectionMustBeSIdRef@endlink</td>
+<td class='meaning'>Datatype for 'fbc:reaction' must be SIdRef</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxBoundNameMustBeString FbcFluxBoundNameMustBeString@endlink</td>
+<td class='meaning'>The attribute 'fbc:name' must be of the data type string</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxBoundOperationMustBeEnum FbcFluxBoundOperationMustBeEnum@endlink</td>
+<td class='meaning'>The attribute 'fbc:operation' must be of data type FbcOperation</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxBoundValueMustBeDouble FbcFluxBoundValueMustBeDouble@endlink</td>
+<td class='meaning'>The attribute 'fbc:value' must be of the data type double</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxBoundReactionMustExist FbcFluxBoundReactionMustExist@endlink</td>
+<td class='meaning'>'fbc:reaction' must refer to valid reaction</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxBoundsForReactionConflict FbcFluxBoundsForReactionConflict@endlink</td>
+<td class='meaning'>Conflicting set of FluxBounds for a reaction</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcObjectiveAllowedL3Attributes FbcObjectiveAllowedL3Attributes@endlink</td>
+<td class='meaning'><code>&lt;objective&gt;</code> may only have 'metaId' and 'sboTerm' from L3 namespace</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcObjectiveAllowedElements FbcObjectiveAllowedElements@endlink</td>
+<td class='meaning'><code>&lt;objective&gt;</code> may only have <code>&lt;notes&gt;</code> and <code>&lt;annotations&gt;</code> from L3 Core</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcObjectiveRequiredAttributes FbcObjectiveRequiredAttributes@endlink</td>
+<td class='meaning'>Invalid attribute found on <code>&lt;objective&gt;</code> object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcObjectiveNameMustBeString FbcObjectiveNameMustBeString@endlink</td>
+<td class='meaning'>The attribute 'fbc:name' must be of the data type string</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcObjectiveTypeMustBeEnum FbcObjectiveTypeMustBeEnum@endlink</td>
+<td class='meaning'>The attribute 'fbc:type' must be of data type FbcType.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcObjectiveOneListOfObjectives FbcObjectiveOneListOfObjectives@endlink</td>
+<td class='meaning'>An <code>&lt;objective&gt;</code> must have one <code>&lt;listOfFluxObjectives&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcObjectiveLOFluxObjMustNotBeEmpty FbcObjectiveLOFluxObjMustNotBeEmpty@endlink</td>
+<td class='meaning'><code>&lt;listOfFluxObjectives&gt;</code> subobject must not be empty</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcObjectiveLOFluxObjOnlyFluxObj FbcObjectiveLOFluxObjOnlyFluxObj@endlink</td>
+<td class='meaning'>Invalid element found in <code>&lt;listOfFluxObjectives&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcObjectiveLOFluxObjAllowedAttribs FbcObjectiveLOFluxObjAllowedAttribs@endlink</td>
+<td class='meaning'><code>&lt;listOfFluxObjectives&gt;</code> may only have 'metaId' and 'sboTerm' from L3 core</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxObjectAllowedL3Attributes FbcFluxObjectAllowedL3Attributes@endlink</td>
+<td class='meaning'><code>&lt;fluxObjective&gt;</code> may only have 'metaId' and 'sboTerm' from L3 namespace</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxObjectAllowedElements FbcFluxObjectAllowedElements@endlink</td>
+<td class='meaning'><code>&lt;fluxObjective&gt;</code> may only have <code>&lt;notes&gt;</code> and <code>&lt;annotations&gt;</code> from L3 Core</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxObjectRequiredAttributes FbcFluxObjectRequiredAttributes@endlink</td>
+<td class='meaning'>Invalid attribute found on <code>&lt;fluxObjective&gt;</code> object</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxObjectNameMustBeString FbcFluxObjectNameMustBeString@endlink</td>
+<td class='meaning'>The attribute 'fbc:name' must be of the data type string</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxObjectReactionMustBeSIdRef FbcFluxObjectReactionMustBeSIdRef@endlink</td>
+<td class='meaning'>Datatype for 'fbc:reaction' must be SIdRef</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxObjectReactionMustExist FbcFluxObjectReactionMustExist@endlink</td>
+<td class='meaning'>'fbc:reaction' must refer to valid reaction</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#FbcFluxObjectCoefficientMustBeDouble FbcFluxObjectCoefficientMustBeDouble@endlink</td>
+<td class='meaning'>The attribute 'fbc:coefficient' must be of the data type double</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualUnknown QualUnknown@endlink</td>
+<td class='meaning'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualNSUndeclared QualNSUndeclared@endlink</td>
+<td class='meaning'>The qual ns is not correctly declared</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualElementNotInNs QualElementNotInNs@endlink</td>
+<td class='meaning'>Element not in qual namespace</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualFunctionTermBool QualFunctionTermBool@endlink</td>
+<td class='meaning'>FunctionTerm should return bool</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualMathCSymbolDisallowed QualMathCSymbolDisallowed@endlink</td>
+<td class='meaning'>CSymbol time or delay not allowed</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-warning'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualDuplicateComponentId QualDuplicateComponentId@endlink</td>
+<td class='meaning'>Duplicate 'id' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualAttributeRequiredMissing QualAttributeRequiredMissing@endlink</td>
+<td class='meaning'>Required qual:required attribute on <code>&lt;sbml&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualAttributeRequiredMustBeBoolean QualAttributeRequiredMustBeBoolean@endlink</td>
+<td class='meaning'>The qual:required attribute must be Boolean</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualRequiredTrueIfTransitions QualRequiredTrueIfTransitions@endlink</td>
+<td class='meaning'>The qual:required attribute must be 'true' if math changes</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOneListOfTransOrQS QualOneListOfTransOrQS@endlink</td>
+<td class='meaning'>Only one <code>&lt;listOfTransitions&gt;</code> or <code>&lt;listOfQualitativeSpeciesgt;</code> allowed.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualEmptyLONotAllowed QualEmptyLONotAllowed@endlink</td>
+<td class='meaning'>Empty <code>&lt;listOfTransitions&gt;</code> or <code>&lt;listOfQualitativeSpeciesgt;</code> not allowed.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualLOTransitiondAllowedElements QualLOTransitiondAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;listOfTransitions&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualLOQualSpeciesAllowedElements QualLOQualSpeciesAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;listOfTransitions&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualLOQualSpeciesAllowedAttributes QualLOQualSpeciesAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfQualitativeSpeciesgt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualLOTransitionsAllowedAttributes QualLOTransitionsAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfTransitions&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualQualSpeciesAllowedCoreAttributes QualQualSpeciesAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;qualitativeSpeciesgt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualQualSpeciesAllowedElements QualQualSpeciesAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;qualitativeSpeciesgt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualQualSpeciesAllowedAttributes QualQualSpeciesAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;qualitativeSpeciesgt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualConstantMustBeBool QualConstantMustBeBool@endlink</td>
+<td class='meaning'>Attribute 'constant' on <code>&lt;qualitativeSpeciesgt;</code> must be bool.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualNameMustBeString QualNameMustBeString@endlink</td>
+<td class='meaning'>Attribute 'name' on <code>&lt;qualitativeSpeciesgt;</code> must be string.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInitialLevelMustBeInt QualInitialLevelMustBeInt@endlink</td>
+<td class='meaning'>Attribute 'initialLevel' on <code>&lt;qualitativeSpeciesgt;</code> must be integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualMaxLevelMustBeInt QualMaxLevelMustBeInt@endlink</td>
+<td class='meaning'>Attribute 'maxLevel' on <code>&lt;qualitativeSpeciesgt;</code> must be integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualCompartmentMustReferExisting QualCompartmentMustReferExisting@endlink</td>
+<td class='meaning'>Attribute 'compartment' on <code>&lt;qualitativeSpeciesgt;</code> must reference compartment.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInitialLevelCannotExceedMax QualInitialLevelCannotExceedMax@endlink</td>
+<td class='meaning'>Attribute 'initialLevel' on <code>&lt;qualitativeSpeciesgt;</code> cannot exceed maxLevel.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualConstantQSCannotBeOutput QualConstantQSCannotBeOutput@endlink</td>
+<td class='meaning'>Constant <code>&lt;qualitativeSpeciesgt;</code> cannot be an Output.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualQSAssignedOnlyOnce QualQSAssignedOnlyOnce@endlink</td>
+<td class='meaning'>A <code>&lt;qualitativeSpeciesgt;</code> can only be assigned once.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInitalLevelNotNegative QualInitalLevelNotNegative@endlink</td>
+<td class='meaning'>Attribute 'initialLevel' on <code>&lt;qualitativeSpeciesgt;</code> cannot be negative.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualMaxLevelNotNegative QualMaxLevelNotNegative@endlink</td>
+<td class='meaning'>Attribute 'maxLevel' on <code>&lt;qualitativeSpeciesgt;</code> cannot be negative.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionAllowedCoreAttributes QualTransitionAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;transition&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionAllowedElements QualTransitionAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;transition&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionAllowedAttributes QualTransitionAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;transition&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionNameMustBeString QualTransitionNameMustBeString@endlink</td>
+<td class='meaning'>Attribute 'name' on <code>&lt;transition&gt;</code> must be string.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionLOElements QualTransitionLOElements@endlink</td>
+<td class='meaning'>ListOf elements on <code>&lt;transition&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionEmptyLOElements QualTransitionEmptyLOElements@endlink</td>
+<td class='meaning'>ListOf elements on <code>&lt;transition&gt;</code> not empty.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionLOInputElements QualTransitionLOInputElements@endlink</td>
+<td class='meaning'>Elements on <code>&lt;listOfInputs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionLOOutputElements QualTransitionLOOutputElements@endlink</td>
+<td class='meaning'>Elements on <code>&lt;listOfOutputs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionLOFuncTermElements QualTransitionLOFuncTermElements@endlink</td>
+<td class='meaning'>Elements on <code>&lt;listOfFunctionTerms&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionLOInputAttributes QualTransitionLOInputAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfInputs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionLOOutputAttributes QualTransitionLOOutputAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfOutputs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionLOFuncTermAttributes QualTransitionLOFuncTermAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfFunctionTerms&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionLOFuncTermExceedMax QualTransitionLOFuncTermExceedMax@endlink</td>
+<td class='meaning'><code>&lt;listOfFunctionTerms&gt;</code> cannot make qualitativeSpecies exceed maxLevel.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualTransitionLOFuncTermNegative QualTransitionLOFuncTermNegative@endlink</td>
+<td class='meaning'><code>&lt;listOfFunctionTerms&gt;</code> cannot make qualitativeSpecies negative.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputAllowedCoreAttributes QualInputAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;input&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputAllowedElements QualInputAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;input&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputAllowedAttributes QualInputAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;input&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputNameMustBeString QualInputNameMustBeString@endlink</td>
+<td class='meaning'>Attribute 'name' on <code>&lt;input&gt;</code> must be string.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputSignMustBeSignEnum QualInputSignMustBeSignEnum@endlink</td>
+<td class='meaning'>Attribute 'sign' on <code>&lt;input&gt;</code> must be enum.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputTransEffectMustBeInputEffect QualInputTransEffectMustBeInputEffect@endlink</td>
+<td class='meaning'>Attribute 'transitionEffect' on <code>&lt;input&gt;</code> must be enum.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputThreshMustBeInteger QualInputThreshMustBeInteger@endlink</td>
+<td class='meaning'>Attribute 'thresholdLevel' on <code>&lt;input&gt;</code> must be non negative integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputQSMustBeExistingQS QualInputQSMustBeExistingQS@endlink</td>
+<td class='meaning'>Attribute 'qualitativeSpecies' on <code>&lt;input&gt;</code> must refer to existing</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputConstantCannotBeConsumed QualInputConstantCannotBeConsumed@endlink</td>
+<td class='meaning'>Constant <code>&lt;input&gt;</code> cannot be consumed.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualInputThreshMustBeNonNegative QualInputThreshMustBeNonNegative@endlink</td>
+<td class='meaning'>Attribute 'thresholdLevel' on <code>&lt;input&gt;</code> must be non negative integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputAllowedCoreAttributes QualOutputAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;output&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputAllowedElements QualOutputAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;output&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputAllowedAttributes QualOutputAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;output&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputNameMustBeString QualOutputNameMustBeString@endlink</td>
+<td class='meaning'>Attribute 'name' on <code>&lt;output&gt;</code> must be string.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputTransEffectMustBeOutput QualOutputTransEffectMustBeOutput@endlink</td>
+<td class='meaning'>Attribute 'transitionEffect' on <code>&lt;output&gt;</code> must be enum.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputLevelMustBeInteger QualOutputLevelMustBeInteger@endlink</td>
+<td class='meaning'>Attribute 'outputLevel' on <code>&lt;output&gt;</code> must be non negative integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputQSMustBeExistingQS QualOutputQSMustBeExistingQS@endlink</td>
+<td class='meaning'>Attribute 'qualitativeSpecies' on <code>&lt;output&gt;</code> must refer to existing</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputConstantMustBeFalse QualOutputConstantMustBeFalse@endlink</td>
+<td class='meaning'>Constant 'qualitativeSpecies' cannot be <code>&lt;output&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputProductionMustHaveLevel QualOutputProductionMustHaveLevel@endlink</td>
+<td class='meaning'><code>&lt;output&gt;</code> being produced must have level</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualOutputLevelMustBeNonNegative QualOutputLevelMustBeNonNegative@endlink</td>
+<td class='meaning'>Attribute 'outputLevel' on <code>&lt;output&gt;</code> must be non negative integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualDefaultTermAllowedCoreAttributes QualDefaultTermAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;defaultTerm&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualDefaultTermAllowedElements QualDefaultTermAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;defaultTerm&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualDefaultTermAllowedAttributes QualDefaultTermAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;defaultTerm&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualDefaultTermResultMustBeInteger QualDefaultTermResultMustBeInteger@endlink</td>
+<td class='meaning'>Attribute 'resultLevel' on <code>&lt;defaultTerm&gt;</code> must be non negative integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualDefaultTermResultMustBeNonNeg QualDefaultTermResultMustBeNonNeg@endlink</td>
+<td class='meaning'>Attribute 'resultLevel' on <code>&lt;defaultTerm&gt;</code> must be non negative integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualFuncTermAllowedCoreAttributes QualFuncTermAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;functionTerm&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualFuncTermAllowedElements QualFuncTermAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;functionTerm&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualFuncTermAllowedAttributes QualFuncTermAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;functionTerm&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualFuncTermOnlyOneMath QualFuncTermOnlyOneMath@endlink</td>
+<td class='meaning'>Only one <code>&lt;math&gt;</code> on <code>&lt;functionTerm&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualFuncTermResultMustBeInteger QualFuncTermResultMustBeInteger@endlink</td>
+<td class='meaning'>Attribute 'resultLevel' on <code>&lt;functionTerm&gt;</code> must be non negative integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#QualFuncTermResultMustBeNonNeg QualFuncTermResultMustBeNonNeg@endlink</td>
+<td class='meaning'>Attribute 'resultLevel' on <code>&lt;functionTerm&gt;</code> must be non negative integer.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutUnknownError LayoutUnknownError@endlink</td>
+<td class='meaning'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutNSUndeclared LayoutNSUndeclared@endlink</td>
+<td class='meaning'>The layout ns is not correctly declared</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutElementNotInNs LayoutElementNotInNs@endlink</td>
+<td class='meaning'>Element not in layout namespace</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutDuplicateComponentId LayoutDuplicateComponentId@endlink</td>
+<td class='meaning'>Duplicate 'id' attribute value</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSIdSyntax LayoutSIdSyntax@endlink</td>
+<td class='meaning'>'id' attribute incorrect syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutXsiTypeAllowedLocations LayoutXsiTypeAllowedLocations@endlink</td>
+<td class='meaning'>'xsi:type' allowed locations</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutXsiTypeSyntax LayoutXsiTypeSyntax@endlink</td>
+<td class='meaning'>'xsi:type' attribute incorrect syntax</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutAttributeRequiredMissing LayoutAttributeRequiredMissing@endlink</td>
+<td class='meaning'>Required layout:required attribute on <code>&lt;sbml&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutAttributeRequiredMustBeBoolean LayoutAttributeRequiredMustBeBoolean@endlink</td>
+<td class='meaning'>The layout:required attribute must be Boolean</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRequiredFalse LayoutRequiredFalse@endlink</td>
+<td class='meaning'>The layout:required attribute must be 'false'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutOnlyOneLOLayouts LayoutOnlyOneLOLayouts@endlink</td>
+<td class='meaning'>Only one listOfLayouts on <code>&lt;model&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOLayoutsNotEmpty LayoutLOLayoutsNotEmpty@endlink</td>
+<td class='meaning'>ListOf elements cannot be empty</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOLayoutsAllowedElements LayoutLOLayoutsAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on ListOfLayouts</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOLayoutsAllowedAttributes LayoutLOLayoutsAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on ListOfLayouts</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLayoutAllowedElements LayoutLayoutAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on Layout</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLayoutAllowedCoreAttributes LayoutLayoutAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Allowed core attributes on Layout</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutOnlyOneEachListOf LayoutOnlyOneEachListOf@endlink</td>
+<td class='meaning'>Only one each listOf on <code>&lt;layout&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutNoEmptyListOfs LayoutNoEmptyListOfs@endlink</td>
+<td class='meaning'>ListOf elements cannot be empty</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLayoutAllowedAttributes LayoutLayoutAllowedAttributes@endlink</td>
+<td class='meaning'><code>&lt;layout&gt;</code> must have 'id' and may have 'name'</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLayoutNameMustBeString LayoutLayoutNameMustBeString@endlink</td>
+<td class='meaning'>'name' must be string</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOCompGlyphAllowedAttributes LayoutLOCompGlyphAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfCompartmentGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOCompGlyphAllowedElements LayoutLOCompGlyphAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;listOfCompartmentGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOSpeciesGlyphAllowedAttributes LayoutLOSpeciesGlyphAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfSpeciesGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOSpeciesGlyphAllowedElements LayoutLOSpeciesGlyphAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;listOfSpeciesGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLORnGlyphAllowedAttributes LayoutLORnGlyphAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfReactionGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLORnGlyphAllowedElements LayoutLORnGlyphAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;listOfReactionGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOAddGOAllowedAttribut LayoutLOAddGOAllowedAttribut@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfAdditionalGraphicalObjectGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOAddGOAllowedElements LayoutLOAddGOAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;listOfAdditionalGraphicalObjectGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLayoutMustHaveDimensions LayoutLayoutMustHaveDimensions@endlink</td>
+<td class='meaning'>Layout must have <code>&lt;dimensions&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOTextGlyphAllowedAttributes LayoutLOTextGlyphAllowedAttributes@endlink</td>
+<td class='meaning'>Attributes allowed on <code>&lt;listOfTextGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOTextGlyphAllowedElements LayoutLOTextGlyphAllowedElements@endlink</td>
+<td class='meaning'>Elements allowed on <code>&lt;listOfTextGlyphs&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGOAllowedCoreElements LayoutGOAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;graphicalObject&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGOAllowedCoreAttributes LayoutGOAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;graphicalObject&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGOAllowedElements LayoutGOAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;graphicalObject&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGOAllowedAttributes LayoutGOAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;graphicalObject&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGOMetaIdRefMustBeIDREF LayoutGOMetaIdRefMustBeIDREF@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must be IDREF.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGOMetaIdRefMustReferenceObject LayoutGOMetaIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must reference existing object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGOMustContainBoundingBox LayoutGOMustContainBoundingBox@endlink</td>
+<td class='meaning'>A <code>&lt;graphicalObject&gt;</code> must contain a <code>&lt;boundingBox&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGAllowedCoreElements LayoutCGAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;compartmentGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGAllowedCoreAttributes LayoutCGAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;compartmentGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGAllowedElements LayoutCGAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;compartmentGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGAllowedAttributes LayoutCGAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;compartmentGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGMetaIdRefMustBeIDREF LayoutCGMetaIdRefMustBeIDREF@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must be IDREF.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGMetaIdRefMustReferenceObject LayoutCGMetaIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must reference existing object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGCompartmentSyntax LayoutCGCompartmentSyntax@endlink</td>
+<td class='meaning'>CompartmentGlyph 'compartment' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGCompartmentMustRefComp LayoutCGCompartmentMustRefComp@endlink</td>
+<td class='meaning'>CompartmentGlyph compartment must reference existing compartment.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGNoDuplicateReferences LayoutCGNoDuplicateReferences@endlink</td>
+<td class='meaning'>CompartmentGlyph cannot reference two objects.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCGOrderMustBeDouble LayoutCGOrderMustBeDouble@endlink</td>
+<td class='meaning'>CompartmentGlyph order must be double.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSGAllowedCoreElements LayoutSGAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;speciesGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSGAllowedCoreAttributes LayoutSGAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;speciesGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSGAllowedElements LayoutSGAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;speciesGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSGAllowedAttributes LayoutSGAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;speciesGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSGMetaIdRefMustBeIDREF LayoutSGMetaIdRefMustBeIDREF@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must be IDREF.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSGMetaIdRefMustReferenceObject LayoutSGMetaIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must reference existing object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSGSpeciesSyntax LayoutSGSpeciesSyntax@endlink</td>
+<td class='meaning'>SpeciesGlyph 'species' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSGSpeciesMustRefSpecies LayoutSGSpeciesMustRefSpecies@endlink</td>
+<td class='meaning'>SpeciesGlyph species must reference existing species.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSGNoDuplicateReferences LayoutSGNoDuplicateReferences@endlink</td>
+<td class='meaning'>SpeciesGlyph cannot reference two objects.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRGAllowedCoreElements LayoutRGAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;reactionGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRGAllowedCoreAttributes LayoutRGAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;reactionGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRGAllowedElements LayoutRGAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;reactionGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRGAllowedAttributes LayoutRGAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;reactionGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRGMetaIdRefMustBeIDREF LayoutRGMetaIdRefMustBeIDREF@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must be IDREF.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRGMetaIdRefMustReferenceObject LayoutRGMetaIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must reference existing object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRGReactionSyntax LayoutRGReactionSyntax@endlink</td>
+<td class='meaning'>ReactionGlyph 'reaction' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRGReactionMustRefReaction LayoutRGReactionMustRefReaction@endlink</td>
+<td class='meaning'>ReactionGlyph reaction must reference existing reaction.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutRGNoDuplicateReferences LayoutRGNoDuplicateReferences@endlink</td>
+<td class='meaning'>ReactionGlyph cannot reference two objects.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOSpeciesRefGlyphAllowedElements LayoutLOSpeciesRefGlyphAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on ListOfSpeciesReferenceGlyphs</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOSpeciesRefGlyphAllowedAttribs LayoutLOSpeciesRefGlyphAllowedAttribs@endlink</td>
+<td class='meaning'>Allowed attributes on ListOfSpeciesReferenceGlyphs</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOSpeciesRefGlyphNotEmpty LayoutLOSpeciesRefGlyphNotEmpty@endlink</td>
+<td class='meaning'>ListOfSpeciesReferenceGlyphs not empty</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGGAllowedCoreElements LayoutGGAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;generalGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGGAllowedCoreAttributes LayoutGGAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;generalGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGGAllowedElements LayoutGGAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;generalGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGGAllowedAttributes LayoutGGAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;generalGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGGMetaIdRefMustBeIDREF LayoutGGMetaIdRefMustBeIDREF@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must be IDREF.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGGMetaIdRefMustReferenceObject LayoutGGMetaIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must reference existing object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGGReferenceSyntax LayoutGGReferenceSyntax@endlink</td>
+<td class='meaning'>GeneralGlyph 'reference' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGGReferenceMustRefObject LayoutGGReferenceMustRefObject@endlink</td>
+<td class='meaning'>GeneralGlyph 'reference' must reference existing element.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutGGNoDuplicateReferences LayoutGGNoDuplicateReferences@endlink</td>
+<td class='meaning'>GeneralGlyph cannot reference two objects.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOReferenceGlyphAllowedElements LayoutLOReferenceGlyphAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on ListOfReferenceGlyphs</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOReferenceGlyphAllowedAttribs LayoutLOReferenceGlyphAllowedAttribs@endlink</td>
+<td class='meaning'>Allowed attributes on ListOfReferenceGlyphs</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOSubGlyphAllowedElements LayoutLOSubGlyphAllowedElements@endlink</td>
+<td class='meaning'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOSubGlyphAllowedAttribs LayoutLOSubGlyphAllowedAttribs@endlink</td>
+<td class='meaning'>Allowed attributes on ListOfSubGlyphs</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGAllowedCoreElements LayoutTGAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;textGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGAllowedCoreAttributes LayoutTGAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;textGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGAllowedElements LayoutTGAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;textGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGAllowedAttributes LayoutTGAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;textGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGMetaIdRefMustBeIDREF LayoutTGMetaIdRefMustBeIDREF@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must be IDREF.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGMetaIdRefMustReferenceObject LayoutTGMetaIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must reference existing object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGOriginOfTextSyntax LayoutTGOriginOfTextSyntax@endlink</td>
+<td class='meaning'>TextGlyph 'originOfText' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGOriginOfTextMustRefObject LayoutTGOriginOfTextMustRefObject@endlink</td>
+<td class='meaning'>TextGlyph 'originOfText' must reference existing element.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGNoDuplicateReferences LayoutTGNoDuplicateReferences@endlink</td>
+<td class='meaning'>TextGlyph cannot reference two objects.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGGraphicalObjectSyntax LayoutTGGraphicalObjectSyntax@endlink</td>
+<td class='meaning'>TextGlyph 'graphicalObject' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGGraphicalObjectMustRefObject LayoutTGGraphicalObjectMustRefObject@endlink</td>
+<td class='meaning'>TextGlyph 'graphicalObject' must reference existing element.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutTGTextMustBeString LayoutTGTextMustBeString@endlink</td>
+<td class='meaning'>TextGlyph 'text' must be string.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGAllowedCoreElements LayoutSRGAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;speciesReferenceGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGAllowedCoreAttributes LayoutSRGAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;speciesReferenceGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGAllowedElements LayoutSRGAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;speciesReferenceGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGAllowedAttributes LayoutSRGAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;speciesReferenceGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGMetaIdRefMustBeIDREF LayoutSRGMetaIdRefMustBeIDREF@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must be IDREF.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGMetaIdRefMustReferenceObject LayoutSRGMetaIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must reference existing object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGSpeciesReferenceSyntax LayoutSRGSpeciesReferenceSyntax@endlink</td>
+<td class='meaning'>SpeciesReferenceGlyph 'speciesReference' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGSpeciesRefMustRefObject LayoutSRGSpeciesRefMustRefObject@endlink</td>
+<td class='meaning'>SpeciesReferenceGlyph 'speciesReference' must reference existing element.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGNoDuplicateReferences LayoutSRGNoDuplicateReferences@endlink</td>
+<td class='meaning'>SpeciesReferenceGlyph cannot reference two objects.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGSpeciesGlyphSyntax LayoutSRGSpeciesGlyphSyntax@endlink</td>
+<td class='meaning'>SpeciesReferenceGlyph 'speciesGlyph' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGSpeciesGlyphMustRefObject LayoutSRGSpeciesGlyphMustRefObject@endlink</td>
+<td class='meaning'>SpeciesReferenceGlyph 'speciesGlyph' must reference existing element.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutSRGRoleSyntax LayoutSRGRoleSyntax@endlink</td>
+<td class='meaning'>SpeciesReferenceGlyph 'role' must be string from enumeration.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGAllowedCoreElements LayoutREFGAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;referenceGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGAllowedCoreAttributes LayoutREFGAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;referenceGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGAllowedElements LayoutREFGAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;referenceGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGAllowedAttributes LayoutREFGAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;referenceGlyph&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGMetaIdRefMustBeIDREF LayoutREFGMetaIdRefMustBeIDREF@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must be IDREF.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGMetaIdRefMustReferenceObject LayoutREFGMetaIdRefMustReferenceObject@endlink</td>
+<td class='meaning'>Layout 'metIdRef' must reference existing object.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGReferenceSyntax LayoutREFGReferenceSyntax@endlink</td>
+<td class='meaning'>ReferenceGlyph 'reference' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGReferenceMustRefObject LayoutREFGReferenceMustRefObject@endlink</td>
+<td class='meaning'>ReferenceGlyph 'reference' must reference existing element.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGNoDuplicateReferences LayoutREFGNoDuplicateReferences@endlink</td>
+<td class='meaning'>ReferenceGlyph cannot reference two objects.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGGlyphSyntax LayoutREFGGlyphSyntax@endlink</td>
+<td class='meaning'>ReferenceGlyph 'glyph' must have SIdRef syntax.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGGlyphMustRefObject LayoutREFGGlyphMustRefObject@endlink</td>
+<td class='meaning'>ReferenceGlyph 'glyph' must reference existing element.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutREFGRoleSyntax LayoutREFGRoleSyntax@endlink</td>
+<td class='meaning'>ReferenceGlyph 'role' must be string.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutPointAllowedCoreElements LayoutPointAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;point&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutPointAllowedCoreAttributes LayoutPointAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;point&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutPointAllowedAttributes LayoutPointAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;point&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutPointAttributesMustBeDouble LayoutPointAttributesMustBeDouble@endlink</td>
+<td class='meaning'>Layout 'x', 'y' and 'z' must be double.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutBBoxAllowedCoreElements LayoutBBoxAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;boundingBox&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutBBoxAllowedCoreAttributes LayoutBBoxAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;boundingBox&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutBBoxAllowedElements LayoutBBoxAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;boundingBox&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutBBoxAllowedAttributes LayoutBBoxAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;boundingBox&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutBBoxConsistent3DDefinition LayoutBBoxConsistent3DDefinition@endlink</td>
+<td class='meaning'>Layout consistent dimensions on a <code>&lt;boundingBox&gt;</code></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCurveAllowedCoreElements LayoutCurveAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;curve&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCurveAllowedCoreAttributes LayoutCurveAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;curve&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCurveAllowedElements LayoutCurveAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;curve&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCurveAllowedAttributes LayoutCurveAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;curve&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOCurveSegsAllowedAttributes LayoutLOCurveSegsAllowedAttributes@endlink</td>
+<td class='meaning'>Allowed attributes on ListOfCurveSegments</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOCurveSegsAllowedElements LayoutLOCurveSegsAllowedElements@endlink</td>
+<td class='meaning'>Allowed elements on ListOfCurveSegments</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLOCurveSegsNotEmpty LayoutLOCurveSegsNotEmpty@endlink</td>
+<td class='meaning'>No empty ListOfCurveSegments</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLSegAllowedCoreElements LayoutLSegAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;lineSegment&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLSegAllowedCoreAttributes LayoutLSegAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;lineSegment&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLSegAllowedElements LayoutLSegAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;lineSegment&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutLSegAllowedAttributes LayoutLSegAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;lineSegment&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCBezAllowedCoreElements LayoutCBezAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;cubicBezier&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCBezAllowedCoreAttributes LayoutCBezAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;cubicBezier&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCBezAllowedElements LayoutCBezAllowedElements@endlink</td>
+<td class='meaning'>Layout elements allowed on <code>&lt;cubicBezier&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutCBezAllowedAttributes LayoutCBezAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;cubicBezier&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutDimsAllowedCoreElements LayoutDimsAllowedCoreElements@endlink</td>
+<td class='meaning'>Core elements allowed on <code>&lt;dimensions&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutDimsAllowedCoreAttributes LayoutDimsAllowedCoreAttributes@endlink</td>
+<td class='meaning'>Core attributes allowed on <code>&lt;dimensions&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutDimsAllowedAttributes LayoutDimsAllowedAttributes@endlink</td>
+<td class='meaning'>Layout attributes allowed on <code>&lt;dimensions&gt;</code>.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
+<tr><td class='code'>@link libsbmlcs#LayoutDimsAttributesMustBeDouble LayoutDimsAttributesMustBeDouble@endlink</td>
+<td class='meaning'>Layout 'width', 'height' and 'depth' must be double.</td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-na'></td>
+<td class='s-error'></td>
+</tr>
 </table>
- *
- *
  * 
  * @if clike <h3><a class='anchor' name='SBMLErrorCategory_t'>SBMLErrorCategory_t</a></h3>
  *
@@ -7266,7 +8483,7 @@ namespace libsbmlcs {
  * diagnostics.  The category can be retrieved from an SBMLError object
  * using the method SBMLError::getCategory().  These enumeration values are
  * distinct from (and in addition to) the @link
- * XMLError::XMLErrorCategory_t XMLErrorCategory_t @endlink codes used by
+ * XMLError::XMLErrorCategory_t XMLErrorCategory_t@endlink codes used by
  * the parent XMLError object.  User programs receiving an SBMLError object
  * can use this distinction to check whether the error represents a
  * low-level XML problem or an SBML problem.
@@ -7332,73 +8549,73 @@ namespace libsbmlcs {
  *      <th>Enumerator</td>
  *      <th>Meaning</td>
  *  </tr>
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_SBML LIBSBML_CAT_SBML@endlink</td><td>General error not falling into
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML LIBSBML_CAT_SBML@endlink</td><td>General error not falling into
  * another category below.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_SBML_L1_COMPAT LIBSBML_CAT_SBML_L1_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L1_COMPAT LIBSBML_CAT_SBML_L1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model from SBML Level&nbsp;2 to SBML
  * Level&nbsp;1.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_SBML_L2V1_COMPAT LIBSBML_CAT_SBML_L2V1_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L2V1_COMPAT LIBSBML_CAT_SBML_L2V1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;1.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_SBML_L2V2_COMPAT LIBSBML_CAT_SBML_L2V2_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L2V2_COMPAT LIBSBML_CAT_SBML_L2V2_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;2.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating general SBML constructs.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating symbol identifiers in a model.
  * With respect to the SBML specification, these concern failures in
  * applying the validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>  
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating the units of measurement on
  * quantities in a model.  With respect to the SBML specification, these
  * concern failures in applying the validation rules numbered 105xx in the
  * Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating MathML formulas in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 102xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink</td><td>Category of errors
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink</td><td>Category of errors
  * that can occur while validating SBO identifiers in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink</td><td>Error in the
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink</td><td>Error in the
  * system of equations in the model: the system is overdetermined,
  * therefore violating a tenet of proper SBML.  With respect to the SBML
  * specification, this is validation rule #10601 in the SBML Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_SBML_L2V3_COMPAT LIBSBML_CAT_SBML_L2V3_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L2V3_COMPAT LIBSBML_CAT_SBML_L2V3_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;3.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink</td><td>Category of
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink</td><td>Category of
  * warnings about recommended good practices involving SBML and
  * computational modeling.  (These are tests performed by libSBML and do
  * not have equivalent SBML validation rules.)</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_INTERNAL_CONSISTENCY LIBSBML_CAT_INTERNAL_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_INTERNAL_CONSISTENCY LIBSBML_CAT_INTERNAL_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating libSBML's internal representation
  * of SBML constructs. (These are tests performed by libSBML and do
  * not have equivalent SBML validation rules.)</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_SBML_L2V4_COMPAT LIBSBML_CAT_SBML_L2V4_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L2V4_COMPAT LIBSBML_CAT_SBML_L2V4_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;4.</td></tr> 
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_SBML_L3V1_COMPAT LIBSBML_CAT_SBML_L3V1_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L3V1_COMPAT LIBSBML_CAT_SBML_L3V1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;3
@@ -7593,7 +8810,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId, long level, long version, string details, long line, long column, long severity, long category, string package, long pkgVersion) : this(libsbmlPINVOKE.new_SBMLError__SWIG_0(errorId, level, version, details, line, column, severity, category, package, pkgVersion), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -7706,7 +8923,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId, long level, long version, string details, long line, long column, long severity, long category, string package) : this(libsbmlPINVOKE.new_SBMLError__SWIG_1(errorId, level, version, details, line, column, severity, category, package), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -7819,7 +9036,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId, long level, long version, string details, long line, long column, long severity, long category) : this(libsbmlPINVOKE.new_SBMLError__SWIG_2(errorId, level, version, details, line, column, severity, category), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -7932,7 +9149,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId, long level, long version, string details, long line, long column, long severity) : this(libsbmlPINVOKE.new_SBMLError__SWIG_3(errorId, level, version, details, line, column, severity), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -8045,7 +9262,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId, long level, long version, string details, long line, long column) : this(libsbmlPINVOKE.new_SBMLError__SWIG_4(errorId, level, version, details, line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -8158,7 +9375,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId, long level, long version, string details, long line) : this(libsbmlPINVOKE.new_SBMLError__SWIG_5(errorId, level, version, details, line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -8271,7 +9488,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId, long level, long version, string details) : this(libsbmlPINVOKE.new_SBMLError__SWIG_6(errorId, level, version, details), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -8384,7 +9601,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId, long level, long version) : this(libsbmlPINVOKE.new_SBMLError__SWIG_7(errorId, level, version), true) {
   }
@@ -8496,7 +9713,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId, long level) : this(libsbmlPINVOKE.new_SBMLError__SWIG_8(errorId, level), true) {
   }
@@ -8608,7 +9825,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError(long errorId) : this(libsbmlPINVOKE.new_SBMLError__SWIG_9(errorId), true) {
   }
@@ -8720,7 +9937,7 @@ public class SBMLError : XMLError {
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  SBMLError() : this(libsbmlPINVOKE.new_SBMLError__SWIG_10(), true) {
   }

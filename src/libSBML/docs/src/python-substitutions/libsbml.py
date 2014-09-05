@@ -4800,6 +4800,32 @@ L3P_AVOGADRO_IS_CSYMBOL = _libsbml.L3P_AVOGADRO_IS_CSYMBOL
 L3P_AVOGADRO_IS_NAME = _libsbml.L3P_AVOGADRO_IS_NAME
     ## @var long L3P_AVOGADRO_IS_NAME
     ##
+    ## Collapse unary minuses where possible.
+
+L3P_COMPARE_BUILTINS_CASE_INSENSITIVE = _libsbml.L3P_COMPARE_BUILTINS_CASE_INSENSITIVE
+    ## @var long L3P_COMPARE_BUILTINS_CASE_INSENSITIVE
+    ##
+    ## Treat all forms of built-in functions as referencing that function,
+    ## regardless of the capitalization of that string.
+
+L3P_COMPARE_BUILTINS_CASE_SENSITIVE = _libsbml.L3P_COMPARE_BUILTINS_CASE_SENSITIVE
+    ## @var long L3P_COMPARE_BUILTINS_CASE_SENSITIVE
+    ##
+    ## Treat only the all-lower-case form of built-in functions as referencing
+    ## that function, and all other forms of capitalization of that string
+    ## as referencing user-defined functions or values.
+
+INFIX_SYNTAX_NAMED_SQUARE_BRACKETS = _libsbml.INFIX_SYNTAX_NAMED_SQUARE_BRACKETS
+    ## @var long INFIX_SYNTAX_NAMED_SQUARE_BRACKETS
+    ##
+
+INFIX_SYNTAX_CURLY_BRACES = _libsbml.INFIX_SYNTAX_CURLY_BRACES
+    ## @var long INFIX_SYNTAX_CURLY_BRACES
+    ##
+
+INFIX_SYNTAX_CURLY_BRACES_SEMICOLON = _libsbml.INFIX_SYNTAX_CURLY_BRACES_SEMICOLON
+    ## @var long INFIX_SYNTAX_CURLY_BRACES_SEMICOLON
+    ##
 
 MODEL_QUALIFIER = _libsbml.MODEL_QUALIFIER
     ## @var long MODEL_QUALIFIER

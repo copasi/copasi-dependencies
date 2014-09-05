@@ -31,6 +31,7 @@
  * ---------------------------------------------------------------------- -->*/
 
 %module(directors="1") libsbml
+
 %feature("director") SBMLValidator;  
 %feature("director") SBMLConverter;  
 %feature("director") ElementFilter;  
@@ -111,7 +112,6 @@ LIBSBML_CPP_NAMESPACE_USE
  */
 #pragma SWIG nowarn=516
 
-
 /**
  * Ignore the Visitor pattern accept() method (for now) on all SBML
  * objects.
@@ -127,10 +127,8 @@ LIBSBML_CPP_NAMESPACE_USE
 %ignore ASTNode::setSemanticsFlag;
 %ignore ASTNode::unsetSemanticsFlag;
 %ignore ASTNode::getSemanticsFlag;
-%ignore ASTNode::setUserData;
-%ignore ASTNode::getUserData;
 
-/** 
+/**
  * Ignore the list that can't be wrapped
  */
 %ignore SBMLExtensionRegistry::getRegisteredPackageNames;
@@ -177,13 +175,12 @@ LIBSBML_CPP_NAMESPACE_USE
 %ignore SBMLErrorLog::add(const std::list<SBMLError>& errors);
 %ignore SBMLErrorLog::add(const std::vector<SBMLError>& errors);
 
-/** 
+/**
  * Ignore methods from SBML Validator that can't be wrapped
  */
 %ignore SBMLValidator::getFailures;
 %ignore SBMLExternalValidator::getArguments;
 %ignore SBMLExternalValidator::setArguments;
-
 
 /**
  * Ignore 'static ParentMap mParent;' in SBO.h
@@ -205,7 +202,7 @@ LIBSBML_CPP_NAMESPACE_USE
 %ignore SBase::getMetaId();
 
 /**
- * Ignore internal FormulaUnitsData methods on SBase
+ * Ignore internal methods on SBase
  */
 %ignore SBase::removeDuplicateAnnotations;
 %ignore SBase::setSBMLNamespaces;
@@ -214,7 +211,7 @@ LIBSBML_CPP_NAMESPACE_USE
 %ignore SBase::write;
 
 /**
- * Ignore internal FormulaUnitsData methods on Model
+ * Ignore internal methods on Model
  */
 %ignore Model::addFormulaUnitsData;
 %ignore Model::createFormulaUnitsData;
@@ -310,20 +307,28 @@ LIBSBML_CPP_NAMESPACE_USE
 %ignore SyntaxChecker::hasDeclaredNS;
 %ignore SyntaxChecker::isCorrectHTMLNode;
 
+/** 
+ * Ignore some const versions of methods
+ */
+%ignore SBMLConverter::setDocument(SBMLDocument const *);
+%ignore SBMLReactionConverter::setDocument(SBMLDocument const *);
+
+
 /**
- * Ignore internal implementation methods in SBMLNamespces
+ * Ignore internal implementation methods and some other methods
+ * on SBMLNamespces.
  */
 %ignore SBMLNamespaces::setLevel;
 %ignore SBMLNamespaces::setVersion;
 %ignore SBMLNamespaces::setNamespaces;
 
 /**
- * Ignore internal SBMLTransforms.
+ * Ignore internal implementation methods and some other methods
+ * on SBMLTransforms.
  */
-%ignore SBMLTransforms::replaceFD;
-%ignore SBMLTransforms::expandInitialAssignments;
-%ignore SBMLTransforms::evaluateASTNode;
-%ignore SBMLTransforms::mapComponentValues;
+%ignore SBMLTransforms::evaluateASTNode(const ASTNode * node, const IdValueMap& values, const Model * m = NULL);
+%ignore SBMLTransforms::evaluateASTNode(const ASTNode * node, const std::map<std::string, double>& values, const Model * m = NULL);
+%ignore SBMLTransforms::getComponentValuesForModel(const Model * m, IdValueMap& values);
 
 /**
  * Ignore internal implementation methods in XMLToken
@@ -375,6 +380,8 @@ LIBSBML_CPP_NAMESPACE_USE
 %newobject readMathMLFromString;
 %newobject writeMathMLToString;
 %newobject SBML_formulaToString;
+%newobject SBML_formulaToL3String;
+%newobject SBML_formulaToL3StringWithSettings;
 %newobject SBML_parseFormula;
 %newobject SBML_parseL3Formula;
 %newobject SBML_parseL3FormulaWithModel;
@@ -417,6 +424,12 @@ LIBSBML_CPP_NAMESPACE_USE
 %newobject UnitDefinition::convertToSI;
 %newobject UnitDefinition::combine;
 
+/**
+ * We can't currently support attaching arbitrary user data to
+ * libSBML objects.
+ */
+%ignore *::setUserData;
+%ignore *::getUserData;
 
 /**
  * In the wrapped languages, these methods will appear as:
@@ -424,6 +437,8 @@ LIBSBML_CPP_NAMESPACE_USE
  *  - libsbml.formulaToString()
  *  - libsbml.parseFormula()
  */
+%rename(formulaToL3String) SBML_formulaToL3String;
+%rename(formulaToL3StringWithSettings) SBML_formulaToL3StringWithSettings;
 %rename(formulaToString) SBML_formulaToString;
 %rename(parseFormula)    SBML_parseFormula;
 %rename(parseL3Formula)    SBML_parseL3Formula;
@@ -432,23 +447,20 @@ LIBSBML_CPP_NAMESPACE_USE
 %rename(getDefaultL3ParserSettings)    SBML_getDefaultL3ParserSettings;
 %rename(getLastParseL3Error)    SBML_getLastParseL3Error;
 
-
 /**
- * 
+ *
  * wraps "List* ASTNode::getListOfNodes(ASTNodePredicate)" function
- * as "ListWrapper<ASTNode>* ASTNode::getListOfNodes()" function 
- * which returns a list of all ASTNodes. 
+ * as "ListWrapper<ASTNode>* ASTNode::getListOfNodes()" function
+ * which returns a list of all ASTNodes.
  *
  */
 
 %ignore SBase::getAllElementsFromPlugins;
 %ignore SBasePlugin::getAllElements;
 %ignore SBase::getAllElements;
-%ignore SBase::setUserData;
-%ignore SBase::getUserData;
 %ignore Model::renameIDs(List* elements, IdentifierTransformer* idTransformer);
 
-%extend Model 
+%extend Model
 {
    void renameIDs(ListWrapper<SBase>* elements, IdentifierTransformer *idTransformer)
    {
@@ -590,6 +602,7 @@ LIBSBML_CPP_NAMESPACE_USE
 %include sbml/common/libsbml-version.h
 %include sbml/common/operationReturnValues.h
 %include sbml/common/common-documentation.h
+%include sbml/common/common-sbmlerror-codes.h
 
 %include <sbml/util/IdList.h>
 %include <sbml/util/IdentifierTransformer.h>
@@ -640,8 +653,12 @@ LIBSBML_CPP_NAMESPACE_USE
 %include sbml/conversion/SBMLConverter.h
 %include sbml/conversion/SBMLConverterRegistry.h
 %include sbml/conversion/SBMLFunctionDefinitionConverter.h
+%include sbml/conversion/SBMLIdConverter.h
+%include sbml/conversion/SBMLInferUnitsConverter.h
 %include sbml/conversion/SBMLInitialAssignmentConverter.h
 %include sbml/conversion/SBMLLevelVersionConverter.h
+%include sbml/conversion/SBMLLocalParameterConverter.h
+%include sbml/conversion/SBMLReactionConverter.h
 %include sbml/conversion/SBMLRuleConverter.h
 %include sbml/conversion/SBMLStripPackageConverter.h
 %include sbml/conversion/SBMLUnitsConverter.h

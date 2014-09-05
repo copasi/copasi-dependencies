@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of %SBML's %EventAssignment construct for
- * %Event.
+@htmlinclude pkg-marker-core.html An assignment to a variable by an SBML <em>event</em>.
  *
  * Event contains an optional element called 'listOfEventAssignments', of
  * class ListOfEventAssignments.  In every instance of an event definition
@@ -80,7 +79,7 @@ namespace libsbml {
  * is <em>executed</em>, not when it is <em>triggered</em>.  The timing is
  * controlled by the optional Delay in an Event.  The time of
  * assignment is not affected by the 'useValuesFromTriggerTime'
- * attribute on Eventmdash;that attribute affects the time at which the
+ * attribute on Event---that attribute affects the time at which the
  * EventAssignment's 'math' expression is @em evaluated.  In other
  * words, SBML allows decoupling the time at which the
  * 'variable' is assigned from the time at which its value
@@ -104,7 +103,7 @@ namespace libsbml {
  * EventAssignment's 'math' expression are the values they have at the
  * point when the event @em executed.
  *
- * @section version-diffs SBML Level/Version differences
+ * @section eventassignment-version-diffs SBML Level/Version differences
  * 
  * Between Version&nbsp;4 and previous versions of SBML Level&nbsp;2, the
  * requirements regarding the matching of units between an
@@ -212,23 +211,27 @@ public class EventAssignment : SBase {
    * @param version a long integer, the SBML Version to assign to this
    * EventAssignment
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * * 
- * @note Upon the addition of a EventAssignment object to an SBMLDocument
- * (e.g., using Event::addEventAssignment(@if java EventAssignment ea@endif)), 
- * the SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the EventAssignment object via
- * this constructor.  This is necessary to ensure that an SBML document
- * is a consistent structure.  Nevertheless, the ability to supply the
- * values at the time of creation of a EventAssignment is an important
- * aid to producing valid SBML.  Knowledge of the intented SBML Level and
- * Version determine whether it is valid to assign a particular value to
- * an attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  EventAssignment(long level, long version) : this(libsbmlPINVOKE.new_EventAssignment__SWIG_0(level, version), true) {
@@ -241,7 +244,7 @@ public class EventAssignment : SBase {
    * @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -253,23 +256,27 @@ public class EventAssignment : SBase {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * * 
- * @note Upon the addition of a EventAssignment object to an SBMLDocument
- * (e.g., using Event::addEventAssignment(@if java EventAssignment ea@endif)), 
- * the SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the EventAssignment object via
- * this constructor.  This is necessary to ensure that an SBML document
- * is a consistent structure.  Nevertheless, the ability to supply the
- * values at the time of creation of a EventAssignment is an important
- * aid to producing valid SBML.  Knowledge of the intented SBML Level and
- * Version determine whether it is valid to assign a particular value to
- * an attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  EventAssignment(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_EventAssignment__SWIG_1(SBMLNamespaces.getCPtr(sbmlns)), true) {
@@ -282,7 +289,7 @@ public class EventAssignment : SBase {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  EventAssignment(EventAssignment orig) : this(libsbmlPINVOKE.new_EventAssignment__SWIG_2(EventAssignment.getCPtr(orig)), true) {
@@ -291,9 +298,9 @@ public class EventAssignment : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this EventAssignment.
-   * 
-   * @return a (deep) copy of this EventAssignment.
+   * Creates and returns a deep copy of this EventAssignment object.
+   *
+   * @return the (deep) copy of this EventAssignment object.
    */ public new
  EventAssignment clone() {
     IntPtr cPtr = libsbmlPINVOKE.EventAssignment_clone(swigCPtr);
@@ -365,8 +372,8 @@ public class EventAssignment : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setVariable(string sid) {
     int ret = libsbmlPINVOKE.EventAssignment_setVariable(swigCPtr, sid);
@@ -385,8 +392,8 @@ public class EventAssignment : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.EventAssignment_setMath(swigCPtr, ASTNode.getCPtr(math));
@@ -405,9 +412,10 @@ public class EventAssignment : SBase {
  * <code>&lt;ci&gt;</code> elements used within that expression.  The method
  * EventAssignment::getDerivedUnitDefinition() returns the calculated units,
  * to the extent that libSBML can compute them.
+ *
  * 
    *
-   * * 
+   * *
  * @note The functionality that facilitates unit analysis depends on the
  * model as a whole.  Thus, in cases where the object has not been added to
  * a model or the model itself is incomplete, unit analysis is not possible
@@ -456,6 +464,7 @@ public class EventAssignment : SBase {
  * EventAssignment::getDerivedUnitDefinition() returns the calculated units,
  * to the extent that libSBML can compute them.
  *
+ *
    *
    * If the expression contains literal numbers or parameters with undeclared
    * units, libSBML may not be able to compute the full units of the
@@ -484,10 +493,10 @@ public class EventAssignment : SBase {
    * Returns the libSBML type code of this object instance.
    *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -499,15 +508,15 @@ public class EventAssignment : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT@endlink (default).
+   * @link libsbmlcs#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -542,11 +551,11 @@ public class EventAssignment : SBase {
    * Predicate returning @c true if all the required attributes for this
    * EventAssignment object have been set.
    *
-   * @note The required attributes for a EventAssignment object are:
+   * The required attributes for a EventAssignment object are:
    * @li 'variable'
    *
-   * @return a bool value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.EventAssignment_hasRequiredAttributes(swigCPtr);
@@ -578,10 +587,11 @@ public class EventAssignment : SBase {
 
   
 /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML.
-   *
    * *
+ * Replaces all uses of a given @c SIdRef type attribute value with another
+ * value.
+ *
+ * *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -595,24 +605,29 @@ public class EventAssignment : SBase {
  * explicitly name the data type.
  *
  *
-   * 
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of @p oldid.  If any matches are found, the
+ * matching values are replaced with @p newid.  The method does @em not
+ * descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.EventAssignment_renameSIdRefs(swigCPtr, oldid, newid);
   }
 
   
 /**
-   * Renames all the @c UnitSIdRef attributes on this element.
-   *
    * *
+ * Replaces all uses of a given @c UnitSIdRef type attribute value with
+ * another value.
+ *
+ * *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
@@ -623,18 +638,20 @@ public class EventAssignment : SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
- * 
  *
-   *
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of @p oldid.  If any matches are found,
-   * the matching identifiers are replaced with @p newid.  The method does
-   * @em not descend into child elements.
-   * 
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ *
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of @p oldid.  If any matches
+ * are found, the matching values are replaced with @p newid.  The method
+ * does @em not descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameUnitSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.EventAssignment_renameUnitSIdRefs(swigCPtr, oldid, newid);
   }
@@ -642,7 +659,7 @@ public class EventAssignment : SBase {
   
 /**
    * Replace all nodes with the name 'id' from the child 'math' object with the provided function. 
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void replaceSIDWithFunction(string id, ASTNode function) {
     libsbmlPINVOKE.EventAssignment_replaceSIDWithFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
@@ -650,7 +667,7 @@ public class EventAssignment : SBase {
   
 /**
    * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing/function). 
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void divideAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.EventAssignment_divideAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
@@ -658,7 +675,7 @@ public class EventAssignment : SBase {
   
 /**
    * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing*function). 
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void multiplyAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.EventAssignment_multiplyAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }

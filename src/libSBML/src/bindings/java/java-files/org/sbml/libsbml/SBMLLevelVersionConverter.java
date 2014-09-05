@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  SBML converter for transforming documents from one
- * Level+Version to another.
+ *  Whole-document SBML Level/Version converter.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -19,19 +18,119 @@ the implementation of extra functionality provided by libSBML.
 </p>
 
  <p>
- * This SBML converter takes an SBML document of one SBML Level+Version
- * combination and attempts to convert it to another Level+Version combination.
- * The target Level+Version is set using an SBMLNamespace object in the
- * {@link ConversionProperties} object that controls this converter.
+ * This SBML converter takes an SBML document having one SBML Level+Version
+ * combination, and attempts to convert it to an SBML document having a
+ * different Level+Version combination.
  <p>
- * This class is the basis for
- * {@link SBMLDocument#setLevelAndVersion(long lev, long ver, boolean strict)}.
+ * This class is also the basis for
+ * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}.
  <p>
- * @see SBMLFunctionDefinitionConverter
- * @see SBMLInitialAssignmentConverter
- * @see SBMLRuleConverter
- * @see SBMLStripPackageConverter
- * @see SBMLUnitsConverter
+ * <h2>Configuration and use of {@link SBMLLevelVersionConverter}</h2>
+ <p>
+ * {@link SBMLLevelVersionConverter} is enabled by creating a {@link ConversionProperties}
+ * object with the option <code>'setLevelAndVersion'</code>, and passing this
+ * properties object to {@link SBMLDocument#convert(ConversionProperties)}.  The target SBML Level and Version
+ * combination are determined by the value of the SBML namespace set on the
+ * {@link ConversionProperties} object (using
+ * {@link ConversionProperties#setTargetNamespaces(SBMLNamespaces targetNS)}).
+ <p>
+ * In addition, this converter offers one option:
+ <p>
+ * <ul>
+ * <li> <code>'strict':</code> if this option has the value <code>true</code>, then the validity
+ * of the SBML document will be strictly preserved.  This means that SBML
+ * validation will be performed, and if the original model is not valid or
+ * semantics cannot be preserved in the converted model, then conversion will
+ * not be performed.  Conversely, if this option is set to <code>false</code>, model
+ * conversion will always be performed; if any errors are detected related to
+ * altered semantics, the errors will be logged in the usual way (i.e., the
+ * error log on the {@link SBMLDocument} object).
+ *
+ * </ul> <p>
+ * <p>
+ * <h2>General information about the use of SBML converters</h2>
+ <p>
+ * The use of all the converters follows a similar approach.  First, one
+ * creates a {@link ConversionProperties} object and calls
+ * {@link ConversionProperties#addOption(ConversionOption)}
+ * on this object with one arguments: a text string that identifies the desired
+ * converter.  (The text string is specific to each converter; consult the
+ * documentation for a given converter to find out how it should be enabled.)
+ <p>
+ * Next, for some converters, the caller can optionally set some
+ * converter-specific properties using additional calls to
+ * {@link ConversionProperties#addOption(ConversionOption)}.
+ * Many converters provide the ability to
+ * configure their behavior to some extent; this is realized through the use
+ * of properties that offer different options.  The default property values
+ * for each converter can be interrogated using the method
+ * {@link SBMLConverter#getDefaultProperties()} on the converter class in question .
+ <p>
+ * Finally, the caller should invoke the method
+ * {@link SBMLDocument#convert(ConversionProperties)}
+ * with the {@link ConversionProperties} object as an argument.
+ <p>
+ * <h3>Example of invoking an SBML converter</h3>
+ <p>
+ * The following code fragment illustrates an example using
+ * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * <code>'replaceReactions':</code>
+ <p>
+<pre class='fragment'>
+{@link ConversionProperties} props = new {@link ConversionProperties}();
+if (props != null) {
+  props.addOption('replaceReactions');
+} else {
+  // Deal with error.
+}
+</pre>
+<p>
+ * In the case of {@link SBMLReactionConverter}, there are no options to affect
+ * its behavior, so the next step is simply to invoke the converter on
+ * an {@link SBMLDocument} object.  Continuing the example code:
+ <p>
+<pre class='fragment'>
+  // Assume that the variable 'document' has been set to an {@link SBMLDocument} object.
+  status = document.convert(config);
+  if (status != libsbml.LIBSBML_OPERATION_SUCCESS)
+  {
+    // Handle error somehow.
+    System.out.println('Error: conversion failed due to the following:');
+    document.printErrors();
+  }
+</pre>
+<p>
+ * Here is an example of using a converter that offers an option. The
+ * following code invokes {@link SBMLStripPackageConverter} to remove the
+ * SBML Level&nbsp;3 <em>%Layout</em> package from a model.  It sets the name
+ * of the package to be removed by adding a value for the option named
+ * <code>'package'</code> defined by that converter:
+ <p>
+<pre class='fragment'>
+{@link ConversionProperties} config = new {@link ConversionProperties}();
+if (config != None) {
+  config.addOption('stripPackage');
+  config.addOption('package', 'layout');
+  status = document.convert(config);
+  if (status != LIBSBML_OPERATION_SUCCESS) {
+    // Handle error somehow.
+    System.out.println('Error: unable to strip the Layout package');
+    document.printErrors();
+  }
+} else {
+  // Handle error somehow.
+  System.out.println('Error: unable to create {@link ConversionProperties} object');
+}
+</pre>
+<p>
+ * <h3>Available SBML converters in libSBML</h3>
+ <p>
+ * LibSBML provides a number of built-in converters; by convention, their
+ * names end in <em>Converter</em>. The following are the built-in converters
+ * provided by libSBML 5.10.2
+:
+ <p>
+ * @copydetails doc_list_of_libsbml_converters
  */
 
 public class SBMLLevelVersionConverter extends SBMLConverter {
@@ -103,7 +202,7 @@ public class SBMLLevelVersionConverter extends SBMLConverter {
 /**
    * Creates and returns a deep copy of this {@link SBMLConverter} object.
    <p>
-   * @return a (deep) copy of this {@link SBMLConverter} object.
+   * @return the (deep) copy of this {@link SBMLConverter} object.
    */ public
  SBMLConverter cloneObject() {
     long cPtr = libsbmlJNI.SBMLLevelVersionConverter_cloneObject(swigCPtr, this);
@@ -130,9 +229,9 @@ public class SBMLLevelVersionConverter extends SBMLConverter {
    <p>
    * This method causes the converter to do the actual conversion work,
    * that is, to convert the {@link SBMLDocument} object set by
-   * {@link SBMLConverter#setDocument(SBMLDocument doc)} and
+   * {@link SBMLConverter#setDocument(SBMLDocument)} and
    * with the configuration options set by
-   * {@link SBMLConverter#setProperties(ConversionProperties props)}.
+   * {@link SBMLConverter#setProperties(ConversionProperties)}.
    <p>
    * @return  integer value indicating the success/failure of the operation.
    *  The set of possible values that may
@@ -158,8 +257,8 @@ public class SBMLLevelVersionConverter extends SBMLConverter {
    <p>
    * @return the default properties for the converter.
    <p>
-   * @see #setProperties(ConversionProperties props)
-   * @see #matchesProperties(ConversionProperties props)
+   * @see #setProperties(ConversionProperties)
+   * @see #matchesProperties(ConversionProperties)
    */ public
  ConversionProperties getDefaultProperties() {
     return new ConversionProperties(libsbmlJNI.SBMLLevelVersionConverter_getDefaultProperties(swigCPtr, this), true);

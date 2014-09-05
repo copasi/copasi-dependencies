@@ -24,8 +24,7 @@
  *------------------------------------------------------------------------- -->
  *
  * @class ListOfReplacedElements
- * @sbmlbrief{comp} Implementation of the %ListOfReplacedElements construct
- * from the &ldquo;comp&rdquo; package.
+ * @sbmlbrief{comp} A list of ReplacedElement objects.
  * 
  * The ListOfReplacedElements is a container for any SBase object.  It 
  * contains ReplacedElement objects, which point to elements the parent
@@ -138,7 +137,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_COMP_REPLACEDELEMENT SBML_COMP_REPLACEDELEMENT@endlink (default).
+   * @sbmlconstant{SBML_COMP_REPLACEDELEMENT, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -150,7 +149,7 @@ public:
    * Returns the XML element name of
    * this SBML object.
    *
-   * @return the string of the name of this element.
+   * @return the name of this element, as a text string.
    */
   virtual const std::string& getElementName () const;
 

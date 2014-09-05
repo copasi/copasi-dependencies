@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Representation of a qualified XML name.
+ *  A qualified XML name.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -34,9 +34,9 @@ defined in SBML.
  * <code>someelement</code> and the attribute <code>attribA</code>.  When
  * both the element and the attribute are stored as {@link XMLTriple} objects,
  * their <i>prefix</i> is <code>mysim</code>.
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
 &lt;mysim:someelement mysim:attribA='value' /&gt;
-</pre></div>
+</pre>
  <p>
  * <li> The XML namespace URI with which the prefix is associated.  In
  * XML, every namespace used must be declared and mapped to a URI.
@@ -158,7 +158,7 @@ public class XMLTriple {
    * @param uri a string, URI of the {@link XMLTriple}.
    * @param prefix a string, prefix for the URI of the {@link XMLTriple},
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  XMLTriple(String name, String uri, String prefix) {
@@ -179,7 +179,7 @@ public class XMLTriple {
    * @param triplet a string representing the triplet as above
    * @param sepchar a character, the sepchar used in the triplet
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    <p>
    * 
@@ -215,7 +215,7 @@ appears in the documentation.
    * @param triplet a string representing the triplet as above
    * @param sepchar a character, the sepchar used in the triplet
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    <p>
    * 
@@ -243,7 +243,7 @@ appears in the documentation.
    <p>
    * @param orig the {@link XMLTriple} object to copy.
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  XMLTriple(XMLTriple orig) {
@@ -252,9 +252,9 @@ appears in the documentation.
 
   
 /**
-   * Creates and returns a deep copy of this {@link XMLTriple} set.
+   * Creates and returns a deep copy of this {@link XMLTriple} object.
    <p>
-   * @return a (deep) copy of this {@link XMLTriple} set.
+   * @return the (deep) copy of this {@link XMLTriple} object.
    */ public
  XMLTriple cloneObject() {
     long cPtr = libsbmlJNI.XMLTriple_cloneObject(swigCPtr, this);

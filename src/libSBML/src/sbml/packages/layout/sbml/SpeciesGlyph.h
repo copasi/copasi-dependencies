@@ -27,8 +27,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SpeciesGlyph
- * @sbmlbrief{layout} The %SpeciesGlyph represents a Species in the
- * &ldquo;layout&rdquo; package.
+ * @sbmlbrief{layout} A glyph for an SBML species.
  *
  * In addition to the attributes it inherits from GraphicalObject, the
  * SpeciesGlyph object has an optional 'species' attribute.
@@ -118,16 +117,7 @@ public:
   virtual ~SpeciesGlyph ();        
 
   /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML content (if such exists).
-   *
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renamesidref_common
    */
   virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
@@ -170,11 +160,15 @@ public:
   virtual void writeElements (XMLOutputStream& stream) const;
   /** @endcond */
 
+
   /**
    * Returns the XML element name of
    * this SBML object.
+   *
+   * @return the string of the name of this element
    */
   virtual const std::string& getElementName () const ;
+
 
   /**
    * Creates and returns a deep copy of this SpeciesGlyph.
@@ -190,7 +184,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLLayoutTypeCode_t#SBML_LAYOUT_SPECIESGLYPH SBML_LAYOUT_SPECIESGLYPH@endlink
+   * @sbmlconstant{SBML_LAYOUT_SPECIESGLYPH, SBMLLayoutTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
    *

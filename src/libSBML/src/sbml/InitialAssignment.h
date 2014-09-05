@@ -31,7 +31,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class InitialAssignment
- * @sbmlbrief{core} Implementation of %SBML's %InitialAssignment construct.
+ * @sbmlbrief{core} An SBML <em>initial assignment</em>, evaluated once only.
  *
  * SBML Level 2 Versions 2&ndash;4 and SBML Level&nbsp;3 provide two ways of assigning initial
  * values to entities in a model.  The simplest and most basic is to set
@@ -141,7 +141,7 @@
  * rules for the same entity.  That is, there cannot be <em>both</em> an
  * InitialAssignment and an AssignmentRule for the same symbol in a model,
  * because both kinds of constructs apply prior to and at the start of
- * simulated time&mdash;allowing both to exist for a given symbol would
+ * simulated time---allowing both to exist for a given symbol would
  * result in indeterminism).
  * 
  * The ordering of InitialAssignment objects is not significant.  The
@@ -172,8 +172,7 @@
  * <!---------------------------------------------------------------------- -->
  *
  * @class ListOfInitialAssignments
- * @sbmlbrief{core} Implementation of SBML's %ListOfInitialAssignments
- * construct.
+ * @sbmlbrief{core} A list of InitialAssignment objects.
  *
  * @copydetails doc_what_is_listof
  */
@@ -186,20 +185,6 @@
  * beginning with "doc_" are marked as ignored in our Doxygen configuration.
  * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
  *
- * @class doc_note_initialassignment_setting_lv
- *
- * @note Upon the addition of a InitialAssignment object to an SBMLDocument
- * (e.g., using Model::addInitialAssignment(@if java InitialAssignment
- * ia@endif)), the SBML Level, SBML Version and XML namespace of the document
- * @em override the values used when creating the InitialAssignment object
- * via this constructor.  This is necessary to ensure that an SBML document
- * is a consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a InitialAssignment is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
- *
  * @class doc_initialassignment_units
  *
  * @par
@@ -209,8 +194,9 @@
  * InitialAssignment::getDerivedUnitDefinition() returns the calculated
  * units, to the extent that libSBML can compute them.
  *
+ * <!---------------------------------------------------------------------- -->
  * @class doc_warning_initialassignment_math_literals
- * 
+ *
  * @warning <span class="warning">Note that it is possible the "math"
  * expression in the InitialAssignment contains literal numbers or parameters
  * with undeclared units.  In those cases, it is not possible to calculate
@@ -262,12 +248,12 @@ public:
    * @param version an unsigned int, the SBML Version to assign to this
    * InitialAssignment
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @copydetails doc_note_initialassignment_setting_lv
+   * @copydetails doc_note_setting_lv
    */
   InitialAssignment (unsigned int level, unsigned int version);
 
@@ -280,12 +266,12 @@ public:
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @copydetails doc_note_initialassignment_setting_lv 
+   * @copydetails doc_note_setting_lv 
    */
   InitialAssignment (SBMLNamespaces* sbmlns);
 
@@ -301,7 +287,7 @@ public:
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   InitialAssignment (const InitialAssignment& orig);
@@ -313,7 +299,7 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   InitialAssignment& operator=(const InitialAssignment& rhs);
@@ -332,9 +318,9 @@ public:
 
 
   /**
-   * Creates and returns a deep copy of this InitialAssignment.
-   * 
-   * @return a (deep) copy of this InitialAssignment.
+   * Creates and returns a deep copy of this InitialAssignment object.
+   *
+   * @return the (deep) copy of this InitialAssignment object.
    */
   virtual InitialAssignment* clone () const;
 
@@ -386,8 +372,8 @@ public:
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
   int setSymbol (const std::string& sid);
 
@@ -403,8 +389,8 @@ public:
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    */
   int setMath (const ASTNode* math);
 
@@ -487,7 +473,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLTypeCode_t#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
+   * @sbmlconstant{SBML_INITIAL_ASSIGNMENT, SBMLTypeCode_t} (default).
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -520,11 +506,11 @@ public:
    * Predicate returning @c true if all the required attributes for this
    * InitialAssignment object have been set.
    *
-   * @note The required attributes for an InitialAssignment object are:
+   * The required attributes for an InitialAssignment object are:
    * @li "symbol"
    *
-   * @return a boolean value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */
   virtual bool hasRequiredAttributes() const ;
 
@@ -558,35 +544,13 @@ public:
 
 
   /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML.
-   *
-   * @copydetails doc_what_is_sidref
-   * 
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renamesidref_common
    */
   virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /**
-   * Renames all the @c UnitSIdRef attributes on this element.
-   *
-   * @copydetails doc_what_is_unitsidref
-   *
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of @p oldid.  If any matches are found,
-   * the matching identifiers are replaced with @p newid.  The method does
-   * @em not descend into child elements.
-   * 
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renameunitsidref_common
    */
   virtual void renameUnitSIdRefs(const std::string& oldid, const std::string& newid);
 
@@ -715,9 +679,9 @@ public:
 
 
   /**
-   * Creates and returns a deep copy of this ListOfInitialAssignments instance.
+   * Creates and returns a deep copy of this ListOfInitialAssignments object.
    *
-   * @return a (deep) copy of this ListOfInitialAssignments.
+   * @return the (deep) copy of this ListOfInitialAssignments object.
    */
   virtual ListOfInitialAssignments* clone () const;
 
@@ -729,7 +693,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link SBMLTypeCode_t#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
+   * @sbmlconstant{SBML_INITIAL_ASSIGNMENT, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -1060,8 +1024,8 @@ InitialAssignment_isSetMath (const InitialAssignment_t *ia);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
  * @note Using this function with an id of NULL is equivalent to
  * unsetting the "symbol" attribute.
@@ -1087,8 +1051,8 @@ InitialAssignment_setSymbol (InitialAssignment_t *ia, const char *sid);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof InitialAssignment_t
  */

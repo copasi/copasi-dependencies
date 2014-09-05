@@ -35,6 +35,7 @@
 
 #include <sbml/SBase.h>
 #include <sbml/SpeciesReference.h>
+#include <sbml/ModifierSpeciesReference.h>
 #include <sbml/xml/XMLNamespaces.h>
 #include <sbml/SBMLDocument.h>
 
@@ -49,17 +50,17 @@ LIBSBML_CPP_NAMESPACE_USE
 
 BEGIN_C_DECLS
 
-static SpeciesReference_t *MSR;
+static ModifierSpeciesReference_t *MSR;
 
 
 void
 ModifierSpeciesReferenceTest_setup (void)
 {
-  MSR = SpeciesReference_createModifier(2, 4);
+  MSR = ModifierSpeciesReference_create(2, 4);
 
   if (MSR == NULL)
   {
-    fail( "SpeciesReference_createModifier() returned a NULL pointer." );
+    fail( "ModifierSpeciesReference_create() returned a NULL pointer." );
   }
 }
 
@@ -67,7 +68,7 @@ ModifierSpeciesReferenceTest_setup (void)
 void
 ModifierSpeciesReferenceTest_teardown (void)
 {
-  SpeciesReference_free(MSR);
+  ModifierSpeciesReference_free(MSR);
 }
 
 
@@ -80,18 +81,18 @@ START_TEST (test_ModifierSpeciesReference_create)
   fail_unless( SBase_getNotes     ((SBase_t *) MSR) == NULL );
   fail_unless( SBase_getAnnotation((SBase_t *) MSR) == NULL );
 
-  fail_unless( SpeciesReference_getSpecies(MSR) == NULL );
+  fail_unless( ModifierSpeciesReference_getSpecies(MSR) == NULL );
 
-  fail_unless( !SpeciesReference_isSetSpecies(MSR) );
+  fail_unless( !ModifierSpeciesReference_isSetSpecies(MSR) );
 
-  fail_unless( SpeciesReference_isModifier(MSR) );
+  fail_unless( SpeciesReference_isModifier((SpeciesReference_t*)(MSR)) );
 }
 END_TEST
 
 
 START_TEST (test_ModifierSpeciesReference_free_NULL)
 {
-  SpeciesReference_free(NULL);
+  ModifierSpeciesReference_free(NULL);
 }
 END_TEST
 
@@ -103,31 +104,31 @@ START_TEST (test_ModifierSpeciesReference_setSpecies)
 
 
 
-  SpeciesReference_setSpecies(MSR, species);
+  ModifierSpeciesReference_setSpecies(MSR, species);
 
-  s = SpeciesReference_getSpecies(MSR);
+  s = ModifierSpeciesReference_getSpecies(MSR);
   fail_unless( !strcmp(s, species) );
-  fail_unless(SpeciesReference_isSetSpecies(MSR));
+  fail_unless(ModifierSpeciesReference_isSetSpecies(MSR));
 
-  if (SpeciesReference_getSpecies(MSR) == species)
+  if (ModifierSpeciesReference_getSpecies(MSR) == species)
   {
-    fail( "ModifierSpeciesReference_setSpecies(...) "
+    fail( "ModifierModifierSpeciesReference_setSpecies(...) "
           "did not make a copy of string." );
   }
 
   /* Reflexive case (pathological) */
-  s = SpeciesReference_getSpecies(MSR);
-  SpeciesReference_setSpecies(MSR, s);
+  s = ModifierSpeciesReference_getSpecies(MSR);
+  ModifierSpeciesReference_setSpecies(MSR, s);
 
-  s = SpeciesReference_getSpecies(MSR);
+  s = ModifierSpeciesReference_getSpecies(MSR);
   fail_unless( !strcmp(s, species) );
 
-  SpeciesReference_setSpecies(MSR, NULL);
-  fail_unless(!SpeciesReference_isSetSpecies(MSR));
+  ModifierSpeciesReference_setSpecies(MSR, NULL);
+  fail_unless(!ModifierSpeciesReference_isSetSpecies(MSR));
 
-  if (SpeciesReference_getSpecies(MSR) != NULL)
+  if (ModifierSpeciesReference_getSpecies(MSR) != NULL)
   {
-    fail( "ModifierSpeciesReference_setSpecies(MSR, NULL) "
+    fail( "ModifierModifierSpeciesReference_setSpecies(MSR, NULL) "
           "did not clear string." );
   }
 }
@@ -141,7 +142,7 @@ START_TEST (test_ModifierSpeciesReference_createWithNS )
   SBMLNamespaces_t *sbmlns = SBMLNamespaces_create(2,1);
   SBMLNamespaces_addNamespaces(sbmlns,xmlns);
 
-  SBase_t *object = (SBase_t *) SpeciesReference_createModifierWithNS(sbmlns);
+  ModifierSpeciesReference_t *object = ModifierSpeciesReference_createWithNS(sbmlns);
 
   fail_unless( SBase_getTypeCode  ((SBase_t *) object) == SBML_MODIFIER_SPECIES_REFERENCE );
   fail_unless( SBase_getMetaId    ((SBase_t *) object) == NULL );
@@ -155,7 +156,7 @@ START_TEST (test_ModifierSpeciesReference_createWithNS )
   const XMLNamespaces_t *n = SpeciesReference_getNamespaces((SpeciesReference_t *) object);
   fail_unless( XMLNamespaces_getLength( n ) == 2 );
 
-  SpeciesReference_free((SpeciesReference_t *) object);
+  ModifierSpeciesReference_free(object);
 }
 END_TEST
 

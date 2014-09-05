@@ -66,7 +66,7 @@ public class ASTBase : IDisposable {
   
 /**
    * Creates a copy (clone).
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  ASTBase deepCopy() {
 	ASTBase ret = (ASTBase) libsbml.DowncastASTBase(libsbmlPINVOKE.ASTBase_deepCopy(swigCPtr), false);
 	return ret;
@@ -81,19 +81,18 @@ public class ASTBase : IDisposable {
   
 /**
    * Get the type of this ASTNode.  The value returned is one of the
-   * enumeration values such as @link libsbmlcs.libsbml.AST_LAMBDA
-   * AST_LAMBDA@endlink, @link libsbmlcs.libsbml.AST_PLUS AST_PLUS@endlink,
+   * enumeration values such as @link libsbmlcs#AST_LAMBDA AST_LAMBDA@endlink, @link libsbmlcs#AST_PLUS AST_PLUS@endlink,
    * etc.
    * 
    * @return the type of this ASTNode.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  int getType() {
     int ret = libsbmlPINVOKE.ASTBase_getType(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  int getExtendedType() {
     int ret = libsbmlPINVOKE.ASTBase_getExtendedType(swigCPtr);
     return ret;
@@ -116,23 +115,23 @@ public class ASTBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   */ /* libsbml-internal */ public
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   */ /* libsbml-internal */ public new
  int setType(int type) {
     int ret = libsbmlPINVOKE.ASTBase_setType__SWIG_0(swigCPtr, type);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isAvogadro() {
     bool ret = libsbmlPINVOKE.ASTBase_isAvogadro(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isBoolean() {
     bool ret = libsbmlPINVOKE.ASTBase_isBoolean(swigCPtr);
     return ret;
@@ -146,7 +145,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isConstant() {
     bool ret = libsbmlPINVOKE.ASTBase_isConstant(swigCPtr);
     return ret;
@@ -188,35 +187,35 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isFunction() {
     bool ret = libsbmlPINVOKE.ASTBase_isFunction(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isInteger() {
     bool ret = libsbmlPINVOKE.ASTBase_isInteger(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isLambda() {
     bool ret = libsbmlPINVOKE.ASTBase_isLambda(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isLogical() {
     bool ret = libsbmlPINVOKE.ASTBase_isLogical(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isName() {
     bool ret = libsbmlPINVOKE.ASTBase_isName(swigCPtr);
     return ret;
@@ -230,56 +229,56 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isNumber() {
     bool ret = libsbmlPINVOKE.ASTBase_isNumber(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isOperator() {
     bool ret = libsbmlPINVOKE.ASTBase_isOperator(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isPiecewise() {
     bool ret = libsbmlPINVOKE.ASTBase_isPiecewise(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isQualifier() {
     bool ret = libsbmlPINVOKE.ASTBase_isQualifier(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isRational() {
     bool ret = libsbmlPINVOKE.ASTBase_isRational(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isReal() {
     bool ret = libsbmlPINVOKE.ASTBase_isReal(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isRelational() {
     bool ret = libsbmlPINVOKE.ASTBase_isRelational(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isSemantics() {
     bool ret = libsbmlPINVOKE.ASTBase_isSemantics(swigCPtr);
     return ret;
@@ -293,7 +292,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isUnknown() {
     bool ret = libsbmlPINVOKE.ASTBase_isUnknown(swigCPtr);
     return ret;
@@ -303,6 +302,20 @@ public class ASTBase : IDisposable {
 /** */ /* libsbml-internal */ public
  bool isUserFunction() {
     bool ret = libsbmlPINVOKE.ASTBase_isUserFunction(swigCPtr);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public new
+ bool representsBvar() {
+    bool ret = libsbmlPINVOKE.ASTBase_representsBvar(swigCPtr);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ int setIsBvar(bool isbvar) {
+    int ret = libsbmlPINVOKE.ASTBase_setIsBvar(swigCPtr, isbvar);
     return ret;
   }
 
@@ -335,14 +348,14 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  void write(XMLOutputStream stream) {
     libsbmlPINVOKE.ASTBase_write(swigCPtr, XMLOutputStream.getCPtr(stream));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool read(XMLInputStream stream, string reqd_prefix) {
     bool ret = libsbmlPINVOKE.ASTBase_read__SWIG_0(swigCPtr, XMLInputStream.getCPtr(stream), reqd_prefix);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -350,7 +363,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool read(XMLInputStream stream) {
     bool ret = libsbmlPINVOKE.ASTBase_read__SWIG_1(swigCPtr, XMLInputStream.getCPtr(stream));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -358,14 +371,14 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  void addExpectedAttributes(SWIGTYPE_p_ExpectedAttributes attributes, XMLInputStream stream) {
     libsbmlPINVOKE.ASTBase_addExpectedAttributes(swigCPtr, SWIGTYPE_p_ExpectedAttributes.getCPtr(attributes), XMLInputStream.getCPtr(stream));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool readAttributes(XMLAttributes attributes, SWIGTYPE_p_ExpectedAttributes expectedAttributes, XMLInputStream stream, XMLToken element) {
     bool ret = libsbmlPINVOKE.ASTBase_readAttributes(swigCPtr, XMLAttributes.getCPtr(attributes), SWIGTYPE_p_ExpectedAttributes.getCPtr(expectedAttributes), XMLInputStream.getCPtr(stream), XMLToken.getCPtr(element));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -373,14 +386,14 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  void logError(XMLInputStream stream, XMLToken element, int code, string msg) {
     libsbmlPINVOKE.ASTBase_logError__SWIG_0(swigCPtr, XMLInputStream.getCPtr(stream), XMLToken.getCPtr(element), code, msg);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  void logError(XMLInputStream stream, XMLToken element, int code) {
     libsbmlPINVOKE.ASTBase_logError__SWIG_1(swigCPtr, XMLInputStream.getCPtr(stream), XMLToken.getCPtr(element), code);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -394,7 +407,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  void setIsChildFlag(bool flag) {
     libsbmlPINVOKE.ASTBase_setIsChildFlag(swigCPtr, flag);
   }
@@ -505,14 +518,14 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  ASTBase getFunction() {
 	ASTBase ret = (ASTBase) libsbml.DowncastASTBase(libsbmlPINVOKE.ASTBase_getFunction(swigCPtr), false);
 	return ret;
 }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  void addPlugin(ASTBasePlugin plugin) {
     libsbmlPINVOKE.ASTBase_addPlugin(swigCPtr, ASTBasePlugin.getCPtr(plugin));
   }
@@ -575,32 +588,6 @@ public class ASTBase : IDisposable {
 
   
 /** */ /* libsbml-internal */ public
- int setUserData(SWIGTYPE_p_void userData) {
-    int ret = libsbmlPINVOKE.ASTBase_setUserData(swigCPtr, SWIGTYPE_p_void.getCPtr(userData));
-    return ret;
-  }
-
-  
-/**
-  * Returns the user data that has been previously set via setUserData().
-  *
-  * @return the user data of this node, or @c null if no user data has been
-  * set.
-  *
-  * @if clike
-  * @see ASTNode::isSetUserData()
-  * @see ASTNode::setUserData()
-  * @see ASTNode::unsetUserData()
-  * @endif
-  */ public
- SWIGTYPE_p_void getUserData() {
-    IntPtr cPtr = libsbmlPINVOKE.ASTBase_getUserData(swigCPtr);
-    SWIGTYPE_p_void ret = (cPtr == IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
-    return ret;
-  }
-
-  
-/** */ /* libsbml-internal */ public
  bool isSetUserData() {
     bool ret = libsbmlPINVOKE.ASTBase_isSetUserData(swigCPtr);
     return ret;
@@ -614,42 +601,42 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  void writeNodeOfType(XMLOutputStream stream, int type, bool inChildNode) {
     libsbmlPINVOKE.ASTBase_writeNodeOfType__SWIG_0(swigCPtr, XMLOutputStream.getCPtr(stream), type, inChildNode);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  void writeNodeOfType(XMLOutputStream stream, int type) {
     libsbmlPINVOKE.ASTBase_writeNodeOfType__SWIG_1(swigCPtr, XMLOutputStream.getCPtr(stream), type);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isWellFormedNode() {
     bool ret = libsbmlPINVOKE.ASTBase_isWellFormedNode(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool hasCorrectNumberArguments() {
     bool ret = libsbmlPINVOKE.ASTBase_hasCorrectNumberArguments(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  int getTypeCode() {
     int ret = libsbmlPINVOKE.ASTBase_getTypeCode(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  string getPackageName() {
     string ret = libsbmlPINVOKE.ASTBase_getPackageName(swigCPtr);
     return ret;
@@ -663,16 +650,55 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool hasCnUnits() {
     bool ret = libsbmlPINVOKE.ASTBase_hasCnUnits(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  string getUnitsPrefix() {
     string ret = libsbmlPINVOKE.ASTBase_getUnitsPrefix(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Returns true if this is a package function which should be written as
+   * 'functionname(argumentlist)', false otherwise.
+   */ /* libsbml-internal */ public new
+ bool isPackageInfixFunction() {
+    bool ret = libsbmlPINVOKE.ASTBase_isPackageInfixFunction(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Returns true if this is a package function which should be written
+   * special syntax that the package knows about, false otherwise.
+   */ /* libsbml-internal */ public new
+ bool hasPackageOnlyInfixSyntax() {
+    bool ret = libsbmlPINVOKE.ASTBase_hasPackageOnlyInfixSyntax(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Returns the precedence of the functions within the package
+   */ /* libsbml-internal */ public new
+ int getL3PackageInfixPrecedence() {
+    int ret = libsbmlPINVOKE.ASTBase_getL3PackageInfixPrecedence(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Returns true if this is a package function which needs no special
+   * consideration when writng as infix, false otherwise.
+   */ /* libsbml-internal */ public new
+ bool hasUnambiguousPackageInfixGrammar(ASTNode child) {
+    bool ret = libsbmlPINVOKE.ASTBase_hasUnambiguousPackageInfixGrammar(swigCPtr, ASTNode.getCPtr(child));
     return ret;
   }
 

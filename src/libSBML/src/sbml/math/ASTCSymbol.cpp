@@ -322,6 +322,26 @@ ASTCSymbol::getNumChildren() const
 }
 
 
+void 
+ASTCSymbol::setIsChildFlag(bool flag)
+{
+  ASTBase::setIsChildFlag(flag);
+
+  if (mTime != NULL)
+  {
+    mTime->ASTBase::setIsChildFlag(flag);
+  }
+  else if (mDelay != NULL)
+  {
+    mDelay->ASTBase::setIsChildFlag(flag);
+  }
+  else if (mAvogadro != NULL)
+  {
+    mAvogadro->ASTBase::setIsChildFlag(flag);
+  }
+}
+
+
 int 
 ASTCSymbol::setClass(std::string className)
 {
@@ -1201,7 +1221,9 @@ ASTCSymbol::read(XMLInputStream& stream, const std::string& reqd_prefix)
 
   if (name != "csymbol" )
   {
+#if 0
     cout << "[DEBUG} csymbol::read\nBAD THINGS ARE HAPPENING\n\n";
+#endif
   }
 
   if (name == "csymbol")
@@ -1235,7 +1257,7 @@ ASTCSymbol::read(XMLInputStream& stream, const std::string& reqd_prefix)
         /* HACK TO REPLICATE OLD AST */
         /* old code would create a node of type name or
          * a user function with the given name
-         * if teh url was not recognised
+         * if the url was not recognised
          */
         if (mInReadFromApply == false)
         {
@@ -1279,7 +1301,7 @@ ASTCSymbol::read(XMLInputStream& stream, const std::string& reqd_prefix)
       /* HACK TO REPLICATE OLD AST */
         /* old code would create a node of type name or
          * a user function with the given name
-         * if teh url was not recognised
+         * if the url was not recognised
          */
       if (mInReadFromApply == false)
       {

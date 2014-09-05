@@ -14,8 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %ListOfUnitDefinitions
- * construct.
+@htmlinclude pkg-marker-core.html A list of UnitDefinition objects.
  * 
  * *
  * 
@@ -148,9 +147,9 @@ public class ListOfUnitDefinitions : ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this ListOfUnitDefinitions instance.
+   * Creates and returns a deep copy of this ListOfUnitDefinitions object.
    *
-   * @return a (deep) copy of this ListOfUnitDefinitions.
+   * @return the (deep) copy of this ListOfUnitDefinitions object.
    */ public new
  ListOfUnitDefinitions clone() {
     IntPtr cPtr = libsbmlPINVOKE.ListOfUnitDefinitions_clone(swigCPtr);
@@ -164,10 +163,10 @@ public class ListOfUnitDefinitions : ListOf {
    * (i.e., UnitDefinition objects, if the list is non-empty).
    *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -179,15 +178,15 @@ public class ListOfUnitDefinitions : ListOf {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs.libsbml.SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
+   * @link libsbmlcs#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -262,7 +261,7 @@ public class ListOfUnitDefinitions : ListOf {
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
-   */ public
+   */ public new
  SBase getElementBySId(string id) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.ListOfUnitDefinitions_getElementBySId(swigCPtr, id), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();

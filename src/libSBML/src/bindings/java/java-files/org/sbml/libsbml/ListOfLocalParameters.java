@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML Level&nbsp;3's
- * ListOfLocalParameters construct.
+ *  A list of {@link LocalParameter} objects.
  <p>
  * <p>
  * The various ListOf___ classes in SBML
@@ -132,7 +131,7 @@ public class ListOfLocalParameters extends ListOfParameters {
 /**
    * Creates and returns a deep copy of this {@link ListOfLocalParameters} object.
    <p>
-   * @return a (deep) copy of this {@link ListOfLocalParameters}.
+   * @return the (deep) copy of this {@link ListOfLocalParameters} object.
    */ public
  ListOfLocalParameters cloneObject() {
     long cPtr = libsbmlJNI.ListOfLocalParameters_cloneObject(swigCPtr, this);
@@ -147,16 +146,16 @@ public class ListOfLocalParameters extends ListOfParameters {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
-   * {@link  libsbmlConstants#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER} (default).
+   * {@link libsbmlConstants#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER} (default).
    <p>
    * @see #getElementName()
    * @see #getPackageName()

@@ -31,7 +31,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLConverterRegistry
- * @sbmlbrief{core} Registry of all SBML converters.
+ * @sbmlbrief{core} Registry of all libSBML SBML converters.
  *
  * @htmlinclude libsbml-facility-only-warning.html
  *
@@ -47,9 +47,9 @@
  * methods for discovering them.  Callers can use the method
  * SBMLConverterRegistry::getNumConverters() to find out how many
  * converters are registered, then use
- * SBMLConverterRegistry::getConverterByIndex(@if java int index@endif) to
+ * SBMLConverterRegistry::getConverterByIndex(@if java int@endif) to
  * iterate over each one; alternatively, callers can use
- * SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties& props@endif)
+ * SBMLConverterRegistry::getConverterFor(@if java const ConversionProperties@endif)
  * to search for a converter having specific properties.
  */
 
@@ -91,8 +91,8 @@ public:
    * @return integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif@~ The possible values are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    */
   int addConverter (const SBMLConverter* converter);
 
@@ -131,7 +131,7 @@ public:
    * @return the converter matching the properties, or @c NULL if no
    * suitable converter is found.
    *
-   * @see getConverterByIndex(@if java int index@endif)
+   * @see getConverterByIndex(@if java int@endif)
    */
   SBMLConverter* getConverterFor(const ConversionProperties& props) const;
 
@@ -141,7 +141,7 @@ public:
    * 
    * @return the number of registered converters.
    *
-   * @see getConverterByIndex(@if java int index@endif)
+   * @see getConverterByIndex(@if java int@endif)
    */
   int getNumConverters() const;
   

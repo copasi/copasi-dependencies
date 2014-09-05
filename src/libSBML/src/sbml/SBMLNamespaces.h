@@ -31,8 +31,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLNamespaces
- * @sbmlbrief{core} Class to store SBML Level, Version and namespace
- * information.
+ * @sbmlbrief{core} Set of SBML Level + Version + namespace triples.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -142,7 +141,7 @@ public:
    * @param level the SBML level
    * @param version the SBML version
    * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   SBMLNamespaces(unsigned int level = SBML_DEFAULT_LEVEL, 
                  unsigned int version = SBML_DEFAULT_VERSION);
@@ -181,7 +180,7 @@ public:
    * 
    * @param orig the SBMLNamespaces instance to copy.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   SBMLNamespaces(const SBMLNamespaces& orig);
@@ -190,16 +189,16 @@ public:
   /**
    * Assignment operator for SBMLNamespaces.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   SBMLNamespaces& operator=(const SBMLNamespaces& rhs);
 
 
   /**
-   * Creates and returns a deep copy of this SBMLNamespaces.
-   * 
-   * @return a (deep) copy of this SBMLNamespaces.
+   * Creates and returns a deep copy of this SBMLNamespaces object.
+   *
+   * @return the (deep) copy of this SBMLNamespaces object.
    */
   virtual SBMLNamespaces* clone () const;
 
@@ -311,13 +310,14 @@ public:
    * The following code gives an example of how one could add the XHTML
    * namespace to the list of namespaces recorded by the top-level
    * <code>&lt;sbml&gt;</code> element of a model.  It gives the new
-   * namespace a prefix of <code>html</code>.  @if clike
-   * @verbatim
+   * namespace a prefix of <code>html</code>.
+   * @if cpp
+   * @code{.cpp}
 SBMLDocument *sd;
-try 
+try
 {
     sd = new SBMLDocument(3, 1);
-} 
+}
 catch (SBMLConstructorException e)
 {
     // Here, have code to handle a truly exceptional situation. Candidate
@@ -335,14 +335,15 @@ else
 {
     // Handle another truly exceptional situation.
 }
-@endverbatim
-   * @endif@if java
-@verbatim
+@endcode
+@endif
+@if java
+@code{.java}
 SBMLDocument sd;
-try 
+try
 {
     sd = new SBMLDocument(3, 1);
-} 
+}
 catch (SBMLConstructorException e)
 {
     // Here, have code to handle a truly exceptional situation. Candidate
@@ -360,9 +361,10 @@ else
 {
     // Handle another truly exceptional situation.
  }
-@endverbatim
-   * @endif@if python
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
 sbmlDoc = None
 try:
   sbmlDoc = SBMLDocument(3, 1)
@@ -379,9 +381,10 @@ if namespaces == None:
 status = namespaces.add("http://www.w3.org/1999/xhtml", "html")
 if status != LIBSBML_OPERATION_SUCCESS:
   # Do something to handle failure.
-@endverbatim
-   * @endif@if csharp
-@verbatim
+@endcode
+@endif
+@if csharp
+@code{.cs}
 SBMLDocument sd = null;
 try
 {
@@ -398,13 +401,13 @@ catch (SBMLConstructorException e)
 XMLNamespaces sn = sd.getNamespaces();
 if (sn != null)
 {
-    sn.add("http://www.w3.org/1999/xhtml", "html");            
+    sn.add("http://www.w3.org/1999/xhtml", "html");
 }
 else
 {
     // Handle another truly exceptional situation.
 }
-@endverbatim
+@endcode
    * @endif@~
    *
    * @param xmlns the XML namespaces to be added.
@@ -413,9 +416,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    */
   int addNamespaces(const XMLNamespaces * xmlns);
 
@@ -431,9 +434,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    */
   int addNamespace(const std::string& uri, const std::string &prefix);
 
@@ -448,8 +451,8 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INDEX_EXCEEDS_SIZE, OperationReturnValues_t}
    */
   int removeNamespace(const std::string& uri);
 
@@ -469,15 +472,14 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    *
    * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link
-   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * added by this function (@sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t} 
    * will be returned).
    *
-   * @see addNamespace(@if java String uri, String prefix@endif)
+   * @see addNamespace(@if java String, String@endif)
    */
   int addPackageNamespace(const std::string &pkgName, unsigned int pkgVersion, 
                       const std::string &prefix = "");
@@ -494,13 +496,11 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    *
    * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link
-   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE
-   * LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+   * added (just ignored) by this function. @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t} will be returned if the given
    * xmlns is null.
    */
   int addPackageNamespaces(const XMLNamespaces* xmlns);
@@ -519,9 +519,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INDEX_EXCEEDS_SIZE, OperationReturnValues_t}
    */
   int removePackageNamespace(unsigned int level, unsigned version, const std::string &pkgName,
                          unsigned int pkgVersion);
@@ -543,15 +543,14 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    *
    * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link
-   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * added by this function (@sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t} 
    * will be returned).
    *
-   * @see addNamespace(@if java String uri, String prefix@endif)
+   * @see addNamespace(@if java String, String@endif)
    */
   int addPkgNamespace(const std::string &pkgName, unsigned int pkgVersion, 
                       const std::string &prefix = "");
@@ -569,13 +568,11 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    *
    * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link
-   * OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE
-   * LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+   * added (just ignored) by this function. @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t} will be returned if the given
    * xmlns is null.
    */
   int addPkgNamespaces(const XMLNamespaces* xmlns);
@@ -594,9 +591,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INDEX_EXCEEDS_SIZE, OperationReturnValues_t}
    */
   int removePkgNamespace(unsigned int level, unsigned version, const std::string &pkgName,
                          unsigned int pkgVersion);
@@ -690,7 +687,7 @@ BEGIN_C_DECLS
  *
  * @return SBMLNamespaces_t structure created
  *
- * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+ * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
  *
  * @memberof SBMLNamespaces_t
  */

@@ -31,7 +31,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class Delay
- * @sbmlbrief{core} Implementation of %SBML's %Delay construct for %Event.
+ * @sbmlbrief{core} A delay on the time of execution of an SBML <em>event</em>.
  *
  * An Event object defines when the event can occur, the variables that
  * are affected by the event, and how the variables are affected.  The
@@ -158,20 +158,6 @@
  * beginning with "doc_" are marked as ignored in our Doxygen configuration.
  * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
  *
- * @class doc_delay_setting_lv
- * 
- * @note Upon the addition of a Delay object to an Event (e.g., using
- * Event::setDelay(@if java Delay d@endif)), the SBML Level, SBML Version
- * and XML namespace of the document @em override the values used when
- * creating the Delay object via this constructor.  This is necessary to
- * ensure that an SBML document is a consistent structure.  Nevertheless,
- * the ability to supply the values at the time of creation of a Delay is
- * an important aid to producing valid SBML.  Knowledge of the intented
- * SBML Level and Version determine whether it is valid to assign a
- * particular value to an attribute, or whether it is valid to add a
- * particular Delay object to an existing Event.
- *
- *
  * @class doc_delay_units
  *
  * @par
@@ -238,12 +224,12 @@ public:
    * @param version an unsigned int, the SBML Version to assign to this
    * Delay
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @copydetails doc_delay_setting_lv
+   * @copydetails doc_note_setting_lv
    */
   Delay (unsigned int level, unsigned int version);
 
@@ -256,12 +242,12 @@ public:
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * @copydetails doc_delay_setting_lv
+   * @copydetails doc_note_setting_lv
    */
   Delay (SBMLNamespaces* sbmlns);
 
@@ -277,7 +263,7 @@ public:
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   Delay (const Delay& orig);
@@ -289,7 +275,7 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   Delay& operator=(const Delay& rhs);
@@ -306,9 +292,9 @@ public:
 
 
   /**
-   * Creates and returns a deep copy of this Delay.
+   * Creates and returns a deep copy of this Delay object.
    *
-   * @return a (deep) copy of this Delay.
+   * @return the (deep) copy of this Delay object.
    */
   virtual Delay* clone () const;
 
@@ -341,8 +327,8 @@ public:
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t.  @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    */
   int setMath (const ASTNode* math);
 
@@ -439,7 +425,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLTypeCode_t#SBML_DELAY SBML_DELAY@endlink (default).
+   * @sbmlconstant{SBML_DELAY, SBMLTypeCode_t} (default).
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -505,42 +491,20 @@ public:
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int removeFromParentAndDelete();
 
 
   /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML.
-   *
-   * @copydetails doc_what_is_sidref
-   * 
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renamesidref_common
    */
   virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /**
-   * Renames all the @c UnitSIdRef attributes on this element
-   *
-   * @copydetails doc_what_is_unitsidref
-   *
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of @p oldid.  If any matches are found,
-   * the matching identifiers are replaced with @p newid.  The method does
-   * @em not descend into child elements.
-   * 
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renameunitsidref_common
    */
   virtual void renameUnitSIdRefs(const std::string& oldid, const std::string& newid);
 
@@ -784,8 +748,8 @@ Delay_isSetMath (const Delay_t *d);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof Delay_t
  */

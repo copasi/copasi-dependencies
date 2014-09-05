@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Representation of XML Namespaces.
+ *  An XML Namespace.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -24,12 +24,12 @@ defined in SBML.
  * a list of pairs of XML namespace URIs and prefix strings.  These
  * correspond to the parts of a namespace declaration on an XML element.
  * For example, in the following XML fragment,
- * <div class='fragment'><pre class='fragment'>
+ * <pre class='fragment'>
 &lt;annotation&gt;
     &lt;mysim:nodecolors xmlns:mysim='urn:lsid:mysim.org'
          mysim:bgcolor='green' mysim:fgcolor='white'/&gt;
 &lt;/annotation&gt;
-</pre></div>
+</pre>
  * there is one namespace declaration.  Its URI is
  * <code>urn:lsid:mysim.org</code> and its prefix is <code>mysim</code>.
  * This pair could be stored as one item in an {@link XMLNamespaces} list.
@@ -148,7 +148,7 @@ public class XMLNamespaces {
    <p>
    * @param orig the {@link XMLNamespaces} object to copy
    <p>
-   * @throws XMLConstructorException 
+   * @throws XMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  XMLNamespaces(XMLNamespaces orig) throws org.sbml.libsbml.XMLConstructorException {
@@ -157,9 +157,9 @@ public class XMLNamespaces {
 
   
 /**
-   * Creates and returns a deep copy of this {@link XMLNamespaces} list.
+   * Creates and returns a deep copy of this {@link XMLNamespaces} object.
    <p>
-   * @return a (deep) copy of this {@link XMLNamespaces} list.
+   * @return the (deep) copy of this {@link XMLNamespaces} object.
    */ public
  XMLNamespaces cloneObject() {
     long cPtr = libsbmlJNI.XMLNamespaces_cloneObject(swigCPtr, this);
@@ -193,9 +193,9 @@ public class XMLNamespaces {
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * 
@@ -244,9 +244,9 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * 
@@ -278,8 +278,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * </ul>
    */ public
  int remove(int index) {
@@ -296,8 +296,8 @@ appears in the documentation.
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    *
    * </ul> <p>
    * @see #remove(int index)
@@ -315,8 +315,8 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #remove(int index)

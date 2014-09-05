@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  The core component of SBML's package extension.
+ *  Core class for SBML Level 3 package plug-ins.
  <p>
  * @internal 
  <p>
@@ -39,13 +39,13 @@ package org.sbml.libsbml;
  *   <ol>
  *     <li> <p>A string of package name (label) (The function name must be 'getPackageName'.)</p>
  <p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
   String {@link GroupsExtension#getPackageName ()}
   {
 	static String pkgName = 'groups';
 	return pkgName;
   }
-</pre></div>
+</pre>
  *     </li>
  <p>
  *     <li> <p>
@@ -53,7 +53,7 @@ package org.sbml.libsbml;
  *        (The method names must be 'getDefaultLevel()', 'getDefaultVersion()', and 
  *        'getDefaultPackageVersion()' respectively.)
  *        </p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
   long {@link GroupsExtension#getDefaultLevel()}
   {
 	return 3;
@@ -66,16 +66,16 @@ package org.sbml.libsbml;
   {
 	return 1;
   }  
-</pre></div>
+</pre>
  *     </li>
  *     <li> <p> Methods returning Strings that represent the URI of packages </p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
   String {@link GroupsExtension#getXmlnsL3V1V1 ()}
   {
 	static String xmlns = 'http://www.sbml.org/sbml/level3/version1/groups/version1';
 	return xmlns;
   }
-</pre></div> 
+</pre> 
  *     </li>
  *     <li> <p>Strings that represent the other URI needed in this package (if any) </p>
  *     </li>
@@ -84,17 +84,17 @@ package org.sbml.libsbml;
  <p>
  * <li> Override the following pure virtual functions
       <ul>
-       <li> <code>virtual String getName () const =0</code>. This function returns the name of the package (e.g., 'layout', 'groups'). </li>
-       <li> <code>virtual long getLevel (String uri) const =0</code>. This function returns the SBML level with the given URI of this package. </li>
-       <li> <code>virtual long getVersion (String uri) const =0</code>. This function returns the SBML version with the given URI of this package. </li>
-       <li> <code>virtual long getPackageVersion (String uri) const =0</code>. This function returns the package version with the given URI of this package.</li>
-       <li> <code>virtual long getURI (long sbmlLevel, long sbmlVersion, long pkgVersion) const =0</code>. 
+       <li> <code>virtual String getName () =0</code>. This function returns the name of the package (e.g., 'layout', 'groups'). </li>
+       <li> <code>virtual long getLevel (String uri) =0</code>. This function returns the SBML level with the given URI of this package. </li>
+       <li> <code>virtual long getVersion (String uri) =0</code>. This function returns the SBML version with the given URI of this package. </li>
+       <li> <code>virtual long getPackageVersion (String uri) =0</code>. This function returns the package version with the given URI of this package.</li>
+       <li> <code>virtual long getURI (long sbmlLevel, long sbmlVersion, long pkgVersion) =0</code>. 
              This function returns the URI (namespace) of the package corresponding to the combination of the given sbml level, sbml version, and pacakege version</li>
-       <li> <code>virtual {@link SBMLExtension} clone () const = 0</code>. This function creates and returns a deep copy of this derived object.</li>
+       <li> <code>virtual {@link SBMLExtension} clone () = 0</code>. This function creates and returns a deep copy of this derived object.</li>
       </ul>
       <p>For example, the above functions are overridden in the groups
 	package ('src/packages/groups/extension/GroupsExtension.cpp') as follows:</p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
 String
 {@link GroupsExtension#getName()} const
 {
@@ -158,7 +158,7 @@ GroupsExtension*
 {
   return new GroupsExtension(*this);  
 }
-</pre></div>
+</pre>
  <p>
  * Constructor, copy Constructor, and destructor also must be overridden
  * if additional data members are defined in the derived class.
@@ -172,11 +172,11 @@ GroupsExtension*
  *   <ol>
  *     <li> typedef for the package specific {@link SBMLExtensionNamespaces} template class
  <p> For example, the typedef for GroupsExtension (defined in the groups package) is implemented in GroupsExtension.h as follows:</p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
   // GroupsPkgNamespaces is derived from the {@link SBMLNamespaces} class and used when creating an object of 
   // {@link SBase} derived classes defined in groups package.
   typedef {@link SBMLExtensionNamespaces}&lt;GroupsExtension&gt; GroupsPkgNamespaces;
-</pre></div>
+</pre>
  *     </li>
  <p>
  *     <li> template instantiation code for the above typedef definition in the implementation file (i.e., *.cpp file).
@@ -184,47 +184,45 @@ GroupsExtension*
  *           as follows:
  *       </p>
  <p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
   // Instantiate {@link SBMLExtensionNamespaces}&lt;GroupsExtension&gt; (GroupsPkgNamespaces) for DLL.
   template class LIBSBML_EXTERN {@link SBMLExtensionNamespaces}&lt;GroupsExtension&gt;;
-</pre></div>
+</pre>
  <p>
  *     </li>
  *  </ol>
- <p>
  <p> The {@link SBMLExtensionNamespaces} template class is a derived class of
  *      {@link SBMLNamespaces} and can be used as an argument of constructors 
  *      of {@link SBase} derived classes defined in the package extensions.
  *      For example, a GroupsPkgNamespaces object can be used when creating a group 
  *      object as follows:
  *  </P>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
    GroupPkgNamespaces gpns(3,1,1);  // The arguments are SBML Level, SBML Version, and Groups Package Version.
 
    Group g = new Group(&gpns);      // Creates a group object of L3V1 Groups V1.
-</pre></div>
- <p>
+</pre>
  <p>
  *     Also, the GroupsPkgNamespaces object can be used when creating an
  *     {@link SBMLDocument} object with the groups package as follows:
  *   </p>
  <p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
    GroupsPkgNamespaces gpns(3,1,1);
    {@link SBMLDocument} doc;
 
    doc  = new {@link SBMLDocument}(&gnps); // Creates an {@link SBMLDocument} of L3V1 with Groups V1.
-</pre></div>
+</pre>
  <p>
  * </li>
  <p>
  * <li> Override the following pure virtual function which returns the {@link SBMLNamespaces} derived object 
-<div class='fragment'><pre class='fragment'>
-       virtual {@link SBMLNamespaces} getSBMLExtensionNamespaces (String uri) const =0
-</pre></div>
+<pre class='fragment'>
+       virtual {@link SBMLNamespaces} getSBMLExtensionNamespaces (String uri) =0
+</pre>
  <p> For example, the function is overridden in GroupsExtension
  class as follows:</p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
 {@link SBMLNamespaces}
 {@link GroupsExtension#getSBMLExtensionNamespaces(String uri)} const
 {
@@ -235,30 +233,25 @@ GroupsExtension*
   }  
   return pkgns;
 }
-</pre></div>
+</pre>
    </li>
  <p>
- <p>
  *  <li> Define an enum type for representing the typecode of elements (SBase extended classes) defined in the package extension
- <p>
  <p>  For example, SBMLGroupsTypeCode_t for groups package is
  *  defined in GroupsExtension.h as follows: </p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
       typedef enum
       {
          SBML_GROUPS_GROUP  = 200
        , SBML_GROUPS_MEMBER = 201
       } SBMLGroupsTypeCode_t;
-</pre></div>    
- <p>
+</pre>    
  <p> <em>SBML_GROUPS_GROUP</em> corresponds to the Group class (&lt;group&gt;)
  * and <em>SBML_GROUPS_MEMBER</em> corresponds to the Member (&lt;member&gt;) class, respectively.
- <p>
- <p>
  <p> Similarly, SBMLLayoutTypeCode_t 
  *   for layout package is defined in LayoutExtension.h as follows: </p>
  <p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>  
       typedef enum
       {
          SBML_LAYOUT_BOUNDINGBOX           = 100
@@ -275,25 +268,22 @@ GroupsExtension*
        , SBML_LAYOUT_SPECIESREFERENCEGLYPH = 111
        , SBML_LAYOUT_TEXTGLYPH             = 112
       } SBMLLayoutTypeCode_t;
-</pre></div>
- <p>
+</pre>
  <p>
  *   These enum values are returned by corresponding getTypeCode() functions.
  *   (e.g. SBML_GROUPS_GROUP is returned in {@link Group#getTypeCode()})
  *  </p>
- <p>
  <p>
  *   The value of each typecode can be duplicated between those of different 
  *   packages (In the above SBMLLayoutTypeCode_t and SBMLGroupsTypeCode_t types, 
  *   unique values are assigned to enum values, but this is not mandatory.)
  *  </p>
  <p>
- <p>
  *   Thus, to distinguish the typecodes of different packages, not only the return
  *   value of getTypeCode() function but also that of getPackageName()
  *   function should be checked as follows:
  *  </p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
           void example (SBase sb)
           {
             String pkgName = sb-&gt;getPackageName();
@@ -326,17 +316,16 @@ GroupsExtension*
             }
             ...
           } 
-</pre></div>
+</pre>
  <p>
  *  </li>
  *  <li> Override the following pure virtual function which returns a string corresponding to the given typecode:
  <p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>  
        virtual String {@link SBMLExtension#getStringFromTypeCode(int typeCode)} const;
-</pre></div> 
- <p>
+</pre> 
  <p> For example, the function for groups extension is implemented as follows: </p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>  
 static
 String SBML_GROUPS_TYPECODE_STRINGS[] =
 {
@@ -357,27 +346,26 @@ String
 
   return SBML_GROUPS_TYPECODE_STRINGS[typeCode - min];
 }
-</pre></div> 
+</pre> 
  <p>
  *  </li>
  <p>
  * <li> Implements a 'static void init()' function in the derived class
- <p>
  <p> In the init() function, initialization code which creates an instance of 
  *     the derived class and registering code which registers the instance to 
  *     {@link SBMLExtensionRegistry} class are implemented.
  * </p>
  <p>
  * For example, the init() function for groups package is implemented as follows: 
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
 void 
 {@link GroupsExtension#init()}
 {
-  //-------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
   //
   // 1. Checks if the groups package has already been registered.
   //
-  //-------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
 
   if ( {@link SBMLExtensionRegistry#getInstance()}.isRegistered(getPackageName()) )
   {
@@ -385,15 +373,15 @@ void
     return;
   }
 
-  //-------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
   //
   // 2. Creates an {@link SBMLExtension} derived object.
   //
-  //-------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
 
   GroupsExtension groupsExtension;
 
-  //-------------------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
   //
   // 3. Creates SBasePluginCreatorBase derived objects required for this 
   //    extension. The derived classes can be instantiated by using the following 
@@ -418,7 +406,7 @@ void
   //    are equal in the both plugin objects, the same vector object is given to each 
   //    constructor.
   //
-  //---------------------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
 
   std.vector&lt;String&gt; packageURIs;
   packageURIs.push_back(getXmlnsL3V1V1());
@@ -429,20 +417,20 @@ void
   SBasePluginCreator&lt;SBMLDocumentPluginNotRequired, GroupsExtension&gt; sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
   SBasePluginCreator&lt;GroupsModelPlugin,   GroupsExtension&gt; modelPluginCreator(modelExtPoint,packageURIs);
 
-  //--------------------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;--
   //
   // 3. Adds the above SBasePluginCreatorBase derived objects to the {@link SBMLExtension} derived object.
   //
-  //--------------------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;--
 
   groupsExtension.addSBasePluginCreator(&sbmldocPluginCreator);
   groupsExtension.addSBasePluginCreator(&modelPluginCreator);
 
-  //-------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
   //
   // 4. Registers the {@link SBMLExtension} derived object to {@link SBMLExtensionRegistry}
   //
-  //-------------------------------------------------------------------------
+  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
 
   int result = {@link SBMLExtensionRegistry#getInstance()}.addExtension(&groupsExtension);
 
@@ -451,21 +439,19 @@ void
     std.cerr &lt;&lt; '[Error] {@link GroupsExtension#init()} failed.' &lt;&lt; std.endl;
   }
 }
-</pre></div>
+</pre>
  *    </p> 
  * </li>
  <p>
  * <li> Instantiate a global SBMLExtensionRegister variable in appropriate 
  *      implementation file
- <p>
  <p> For example, the global variable for the groups extension is instantiated in GroupsExtension.cpp as follows: </p>
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
   static SBMLExtensionRegister&lt;GroupsExtension&gt; groupsExtensionRegister;
-</pre></div>
+</pre>
  *    The init() function is invoked when the global variable is instantiated,
  *    by which initialization and registering the package extension are performed.
  * </li>
- <p>
  <p>
  * </ol>
  */

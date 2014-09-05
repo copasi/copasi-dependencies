@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of %SBML's %Rule construct.
+@htmlinclude pkg-marker-core.html Parent class for SBML <em>rules</em> in libSBML.
  *
  * In SBML, @em rules provide additional ways to define the values of
  * variables in a model, their relationships, and the dynamical behaviors
@@ -39,17 +39,17 @@ namespace libsbmlcs {
  * function returning a numerical result, <b><em>V</em></b> is a vector of
  * variables that does not include <em>x</em>, and <b><em>W</em></b> is a
  * vector of variables that may include <em>x</em>):
- * 
+ *
  * <table border='0' cellpadding='0' class='centered' style='font-size: small'>
  * <tr><td width='120px'><em>Algebraic:</em></td><td width='250px'>left-hand side is zero</td><td><em>0 = f(<b>W</b>)</em></td></tr>
  * <tr><td><em>Assignment:</em></td><td>left-hand side is a scalar:</td><td><em>x = f(<b>V</b>)</em></td></tr>
  * <tr><td><em>Rate:</em></td><td>left-hand side is a rate-of-change:</td><td><em>dx/dt = f(<b>W</b>)</em></td></tr>
  * </table>
- * 
+ *
  * In their general form given above, there is little to distinguish
  * between <em>assignment</em> and <em>algebraic</em> rules.  They are treated as
  * separate cases for the following reasons:
- * 
+ *
  * @li <em>Assignment</em> rules can simply be evaluated to calculate
  * intermediate values for use in numerical methods.  They are statements
  * of equality that hold at all times.  (For assignments that are only
@@ -57,19 +57,19 @@ namespace libsbmlcs {
 
  * @li SBML needs to place restrictions on assignment rules, for example
  * the restriction that assignment rules cannot contain algebraic loops.
- * 
+ *
  * @li Some simulators do not contain numerical solvers capable of solving
  * unconstrained algebraic equations, and providing more direct forms such
  * as assignment rules may enable those simulators to process models they
  * could not process if the same assignments were put in the form of
  * general algebraic equations;
- * 
+ *
  * @li Those simulators that <em>can</em> solve these algebraic equations make a
  * distinction between the different categories listed above; and
- * 
+ *
  * @li Some specialized numerical analyses of models may only be applicable
  * to models that do not contain <em>algebraic</em> rules.
- * 
+ *
  * The approach taken to covering these cases in SBML is to define an
  * abstract Rule structure containing a subelement, 'math', to hold the
  * right-hand side expression, then to derive subtypes of Rule that add
@@ -78,13 +78,13 @@ namespace libsbmlcs {
  * mathematical formula of the rule.  This MathML formula must return a
  * numerical value.  The formula can be an arbitrary expression referencing
  * the variables and other entities in an SBML model.
- * 
+ *
  * Each of the three subclasses of Rule (AssignmentRule, AlgebraicRule,
  * RateRule) inherit the the 'math' subelement and other fields from SBase.
  * The AssignmentRule and RateRule classes add an additional attribute,
  * 'variable'.  See the definitions of AssignmentRule, AlgebraicRule and
  * RateRule for details about the structure and interpretation of each one.
- * 
+ *
  * @section rules-restrictions Additional restrictions on SBML rules
  *
  * An important design goal of SBML rule semantics is to ensure that a
@@ -92,15 +92,15 @@ namespace libsbmlcs {
  * how often rules are evaluated.  To achieve this, SBML needs to place two
  * restrictions on rule use.  The first concerns algebraic loops in the system
  * of assignments in a model, and the second concerns overdetermined systems.
- * 
+ *
  * @subsection rules-no-loops A model must not contain algebraic loops
- * 
+ *
  * The combined set of InitialAssignment, AssignmentRule and KineticLaw
  * objects in a model constitute a set of assignment statements that should be
  * considered as a whole.  (A KineticLaw object is counted as an assignment
  * because it assigns a value to the symbol contained in the 'id' attribute of
  * the Reaction object in which it is defined.)  This combined set of
- * assignment statements must not contain algebraic loops&mdash;dependency
+ * assignment statements must not contain algebraic loops---dependency
  * chains between these statements must terminate.  To put this more formally,
  * consider a directed graph in which nodes are assignment statements and
  * directed arcs exist for each occurrence of an SBML species, compartment or
@@ -108,7 +108,7 @@ namespace libsbmlcs {
  * directed arcs point from the statement assigning the symbol to the
  * statements that contain the symbol in their 'math' subelement expressions.
  * This graph must be acyclic.
- * 
+ *
  * SBML does not specify when or how often rules should be evaluated.
  * Eliminating algebraic loops ensures that assignment statements can be
  * evaluated any number of times without the result of those evaluations
@@ -121,17 +121,17 @@ namespace libsbmlcs {
  * Conversely, the following set of equations would constitute a valid set of
  * assignment statements: <em>x = 10</em>, <em>y = z + 200</em>, and <em>z = x
  * + 100</em>.
- * 
+ *
  * @subsection rules-not-overdetermined A model must not be overdetermined
- * 
+ *
  * An SBML model must not be overdetermined; that is, a model must not
  * define more equations than there are unknowns in a model.  An SBML model
  * that does not contain AlgebraicRule structures cannot be overdetermined.
- * 
+ *
  * LibSBML implements the static analysis procedure described in
  * Appendix&nbsp;B of the SBML Level&nbsp;3 Version&nbsp;1 Core
  * specification for assessing whether a model is overdetermined.
- * 
+ *
  * (In summary, assessing whether a given continuous, deterministic,
  * mathematical model is overdetermined does not require dynamic analysis; it
  * can be done by analyzing the system of equations created from the model.
@@ -157,11 +157,11 @@ namespace libsbmlcs {
  * that work @if clike a libSBML enumeration type, RuleType_t, whose values
  * are @else with the enumeration values @endif listed below.
  *
- * @li @link libsbmlcs.libsbml.RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
+ * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
  * the rule is a 'rate' rule.
- * @li @link libsbmlcs.libsbml.RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
+ * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
  * Indicates the rule is a 'scalar' rule.
- * @li @link libsbmlcs.libsbml.RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
+ * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
  * Indicates the rule type is unknown or not yet set.
  *
  *
@@ -221,7 +221,7 @@ public class Rule : SBase {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  Rule(Rule orig) : this(libsbmlPINVOKE.new_Rule(Rule.getCPtr(orig)), true) {
@@ -230,9 +230,9 @@ public class Rule : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this Rule.
-   * 
-   * @return a (deep) copy of this Rule.
+   * Creates and returns a deep copy of this Rule object.
+   *
+   * @return the (deep) copy of this Rule object.
    */ public new
  Rule clone() {
         Rule ret = (Rule) libsbml.DowncastSBase(libsbmlPINVOKE.Rule_clone(swigCPtr), true);
@@ -429,8 +429,8 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note The attribute 'formula' is specific to SBML Level&nbsp;1; in
    * higher Levels of SBML, it has been replaced with a subelement named
@@ -456,8 +456,8 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note The subelement 'math' is present in SBML Levels&nbsp;2
    * and&nbsp;3.  In SBML Level&nbsp;1, the equivalent construct is the
@@ -497,9 +497,9 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int setVariable(string sid) {
     int ret = libsbmlPINVOKE.Rule_setVariable(swigCPtr, sid);
@@ -516,9 +516,9 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute 'units' exists on SBML Level&nbsp;1 ParameterRule
    * objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
@@ -536,9 +536,9 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute 'units' exists on SBML Level&nbsp;1 ParameterRule
    * objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
@@ -562,7 +562,7 @@ public class Rule : SBase {
  * extent that libSBML can compute them.
  * 
    *
-   * * 
+   * *
  * @note The functionality that facilitates unit analysis depends on the
  * model as a whole.  Thus, in cases where the object has not been added to
  * a model or the model itself is incomplete, unit analysis is not possible
@@ -618,31 +618,12 @@ public class Rule : SBase {
   
 /**
    * Returns a code representing the type of rule this is.
-   * 
+   *
    * @return the rule type, which will be one of the following three possible
    * values:
-   * @if clike
-   * 
-   * @li @link libsbmlcs.libsbml.RULE_TYPE_RATE RULE_TYPE_RATE@endlink
-   * @li @link libsbmlcs.libsbml.RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
-   * @li @link libsbmlcs.libsbml.RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
-   * @endif@if python
-   * 
-   * @li @link libsbml.RULE_TYPE_RATE RULE_TYPE_RATE@endlink
-   * @li @link libsbml.RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
-   * @li @link libsbml.RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
-   * @endif@if java
-   *
-   * @li @link libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE@endlink
-   * @li @link libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
-   * @li @link libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
-   * @endif@if csharp
-   * 
-   * @li @link libsbmlcs.libsbml.RULE_TYPE_RATE RULE_TYPE_RATE@endlink
-   * @li @link libsbmlcs.libsbml.RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
-   * @li @link libsbmlcs.libsbml.RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
-   * 
-   * @endif
+   * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink
+   * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
+   * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
    *
    * @note The attribute 'type' on Rule objects is present only in SBML
    * Level&nbsp;1.  In SBML Level&nbsp;2 and later, the type has been
@@ -765,10 +746,10 @@ public class Rule : SBase {
    * Returns the libSBML type code for this %SBML object.
    * 
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -780,17 +761,17 @@ public class Rule : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object, either
-   * @link libsbmlcs.libsbml.SBML_ASSIGNMENT_RULE SBML_ASSIGNMENT_RULE@endlink,
-   * @link libsbmlcs.libsbml.SBML_RATE_RULE SBML_RATE_RULE@endlink, or
-   * @link libsbmlcs.libsbml.SBML_ALGEBRAIC_RULE SBML_ALGEBRAIC_RULE@endlink 
+   * @link libsbmlcs#SBML_ASSIGNMENT_RULE SBML_ASSIGNMENT_RULE@endlink,
+   * @link libsbmlcs#SBML_RATE_RULE SBML_RATE_RULE@endlink, or
+   * @link libsbmlcs#SBML_ALGEBRAIC_RULE SBML_ALGEBRAIC_RULE@endlink 
    * for %SBML Core.
    *
    * *
@@ -813,17 +794,15 @@ public class Rule : SBase {
 /**
    * Returns the SBML Level&nbsp;1 type code for this Rule object.
    *
-   * This method only applies to SBML Level&nbsp;1 model objects.  If this
-   * is not an SBML Level&nbsp;1 rule object, this method will return @link
-   * libsbmlcs.libsbml.SBML_UNKNOWN SBML_UNKNOWN@endlink.
-   * 
-   * @return the SBML Level&nbsp;1 type code for this Rule (namely, @link
-   * libsbmlcs.libsbml.SBML_COMPARTMENT_VOLUME_RULE
-   * SBML_COMPARTMENT_VOLUME_RULE@endlink, @link
-   * libsbmlcs.libsbml.SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, @link
-   * libsbmlcs.libsbml.SBML_SPECIES_CONCENTRATION_RULE
-   * SBML_SPECIES_CONCENTRATION_RULE@endlink, or @link
-   * libsbmlcs.libsbml.SBML_UNKNOWN SBML_UNKNOWN@endlink).
+   * This method only applies to SBML Level&nbsp;1 model objects.  If this is
+   * not an SBML Level&nbsp;1 rule object, this method will return
+   * @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink.
+   *
+   * @return the SBML Level&nbsp;1 type code for this Rule (namely,
+   * @link libsbmlcs#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
+   * @link libsbmlcs#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink,
+   * @link libsbmlcs#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink, or
+   * @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink).
    */ public
  int getL1TypeCode() {
     int ret = libsbmlPINVOKE.Rule_getL1TypeCode(swigCPtr);
@@ -832,7 +811,7 @@ public class Rule : SBase {
 
   
 /**
-   * Returns the XML element name of this object
+   * Returns the XML element name of this object.
    *
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of Rule object this
@@ -863,17 +842,15 @@ public class Rule : SBase {
 /**
    * Sets the SBML Level&nbsp;1 type code for this Rule.
    *
-   * @param type the SBML Level&nbsp;1 type code for this Rule. The
-   * allowable values are @link libsbmlcs.libsbml.SBML_COMPARTMENT_VOLUME_RULE
-   * SBML_COMPARTMENT_VOLUME_RULE@endlink, @link
-   * libsbmlcs.libsbml.SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
-   * @link libsbmlcs.libsbml.SBML_SPECIES_CONCENTRATION_RULE
-   * SBML_SPECIES_CONCENTRATION_RULE@endlink.
+   * @param type the SBML Level&nbsp;1 type code for this Rule. The allowable
+   * values are @link libsbmlcs#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
+   * @link libsbmlcs#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
+   * @link libsbmlcs#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * if given @p type value is not one of the above.
    */ public
  int setL1TypeCode(int type) {
@@ -907,8 +884,8 @@ public class Rule : SBase {
    * ParameterRule objects), the required attribute is 'variable'; for
    * AlgebraicRule objects, there is no required attribute.
    *
-   * @return a bool value indicating whether all the required
-   * elements for this object have been defined.
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.Rule_hasRequiredAttributes(swigCPtr);
@@ -917,10 +894,11 @@ public class Rule : SBase {
 
   
 /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML.
-   *
    * *
+ * Replaces all uses of a given @c SIdRef type attribute value with another
+ * value.
+ *
+ * *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -934,15 +912,18 @@ public class Rule : SBase {
  * explicitly name the data type.
  *
  *
-   * 
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of @p oldid.  If any matches are found, the
+ * matching values are replaced with @p newid.  The method does @em not
+ * descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.Rule_renameSIdRefs(swigCPtr, oldid, newid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -950,9 +931,11 @@ public class Rule : SBase {
 
   
 /**
-   * Renames all the @c UnitSIdRef attributes on this element.
-   *
    * *
+ * Replaces all uses of a given @c UnitSIdRef type attribute value with
+ * another value.
+ *
+ * *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
@@ -963,18 +946,20 @@ public class Rule : SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
- * 
  *
-   *
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of @p oldid.  If any matches are found,
-   * the matching identifiers are replaced with @p newid.  The method does
-   * @em not descend into child elements.
-   * 
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ *
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of @p oldid.  If any matches
+ * are found, the matching values are replaced with @p newid.  The method
+ * does @em not descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameUnitSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.Rule_renameUnitSIdRefs(swigCPtr, oldid, newid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -991,7 +976,7 @@ public class Rule : SBase {
 /**
    * Replace all nodes with the name 'id' from the child 'math' object with the provided function. 
    *
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void replaceSIDWithFunction(string id, ASTNode function) {
     libsbmlPINVOKE.Rule_replaceSIDWithFunction(swigCPtr, id, ASTNode.getCPtr(function));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -1000,7 +985,7 @@ public class Rule : SBase {
   
 /**
    * If this rule assigns a value or a change to the 'id' element, replace the 'math' object with the function (existing/function). 
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void divideAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.Rule_divideAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -1009,7 +994,7 @@ public class Rule : SBase {
   
 /**
    * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing*function). 
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  void multiplyAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.Rule_multiplyAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();

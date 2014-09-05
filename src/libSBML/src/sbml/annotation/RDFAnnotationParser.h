@@ -31,8 +31,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class RDFAnnotationParser
- * @sbmlbrief{core} Read/write/manipulate RDF annotations stored in SBML
- * annotation elements.
+ * @sbmlbrief{core} MIRIAM-compliant RDF annotation reader/writer.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -144,7 +143,7 @@ public:
    * created, containing MIRIAM-style annotations, and that @c sbmlObject
    * is an SBML object derived from SBase (e.g., a Model, or a Species, or
    * a Compartment, etc.).  Then:@if clike
-@verbatim
+@code{.cpp}
 int success;                              // Status code variable, used below.
 
 XMLNode *RDF = createRDFAnnotation();     // Create RDF annotation XML structure.
@@ -157,9 +156,9 @@ success = ann->addChild(RDF);             // Put the RDF annotation into it.
 
 success = sbmlObject->setAnnotation(ann); // Set object's annotation to what we built.
 ...                                       // Check "success" return code value.
-@endverbatim
+@endcode
    * @endif@if java
-@verbatim
+@code{.java}
 int success;                                   // Status code variable, used below.
 
 XMLNode RDF = createRDFAnnotation();          // Create RDF annotation XML structure.
@@ -172,9 +171,9 @@ success      = ann.addChild(RDF);              // Put the RDF annotation into it
 
 success      = sbmlObject.setAnnotation(ann); // Set object's annotation to what we built.
 ...                                            // Check "success" return code value.
-@endverbatim
+@endcode
    * @endif@if python
-@verbatim
+@code{.py}
 RDF     = RDFAnnotationParser.createRDFAnnotation() # Create RDF annotation XML structure.
 success = RDF.addChild(...content...)               # Put some content into it.
 ...                                                 # Check "success" return code value.
@@ -185,7 +184,7 @@ success = annot.addChild(RDF)                       # Put the RDF annotation int
 
 success = sbmlObject.setAnnotation(annot)           # Set object's annotation to what we built.
 ...                                                 # Check "success" return code value.
-@endverbatim
+@endcode
    * @endif@~
    * The SBML specification contains more information about the format of
    * annotations.  We urge readers to consult Section&nbsp;6 of the SBML

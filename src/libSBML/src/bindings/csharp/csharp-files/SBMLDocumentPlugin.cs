@@ -14,10 +14,9 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Template class for the %SBMLDocument Plugin class needed
- * by all packages.
+@htmlinclude pkg-marker-core.html Base class for SBML Level 3 package plug-ins.
  *
- * Plugin objects for the SBMLDocument element must be this class or a
+ * Plug-in objects for the SBMLDocument element must be this class or a
  * derived class of this class.  Package developers should use this class
  * as-is if only 'required' attribute is added in the SBMLDocument element by
  * their packages.  Otherwise, developers must implement a derived class of
@@ -93,8 +92,8 @@ public class SBMLDocumentPlugin : SBasePlugin {
   
 /**
    * Creates and returns a deep copy of this SBMLDocumentPlugin object.
-   * 
-   * @return a (deep) copy of this object
+   *
+   * @return the (deep) copy of this SBMLDocumentPlugin object.
    */ public new
  SBasePlugin clone() {
     IntPtr cPtr = libsbmlPINVOKE.SBMLDocumentPlugin_clone(swigCPtr);
@@ -114,9 +113,9 @@ public class SBMLDocumentPlugin : SBasePlugin {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-   */ public
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   */ public new
  int setRequired(bool value) {
     int ret = libsbmlPINVOKE.SBMLDocumentPlugin_setRequired(swigCPtr, value);
     return ret;
@@ -130,7 +129,7 @@ public class SBMLDocumentPlugin : SBasePlugin {
    *
    * @return the bool value of 'required' attribute of corresponding
    * package in SBMLDocument element.
-   */ public
+   */ public new
  bool getRequired() {
     bool ret = libsbmlPINVOKE.SBMLDocumentPlugin_getRequired(swigCPtr);
     return ret;
@@ -143,7 +142,7 @@ public class SBMLDocumentPlugin : SBasePlugin {
    *
    * @return @c true if the 'required' attribute of this SBMLDocument has been
    * set, @c false otherwise.
-   */ public
+   */ public new
  bool isSetRequired() {
     bool ret = libsbmlPINVOKE.SBMLDocumentPlugin_isSetRequired(swigCPtr);
     return ret;
@@ -157,16 +156,16 @@ public class SBMLDocumentPlugin : SBasePlugin {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   */ public
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public new
  int unsetRequired() {
     int ret = libsbmlPINVOKE.SBMLDocumentPlugin_unsetRequired(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isCompFlatteningImplemented() {
     bool ret = libsbmlPINVOKE.SBMLDocumentPlugin_isCompFlatteningImplemented(swigCPtr);
     return ret;
@@ -175,7 +174,7 @@ public class SBMLDocumentPlugin : SBasePlugin {
   
 /**
    * Check consistency function.
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  long checkConsistency() { return (long)libsbmlPINVOKE.SBMLDocumentPlugin_checkConsistency(swigCPtr); }
 
 }

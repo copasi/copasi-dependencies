@@ -33,8 +33,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLConverterRegister
- * @sbmlbrief{core} Template class for SBML converters to register with the
- * registry.
+ * @sbmlbrief{core} Template for SBML converter registry registrations.
  *
  * @htmlinclude libsbml-facility-only-warning.html
  *
@@ -50,7 +49,7 @@
  * method on the SBMLConverter instance.  For example, if a new converter
  * class named @c SweetConverter were to be created, it should provide
  * an @c init() method along the following lines:
- * @verbatim
+ * @code{.cpp}
 #include <sbml/conversion/SBMLConverterRegistry.h>
 #include <sbml/conversion/SBMLConverterRegister.h>
 
@@ -66,16 +65,16 @@ void SweetConverter::init()
 {
   SBMLConverterRegistry::getInstance().addConverter(new SweetConverter());
 }
-@endverbatim
+@endcode
  * Then, to perform the registration, the caller code should perform a
  * final step of instantiatiating the template in a separate file used
  * for this purpose for all user-defined converters:
- * @verbatim
+ * @code{.cpp}
 #include <sbml/conversion/SBMLConverterRegister.h>
 
 static SBMLConverterRegister<SweetConverter> registerSweetConverter;
 ... other converter template instantiations here ... 
-@endverbatim
+@endcode
  * 
  * For more information about the registry, please consult the introduction
  * to the class SBMLRegistry.

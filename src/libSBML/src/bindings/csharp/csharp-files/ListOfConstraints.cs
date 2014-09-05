@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %ListOfConstraints construct.
+@htmlinclude pkg-marker-core.html A list of Constraint objects.
  * 
  * *
  * 
@@ -147,9 +147,9 @@ public class ListOfConstraints : ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this ListOfConstraints instance.
+   * Creates and returns a deep copy of this ListOfConstraints object.
    *
-   * @return a (deep) copy of this ListOfConstraints.
+   * @return the (deep) copy of this ListOfConstraints object.
    */ public new
  ListOfConstraints clone() {
     IntPtr cPtr = libsbmlPINVOKE.ListOfConstraints_clone(swigCPtr);
@@ -163,10 +163,10 @@ public class ListOfConstraints : ListOf {
    * (i.e., Constraint objects, if the list is non-empty).
    *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -178,15 +178,15 @@ public class ListOfConstraints : ListOf {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    * 
    * @return the SBML type code for the objects contained in this ListOf
-   * instance: @link libsbmlcs.libsbml.SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
+   * instance: @link libsbmlcs#SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -202,7 +202,7 @@ public class ListOfConstraints : ListOf {
    *
    * For ListOfConstraints, the XML element name is @c 'listOfConstraints'.
    * 
-   * @return the name of this element, i.e., @c 'listOfConstraints'.
+   * @return the name of this element.
    */ public new
  string getElementName() {
     string ret = libsbmlPINVOKE.ListOfConstraints_getElementName(swigCPtr);

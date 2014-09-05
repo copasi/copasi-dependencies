@@ -57,6 +57,7 @@ thisdir = .
 examples =                                                          \
   examples/README.txt                                               \
   examples/CMakeLists.txt                                           \
+  examples/layout-package.cmake                                     \
   examples/c/CMakeLists.txt                                         \
   examples/c++/CMakeLists.txt                                       \
   examples/csharp/CMakeLists.txt                                    \
@@ -126,6 +127,7 @@ examples =                                                          \
   examples/c++/util.c                                               \
   examples/c++/util.h                                               \
   examples/c++/validateSBML.cpp                                     \
+  examples/c++/layout/CMakeLists.txt                                \
   examples/c++/layout/Makefile.in                                   \
   examples/c++/layout/addLayout.cpp                                 \
   examples/c++/layout/convertLayout.cpp                             \
@@ -164,6 +166,9 @@ examples =                                                          \
   examples/csharp/validateSBML.cs                                   \
   examples/csharp/SetIdFromNames.cs                                 \
   examples/csharp/GetAllElementsWithNotes.cs                        \
+  examples/csharp/inlineInitialAssignments.cs                       \
+  examples/csharp/replaceOneFD.cs                                   \
+  examples/csharp/evaluateCustomMath.cs                             \
   examples/java/Makefile.in                                         \
   examples/java/README.txt                                          \
   examples/java/addCustomValidator.java                             \
@@ -193,12 +198,18 @@ examples =                                                          \
   examples/java/unsetAnnotation.java                                \
   examples/java/unsetNotes.java                                     \
   examples/java/validateSBML.java                                   \
-  examples/java/layout/layout_example1.java                                \
-  examples/java/layout/layout_example1_L3.java                             \
+  examples/java/inlineInitialAssignments.java                       \
+  examples/java/replaceOneFD.java                                   \
+  examples/java/evaluateCustomMath.java                             \
+  examples/java/layout/CMakeLists.txt                               \
+  examples/java/layout/layout_example1.java                         \
+  examples/java/layout/layout_example1_L3.java                      \
   examples/perl/layout/example1-L3.pl                               \
-  examples/python/layout/example1-L3.py                             \
   examples/ruby/layout/example1-L3.rb                               \
+  examples/csharp/layout/CMakeLists.txt                             \
   examples/csharp/layout/example1-L3.cs                             \
+  examples/python/layout/example1-L3.py                             \
+  examples/python/layout/convertLayout.py                           \
   examples/python/layout/example1.py                                \
   examples/perl/addCVTerms.pl                                       \
   examples/perl/addCustomValidator.pl                               \
@@ -236,6 +247,7 @@ examples =                                                          \
   examples/python/callExternalValidator.py                          \
   examples/python/convertSBML.py                                    \
   examples/python/createExampleSBML.py                              \
+  examples/python/createSimpleModel.py                              \
   examples/python/getAllElementsWithNotes.py                        \
   examples/python/echoSBML.py                                       \
   examples/python/stripPackage.py                                   \
@@ -253,6 +265,9 @@ examples =                                                          \
   examples/python/unsetAnnotation.py                                \
   examples/python/unsetNotes.py                                     \
   examples/python/validateSBML.py                                   \
+  examples/python/inlineInitialAssignments.py                       \
+  examples/python/replaceOneFD.py                                   \
+  examples/python/evaluateCustomMath.py                             \
   examples/r/addCVTerms.R                                           \
   examples/r/addModelHistory.R                                      \
   examples/r/addingEvidenceCodes_1.R                                \
@@ -345,9 +360,14 @@ rbindings =                                           \
   src/bindings/r/local-downcast-namespaces-layout.cpp \
   src/bindings/r/local-downcast-namespaces.cpp.in     \
   src/bindings/r/local-downcast-packages-layout.cpp   \
+  src/bindings/r/local-downcast-converters.cpp.in     \
+  src/bindings/r/local-downcast-converters-layout.cpp \
   src/bindings/r/local-downcast-plugins-layout.cpp    \
   src/bindings/r/local-downcast-plugins.cpp.in        \
   src/bindings/r/local-downcast.cpp.in                \
+  src/bindings/r/create-r-package.cmake               \
+  src/bindings/r/cmake-r-install.cmake.in             \
+  src/bindings/r/libsbml_rtype.swg                    \
   src/bindings/r/local-layout.i                       \
   src/bindings/r/local-packages.i.in                  \
   src/bindings/r/local.cpp                            \
@@ -434,6 +454,7 @@ distfiles =                         \
   configure                         \
   configure.ac                      \
   libsbml.spec.in                   \
+  cmake_uninstall.cmake.in          \
   CMakeLists.txt                    \
   common.cmake                      \
   layout-package.cmake              \

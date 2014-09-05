@@ -14,8 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of %SBML's %ModifierSpeciesReference
- * construct.
+@htmlinclude pkg-marker-core.html A reference to an SBML <em>modifier species</em>.
  *
  * Sometimes a species appears in the kinetic rate formula of a reaction
  * but is itself neither created nor destroyed in that reaction (for
@@ -39,7 +38,6 @@ namespace libsbmlcs {
  * designated as a modifier, as well as to appear in the list of reactants,
  * products and modifiers of other reactions in the model.
  *
- * 
  */
 
 public class ModifierSpeciesReference : SimpleSpeciesReference {
@@ -98,18 +96,22 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
    * @param version a long integer, the SBML Version to assign to this
    * ModifierSpeciesReference
    *
-   * * 
- * @note Upon the addition of a ModifierSpeciesReference object to an
- * SBMLDocument (e.g., using Reaction::addModifier(@if java ModifierSpeciesReference msr@endif)), the
- * SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the ModifierSpeciesReference
- * object via this constructor.  This is necessary to ensure that an SBML
- * document is a consistent structure.  Nevertheless, the ability to
- * supply the values at the time of creation of a
- * ModifierSpeciesReference is an important aid to producing valid SBML.
- * Knowledge of the intented SBML Level and Version determine whether it
- * is valid to assign a particular value to an attribute, or whether it
- * is valid to add an object to an existing SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  ModifierSpeciesReference(long level, long version) : this(libsbmlPINVOKE.new_ModifierSpeciesReference__SWIG_0(level, version), true) {
@@ -123,18 +125,22 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * * 
- * @note Upon the addition of a ModifierSpeciesReference object to an
- * SBMLDocument (e.g., using Reaction::addModifier(@if java ModifierSpeciesReference msr@endif)), the
- * SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the ModifierSpeciesReference
- * object via this constructor.  This is necessary to ensure that an SBML
- * document is a consistent structure.  Nevertheless, the ability to
- * supply the values at the time of creation of a
- * ModifierSpeciesReference is an important aid to producing valid SBML.
- * Knowledge of the intented SBML Level and Version determine whether it
- * is valid to assign a particular value to an attribute, or whether it
- * is valid to add an object to an existing SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  ModifierSpeciesReference(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_ModifierSpeciesReference__SWIG_1(SBMLNamespaces.getCPtr(sbmlns)), true) {
@@ -143,10 +149,9 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
 
   
 /**
-   * Creates and returns a deep copy of this ModifierSpeciesReference
-   * instance.
+   * Creates and returns a deep copy of this ModifierSpeciesReference object.
    *
-   * @return a (deep) copy of this ModifierSpeciesReference.
+   * @return the (deep) copy of this ModifierSpeciesReference object.
    */ public new
  SBase clone() {
     IntPtr cPtr = libsbmlPINVOKE.ModifierSpeciesReference_clone(swigCPtr);
@@ -159,10 +164,10 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
    * Returns the libSBML type code for this %SBML object.
    * 
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -174,15 +179,15 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_MODIFIER_SPECIES_REFERENCE SBML_MODIFIER_SPECIES_REFERENCE@endlink (default).
+   * @link libsbmlcs#SBML_MODIFIER_SPECIES_REFERENCE SBML_MODIFIER_SPECIES_REFERENCE@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -218,8 +223,11 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
    * all the required attributes for this ModifierSpeciesReference object
    * have been set.
    *
-   * @note The required attributes for a ModifierSpeciesReference object are:
+   * The required attributes for a ModifierSpeciesReference object are:
    * species
+   *
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.ModifierSpeciesReference_hasRequiredAttributes(swigCPtr);

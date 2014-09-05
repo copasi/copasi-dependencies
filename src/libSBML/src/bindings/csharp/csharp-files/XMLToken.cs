@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Representation of a token in an XML stream.
+@htmlinclude pkg-marker-core.html A token in libSBML's XML stream.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -119,7 +119,7 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces, long line, long column) : this(libsbmlPINVOKE.new_XMLToken__SWIG_1(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), XMLNamespaces.getCPtr(namespaces), line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -136,7 +136,7 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces, long line) : this(libsbmlPINVOKE.new_XMLToken__SWIG_2(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), XMLNamespaces.getCPtr(namespaces), line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -153,7 +153,7 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces) : this(libsbmlPINVOKE.new_XMLToken__SWIG_3(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), XMLNamespaces.getCPtr(namespaces)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -168,7 +168,7 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(XMLTriple triple, XMLAttributes attributes, long line, long column) : this(libsbmlPINVOKE.new_XMLToken__SWIG_4(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -183,7 +183,7 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(XMLTriple triple, XMLAttributes attributes, long line) : this(libsbmlPINVOKE.new_XMLToken__SWIG_5(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes), line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -198,7 +198,7 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(XMLTriple triple, XMLAttributes attributes) : this(libsbmlPINVOKE.new_XMLToken__SWIG_6(XMLTriple.getCPtr(triple), XMLAttributes.getCPtr(attributes)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -212,7 +212,7 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(XMLTriple triple, long line, long column) : this(libsbmlPINVOKE.new_XMLToken__SWIG_7(XMLTriple.getCPtr(triple), line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -226,7 +226,7 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(XMLTriple triple, long line) : this(libsbmlPINVOKE.new_XMLToken__SWIG_8(XMLTriple.getCPtr(triple), line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -240,7 +240,7 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(XMLTriple triple) : this(libsbmlPINVOKE.new_XMLToken__SWIG_9(XMLTriple.getCPtr(triple)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -254,10 +254,10 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(string chars, long line, long column) : this(libsbmlPINVOKE.new_XMLToken__SWIG_10(chars, line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -271,10 +271,10 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(string chars, long line) : this(libsbmlPINVOKE.new_XMLToken__SWIG_11(chars, line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -288,10 +288,10 @@ public class XMLToken : IDisposable {
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLToken(string chars) : this(libsbmlPINVOKE.new_XMLToken__SWIG_12(chars), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -303,7 +303,7 @@ public class XMLToken : IDisposable {
    *
    * @param orig the XMLToken object to copy.
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  XMLToken(XMLToken orig) : this(libsbmlPINVOKE.new_XMLToken__SWIG_13(XMLToken.getCPtr(orig)), true) {
@@ -312,9 +312,9 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates and returns a deep copy of this XMLToken.
-   * 
-   * @return a (deep) copy of this XMLToken set.
+   * Creates and returns a deep copy of this XMLToken object.
+   *
+   * @return the (deep) copy of this XMLToken object.
    */ public
  XMLToken clone() {
     IntPtr cPtr = libsbmlPINVOKE.XMLToken_clone(swigCPtr);
@@ -343,10 +343,10 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note This function replaces the existing XMLAttributes with the new one.
    */ public
@@ -370,13 +370,13 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @note if local name with the same namespace URI already exists in the
    * attribute set, its value and prefix will be replaced.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int addAttr(string name, string value, string namespaceURI, string prefix) {
     int ret = libsbmlPINVOKE.XMLToken_addAttr__SWIG_0(swigCPtr, name, value, namespaceURI, prefix);
@@ -398,13 +398,13 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @note if local name with the same namespace URI already exists in the
    * attribute set, its value and prefix will be replaced.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int addAttr(string name, string value, string namespaceURI) {
     int ret = libsbmlPINVOKE.XMLToken_addAttr__SWIG_1(swigCPtr, name, value, namespaceURI);
@@ -426,13 +426,13 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @note if local name with the same namespace URI already exists in the
    * attribute set, its value and prefix will be replaced.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int addAttr(string name, string value) {
     int ret = libsbmlPINVOKE.XMLToken_addAttr__SWIG_2(swigCPtr, name, value);
@@ -455,8 +455,8 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    */ public
  int addAttr(XMLTriple triple, string value) {
     int ret = libsbmlPINVOKE.XMLToken_addAttr__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple), value);
@@ -475,9 +475,9 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removeAttr(int n) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_0(swigCPtr, n);
@@ -496,9 +496,9 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removeAttr(string name, string uri) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_1(swigCPtr, name, uri);
@@ -518,9 +518,9 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removeAttr(string name) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_2(swigCPtr, name);
@@ -539,9 +539,9 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removeAttr(XMLTriple triple) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple));
@@ -557,8 +557,8 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    */ public
  int clearAttributes() {
     int ret = libsbmlPINVOKE.XMLToken_clearAttributes(swigCPtr);
@@ -575,7 +575,7 @@ public class XMLToken : IDisposable {
    * @return the index of an attribute with the given local name and namespace URI, 
    * or <code>-1</code> if not present.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int getAttrIndex(string name, string uri) {
     int ret = libsbmlPINVOKE.XMLToken_getAttrIndex__SWIG_0(swigCPtr, name, uri);
@@ -593,7 +593,7 @@ public class XMLToken : IDisposable {
    * @return the index of an attribute with the given local name and namespace URI, 
    * or <code>-1</code> if not present.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int getAttrIndex(string name) {
     int ret = libsbmlPINVOKE.XMLToken_getAttrIndex__SWIG_1(swigCPtr, name);
@@ -639,7 +639,7 @@ public class XMLToken : IDisposable {
    *
    * @note If index
    * is out of range, an empty string will be returned.  Use
-   * XMLToken::hasAttr(@if java int index@endif)
+   * XMLToken::hasAttr(@if java int@endif)
    * to test for the attribute existence.
    */ public
  string getAttrName(int index) {
@@ -659,7 +659,7 @@ public class XMLToken : IDisposable {
    * (by position).  
    *
    * @note If index is out of range, an empty string will be returned. Use
-   * XMLToken::hasAttr(@if java int index@endif) to test
+   * XMLToken::hasAttr(@if java int@endif) to test
    * for the attribute existence.
    */ public
  string getAttrPrefix(int index) {
@@ -679,7 +679,7 @@ public class XMLToken : IDisposable {
    * (by position).  
    *
    * @note If index is out of range, an empty string will be returned.  Use
-   * XMLToken::hasAttr(@if java int index@endif) to test
+   * XMLToken::hasAttr(@if java int@endif) to test
    * for attribute existence.
    */ public
  string getAttrPrefixedName(int index) {
@@ -698,7 +698,7 @@ public class XMLToken : IDisposable {
    * @return the namespace URI of an attribute in the attribute set (by position).
    *
    * @note If index is out of range, an empty string will be returned.  Use
-   * XMLToken::hasAttr(@if java int index@endif) to test
+   * XMLToken::hasAttr(@if java int@endif) to test
    * for attribute existence.
    */ public
  string getAttrURI(int index) {
@@ -717,7 +717,7 @@ public class XMLToken : IDisposable {
    * @return the value of an attribute in the attribute set (by position).  
    *
    * @note If index is out of range, an empty string will be returned. Use
-   * XMLToken::hasAttr(@if java int index@endif) to test
+   * XMLToken::hasAttr(@if java int@endif) to test
    * for attribute existence.
    */ public
  string getAttrValue(int index) {
@@ -737,10 +737,10 @@ public class XMLToken : IDisposable {
    * @note If an attribute with the 
    * given local name and namespace URI does not exist, an empty string will be 
    * returned.  
-   * Use XMLToken::hasAttr(@if java String name, String uri@endif)
+   * Use XMLToken::hasAttr(@if java String, String@endif)
    * to test for attribute existence.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  string getAttrValue(string name, string uri) {
     string ret = libsbmlPINVOKE.XMLToken_getAttrValue__SWIG_1(swigCPtr, name, uri);
@@ -760,10 +760,10 @@ public class XMLToken : IDisposable {
    * @note If an attribute with the 
    * given local name and namespace URI does not exist, an empty string will be 
    * returned.  
-   * Use XMLToken::hasAttr(@if java String name, String uri@endif)
+   * Use XMLToken::hasAttr(@if java String, String@endif)
    * to test for attribute existence.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  string getAttrValue(string name) {
     string ret = libsbmlPINVOKE.XMLToken_getAttrValue__SWIG_2(swigCPtr, name);
@@ -782,7 +782,7 @@ public class XMLToken : IDisposable {
    *
    * @note If an attribute with the
    * given XMLTriple does not exist, an empty string will be returned.  
-   * Use XMLToken::hasAttr(@if java XMLTriple triple@endif)
+   * Use XMLToken::hasAttr(@if java XMLTriple@endif)
    * to test for attribute existence.
    */ public
  string getAttrValue(XMLTriple triple) {
@@ -819,7 +819,7 @@ public class XMLToken : IDisposable {
    * @return @c true if an attribute with the given local name and namespace 
    * URI exists in the attribute set in this XMLToken, @c false otherwise.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  bool hasAttr(string name, string uri) {
     bool ret = libsbmlPINVOKE.XMLToken_hasAttr__SWIG_1(swigCPtr, name, uri);
@@ -839,7 +839,7 @@ public class XMLToken : IDisposable {
    * @return @c true if an attribute with the given local name and namespace 
    * URI exists in the attribute set in this XMLToken, @c false otherwise.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  bool hasAttr(string name) {
     bool ret = libsbmlPINVOKE.XMLToken_hasAttr__SWIG_2(swigCPtr, name);
@@ -899,10 +899,10 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note This function replaces the existing XMLNamespaces with the new one.
    */ public
@@ -926,10 +926,10 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int addNamespace(string uri, string prefix) {
     int ret = libsbmlPINVOKE.XMLToken_addNamespace__SWIG_0(swigCPtr, uri, prefix);
@@ -951,10 +951,10 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int addNamespace(string uri) {
     int ret = libsbmlPINVOKE.XMLToken_addNamespace__SWIG_1(swigCPtr, uri);
@@ -973,9 +973,9 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removeNamespace(int index) {
     int ret = libsbmlPINVOKE.XMLToken_removeNamespace__SWIG_0(swigCPtr, index);
@@ -992,9 +992,9 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removeNamespace(string prefix) {
     int ret = libsbmlPINVOKE.XMLToken_removeNamespace__SWIG_1(swigCPtr, prefix);
@@ -1011,8 +1011,8 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    */ public
  int clearNamespaces() {
     int ret = libsbmlPINVOKE.XMLToken_clearNamespaces(swigCPtr);
@@ -1126,7 +1126,7 @@ public class XMLToken : IDisposable {
    *
    * @note If @p prefix does not exist, an empty string will be returned.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  string getNamespaceURI(string prefix) {
     string ret = libsbmlPINVOKE.XMLToken_getNamespaceURI__SWIG_1(swigCPtr, prefix);
@@ -1144,7 +1144,7 @@ public class XMLToken : IDisposable {
    *
    * @note If @p prefix does not exist, an empty string will be returned.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  string getNamespaceURI() {
     string ret = libsbmlPINVOKE.XMLToken_getNamespaceURI__SWIG_2(swigCPtr);
@@ -1226,10 +1226,10 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int setTriple(XMLTriple triple) {
     int ret = libsbmlPINVOKE.XMLToken_setTriple(swigCPtr, XMLTriple.getCPtr(triple));
@@ -1293,8 +1293,8 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int append(string chars) {
     int ret = libsbmlPINVOKE.XMLToken_append(swigCPtr, chars);
@@ -1404,8 +1404,8 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int setEnd() {
     int ret = libsbmlPINVOKE.XMLToken_setEnd(swigCPtr);
@@ -1419,8 +1419,8 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int setEOF() {
     int ret = libsbmlPINVOKE.XMLToken_setEOF(swigCPtr);
@@ -1434,8 +1434,8 @@ public class XMLToken : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetEnd() {
     int ret = libsbmlPINVOKE.XMLToken_unsetEnd(swigCPtr);

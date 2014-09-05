@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Representation of MIRIAM-compliant controlled vocabulary
- * annotation.
+ *  A MIRIAM-compliant controlled vocabulary term.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -99,10 +98,7 @@ defined in SBML.
  * biological qualifier).  Note that these namespace URIs are only labels,
  * and not actual Web locations, which means you cannot visit an address such
  * as <code>'http://biomodels.net/model-qualifiers'</code> in your browser or
- * try to have your application access it.  @if Refer instead to the enumerations
- * #ModelQualifierType_t and #BiolQualifierType_t for a list of the available
- * relationship elements that can be used for <span class='code'
- * style='background-color: #bbb'>RELATION_ELEMENT</span>.@endif
+ * try to have your application access it.  
  <p>
  * The <span class='code' style='background-color: #d0d0ee'>URI</span> is a
  * required data value that uniquely identifies a resource and data within
@@ -125,7 +121,6 @@ defined in SBML.
  * SBML Level&nbsp;2 (Versions 2&ndash;4) or Level&nbsp;3 specification
  * documents.
  <p>
- <p>
  * <h2>The parts of a {@link CVTerm}</h2>
  <p>
  * Annotations that refer to controlled vocabularies are managed in libSBML
@@ -143,13 +138,13 @@ defined in SBML.
  * MIRIAM to indicate the nature of the relationship between the object
  * being annotated and the resource.  In {@link CVTerm}, the qualifiers can be
  * manipulated using the methods {@link CVTerm#getQualifierType()},
- * {@link CVTerm#setQualifierType(int type)}, and related methods.
+ * {@link CVTerm#setQualifierType(int)}, and related methods.
  <p>
  * <li>The <em>resource</em>, represented by a URI (which, we must remind
  * developers, is not the same as a URL).  In the {@link CVTerm} class, the
  * resource component can be manipulated using the methods
- * {@link CVTerm#addResource(String resource)} and
- * {@link CVTerm#removeResource(String resource)}.
+ * {@link CVTerm#addResource(String)} and
+ * {@link CVTerm#removeResource(String)}.
  <p>
  * </ul>
  <p>
@@ -281,14 +276,11 @@ public class CVTerm {
  * appropriate SBML <code>&lt;annotation&gt;</code> structure. 
    <p>
    * This method creates an empty {@link CVTerm} object.  The possible qualifier
-   * types usable as values of <code>type</code> are {@link 
-   * libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER} and {@link 
-   * libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}.  If
+   * types usable as values of <code>type</code> are {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER} and {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}.  If
    * an explicit value for <code>type</code> is not given, this method defaults to
-   * using {@link  libsbmlConstants#UNKNOWN_QUALIFIER
-   * UNKNOWN_QUALIFIER}.  The qualifier type 
+   * using {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}.  The qualifier type 
    * can be set later using the
-   * {@link CVTerm#setQualifierType(int type)} method.
+   * {@link CVTerm#setQualifierType(int)} method.
    <p>
    * Different BioModels.net qualifier elements encode different types of
    * relationships.  Please refer to the SBML specification or the <a
@@ -341,14 +333,11 @@ appears in the documentation.
  * appropriate SBML <code>&lt;annotation&gt;</code> structure. 
    <p>
    * This method creates an empty {@link CVTerm} object.  The possible qualifier
-   * types usable as values of <code>type</code> are {@link 
-   * libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER} and {@link 
-   * libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}.  If
+   * types usable as values of <code>type</code> are {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER} and {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}.  If
    * an explicit value for <code>type</code> is not given, this method defaults to
-   * using {@link  libsbmlConstants#UNKNOWN_QUALIFIER
-   * UNKNOWN_QUALIFIER}.  The qualifier type 
+   * using {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}.  The qualifier type 
    * can be set later using the
-   * {@link CVTerm#setQualifierType(int type)} method.
+   * {@link CVTerm#setQualifierType(int)} method.
    <p>
    * Different BioModels.net qualifier elements encode different types of
    * relationships.  Please refer to the SBML specification or the <a
@@ -424,7 +413,7 @@ appears in the documentation.
    <p>
    * @param orig the {@link CVTerm} instance to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  CVTerm(CVTerm orig) {
@@ -435,7 +424,7 @@ appears in the documentation.
 /**
    * Creates and returns a deep copy of this {@link CVTerm} object.
    <p>
-   * @return a (deep) copy of this {@link CVTerm}.
+   * @return the (deep) copy of this {@link CVTerm} object.
    */ public
  CVTerm cloneObject() {
     long cPtr = libsbmlJNI.CVTerm_cloneObject(swigCPtr, this);
@@ -485,9 +474,9 @@ appears in the documentation.
    * one of the following values:
    <p>
    * <ul>
-   * <li> {@link  libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}
-   * <li> {@link  libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}
-   * <li> {@link  libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}
+   * <li> {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}
+   * <li> {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}
+   * <li> {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}
    *
    * </ul> <p>
    * The specific relationship of this {@link CVTerm} to the enclosing SBML object
@@ -498,7 +487,7 @@ appears in the documentation.
    * relationship.
    <p>
    * @return the qualifier type
-   * of this object or {@link  libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}
+   * of this object or {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}
    * (the default).
    <p>
    * @see #getResources()
@@ -562,17 +551,17 @@ appears in the documentation.
    * release, the following:
    <p>
    * <ul>
-   * <li> {@link  libsbmlConstants#BQM_IS BQM_IS}
-   * <li> {@link  libsbmlConstants#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY}
-   * <li> {@link  libsbmlConstants#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM}
+   * <li> {@link libsbmlConstants#BQM_IS BQM_IS}
+   * <li> {@link libsbmlConstants#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY}
+   * <li> {@link libsbmlConstants#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM}
    *
    * </ul> <p>
    * Any other BioModels.net qualifier found in the model is considered
    * unknown by libSBML and reported as
-   * {@link  libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
+   * {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
    <p>
    * @return the model qualifier type
-   * of this object or {@link  libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}
+   * of this object or {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}
    * (the default).
    */ public
  int getModelQualifierType() {
@@ -632,26 +621,26 @@ appears in the documentation.
    * libSBML release, the following:
    <p>
    * <ul>
-   * <li> {@link  libsbmlConstants#BQB_IS BQB_IS}
-   * <li> {@link  libsbmlConstants#BQB_HAS_PART BQB_HAS_PART}
-   * <li> {@link  libsbmlConstants#BQB_IS_PART_OF BQB_IS_PART_OF}
-   * <li> {@link  libsbmlConstants#BQB_IS_VERSION_OF BQB_IS_VERSION_OF}
-   * <li> {@link  libsbmlConstants#BQB_HAS_VERSION BQB_HAS_VERSION}
-   * <li> {@link  libsbmlConstants#BQB_IS_HOMOLOG_TO BQB_IS_HOMOLOG_TO}
-   * <li> {@link  libsbmlConstants#BQB_IS_DESCRIBED_BY BQB_IS_DESCRIBED_BY}
-   * <li> {@link  libsbmlConstants#BQB_IS_ENCODED_BY BQB_IS_ENCODED_BY}
-   * <li> {@link  libsbmlConstants#BQB_ENCODES BQB_ENCODES}
-   * <li> {@link  libsbmlConstants#BQB_OCCURS_IN BQB_OCCURS_IN}
-   * <li> {@link  libsbmlConstants#BQB_HAS_PROPERTY BQB_HAS_PROPERTY}
-   * <li> {@link  libsbmlConstants#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF}
+   * <li> {@link libsbmlConstants#BQB_IS BQB_IS}
+   * <li> {@link libsbmlConstants#BQB_HAS_PART BQB_HAS_PART}
+   * <li> {@link libsbmlConstants#BQB_IS_PART_OF BQB_IS_PART_OF}
+   * <li> {@link libsbmlConstants#BQB_IS_VERSION_OF BQB_IS_VERSION_OF}
+   * <li> {@link libsbmlConstants#BQB_HAS_VERSION BQB_HAS_VERSION}
+   * <li> {@link libsbmlConstants#BQB_IS_HOMOLOG_TO BQB_IS_HOMOLOG_TO}
+   * <li> {@link libsbmlConstants#BQB_IS_DESCRIBED_BY BQB_IS_DESCRIBED_BY}
+   * <li> {@link libsbmlConstants#BQB_IS_ENCODED_BY BQB_IS_ENCODED_BY}
+   * <li> {@link libsbmlConstants#BQB_ENCODES BQB_ENCODES}
+   * <li> {@link libsbmlConstants#BQB_OCCURS_IN BQB_OCCURS_IN}
+   * <li> {@link libsbmlConstants#BQB_HAS_PROPERTY BQB_HAS_PROPERTY}
+   * <li> {@link libsbmlConstants#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF}
    *
    * </ul> <p>
    * Any other BioModels.net qualifier found in the model is considered
    * unknown by libSBML and reported as
-   * {@link  libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
+   * {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
    <p>
    * @return the biology qualifier type
-   * of this object or {@link  libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}
+   * of this object or {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}
    * (the default).
    */ public
  int getBiologicalQualifierType() {
@@ -820,7 +809,7 @@ appears in the documentation.
    * @param type the qualifier type.
    * The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #getQualifierType()
@@ -839,17 +828,17 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function. The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note If the Qualifier Type of this object is not
-   * {@link  libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}, 
+   * {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}, 
    * then the ModelQualifierType_t value will default to
-   * {@link  libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
+   * {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
    <p>
    * @see #getQualifierType()
-   * @see #setQualifierType(int type)
+   * @see #setQualifierType(int)
    */ public
  int setModelQualifierType(int type) {
     return libsbmlJNI.CVTerm_setModelQualifierType__SWIG_0(swigCPtr, this, type);
@@ -865,17 +854,17 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function. The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note If the Qualifier Type of this object is not
-   * {@link  libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER},
+   * {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER},
    * then the biology qualifier type will default
-   * to {@link  libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
+   * to {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
    <p>
    * @see #getQualifierType()
-   * @see #setQualifierType(int type)
+   * @see #setQualifierType(int)
    */ public
  int setBiologicalQualifierType(int type) {
     return libsbmlJNI.CVTerm_setBiologicalQualifierType__SWIG_0(swigCPtr, this, type);
@@ -891,17 +880,17 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note If the Qualifier Type of this object is not
-   * {@link  libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}, 
+   * {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}, 
    * then the ModelQualifierType_t value will default to
-   * {@link  libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
+   * {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
    <p>
    * @see #getQualifierType()
-   * @see #setQualifierType(int type)
+   * @see #setQualifierType(int)
    */ public
  int setModelQualifierType(String qualifier) {
     return libsbmlJNI.CVTerm_setModelQualifierType__SWIG_1(swigCPtr, this, qualifier);
@@ -918,17 +907,17 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note If the Qualifier Type of this object is not
-   * {@link  libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER},
+   * {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER},
    * then the biology qualifier type code value will default
-   * to {@link  libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
+   * to {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
    <p>
    * @see #getQualifierType()
-   * @see #setQualifierType(int type)
+   * @see #setQualifierType(int)
    */ public
  int setBiologicalQualifierType(String qualifier) {
     return libsbmlJNI.CVTerm_setBiologicalQualifierType__SWIG_1(swigCPtr, this, qualifier);
@@ -1013,8 +1002,8 @@ appears in the documentation.
    * @return integer value indicating success/failure of the call. The
    * possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #getResources()
@@ -1039,8 +1028,8 @@ appears in the documentation.
    * function. The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @see #addResource(String resource)

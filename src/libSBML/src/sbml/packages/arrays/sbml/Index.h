@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2013-2014 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *     3. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -56,8 +61,8 @@ class LIBSBML_EXTERN Index : public SBase
 protected:
 
   std::string   mReferencedAttribute;
-  unsigned int  mDim;
-  bool          mIsSetDim;
+  unsigned int  mArrayDimension;
+  bool          mIsSetArrayDimension;
   ASTNode* mMath;
 
 
@@ -125,87 +130,11 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * Index's "referencedAttribute" attribute has been set.
+   * Returns the value of the "arrayDimension" attribute of this Index.
    *
-   * @return @c true if this Index's "referencedAttribute" attribute has been set,
-   * otherwise @c false is returned.
+   * @return the value of the "arrayDimension" attribute of this Index as a unsigned integer.
    */
-  virtual bool isSetReferencedAttribute() const;
-
-
-  /**
-   * Sets the value of the "referencedAttribute" attribute of this Index.
-   *
-   * @param referencedAttribute; const std::string& value of the "referencedAttribute" attribute to be set
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  virtual int setReferencedAttribute(const std::string& referencedAttribute);
-
-
-  /**
-   * Unsets the value of the "referencedAttribute" attribute of this Index.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetReferencedAttribute();
-
-
-  /**
-   * Returns the value of the "dim" attribute of this Index.
-   *
-   * @return the value of the "dim" attribute of this Index as a unsigned integer.
-   */
-  virtual const unsigned int getDim() const;
-
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * Index's "dim" attribute has been set.
-   *
-   * @return @c true if this Index's "dim" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetDim() const;
-
-
-  /**
-   * Sets the value of the "dim" attribute of this Index.
-   *
-   * @param dim; unsigned int value of the "dim" attribute to be set
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  virtual int setDim(unsigned int dim);
-
-
-  /**
-   * Unsets the value of the "dim" attribute of this Index.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetDim();
+  virtual const unsigned int getArrayDimension() const;
 
 
   /**
@@ -226,12 +155,62 @@ public:
 
   /**
    * Predicate returning @c true or @c false depending on whether this
+   * Index's "referencedAttribute" attribute has been set.
+   *
+   * @return @c true if this Index's "referencedAttribute" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetReferencedAttribute() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * Index's "arrayDimension" attribute has been set.
+   *
+   * @return @c true if this Index's "arrayDimension" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetArrayDimension() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
    * Index's "math" element has been set.
    *
    * @return @c true if this Index's "math" element has been set,
    * otherwise @c false is returned.
    */
   virtual bool isSetMath() const;
+
+
+  /**
+   * Sets the value of the "referencedAttribute" attribute of this Index.
+   *
+   * @param referencedAttribute; const std::string& value of the "referencedAttribute" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setReferencedAttribute(const std::string& referencedAttribute);
+
+
+  /**
+   * Sets the value of the "arrayDimension" attribute of this Index.
+   *
+   * @param arrayDimension; unsigned int value of the "arrayDimension" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setArrayDimension(unsigned int arrayDimension);
 
 
   /**
@@ -247,6 +226,32 @@ public:
    * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
    */
   virtual int setMath(ASTNode* math);
+
+
+  /**
+   * Unsets the value of the "referencedAttribute" attribute of this Index.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetReferencedAttribute();
+
+
+  /**
+   * Unsets the value of the "arrayDimension" attribute of this Index.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetArrayDimension();
 
 
   /**
@@ -325,7 +330,7 @@ public:
    *
    * @note The required attributes for a Index object are:
    * @li "referencedAttribute"
-   * @li "dim"
+   * @li "arrayDimension"
    * @li "math"
    *
    * @return a boolean value indicating whether all the required
@@ -705,7 +710,7 @@ Index_getReferencedAttribute(Index_t * i);
 
 LIBSBML_EXTERN
 unsigned int
-Index_getDim(Index_t * i);
+Index_getArrayDimension(Index_t * i);
 
 
 LIBSBML_EXTERN
@@ -715,7 +720,7 @@ Index_isSetReferencedAttribute(Index_t * i);
 
 LIBSBML_EXTERN
 int
-Index_isSetDim(Index_t * i);
+Index_isSetArrayDimension(Index_t * i);
 
 
 LIBSBML_EXTERN
@@ -725,7 +730,7 @@ Index_setReferencedAttribute(Index_t * i, const char * referencedAttribute);
 
 LIBSBML_EXTERN
 int
-Index_setDim(Index_t * i, unsigned int dim);
+Index_setArrayDimension(Index_t * i, unsigned int arrayDimension);
 
 
 LIBSBML_EXTERN
@@ -735,7 +740,7 @@ Index_unsetReferencedAttribute(Index_t * i);
 
 LIBSBML_EXTERN
 int
-Index_unsetDim(Index_t * i);
+Index_unsetArrayDimension(Index_t * i);
 
 
 LIBSBML_EXTERN

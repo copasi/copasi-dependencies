@@ -38,6 +38,7 @@ class SwigDirector_SBMLConverter : public SBMLConverter, public Swig::Director {
 
 public:
     SwigDirector_SBMLConverter(VALUE self);
+    SwigDirector_SBMLConverter(VALUE self, std::string const &name);
     SwigDirector_SBMLConverter(VALUE self, SBMLConverter const &c);
     virtual ~SwigDirector_SBMLConverter();
     virtual SBMLConverter *clone() const;

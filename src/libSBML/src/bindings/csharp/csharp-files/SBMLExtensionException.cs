@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Exceptions for libSBML extensions for SBML Level 3 packages.
+@htmlinclude pkg-marker-core.html Exceptions thrown by SBML Level 3 package plug-ins.
  */
 
 public class SBMLExtensionException : IDisposable {

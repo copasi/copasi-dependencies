@@ -65,6 +65,8 @@ extra_sources     = libsbml.i                          \
                     local-doc-extras.i                 \
                     local-downcast-extension-layout.i  \
                     local-downcast-extension.i.in      \
+					local-downcast-converters.i.in     \
+					local-downcast-converters-layout.i \
                     local-downcast-namespaces-layout.i \
                     local-downcast-namespaces.i.in     \
                     local-packages-layout.i            \
@@ -373,7 +375,8 @@ endif
 # processed by swigdoc.py.
 
 javadoc.i: $(main_sources) $(swig_sources) ../swig/swigdoc.py $(wildcard ../swig/*.i)
-	../swig/swigdoc.py --language java --top ../../.. $(SWIGDOCDEFINES) \
+	touch ../../../docs/src/libsbml-converters.txt && ../swig/swigdoc.py --language java --top ../../.. $(SWIGDOCDEFINES) \
+		--extra ../../../docs/src/libsbml-converters.txt \
 		--master ../swig/libsbml.i --output javadoc.i
 
 # libsbml_wrap.cpp is a stand-in for the .java files.  Its creation results

@@ -46,6 +46,7 @@ class SwigDirector_SBMLConverter : public SBMLConverter, public Swig::Director {
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_SBMLConverter(JNIEnv *jenv);
+    SwigDirector_SBMLConverter(JNIEnv *jenv, std::string const &name);
     SwigDirector_SBMLConverter(JNIEnv *jenv, SBMLConverter const &c);
     virtual ~SwigDirector_SBMLConverter();
     virtual SBMLConverter *clone() const;
@@ -61,10 +62,10 @@ public:
     virtual int convert();
 public:
     bool swig_overrides(int n) {
-      return (n < 11 ? swig_override[n] : false);
+      return (n < 10 ? swig_override[n] : false);
     }
 protected:
-    bool swig_override[11];
+    bool swig_override[10];
 };
 
 class SwigDirector_SBMLValidator : public SBMLValidator, public Swig::Director {

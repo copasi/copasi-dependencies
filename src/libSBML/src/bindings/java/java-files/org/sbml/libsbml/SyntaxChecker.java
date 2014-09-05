@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Methods for checking syntax of SBML identifiers and other
- * strings.
+ *  Methods for checking the validity of SBML identifiers.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -95,15 +94,14 @@ public class SyntaxChecker {
    * <p>
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter .= 'a'..'z','A'..'Z'
  * digit  .= '0'..'9'
  * idChar .= letter | digit | '_'
- * SId    .= ( letter | '_' ) idChar*
- * </pre>
+ * SId    .= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -300,7 +298,7 @@ formulations.
  * href='http://sbml.org/Documents/Specifications'>SBML specifications</a>
  * for specific SBML Levels.  To help verify the formatting of 'notes'
  * content, libSBML provides the static utility method
- * {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)}; The
+ * {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)}; this
  * method implements a verification process that lets callers check whether
  * the content of a given {@link XMLNode} object conforms to the SBML requirements
  * for 'notes' and 'message' structure.  Developers are urged to consult the
@@ -318,7 +316,7 @@ formulations.
    * itself, but might instead place the declaration on an enclosing
    * element and use an XML namespace prefix within the 'notes' element to
    * refer to it.  In other words, the following is valid:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
 &lt;sbml xmlns='http://www.sbml.org/sbml/level2/version3' level='2' version='3'
       xmlns:xhtml='http://www.w3.org/1999/xhtml'&gt;
   &lt;model&gt;
@@ -330,11 +328,11 @@ formulations.
     &lt;/notes&gt;
   ... rest of model ...
 &lt;/sbml&gt;
-</pre></div>
+</pre>
    * Contrast the above with the following, self-contained version, which
    * places the XML namespace declaration within the <code>&lt;notes&gt;</code>
    * element itself:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
 &lt;sbml xmlns='http://www.sbml.org/sbml/level2/version3' level='2' version='3'&gt;
   &lt;model&gt;
     &lt;notes&gt;
@@ -350,7 +348,7 @@ formulations.
     &lt;/notes&gt;
   ... rest of model ...
 &lt;/sbml&gt;
-</pre></div>
+</pre>
    <p>
    * Both of the above are valid XML.  The purpose of the <code>sbmlns</code>
    * argument to this method is to allow callers to check the validity of
@@ -408,7 +406,7 @@ appears in the documentation.
  * href='http://sbml.org/Documents/Specifications'>SBML specifications</a>
  * for specific SBML Levels.  To help verify the formatting of 'notes'
  * content, libSBML provides the static utility method
- * {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode xhtml)}; The
+ * {@link SyntaxChecker#hasExpectedXHTMLSyntax(XMLNode)}; this
  * method implements a verification process that lets callers check whether
  * the content of a given {@link XMLNode} object conforms to the SBML requirements
  * for 'notes' and 'message' structure.  Developers are urged to consult the
@@ -426,7 +424,7 @@ appears in the documentation.
    * itself, but might instead place the declaration on an enclosing
    * element and use an XML namespace prefix within the 'notes' element to
    * refer to it.  In other words, the following is valid:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
 &lt;sbml xmlns='http://www.sbml.org/sbml/level2/version3' level='2' version='3'
       xmlns:xhtml='http://www.w3.org/1999/xhtml'&gt;
   &lt;model&gt;
@@ -438,11 +436,11 @@ appears in the documentation.
     &lt;/notes&gt;
   ... rest of model ...
 &lt;/sbml&gt;
-</pre></div>
+</pre>
    * Contrast the above with the following, self-contained version, which
    * places the XML namespace declaration within the <code>&lt;notes&gt;</code>
    * element itself:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
 &lt;sbml xmlns='http://www.sbml.org/sbml/level2/version3' level='2' version='3'&gt;
   &lt;model&gt;
     &lt;notes&gt;
@@ -458,7 +456,7 @@ appears in the documentation.
     &lt;/notes&gt;
   ... rest of model ...
 &lt;/sbml&gt;
-</pre></div>
+</pre>
    <p>
    * Both of the above are valid XML.  The purpose of the <code>sbmlns</code>
    * argument to this method is to allow callers to check the validity of

@@ -286,13 +286,8 @@ public:
     if (sbRef.getParentSBMLObject() != NULL)
     {
       int tc = sbRef.getParentSBMLObject()->getTypeCode();
-      const SBMLDocument * doc = sbRef.getSBMLDocument();
-      CompSBMLDocumentPlugin * docPlug = NULL;
-      if (doc != NULL)
-      {
-        docPlug = (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
-      }
-
+      //const SBMLDocument * doc = sbRef.getSBMLDocument();
+      
       ReferencedModel *ref;
       std::string idRef;
       std::string metaIdRef;
@@ -412,8 +407,8 @@ public:
       
       if (parentRefModel != NULL)
       {
-        doc = parentRefModel->getSBMLDocument();
-        docPlug = (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
+        const SBMLDocument* doc = parentRefModel->getSBMLDocument();
+        CompSBMLDocumentPlugin* docPlug = (CompSBMLDocumentPlugin*)(doc->getPlugin("comp"));
         CompModelPlugin *plug1 = 
                         (CompModelPlugin*)(parentRefModel->getPlugin("comp"));
         
@@ -945,7 +940,7 @@ START_CONSTRAINT (CompPortRefMustReferencePort, Deletion, d)
 
   if (plug1->getPort(d.getPortRef()) == NULL)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -993,7 +988,7 @@ START_CONSTRAINT (CompPortRefMustReferencePort, ReplacedElement, repE)
 
   if (plug1->getPort(repE.getPortRef()) == NULL)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1041,7 +1036,7 @@ START_CONSTRAINT (CompPortRefMustReferencePort, ReplacedBy, repBy)
 
   if (plug1->getPort(repBy.getPortRef()) == NULL)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1125,7 +1120,7 @@ START_CONSTRAINT (CompPortRefMustReferencePort, SBaseRef, sbRef)
 
   if (plug1->getPort(sbRef.getPortRef()) == NULL)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1190,7 +1185,7 @@ START_CONSTRAINT (CompIdRefMustReferenceObject, Port, p)
 
   if (mIds.contains(p.getIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1263,7 +1258,7 @@ START_CONSTRAINT (CompIdRefMustReferenceObject, Deletion, d)
 
   if (mIds.contains(d.getIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1334,7 +1329,7 @@ START_CONSTRAINT (CompIdRefMustReferenceObject, ReplacedElement, repE)
 
   if (mIds.contains(repE.getIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1394,7 +1389,7 @@ START_CONSTRAINT (CompIdRefMustReferenceObject, ReplacedBy, repBy)
 
   if (mIds.contains(repBy.getIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1502,7 +1497,7 @@ START_CONSTRAINT (CompIdRefMustReferenceObject, SBaseRef, sbRef)
 
   if (mIds.contains(sbRef.getIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1537,7 +1532,7 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, Port, p)
 
   if (m.getUnitDefinition(p.getUnitRef()) == NULL)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1583,7 +1578,7 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, Deletion, d)
 
   if (referencedModel->getUnitDefinition(d.getUnitRef()) == NULL)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1627,7 +1622,7 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, ReplacedElement, repE)
 
   if (referencedModel->getUnitDefinition(repE.getUnitRef()) == NULL)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1671,7 +1666,7 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, ReplacedBy, repBy)
 
   if (referencedModel->getUnitDefinition(repBy.getUnitRef()) == NULL)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1751,7 +1746,7 @@ START_CONSTRAINT (CompUnitRefMustReferenceUnitDef, SBaseRef, sbRef)
 
   if (referencedModel->getUnitDefinition(sbRef.getUnitRef()) == NULL)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1817,7 +1812,7 @@ START_CONSTRAINT (CompMetaIdRefMustReferenceObject, Port, p)
 
   if (mIds.contains(p.getMetaIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1890,7 +1885,7 @@ START_CONSTRAINT (CompMetaIdRefMustReferenceObject, Deletion, d)
 
   if (mIds.contains(d.getMetaIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -1961,7 +1956,7 @@ START_CONSTRAINT (CompMetaIdRefMustReferenceObject, ReplacedElement, repE)
 
   if (mIds.contains(repE.getMetaIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -2021,7 +2016,7 @@ START_CONSTRAINT (CompMetaIdRefMustReferenceObject, ReplacedBy, repBy)
 
   if (mIds.contains(repBy.getMetaIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -2128,7 +2123,7 @@ START_CONSTRAINT (CompMetaIdRefMustReferenceObject, SBaseRef, sbRef)
 
   if (mIds.contains(sbRef.getMetaIdRef()) == false)
   {
-    /* take out for now since I was right teh first time
+    /* take out for now since I was right the first time
      * the reference should be there without need to instantiate
      */
     //// it is possible that the referenced model needs to actually instantiate
@@ -3868,8 +3863,6 @@ START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, Port, p)
   }
   pre ( unknownPackagePresent == true);
   
-  bool fail = true;
-
   msg = "The 'idRef' of a <port>";
   msg += " is set to '";
   msg += p.getIdRef();
@@ -3877,8 +3870,26 @@ START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, Port, p)
   msg += " However it may be an identifier of an object within an ";
   msg += "unrecognised package. ";
 
+  IdList mIds;
 
-  inv(fail == false);
+  // create the filter we want to use
+  IdFilter filter;
+
+  ReferencedModel *ref = new ReferencedModel(m, p);
+  const Model* mod = ref->getReferencedModel();
+  
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getId());
+  }
+
+  delete allElements;
+
+  inv(mIds.contains(p.getIdRef()))
 }
 END_CONSTRAINT
 
@@ -3898,8 +3909,6 @@ START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, Deletion, d)
   pre ( unknownPackagePresent == true);
   pre(d.isSetIdRef());
   
-  bool fail = true;
-
   const Submodel * sub = static_cast<const Submodel*>
                         (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
   pre (sub != NULL);
@@ -3913,8 +3922,26 @@ START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, Deletion, d)
   msg += "'. However it may be an identifier of an object within an ";
   msg += "unrecognised package. ";
 
+  IdList mIds;
 
-  inv(fail == false);
+  // create the filter we want to use
+  IdFilter filter;
+
+  ReferencedModel *ref = new ReferencedModel(m, d);
+  const Model* mod = ref->getReferencedModel();
+  
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getId());
+  }
+
+  delete allElements;
+
+  inv(mIds.contains(d.getIdRef()))
 }
 END_CONSTRAINT
 
@@ -3936,8 +3963,6 @@ START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, ReplacedElement, repE)
   }
   pre ( unknownPackagePresent == true);
   
-  bool fail = true;
-
   msg = "The 'idRef' of a <replacedElement>";
   msg += " is set to '";
   msg += repE.getIdRef();
@@ -3947,8 +3972,26 @@ START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, ReplacedElement, repE)
   msg += "'. However it may be an identifier of an object within an ";
   msg += "unrecognised package. ";
 
+  IdList mIds;
 
-  inv(fail == false);
+  // create the filter we want to use
+  IdFilter filter;
+
+  ReferencedModel *ref = new ReferencedModel(m, repE);
+  const Model* mod = ref->getReferencedModel();
+  
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getId());
+  }
+
+  delete allElements;
+
+  inv(mIds.contains(repE.getIdRef()))
 }
 END_CONSTRAINT
 
@@ -3969,8 +4012,6 @@ START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, SBaseRef, sbRef)
   }
   pre ( unknownPackagePresent == true);
   
-  bool fail = true;
-
   pre (sbRef.getParentSBMLObject() != NULL);
 
   int tc = sbRef.getParentSBMLObject()->getTypeCode();
@@ -4018,8 +4059,26 @@ START_CONSTRAINT (CompIdRefMayReferenceUnknownPackage, SBaseRef, sbRef)
   msg += "However it may be an identifier of an object within an ";
   msg += "unrecognised package. ";
 
+  IdList mIds;
 
-  inv(fail == false);
+  // create the filter we want to use
+  IdFilter filter;
+
+  ReferencedModel *ref = new ReferencedModel(m, sbRef);
+  const Model* mod = ref->getReferencedModel();
+  
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getId());
+  }
+
+  delete allElements;
+
+  inv(mIds.contains(sbRef.getIdRef()))
 }
 END_CONSTRAINT
 
@@ -4041,8 +4100,6 @@ START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, Port, p)
   }
   pre ( unknownPackagePresent == true);
 
-  bool fail = true;
-
   msg = "The 'metaIdRef' of a <port>";
   msg += " is set to '";
   msg += p.getMetaIdRef();
@@ -4050,7 +4107,27 @@ START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, Port, p)
   msg += "However it may be the 'metaid' of an object within an ";
   msg += "unrecognised package. ";
 
-  inv(fail == false);
+  IdList mIds;
+
+  // create the filter we want to use
+  MetaIdFilter filter;
+
+  //  get a list of all elements with an id
+  ReferencedModel *ref = new ReferencedModel(m, p);
+  const Model* mod = ref->getReferencedModel();
+
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getMetaId());
+  }
+
+  delete allElements;
+
+  inv(mIds.contains(p.getMetaIdRef()))
 }
 END_CONSTRAINT
 
@@ -4070,8 +4147,6 @@ START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, Deletion, d)
   }
   pre ( unknownPackagePresent == true);
 
-  bool fail = true;
-
   const Submodel * sub = static_cast<const Submodel*>
                         (d.getAncestorOfType(SBML_COMP_SUBMODEL, "comp"));
   pre (sub != NULL);
@@ -4086,7 +4161,27 @@ START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, Deletion, d)
   msg += "However it may be the 'metaid' of an object within an ";
   msg += "unrecognised package. ";
 
-  inv(fail == false);
+  IdList mIds;
+
+  // create the filter we want to use
+  MetaIdFilter filter;
+
+  //  get a list of all elements with an id
+  ReferencedModel *ref = new ReferencedModel(m, d);
+  const Model* mod = ref->getReferencedModel();
+
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getMetaId());
+  }
+
+  delete allElements;
+
+  inv(mIds.contains(d.getMetaIdRef()))
 }
 END_CONSTRAINT
 
@@ -4107,8 +4202,6 @@ START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, ReplacedElement, repE)
   }
   pre ( unknownPackagePresent == true);
 
-  bool fail = true;
-
   msg = "The 'metaidRef' of a <replacedElement>";
   msg += " is set to '";
   msg += repE.getMetaIdRef();
@@ -4119,7 +4212,27 @@ START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, ReplacedElement, repE)
   msg += "However it may be the 'metaid' of an object within an ";
   msg += "unrecognised package. ";
 
-  inv(fail == false);
+  IdList mIds;
+
+  // create the filter we want to use
+  MetaIdFilter filter;
+
+  //  get a list of all elements with an id
+  ReferencedModel *ref = new ReferencedModel(m, repE);
+  const Model* mod = ref->getReferencedModel();
+
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getMetaId());
+  }
+
+  delete allElements;
+
+  inv(mIds.contains(repE.getMetaIdRef()))
 }
 END_CONSTRAINT
 
@@ -4138,8 +4251,6 @@ START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, SBaseRef, sbRef)
     unknownPackagePresent = true;
   }
   pre ( unknownPackagePresent == true);
-
-  bool fail = true;
 
   pre (sbRef.getParentSBMLObject() != NULL);
 
@@ -4188,7 +4299,27 @@ START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, SBaseRef, sbRef)
   msg += " However it may be the 'metaid' of an object within an ";
   msg += "unrecognised package. ";
 
-  inv(fail == false);
+  IdList mIds;
+
+  // create the filter we want to use
+  MetaIdFilter filter;
+
+  //  get a list of all elements with an id
+  ReferencedModel *ref = new ReferencedModel(m, sbRef);
+  const Model* mod = ref->getReferencedModel();
+
+  pre (mod != NULL);
+  
+  List* allElements = const_cast<Model*>(mod)->getAllElements(&filter);
+
+  for (unsigned int i = 0; i < allElements->getSize(); i++)
+  {
+    mIds.append(static_cast<SBase*>(allElements->get(i))->getMetaId());
+  }
+
+  delete allElements;
+
+  inv(mIds.contains(sbRef.getMetaIdRef()))
 }
 END_CONSTRAINT
 

@@ -1,8 +1,5 @@
 ###############################################################################
 #
-# $URL: https://svn.code.sf.net/p/sbml/code/trunk/libsbml/src/layout-package.cmake $
-# $Id: layout-package.cmake 19896 2014-03-19 03:53:56Z mhucka $
-#
 # Description       : CMake include file for SBML Level 3 Layout package
 # Original author(s): Frank Bergmann <fbergman@caltech.edu>
 # Organization      : California Institute of Technology

@@ -14,7 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %UnitDefinition construct.
+@htmlinclude pkg-marker-core.html A definition of a unit used in an SBML model.
  *
  * Units of measurement may be supplied in a number of contexts in an SBML
  * model.  The SBML unit definition facility uses two classes of objects,
@@ -130,12 +130,14 @@ namespace libsbml {
  * predefined unit names, @c meter and @c liter.  This is explained in
  * somewhat greater detail in the description of the Unit class.
  *
+ * <ul>
  * <li> In SBML Level&nbsp;2 (all Versions), there is an additional set of
  * reserved identifiers: @c substance, @c volume, @c area, @c length, and
  * @c time.  Using one of these values for the attribute 'id' of a
  * UnitDefinition has the effect of redefining the model-wide default units
  * for the corresponding quantities.  The list of special unit names in
  * SBML Level&nbsp;2 is given in the table below:
+ * </ul>
  *
  *   @htmlinclude predefined-units.html
  *
@@ -150,8 +152,6 @@ namespace libsbml {
  * @c time are not defined by SBML Level&nbsp;3, which uses a different
  * approach to setting model-wide inherited units.
  *
- * </ul>
- * 
  *
  * @section sbml-units-limits Further comments about SBML's unit definition system
  * 
@@ -297,22 +297,27 @@ public class UnitDefinition : SBase {
    * @param version a long integer, the SBML Version to assign to this
    * UnitDefinition
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * * 
- * @note Upon the addition of a UnitDefinition object to an SBMLDocument
- * (e.g., using Model::addUnitDefinition(@if java UnitDefinition ud@endif)), the SBML Level, SBML Version
- * and XML namespace of the document @em override the values used
- * when creating the UnitDefinition object via this constructor.  This is
- * necessary to ensure that an SBML document is a consistent structure.
- * Nevertheless, the ability to supply the values at the time of creation
- * of a UnitDefinition is an important aid to producing valid SBML.
- * Knowledge of the intented SBML Level and Version determine whether it
- * is valid to assign a particular value to an attribute, or whether it
- * is valid to add an object to an existing SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  UnitDefinition(long level, long version) : this(libsbmlPINVOKE.new_UnitDefinition__SWIG_0(level, version), true) {
@@ -325,7 +330,7 @@ public class UnitDefinition : SBase {
    * @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -337,22 +342,27 @@ public class UnitDefinition : SBase {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * * 
- * @note Upon the addition of a UnitDefinition object to an SBMLDocument
- * (e.g., using Model::addUnitDefinition(@if java UnitDefinition ud@endif)), the SBML Level, SBML Version
- * and XML namespace of the document @em override the values used
- * when creating the UnitDefinition object via this constructor.  This is
- * necessary to ensure that an SBML document is a consistent structure.
- * Nevertheless, the ability to supply the values at the time of creation
- * of a UnitDefinition is an important aid to producing valid SBML.
- * Knowledge of the intented SBML Level and Version determine whether it
- * is valid to assign a particular value to an attribute, or whether it
- * is valid to add an object to an existing SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  UnitDefinition(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_UnitDefinition__SWIG_1(SBMLNamespaces.getCPtr(sbmlns)), true) {
@@ -365,7 +375,7 @@ public class UnitDefinition : SBase {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  UnitDefinition(UnitDefinition orig) : this(libsbmlPINVOKE.new_UnitDefinition__SWIG_2(UnitDefinition.getCPtr(orig)), true) {
@@ -374,9 +384,9 @@ public class UnitDefinition : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this UnitDefinition.
-   * 
-   * @return a (deep) copy of this UnitDefinition.
+   * Creates and returns a deep copy of this UnitDefinition object.
+   *
+   * @return the (deep) copy of this UnitDefinition object.
    */ public new
  UnitDefinition clone() {
     IntPtr cPtr = libsbmlPINVOKE.UnitDefinition_clone(swigCPtr);
@@ -392,7 +402,7 @@ public class UnitDefinition : SBase {
    * @param id string representing the id of objects to find.
    *
    * @return pointer to the first element found with the given @p id.
-   */ public
+   */ public new
  SBase getElementBySId(string id) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.UnitDefinition_getElementBySId(swigCPtr, id), false);
 	return ret;
@@ -406,7 +416,7 @@ public class UnitDefinition : SBase {
    * @param metaid string representing the metaid of objects to find
    *
    * @return pointer to the first element found with the given @p metaid.
-   */ public
+   */ public new
  SBase getElementByMetaId(string metaid) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.UnitDefinition_getElementByMetaId(swigCPtr, metaid), false);
 	return ret;
@@ -470,15 +480,14 @@ public class UnitDefinition : SBase {
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter ::= 'a'..'z','A'..'Z'
  * digit  ::= '0'..'9'
  * idChar ::= letter | digit | '_'
- * SId    ::= ( letter | '_' ) idChar*
- * </pre>
+ * SId    ::= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -487,7 +496,7 @@ public class UnitDefinition : SBase {
  * conditions for the uniqueness of identifiers in an SBML model.  Please
  * consult the SBML specifications for the exact details of the uniqueness
  * requirements.
- * 
+ *
  *
    *
    * @param sid the string to use as the identifier of this UnitDefinition
@@ -495,8 +504,8 @@ public class UnitDefinition : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setId(string sid) {
     int ret = libsbmlPINVOKE.UnitDefinition_setId(swigCPtr, sid);
@@ -514,8 +523,8 @@ public class UnitDefinition : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setName(string name) {
     int ret = libsbmlPINVOKE.UnitDefinition_setName(swigCPtr, name);
@@ -529,8 +538,8 @@ public class UnitDefinition : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.UnitDefinition_unsetName(swigCPtr);
@@ -661,13 +670,13 @@ public class UnitDefinition : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
-   * * 
+   * *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -698,9 +707,9 @@ public class UnitDefinition : SBase {
    * @note It is worth emphasizing that the attribute 'kind' value of a
    * Unit is a required attribute for a valid Unit definition.  The
    * createUnit() method does not assign a valid kind to the constructed
-   * unit (instead, it sets the 'kind' to @link libsbmlcs.libsbml.UNIT_KIND_INVALID UNIT_KIND_INVALID@endlink).
+   * unit (instead, it sets the 'kind' to @link libsbmlcs#UNIT_KIND_INVALID UNIT_KIND_INVALID@endlink).
    * Callers are cautioned to set the newly-constructed Unit's kind using
-   * Unit::setKind(@if java int kind@endif) soon after calling this method.
+   * Unit::setKind(@if java int@endif) soon after calling this method.
    *
    * @see addUnit(Unit u)
    */ public
@@ -801,10 +810,10 @@ public class UnitDefinition : SBase {
    * Returns the libSBML type code for this object instance.
    * 
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -816,15 +825,15 @@ public class UnitDefinition : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
+   * @link libsbmlcs#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -887,6 +896,8 @@ public class UnitDefinition : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static void simplify(UnitDefinition ud) {
     libsbmlPINVOKE.UnitDefinition_simplify(UnitDefinition.getCPtr(ud));
@@ -907,6 +918,8 @@ public class UnitDefinition : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static void reorder(UnitDefinition ud) {
     libsbmlPINVOKE.UnitDefinition_reorder(UnitDefinition.getCPtr(ud));
@@ -930,6 +943,8 @@ public class UnitDefinition : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static UnitDefinition convertToSI(UnitDefinition ud) {
     IntPtr cPtr = libsbmlPINVOKE.UnitDefinition_convertToSI(UnitDefinition.getCPtr(ud));
@@ -946,7 +961,7 @@ public class UnitDefinition : SBase {
    * objects are considered identical when they contain identical lists of
    * Unit objects.  Pairs of Unit objects in the lists are in turn
    * considered identical if they satisfy the predicate
-   * Unit::areIdentical(@if java Unit u1, %Unit u2@endif).
+   * Unit::areIdentical(@if java Unit, %Unit@endif).
    * The predicate compares every attribute of the
    * Unit objects.
    *
@@ -964,6 +979,8 @@ public class UnitDefinition : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @see UnitDefinition::areEquivalent(UnitDefinition  ud1, %UnitDefinition  ud2)
    * @see Unit::areIdentical(Unit  unit1, %Unit  unit2)
@@ -982,7 +999,7 @@ public class UnitDefinition : SBase {
    * objects are considered equivalent when they contain @em equivalent
    * list of Unit objects.  Unit objects are in turn considered equivalent
    * if they satisfy the predicate
-   * Unit::areEquivalent(@if java Unit u1, %Unit u2@endif).
+   * Unit::areEquivalent(@if java Unit, %Unit@endif).
    * The predicate tests a subset of the objects's attributes.
    *
    * @param ud1 the first UnitDefinition object to compare
@@ -1000,6 +1017,8 @@ public class UnitDefinition : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @see UnitDefinition::areIdentical(UnitDefinition  ud1, %UnitDefinition  ud2)
    * @see Unit::areEquivalent(Unit  unit1, %Unit  unit2)
@@ -1031,6 +1050,8 @@ public class UnitDefinition : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static UnitDefinition combine(UnitDefinition ud1, UnitDefinition ud2) {
     IntPtr cPtr = libsbmlPINVOKE.UnitDefinition_combine(UnitDefinition.getCPtr(ud1), UnitDefinition.getCPtr(ud2));
@@ -1061,6 +1082,8 @@ public class UnitDefinition : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static UnitDefinition divide(UnitDefinition ud1, UnitDefinition ud2) {
     IntPtr cPtr = libsbmlPINVOKE.UnitDefinition_divide(UnitDefinition.getCPtr(ud1), UnitDefinition.getCPtr(ud2));
@@ -1073,7 +1096,7 @@ public class UnitDefinition : SBase {
    * Expresses the given definition in a plain-text form.
    *
    * For example,
-   * UnitDefinition::printUnits(@if java UnitDefinition u@endif)
+   * UnitDefinition::printUnits(@if java UnitDefinition@endif)
    * applied to
    * @verbatim
  <unitDefinition>
@@ -1105,6 +1128,8 @@ public class UnitDefinition : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static string printUnits(UnitDefinition ud, bool compact) {
     string ret = libsbmlPINVOKE.UnitDefinition_printUnits__SWIG_0(UnitDefinition.getCPtr(ud), compact);
@@ -1116,7 +1141,7 @@ public class UnitDefinition : SBase {
    * Expresses the given definition in a plain-text form.
    *
    * For example,
-   * UnitDefinition::printUnits(@if java UnitDefinition u@endif)
+   * UnitDefinition::printUnits(@if java UnitDefinition@endif)
    * applied to
    * @verbatim
  <unitDefinition>
@@ -1148,6 +1173,8 @@ public class UnitDefinition : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static string printUnits(UnitDefinition ud) {
     string ret = libsbmlPINVOKE.UnitDefinition_printUnits__SWIG_1(UnitDefinition.getCPtr(ud));
@@ -1160,11 +1187,11 @@ public class UnitDefinition : SBase {
    * all the required attributes for this UnitDefinition object
    * have been set.
    *
-   * @note The required attributes for a UnitDefinition object are:
+   * The required attributes for a UnitDefinition object are:
    * @li 'id'
    *
-   * @return a bool value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.UnitDefinition_hasRequiredAttributes(swigCPtr);

@@ -35,10 +35,9 @@
  * ---------------------------------------------------------------------- -->
  *
  * @class XMLParser
- * @sbmlbrief{core} Class providing a unified interface to different XML
- * parsers.
+ * @sbmlbrief{core} Unified interface to different XML parsers.
  *
- * @if notclike @internal @endif@~
+ * @ifnot clike @internal @endif@~
  */
 
 #ifndef XMLParser_h
@@ -72,7 +71,7 @@ public:
    * If the XML compatibility layer has been linked against only a single
    * XML library, the library parameter is ignored.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   static XMLParser* create (  XMLHandler&       handler
                             , const std::string library = "" );
@@ -93,7 +92,7 @@ public:
    *
    * @return true if the parse was successful, false otherwise.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   virtual bool parse (const char* content, bool isFile = true) = 0;
 
@@ -114,7 +113,7 @@ public:
    * @return true if the first step of the progressive parse was
    * successful, false otherwise.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   virtual bool parseFirst (const char* content, bool isFile = true) = 0;
 
@@ -167,8 +166,8 @@ public:
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   int setErrorLog (XMLErrorLog* log);
 

@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %Unit construct.
+@htmlinclude pkg-marker-core.html A single unit referenced in an SBML <em>unit definition</em>.
  *
  * The SBML unit definition facility uses two classes of objects,
  * UnitDefinition and Unit.  The approach to defining units in %SBML is
@@ -226,22 +226,27 @@ public class Unit : SBase {
    * @param version a long integer, the SBML Version to assign to this
    * Unit
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * * 
- * @note Upon the addition of a Unit object to an SBMLDocument, the SBML
- * Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the Unit object via this
- * constructor.  This is necessary to ensure that an SBML document is a
- * consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a Unit is an important aid to producing
- * valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  Unit(long level, long version) : this(libsbmlPINVOKE.new_Unit__SWIG_0(level, version), true) {
@@ -254,7 +259,7 @@ public class Unit : SBase {
    * @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -266,22 +271,27 @@ public class Unit : SBase {
    * 
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * * 
- * @note Upon the addition of a Unit object to an SBMLDocument, the SBML
- * Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the Unit object via this
- * constructor.  This is necessary to ensure that an SBML document is a
- * consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a Unit is an important aid to producing
- * valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  Unit(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_Unit__SWIG_1(SBMLNamespaces.getCPtr(sbmlns)), true) {
@@ -294,7 +304,7 @@ public class Unit : SBase {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  Unit(Unit orig) : this(libsbmlPINVOKE.new_Unit__SWIG_2(Unit.getCPtr(orig)), true) {
@@ -303,9 +313,9 @@ public class Unit : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this Unit.
-   * 
-   * @return a (deep) copy of this Unit.
+   * Creates and returns a deep copy of this Unit object.
+   *
+   * @return the (deep) copy of this Unit object.
    */ public new
  Unit clone() {
     IntPtr cPtr = libsbmlPINVOKE.Unit_clone(swigCPtr);
@@ -917,8 +927,8 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setKind(int kind) {
     int ret = libsbmlPINVOKE.Unit_setKind(swigCPtr, kind);
@@ -934,8 +944,8 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setExponent(int value) {
     int ret = libsbmlPINVOKE.Unit_setExponent__SWIG_0(swigCPtr, value);
@@ -951,7 +961,7 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setExponent(double value) {
     int ret = libsbmlPINVOKE.Unit_setExponent__SWIG_1(swigCPtr, value);
@@ -967,7 +977,7 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setScale(int value) {
     int ret = libsbmlPINVOKE.Unit_setScale(swigCPtr, value);
@@ -984,8 +994,8 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int setMultiplier(double value) {
     int ret = libsbmlPINVOKE.Unit_setMultiplier(swigCPtr, value);
@@ -1002,8 +1012,8 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * * 
  * @warning <span class='warning'>The 'offset' attribute is only available in
@@ -1027,10 +1037,10 @@ public class Unit : SBase {
    * Returns the libSBML type code of this object instance.
    *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -1042,15 +1052,15 @@ public class Unit : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_UNIT SBML_UNIT@endlink (default).
+   * @link libsbmlcs#SBML_UNIT SBML_UNIT@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -1106,6 +1116,8 @@ public class Unit : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isBuiltIn(string name, long level) {
     bool ret = libsbmlPINVOKE.Unit_isBuiltIn(name, level);
@@ -1149,6 +1161,8 @@ public class Unit : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isUnitKind(string name, long level, long version) {
     bool ret = libsbmlPINVOKE.Unit_isUnitKind(name, level, version);
@@ -1180,6 +1194,8 @@ public class Unit : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @see @if clike areEquivalent() @else Unit::areEquivalent(Unit u1, %Unit u2) @endif
    */ public
@@ -1197,7 +1213,7 @@ public class Unit : SBase {
    * have a 'kind' attribute value of @c dimensionless, or (2) their 'kind',
    * 'exponent' and (for SBML Level&nbsp;2 Version&nbsp;1) 'offset'
    * attribute values are equal. (Contrast this to the method
-   * areIdentical(@if java Unit u1, %Unit u2@endif), which compares Unit objects with respect to all
+   * areIdentical(@if java Unit, %Unit@endif), which compares Unit objects with respect to all
    * attributes, not just the 'kind' and 'exponent'.)
    *
    * @param unit1 the first Unit object to compare
@@ -1215,6 +1231,8 @@ public class Unit : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    * 
    * @see @if clike areIdentical() @else Unit::areIdentical(Unit u1, %Unit u2) @endif
    */ public
@@ -1237,7 +1255,7 @@ public class Unit : SBase {
    *
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * *
  * @if python @note Because this is a static method on a class, the Python
@@ -1247,6 +1265,8 @@ public class Unit : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @see @if clike convertToSI() @else Unit::convertToSI(Unit u) @endif
    * @see @if clike merge() @else Unit::merge(Unit u1, Unit u2) @endif
@@ -1285,6 +1305,8 @@ public class Unit : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    * 
    * @see @if clike convertToSI() @else Unit::convertToSI(Unit u) @endif
    * @see @if clike removeScale() @else Unit::removeScale(Unit u) @endif
@@ -1315,6 +1337,8 @@ public class Unit : SBase {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @see @if clike merge() @else Unit::merge(Unit u1, Unit u2) @endif
    */ public
@@ -1330,14 +1354,14 @@ public class Unit : SBase {
    * all the required attributes for this Unit object
    * have been set.
    *
-   * @note The required attributes for a Unit object are:
+   * The required attributes for a Unit object are:
    * @li 'kind'
    * @li 'exponent' (required in SBML Level&nbsp;3; optional in Level&nbsp;2)
    * @li 'multiplier' (required in SBML Level&nbsp;3; optional in Level&nbsp;2)
    * @li 'scale' (required in SBML Level&nbsp;3; optional in Level&nbsp;2)
    *
-   * @return a bool value indicating whether all the required
-   * elements for this object have been defined.
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.Unit_hasRequiredAttributes(swigCPtr);

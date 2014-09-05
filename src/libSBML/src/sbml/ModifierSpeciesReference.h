@@ -32,8 +32,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class ModifierSpeciesReference
- * @sbmlbrief{core} Implementation of %SBML's %ModifierSpeciesReference
- * construct.
+ * @sbmlbrief{core} A reference to an SBML <em>modifier species</em>.
  *
  * Sometimes a species appears in the kinetic rate formula of a reaction
  * but is itself neither created nor destroyed in that reaction (for
@@ -56,31 +55,6 @@
  * list of reactants and products of the same reaction where it is
  * designated as a modifier, as well as to appear in the list of reactants,
  * products and modifiers of other reactions in the model.
- *
- * 
- */
-
-/**
- * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
- * The following text is used as common documentation blocks copied multiple
- * times elsewhere in this file.  The use of @class is a hack needed because
- * Doxygen's @copydetails command has limited functionality.  Symbols
- * beginning with "doc_" are marked as ignored in our Doxygen configuration.
- * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
- *
- * @class doc_note_modifierspeciesreference_setting_lv
- * 
- * @note Upon the addition of a ModifierSpeciesReference object to an
- * SBMLDocument (e.g., using Reaction::addModifier(@if java ModifierSpeciesReference msr@endif)), the
- * SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the ModifierSpeciesReference
- * object via this constructor.  This is necessary to ensure that an SBML
- * document is a consistent structure.  Nevertheless, the ability to
- * supply the values at the time of creation of a
- * ModifierSpeciesReference is an important aid to producing valid SBML.
- * Knowledge of the intented SBML Level and Version determine whether it
- * is valid to assign a particular value to an attribute, or whether it
- * is valid to add an object to an existing SBMLDocument.
  *
  */
 
@@ -119,7 +93,7 @@ public:
    * @param version an unsigned int, the SBML Version to assign to this
    * ModifierSpeciesReference
    *
-   * @copydetails doc_note_modifierspeciesreference_setting_lv
+   * @copydetails doc_note_setting_lv
    */
   ModifierSpeciesReference (unsigned int level, unsigned int version);
 
@@ -130,7 +104,7 @@ public:
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @copydetails doc_note_modifierspeciesreference_setting_lv
+   * @copydetails doc_note_setting_lv
    */
   ModifierSpeciesReference (SBMLNamespaces* sbmlns);
 
@@ -152,10 +126,9 @@ public:
 
 
   /**
-   * Creates and returns a deep copy of this ModifierSpeciesReference
-   * instance.
+   * Creates and returns a deep copy of this ModifierSpeciesReference object.
    *
-   * @return a (deep) copy of this ModifierSpeciesReference.
+   * @return the (deep) copy of this ModifierSpeciesReference object.
    */
   virtual ModifierSpeciesReference* clone () const;
 
@@ -166,7 +139,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @link SBMLTypeCode_t#SBML_MODIFIER_SPECIES_REFERENCE SBML_MODIFIER_SPECIES_REFERENCE@endlink (default).
+   * @sbmlconstant{SBML_MODIFIER_SPECIES_REFERENCE, SBMLTypeCode_t} (default).
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -190,8 +163,11 @@ public:
    * all the required attributes for this ModifierSpeciesReference object
    * have been set.
    *
-   * @note The required attributes for a ModifierSpeciesReference object are:
+   * The required attributes for a ModifierSpeciesReference object are:
    * species
+   *
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */
   virtual bool hasRequiredAttributes() const ;
 
@@ -230,6 +206,315 @@ LIBSBML_CPP_NAMESPACE_END
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
+
+/**
+ * Creates a new ModifierSpeciesReference_t structure using the given SBML @p level and
+ * @p version values.
+ *
+ * @param level an unsigned int, the SBML level to assign to this
+ * ModifierSpeciesReference_t structure.
+ *
+ * @param version an unsigned int, the SBML version to assign to this
+ * ModifierSpeciesReference_t structure.
+ *
+ * @returns the newly-created ModifierSpeciesReference_t structure, or a null pointer if
+ * an error occurred during construction.
+ *
+ * @copydetails doc_note_setting_lv
+ *
+ * @memberof ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+ModifierSpeciesReference_t *
+ModifierSpeciesReference_create(unsigned int level, unsigned int version);
+
+
+/**
+ * Creates a new ModifierSpeciesReference_t structure using the given SBMLNamespaces_t
+ * structure, @p sbmlns.
+ *
+ * @copydetails doc_what_are_sbmlnamespaces
+ *
+ * @param sbmlns an SBMLNamespaces_t structure.
+ *
+ * @returns the newly-created ModifierSpeciesReference_t structure, or a null pointer if
+ * an error occurred during construction.
+ *
+ * @copydetails doc_note_setting_lv
+ *
+ * @memberof ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+ModifierSpeciesReference_t *
+ModifierSpeciesReference_createWithNS(SBMLNamespaces_t* sbmlns);
+
+
+/**
+ * Frees the given ModifierSpeciesReference_t structure.
+ * 
+ * @param msr the ModifierSpeciesReference_t structure to be freed.
+ *
+ * @memberof ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+void
+ModifierSpeciesReference_free(ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Creates a deep copy of the given ModifierSpeciesReference_t structure.
+ * 
+ * @param msr the ModifierSpeciesReference_t structure to be copied.
+ *
+ * @returns a (deep) copy of the given ModifierSpeciesReference_t structure, or a null
+ * pointer if a failure occurred.
+ *
+ * @memberof ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+ModifierSpeciesReference_t *
+ModifierSpeciesReference_clone(ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Returns the value of the "id" attribute of the given ModifierSpeciesReference_t
+ * structure.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @return the id of this structure.
+ *
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+const char *
+ModifierSpeciesReference_getId(const ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Returns the value of the "name" attribute of the given ModifierSpeciesReference_t
+ * structure.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @return the name of this structure.
+ *
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+const char *
+ModifierSpeciesReference_getName(const ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Returns the value of the "species" attribute of the given ModifierSpeciesReference_t
+ * structure.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @return the species of this structure.
+ *
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+const char *
+ModifierSpeciesReference_getSpecies(const ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Predicate returning @c 1 if the given ModifierSpeciesReference_t structure's "id"
+ * is set.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @return @c 1 if the "id" of this ModifierSpeciesReference_t structure is
+ * set, @c 0 otherwise.
+ *
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+int
+ModifierSpeciesReference_isSetId(const ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Predicate returning @c 1 if the given ModifierSpeciesReference_t structure's "name"
+ * is set.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @return @c 1 if the "name" of this ModifierSpeciesReference_t structure is
+ * set, @c 0 otherwise.
+ *
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+int
+ModifierSpeciesReference_isSetName(const ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Predicate returning @c 1 if the given ModifierSpeciesReference_t structure's "species"
+ * is set.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @return @c 1 if the "species" of this ModifierSpeciesReference_t structure is
+ * set, @c 0 otherwise.
+ *
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+int
+ModifierSpeciesReference_isSetSpecies(const ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Sets the "id" attribute of the given ModifierSpeciesReference_t structure.
+ *
+ * This function copies the string given in @p string.  If the string is
+ * a null pointer, this function performs ModifierSpeciesReference_unsetId() instead.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @param id the string to which the structures "id" attribute should be
+ * set.
+ *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif@~ The possible values
+ * returned by this function are:
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @note Using this function with a null pointer for @p name is equivalent to
+ * unsetting the value of the "name" attribute.
+ * 
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+int
+ModifierSpeciesReference_setId(ModifierSpeciesReference_t * msr, const char * id);
+
+
+/**
+ * Sets the "name" attribute of the given ModifierSpeciesReference_t structure.
+ *
+ * This function copies the string given in @p string.  If the string is
+ * a null pointer, this function performs ModifierSpeciesReference_unsetName() instead.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @param name the string to which the structures "name" attribute should be
+ * set.
+ *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif@~ The possible values
+ * returned by this function are:
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @note Using this function with a null pointer for @p name is equivalent to
+ * unsetting the value of the "name" attribute.
+ * 
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+int
+ModifierSpeciesReference_setName(ModifierSpeciesReference_t * msr, const char * name);
+
+
+/**
+ * Sets the "species" attribute of the given ModifierSpeciesReference_t structure.
+ *
+ * This function copies the string given in @p string.  If the string is
+ * a null pointer, this function performs ModifierSpeciesReference_unsetSpecies() instead.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @param species the string to which the structures "species" attribute should be
+ * set.
+ *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif@~ The possible values
+ * returned by this function are:
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @note Using this function with a null pointer for @p name is equivalent to
+ * unsetting the value of the "name" attribute.
+ * 
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+int
+ModifierSpeciesReference_setSpecies(ModifierSpeciesReference_t * msr, const char * species);
+
+
+/**
+ * Unsets the value of the "id" attribute of the given 
+ *ModifierSpeciesReference_t structure.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif@~ The possible values
+ * returned by this function are:
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+int
+ModifierSpeciesReference_unsetId(ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Unsets the value of the "name" attribute of the given 
+ *ModifierSpeciesReference_t structure.
+ *
+ * @param msr the ModifierSpeciesReference_t structure.
+ *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif@~ The possible values
+ * returned by this function are:
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+int
+ModifierSpeciesReference_unsetName(ModifierSpeciesReference_t * msr);
+
+
+/**
+ * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * attributes of the given ModifierSpeciesReference_t structure have been set.
+ *
+ * @param msr the ModifierSpeciesReference_t structure to check.
+ *
+ * @return @c 1 if all the required attributes for this
+ * structure have been defined, @c 0 otherwise.
+ *
+ * @member of ModifierSpeciesReference_t
+ */
+LIBSBML_EXTERN
+int
+ModifierSpeciesReference_hasRequiredAttributes(const ModifierSpeciesReference_t * msr);
+
+
+
 
 END_C_DECLS
 LIBSBML_CPP_NAMESPACE_END

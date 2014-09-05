@@ -6,10 +6,10 @@
 #ifdef USE_REQUIREDELEMENTS
 %pragma(java) modulecode =
 %{
-	
-	if (ns.hasURI(RequiredElementsExtension.getXmlnsL3V1V1()))
-	{
-		return new RequiredElementsPkgNamespaces(cPtr, owner);
-	}
-	%}
-#endif /* USE_REQUIREDELEMENTS*/
+  if (ns.hasURI(ReqExtension.getXmlnsL3V1V1()))
+  {
+    return new ReqPkgNamespaces(cPtr, owner);
+  }
+%}
+#endif /* USE_REQUIREDELEMENTS */
+

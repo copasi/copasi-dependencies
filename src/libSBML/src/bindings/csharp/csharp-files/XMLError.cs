@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Representation of errors, warnings and other diagnostics
+@htmlinclude pkg-marker-core.html XML-level errors, warnings and other diagnostics.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -63,8 +63,8 @@ namespace libsbmlcs {
  * @if clike the enumeration <a class='el' href='#XMLErrorSeverity_t'>XMLErrorSeverity_t</a>@else a
  * set of constants whose names begin with the characters @c LIBSBML_SEV_@endif,
  * described below. Severity levels range from informational
- * (@link libsbmlcs.libsbml.LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink) to
- * fatal errors (@link libsbmlcs.libsbml.LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
+ * (@link libsbmlcs#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink) to
+ * fatal errors (@link libsbmlcs#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
  *
  * Finally, XMLError objects record the line and column near where the
  * problem occurred in the XML content.  The values can be retrieved using
@@ -111,7 +111,8 @@ namespace libsbmlcs {
  * constants defined in the interface class @link libsbmlcs.libsbml@endlink.@endif
  *
  * <center>
- * <table cellspacing='1' cellpadding='1' border='0' class='text-table width80 normal-font alt-row-colors'>
+ * <table cellspacing='1' cellpadding='1' border='0' width='95%'
+          class='text-table normal-font alt-row-colors'>
  * <caption>Possible XMLError error codes.  Depending on the programming
  * language in use, the <em>Enumerator</em> values will be defined either
  * as a value from the enumeration XMLErrorCode_t or as integer constants.
@@ -122,55 +123,55 @@ namespace libsbmlcs {
  * shown in the two right-hand columns.
  * </caption>
  *  <tr style='background: lightgray' class='normal-font'>
- *      <th>Enumerator</th>
+ *      <th style='text-align: left'>Enumerator</th>
  *      <th>Meaning</th>
- *      <th width='90'>Category</th>
- *      <th width='90'>Severity</th>
+ *      <th width='90' style='text-align: left'>Category</th>
+ *      <th width='90' style='text-align: left'>Severity</th>
  *  </tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLUnknownError XMLUnknownError@endlink</td><td>Unrecognized error encountered internally</td><td>INTERNAL</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLOutOfMemory XMLOutOfMemory@endlink</td> <td>Out of memory</td><td>SYSTEM</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLFileUnreadable XMLFileUnreadable@endlink</td> <td>File unreadable</td><td>SYSTEM</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLFileUnwritable XMLFileUnwritable@endlink</td> <td>File unwritable</td><td>SYSTEM</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLFileOperationError XMLFileOperationError@endlink</td><td>Error encountered while attempting file operation</td><td>SYSTEM</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLNetworkAccessError XMLNetworkAccessError@endlink</td><td>Network access error</td><td>SYSTEM</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.InternalXMLParserError InternalXMLParserError@endlink</td><td>Internal XML parser state error</td><td>INTERNAL</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.UnrecognizedXMLParserCode UnrecognizedXMLParserCode@endlink</td><td>XML parser returned an unrecognized error code</td><td>INTERNAL</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLTranscoderError XMLTranscoderError@endlink</td><td>Character transcoder error</td><td>INTERNAL</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.MissingXMLDecl MissingXMLDecl@endlink</td><td>Missing XML declaration at beginning of XML input</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.MissingXMLEncoding MissingXMLEncoding@endlink</td><td>Missing encoding attribute in XML declaration</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLDecl BadXMLDecl@endlink</td><td>Invalid or unrecognized XML declaration or XML encoding</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLDOCTYPE BadXMLDOCTYPE@endlink</td><td>Invalid, malformed or unrecognized XML DOCTYPE declaration</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.InvalidCharInXML InvalidCharInXML@endlink</td><td>Invalid character in XML content</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadlyFormedXML BadlyFormedXML@endlink</td><td>XML content is not well-formed</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.UnclosedXMLToken UnclosedXMLToken@endlink</td><td>Unclosed XML token</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.InvalidXMLConstruct InvalidXMLConstruct@endlink</td><td>XML construct is invalid or not permitted</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLTagMismatch XMLTagMismatch@endlink</td><td>Element tag mismatch or missing tag</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.DuplicateXMLAttribute DuplicateXMLAttribute@endlink</td><td>Duplicate XML attribute</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.UndefinedXMLEntity UndefinedXMLEntity@endlink</td><td>Undefined XML entity</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadProcessingInstruction BadProcessingInstruction@endlink</td><td>Invalid, malformed or unrecognized XML processing instruction</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLPrefix BadXMLPrefix@endlink</td><td>Invalid or undefined XML namespace prefix</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLPrefixValue BadXMLPrefixValue@endlink</td><td>Invalid XML namespace prefix value</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.MissingXMLRequiredAttribute MissingXMLRequiredAttribute@endlink</td><td>Missing a required XML attribute</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLAttributeTypeMismatch XMLAttributeTypeMismatch@endlink</td><td>Data type mismatch for the value of an attribute</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLBadUTF8Content XMLBadUTF8Content@endlink</td><td>Invalid UTF8 content</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.MissingXMLAttributeValue MissingXMLAttributeValue@endlink</td><td>Missing or improperly formed attribute value</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLAttributeValue BadXMLAttributeValue@endlink</td><td>Invalid or unrecognizable attribute value</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLAttribute BadXMLAttribute@endlink</td><td>Invalid, unrecognized or malformed attribute</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.UnrecognizedXMLElement UnrecognizedXMLElement@endlink</td><td>Element either not recognized or not permitted</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLComment BadXMLComment@endlink</td><td>Badly formed XML comment</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLDeclLocation BadXMLDeclLocation@endlink</td><td>XML declaration not permitted in this location</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLUnexpectedEOF XMLUnexpectedEOF@endlink</td><td>Reached end of input unexpectedly</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLIDValue BadXMLIDValue@endlink</td><td>Value is invalid for XML ID, or has already been used</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLIDRef BadXMLIDRef@endlink</td><td>XML ID value was never declared</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.UninterpretableXMLContent UninterpretableXMLContent@endlink</td><td>Unable to interpret content</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.BadXMLDocumentStructure BadXMLDocumentStructure@endlink</td><td>Bad XML document structure</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.InvalidAfterXMLContent InvalidAfterXMLContent@endlink</td><td>Encountered invalid content after expected content</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLExpectedQuotedString XMLExpectedQuotedString@endlink</td><td>Expected to find a quoted string</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLEmptyValueNotPermitted XMLEmptyValueNotPermitted@endlink</td><td>An empty value is not permitted in this context</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLBadNumber XMLBadNumber@endlink</td><td>Invalid or unrecognized number</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLBadColon XMLBadColon@endlink</td><td>Colon characters are invalid in this context</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.MissingXMLElements MissingXMLElements@endlink</td><td>One or more expected elements are missing</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.XMLContentEmpty XMLContentEmpty@endlink</td><td>Main XML content is empty</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLUnknownError XMLUnknownError@endlink</td><td>Unrecognized error encountered internally</td><td>INTERNAL</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbmlcs#XMLOutOfMemory XMLOutOfMemory@endlink</td> <td>Out of memory</td><td>SYSTEM</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbmlcs#XMLFileUnreadable XMLFileUnreadable@endlink</td> <td>File unreadable</td><td>SYSTEM</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLFileUnwritable XMLFileUnwritable@endlink</td> <td>File unwritable</td><td>SYSTEM</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLFileOperationError XMLFileOperationError@endlink</td><td>Error encountered while attempting file operation</td><td>SYSTEM</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLNetworkAccessError XMLNetworkAccessError@endlink</td><td>Network access error</td><td>SYSTEM</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#InternalXMLParserError InternalXMLParserError@endlink</td><td>Internal XML parser state error</td><td>INTERNAL</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbmlcs#UnrecognizedXMLParserCode UnrecognizedXMLParserCode@endlink</td><td>XML parser returned an unrecognized error code</td><td>INTERNAL</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbmlcs#XMLTranscoderError XMLTranscoderError@endlink</td><td>Character transcoder error</td><td>INTERNAL</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbmlcs#MissingXMLDecl MissingXMLDecl@endlink</td><td>Missing XML declaration at beginning of XML input</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#MissingXMLEncoding MissingXMLEncoding@endlink</td><td>Missing encoding attribute in XML declaration</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLDecl BadXMLDecl@endlink</td><td>Invalid or unrecognized XML declaration or XML encoding</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLDOCTYPE BadXMLDOCTYPE@endlink</td><td>Invalid, malformed or unrecognized XML DOCTYPE declaration</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#InvalidCharInXML InvalidCharInXML@endlink</td><td>Invalid character in XML content</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadlyFormedXML BadlyFormedXML@endlink</td><td>XML content is not well-formed</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#UnclosedXMLToken UnclosedXMLToken@endlink</td><td>Unclosed XML token</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#InvalidXMLConstruct InvalidXMLConstruct@endlink</td><td>XML construct is invalid or not permitted</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLTagMismatch XMLTagMismatch@endlink</td><td>Element tag mismatch or missing tag</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#DuplicateXMLAttribute DuplicateXMLAttribute@endlink</td><td>Duplicate XML attribute</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#UndefinedXMLEntity UndefinedXMLEntity@endlink</td><td>Undefined XML entity</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadProcessingInstruction BadProcessingInstruction@endlink</td><td>Invalid, malformed or unrecognized XML processing instruction</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLPrefix BadXMLPrefix@endlink</td><td>Invalid or undefined XML namespace prefix</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLPrefixValue BadXMLPrefixValue@endlink</td><td>Invalid XML namespace prefix value</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#MissingXMLRequiredAttribute MissingXMLRequiredAttribute@endlink</td><td>Missing a required XML attribute</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLAttributeTypeMismatch XMLAttributeTypeMismatch@endlink</td><td>Data type mismatch for the value of an attribute</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLBadUTF8Content XMLBadUTF8Content@endlink</td><td>Invalid UTF8 content</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#MissingXMLAttributeValue MissingXMLAttributeValue@endlink</td><td>Missing or improperly formed attribute value</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLAttributeValue BadXMLAttributeValue@endlink</td><td>Invalid or unrecognizable attribute value</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLAttribute BadXMLAttribute@endlink</td><td>Invalid, unrecognized or malformed attribute</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#UnrecognizedXMLElement UnrecognizedXMLElement@endlink</td><td>Element either not recognized or not permitted</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLComment BadXMLComment@endlink</td><td>Badly formed XML comment</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLDeclLocation BadXMLDeclLocation@endlink</td><td>XML declaration not permitted in this location</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLUnexpectedEOF XMLUnexpectedEOF@endlink</td><td>Reached end of input unexpectedly</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLIDValue BadXMLIDValue@endlink</td><td>Value is invalid for XML ID, or has already been used</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLIDRef BadXMLIDRef@endlink</td><td>XML ID value was never declared</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#UninterpretableXMLContent UninterpretableXMLContent@endlink</td><td>Unable to interpret content</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#BadXMLDocumentStructure BadXMLDocumentStructure@endlink</td><td>Bad XML document structure</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#InvalidAfterXMLContent InvalidAfterXMLContent@endlink</td><td>Encountered invalid content after expected content</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLExpectedQuotedString XMLExpectedQuotedString@endlink</td><td>Expected to find a quoted string</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLEmptyValueNotPermitted XMLEmptyValueNotPermitted@endlink</td><td>An empty value is not permitted in this context</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLBadNumber XMLBadNumber@endlink</td><td>Invalid or unrecognized number</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLBadColon XMLBadColon@endlink</td><td>Colon characters are invalid in this context</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#MissingXMLElements MissingXMLElements@endlink</td><td>One or more expected elements are missing</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbmlcs#XMLContentEmpty XMLContentEmpty@endlink</td><td>Main XML content is empty</td><td>XML</td><td>ERROR</td></tr>
  * </table>
  * </center>
  *
@@ -214,22 +215,23 @@ namespace libsbmlcs {
  * class @link libsbmlcs.libsbml@endlink. @endif
  *
  * <center>
- * <table width='90%' cellspacing='1' cellpadding='1' border='0' class='text-table width80 normal-font alt-row-colors'>
+ * <table width='95%' cellspacing='1' cellpadding='1' border='0'
+ *        class='text-table normal-font alt-row-colors'>
  *  <tr style='background: lightgray' class='normal-font'>
- *      <th>Enumerator</th>
+ *      <th style='text-align: left'>Enumerator</th>
  *      <th>Meaning</th>
  *  </tr>
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink</td>
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink</td>
  * <td>A problem involving the libSBML
  * software itself or the underlying XML parser.  This almost certainly
  * indicates a software defect (i.e., bug) in libSBML.  Please report
  * instances of this to the libSBML developers.</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM@endlink</td>
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM@endlink</td>
  * <td>A problem reported by the operating
  * system, such as an inability to read or write a file.  This indicates
  * something that is not a program error but is outside of the control of
  * libSBML.</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_CAT_XML LIBSBML_CAT_XML@endlink</td>
+ * <tr><td>@link libsbmlcs#LIBSBML_CAT_XML LIBSBML_CAT_XML@endlink</td>
  * <td>A problem in the XML content itself.  This
  * usually arises from malformed XML or the use of
  * constructs not permitted in SBML.</td></tr>
@@ -280,24 +282,25 @@ namespace libsbmlcs {
  * @link libsbmlcs.libsbml@endlink.@endif
  *
  * <center>
- * <table width='90%' cellspacing='1' cellpadding='1' border='0' class='text-table width80 normal-font alt-row-colors'>
+ * <table width='95%' cellspacing='1' cellpadding='1' border='0'
+ *        class='text-table normal-font alt-row-colors'>
  *  <tr style='background: lightgray' class='normal-font'>
- *      <th>Enumerator</th>
+ *      <th style='text-align: left'>Enumerator</th>
  *      <th>Meaning</th>
  *  </tr>
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink</td>
+ * <tr><td>@link libsbmlcs#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink</td>
  * <td>The error is actually informational and
  * not necessarily a serious problem.</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_SEV_WARNING LIBSBML_SEV_WARNING@endlink</td>
+ * <tr><td>@link libsbmlcs#LIBSBML_SEV_WARNING LIBSBML_SEV_WARNING@endlink</td>
  * <td>The error object represents a problem
  * that is not serious enough to necessarily stop the problem, but
  * applications should take note of the problem and evaluate what its
  * implications may be.</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_SEV_ERROR LIBSBML_SEV_ERROR@endlink</td>
+ * <tr><td>@link libsbmlcs#LIBSBML_SEV_ERROR LIBSBML_SEV_ERROR@endlink</td>
  * <td>The error object represents a serious
  * error.  The application may continue running but it is unlikely to be
  * able to continue processing the same XML file or data stream.</td></tr>
- * <tr><td>@link libsbmlcs.libsbml.LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink</td>
+ * <tr><td>@link libsbmlcs#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink</td>
  * <td>A serious error occurred, such as an
  * out-of-memory condition, and the software should terminate
  * immediately.</td></tr>
@@ -473,7 +476,7 @@ public class XMLError : IDisposable {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLError(int errorId, string details, long line, long column, long severity, long category) : this(libsbmlPINVOKE.new_XMLError__SWIG_0(errorId, details, line, column, severity, category), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -567,7 +570,7 @@ public class XMLError : IDisposable {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLError(int errorId, string details, long line, long column, long severity) : this(libsbmlPINVOKE.new_XMLError__SWIG_1(errorId, details, line, column, severity), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -661,7 +664,7 @@ public class XMLError : IDisposable {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLError(int errorId, string details, long line, long column) : this(libsbmlPINVOKE.new_XMLError__SWIG_2(errorId, details, line, column), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -755,7 +758,7 @@ public class XMLError : IDisposable {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLError(int errorId, string details, long line) : this(libsbmlPINVOKE.new_XMLError__SWIG_3(errorId, details, line), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -849,7 +852,7 @@ public class XMLError : IDisposable {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLError(int errorId, string details) : this(libsbmlPINVOKE.new_XMLError__SWIG_4(errorId, details), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -943,7 +946,7 @@ public class XMLError : IDisposable {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLError(int errorId) : this(libsbmlPINVOKE.new_XMLError__SWIG_5(errorId), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -1037,7 +1040,7 @@ public class XMLError : IDisposable {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLError() : this(libsbmlPINVOKE.new_XMLError__SWIG_6(), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -1049,7 +1052,7 @@ public class XMLError : IDisposable {
    *
    * @p orig the XMLError object to copy.
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  XMLError(XMLError orig) : this(libsbmlPINVOKE.new_XMLError__SWIG_7(XMLError.getCPtr(orig)), true) {
@@ -1252,7 +1255,7 @@ public class XMLError : IDisposable {
    *
    * This is equivalent to obtaining the severity code from an XMLError
    * object (via XMLError::getSeverity()) and then comparing it to the
-   * value @link libsbmlcs.libsbml.LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink from the
+   * value @link libsbmlcs#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink from the
    * @if clike enumeration #XMLErrorSeverity_t. @else set of predefined
    * severity codes.@endif
    *
@@ -1275,7 +1278,7 @@ public class XMLError : IDisposable {
    *
    * This is equivalent to obtaining the severity code from an XMLError
    * object (via XMLError::getSeverity()) and then comparing it to the
-   * value @link libsbmlcs.libsbml.LIBSBML_SEV_WARNING LIBSBML_SEV_WARNING@endlink from the
+   * value @link libsbmlcs#LIBSBML_SEV_WARNING LIBSBML_SEV_WARNING@endlink from the
    * @if clike enumeration #XMLErrorSeverity_t. @else set of predefined
    * severity codes.@endif
    *
@@ -1297,7 +1300,7 @@ public class XMLError : IDisposable {
    *
    * This is equivalent to obtaining the severity code from an XMLError
    * object (via XMLError::getSeverity()) and then comparing it to the
-   * value @link libsbmlcs.libsbml.LIBSBML_SEV_ERROR LIBSBML_SEV_ERROR@endlink from the
+   * value @link libsbmlcs#LIBSBML_SEV_ERROR LIBSBML_SEV_ERROR@endlink from the
    * @if clike enumeration #XMLErrorSeverity_t. @else set of predefined
    * severity codes.@endif
    *
@@ -1319,7 +1322,7 @@ public class XMLError : IDisposable {
    *
    * This is equivalent to obtaining the severity code from an XMLError
    * object (via XMLError::getSeverity()) and then comparing it to the
-   * value @link libsbmlcs.libsbml.LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink from the
+   * value @link libsbmlcs#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink from the
    * @if clike enumeration #XMLErrorSeverity_t. @else set of predefined severity codes.@endif
    *
    * @return @c true if this error is a fatal error, @c false otherwise.
@@ -1340,7 +1343,7 @@ public class XMLError : IDisposable {
    *
    * This is equivalent to obtaining the category identifier from an
    * XMLError object (via XMLError::getCategory()) and then comparing it to
-   * the value @link libsbmlcs.libsbml.LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink from the
+   * the value @link libsbmlcs#LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink from the
    * @if clike enumeration #XMLErrorCategory_t. @else set of predefined category codes.@endif
    *
    * @return @c true or @c false
@@ -1360,7 +1363,7 @@ public class XMLError : IDisposable {
    *
    * This is equivalent to obtaining the category identifier from an
    * XMLError object (via XMLError::getCategory()) and then comparing it to
-   * the value @link libsbmlcs.libsbml.LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM@endlink from the
+   * the value @link libsbmlcs#LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM@endlink from the
    * @if clike enumeration #XMLErrorCategory_t. @else set of predefined category codes.@endif
    *
    * @return @c true or @c false
@@ -1381,7 +1384,7 @@ public class XMLError : IDisposable {
    *
    * This is equivalent to obtaining the category identifier from an
    * XMLError object (via XMLError::getCategory()) and then comparing it to
-   * the value @link libsbmlcs.libsbml.LIBSBML_CAT_XML LIBSBML_CAT_XML@endlink from the
+   * the value @link libsbmlcs#LIBSBML_CAT_XML LIBSBML_CAT_XML@endlink from the
    * @if clike enumeration #XMLErrorCategory_t. @else set of predefined category codes.@endif
    *
    * @return @c true or @c false
@@ -1421,7 +1424,7 @@ public class XMLError : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setColumn(long column)
    */ public
@@ -1439,7 +1442,7 @@ public class XMLError : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setLine(long line)
    */ public
@@ -1491,7 +1494,7 @@ public class XMLError : IDisposable {
    *
    * In the SBML Level&nbsp;3 package specifications, package validation
    * rules are identified by 5-digit numbers prefixed with the nickname of
-   * the package itself&mdash;e.g., &ldquo;comp-10101&rdquo;,
+   * the package itself---e.g., &ldquo;comp-10101&rdquo;,
    * &ldquo;fbc-20301&rdquo;, etc.  Historically, libSBML reported error
    * codes as pure integers, and some application software systems make
    * decisions based on the numerical values of the error codes.  To permit

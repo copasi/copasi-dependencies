@@ -31,7 +31,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class XMLTriple
- * @sbmlbrief{core} Representation of a qualified XML name.
+ * @sbmlbrief{core} A qualified XML name.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -95,7 +95,7 @@ public:
    * @param uri a string, URI of the XMLTriple.
    * @param prefix a string, prefix for the URI of the XMLTriple,
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif@~
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   XMLTriple (  const std::string&  name
@@ -116,20 +116,20 @@ public:
    * @param triplet a string representing the triplet as above
    * @param sepchar a character, the sepchar used in the triplet
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif@~
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   XMLTriple (const std::string& triplet, const char sepchar = ' ');
 
-  
+
   /**
    * Copy constructor; creates a copy of this XMLTriple set.
    *
    * @param orig the XMLTriple object to copy.
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif@~
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   XMLTriple(const XMLTriple& orig);
@@ -141,16 +141,16 @@ public:
    * @param rhs The XMLTriple object whose values are used as the basis
    * of the assignment.
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif@~
+   * @throws XMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   XMLTriple& operator=(const XMLTriple& rhs);
 
 
   /**
-   * Creates and returns a deep copy of this XMLTriple set.
-   * 
-   * @return a (deep) copy of this XMLTriple set.
+   * Creates and returns a deep copy of this XMLTriple object.
+   *
+   * @return the (deep) copy of this XMLTriple object.
    */
   XMLTriple* clone () const;
 

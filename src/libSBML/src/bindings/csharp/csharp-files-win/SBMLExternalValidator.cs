@@ -80,10 +80,10 @@ public class SBMLExternalValidator : SBMLValidator {
 
   
 /**
-   * Creates and returns a deep copy of this converter.
-   * 
-   * @return a (deep) copy of this converter.
-   */ /* libsbml-internal */ public
+   * Creates and returns a deep copy of this SBMLValidator object.
+   *
+   * @return the (deep) copy of this SBMLValidator object.
+   */ /* libsbml-internal */ public new
  SBMLValidator clone() {
     IntPtr cPtr = libsbmlPINVOKE.SBMLExternalValidator_clone(swigCPtr);
     SBMLValidator ret = (cPtr == IntPtr.Zero) ? null : new SBMLValidator(cPtr, true);
@@ -95,7 +95,7 @@ public class SBMLExternalValidator : SBMLValidator {
    * the actual conversion 
    * 
    * @return status code represeting success/failure/conversion impossible
-   */ /* libsbml-internal */ public
+   */ /* libsbml-internal */ public new
  long validate() { return (long)libsbmlPINVOKE.SBMLExternalValidator_validate(swigCPtr); }
 
   

@@ -20,31 +20,96 @@ the implementation of extra functionality provided by libSBML.
  <p>
  * The {@link SBMLConverter} class is the base class for the various SBML 
  * <em>converters</em>: classes of objects that transform or convert SBML documents.
- * These transformations can involve essentially anything that can be
- * written algorithmically; examples include converting the units of
- * measurement in a model, or converting from one Level+Version combination
- * of SBML to another.
+ * These transformations can involve essentially anything that can be written
+ * algorithmically; examples include converting the units of measurement in a
+ * model, or converting from one Level+Version combination of SBML to
+ * another.  Applications can also create their own converters by subclassing
+ * {@link SBMLConverter} and following the examples of the existing converters.
  <p>
- * LibSBML provides a number of built-in converters, and applications can
- * create their own by subclassing {@link SBMLConverter} and following the examples
- * of the existing converters.  The following are the built-in converters
- * in libSBML 5.10.0
-:
- * <ul>
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul> <p>
- * Many converters provide the ability to configure their behavior to some
- * extent.  This is realized through the use of <em>properties</em> that offer
- * different <em>options</em>.  Two related classes implement these features:
- * {@link ConversionProperties} and ConversionOptions.  The default property values
+ * <p>
+ * <h2>General information about the use of SBML converters</h2>
+ <p>
+ * The use of all the converters follows a similar approach.  First, one
+ * creates a {@link ConversionProperties} object and calls
+ * {@link ConversionProperties#addOption(ConversionOption)}
+ * on this object with one arguments: a text string that identifies the desired
+ * converter.  (The text string is specific to each converter; consult the
+ * documentation for a given converter to find out how it should be enabled.)
+ <p>
+ * Next, for some converters, the caller can optionally set some
+ * converter-specific properties using additional calls to
+ * {@link ConversionProperties#addOption(ConversionOption)}.
+ * Many converters provide the ability to
+ * configure their behavior to some extent; this is realized through the use
+ * of properties that offer different options.  The default property values
  * for each converter can be interrogated using the method
- * {@link SBMLConverter#getDefaultProperties()} on the converter class.
+ * {@link SBMLConverter#getDefaultProperties()} on the converter class in question .
+ <p>
+ * Finally, the caller should invoke the method
+ * {@link SBMLDocument#convert(ConversionProperties)}
+ * with the {@link ConversionProperties} object as an argument.
+ <p>
+ * <h3>Example of invoking an SBML converter</h3>
+ <p>
+ * The following code fragment illustrates an example using
+ * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * <code>'replaceReactions':</code>
+ <p>
+<pre class='fragment'>
+{@link ConversionProperties} props = new {@link ConversionProperties}();
+if (props != null) {
+  props.addOption('replaceReactions');
+} else {
+  // Deal with error.
+}
+</pre>
+<p>
+ * In the case of {@link SBMLReactionConverter}, there are no options to affect
+ * its behavior, so the next step is simply to invoke the converter on
+ * an {@link SBMLDocument} object.  Continuing the example code:
+ <p>
+<pre class='fragment'>
+  // Assume that the variable 'document' has been set to an {@link SBMLDocument} object.
+  status = document.convert(config);
+  if (status != libsbml.LIBSBML_OPERATION_SUCCESS)
+  {
+    // Handle error somehow.
+    System.out.println('Error: conversion failed due to the following:');
+    document.printErrors();
+  }
+</pre>
+<p>
+ * Here is an example of using a converter that offers an option. The
+ * following code invokes {@link SBMLStripPackageConverter} to remove the
+ * SBML Level&nbsp;3 <em>%Layout</em> package from a model.  It sets the name
+ * of the package to be removed by adding a value for the option named
+ * <code>'package'</code> defined by that converter:
+ <p>
+<pre class='fragment'>
+{@link ConversionProperties} config = new {@link ConversionProperties}();
+if (config != None) {
+  config.addOption('stripPackage');
+  config.addOption('package', 'layout');
+  status = document.convert(config);
+  if (status != LIBSBML_OPERATION_SUCCESS) {
+    // Handle error somehow.
+    System.out.println('Error: unable to strip the Layout package');
+    document.printErrors();
+  }
+} else {
+  // Handle error somehow.
+  System.out.println('Error: unable to create {@link ConversionProperties} object');
+}
+</pre>
+<p>
+ * <h3>Available SBML converters in libSBML</h3>
+ <p>
+ * LibSBML provides a number of built-in converters; by convention, their
+ * names end in <em>Converter</em>. The following are the built-in converters
+ * provided by libSBML 5.10.2
+:
+ <p>
+ * @copydetails doc_list_of_libsbml_converters
  */
 
 public class SBMLConverter {
@@ -115,15 +180,26 @@ public class SBMLConverter {
 
   
 /**
+   * Creates a new {@link SBMLConverter} object with a given name.
+   <p>
+   * @param name the name for the converter to create
+   */ public
+ SBMLConverter(String name) {
+    this(libsbmlJNI.new_SBMLConverter__SWIG_1(name), true);
+    libsbmlJNI.SBMLConverter_director_connect(this, swigCPtr, swigCMemOwn, true);
+  }
+
+  
+/**
    * Copy constructor; creates a copy of an {@link SBMLConverter} object.
    <p>
    * @param c the {@link SBMLConverter} object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  SBMLConverter(SBMLConverter c) {
-    this(libsbmlJNI.new_SBMLConverter__SWIG_1(SBMLConverter.getCPtr(c), c), true);
+    this(libsbmlJNI.new_SBMLConverter__SWIG_2(SBMLConverter.getCPtr(c), c), true);
     libsbmlJNI.SBMLConverter_director_connect(this, swigCPtr, swigCMemOwn, true);
   }
 
@@ -131,12 +207,11 @@ public class SBMLConverter {
 /**
    * Creates and returns a deep copy of this {@link SBMLConverter} object.
    <p>
-   * @return a (deep) copy of this {@link SBMLConverter} object.
+   * @return the (deep) copy of this {@link SBMLConverter} object.
    */ public
  SBMLConverter cloneObject() {
-    long cPtr = (getClass() == SBMLConverter.class) ? libsbmlJNI.SBMLConverter_cloneObject(swigCPtr, this) : libsbmlJNI.SBMLConverter_cloneObjectSwigExplicitSBMLConverter(swigCPtr, this);
-    return (cPtr == 0) ? null : new SBMLConverter(cPtr, true);
-  }
+	return libsbml.DowncastSBMLConverter((getClass() == SBMLConverter.class) ? libsbmlJNI.SBMLConverter_cloneObject(swigCPtr, this) : libsbmlJNI.SBMLConverter_cloneObjectSwigExplicitSBMLConverter(swigCPtr, this), true);
+}
 
   
 /**
@@ -163,8 +238,8 @@ public class SBMLConverter {
    <p>
    * @return the default properties for the converter.
    <p>
-   * @see #setProperties(ConversionProperties props)
-   * @see #matchesProperties(ConversionProperties props)
+   * @see #setProperties(ConversionProperties)
+   * @see #matchesProperties(ConversionProperties)
    */ public
  ConversionProperties getDefaultProperties() {
     return new ConversionProperties((getClass() == SBMLConverter.class) ? libsbmlJNI.SBMLConverter_getDefaultProperties(swigCPtr, this) : libsbmlJNI.SBMLConverter_getDefaultPropertiesSwigExplicitSBMLConverter(swigCPtr, this), true);
@@ -209,31 +284,22 @@ public class SBMLConverter {
    <p>
    * @param doc the document to use for this conversion.
    <p>
-   * @warning Even though the <code>doc</code> is 'const', it is immediately cast 
-   * to a non-const version, which is then usually changed by the 
-   * converter upon a successful conversion.  This function is here 
-   * solely to preserve backwards compatibility.
-   <p>
    * @return integer value indicating the success/failure of the operation.
    *  The set of possible values that may
    * be returned ultimately depends on the specific subclass of
    * {@link SBMLConverter} being used, but the default method can return the
    * following values:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setDocument(SBMLDocument doc) {
-    return (getClass() == SBMLConverter.class) ? libsbmlJNI.SBMLConverter_setDocument__SWIG_0(swigCPtr, this, SBMLDocument.getCPtr(doc), doc) : libsbmlJNI.SBMLConverter_setDocumentSwigExplicitSBMLConverter__SWIG_0(swigCPtr, this, SBMLDocument.getCPtr(doc), doc);
+    return (getClass() == SBMLConverter.class) ? libsbmlJNI.SBMLConverter_setDocument(swigCPtr, this, SBMLDocument.getCPtr(doc), doc) : libsbmlJNI.SBMLConverter_setDocumentSwigExplicitSBMLConverter(swigCPtr, this, SBMLDocument.getCPtr(doc), doc);
   }
 
   
 /**
    * Sets the configuration properties to be used by this converter.
-   <p>
-   * A given converter exposes one or more properties that can be adjusted
-   * in order to influence the behavior of the converter.  This method sets
-   * the current properties for this converter.
    <p>
    * @param props the {@link ConversionProperties} object defining the properties
    * to set.
@@ -244,12 +310,12 @@ public class SBMLConverter {
    * {@link SBMLConverter} being used, but the default method can return the
    * following values:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #getProperties()
-   * @see #matchesProperties(ConversionProperties props)
+   * @see #matchesProperties(ConversionProperties)
    */ public
  int setProperties(ConversionProperties props) {
     return (getClass() == SBMLConverter.class) ? libsbmlJNI.SBMLConverter_setProperties(swigCPtr, this, ConversionProperties.getCPtr(props), props) : libsbmlJNI.SBMLConverter_setPropertiesSwigExplicitSBMLConverter(swigCPtr, this, ConversionProperties.getCPtr(props), props);
@@ -267,8 +333,8 @@ public class SBMLConverter {
    <p>
    * @return the currently set configuration properties.
    <p>
-   * @see #setProperties(ConversionProperties props)
-   * @see #matchesProperties(ConversionProperties props)
+   * @see #setProperties(ConversionProperties)
+   * @see #matchesProperties(ConversionProperties)
    */ public
  ConversionProperties getProperties() {
     long cPtr = (getClass() == SBMLConverter.class) ? libsbmlJNI.SBMLConverter_getProperties(swigCPtr, this) : libsbmlJNI.SBMLConverter_getPropertiesSwigExplicitSBMLConverter(swigCPtr, this);
@@ -281,9 +347,9 @@ public class SBMLConverter {
    <p>
    * This method causes the converter to do the actual conversion work,
    * that is, to convert the {@link SBMLDocument} object set by
-   * {@link SBMLConverter#setDocument(SBMLDocument doc)} and
+   * {@link SBMLConverter#setDocument(SBMLDocument)} and
    * with the configuration options set by
-   * {@link SBMLConverter#setProperties(ConversionProperties props)}.
+   * {@link SBMLConverter#setProperties(ConversionProperties)}.
    <p>
    * @return  integer value indicating the success/failure of the operation.
    *  The set of possible values that may
@@ -293,6 +359,16 @@ public class SBMLConverter {
    */ public
  int convert() {
     return (getClass() == SBMLConverter.class) ? libsbmlJNI.SBMLConverter_convert(swigCPtr, this) : libsbmlJNI.SBMLConverter_convertSwigExplicitSBMLConverter(swigCPtr, this);
+  }
+
+  
+/**  
+   * Returns the name of this converter. 
+   <p>
+   * @return a name for this converter
+   */ public
+ String getName() {
+    return libsbmlJNI.SBMLConverter_getName(swigCPtr, this);
   }
 
 }

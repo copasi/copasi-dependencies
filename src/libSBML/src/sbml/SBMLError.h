@@ -32,7 +32,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLError
- * @sbmlbrief{core} Representation of errors, warnings and other diagnostics
+ * @sbmlbrief{core} An error, warning or other diagnostic.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -55,7 +55,7 @@
  * to five digits long, and it will be listed in one of two enumerations:
  * <a class="el" href="#SBMLErrorCode_t"> SBMLErrorCode_t</a> (described <a
  * class="el" href="#SBMLErrorCode_t"> below</a>) or @link
- * XMLError::XMLErrorCode_t XMLErrorCode_t @endlink (described in the
+ * XMLError::XMLErrorCode_t XMLErrorCode_t@endlink (described in the
  * documentation for the class XMLError).  The former enumeration contains
  * all the SBML validation rule numbers listed in the appendices of the
  * SBML specification documents, as well as some additional
@@ -105,9 +105,9 @@
  * Categories are used to partition errors into distinct conceptual groups.
  * This is principally used by the libSBML validation system to group
  * classes of validation checks.  For example, 
- * @link SBMLErrorCategory_t#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
+ * @sbmlconstant{LIBSBML_CAT_IDENTIFIER_CONSISTENCY, SBMLErrorCategory_t}
  * is the category for tests that check identifier consistency;
- * @link SBMLErrorCategory_t#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
+ * @sbmlconstant{LIBSBML_CAT_MATHML_CONSISTENCY, SBMLErrorCategory_t}
  * is the category for MathML consistency checking; and
  * so on.
  * @endif@if java
@@ -120,9 +120,9 @@
  * separate section below.  Categories are used to partition errors into
  * distinct conceptual groups.  This is principally used by the libSBML
  * validation system to group classes of validation checks.  For example,
- * @link SBMLErrorCategory_t#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
+ * @sbmlconstant{LIBSBML_CAT_IDENTIFIER_CONSISTENCY, SBMLErrorCategory_t}
  * is the category for tests that check identifier consistency;
- * @link SBMLErrorCategory_t#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
+ * @sbmlconstant{LIBSBML_CAT_MATHML_CONSISTENCY, SBMLErrorCategory_t}
  * is the category for MathML consistency checking; and
  * so on.
  * @endif@if python
@@ -134,9 +134,9 @@
  * separate section below.  Categories are used to partition errors into
  * distinct conceptual groups.  This is principally used by the libSBML
  * validation system to group classes of validation checks.  For example,
- * @link SBMLErrorCategory_t#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
+ * @sbmlconstant{LIBSBML_CAT_IDENTIFIER_CONSISTENCY, SBMLErrorCategory_t}
  * is the category for tests that check identifier consistency;
- * @link SBMLErrorCategory_t#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
+ * @sbmlconstant{LIBSBML_CAT_MATHML_CONSISTENCY, SBMLErrorCategory_t}
  * is the category for MathML consistency checking; and
  * so on.
  * @endif@~
@@ -145,12 +145,23 @@
  * retrieved using the method SBMLError::getSeverity().  The possible
  * severity values are the same as those reported by @if clike XMLError.@endif@if python XMLError.@endif@if java <code><a href="XMLError.html">XMLError</a></code>.@endif@~ 
  * Severity levels currently range from informational
- * (@link XMLErrorSeverity_t#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink)
+ * (@sbmlconstant{LIBSBML_SEV_INFO, XMLErrorSeverity_t})
  * to fatal errors
- * (@link XMLErrorSeverity_t#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
+ * (@sbmlconstant{LIBSBML_SEV_FATAL, XMLErrorSeverity_t}).
  * They can be
  * used by an application to evaluate how serious a given problem
  * is. 
+ *
+ * SBMLError also tracks the Level&nbsp;3 package extension, if any, was
+ * responsible for a given warning or error.  Each diagnostic code logged by
+ * an libSBML extension for SBML Level&nbsp;3 packages includes a record of
+ * the package that logged it.  It can be retrieved using
+ * SBMLError::getPackage().  The information is a simple text string; the
+ * string will be the nickname of the package, such as @c "comp" for the
+ * Hierarchical %Model Composition package, @c "fbc" for the Flux Balance
+ * Constraints package, and so on.  If the value returned by
+ * SBMLError::getPackage() is an empty string or has the value @c "core",
+ * then the error came from libSBML core.
  *
  * Finally, SBMLError records the line and column near where the problem
  * occurred in the SBML content.  The values may be retrieved using the
@@ -176,11 +187,11 @@
  * SBMLErrorCode_t is an enumeration of all SBML-level error, warning and
  * informational diagnostic codes.  Every SBMLError object has an error
  * code value that can be either a value from this enumeration, or a value
- * from the @link XMLError::XMLErrorCode_t XMLErrorCode_t @endlink
+ * from the @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink
  * enumeration (see the documentation for XMLError).  The latter values
  * apply when the error or warning signifies a basic XML issue rather than
  * an SBML issue per se.  The values of SBMLErrorCode_t are distinguished
- * from those of @link XMLError::XMLErrorCode_t XMLErrorCode_t @endlink by
+ * from those of @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink by
  * being numbered 10000 and higher, while the XML layer's codes are 9999 and
  * lower.  The method SBMLError::getErrorId() returns the error code of a
  * given SBMLError object instance.
@@ -229,11 +240,10 @@
  * @endif@~
  *
  * <table cellspacing="1" cellpadding="2" border="0" class="normal-font">
- * <tr><td class="s-na">N</td><td>= Not applicable</td></tr>
- * <tr><td class="s-info">I</td><td>= Informational</td></tr>
- * <tr><td class="s-warning">W</td><td>= Warning</td></tr>
- * <tr><td class="s-error">E</td><td>= Error</td></tr>
- * <tr><td class="s-fatal">F</td><td>= Fatal</td></tr>
+ * <tr><td class="s-na"></td><td>= Not applicable</td></tr>
+ * <tr><td class="s-warning"></td><td>= Warning</td></tr>
+ * <tr><td class="s-error"></td><td>= Error</td></tr>
+ * <tr><td class="s-fatal"></td><td>= Fatal</td></tr>
  * </table>
  *
  * The text shown in the "Meaning" is the text returned by the
@@ -246,7 +256,7 @@
  * @if clike The errors below come from #XMLErrorCode_t and #SBMLErrorCode_t
  * (for core), and #CompSBMLErrorCode_t, #FbcSBMLErrorCode_t,
  * #LayoutSBMLErrorCode_t, and #QualSBMLErrorCode_t (for packages).@endif
- * @if notclike However, in the language interfaces other than C++, all
+ * @ifnot clike However, in the language interfaces other than C++, all
  * libSBML error codes are ultimately represented as integer constants rather
  * than separate enumerations lists, and they are all stored in a single
  * interface class.  Codes from different libSBML extensions have names that
@@ -265,7 +275,7 @@
  * diagnostics.  The category can be retrieved from an SBMLError object
  * using the method SBMLError::getCategory().  These enumeration values are
  * distinct from (and in addition to) the @link
- * XMLError::XMLErrorCategory_t XMLErrorCategory_t @endlink codes used by
+ * XMLError::XMLErrorCategory_t XMLErrorCategory_t@endlink codes used by
  * the parent XMLError object.  User programs receiving an SBMLError object
  * can use this distinction to check whether the error represents a
  * low-level XML problem or an SBML problem.
@@ -331,73 +341,73 @@
  *      <th>Enumerator</td>
  *      <th>Meaning</td>
  *  </tr>
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_SBML LIBSBML_CAT_SBML@endlink</td><td>General error not falling into
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_SBML, XMLErrorCategory_t}</td><td>General error not falling into
  * another category below.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_SBML_L1_COMPAT LIBSBML_CAT_SBML_L1_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_SBML_L1_COMPAT, XMLErrorCategory_t}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model from SBML Level&nbsp;2 to SBML
  * Level&nbsp;1.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_SBML_L2V1_COMPAT LIBSBML_CAT_SBML_L2V1_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_SBML_L2V1_COMPAT, XMLErrorCategory_t}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;1.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_SBML_L2V2_COMPAT LIBSBML_CAT_SBML_L2V2_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_SBML_L2V2_COMPAT, XMLErrorCategory_t}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;2.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_GENERAL_CONSISTENCY, XMLErrorCategory_t}</td><td>Category of
  * errors that can occur while validating general SBML constructs.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_IDENTIFIER_CONSISTENCY, XMLErrorCategory_t}</td><td>Category of
  * errors that can occur while validating symbol identifiers in a model.
  * With respect to the SBML specification, these concern failures in
  * applying the validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>  
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_UNITS_CONSISTENCY, XMLErrorCategory_t}</td><td>Category of
  * errors that can occur while validating the units of measurement on
  * quantities in a model.  With respect to the SBML specification, these
  * concern failures in applying the validation rules numbered 105xx in the
  * Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_MATHML_CONSISTENCY, XMLErrorCategory_t}</td><td>Category of
  * errors that can occur while validating MathML formulas in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 102xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink</td><td>Category of errors
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_SBO_CONSISTENCY, XMLErrorCategory_t}</td><td>Category of errors
  * that can occur while validating SBO identifiers in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink</td><td>Error in the
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_OVERDETERMINED_MODEL, XMLErrorCategory_t}</td><td>Error in the
  * system of equations in the model: the system is overdetermined,
  * therefore violating a tenet of proper SBML.  With respect to the SBML
  * specification, this is validation rule #10601 in the SBML Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_SBML_L2V3_COMPAT LIBSBML_CAT_SBML_L2V3_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_SBML_L2V3_COMPAT, XMLErrorCategory_t}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;3.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink</td><td>Category of
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_MODELING_PRACTICE, XMLErrorCategory_t}</td><td>Category of
  * warnings about recommended good practices involving SBML and
  * computational modeling.  (These are tests performed by libSBML and do
  * not have equivalent SBML validation rules.)</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_INTERNAL_CONSISTENCY LIBSBML_CAT_INTERNAL_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_INTERNAL_CONSISTENCY, XMLErrorCategory_t}</td><td>Category of
  * errors that can occur while validating libSBML's internal representation
  * of SBML constructs. (These are tests performed by libSBML and do
  * not have equivalent SBML validation rules.)</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_SBML_L2V4_COMPAT LIBSBML_CAT_SBML_L2V4_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_SBML_L2V4_COMPAT, XMLErrorCategory_t}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;4.</td></tr> 
- * <tr><td>@link XMLErrorCategory_t#LIBSBML_CAT_SBML_L3V1_COMPAT LIBSBML_CAT_SBML_L3V1_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@sbmlconstant{LIBSBML_CAT_SBML_L3V1_COMPAT, XMLErrorCategory_t}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;3
@@ -479,7 +489,7 @@ typedef enum
 , PieceNeedsBoolean                     = 10213 /*!< The second argument of a <code>&lt;piece&gt;</code> expression must yield a Boolean value. */
 , ApplyCiMustBeUserFunction             = 10214 /*!< A <code>&lt;ci&gt;</code> element in this context must refer to a function definition. */
 , ApplyCiMustBeModelComponent           = 10215 /*!< A <code>&lt;ci&gt;</code> element in this context must refer to a model component. */
-, KineticLawParametersAreLocalOnly      = 10216 /*!< Cannot use a KineticLaw's local parameter outside of its local scope. */
+, KineticLawParametersAreLocalOnly      = 10216 /*!< Cannot use a KineticLaw local parameter outside of its local scope. */
 , MathResultMustBeNumeric               = 10217 /*!< A formula's result in this context must be a numerical value. */
 , OpsNeedCorrectNumberOfArgs            = 10218 /*!< Incorrect number of arguments given to MathML operator. */
 , InvalidNoArgsPassedToFunctionDef      = 10219 /*!< Incorrect number of arguments given to function invocation. */
@@ -488,7 +498,7 @@ typedef enum
 , DuplicateComponentId                  = 10301 /*!< Duplicate 'id' attribute value. */
 , DuplicateUnitDefinitionId             = 10302 /*!< Duplicate unit definition 'id' attribute value. */
 , DuplicateLocalParameterId             = 10303 /*!< Duplicate local parameter 'id' attribute value. */
-, MultipleAssignmentOrRateRules         = 10304 /*!< Multiple SBML rules for the same variable are not allowed. */
+, MultipleAssignmentOrRateRules         = 10304 /*!< Multiple rules for the same variable are not allowed. */
 , MultipleEventAssignmentsForId         = 10305 /*!< Multiple event assignments for the same variable are not allowed. */
 , EventAndAssignmentRuleForId           = 10306 /*!< An event assignment and an assignment rule must not have the same value for 'variable'. */
 , DuplicateMetaId                       = 10307 /*!< Duplicate 'metaid' attribute value. */
@@ -545,7 +555,7 @@ typedef enum
 , NotesNotInXHTMLNamespace              = 10801 /*!< Notes must be placed in the XHTML XML namespace. */
 , NotesContainsXMLDecl                  = 10802 /*!< XML declarations are not permitted in Notes objects. */
 , NotesContainsDOCTYPE                  = 10803 /*!< XML DOCTYPE elements are not permitted in Notes objects. */
-, InvalidNotesContent                   = 10804 /*!< Invalid Notes object content found. */
+, InvalidNotesContent                   = 10804 /*!< Invalid notes content found. */
 , OnlyOneNotesElementAllowed            = 10805 /*!< Only one Notes subobject is permitted on a given SBML object. */
 , InvalidNamespaceOnSBML                = 20101 /*!< Invalid XML namespace for the SBML container element. */
 , MissingOrInconsistentLevel            = 20102 /*!< Missing or inconsistent value for the 'level' attribute. */
@@ -589,7 +599,7 @@ typedef enum
 , AllowedAttributesOnListOfEvents       = 20232 /*!< Invalid attribute found on the ListOfEvents object. */
 , FunctionDefMathNotLambda              = 20301 /*!< Invalid expression found in the function definition. */
 , InvalidApplyCiInLambda                = 20302 /*!< Invalid forward reference in the MathML <code>&lt;apply&gt;</code><code>&lt;ci&gt;</code>...<code>&lt;/ci&gt;</code><code>&lt;/apply&gt;</code> expression. */
-, RecursiveFunctionDefinition           = 20303 /*!< Recursive function definitions are not permitted in SBML. */
+, RecursiveFunctionDefinition           = 20303 /*!< Recursive function definitions are not permitted. */
 , InvalidCiInLambda                     = 20304 /*!< Invalid <code>&lt;ci&gt;</code> reference found inside the <code>&lt;lambda&gt;</code> mathematical formula. */
 , InvalidFunctionDefReturnType          = 20305 /*!< A function's return type must be either a number or a Boolean. */
 , OneMathElementPerFunc                 = 20306 /*!< A FunctionDefinition object must contain one <code>&lt;math&gt;</code> element. */
@@ -616,7 +626,7 @@ typedef enum
 , ZeroDimensionalCompartmentUnits       = 20502 /*!< Invalid use of the 'units' attribute for a zero-dimensional compartment. */
 , ZeroDimensionalCompartmentConst       = 20503 /*!< Zero-dimensional compartments must be defined to be constant. */
 , UndefinedOutsideCompartment           = 20504 /*!< Invalid value for the 'outside' attribute of a Compartment object. */
-, RecursiveCompartmentContainment       = 20505 /*!< Recursive nesting of compartments via the 'outside' attribute is not permitted in SBML. */
+, RecursiveCompartmentContainment       = 20505 /*!< Recursive nesting of compartments via the 'outside' attribute is not permitted. */
 , ZeroDCompartmentContainment           = 20506 /*!< Invalid nesting of zero-dimensional compartments. */
 , Invalid1DCompartmentUnits             = 20507 /*!< Invalid value for the 'units' attribute of a one-dimensional compartment. */
 , Invalid2DCompartmentUnits             = 20508 /*!< Invalid value for the 'units' attribute of a two-dimensional compartment. */
@@ -752,7 +762,7 @@ typedef enum
 , ExtentUnitsNotSubstance               = 91017 /*!< Units of extent must be compatible with units of substance. */
 , GlobalUnitsNotDeclared                = 91018 /*!< Global units must be refer to a predefined unit kind or a UnitDefinition. */
 , HasOnlySubstanceUnitsNotinL1          = 91019 /*!< The concept of hasOnlySubstanceUnits was not available in SBML Level 1. */
-, AvogadroNotSupported                  = 91020 /*!< The constant 'avogadro' is not supported in SBML Levels 2 and 1. */
+, AvogadroNotSupported                  = 91020 /*!< Avogadro not supported in Levels 2 and 1. */
 , NoConstraintsInL2v1                   = 92001 /*!< SBML Level 2 Version 1 does not support Constraint objects. */
 , NoInitialAssignmentsInL2v1            = 92002 /*!< SBML Level 2 Version 1 does not support InitialAssignment objects. */
 , NoSpeciesTypeInL2v1                   = 92003 /*!< SBML Level 2 Version 1 does not support SpeciesType objects. */
@@ -808,7 +818,7 @@ typedef enum
 , InvalidRuleOrdering                   = 99106 /*!< Invalid ordering of rules. */
 , RequiredPackagePresent                = 99107 /*!< The SBML document requires an SBML Level 3 package unavailable in this software. */
 , UnrequiredPackagePresent              = 99108 /*!< The SBML document uses an SBML Level 3 package unavailable in this software. */
-, PackageRequiredShouldBeFalse          = 99109 /*!< This package expects the 'required' attribute to be "false". */
+, PackageRequiredShouldBeFalse          = 99109 /*!< This package expects required to be false. */
 , SubsUnitsAllowedInKL                  = 99127 /*!< Disallowed value for attribute 'substanceUnits' on KineticLaw object. */
 , TimeUnitsAllowedInKL                  = 99128 /*!< Disallowed value for attribute 'timeUnits' on KineticLaw object. */
 , FormulaInLevel1KL                     = 99129 /*!< Only predefined functions are allowed in SBML Level 1 formulas. */
@@ -820,7 +830,7 @@ typedef enum
 , FailedMathMLReadOfExponential         = 99222 /*!< Missing or invalid exponential expression in MathML. */
 , FailedMathMLReadOfRational            = 99223 /*!< Missing or invalid rational expression in MathML. */
 , BadMathMLNodeType                     = 99224 /*!< Invalid MathML element. */
-, InvalidMathMLAttribute                = 99225 /*!< Invalid MathML attribute on this element */
+, InvalidMathMLAttribute                = 99225 /*!< Invalid MathML attribute. */
 , NoTimeSymbolInFunctionDef             = 99301 /*!< Use of <code>&lt;csymbol&gt;</code> for 'time' not allowed within FunctionDefinition objects. */
 , NoBodyInFunctionDef                   = 99302 /*!< There must be a <code>&lt;lambda&gt;</code> body within the <code>&lt;math&gt;</code> element of a FunctionDefinition object. */
 , DanglingUnitSIdRef                    = 99303 /*!< Units must refer to valid unit or unitDefinition. */
@@ -829,7 +839,7 @@ typedef enum
 , RDFAboutTagNotMetaid                  = 99403 /*!< RDF <code>&lt;about&gt;</code> tag is not metaid. */
 , RDFNotCompleteModelHistory            = 99404 /*!< RDF does not contain valid ModelHistory. */
 , RDFNotModelHistory                    = 99405 /*!< RDF does not result in a ModelHistory. */
-, AnnotationNotElement                  = 99406 /*!< An Annotation must contain one or more subelements. */
+, AnnotationNotElement                  = 99406 /*!< Annotation must contain element. */
 , InconsistentArgUnitsWarnings          = 99502 /*!< This is an internal error that reverts to 10501. */
 , InconsistentPowerUnitsWarnings        = 99503 /*!< This is an internal error that reverts to 10501. */
 , InconsistentExponUnitsWarnings        = 99504 /*!< This is an internal error that reverts to 10501. */
@@ -865,8 +875,8 @@ typedef enum
 , MultiplierNotValidAttribute           = 99924 /*!< Attribute 'multiplier' on Unit objects is not supported in SBML Level 1. */
 , OffsetNotValidAttribute               = 99925 /*!< Attribute 'offset' on Unit objects is only available in SBML Level 2 Version 1. */
 , L3SpatialDimensionsUnset              = 99926 /*!< No value given for 'spatialDimensions' attribute; assuming a value of 3. */
-, UnknownCoreAttribute                  = 99994 /*!< Encountered an unknown attribute in core ns */
-, UnknownPackageAttribute               = 99995 /*!< Encountered an unknown attribute in package ns  */
+, UnknownCoreAttribute                  = 99994 /*!< Encountered an unknown attribute in the SBML Core namespace. */
+, UnknownPackageAttribute               = 99995 /*!< Encountered an unknown attribute in an SBML Level 3 package namespace. */
 , PackageConversionNotSupported         = 99996 /*!< Conversion of SBML Level 3 package constructs is not yet supported. */
 , InvalidTargetLevelVersion             = 99997 /*!< The requested SBML Level/Version combination is not known to exist. */
 , L3NotSupported                        = 99998 /*!< SBML Level 3 is not yet supported. */
@@ -1138,7 +1148,7 @@ public:
    *
    * @param pkgVersion the version of the @p package.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   SBMLError
   (
@@ -1171,9 +1181,9 @@ public:
   /** @cond doxygenLibsbmlInternal **/
 
   /**
-   * Creates and returns a deep copy of this SBMLError.
-   * 
-   * @return a (deep) copy of this SBMLError.
+   * Creates and returns a deep copy of this SBMLError object.
+   *
+   * @return the (deep) copy of this SBMLError object.
    */
   virtual SBMLError* clone() const; 
 

@@ -2,7 +2,7 @@
  * @file    SBMLConverter.h
  * @brief   Definition of SBMLConverter, the base class for SBML conversion.
  * @author  Sarah Keating
- * 
+ *
  * <!--------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
@@ -12,17 +12,17 @@
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
  *
- * Copyright (C) 2009-2013 jointly by the following organizations: 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
- *  
+ *
  * Copyright (C) 2006-2008 by the California Institute of Technology,
- *     Pasadena, CA, USA 
- *  
- * Copyright (C) 2002-2005 jointly by the following organizations: 
+ *     Pasadena, CA, USA
+ *
+ * Copyright (C) 2002-2005 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. Japan Science and Technology Agency, Japan
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation.  A copy of the license agreement is provided
@@ -37,35 +37,23 @@
  *
  * The SBMLConverter class is the base class for the various SBML @em
  * converters: classes of objects that transform or convert SBML documents.
- * These transformations can involve essentially anything that can be
- * written algorithmically; examples include converting the units of
- * measurement in a model, or converting from one Level+Version combination
- * of SBML to another.
+ * These transformations can involve essentially anything that can be written
+ * algorithmically; examples include converting the units of measurement in a
+ * model, or converting from one Level+Version combination of SBML to
+ * another.  Applications can also create their own converters by subclassing
+ * SBMLConverter and following the examples of the existing converters.
  *
- * LibSBML provides a number of built-in converters, and applications can
- * create their own by subclassing SBMLConverter and following the examples
- * of the existing converters.  The following are the built-in converters
- * in libSBML @htmlinclude libsbml-version.html:
- * @li SBMLFunctionDefinitionConverter
- * @li SBMLInitialAssignmentConverter
- * @li SBMLLevelVersionConverter
- * @li SBMLRuleConverter
- * @li SBMLStripPackageConverter
- * @li SBMLUnitsConverter
- *
- * Many converters provide the ability to configure their behavior to some
- * extent.  This is realized through the use of @em properties that offer
- * different @em options.  Two related classes implement these features:
- * ConversionProperties and ConversionOptions.  The default property values
- * for each converter can be interrogated using the method
- * SBMLConverter::getDefaultProperties() on the converter class.
+ * @copydetails doc_section_using_sbml_converters
  */
 
 #ifndef SBMLConverter_h
 #define SBMLConverter_h
 
+#include <string>
+
 #include <sbml/SBMLNamespaces.h>
 #include <sbml/conversion/ConversionProperties.h>
+
 #ifndef LIBSBML_USE_STRICT_INCLUDES
 #include <sbml/SBMLTypes.h>
 #endif
@@ -85,13 +73,19 @@ public:
    */
   SBMLConverter ();
 
+  /**
+   * Creates a new SBMLConverter object with a given name.
+   * 
+   * @param name the name for the converter to create
+   */
+  SBMLConverter (const std::string& name);
 
   /**
    * Copy constructor; creates a copy of an SBMLConverter object.
    *
    * @param c the SBMLConverter object to copy.
-   * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   *
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   SBMLConverter(const SBMLConverter& c);
@@ -109,7 +103,7 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   SBMLConverter& operator=(const SBMLConverter& rhs);
@@ -117,8 +111,8 @@ public:
 
   /**
    * Creates and returns a deep copy of this SBMLConverter object.
-   * 
-   * @return a (deep) copy of this SBMLConverter object.
+   *
+   * @return the (deep) copy of this SBMLConverter object.
    */
   virtual SBMLConverter* clone() const;
 
@@ -149,11 +143,11 @@ public:
    * converter object.  The run-time properties of the converter object can
    * be adjusted by using the method
    * SBMLConverter::setProperties(const ConversionProperties *props).
-   * 
+   *
    * @return the default properties for the converter.
    *
-   * @see setProperties(@if java ConversionProperties props@endif)
-   * @see matchesProperties(@if java ConversionProperties props@endif)
+   * @see setProperties(@if java ConversionProperties@endif)
+   * @see matchesProperties(@if java ConversionProperties@endif)
    */
   virtual ConversionProperties getDefaultProperties() const;
 
@@ -178,9 +172,9 @@ public:
   /**
    * Predicate returning @c true if this converter's properties matches a
    * given set of configuration properties.
-   * 
+   *
    * @param props the configuration properties to match.
-   * 
+   *
    * @return @c true if this converter's properties match, @c false
    * otherwise.
    */
@@ -189,79 +183,75 @@ public:
 
   /**
    * Sets the current SBML document to the given SBMLDocument object.
-   * 
+   *
    * @param doc the document to use for this conversion.
    *
-   * @warning Even though the @p doc is 'const', it is immediately cast 
-   * to a non-const version, which is then usually changed by the 
-   * converter upon a successful conversion.  This function is here 
-   * solely to preserve backwards compatibility.
-   * 
    * @return integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif@~ The set of possible values that may
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   *
+   * @warning Even though the argument @p doc is 'const', it is immediately
+   * cast to a non-const version, which is then usually changed by the
+   * converter upon a successful conversion.  This variant of the
+   * setDocument() method is here solely to preserve backwards compatibility.
    */
   virtual int setDocument(const SBMLDocument* doc);
 
 
   /**
    * Sets the current SBML document to the given SBMLDocument object.
-   * 
+   *
    * @param doc the document to use for this conversion.
-   * 
+   *
    * @return integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif@~ The set of possible values that may
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   virtual int setDocument(SBMLDocument* doc);
 
 
   /**
    * Sets the configuration properties to be used by this converter.
-   * 
-   * A given converter exposes one or more properties that can be adjusted
-   * in order to influence the behavior of the converter.  This method sets
-   * the current properties for this converter.
    *
    * @param props the ConversionProperties object defining the properties
    * to set.
-   * 
+   *
    * @return integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif@~ The set of possible values that may
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
    * @see getProperties()
-   * @see matchesProperties(@if java ConversionProperties props@endif)
-   */  
+   * @see matchesProperties(@if java ConversionProperties@endif)
+   */
   virtual int setProperties(const ConversionProperties *props);
 
 
   /**
    * Returns the current properties in effect for this converter.
-   * 
+   *
    * A given converter exposes one or more properties that can be adjusted
    * in order to influence the behavior of the converter.  This method
    * returns the current properties for this converter; in other words, the
    * settings in effect at this moment.  To change the property values, you
    * can use SBMLConverter::setProperties(const ConversionProperties *props).
-   * 
+   *
    * @return the currently set configuration properties.
    *
-   * @see setProperties(@if java ConversionProperties props@endif)
-   * @see matchesProperties(@if java ConversionProperties props@endif)
+   * @see setProperties(@if java ConversionProperties@endif)
+   * @see matchesProperties(@if java ConversionProperties@endif)
    */
   virtual ConversionProperties* getProperties() const;
 
@@ -271,10 +261,10 @@ public:
    *
    * This method causes the converter to do the actual conversion work,
    * that is, to convert the SBMLDocument object set by
-   * SBMLConverter::setDocument(@if java const SBMLDocument* doc@endif) and
+   * SBMLConverter::setDocument(@if java const SBMLDocument@endif) and
    * with the configuration options set by
-   * SBMLConverter::setProperties(@if java const ConversionProperties *props@endif).
-   * 
+   * SBMLConverter::setProperties(@if java const ConversionProperties@endif).
+   *
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif@~ The set of possible values that may
@@ -282,9 +272,15 @@ public:
    * the documentation for the relevant class to find out what the
    * possibilities are.
    */
-  virtual int convert(); 
+  virtual int convert();
 
-
+  /**  
+   * Returns the name of this converter. 
+   *
+   * @return a name for this converter
+   */
+  const std::string& getName() const;
+  
 #ifndef SWIG
 
 #endif // SWIG
@@ -295,10 +291,10 @@ protected:
 
   SBMLDocument *   mDocument;
   ConversionProperties *mProps;
+  std::string mName;  
 
   friend class SBMLDocument;
   /** @endcond */
-
 
 private:
   /** @cond doxygenLibsbmlInternal */

@@ -76,7 +76,7 @@ namespace libsbmlcs {
  * structures (ListOfCompartments_t, ListOfReactions_t, etc.) does not reveal
  * all of the functionality available. @endif
  *
- * 
+ *
  */
 
 public class ListOf : SBase {
@@ -130,11 +130,37 @@ public class ListOf : SBase {
    *
    * @param level the SBML Level; if not assigned, defaults to the
    * value of SBMLDocument::getDefaultLevel().
-   * 
+   *
    * @param version the Version within the SBML Level; if not assigned,
    * defaults to the value of SBMLDocument::getDefaultVersion().
-   * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   *
+   * *
+ * @note Bare ListOf @if conly structures @else objects@endif are
+ * impossible to add to SBML models.  The ListOf
+ * @if conly structure type@else class@endif is simply the base
+ * of <em>other</em> @if conly structure types @else classes@endif in
+ * libSBML.  Calling programs are not intended to create bare ListOf
+ * @if conly structures @else objects@endif themselves.
+   *
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
+ *
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ListOf(long level, long version) : this(libsbmlPINVOKE.new_ListOf__SWIG_0(level, version), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -146,11 +172,37 @@ public class ListOf : SBase {
    *
    * @param level the SBML Level; if not assigned, defaults to the
    * value of SBMLDocument::getDefaultLevel().
-   * 
+   *
    * @param version the Version within the SBML Level; if not assigned,
    * defaults to the value of SBMLDocument::getDefaultVersion().
-   * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   *
+   * *
+ * @note Bare ListOf @if conly structures @else objects@endif are
+ * impossible to add to SBML models.  The ListOf
+ * @if conly structure type@else class@endif is simply the base
+ * of <em>other</em> @if conly structure types @else classes@endif in
+ * libSBML.  Calling programs are not intended to create bare ListOf
+ * @if conly structures @else objects@endif themselves.
+   *
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
+ *
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ListOf(long level) : this(libsbmlPINVOKE.new_ListOf__SWIG_1(level), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -162,11 +214,37 @@ public class ListOf : SBase {
    *
    * @param level the SBML Level; if not assigned, defaults to the
    * value of SBMLDocument::getDefaultLevel().
-   * 
+   *
    * @param version the Version within the SBML Level; if not assigned,
    * defaults to the value of SBMLDocument::getDefaultVersion().
-   * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   *
+   * *
+ * @note Bare ListOf @if conly structures @else objects@endif are
+ * impossible to add to SBML models.  The ListOf
+ * @if conly structure type@else class@endif is simply the base
+ * of <em>other</em> @if conly structure types @else classes@endif in
+ * libSBML.  Calling programs are not intended to create bare ListOf
+ * @if conly structures @else objects@endif themselves.
+   *
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
+ *
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ListOf() : this(libsbmlPINVOKE.new_ListOf__SWIG_2(), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -174,10 +252,36 @@ public class ListOf : SBase {
 
   
 /**
-   * Creates a new ListOf with SBMLNamespaces object.
+   * Creates a new ListOf with a given SBMLNamespaces object.
    *
    * @param sbmlns the set of SBML namespaces that this ListOf should
    * contain.
+   *
+   * *
+ * @note Bare ListOf @if conly structures @else objects@endif are
+ * impossible to add to SBML models.  The ListOf
+ * @if conly structure type@else class@endif is simply the base
+ * of <em>other</em> @if conly structure types @else classes@endif in
+ * libSBML.  Calling programs are not intended to create bare ListOf
+ * @if conly structures @else objects@endif themselves.
+   *
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
+ *
    */ public
  ListOf(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_ListOf__SWIG_3(SBMLNamespaces.getCPtr(sbmlns)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -195,9 +299,9 @@ public class ListOf : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this ListOf.
-   * 
-   * @return a (deep) copy of this ListOf.
+   * Creates and returns a deep copy of this ListOf object.
+   *
+   * @return the (deep) copy of this ListOf object.
    */ public new
  ListOf clone() {
     IntPtr cPtr = libsbmlPINVOKE.ListOf_clone(swigCPtr);
@@ -212,9 +316,16 @@ public class ListOf : SBase {
    * This method makes a clone of the @p item handed to it.  This means that
    * when the ListOf object is destroyed, the original items will not be
    * destroyed.  For a method with an alternative ownership behavior, see the
-   * ListOf::appendAndOwn(SBase item) method.
+   * ListOf::appendAndOwn(@if java SBase@endif) method.
    *
    * @param item the item to be added to the list.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see appendAndOwn(SBase item)
    * @see appendFrom(ListOf list)
@@ -235,6 +346,13 @@ public class ListOf : SBase {
    *
    * @param item the item to be added to the list.
    *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   *
    * @see append(SBase item)
    * @see appendFrom(ListOf list)
    */ public
@@ -252,9 +370,16 @@ public class ListOf : SBase {
    *
    * @param list a list of items to be added.
    *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   *
    * @see append(SBase item)
    * @see appendAndOwn(SBase item)
-   */ public
+   */ public new
  int appendFrom(ListOf list) {
     int ret = libsbmlPINVOKE.ListOf_appendFrom(swigCPtr, ListOf.getCPtr(list));
     return ret;
@@ -265,12 +390,18 @@ public class ListOf : SBase {
    * Inserts an item at a given position in this ListOf's list of items.
    *
    * This variant of the method makes a clone of the @p item handed to it.
-   * This means that when the ListOf is destroyed, the original items will
-   * not be destroyed.  For an alternative method with different ownership
-   * behavior, see insertAndOwn(int location, SBase item).
+   * This means that when the ListOf is destroyed, the original @p item will
+   * <em>not</em> be destroyed.
    *
    * @param location the location in the list where to insert the item.
    * @param item the item to be inserted to the list.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see insertAndOwn(int location, SBase item)
    */ public
@@ -283,12 +414,19 @@ public class ListOf : SBase {
 /**
    * Inserts an item at a given position in this ListOf's list of items.
    *
-   * This variant of the method makes a clone of the @p item handet to it.
-   * This means that when the ListOf is destroyed, the original items will
-   * not be destroyed.
+   * This variant of the method makes a clone of the @p item handed to it.
+   * This means that when the ListOf is destroyed, the original @p item
+   * <em>will</em> be destroyed.
    *
    * @param location the location where to insert the item
    * @param item the item to be inserted to the list
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see insert(int location, SBase item)
    */ public
@@ -303,10 +441,11 @@ public class ListOf : SBase {
    *
    * @param n the index number of the item to get.
    *
-   * @return the nth item in this ListOf items.
+   * @return the <em>n</em>th item in this ListOf items, or a null pointer if
+   * the index number @p n refers to a nonexistent position in this list.
    *
    * @see size()
-   */ public
+   */ public new
  SBase get(long n) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.ListOf_get__SWIG_0(swigCPtr, n), false);
 	return ret;
@@ -317,13 +456,14 @@ public class ListOf : SBase {
    * Returns the first child element found that has the given identifier.
    *
    * This method searches this ListOf's list of items for SBML objects based
-   * on their 'id' attribute value in the model-wide SId namespace.
+   * on their 'id' attribute value in the model-wide <code>SId</code>
+   * identifier namespace.
    *
-   * @param id string representing the id of objects to find.
+   * @param id string representing the id of the object to find.
    *
    * @return the first element found with the given @p id, or @c null if no
    * such object is found.
-   */ public
+   */ public new
  SBase getElementBySId(string id) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.ListOf_getElementBySId(swigCPtr, id), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -332,13 +472,14 @@ public class ListOf : SBase {
 
   
 /**
-   * Returns the first child element found with the given @p metaid.
+   * Returns the first child element found with the given meta-identifier.
    *
-   * @param metaid string representing the metaid of objects to find
+   * @param metaid string representing the 'metaid' attribute of the object
+   * to find.
    *
    * @return the first element found with the given @p metaid, or @c null if
    * no such object is found.
-   */ public
+   */ public new
  SBase getElementByMetaId(string metaid) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.ListOf_getElementByMetaId(swigCPtr, metaid), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -352,14 +493,14 @@ public class ListOf : SBase {
    * If parameter @p doDelete is @c true (default), all items in this ListOf
    * object are deleted and cleared, and thus the caller doesn't have to
    * delete those items.  Otherwise, all items are cleared only from this
-   * ListOf object; the caller is still responsible for deleting all items.
-   * (In the latter case, callers are advised to store pointers to all items
-   * elsewhere before calling this function.)
+   * ListOf object; the caller is still responsible for deleting the actual
+   * items.  (In the latter case, callers are advised to store pointers to
+   * all items elsewhere before calling this function.)
    *
    * @param doDelete if @c true (default), all items are deleted and cleared.
    * Otherwise, all items are just cleared and not deleted.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void clear(bool doDelete) {
     libsbmlPINVOKE.ListOf_clear__SWIG_0(swigCPtr, doDelete);
@@ -372,14 +513,14 @@ public class ListOf : SBase {
    * If parameter @p doDelete is @c true (default), all items in this ListOf
    * object are deleted and cleared, and thus the caller doesn't have to
    * delete those items.  Otherwise, all items are cleared only from this
-   * ListOf object; the caller is still responsible for deleting all items.
-   * (In the latter case, callers are advised to store pointers to all items
-   * elsewhere before calling this function.)
+   * ListOf object; the caller is still responsible for deleting the actual
+   * items.  (In the latter case, callers are advised to store pointers to
+   * all items elsewhere before calling this function.)
    *
    * @param doDelete if @c true (default), all items are deleted and cleared.
    * Otherwise, all items are just cleared and not deleted.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  void clear() {
     libsbmlPINVOKE.ListOf_clear__SWIG_1(swigCPtr);
@@ -387,19 +528,22 @@ public class ListOf : SBase {
 
   
 /**
-   * Because ListOf objects typically live as object children of their parent
-   * object and not as pointer children, this function clears itself, but
-   * does not attempt to do anything else.
+   * Removes all items in this ListOf object and deletes its properties too.
    *
-   * If a particular ListOf subclass does indeed exist as a pointer only,
-   * this function will need to be overridden.
+   * This performs a call to clear() with an argument of @c true (thus removing
+   * all the child objects in the list), followed by calls to various libSBML
+   * <code>unset<em>Foo</em></code> methods to delete everything else: CVTerm
+   * objects, model history objects, etc.
+   *
+   * @if cpp Implementations of subclasses of ListOf may need to override
+   * this method if different handling of child objects is needed.@endif
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   */ public
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   */ public new
  int removeFromParentAndDelete() {
     int ret = libsbmlPINVOKE.ListOf_removeFromParentAndDelete(swigCPtr);
     return ret;
@@ -407,14 +551,15 @@ public class ListOf : SBase {
 
   
 /**
-   * Removes the <em>n</em>th item from this ListOf items and returns it.
+   * Removes the <em>n</em>th item from this ListOf list of items and returns
+   * it.
    *
    * The caller owns the returned item and is responsible for deleting it.
    *
    * @param n the index of the item to remove
    *
    * @see size()
-   */ public
+   */ public new
  SBase remove(long n) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.ListOf_remove(swigCPtr, n), true);
 	return ret;
@@ -438,7 +583,7 @@ public class ListOf : SBase {
    * Basically, this function needs to be called in
    * constructor, copy constructor and assignment operator.
    *
-   * @if cpp 
+   * @if cpp
    * @see setSBMLDocument()
    * @see enablePackageInternal()
    * @endif
@@ -450,13 +595,13 @@ public class ListOf : SBase {
   
 /**
    * Returns the libSBML type code for this object, namely,
-   * @link libsbmlcs.libsbml.SBML_LIST_OF SBML_LIST_OF@endlink.
+   * @link libsbmlcs#SBML_LIST_OF SBML_LIST_OF@endlink.
    * 
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -468,15 +613,15 @@ public class ListOf : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_LIST_OF SBML_LIST_OF@endlink (default).
+   * @link libsbmlcs#SBML_LIST_OF SBML_LIST_OF@endlink (default).
    *
    * @note The various ListOf classes mostly differ from each other in what they
    * contain.  Hence, one must call getItemTypeCode() to fully determine the
@@ -502,12 +647,12 @@ public class ListOf : SBase {
   
 /**
    * Get the type code of the objects contained in this ListOf.
-   * 
+   *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -519,24 +664,24 @@ public class ListOf : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
-   * Classes that inherit from the ListOf class should 
-   * override this function to return the SBML type code for 
-   * the objects contained in this ListOf.  If they do not, 
-   * @link libsbmlcs.libsbml.SBML_UNKNOWN SBML_UNKNOWN@endlink is returned.
-   * 
-   * @return The ListOf class itself contains no SBML objects, and 
-   * therefore returns @link libsbmlcs.libsbml.SBML_UNKNOWN SBML_UNKNOWN@endlink.
+   * Classes that inherit from the ListOf class should override this method
+   * to return the SBML type code for the objects contained in this ListOf.
+   * If they do not, this method will return
+   * @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink
+   *
+   * @return The ListOf base class contains no SBML objects, and therefore
+   * this method returns @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink.
    *
    * @see getElementName()
    * @see getPackageName()
-   */ public
+   */ public new
  int getItemTypeCode() {
     int ret = libsbmlPINVOKE.ListOf_getItemTypeCode(swigCPtr);
     return ret;
@@ -546,7 +691,7 @@ public class ListOf : SBase {
 /**
    * Returns the XML element name of this object, which for ListOf, is
    * always @c 'listOf'.
-   * 
+   *
    * @return the XML name of this element.
    */ public new
  string getElementName() {

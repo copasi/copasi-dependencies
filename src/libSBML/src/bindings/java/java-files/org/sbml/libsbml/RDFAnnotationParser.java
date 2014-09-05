@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Read/write/manipulate RDF annotations stored in SBML
- * annotation elements.
+ *  MIRIAM-compliant RDF annotation reader/writer.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -159,7 +158,7 @@ public class RDFAnnotationParser {
    * this example, suppose that <code>content</code> is an {@link XMLNode} object previously
    * created, containing MIRIAM-style annotations, and that <code>sbmlObject</code>
    * is an SBML object derived from {@link SBase} (e.g., a {@link Model}, or a {@link Species}, or
-   * a {@link Compartment}, etc.).  Then:<div class='fragment'><pre class='fragment'>
+   * a {@link Compartment}, etc.).  Then:<pre class='fragment'>
 int success;                                   // Status code variable, used below.
 
 {@link XMLNode} RDF = createRDFAnnotation();          // Create RDF annotation XML structure.
@@ -172,7 +171,7 @@ success      = ann.addChild(RDF);              // Put the RDF annotation into it
 
 success      = sbmlObject.setAnnotation(ann); // Set object's annotation to what we built.
 ...                                            // Check 'success' return code value.
-</pre></div>
+</pre>
    <p>
    * The SBML specification contains more information about the format of
    * annotations.  We urge readers to consult Section&nbsp;6 of the SBML
@@ -197,7 +196,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation to what
    * The annotation created by this method has namespace declarations for
    * all the relevant XML namespaces used in RDF annotations and also has
    * an empty RDF element.  The result is the following XML:
-<div class='fragment'><pre class='fragment'>
+<pre class='fragment'>
 &lt;rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
          xmlns:dc='http://purl.org/dc/elements/1.1/'
          xmlns:dcterms='http://purl.org/dc/terms/'
@@ -206,7 +205,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation to what
          xmlns:bqmodel='http://biomodels.net/model-qualifiers/' &gt;
 
 &lt;/rdf:RDF&gt;
-</pre></div>
+</pre>
    <p>
    * Note that this does not create the containing SBML
    * <code>&lt;annotation&gt;</code> element; the method

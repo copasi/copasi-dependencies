@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML Level&nbsp;3's %LocalParameter
- * construct.
+@htmlinclude pkg-marker-core.html A parameter inside an SBML <em>reaction</em> definition.
  *
  * LocalParameter has been introduced in SBML Level&nbsp;3 to serve as the
  * object class for parameter definitions that are intended to be local to
@@ -138,23 +137,27 @@ public class LocalParameter : Parameter {
    * @param version a long integer, the SBML Version to assign to this
    * LocalParameter.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * * 
- * @note Upon the addition of a LocalParameter object to an SBMLDocument
- * (e.g., using KineticLaw::addLocalParameter(@if java LocalParameter p@endif)), the SBML Level, SBML
- * Version and XML namespace of the document @em override the
- * values used when creating the LocalParameter object via this
- * constructor.  This is necessary to ensure that an SBML document is a
- * consistent structure.  Nevertheless, the ability to supply the values
- * at the time of creation of a LocalParameter is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and
- * Version determine whether it is valid to assign a particular value to
- * an attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+   * *
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  LocalParameter(long level, long version) : this(libsbmlPINVOKE.new_LocalParameter__SWIG_0(level, version), true) {
@@ -167,7 +170,7 @@ public class LocalParameter : Parameter {
    * object @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -187,22 +190,26 @@ public class LocalParameter : Parameter {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
    * *
- * @note Upon the addition of a Compartment object to an SBMLDocument,
- * the SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the Compartment object via the
- * Compartment constructors.  This is necessary to ensure that an SBML
- * document has a consistent overall structure.  Nevertheless, the ability to
- * supply the values at the time of creation of a Compartment is an important
- * aid to producing valid SBML.  Knowledge of the intented SBML Level and
- * Version determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * SBMLDocument.
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
  *
  *
    */ public
@@ -216,7 +223,7 @@ public class LocalParameter : Parameter {
    * 
    * @param orig the LocalParameter instance to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  LocalParameter(LocalParameter orig) : this(libsbmlPINVOKE.new_LocalParameter__SWIG_2(LocalParameter.getCPtr(orig)), true) {
@@ -230,7 +237,7 @@ public class LocalParameter : Parameter {
    * 
    * @param orig the Parameter instance to copy.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  LocalParameter(Parameter orig) : this(libsbmlPINVOKE.new_LocalParameter__SWIG_3(Parameter.getCPtr(orig)), true) {
@@ -239,9 +246,9 @@ public class LocalParameter : Parameter {
 
   
 /**
-   * Creates and returns a deep copy of this LocalParameter.
-   * 
-   * @return a (deep) copy of this LocalParameter.
+   * Creates and returns a deep copy of this LocalParameter object.
+   *
+   * @return the (deep) copy of this LocalParameter object.
    */ public new
  LocalParameter clone() {
     IntPtr cPtr = libsbmlPINVOKE.LocalParameter_clone(swigCPtr);
@@ -296,10 +303,10 @@ public class LocalParameter : Parameter {
    * Returns the libSBML type code for this SBML object.
    * 
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -311,15 +318,15 @@ public class LocalParameter : Parameter {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
+   * @link libsbmlcs#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -354,12 +361,12 @@ public class LocalParameter : Parameter {
    * Predicate returning @c true if all the required attributes for this
    * LocalParameter object have been set.
    *
-   * @note The required attributes for a LocalParameter object are:
+   * The required attributes for a LocalParameter object are:
    * @li 'id'
    * @li 'value'
    *
-   * @return a bool value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.LocalParameter_hasRequiredAttributes(swigCPtr);
@@ -367,21 +374,21 @@ public class LocalParameter : Parameter {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool getConstant() {
     bool ret = libsbmlPINVOKE.LocalParameter_getConstant(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  bool isSetConstant() {
     bool ret = libsbmlPINVOKE.LocalParameter_isSetConstant(swigCPtr);
     return ret;
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  int setConstant(bool flag) {
     int ret = libsbmlPINVOKE.LocalParameter_setConstant(swigCPtr, flag);
     return ret;

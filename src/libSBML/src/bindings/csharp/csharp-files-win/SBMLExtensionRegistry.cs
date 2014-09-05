@@ -14,7 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Registry class in which extension packages are registered.
+@htmlinclude pkg-marker-core.html Registry where package plug-ins are registered.
  *
  */
 
@@ -80,9 +80,9 @@ public class SBMLExtensionRegistry : IDisposable {
    *   
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int addExtension(SBMLExtension ext) {
     int ret = libsbmlPINVOKE.SBMLExtensionRegistry_addExtension(swigCPtr, SBMLExtension.getCPtr(ext));

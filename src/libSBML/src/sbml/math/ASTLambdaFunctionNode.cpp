@@ -188,6 +188,7 @@ ASTLambdaFunctionNode::addChild(ASTBase* child, bool inRead)
        */
       if (getNumChildren() > getNumBvars() )
       {
+        getChild(getNumBvars())->ASTBase::setIsBvar(true);
         mNumBvars++;
       }
 
@@ -203,7 +204,7 @@ ASTBase*
 ASTLambdaFunctionNode::getChild (unsigned int n) const
 {
   /* HACK TO REPLICATE OLD AST */
-  /* do not return a node with teh bvar type
+  /* do not return a node with the bvar type
    * return the child of the bvar type
    */
   if (ASTFunctionBase::getNumChildren() <= n)
@@ -398,7 +399,7 @@ ASTLambdaFunctionNode::read(XMLInputStream& stream, const std::string& reqd_pref
       child = new ASTFunction();
     }
 
-    read = child->read(stream, reqd_prefix);
+    /* read = */ child->read(stream, reqd_prefix);
 
     stream.skipText();
 

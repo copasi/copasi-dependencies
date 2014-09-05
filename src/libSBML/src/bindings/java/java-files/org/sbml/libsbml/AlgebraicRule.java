@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's AlgebraicRule construct.
+ *  An SBML <em>algebraic rule</em> representing <em>0 = f(<b>W</b>)</em>.
  <p>
  * The rule type {@link AlgebraicRule} is derived from the parent class {@link Rule}.  It
  * is used to express equations that are neither assignments of model
@@ -180,11 +180,11 @@ package org.sbml.libsbml;
  * that work with the enumeration values  listed below.
  <p>
  * <ul>
- * <li> {@link  libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE}: Indicates
+ * <li> {@link libsbmlConstants#RULE_TYPE_RATE RULE_TYPE_RATE}: Indicates
  * the rule is a 'rate' rule.
- * <li> {@link  libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR}:
+ * <li> {@link libsbmlConstants#RULE_TYPE_SCALAR RULE_TYPE_SCALAR}:
  * Indicates the rule is a 'scalar' rule.
- * <li> {@link  libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID}:
+ * <li> {@link libsbmlConstants#RULE_TYPE_INVALID RULE_TYPE_INVALID}:
  * Indicates the rule type is unknown or not yet set.
  *
  * </ul>
@@ -241,24 +241,26 @@ public class AlgebraicRule extends Rule {
    <p>
    * @param version the SBML Version to assign to this {@link AlgebraicRule} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of an {@link AlgebraicRule}
- * object to an {@link SBMLDocument}, the SBML
- * Level, SBML Version and XML namespace of the document <em>override</em> the
- * values used when creating the {@link AlgebraicRule}
- * object via the {@link AlgebraicRule}
- * constructors.  This is necessary to ensure that an SBML document has a
- * consistent overall structure.  Nevertheless, the ability to supply the
- * values at the time of creation of a {@link AlgebraicRule} is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  AlgebraicRule(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_AlgebraicRule__SWIG_0(level, version), true);
@@ -269,33 +271,36 @@ public class AlgebraicRule extends Rule {
    * Creates a new {@link AlgebraicRule} object using the given {@link SBMLNamespaces} object
    * <code>sbmlns</code>.
    <p>
-   * The {@link SBMLNamespaces} object encapsulates SBML Level/Version/namespaces
-   * information.  It is used to communicate the SBML Level, Version, and
-   * (in Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.
-   * A common approach to using this class constructor is to create an
-   * {@link SBMLNamespaces} object somewhere in a program, once, then pass it to
-   * object constructors such as this one when needed.
+   * <p>
+ * The {@link SBMLNamespaces} object encapsulates SBML Level/Version/namespaces
+ * information.  It is used to communicate the SBML Level, Version, and (in
+ * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
+ * common approach to using libSBML's {@link SBMLNamespaces} facilities is to create an
+ * {@link SBMLNamespaces} object somewhere in a program once, then hand that object
+ * as needed to object constructors that accept {@link SBMLNamespaces} as arguments. 
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * @throws SBMLConstructorException
+   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind of
+   * SBML object, are either invalid or mismatched with respect to the parent
+   * {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of an {@link AlgebraicRule}
- * object to an {@link SBMLDocument}, the SBML
- * Level, SBML Version and XML namespace of the document <em>override</em> the
- * values used when creating the {@link AlgebraicRule}
- * object via the {@link AlgebraicRule}
- * constructors.  This is necessary to ensure that an SBML document has a
- * consistent overall structure.  Nevertheless, the ability to supply the
- * values at the time of creation of a {@link AlgebraicRule} is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add an object to an existing
- * {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  AlgebraicRule(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_AlgebraicRule__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -303,9 +308,9 @@ public class AlgebraicRule extends Rule {
 
   
 /**
-   * Creates and returns a deep copy of this {@link Rule}.
+   * Creates and returns a deep copy of this {@link AlgebraicRule} object.
    <p>
-   * @return a (deep) copy of this {@link Rule}.
+   * @return the (deep) copy of this {@link Rule} object.
    */ public
  AlgebraicRule cloneObject() {
     long cPtr = libsbmlJNI.AlgebraicRule_cloneObject(swigCPtr, this);
@@ -317,7 +322,7 @@ public class AlgebraicRule extends Rule {
    * Predicate returning <code>true</code> if all the required attributes for this
    * {@link AlgebraicRule} object have been set.
    <p>
-   * @note In SBML Levels&nbsp;2&ndash;3, there is no required attribute
+   * In SBML Levels&nbsp;2&ndash;3, there is no required attribute
    * for an {@link AlgebraicRule} object.  For Level&nbsp;1, the only required
    * attribute is 'formula'.
    <p>

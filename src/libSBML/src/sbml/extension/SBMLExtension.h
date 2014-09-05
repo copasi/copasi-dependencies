@@ -31,9 +31,9 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class SBMLExtension
- * @sbmlbrief{core} The core component of SBML's package extension.
+ * @sbmlbrief{core} Core class for SBML Level 3 package plug-ins.
  * 
- * @if notclike @internal @endif@~
+ * @ifnot clike @internal @endif@~
  *
  * SBMLExtension class (abstract class) is a core component of package extension
  * which needs to be extended by package developers. 
@@ -727,7 +727,6 @@ public:
 
 #ifndef LIBSBML_USE_LEGACY_MATH
   /**
-   * 
    * Adds the given ASTBasePlugin object to this package
    * extension.
    *
@@ -1044,8 +1043,8 @@ SBMLExtension_clone(SBMLExtension_t* ext);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof SBMLExtension_t
  */
@@ -1066,8 +1065,8 @@ SBMLExtension_free(SBMLExtension_t* ext);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof SBMLExtension_t
  */

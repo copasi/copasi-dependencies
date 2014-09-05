@@ -11,9 +11,6 @@
 #include <sbml/packages/spatial/extension/SpatialExtension.h>
 #include <sbml/packages/spatial/common/SpatialExtensionTypes.h>
 
-#include <sbml/packages/req/extension/RequiredElementsExtension.h>
-#include <sbml/packages/req/common/RequiredElementsExtensionTypes.h>
-
 using namespace std;
 
 void writeSpatialSBML();
@@ -25,21 +22,11 @@ int main(int argc, char* argv[])
 	readSpatialSBML();
 }
 
-void writeSpatialSBML() {
-  
-/*
-  // SBMLNamespaces of SBML Level 3 Version 1 with Spatial Version 1
-  SBMLNamespaces sbmlns(3,1,"spatial",1);
-  // SpatialPkgNamespaces spatialns(3,1,1);
-
-  // add Required Elements package namespace
-  sbmlns.addPkgNamespace("req", 1);
-*/
-
+void writeSpatialSBML() 
+{
   // SBMLNamespaces of SBML Level 3 Version 1 with 'req' Version 1
   // then add 'spatial' package namespace.
-  RequiredElementsPkgNamespaces sbmlns(3,1,1);
-  sbmlns.addPkgNamespace("spatial",1);
+  SpatialPkgNamespaces sbmlns(3,1,1);
 
   // create the L3V1 document with spatial package
   SBMLDocument document(&sbmlns);	
@@ -48,8 +35,6 @@ void writeSpatialSBML() {
   // set 'required' attribute on document for 'spatial' and 'req' packages to 'T'??
   SBMLDocumentPlugin* dplugin;
   dplugin = static_cast<SBMLDocumentPlugin*>(document.getPlugin("spatial"));
-  dplugin->setRequired(true);
-  dplugin = static_cast<SBMLDocumentPlugin*>(document.getPlugin("req"));
   dplugin->setRequired(true);
 
   // create the Model 
@@ -71,55 +56,40 @@ void writeSpatialSBML() {
   species1->setBoundaryCondition(false);
   species1->setConstant(false);
   // spatial package extension to species.
-  // required elements package extention to parameter
-  RequiredElementsSBasePlugin* reqplugin;
-  reqplugin = static_cast<RequiredElementsSBasePlugin*>(species1->getPlugin("req"));
-  reqplugin->setMathOverridden("spatial");
-  reqplugin->setCoreHasAlternateMath(true);
-  SpatialSpeciesRxnPlugin* srplugin;
-  srplugin = static_cast<SpatialSpeciesRxnPlugin*>(species1->getPlugin("spatial"));
+  SpatialSpeciesPlugin* srplugin;
+  srplugin = static_cast<SpatialSpeciesPlugin*>(species1->getPlugin("spatial"));
   srplugin->setIsSpatial(true);
 
   // add parameter for diff coeff of species1
   Parameter* paramSp = model->createParameter();
   paramSp->setId(species1->getId()+"_dc");
   paramSp->setValue(1.0);
-  // required elements package extention to parameter
-  reqplugin = static_cast<RequiredElementsSBasePlugin*>(paramSp->getPlugin("req"));
-  reqplugin->setMathOverridden("spatial");
-  reqplugin->setCoreHasAlternateMath(true);
   // spatial package extension to parameter.
   SpatialParameterPlugin* pplugin;
   pplugin = static_cast<SpatialParameterPlugin*>(paramSp->getPlugin("spatial"));
-  DiffusionCoefficient* diffCoeff = pplugin->getDiffusionCoefficient();
+  DiffusionCoefficient* diffCoeff = pplugin->createDiffusionCoefficient();
   diffCoeff->setVariable(species1->getId());
-  diffCoeff->setCoordinateIndex(0);
+  diffCoeff->setType(SPATIAL_DIFFUSIONKIND_ANISOTROPIC);
+  CoordinateReference* coordRef = diffCoeff->createCoordinateReference();
+  coordRef->setCoordinate(SPATIAL_COORDINATEKIND_CARTESIAN_X);  
   // add parameter for adv coeff of species1
   paramSp = model->createParameter();
   paramSp->setId(species1->getId()+"_ac");
   paramSp->setValue(1.5);
-  // required elements package extention to parameter
-  reqplugin = static_cast<RequiredElementsSBasePlugin*>(paramSp->getPlugin("req"));
-  reqplugin->setMathOverridden("spatial");
-  reqplugin->setCoreHasAlternateMath(true);
   // spatial package extension to parameter.
   pplugin = static_cast<SpatialParameterPlugin*>(paramSp->getPlugin("spatial"));
-  AdvectionCoefficient* advCoeff = pplugin->getAdvectionCoefficient();
+  AdvectionCoefficient* advCoeff = pplugin->createAdvectionCoefficient();
   advCoeff->setVariable(species1->getId());
-  advCoeff->setCoordinateIndex(0);
+  advCoeff->setCoordinate(SPATIAL_COORDINATEKIND_CARTESIAN_X);
   // add parameter for boundary condition of species1
   paramSp = model->createParameter();
   paramSp->setId(species1->getId()+"_bc");
   paramSp->setValue(2.0);
-  // required elements package extention to parameter
-  reqplugin = static_cast<RequiredElementsSBasePlugin*>(paramSp->getPlugin("req"));
-  reqplugin->setMathOverridden("spatial");
-  reqplugin->setCoreHasAlternateMath(true);
   // spatial package extension to parameter.
   pplugin = static_cast<SpatialParameterPlugin*>(paramSp->getPlugin("spatial"));
-  BoundaryCondition* boundCon = pplugin->getBoundaryCondition();
-  boundCon->setVariable(species1->getId());
-  boundCon->setType("value");
+  BoundaryCondition* boundCon = pplugin->createBoundaryCondition();
+  boundCon->setVariable(species1->getId());  
+  boundCon->setType(SPATIAL_BOUNDARYKIND_DIRICHLET);
   boundCon->setCoordinateBoundary("Xmin");
 
   Species* species2 = model->createSpecies();
@@ -129,33 +99,16 @@ void writeSpatialSBML() {
   species2->setHasOnlySubstanceUnits(false);
   species2->setBoundaryCondition(false);
   species2->setConstant(false);
-  srplugin = static_cast<SpatialSpeciesRxnPlugin*>(species2->getPlugin("spatial"));
+  srplugin = static_cast<SpatialSpeciesPlugin*>(species2->getPlugin("spatial"));
   srplugin->setIsSpatial(true);
-
-/*  // create a parameter
-  Parameter* param = model->createParameter();
-  param->setId("k_1");
-  param->setValue(0.24);
-  param->setConstant(true);
-
-  // create an assignment rule
-  AssignmentRule* assignRule = model->createAssignmentRule();
-  assignRule->setVariable(species1->getId());
-  assignRule->setFormula("species2+k_1");
-*/
-  /*
-  reqplugin = static_cast<RequiredElementsSBasePlugin*>(assignRule->getPlugin("req"));
-  reqplugin->setMathOverridden("spatial");
-  reqplugin->setCoreHasAlternateMath(false);
-  */
 
   Reaction* reaction = model->createReaction();
   reaction->setId("rxn1");
   reaction->setReversible(false);
   reaction->setFast(false);
   reaction->setCompartment("cytosol");
-  srplugin = static_cast<SpatialSpeciesRxnPlugin*>(reaction->getPlugin("spatial"));
-  srplugin->setIsLocal(true);
+  SpatialReactionPlugin* rplugin = static_cast<SpatialReactionPlugin*>(reaction->getPlugin("spatial"));
+  rplugin->setIsLocal(true);
 
   //
   // Get a SpatialModelPlugin object plugged in the model object.
@@ -170,85 +123,73 @@ void writeSpatialSBML() {
   //
   // Creates a geometry object via SpatialModelPlugin object.
   //
-  Geometry* geometry = mplugin->getGeometry();
-  geometry->setCoordinateSystem("XYZ");
+  Geometry* geometry = mplugin->createGeometry();
+  geometry->setCoordinateSystem(SPATIAL_GEOMETRYKIND_CARTESIAN);
 
   CoordinateComponent* coordX = geometry->createCoordinateComponent();
-  coordX->setSpatialId("coordComp1");
-  coordX->setComponentType("cartesian");
-  coordX->setSbmlUnit("umeter");
-  coordX->setIndex(1);
-  BoundaryMin* minX = coordX->createBoundaryMin();
-  minX->setSpatialId("Xmin");
+  coordX->setId("coordComp1");
+  coordX->setType(SPATIAL_COORDINATEKIND_CARTESIAN_X);
+  coordX->setUnit("umeter");
+  Boundary* minX = coordX->createBoundaryMin();
+  minX->setId("Xmin");
   minX->setValue(0.0);
-  BoundaryMax* maxX = coordX->createBoundaryMax();
-  maxX->setSpatialId("Xmax");
+  Boundary* maxX = coordX->createBoundaryMax();
+  maxX->setId("Xmax");
   maxX->setValue(10.0);
 
   Parameter* paramX = model->createParameter();
   paramX->setId("x");
   paramX->setValue(8.0);
-  // required elements package extention to parameter
-  // RequiredElementsSBasePlugin* reqplugin;
-  reqplugin = static_cast<RequiredElementsSBasePlugin*>(paramX->getPlugin("req"));
-  reqplugin->setMathOverridden("spatial");
-  reqplugin->setCoreHasAlternateMath(true);
   // spatial package extension to parameter.
   // SpatialParameterPlugin* pplugin;
   pplugin = static_cast<SpatialParameterPlugin*>(paramX->getPlugin("spatial"));
-  SpatialSymbolReference* spSymRef = pplugin->getSpatialSymbolReference();
-  spSymRef->setSpatialId(coordX->getSpatialId());
-  spSymRef->setType(coordX->getElementName());
+  SpatialSymbolReference* spSymRef = pplugin->createSpatialSymbolReference();
+  spSymRef->setSpatialRef(coordX->getId());
 
   DomainType* domainType = geometry->createDomainType();
-  domainType->setSpatialId("dtype1");
-  domainType->setSpatialDimensions(3);
+  domainType->setId("dtype1");
+  domainType->setSpatialDimension(3);
 
   // Spatial package extension to compartment (mapping compartment with domainType)
-  // required elements package extention to compartment
-  reqplugin = static_cast<RequiredElementsSBasePlugin*>(compartment->getPlugin("req"));
-  reqplugin->setMathOverridden("spatial");
-  reqplugin->setCoreHasAlternateMath(true);
   SpatialCompartmentPlugin* cplugin;
   cplugin = static_cast<SpatialCompartmentPlugin*>(compartment->getPlugin("spatial"));
-  CompartmentMapping* compMapping = cplugin->getCompartmentMapping();
-  compMapping->setSpatialId("compMap1");
-  compMapping->setCompartment(compartment->getId());
-  compMapping->setDomainType(domainType->getSpatialId());
+  CompartmentMapping* compMapping = cplugin->createCompartmentMapping();
+  compMapping->setId("compMap1");
+  compMapping->setDomainType(domainType->getId());
   compMapping->setUnitSize(1.0);
   
   Domain* domain = geometry->createDomain();
-  domain->setSpatialId("domain1");
+  domain->setId("domain1");
   domain->setDomainType("dtype1");
   InteriorPoint* internalPt1 = domain->createInteriorPoint();
   internalPt1->setCoord1(1.0);
 
   domain = geometry->createDomain();
-  domain->setSpatialId("domain2");
+  domain->setId("domain2");
   domain->setDomainType("dtype1");
   InteriorPoint* internalPt2 = domain->createInteriorPoint();
   internalPt2->setCoord1(5.0);
 
   AdjacentDomains* adjDomain = geometry->createAdjacentDomains();
-  adjDomain->setSpatialId("adjDomain1");
+  adjDomain->setId("adjDomain1");
   adjDomain->setDomain1("domain1");
   adjDomain->setDomain2("domain2");
 
   AnalyticGeometry* analyticGeom = geometry->createAnalyticGeometry();
-  analyticGeom->setSpatialId("analyticGeom1");
+  analyticGeom->setId("analyticGeom1");
   AnalyticVolume* analyticVol = analyticGeom->createAnalyticVolume();
-  analyticVol->setSpatialId("analyticVol1");
-  analyticVol->setDomainType(domainType->getSpatialId());
-  analyticVol->setFunctionType("squareFn");
+  analyticVol->setId("analyticVol1");
+  analyticVol->setDomainType(domainType->getId());
+  analyticVol->setFunctionType(SPATIAL_FUNCTIONKIND_LAYERED);
   analyticVol->setOrdinal(1);
   const char* mathMLStr = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><apply xmlns=\"\"><plus /><apply><times /><ci>x</ci><ci>x</ci></apply><apply><minus /><cn>1.0</cn></apply></apply></math>";
   ASTNode* mathNode = readMathMLFromString(mathMLStr);
   analyticVol->setMath(mathNode);
 
   SampledFieldGeometry* sfg = geometry->createSampledFieldGeometry();
-  sfg->setSpatialId("sampledFieldGeom1");
+  sfg->setId("sampledFieldGeom1");
   SampledField* sampledField = sfg->createSampledField();
-  sampledField->setSpatialId("sampledField1");
+  sampledField->setId("sampledField1");
   sampledField->setNumSamples1(4);
   sampledField->setNumSamples2(4);
   sampledField->setNumSamples3(2);
@@ -269,10 +210,11 @@ void writeSpatialSBML() {
 					 0,0,0,0
   };
   ImageData* id = sampledField->createImageData();
+  id->setDataType("uint8");
   id->setSamples(samples, 32);
   SampledVolume* sampledVol = sfg->createSampledVolume();
-  sampledVol->setSpatialId("sv_1");
-  sampledVol->setDomainType(domainType->getSpatialId());
+  sampledVol->setId("sv_1");
+  sampledVol->setDomainType(domainType->getId());
   sampledVol->setSampledValue(128.0);
   sampledVol->setMinValue(0.0);
   sampledVol->setMaxValue(255.0);
@@ -286,29 +228,23 @@ void readSpatialSBML() {
 	Model *model2 = document2->getModel();
 	Compartment *comp;
 	SpatialCompartmentPlugin* cplugin;
-	RequiredElementsSBasePlugin* reqplugin;
 	for (unsigned int i = 0; i < model2->getNumCompartments(); i++) {
 		comp = model2->getCompartment(i);
 		cout << "Compartment" << i << ": "  << comp->getId() << endl;
-		reqplugin = static_cast<RequiredElementsSBasePlugin*>(comp->getPlugin("req"));
-		if (!reqplugin->getMathOverridden().empty()) {
-			cout << "Comp" << i << "  req mathOverridden: "  << reqplugin->getMathOverridden() << endl;
-		}
 		cplugin = static_cast<SpatialCompartmentPlugin*>(comp->getPlugin("spatial"));
-		if (cplugin->getCompartmentMapping()->isSetSpatialId()) {
-			cout << "Comp" << i << "  CMSpId: "  << cplugin->getCompartmentMapping()->getSpatialId() << endl;
-			cout << "Comp" << i << "  CM_Comp: "  << cplugin->getCompartmentMapping()->getCompartment() << endl;
+		if (cplugin->getCompartmentMapping()->isSetId()) {
+			cout << "Comp" << i << "  CMSpId: "  << cplugin->getCompartmentMapping()->getId() << endl;
 			cout << "Comp" << i << "  CM_DType: "  << cplugin->getCompartmentMapping()->getDomainType() << endl;
 			cout << "Comp" << i << "  CM_UnitSz: "  << cplugin->getCompartmentMapping()->getUnitSize() << endl;
 		}
 	}
 
 	Species *sp;
-	SpatialSpeciesRxnPlugin* srplugin;
+	SpatialSpeciesPlugin* srplugin;
 	for (unsigned int i = 0; i < model2->getNumSpecies(); i++) {
 		sp = model2->getSpecies(i);
 		cout << "Species" << i << ": "      << sp->getId()      << endl;
-		srplugin = static_cast<SpatialSpeciesRxnPlugin*>(sp->getPlugin("spatial"));
+		srplugin = static_cast<SpatialSpeciesPlugin*>(sp->getPlugin("spatial"));
 		if (srplugin->getIsSpatial()) {
 			cout << "species" << i << "  isSpatial: "  << srplugin->getIsSpatial() << endl;
 		}
@@ -319,24 +255,21 @@ void readSpatialSBML() {
 	for (unsigned int i = 0; i < model2->getNumParameters(); i++) {
 		param = model2->getParameter(i);
 		cout << "Parameter" << i << ": "  << param->getId() << endl;
-		reqplugin = static_cast<RequiredElementsSBasePlugin*>(param->getPlugin("req"));
-		if (!reqplugin->getMathOverridden().empty()) {
-			cout << "Parameter" << i << "  req mathOverridden: "  << reqplugin->getMathOverridden() << endl;
-		}
 		pplugin = static_cast<SpatialParameterPlugin*>(param->getPlugin("spatial"));
-		if (pplugin->getSpatialSymbolReference()->isSetSpatialId()) {
-			cout << "Parameter" << i << "  SpRefId: "  << pplugin->getSpatialSymbolReference()->getSpatialId() << endl;
-			cout << "Parameter" << i << "  SpRefType: "  << pplugin->getSpatialSymbolReference()->getType() << endl;
+		if (pplugin->isSetSpatialSymbolReference()) {
+			cout << "Parameter" << i << "  SpRefId: "  << pplugin->getSpatialSymbolReference()->getSpatialRef() << endl;
 		}
-		if (pplugin->getDiffusionCoefficient()->isSetVariable()) {
+		if (pplugin->isSetDiffusionCoefficient()) {
 			cout << "Diff_" << i << "  SpeciesVarId: "  << pplugin->getDiffusionCoefficient()->getVariable() << endl;
-			cout << "Diff_" << i << "  SpCoordIndex: "  << pplugin->getDiffusionCoefficient()->getCoordinateIndex() << endl;
+			cout << "Diff_" << i << "  Type: "  << DiffusionKind_toString(pplugin->getDiffusionCoefficient()->getType()) << endl;
+      for (unsigned int j = 0; j < pplugin->getDiffusionCoefficient()->getNumCoordinateReferences(); ++j)
+        cout << "Diff_" << i << "  SpCoordIndex  " << j << " : " << CoordinateKind_toString(pplugin->getDiffusionCoefficient()->getCoordinateReference(j) ->getCoordinate()) << endl;
 		}
-		if (pplugin->getAdvectionCoefficient()->isSetVariable()) {
+		if (pplugin->isSetAdvectionCoefficient()) {
 			cout << "Adv_" << i << "  SpeciesVarId: "  << pplugin->getAdvectionCoefficient()->getVariable() << endl;
-			cout << "Adv_" << i << "  SpCoordIndex: "  << pplugin->getAdvectionCoefficient()->getCoordinateIndex() << endl;
+			cout << "Adv_" << i << "  SpCoordIndex: "  << CoordinateKind_toString(pplugin->getAdvectionCoefficient()->getCoordinate()) << endl;
 		}
-		if (pplugin->getBoundaryCondition()->isSetVariable()) {
+		if (pplugin->isSetBoundaryCondition()) {
 			cout << "BC_" << i << "  SpeciesVarId: "  << pplugin->getBoundaryCondition()->getVariable() << endl;
 			cout << "BC_" << i << "  SpCoordBoundary: "  << pplugin->getBoundaryCondition()->getCoordinateBoundary() << endl;
 			cout << "BC_" << i << "  SpBoundaryType: "  << pplugin->getBoundaryCondition()->getType() << endl;
@@ -344,12 +277,13 @@ void readSpatialSBML() {
 	}
 
 	Reaction *rxn;
+	SpatialReactionPlugin* rplugin;
 	for (unsigned int i = 0; i < model2->getNumReactions(); i++) {
 		rxn = model2->getReaction(i);
 		cout << "Reaction" << i << ": "      << rxn->getId()      << endl;
-		srplugin = static_cast<SpatialSpeciesRxnPlugin*>(rxn->getPlugin("spatial"));
-		if (srplugin->getIsLocal()) {
-			cout << "rxn" << i << "  isLocal: "  << srplugin->getIsLocal() << endl;
+		rplugin = static_cast<SpatialReactionPlugin*>(rxn->getPlugin("spatial"));
+		if (rplugin->getIsLocal()) {
+			cout << "rxn" << i << "  isLocal: "  << rplugin->getIsLocal() << endl;
 		}
 	}
 
@@ -377,25 +311,30 @@ void readSpatialSBML() {
     
 	// get a CoordComponent object via the Geometry object.	
 	CoordinateComponent* coordComp = geometry2->getCoordinateComponent(0);
-	std::cout << "CoordComponent spatialId: " << coordComp->getSpatialId() << std::endl;
-	std::cout << "CoordComponent compType: " << coordComp->getComponentType() << std::endl;
-	std::cout << "CoordComponent sbmlUnit: " << coordComp->getSbmlUnit() << std::endl;
-	std::cout << "CoordComponent index: " << coordComp->getIndex() << std::endl;
-	BoundaryMin* minX = coordComp->getBoundaryMin();
-	std::cout << "minX name: " << minX->getSpatialId() << std::endl;
+	std::cout << "CoordComponent Id: " << coordComp->getId() << std::endl;
+  std::cout << "CoordComponent type: " << CoordinateKind_toString( coordComp->getType()) << std::endl;
+	std::cout << "CoordComponent sbmlUnit: " << coordComp->getUnit() << std::endl;
+  if (coordComp->isSetBoundaryMin())
+  {
+  Boundary* minX = coordComp->getBoundaryMin();
+	std::cout << "minX name: " << minX->getId() << std::endl;
 	std::cout << "minX value: " << minX->getValue() << std::endl;
-	BoundaryMax* maxX = coordComp->getBoundaryMax();
-	std::cout << "maxX name: " << maxX->getSpatialId() << std::endl;
+  }
+  if (coordComp->isSetBoundaryMax())
+  {
+	Boundary* maxX = coordComp->getBoundaryMax();
+	std::cout << "maxX name: " << maxX->getId() << std::endl;
 	std::cout << "maxX value: " << maxX->getValue() << std::endl;
+  }
 
 	// get a DomainType object via the Geometry object.	
 	DomainType* domainType2 = geometry2->getDomainType(0);
-	std::cout << "DomainType spatialId: " << domainType2->getSpatialId() << std::endl;
-	std::cout << "DomainType spatialDim: " << domainType2->getSpatialDimensions() << std::endl;
+	std::cout << "DomainType Id: " << domainType2->getId() << std::endl;
+	std::cout << "DomainType spatialDim: " << domainType2->getSpatialDimension() << std::endl;
 
 	// get a Domain object via the Geometry object.	
 	Domain* domain = geometry2->getDomain(0);
-	std::cout << "Domain1 spatialId: " << domain->getSpatialId() << std::endl;
+	std::cout << "Domain1 Id: " << domain->getId() << std::endl;
 	std::cout << "Domain1 domainType: " << domain->getDomainType() << std::endl;
 	// get an internal point via the domain object
 	InteriorPoint* internalPt = domain->getInteriorPoint(0);
@@ -403,7 +342,7 @@ void readSpatialSBML() {
 
 	// get a Domain object via the Geometry object.	
 	domain = geometry2->getDomain(1);
-	std::cout << "Domain2 spatialId: " << domain->getSpatialId() << std::endl;
+	std::cout << "Domain2 Id: " << domain->getId() << std::endl;
 	std::cout << "Domain2 domainType: " << domain->getDomainType() << std::endl;
 	// get an internal point via the domain object
 	internalPt = domain->getInteriorPoint(0);
@@ -411,7 +350,7 @@ void readSpatialSBML() {
 
 	// get an AdjacentDomains object via the Geometry object.	
 	AdjacentDomains* adjDomain = geometry2->getAdjacentDomains(0);
-	std::cout << "AdjDomain spatialId: " << adjDomain->getSpatialId() << std::endl;
+	std::cout << "AdjDomain Id: " << adjDomain->getId() << std::endl;
 	std::cout << "AdjDomain domain1: " << adjDomain->getDomain1() << std::endl;
 	std::cout << "AdjDomain domain2: " << adjDomain->getDomain2() << std::endl;
 
@@ -421,11 +360,11 @@ void readSpatialSBML() {
 		gd = geometry2->getGeometryDefinition(i);
 		if (gd->isAnalyticGeometry()) {
 			AnalyticGeometry* analyticalGeom = static_cast<AnalyticGeometry*>(gd);
-			std::cout << "AnalGeom spatialId: " << analyticalGeom->getSpatialId() << std::endl;
+			std::cout << "AnalGeom Id: " << analyticalGeom->getId() << std::endl;
 
 			// analVol from analGeom.
 			AnalyticVolume* av = analyticalGeom->getAnalyticVolume(0);
-			std::cout << "AnalVol spatialId: " << av->getSpatialId() << std::endl;
+			std::cout << "AnalVol Id: " << av->getId() << std::endl;
 			std::cout << "AnalVol domainType: " << av->getDomainType() << std::endl;
 			std::cout << "AnalVol funcType: " << av->getFunctionType() << std::endl;
 			std::cout << "AnalVol ordinal: " << av->getOrdinal() << std::endl;
@@ -435,11 +374,11 @@ void readSpatialSBML() {
 		}
 		if (gd->isSampledFieldGeometry()) {
 			SampledFieldGeometry* sfGeom = static_cast<SampledFieldGeometry*>(gd);
-			std::cout << "SampledFieldGeom spatialId: " << sfGeom->getSpatialId() << std::endl;
+			std::cout << "SampledFieldGeom Id: " << sfGeom->getId() << std::endl;
 			
 			// sampledField from sfGeom
 			SampledField* sf = sfGeom->getSampledField();
-			std::cout << "SampledField spatialId: " << sf->getSpatialId() << std::endl;
+			std::cout << "SampledField Id: " << sf->getId() << std::endl;
 			std::cout << "SampledField dataType: " << sf->getDataType() << std::endl;
 			std::cout << "SampledField interpolation: " << sf->getInterpolationType() << std::endl;
 			std::cout << "SampledField encoding: " << sf->getEncoding() << std::endl;
@@ -450,11 +389,12 @@ void readSpatialSBML() {
 			int* samples = new int[id->getSamplesLength()];
 			id->getSamples(samples);
 			std::cout << "ImageData samples[0]: " << samples[0] << std::endl;
+			std::cout << "ImageData dtype: " << id->getDataType() << std::endl;
 			std::cout << "ImageData samplesLen: " << id->getSamplesLength() << std::endl;
-
+      
 			// sampledVolVol from sfGeom.
 			SampledVolume* sv = sfGeom->getSampledVolume(0);
-			std::cout << "SampledVol spatialId: " << sv->getSpatialId() << std::endl;
+			std::cout << "SampledVol Id: " << sv->getId() << std::endl;
 			std::cout << "SampledVol domainType: " << sv->getDomainType() << std::endl;
 			std::cout << "SampledVol sampledVal: " << sv->getSampledValue() << std::endl;
 			std::cout << "SampledVol min: " << sv->getMinValue() << std::endl;

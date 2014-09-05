@@ -31,7 +31,7 @@
  * ------------------------------------------------------------------------ -->
  * 
  * @class SBMLValidator
- * @sbmlbrief{core} Base class for SBML validators
+ * @sbmlbrief{core} Base class for SBML validators.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -57,7 +57,7 @@
  *
  * Users of libSBML may already be familiar with the facilities encompassed
  * by the validation system, in the form of the consistency-checking methods
- * defined on SBMLDocument.  The methods SBMLDocument::setConsistencyChecks(@if java int categ, boolean onoff@endif),
+ * defined on SBMLDocument.  The methods SBMLDocument::setConsistencyChecks(@if java int, boolean@endif),
  * SBMLDocument::checkConsistency(), SBMLDocument::checkInternalConsistency()
  * and other method of that sort are in fact implemented via SBMLValidator,
  * specifically as methods on the class SBMLInternalValidator.
@@ -98,7 +98,7 @@ public:
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
    */
   SBMLValidator(const SBMLValidator& orig);
@@ -116,16 +116,16 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   SBMLValidator& operator=(const SBMLValidator& rhs);
 
 
   /**
-   * Creates and returns a deep copy of this SBMLValidator.
-   * 
-   * @return a (deep) copy of this SBMLValidator.
+   * Creates and returns a deep copy of this SBMLValidator object.
+   *
+   * @return the (deep) copy of this SBMLValidator object.
    */
   virtual SBMLValidator* clone() const;
 
@@ -135,7 +135,7 @@ public:
    * 
    * @return the current SBML document
    *
-   * @see setDocument(@if java SBMLDocument* doc@endif)
+   * @see setDocument(@if java SBMLDocument@endif)
    */
   virtual SBMLDocument* getDocument();
 
@@ -145,7 +145,7 @@ public:
    * 
    * @return a const reference to the current SBML document
    * 
-   * @see setDocument(@if java SBMLDocument* doc@endif)
+   * @see setDocument(@if java SBMLDocument@endif)
    */
   virtual const SBMLDocument* getDocument() const;
 
@@ -159,7 +159,7 @@ public:
    * validation.  @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif@~ The possible values returned by this
    * function are
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    *
    * @see getDocument()
    */
@@ -214,7 +214,7 @@ public:
   /**
    * Validates the given SBMLDocument object.
    *
-   * This is identical to calling setDocument(@if java SBMLDocument* d @endif)
+   * This is identical to calling setDocument(@if java SBMLDocument @endif)
    * followed by validate().
    *
    * @param d the SBML document to validate
@@ -261,12 +261,12 @@ public:
    * It is important to note that this method <em>does not create</em> a
    * Model instance.  The model in the SBMLDocument must have been created
    * at some prior time, for example using SBMLDocument::createModel() 
-   * or SBMLDocument::setModel(@if java Model m@endif).
+   * or SBMLDocument::setModel(@if java Model@endif).
    * This method returns @c NULL if a model does not yet exist.
    * 
    * @return the Model contained in this validator's SBMLDocument object.
    *
-   * @see SBMLDocument::setModel(@if java Model m@endif)
+   * @see SBMLDocument::setModel(@if java Model@endif)
    * @see SBMLDocument::createModel()
    */
   const Model* getModel () const;
@@ -278,12 +278,12 @@ public:
    * It is important to note that this method <em>does not create</em> a
    * Model instance.  The model in the SBMLDocument must have been created
    * at some prior time, for example using SBMLDocument::createModel() 
-   * or SBMLDocument::setModel(@if java Model m@endif).
+   * or SBMLDocument::setModel(@if java Model@endif).
    * This method returns @c NULL if a model does not yet exist.
    * 
    * @return the Model contained in this validator's SBMLDocument object.
    *
-   * @see SBMLDocument::setModel(@if java Model m@endif)
+   * @see SBMLDocument::setModel(@if java Model@endif)
    * @see SBMLDocument::createModel()
    */
   Model* getModel ();

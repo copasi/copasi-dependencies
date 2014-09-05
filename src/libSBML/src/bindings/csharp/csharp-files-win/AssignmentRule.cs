@@ -14,7 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of %SBML's %AssignmentRule construct.
+@htmlinclude pkg-marker-core.html An SBML <em>assignment rule</em> representing <em>x = f(<b>Y</b>)</em>.
  *
  * The rule type AssignmentRule is derived from the parent class Rule.  It
  * is used to express equations that set the values of variables.  The
@@ -120,17 +120,17 @@ namespace libsbml {
  * function returning a numerical result, <b><em>V</em></b> is a vector of
  * variables that does not include <em>x</em>, and <b><em>W</em></b> is a
  * vector of variables that may include <em>x</em>):
- * 
+ *
  * <table border='0' cellpadding='0' class='centered' style='font-size: small'>
  * <tr><td width='120px'><em>Algebraic:</em></td><td width='250px'>left-hand side is zero</td><td><em>0 = f(<b>W</b>)</em></td></tr>
  * <tr><td><em>Assignment:</em></td><td>left-hand side is a scalar:</td><td><em>x = f(<b>V</b>)</em></td></tr>
  * <tr><td><em>Rate:</em></td><td>left-hand side is a rate-of-change:</td><td><em>dx/dt = f(<b>W</b>)</em></td></tr>
  * </table>
- * 
+ *
  * In their general form given above, there is little to distinguish
  * between <em>assignment</em> and <em>algebraic</em> rules.  They are treated as
  * separate cases for the following reasons:
- * 
+ *
  * @li <em>Assignment</em> rules can simply be evaluated to calculate
  * intermediate values for use in numerical methods.  They are statements
  * of equality that hold at all times.  (For assignments that are only
@@ -138,19 +138,19 @@ namespace libsbml {
 
  * @li SBML needs to place restrictions on assignment rules, for example
  * the restriction that assignment rules cannot contain algebraic loops.
- * 
+ *
  * @li Some simulators do not contain numerical solvers capable of solving
  * unconstrained algebraic equations, and providing more direct forms such
  * as assignment rules may enable those simulators to process models they
  * could not process if the same assignments were put in the form of
  * general algebraic equations;
- * 
+ *
  * @li Those simulators that <em>can</em> solve these algebraic equations make a
  * distinction between the different categories listed above; and
- * 
+ *
  * @li Some specialized numerical analyses of models may only be applicable
  * to models that do not contain <em>algebraic</em> rules.
- * 
+ *
  * The approach taken to covering these cases in SBML is to define an
  * abstract Rule structure containing a subelement, 'math', to hold the
  * right-hand side expression, then to derive subtypes of Rule that add
@@ -159,13 +159,13 @@ namespace libsbml {
  * mathematical formula of the rule.  This MathML formula must return a
  * numerical value.  The formula can be an arbitrary expression referencing
  * the variables and other entities in an SBML model.
- * 
+ *
  * Each of the three subclasses of Rule (AssignmentRule, AlgebraicRule,
  * RateRule) inherit the the 'math' subelement and other fields from SBase.
  * The AssignmentRule and RateRule classes add an additional attribute,
  * 'variable'.  See the definitions of AssignmentRule, AlgebraicRule and
  * RateRule for details about the structure and interpretation of each one.
- * 
+ *
  * @section rules-restrictions Additional restrictions on SBML rules
  *
  * An important design goal of SBML rule semantics is to ensure that a
@@ -173,15 +173,15 @@ namespace libsbml {
  * how often rules are evaluated.  To achieve this, SBML needs to place two
  * restrictions on rule use.  The first concerns algebraic loops in the system
  * of assignments in a model, and the second concerns overdetermined systems.
- * 
+ *
  * @subsection rules-no-loops A model must not contain algebraic loops
- * 
+ *
  * The combined set of InitialAssignment, AssignmentRule and KineticLaw
  * objects in a model constitute a set of assignment statements that should be
  * considered as a whole.  (A KineticLaw object is counted as an assignment
  * because it assigns a value to the symbol contained in the 'id' attribute of
  * the Reaction object in which it is defined.)  This combined set of
- * assignment statements must not contain algebraic loops&mdash;dependency
+ * assignment statements must not contain algebraic loops---dependency
  * chains between these statements must terminate.  To put this more formally,
  * consider a directed graph in which nodes are assignment statements and
  * directed arcs exist for each occurrence of an SBML species, compartment or
@@ -189,7 +189,7 @@ namespace libsbml {
  * directed arcs point from the statement assigning the symbol to the
  * statements that contain the symbol in their 'math' subelement expressions.
  * This graph must be acyclic.
- * 
+ *
  * SBML does not specify when or how often rules should be evaluated.
  * Eliminating algebraic loops ensures that assignment statements can be
  * evaluated any number of times without the result of those evaluations
@@ -202,17 +202,17 @@ namespace libsbml {
  * Conversely, the following set of equations would constitute a valid set of
  * assignment statements: <em>x = 10</em>, <em>y = z + 200</em>, and <em>z = x
  * + 100</em>.
- * 
+ *
  * @subsection rules-not-overdetermined A model must not be overdetermined
- * 
+ *
  * An SBML model must not be overdetermined; that is, a model must not
  * define more equations than there are unknowns in a model.  An SBML model
  * that does not contain AlgebraicRule structures cannot be overdetermined.
- * 
+ *
  * LibSBML implements the static analysis procedure described in
  * Appendix&nbsp;B of the SBML Level&nbsp;3 Version&nbsp;1 Core
  * specification for assessing whether a model is overdetermined.
- * 
+ *
  * (In summary, assessing whether a given continuous, deterministic,
  * mathematical model is overdetermined does not require dynamic analysis; it
  * can be done by analyzing the system of equations created from the model.
@@ -238,11 +238,11 @@ namespace libsbml {
  * that work @if clike a libSBML enumeration type, RuleType_t, whose values
  * are @else with the enumeration values @endif listed below.
  *
- * @li @link libsbmlcs.libsbml.RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
+ * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
  * the rule is a 'rate' rule.
- * @li @link libsbmlcs.libsbml.RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
+ * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
  * Indicates the rule is a 'scalar' rule.
- * @li @link libsbmlcs.libsbml.RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
+ * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
  * Indicates the rule type is unknown or not yet set.
  *
  *
@@ -303,23 +303,28 @@ public class AssignmentRule : Rule {
    * @param version a long integer, the SBML Version to assign to this
    * AssignmentRule.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    * 
    * *
- * @note Upon the addition of an AssignmentRule object to an SBMLDocument,
- * the SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the AssignmentRule
- * @if conly structure @else object@endif via the AssignmentRule
- * constructors.  This is necessary to ensure that an SBML document has a
- * consistent overall structure.  Nevertheless, the ability to supply the
- * values at the time of creation of a AssignmentRule is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add a component to an existing
- * SBMLDocument.
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
+ *
    */ public
  AssignmentRule(long level, long version) : this(libsbmlPINVOKE.new_AssignmentRule__SWIG_0(level, version), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -331,7 +336,7 @@ public class AssignmentRule : Rule {
    * @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -343,23 +348,28 @@ public class AssignmentRule : Rule {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
    * *
- * @note Upon the addition of an AssignmentRule object to an SBMLDocument,
- * the SBML Level, SBML Version and XML namespace of the document @em
- * override the values used when creating the AssignmentRule
- * @if conly structure @else object@endif via the AssignmentRule
- * constructors.  This is necessary to ensure that an SBML document has a
- * consistent overall structure.  Nevertheless, the ability to supply the
- * values at the time of creation of a AssignmentRule is an important aid to
- * producing valid SBML.  Knowledge of the intented SBML Level and Version
- * determine whether it is valid to assign a particular value to an
- * attribute, or whether it is valid to add a component to an existing
- * SBMLDocument.
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
+ *
    */ public
  AssignmentRule(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_AssignmentRule__SWIG_1(SBMLNamespaces.getCPtr(sbmlns)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -367,9 +377,9 @@ public class AssignmentRule : Rule {
 
   
 /**
-   * Creates and returns a deep copy of this Rule.
-   * 
-   * @return a (deep) copy of this Rule.
+   * Creates and returns a deep copy of this AssignmentRule object.
+   *
+   * @return the (deep) copy of this Rule object.
    */ public new
  AssignmentRule clone() {
     IntPtr cPtr = libsbmlPINVOKE.AssignmentRule_clone(swigCPtr);
@@ -382,12 +392,12 @@ public class AssignmentRule : Rule {
    * Predicate returning @c true if all the required attributes for this
    * AssignmentRule object have been set.
    *
-   * @note In SBML Levels&nbsp;2&ndash;3, the only required attribute for
+   * In SBML Levels&nbsp;2&ndash;3, the only required attribute for
    * an AssignmentRule object is 'variable'.  For Level&nbsp;1, where the
    * equivalent attribute is known by different names ('compartment',
    * 'species', or 'name', depending on the type of object), there is an
    * additional required attribute called 'formula'.
-   * 
+   *
    * @return @c true if the required attributes have been set, @c false
    * otherwise.
    */ public new
@@ -398,10 +408,11 @@ public class AssignmentRule : Rule {
 
   
 /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML.
-   *
    * *
+ * Replaces all uses of a given @c SIdRef type attribute value with another
+ * value.
+ *
+ * *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -415,15 +426,18 @@ public class AssignmentRule : Rule {
  * explicitly name the data type.
  *
  *
-   * 
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
-   */ public
+ *
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of @p oldid.  If any matches are found, the
+ * matching values are replaced with @p newid.  The method does @em not
+ * descend into child elements.
+ *
+ * @param oldid the old identifier
+ * @param newid the new identifier
+ *
+ *
+   */ public new
  void renameSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.AssignmentRule_renameSIdRefs(swigCPtr, oldid, newid);
   }

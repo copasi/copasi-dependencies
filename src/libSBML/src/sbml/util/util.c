@@ -46,6 +46,7 @@
 #include <sys/types.h>
 
 #include <sbml/common/common.h>
+#include <sbml/common/libsbml-package.h>
 
 #include <sbml/util/List.h>
 #include <sbml/util/util.h>
@@ -154,21 +155,21 @@ LIBSBML_EXTERN
 FILE *
 safe_fopen (const char *filename, const char *mode)
 {
-  const char *format;
-  const char *modestr;
   FILE       *fp;
 
   if (filename == NULL || mode == NULL) return NULL;
 
-  format  = "%s: error: Could not open file '%s' for %s.\n";
-  modestr = strcmp(mode, "r") ? "writing" : "reading";
   fp      = fopen(filename, mode);
 
 
   if (fp == (FILE *) NULL)
   {
-    fprintf(stderr, format, PACKAGE_NAME, filename, modestr);
 #ifdef EXIT_ON_ERROR
+    const char *format;
+    const char *modestr;
+    format  = "%s: error: Could not open file '%s' for %s.\n";
+    modestr = strcmp(mode, "r") ? "writing" : "reading";
+    fprintf(stderr, format, PACKAGE_NAME, filename, modestr);
     exit(-1);
 #endif
   }

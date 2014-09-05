@@ -86,6 +86,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <sbml/xml/XMLExtern.h>
+
 class LIBLAX_EXTERN OStream 
 {
   protected:
@@ -147,7 +149,7 @@ class LIBLAX_EXTERN OFStream : public OStream
      * @param is_append whether to open the file for appending (default:
      * <code>false</code>, meaning overwrite the content instead)
      * 
-     * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+     * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
      */
     OFStream (const std::string& filename, bool is_append = false); 
 
@@ -169,7 +171,7 @@ class LIBLAX_EXTERN OFStream : public OStream
      * @param is_append whether to open the file for appending (default:
      * <code>false</code>, meaning overwrite the content instead)
      * 
-     * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+     * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
      */
     void open (const std::string& filename, bool is_append = false);
   

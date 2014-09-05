@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2013-2014 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *     3. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -305,6 +310,7 @@ typedef enum
   , SBML_ARRAYS_DIMENSION          = 1201
 } SBMLArraysTypeCode_t;
 
+#if (0)
 typedef enum
 {
     AST_LINEAR_ALGEBRA_DETERMINANT = 1000
@@ -316,6 +322,28 @@ typedef enum
   , AST_LINEAR_ALGEBRA_VECTOR_CONSTRUCTOR
   , AST_LINEAR_ALGEBRA_MATRIX_CONSTRUCTOR
   , AST_LINEAR_ALGEBRA_MATRIXROW_CONSTRUCTOR
+  , AST_ARRAYS_UNKNOWN
+} ArraysASTNodeType_t;
+#endif
+
+typedef enum
+{
+    AST_QUALIFIER_CONDITION = 1000
+  , AST_LOGICAL_EXISTS
+  , AST_LOGICAL_FORALL
+  , AST_QUALIFIER_LOWLIMIT
+  , AST_STATISTICS_MEAN
+  , AST_STATISTICS_MEDIAN
+  , AST_STATISTICS_MODE
+  , AST_STATISTICS_MOMENT
+  , AST_QUALIFIER_MOMENTABOUT
+  , AST_SERIES_PRODUCT
+  , AST_STATISTICS_SDEV
+  , AST_LINEAR_ALGEBRA_SELECTOR
+  , AST_SERIES_SUM
+  , AST_QUALIFIER_UPLIMIT
+  , AST_STATISTICS_VARIANCE
+  , AST_LINEAR_ALGEBRA_VECTOR_CONSTRUCTOR
   , AST_ARRAYS_UNKNOWN
 } ArraysASTNodeType_t;
 

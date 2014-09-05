@@ -31,8 +31,7 @@
  * ------------------------------------------------------------------------ -->
  * 
  * @class SBase
- * @sbmlbrief{core} Implementation of %SBase, the base class of most SBML
- * objects.
+ * @sbmlbrief{core} SBML's <em>%SBase</em>, the base class of most SBML objects.
  *
  * Most components in SBML are derived from a single abstract base type,
  * SBase.  In addition to serving as the parent class for most other
@@ -88,7 +87,7 @@
  * type, which means each "metaid" value must be globally unique within an
  * SBML file.  (Importantly, this uniqueness criterion applies across any
  * attribute with type <a href="http://www.w3.org/TR/REC-xml/#id">XML
- * ID</a>, not just the "metaid" attribute used by SBML&mdash;something to
+ * ID</a>, not just the "metaid" attribute used by SBML---something to
  * be aware of if your application-specific XML content inside the
  * "annotation" subelement happens to use <a
  * href="http://www.w3.org/TR/REC-xml/#id">XML ID</a>.)  The "metaid" value
@@ -132,15 +131,7 @@
  * Doxygen's @copydetails command has limited functionality.  Symbols
  * beginning with "doc_" are marked as ignored in our Doxygen configuration.
  * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
- * 
- * @class doc_sbase_what_is_user_data
  *
- * @par
- * The user data associated with an SBML object can be used by an application
- * developer to attach custom information to that object in the model.  In case
- * of a deep copy, this attribute will passed as it is.  The attribute will be
- * never interpreted by libSBML.
- * 
  */
 
 #ifndef SBase_h
@@ -204,7 +195,7 @@ public:
    * @param rhs The object whose values are used as the basis of the
    * assignment.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p rhs is @c NULL.
    */
   SBase& operator=(const SBase& rhs);
@@ -222,8 +213,8 @@ public:
 
   /**
    * Creates and returns a deep copy of this SBase object.
-   * 
-   * @return a (deep) copy of this SBase object.
+   *
+   * @return the (deep) copy of this SBase object.
    */
   virtual SBase* clone () const = 0;
 
@@ -264,51 +255,19 @@ public:
   
 
   /**
-   * Renames all the @c SIdRef attributes on this element, including any
-   * found in MathML content (if such exists).
-   *
-   * @copydetails doc_what_is_sidref 
-   *
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of @p
-   * oldid.  If any matches are found, the matching identifiers are replaced
-   * with @p newid.  The method does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renamesidref_common
    */
   virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /**
-   * Renames all the meta-identifier attributes on this element.
-   *
-   * @copydetails doc_what_is_metaidref
-   *
-   * This method works by looking at all meta-identifier attribute values,
-   * comparing the identifiers to the value of @p oldid.  If any matches are
-   * found, the matching identifiers are replaced with @p newid.  The method
-   * does @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renamemetasidref_common
    */
   virtual void renameMetaIdRefs(const std::string& oldid, const std::string& newid);
 
 
   /**
-   * Renames all the @c UnitSIdRef attributes on this element.
-   *
-   * @copydetails doc_what_is_unitsidref 
-   *
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of @p oldid.  If any matches are found,
-   * the matching identifiers are replaced with @p newid.  The method does
-   * @em not descend into child elements.
-   *
-   * @param oldid the old identifier
-   * @param newid the new identifier
+   * @copydoc doc_renameunitsidref_common
    */
   virtual void renameUnitSIdRefs(const std::string& oldid, const std::string& newid);
 
@@ -319,7 +278,7 @@ public:
    * general), replace all nodes with the name 'id' with the provided
    * function.
    *
-   * @note This function does nothing itself&mdash;subclasses with ASTNode
+   * @note This function does nothing itself---subclasses with ASTNode
    * subelements must override this function.
    */
   virtual void replaceSIDWithFunction(const std::string& id, const ASTNode* function);
@@ -332,7 +291,7 @@ public:
    * object (or anything with ASTNodes in general), replace the 'math'
    * object with the function (existing/function).
    *
-   * @note This function does nothing itself&mdash;subclasses with ASTNode
+   * @note This function does nothing itself---subclasses with ASTNode
    * subelements must override this function.
    */
   virtual void divideAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function);
@@ -411,10 +370,12 @@ public:
    *
    * @return a pointer to a List of pointers to all children objects from
    * plug-ins.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   virtual List* getAllElementsFromPlugins(ElementFilter* filter=NULL);
-  
-  
+
+
   /**
    * Returns the value of the "metaid" attribute of this object.
    *
@@ -571,7 +532,7 @@ public:
    * @see appendNotes(const XMLNode* notes)
    * @see appendNotes(const std::string& notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   XMLNode* getNotes();
 
@@ -599,7 +560,7 @@ public:
    * @see appendNotes(const XMLNode* notes)
    * @see appendNotes(const std::string& notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   XMLNode* getNotes() const;
 
@@ -625,7 +586,7 @@ public:
    * @see appendNotes(const XMLNode* notes)
    * @see appendNotes(const std::string& notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   std::string getNotesString ();
 
@@ -651,7 +612,7 @@ public:
    * @see appendNotes(const XMLNode* notes)
    * @see appendNotes(const std::string& notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   std::string getNotesString () const;
 
@@ -871,7 +832,7 @@ public:
    * "core" namespace alone, not find any corresponding elements, and return 
    * NULL.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   SBase* getAncestorOfType(int type, const std::string pkgName = "core");
 
@@ -919,7 +880,7 @@ public:
    * "core" namespace alone, not find any corresponding elements, and return 
    * NULL.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   const SBase* getAncestorOfType(int type, const std::string pkgName = "core") const;
 
@@ -1234,7 +1195,7 @@ public:
    * @see appendNotes(const XMLNode* notes)
    * @see appendNotes(const std::string& notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   bool isSetNotes () const;
 
@@ -1293,9 +1254,9 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
    * 
    * @see getMetaId()
    * @see isSetMetaId()
@@ -1332,8 +1293,8 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
    virtual int setId (const std::string& sid);
   /** @endcond */
@@ -1393,8 +1354,8 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    *
    * @see getName()
    * @see isSetName()
@@ -1438,7 +1399,7 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1484,8 +1445,8 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1525,8 +1486,8 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1566,8 +1527,8 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1601,10 +1562,10 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_ANNOTATION_NAME_NOT_FOUND, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_ANNOTATION_NS_NOT_FOUND, OperationReturnValues_t}
    *
    * @see replaceTopLevelAnnotationElement(const XMLNode *)
    * @see replaceTopLevelAnnotationElement(const std::string&)
@@ -1632,9 +1593,9 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    *
    * @see removeTopLevelAnnotationElement(const std::string elementName, const std::string elementURI)
    * @see replaceTopLevelAnnotationElement(const std::string&)
@@ -1661,9 +1622,9 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    *
    * @see removeTopLevelAnnotationElement(const std::string elementName, const std::string elementURI)
    * @see replaceTopLevelAnnotationElement(const XMLNode*)
@@ -1702,8 +1663,8 @@ public:
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1711,7 +1672,7 @@ public:
    * @see appendNotes(const XMLNode* notes)
    * @see appendNotes(const std::string& notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   int setNotes(const XMLNode* notes);
 
@@ -1735,7 +1696,7 @@ public:
    * The format of "notes" elements must be <a target="_blank"
    * href="http://www.w3.org/TR/xhtml1/">XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of "notes" content, libSBML provides the static
-   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
    * readers are urged to consult the appropriate <a target="_blank"
    * href="http://sbml.org/Documents/Specifications">SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1747,22 +1708,41 @@ public:
    * using this method.  Here, the object being annotated is the whole SBML
    * document, but that is for illustration purposes only; you could of
    * course use this same approach to annotate any other SBML component.
-   * @if clike
-@verbatim
+   * @if cpp
+@code{.cpp}
 SBMLDocument* s = new SBMLDocument(3, 1);
 s->setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>");
-@endverbatim
-   * @endif@if java
-@verbatim
+@endcode
+@endif
+@if java
+@code{.java}
 SBMLDocument s = new SBMLDocument(3, 1);
 s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>");
-@endverbatim
-   * @endif@if csharp
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
+try:
+  sbmlDoc = SBMLDocument(3, 1)
+except ValueError:
+  print('Could not create SBMLDocument object')
+  sys.exit(1)
+
+note = "<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>"
+
+status = sbmlDoc.setNotes(note)
+if status != LIBSBML_OPERATION_SUCCESS:
+  # Do something to handle the error here.
+  print("Unable to set notes on the SBML document object")
+  sys.exit(1)
+@endcode
+@endif
+@if csharp
+@code
 SBMLDocument s = new SBMLDocument(3, 1);
 s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></body>");
-@endverbatim
-   * @endif@~
+@endcode
+@endif@~
    *
    * @param notes an XML string that is to be used as the content of the
    * "notes" subelement of this object
@@ -1774,9 +1754,9 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1784,7 +1764,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see appendNotes(const XMLNode* notes)
    * @see appendNotes(const std::string& notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   int setNotes(const std::string& notes, bool addXHTMLMarkup = false);
 
@@ -1806,7 +1786,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * The format of "notes" elements must be <a target="_blank"
    * href="http://www.w3.org/TR/xhtml1/">XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of "notes" content, libSBML provides the static
-   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
    * readers are urged to consult the appropriate <a target="_blank"
    * href="http://sbml.org/Documents/Specifications">SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1819,9 +1799,9 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1829,7 +1809,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see setNotes(const std::string& notes, bool addXHTMLMarkup)
    * @see appendNotes(const std::string& notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   int appendNotes(const XMLNode* notes);
 
@@ -1851,7 +1831,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * The format of "notes" elements must be <a target="_blank"
    * href="http://www.w3.org/TR/xhtml1/">XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of "notes" content, libSBML provides the static
-   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
    * readers are urged to consult the appropriate <a target="_blank"
    * href="http://sbml.org/Documents/Specifications">SBML specification
    * document</a> for the Level and Version of their model for more
@@ -1864,9 +1844,9 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1874,7 +1854,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see setNotes(const std::string& notes, bool addXHTMLMarkup)
    * @see appendNotes(const XMLNode* notes)
    * @see unsetNotes()
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   int appendNotes(const std::string& notes);
 
@@ -1889,9 +1869,9 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    * 
    * @note In SBML Level&nbsp;2, model history annotations were only
    * permitted on the Model element.  In SBML Level&nbsp;3, they are
@@ -1972,11 +1952,11 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
    *
-   * @see setSBOTerm(@if java String sbo_id@else const std::string &sboid@endif)
+   * @see setSBOTerm(@if java String@else const std::string &sboid@endif)
    */
   virtual int setSBOTerm (int value);
 
@@ -2005,9 +1985,9 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
    *
    * @see setSBOTerm(int value)
    */
@@ -2028,7 +2008,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   int setNamespaces(XMLNamespaces* xmlns);
 
@@ -2040,9 +2020,9 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *  
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   int unsetMetaId ();
 
@@ -2057,8 +2037,8 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int unsetId ();
 
@@ -2101,8 +2081,8 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * 
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int unsetName ();
 
@@ -2122,7 +2102,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * The format of "notes" elements must be <a target="_blank"
    * href="http://www.w3.org/TR/xhtml1/">XHTML&nbsp;1.0</a>.  To help
    * verify the formatting of "notes" content, libSBML provides the static
-   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif); however,
+   * utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); however,
    * readers are urged to consult the appropriate <a target="_blank"
    * href="http://sbml.org/Documents/Specifications">SBML specification
    * document</a> for the Level and Version of their model for more
@@ -2132,7 +2112,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -2140,7 +2120,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see setNotes(const std::string& notes, bool addXHTMLMarkup)
    * @see appendNotes(const XMLNode* notes)
    * @see appendNotes(const std::string& notes)
-   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endif)
+   * @see SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif)
    */
   int unsetNotes ();
 
@@ -2164,7 +2144,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    *
    * @see getAnnotation()
    * @see getAnnotationString()
@@ -2182,8 +2162,8 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
    */
   int unsetSBOTerm ();
 
@@ -2199,11 +2179,11 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink, if
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}, if
    * this object lacks a "metaid" attribute
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    *
    * @note Since the CV Term uses the "metaid" attribute of the object as a
    * reference, if the object has no "metaid" attribute value set, then the
@@ -2211,7 +2191,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @copydetails doc_note_object_is_copied
    * 
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   int addCVTerm(CVTerm * term, bool newBag = false);
 
@@ -2259,8 +2239,8 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   int unsetCVTerms();
 
@@ -2270,9 +2250,9 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    * 
    * @note In SBML Level&nbsp;2, model history annotations were only
    * permitted on the Model element.  In SBML Level&nbsp;3, they are
@@ -2326,7 +2306,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * <code>"http://www.geneontology.org/#GO:0005892"</code>.
    *
    * @return the qualifier associated with the resource,
-   * or @link BiolQualifierType_t#BQB_UNKNOWN BQB_UNKNOWN@endlink if the
+   * or @sbmlconstant{BQB_UNKNOWN, BiolQualifierType_t} if the
    * resource does not exist.
    *
    * @if clike
@@ -2407,9 +2387,8 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * <code>"http://www.geneontology.org/#GO:0005892"</code>.
    *
    * @return the @if clike #ModelQualifierType_t value@else model qualifier
-   * type@endif@~ associated with the resource, or @link
-   * ModelQualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink if the resource
-   * does not exist.
+   * type@endif@~ associated with the resource, or @sbmlconstant{BQM_UNKNOWN,
+   * ModelQualifierType_t} if the resource does not exist.
    *
    * @if clike
    * @note The set of MIRIAM biological qualifiers grows over
@@ -2455,7 +2434,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
 
   /**
-   * Returns the SBML Level of the SBMLDocument object containing this
+   * Returns the SBML Level of the SBMLDocument object containing @em this
    * object.
    * 
    * @copydetails doc_what_is_SBMLDocument
@@ -2471,7 +2450,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   /**
    * Returns the Version within the SBML Level of the SBMLDocument object
-   * containing this object.
+   * containing @em this object.
    * 
    * @copydetails doc_what_is_SBMLDocument
    * 
@@ -2498,8 +2477,8 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
 
   /**
-   * Returns the name of the SBML Level&nbsp;3 package in which this
-   * element is defined.
+   * Returns the name of the SBML Level&nbsp;3 package in which this element
+   * is defined.
    *
    * @return the name of the SBML package in which this element is defined.
    * The string <code>&quot;core&quot;</code> will be returned if this
@@ -2512,22 +2491,21 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   /**
    * Returns the libSBML type code for this object.
-   * 
-   * This method may return the type code of this SBML object, or it may
-   * return @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink.  This
-   * is because subclasses of SBase are not required to implement this
-   * method to return a type code.  This method is meant primarily for the
-   * LibSBML C interface, in which class and subclass information is not
-   * readily available.
    *
-   * @return the @if clike #SBMLTypeCode_t value@else SBML object type code@endif@~
-   * of this SBML object or
-   * @link SBMLTypeCode_t#SBML_UNKNOWN SBML_UNKNOWN@endlink (the default).
+   * @copydetails doc_what_are_typecodes
+   *
+   * @copydetails doc_additional_typecode_details
+   *
+   * @return the @if clike #SBMLTypeCode_t value@else SBML object type
+   * code@endif@~ of this SBML object, or @sbmlconstant{SBML_UNKNOWN,
+   * SBMLTypeCode_t} (the default).  The latter is possible because
+   * subclasses of SBase are not required to implement this method to return
+   * a type code.
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
-   * @see getElementName()
    * @see getPackageName()
+   * @see getElementName()
    */
   virtual int getTypeCode () const;
 
@@ -2701,10 +2679,10 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_PKG_UNKNOWN, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_PKG_VERSION_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_PKG_CONFLICTED_VERSION, OperationReturnValues_t}
    *
    * @see disablePackage(const std::string& pkgURI, const std::string& pkgPrefix)
    */
@@ -2721,14 +2699,15 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * An example of when this may be useful is during construction of model
    * components when mixing existing and new models.  Suppose your
    * application read an SBML document containing a model that used the SBML
-   * Hierarchical Model Composition (&ldquo;comp&rdquo;) package, and
+   * Hierarchical %Model Composition (&ldquo;comp&rdquo;) package, and
    * extracted parts of that model in order to construct a new model in
    * memory.  The new, in-memory model will not accept a component drawn from
    * an other SBMLDocument with different package namespace declarations.
    * You could reconstruct the same namespaces in the in-memory model first,
    * but as a shortcut, you could also disable the package namespace on the
    * object being added.  Here is a code example to help clarify this:
-   * @if clike @verbatim
+   * @if cpp
+@code{.cpp}
 // We read in an SBML L3V1 model that uses the 'comp' package namespace
 doc = readSBML("sbml-file-with-comp-elements.xml");
 
@@ -2750,38 +2729,72 @@ Model * newModel = new Model(3,1);
 s1->disablePackage("http://www.sbml.org/sbml/level3/version1/comp/version1",
                    "comp");
 newModel->addSpecies(s1);
-@endverbatim
-@endif@if python
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
 import sys
 import os.path
 from libsbml import *
 
-# We read in an SBML L3V1 model that uses the 'comp' package namespace
+# We read an SBML L3V1 model that uses the 'comp' package.
+
 doc = readSBML("sbml-file-with-comp-elements.xml");
+if doc.getNumErrors() > 0:
+  print('readSBML encountered errors while reading the file.')
+  doc.printErrors()
+  sys.exit(1)
 
 # We extract one of the species from the model we just read in.
-s1 = doc.getModel().getSpecies(0);
 
-# We construct a new model.  This model does not use the 'comp' package.
-newDoc = SBMLDocument(3, 1);
-newModel = newDoc.createModel();
+model = doc.getModel()
+if model == None:
+  print('Unable to retrieve Model object')
+  sys.exit(1)
 
-# The following would fail with an error, because addSpecies() would
-# first check that the parent of the given object has namespaces
-# declared, and will discover that s1 does but newModel does not.
+s1 = model.getSpecies(0)
+if s1 == None:
+  print('Unable to retrieve Species object')
+  sys.exit(1)
 
-# newModel.addSpecies(s1);
+# We construct a new model.
+# This model does not use the 'comp' package.
 
-# However, if we disable the 'comp' package on s1, then the call
-# to addSpecies will work.
+try:
+  newDoc = SBMLDocument(3, 1)
+except ValueError:
+  print('Could not create SBMLDocument object')
+  sys.exit(1)
 
-s1.disablePackage("http://www.sbml.org/sbml/level3/version1/comp/version1",
-                  "comp");
-newModel.addSpecies(s1);
-@endverbatim
-@endif@if java
-@verbatim
+newModel = newDoc.createModel()
+if newModel == None:
+  print('Unable to create new Model object')
+  sys.exit(1)
+
+# The following would normally fail with an error, because
+# addSpecies() would first check that the parent of the given
+# object has namespaces declared, and will discover that s1
+# does but newModel does not.
+
+#   newModel.addSpecies(s1)
+
+# However, if we disable the 'comp' package on s1, then the
+# call to addSpecies will work.
+
+compNS = "http://www.sbml.org/sbml/level3/version1/comp/version1"
+status = s1.disablePackage(compNS, "comp")
+if status != LIBSBML_OPERATION_SUCCESS:
+  print('Unable to disable package.')
+  sys.exit(1)
+
+newSpecies = newModel.addSpecies(s1)   # This will work now.
+if newSpecies == None:
+  print('Could not add Species')       # (This will not happen,
+  sys.exit(1)                          # but always check errors.)
+@endcode
+@endif
+@if java
+@code{.java}
 // We read in an SBML L3V1 model that uses the 'comp' package namespace
 SBMLReader reader = new SBMLReader();
 SBMLDocument doc = reader.readSBML("sbml-file-with-comp-elements.xml");
@@ -2804,7 +2817,7 @@ Model newModel = new Model(3,1);
 s1->disablePackage("http://www.sbml.org/sbml/level3/version1/comp/version1",
                    "comp");
 newModel.addSpecies(s1);
-@endverbatim
+@endcode
 @endif
    *
    * @param pkgURI the URI of the package
@@ -2815,10 +2828,10 @@ newModel.addSpecies(s1);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_PKG_UNKNOWN, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_PKG_VERSION_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_PKG_CONFLICTED_VERSION, OperationReturnValues_t}
    *
    * @see enablePackage(const std::string& pkgURI, const std::string& pkgPrefix, bool flag)
    */
@@ -2852,7 +2865,7 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c 
    * false otherwise.
    *
-   * @see isPackageEnabled(@if java String pkgName@endif)
+   * @see isPackageEnabled(@if java String@endif)
    */
   bool isPackageURIEnabled(const std::string& pkgURI) const;
 
@@ -2868,7 +2881,7 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c
    * false otherwise.
    *
-   * @see isPackageURIEnabled(@if java String pkgURI@endif)
+   * @see isPackageURIEnabled(@if java String@endif)
    */
   bool isPackageEnabled(const std::string& pkgName) const;
 
@@ -2882,10 +2895,10 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c 
    * false otherwise.
    *
-   * @see isPkgEnabled(@if java String pkgName@endif)
+   * @see isPkgEnabled(@if java String@endif)
    *
    * @deprecated Replaced in libSBML 5.2.0 by
-   * isPackageURIEnabled(@if java String pkgURI@endif)
+   * isPackageURIEnabled(@if java String@endif)
    */
   bool isPkgURIEnabled(const std::string& pkgURI) const;
 
@@ -2901,10 +2914,10 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c
    * false otherwise.
    *
-   * @see isPkgURIEnabled(@if java String pkgURI@endif)
+   * @see isPkgURIEnabled(@if java String@endif)
    *
    * @deprecated Replaced in libSBML 5.2.0 by
-   * isPackageEnabled(@if java String pkgName@endif)
+   * isPackageEnabled(@if java String@endif)
    */
   bool isPkgEnabled(const std::string& pkgName) const;
 
@@ -2933,7 +2946,7 @@ newModel.addSpecies(s1);
   /**
    * Writes (serializes) this SBML object by writing it to XMLOutputStream.
    */
-  void write (XMLOutputStream& stream) const;
+  virtual void write (XMLOutputStream& stream) const;
   /** @endcond */
 
 
@@ -3033,8 +3046,8 @@ newModel.addSpecies(s1);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int removeFromParentAndDelete();
 
@@ -3093,37 +3106,37 @@ newModel.addSpecies(s1);
    * a subset of @p sb's, @c false otherwise.
    */
   bool matchesRequiredSBMLNamespacesForAddition(const SBase * sb) const;
-  
-  
+
+
   /**
    * Sets the user data of this element.
    *
-   * @copydetails doc_sbase_what_is_user_data 
-   * 
-   * @param userData specifies the new user data. 
+   * @copydetails doc_what_is_user_data
+   *
+   * @param userData specifies the new user data.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
-   */  
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
   int setUserData(void *userData);
 
 
   /**
    * Returns the user data that has been previously set via setUserData().
    *
-   * @copydetails doc_sbase_what_is_user_data 
+   * @copydetails doc_what_is_user_data
    *
    * @return the user data of this node, or @c NULL if no user data has been set.
-   * 
+   *
    * @if clike
    * @see ASTNode::setUserData(void *userData)
    * @endif@~
-   */  
+   */
   void *getUserData() const;
 
-  
+
   /**
    * Gets the namespace URI to which this element belongs to.
    *
@@ -3188,7 +3201,7 @@ protected:
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif@~
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c NULL.
   */
   SBase(const SBase& orig);
@@ -3272,7 +3285,7 @@ protected:
    *
    * This is essentially a short form of getErrorLog()->logError(...)
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   void logError (  unsigned int       id
                  , const unsigned int level   = 2
@@ -3390,7 +3403,7 @@ protected:
    * If the syntax of the unit attribute of this object is incorrect, 
    * an error is logged
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
   void checkUnitSyntax(unsigned int flag = 0);
 #endif
@@ -3460,8 +3473,8 @@ protected:
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif@~ The possible values
    * returned by this function are:
-   * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
   int setElementNamespace(const std::string &uri);
 
@@ -3476,7 +3489,7 @@ protected:
    * Read attributes of package extensions from the given XMLAttributes 
    * set into their specific fields. 
    * 
-   * Be sure to call your parents implementation of this function as well.  
+   * Be sure to call your parent's implementation of this function as well.  
    * For example:
    * @if clike
 @verbatim
@@ -4026,9 +4039,9 @@ SBase_isSetSBOTerm(const SBase_t *sb);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
- * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
  *
  * @note Using this function with the metaid set to NULL is equivalent to
  * unsetting the "metaid" attribute.
@@ -4061,9 +4074,9 @@ SBase_setMetaId (SBase_t *sb, const char *metaid);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
- * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4094,9 +4107,9 @@ SBase_setSBOTerm (SBase_t *sb, int value);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
- * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4116,7 +4129,7 @@ SBase_setSBOTermID (SBase_t *sb, const char* sboid);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4135,8 +4148,8 @@ SBase_setNamespaces (SBase_t *sb, XMLNamespaces_t *xmlns);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4155,15 +4168,15 @@ SBase_setNotes (SBase_t *sb, XMLNode_t *notes);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
 LIBSBML_EXTERN
 int
-SBase_setNotesString (SBase_t *sb, char *notes);
+SBase_setNotesString (SBase_t *sb, const char *notes);
 
 
 /**
@@ -4176,15 +4189,15 @@ SBase_setNotesString (SBase_t *sb, char *notes);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
 LIBSBML_EXTERN
 int
-SBase_setNotesStringAddMarkup (SBase_t *sb, char *notes);
+SBase_setNotesStringAddMarkup (SBase_t *sb, const char *notes);
 
 
 /**
@@ -4197,9 +4210,9 @@ SBase_setNotesStringAddMarkup (SBase_t *sb, char *notes);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4218,15 +4231,15 @@ SBase_appendNotes (SBase_t *sb, XMLNode_t *notes);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
 LIBSBML_EXTERN
 int
-SBase_appendNotesString (SBase_t *sb, char *notes);
+SBase_appendNotesString (SBase_t *sb, const char *notes);
 
 
 /**
@@ -4239,7 +4252,7 @@ SBase_appendNotesString (SBase_t *sb, char *notes);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4258,14 +4271,14 @@ SBase_setAnnotation (SBase_t *sb, XMLNode_t *annotation);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
 LIBSBML_EXTERN
 int
-SBase_setAnnotationString (SBase_t *sb, char *annotation);
+SBase_setAnnotationString (SBase_t *sb, const char *annotation);
 
 
 /**
@@ -4278,8 +4291,8 @@ SBase_setAnnotationString (SBase_t *sb, char *annotation);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4298,14 +4311,14 @@ SBase_appendAnnotation (SBase_t *sb, XMLNode_t *annotation);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
 LIBSBML_EXTERN
 int
-SBase_appendAnnotationString (SBase_t *sb, char *annotation);
+SBase_appendAnnotationString (SBase_t *sb, const char *annotation);
 
 
 /**
@@ -4326,10 +4339,10 @@ SBase_appendAnnotationString (SBase_t *sb, char *annotation);
  *
  * @return integer value indicating success/failure of the
  * function.  The possible values returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
- * @li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND @endlink
- * @li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_ANNOTATION_NAME_NOT_FOUND, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_ANNOTATION_NS_NOT_FOUND, OperationReturnValues_t}
  *
  * @see SBase_removeTopLevelAnnotationElementWithURI (SBase_t *,
  *  const char *, const char *)
@@ -4340,7 +4353,7 @@ SBase_appendAnnotationString (SBase_t *sb, char *annotation);
  */
 LIBSBML_EXTERN
 int
-SBase_removeTopLevelAnnotationElement (SBase_t *sb, char *name);
+SBase_removeTopLevelAnnotationElement (SBase_t *sb, const char *name);
 
 
 /**
@@ -4363,10 +4376,10 @@ SBase_removeTopLevelAnnotationElement (SBase_t *sb, char *name);
  *
  * @return integer value indicating success/failure of the
  * function.  The possible values returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
- * @li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND @endlink
- * @li @link OperationReturnValues_t#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_ANNOTATION_NAME_NOT_FOUND, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_ANNOTATION_NS_NOT_FOUND, OperationReturnValues_t}
  *
  * @see SBase_removeTopLevelAnnotationElement (SBase_t *, const char *)
  * @see SBase_replaceTopLevelAnnotationElement (SBase_t *, XMLNode_t *)
@@ -4401,9 +4414,9 @@ SBase_removeTopLevelAnnotationElementWithURI (SBase_t *sb, const char *name,
  *
  * @return integer value indicating success/failure of the
  * function.  The possible values returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @see SBase_removeTopLevelAnnotationElement (SBase_t *, const char *)
  * @see SBase_removeTopLevelAnnotationElementWithURI (SBase_t *,
@@ -4438,9 +4451,9 @@ SBase_replaceTopLevelAnnotationElement (SBase_t *sb, XMLNode_t *annotation);
  *
  * @return integer value indicating success/failure of the
  * function.  The possible values returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @see SBase_removeTopLevelAnnotationElement (SBase_t *, const char *)
  * @see SBase_removeTopLevelAnnotationElementWithURI (SBase_t *,
@@ -4451,7 +4464,7 @@ SBase_replaceTopLevelAnnotationElement (SBase_t *sb, XMLNode_t *annotation);
  */
 LIBSBML_EXTERN
 int
-SBase_replaceTopLevelAnnotationElementString (SBase_t *sb, char *annotation);
+SBase_replaceTopLevelAnnotationElementString (SBase_t *sb, const char *annotation);
 
 
 /**
@@ -4463,8 +4476,8 @@ SBase_replaceTopLevelAnnotationElementString (SBase_t *sb, char *annotation);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4482,7 +4495,7 @@ SBase_unsetMetaId (SBase_t *sb);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4500,7 +4513,7 @@ SBase_unsetNotes (SBase_t *sb);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4518,8 +4531,8 @@ SBase_unsetAnnotation (SBase_t *sb);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4538,10 +4551,10 @@ SBase_unsetSBOTerm (SBase_t *sb);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
- * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @note The annotation constructed from a CVTerm_t uses the metaid
  * of the structure to identify it.  Adding a CVTerm_t to an structure
@@ -4566,10 +4579,10 @@ SBase_addCVTerm(SBase_t *sb, CVTerm_t *term);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
- * @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @note The annotation constructed from a CVTerm_t uses the metaid
  * of the structure to identify it.  Adding a CVTerm_t to an structure
@@ -4639,8 +4652,8 @@ SBase_getCVTerm(SBase_t *sb, unsigned int n);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4688,8 +4701,8 @@ SBase_isSetModelHistory(SBase_t *sb);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4706,8 +4719,8 @@ SBase_setModelHistory(SBase_t *sb, ModelHistory_t *history);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */
@@ -4923,9 +4936,9 @@ SBase_getPlugin(SBase_t *sb, const char *package);
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t.  @endif@~ The possible values
  * returned by this function are:
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
- * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof SBase_t
  */

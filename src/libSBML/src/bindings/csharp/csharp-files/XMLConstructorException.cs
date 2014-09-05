@@ -14,8 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Class of exceptions thrown by constructors of some
- * libSBML objects.
+@htmlinclude pkg-marker-core.html Exceptions thrown by some libSBML constructors.
  *
  * @htmlinclude not-sbml-warning.html
  *

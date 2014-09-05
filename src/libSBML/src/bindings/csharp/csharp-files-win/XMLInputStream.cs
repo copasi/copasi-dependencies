@@ -15,6 +15,40 @@ namespace libsbml {
  * @sbmlpackage{core}
  *
 @htmlinclude pkg-marker-core.html An interface to an XML input stream.
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * SBML content is serialized using XML; the resulting data can be stored and
+ * read to/from a file or data stream.  Low-level XML parsers such as Xerces
+ * provide facilities to read XML data.  To permit the use of different XML
+ * parsers (Xerces, Expat or libxml2), libSBML implements an abstraction
+ * layer.  XMLInputStream and XMLOutputStream are two parts of that
+ * abstraction layer.
+ *
+ * XMLInputStream is an interface to a file or text string containing XML.
+ * It wraps the content to be read, as well as the low-level XML parser to be
+ * used and an XMLErrorLog to record errors and other issues (if any arise).
+ * Internally, the content will be in the form of either a pointer to a file
+ * name or a character string; XMLInputStream knows the form of the content
+ * and acts appropriately.  Other libSBML object classes use XMLInputStream
+ * as their interface for all read operations on the XML data.
+ * XMLInputStream provides the functionality to extract data in the form of
+ * XMLToken objects.  It logs any errors encountered while reading.  It also
+ * keeps track of whether a read operation has failed irrecoverably or
+ * determines whether it is safe to continue reading.
+ *
+ * SBMLNamespaces objects can be associated with an XMLInputStream; this
+ * facilitates logging errors related to reading XML attributes and elements
+ * that may only be relevant to particular Level and Version combinations of
+ * SBML.
+ *
+ * @note The convenience of the XMLInputStream and XMLOutputStream
+ * abstraction may be useful for developers interested in creating parsers
+ * for other XML formats besides SBML.  It can provide developers with a
+ * layer above more basic XML parsers, as well as some useful programmatic
+ * elements such as XMLToken, XMLError, etc.
+ *
+ * @see XMLOutputStream
  */
 
 public class XMLInputStream : IDisposable {
@@ -66,18 +100,18 @@ public class XMLInputStream : IDisposable {
 /**
    * Creates a new XMLInputStream.
    *
-   * @p content the source of the stream.
+   * @param content the source of the stream.
    *
-   * @p isFile bool flag to indicate whether @p content is a file name.
-   * If @c true, @p content is assumed to be the file from which the XML
-   * content is to be read.  If @c false, @p content is taken to be a
+   * @param isFile a bool flag to indicate whether @p content is a file
+   * name.  If @c true, @p content is assumed to be the file from which the
+   * XML content is to be read.  If @c false, @p content is taken to be a
    * string that @em is the content to be read.
    *
-   * @p library the name of the parser library to use.
+   * @param library the name of the parser library to use.
    *
-   * @p errorLog the XMLErrorLog object to use.
+   * @param errorLog the XMLErrorLog object to use.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLInputStream(string content, bool isFile, string library, XMLErrorLog errorLog) : this(libsbmlPINVOKE.new_XMLInputStream__SWIG_0(content, isFile, library, XMLErrorLog.getCPtr(errorLog)), true) {
   }
@@ -86,18 +120,18 @@ public class XMLInputStream : IDisposable {
 /**
    * Creates a new XMLInputStream.
    *
-   * @p content the source of the stream.
+   * @param content the source of the stream.
    *
-   * @p isFile bool flag to indicate whether @p content is a file name.
-   * If @c true, @p content is assumed to be the file from which the XML
-   * content is to be read.  If @c false, @p content is taken to be a
+   * @param isFile a bool flag to indicate whether @p content is a file
+   * name.  If @c true, @p content is assumed to be the file from which the
+   * XML content is to be read.  If @c false, @p content is taken to be a
    * string that @em is the content to be read.
    *
-   * @p library the name of the parser library to use.
+   * @param library the name of the parser library to use.
    *
-   * @p errorLog the XMLErrorLog object to use.
+   * @param errorLog the XMLErrorLog object to use.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLInputStream(string content, bool isFile, string library) : this(libsbmlPINVOKE.new_XMLInputStream__SWIG_1(content, isFile, library), true) {
   }
@@ -106,18 +140,18 @@ public class XMLInputStream : IDisposable {
 /**
    * Creates a new XMLInputStream.
    *
-   * @p content the source of the stream.
+   * @param content the source of the stream.
    *
-   * @p isFile bool flag to indicate whether @p content is a file name.
-   * If @c true, @p content is assumed to be the file from which the XML
-   * content is to be read.  If @c false, @p content is taken to be a
+   * @param isFile a bool flag to indicate whether @p content is a file
+   * name.  If @c true, @p content is assumed to be the file from which the
+   * XML content is to be read.  If @c false, @p content is taken to be a
    * string that @em is the content to be read.
    *
-   * @p library the name of the parser library to use.
+   * @param library the name of the parser library to use.
    *
-   * @p errorLog the XMLErrorLog object to use.
+   * @param errorLog the XMLErrorLog object to use.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLInputStream(string content, bool isFile) : this(libsbmlPINVOKE.new_XMLInputStream__SWIG_2(content, isFile), true) {
   }
@@ -126,18 +160,18 @@ public class XMLInputStream : IDisposable {
 /**
    * Creates a new XMLInputStream.
    *
-   * @p content the source of the stream.
+   * @param content the source of the stream.
    *
-   * @p isFile bool flag to indicate whether @p content is a file name.
-   * If @c true, @p content is assumed to be the file from which the XML
-   * content is to be read.  If @c false, @p content is taken to be a
+   * @param isFile a bool flag to indicate whether @p content is a file
+   * name.  If @c true, @p content is assumed to be the file from which the
+   * XML content is to be read.  If @c false, @p content is taken to be a
    * string that @em is the content to be read.
    *
-   * @p library the name of the parser library to use.
+   * @param library the name of the parser library to use.
    *
-   * @p errorLog the XMLErrorLog object to use.
+   * @param errorLog the XMLErrorLog object to use.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  XMLInputStream(string content) : this(libsbmlPINVOKE.new_XMLInputStream__SWIG_3(content), true) {
   }
@@ -146,7 +180,22 @@ public class XMLInputStream : IDisposable {
 /**
    * Returns the encoding of the XML stream.
    *
+   * *
+ *  The @em encoding is indicated by the <code>xml</code> declaration at the
+ * beginning of an XML document or data stream.  The form of this declaration
+ * is
+ * @verbatim
+<?xml version='1.0' encoding='UTF-8'?>
+@endverbatim
+ * Note that the SBML specifications require the use of UTF-8 encoding, so
+ * for SBML documents, the value returned by this method will always be
+ * the string <code>'UTF-8'</code>.
+ *
+ * 
+   *
    * @return the encoding of the XML stream.
+   *
+   * @see getVersion()
    */ public
  string getEncoding() {
     string ret = libsbmlPINVOKE.XMLInputStream_getEncoding(swigCPtr);
@@ -157,7 +206,20 @@ public class XMLInputStream : IDisposable {
 /**
    * Returns the version of the XML stream.
    *
+   * *
+ *  The @em version is indicated by the <code>xml</code> declaration at the
+ * beginning of an XML document or data stream.  The form of this declaration
+ * is
+ * @verbatim
+ <?xml version='1.0' encoding='UTF-8'?>
+@endverbatim
+ * Note that the SBML specifications require the use of version 1.0, so
+ * for SBML documents, the value returned by this method will always be
+ * the string <code>'1.0'</code>. 
+   *
    * @return the version of the XML stream.
+   *
+   * @see getEncoding()
    */ public
  string getVersion() {
     string ret = libsbmlPINVOKE.XMLInputStream_getVersion(swigCPtr);
@@ -166,11 +228,10 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Returns an XMLErrorLog which can be used to log XML parse errors and
-   * other validation errors (and messages).
+   * Returns the XMLErrorLog used to log parsing problems.
    *
-   * @return an XMLErrorLog which can be used to log XML parse errors and
-   * other validation errors (and messages).
+   * @return the XMLErrorLog used to log XML parse errors and other
+   * validation errors (and messages).
    */ public
  XMLErrorLog getErrorLog() {
     IntPtr cPtr = libsbmlPINVOKE.XMLInputStream_getErrorLog(swigCPtr);
@@ -180,10 +241,9 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Returns true if end of file (stream) has been reached, false
-   * otherwise.
+   * Returns @c true if end of file (stream) has been reached.
    *
-   * @return true if end of file (stream) has been reached, false
+   * @return @c true if end of file (stream) has been reached, @c false
    * otherwise.
    */ public
  bool isEOF() {
@@ -193,9 +253,11 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Returns true if a fatal error occurred while reading from this stream.
+   * Returns @c true if a fatal error occurred while reading from this
+   * stream.
    *
-   * @return true if a fatal error occurred while reading from this stream.
+   * @return @c true if a fatal error occurred while reading from this
+   * stream.
    */ public
  bool isError() {
     bool ret = libsbmlPINVOKE.XMLInputStream_isError(swigCPtr);
@@ -204,11 +266,12 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Returns true if the stream is in a good state (i.e. isEOF() and
-   * isError() are both false), false otherwise.
+   * Returns @c true if the stream is in a good state.
    *
-   * @return true if the stream is in a good state (i.e. isEOF() and
-   * isError() are both false), false otherwise.
+   * The definition of 'good state' is that isEOF() and isError() both return
+   * @c false.
+   *
+   * @return @c true if the stream is in a good state, @c false otherwise.
    */ public
  bool isGood() {
     bool ret = libsbmlPINVOKE.XMLInputStream_isGood(swigCPtr);
@@ -217,9 +280,14 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Consumes the next XMLToken and return it.
+   * Returns the next token on this XML input stream.
    *
-   * @return the next XMLToken or EOF (XMLToken.isEOF() == true).
+   * The token is consumed in the process.
+   *
+   * @return the next XMLToken, or an EOF token (i.e.,
+   * <code>XMLToken.isEOF() == true</code>).
+   *
+   * @see peek()
    */ public
  XMLToken next() {
     XMLToken ret = new XMLToken(libsbmlPINVOKE.XMLInputStream_next(swigCPtr), true);
@@ -228,10 +296,13 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Returns the next XMLToken without consuming it.  A subsequent call to
-   * either peek() or next() will return the same token.
+   * Returns the next token @em without consuming it.
+   *
+   * A subsequent call to either peek() or next() will return the same token.
    *
    * @return the next XMLToken or EOF (XMLToken.isEOF() == true).
+   *
+   * @see next()
    */ public
  XMLToken peek() {
     XMLToken ret = new XMLToken(libsbmlPINVOKE.XMLInputStream_peek(swigCPtr), false);
@@ -240,8 +311,10 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Consume zero or more XMLTokens up to and including the corresponding
-   * end XML element or EOF.
+   * Consume zero or more tokens up to and including the corresponding end
+   * element or EOF.
+   *
+   * @param element the element whose end will be sought in the input stream.
    */ public
  void skipPastEnd(XMLToken element) {
     libsbmlPINVOKE.XMLInputStream_skipPastEnd(swigCPtr, XMLToken.getCPtr(element));
@@ -250,8 +323,8 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Consume zero or more XMLTokens up to but not including the next XML
-   * element or EOF.
+   * Consume zero or more tokens up to but not including the next XML element
+   * or EOF.
    */ public
  void skipText() {
     libsbmlPINVOKE.XMLInputStream_skipText(swigCPtr);
@@ -262,11 +335,11 @@ public class XMLInputStream : IDisposable {
    * Sets the XMLErrorLog this stream will use to log errors.
    *
    * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
+   * operation.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * returned by this method are:
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int setErrorLog(XMLErrorLog log) {
     int ret = libsbmlPINVOKE.XMLInputStream_setErrorLog(swigCPtr, XMLErrorLog.getCPtr(log));
@@ -275,8 +348,11 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Prints a string representation of the underlying token stream, for
-   * debugging purposes.
+   * Prints a string representation of the underlying token stream.
+   *
+   * @return a string representing the underlying XML token stream.
+   *
+   * @note This method is intended for debugging purposes.
    */ public
  string toString() {
     string ret = libsbmlPINVOKE.XMLInputStream_toString(swigCPtr);
@@ -285,10 +361,9 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Returns the SBMLNamespaces object attached to this XMLInputStream
-   * if it has been set, null otherwise.
+   * Returns the SBMLNamespaces object attached to this XMLInputStream.
    *
-   * @return the SBMLNamespaces object or null if none has been set.
+   * @return the SBMLNamespaces object or @c null if none has been set.
    */ public
  SBMLNamespaces getSBMLNamespaces() {
 	SBMLNamespaces ret
@@ -298,8 +373,12 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Sets the SBMLNamespaces object to allow this stream to reference
-   * the available SBML namespaces being read.
+   * Sets the SBML namespaces associated with this XML input stream.
+   *
+   * This allows this stream to reference the available SBML namespaces being
+   * read.
+   *
+   * @param sbmlns the list of namespaces to use.
    */ public
  void setSBMLNamespaces(SBMLNamespaces sbmlns) {
     libsbmlPINVOKE.XMLInputStream_setSBMLNamespaces(swigCPtr, SBMLNamespaces.getCPtr(sbmlns));
@@ -307,86 +386,81 @@ public class XMLInputStream : IDisposable {
 
   
 /**
-   * Analyses the tokens in the stream and returns the number of 
-   * child tokens of the given element.
+   * Returns the number of child tokens of the given element in this stream.
    *
-   * @param elementName a string representing the name of the element
-   * for which the number of children are to be determined.
+   * This method allows information from the input stream to be determined
+   * without the need to actually read and consume the tokens in the stream.
+   * It returns the number of child elements of the element represented by
+   * the @p elementName, i.e., the number of child elements encountered
+   * before the closing tag for the @p elementName supplied.
    *
-   * This function allows information from the input stream to be determined
-   * without the  need to actually read and consume the tokens in
-   * the stream. This functionality
-   * is particularly utilized when reading MathML. 
+   * If no @p elementName is supplied or it is an empty string, then as a
+   * special case, this method assumes the element is a MathML
+   * <code>apply</code> element followed by a function name.
    *
-   * The function will return the number of child elements of the
-   * element represented by the elementName supplied, i.e. the number
-   * of child elements encountered before the closing tag for the
-   * elementname supplied.  If the elementName
-   * has not been supplied then the function assumes that it is reading
-   * an apply element followed by a function element.
+   * @param elementName a string representing the name of the element for
+   * which the number of children are to be determined.
    *
-   * @note This function assumes the stream has been read up to and 
-   * including the element elementName.
+   * @return a long integer giving the number of children of the @p
+   * elementName specified.
    *
-   * @return a long integer giving the number of children of the
-   * element specified.
+   * @note This method assumes the stream has been read up to and including
+   * the element @p elementName.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  long determineNumberChildren(string elementName) { return (long)libsbmlPINVOKE.XMLInputStream_determineNumberChildren__SWIG_0(swigCPtr, elementName); }
 
   
 /**
-   * Analyses the tokens in the stream and returns the number of 
-   * child tokens of the given element.
+   * Returns the number of child tokens of the given element in this stream.
    *
-   * @param elementName a string representing the name of the element
-   * for which the number of children are to be determined.
+   * This method allows information from the input stream to be determined
+   * without the need to actually read and consume the tokens in the stream.
+   * It returns the number of child elements of the element represented by
+   * the @p elementName, i.e., the number of child elements encountered
+   * before the closing tag for the @p elementName supplied.
    *
-   * This function allows information from the input stream to be determined
-   * without the  need to actually read and consume the tokens in
-   * the stream. This functionality
-   * is particularly utilized when reading MathML. 
+   * If no @p elementName is supplied or it is an empty string, then as a
+   * special case, this method assumes the element is a MathML
+   * <code>apply</code> element followed by a function name.
    *
-   * The function will return the number of child elements of the
-   * element represented by the elementName supplied, i.e. the number
-   * of child elements encountered before the closing tag for the
-   * elementname supplied.  If the elementName
-   * has not been supplied then the function assumes that it is reading
-   * an apply element followed by a function element.
+   * @param elementName a string representing the name of the element for
+   * which the number of children are to be determined.
    *
-   * @note This function assumes the stream has been read up to and 
-   * including the element elementName.
+   * @return a long integer giving the number of children of the @p
+   * elementName specified.
    *
-   * @return a long integer giving the number of children of the
-   * element specified.
+   * @note This method assumes the stream has been read up to and including
+   * the element @p elementName.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  long determineNumberChildren() { return (long)libsbmlPINVOKE.XMLInputStream_determineNumberChildren__SWIG_1(swigCPtr); }
 
   
 /**
-   * Analyses the tokens in the stream and returns the number of 
-   * child tokens of the specified type within the given element.
+   * Returns the number of child tokens of the specified type within a
+   * given container element.
+   *
+   * This method allows information from the input stream to be determined
+   * without the need to actually read and consume the tokens in the stream.
+   * It returns the number of child elements of the @p childName element
+   * within the element specified by @p container.  In other words, it counts
+   * the number of @p childName elements encountered before the closing tag
+   * for the @p container supplied.
    *
    * @param childName a string representing the name of the child
    * element whose number is to be determined.
+   *
    * @param container a string representing the name of the element
    * for which the number of children are to be determined.
    *
-   * This function allows information from the input stream to be determined
-   * without the  need to actually read and consume the tokens in
-   * the stream. This functionality
-   * is particularly utilized when reading MathML. 
+   * @return a long integer giving the number of children of type @p
+   * childName within the @p container element.
    *
-   * The function will return the number of child elements of the
-   * element represented by the childName supplied within the element
-   * specified by the container, i.e. the number
-   * of child elements encountered before the closing tag for the
-   * container supplied. 
-   *
-   * @note This function assumes the stream has been read up to and 
-   * including the element container.
-   *
-   * @return a long integer giving the number of children of type childName
-   * within the container element specified.
+   * @note This method assumes the stream has been read up to and including
+   * the element @p container.
    */ public
  long determineNumSpecificChildren(string childName, string container) { return (long)libsbmlPINVOKE.XMLInputStream_determineNumSpecificChildren(swigCPtr, childName, container); }
 

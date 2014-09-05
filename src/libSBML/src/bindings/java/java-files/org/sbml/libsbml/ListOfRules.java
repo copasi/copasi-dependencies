@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's ListOfRules construct.
+ *  A list of {@link Rule} objects.
  <p>
  * <p>
  * The various ListOf___ classes in SBML
@@ -129,9 +129,9 @@ public class ListOfRules extends ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this {@link ListOfRules} instance.
+   * Creates and returns a deep copy of this {@link ListOfRules} object.
    <p>
-   * @return a (deep) copy of this {@link ListOfRules}.
+   * @return the (deep) copy of this {@link ListOfRules} object.
    */ public
  ListOfRules cloneObject() {
     long cPtr = libsbmlJNI.ListOfRules_cloneObject(swigCPtr, this);
@@ -146,16 +146,16 @@ public class ListOfRules extends ListOf {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
-   * {@link  libsbmlConstants#SBML_RULE SBML_RULE} (default).
+   * {@link libsbmlConstants#SBML_RULE SBML_RULE} (default).
    <p>
    * @see #getElementName()
    * @see #getPackageName()

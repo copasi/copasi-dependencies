@@ -109,6 +109,7 @@ class SwigDirector_SBMLConverter : public SBMLConverter, public Swig::Director {
 
 public:
     SwigDirector_SBMLConverter(PyObject *self);
+    SwigDirector_SBMLConverter(PyObject *self, std::string const &name);
     SwigDirector_SBMLConverter(PyObject *self, SBMLConverter const &c);
     virtual ~SwigDirector_SBMLConverter();
     virtual SBMLConverter *clone() const;
@@ -155,7 +156,7 @@ private:
       return method;
     }
 private:
-    mutable swig::SwigVar_PyObject vtable[11];
+    mutable swig::SwigVar_PyObject vtable[10];
 #endif
 
 };

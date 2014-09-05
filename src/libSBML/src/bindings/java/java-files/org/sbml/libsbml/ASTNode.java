@@ -9,8 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Abstract Syntax Tree (AST) representation of a
- * mathematical expression.
+ *  Abstract Syntax Trees for mathematical expressions.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -20,27 +19,25 @@ defined in SBML.
 </p>
 
  <p>
- * Abstract Syntax Trees (ASTs) are a simple kind of data structure used in
- * libSBML for storing mathematical expressions.  The {@link ASTNode} is the
- * cornerstone of libSBML's AST representation.  An AST 'node' represents the
- * most basic, indivisible part of a mathematical formula and come in many
- * types.  For instance, there are node types to represent numbers (with
- * subtypes to distinguish integer, real, and rational numbers), names
- * (e.g., constants or variables), simple mathematical operators, logical
- * or relational operators and functions. LibSBML ASTs provide a canonical,
- * in-memory representation for all mathematical formulas regardless of
- * their original format (which might be MathML or might be text strings).
+ * <a target='_blank'
+ * href='http://en.wikipedia.org/wiki/Abstract_syntax_tree'>Abstract Syntax
+ * Trees</a> (ASTs) are a simple kind of data structure used in libSBML for
+ * storing mathematical expressions.  LibSBML ASTs provide a canonical,
+ * in-memory representation for all mathematical formulas regardless of their
+ * original format (which might be MathML or might be text strings).
  <p>
  * <p>
- * An AST <em>node</em> in libSBML is a recursive structure containing a pointer
- * to the node's value (which might be, for example, a number or a symbol)
- * and a list of children nodes.  Each {@link ASTNode} node may have none, one,
- * two, or more children depending on its type.  The following diagram
- * illustrates an example of how the mathematical expression <code>'1 +
- * 2'</code> is represented as an AST with one <em>plus</em> node having two 
- * <em>integer</em> children nodes for the numbers <code>1</code> and
- * <code>2</code>.  The figure also shows the corresponding MathML
- * representation:
+ * An AST <em>node</em> in libSBML is a recursive tree structure; each node has a
+ * type, a pointer to a value, and a list of children nodes.  Each {@link ASTNode}
+ * node may have none, one, two, or more children depending on its type.
+ * There are node types to represent numbers (with subtypes to distinguish
+ * integer, real, and rational numbers), names (e.g., constants or
+ * variables), simple mathematical operators, logical or relational operators
+ * and functions.  The following diagram illustrates an example of how the
+ * mathematical expression <code>'1 + 2'</code> is represented as an AST with
+ * one <em>plus</em> node having two <em>integer</em> children nodes for the numbers
+ * <code>1</code> and <code>2</code>.  The figure also shows the
+ * corresponding MathML representation:
  <p>
  * <table border="0" class="centered text-table width80 normal-font" style="padding-bottom: 0.5em">
 <caption class="top-caption">Example AST representation of a mathematical expression.</caption>
@@ -74,16 +71,15 @@ defined in SBML.
 <p>
  * <ul>
  * <li> A numerical value represented in MathML as a real number with an
- * exponent is preserved as such in the AST node representation, even if
- * the number could be stored in a
- *  data type.  This is
- * done so that when an SBML model is read in and then written out again, the
- * amount of change introduced by libSBML to the SBML during the round-trip
- * activity is minimized.
+ * exponent is preserved as such in the AST node representation, even if the
+ * number could be stored in a <code>double</code> data type.  This is done so that
+ * when an SBML model is read in and then written out again, the amount of
+ * change introduced by libSBML to the SBML during the round-trip activity is
+ * minimized.
  <p>
  * <li> Rational numbers are represented in an AST node using separate
  * numerator and denominator values.  These can be retrieved using the
- * methods 
+ * methods {@link ASTNode#getNumerator()} and {@link ASTNode#getDenominator()}.
  <p>
  * <li> The children of an {@link ASTNode} are other {@link ASTNode} objects.  The list of
  * children is empty for nodes that are leaf elements, such as numbers.
@@ -92,17 +88,12 @@ defined in SBML.
  * expression.
  *
  * </ul> <p>
- * For many applications, the details of ASTs are irrelevant because the
- * applications can use the text-string based translation functions such as
- * .  If
- * you find the complexity of using the AST representation of expressions too
- * high for your purposes, perhaps the string-based functions will be more
- * suitable.
- <p>
- * Finally, it is worth noting that the AST and MathML handling code in
- * libSBML remains written in C, not C++.  (All of libSBML was originally
- * written in C.)  Readers may occasionally wonder why some aspects are more
- * C-like and less object oriented, and that's one of the reasons.
+ * For many applications, the details of ASTs are irrelevant because libSBML
+ * provides text-string based translation functions such as
+ * <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a> and
+ * <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>.  If you find the complexity
+ * of using the AST representation of expressions too high for your purposes,
+ * perhaps the string-based functions will be more suitable.
  <p>
  * <h3><a class='anchor'
  * name='ASTNodeType_t'>The set of possible ASTNode types</a></h3> 
@@ -114,7 +105,6 @@ defined in SBML.
  * The type is recorded as a value drawn from a
  * set of static integer constants defined in the class {@link 
  * libsbmlConstants}. Their names begin with the characters <code>AST_.</code>
- <p>
  <p>
  * The list of possible types is quite long, because it covers all the
  * mathematical functions that are permitted in SBML. The values are shown
@@ -150,83 +140,92 @@ defined in SBML.
  <p>
  * <ul>
  * <li> If the node is basic mathematical operator (e.g., <code>'+'</code>), then the
- * node's type will be {@link  libsbmlConstants#AST_PLUS AST_PLUS}, {@link 
- * libsbmlConstants#AST_MINUS AST_MINUS}, {@link  libsbmlConstants#AST_TIMES
- * AST_TIMES}, {@link  libsbmlConstants#AST_DIVIDE AST_DIVIDE}, or
- * {@link  libsbmlConstants#AST_POWER AST_POWER}, as appropriate.
+ * node's type will be {@link libsbmlConstants#AST_PLUS AST_PLUS},
+ * {@link libsbmlConstants#AST_MINUS AST_MINUS},
+ * {@link libsbmlConstants#AST_TIMES AST_TIMES},
+ * {@link libsbmlConstants#AST_DIVIDE AST_DIVIDE}, or
+ * {@link libsbmlConstants#AST_POWER AST_POWER}, as appropriate.
  <p>
  * <li> If the node is a predefined function or operator from SBML
  * Level&nbsp;1 (in the string-based formula syntax used in Level&nbsp;1) or
  * SBML Level&nbsp;2 and&nbsp;3 (in the subset of MathML used in SBML
  * Levels&nbsp;2 and&nbsp;3), then the node's type
- * will be either <code>AST_FUNCTION_</code><em><span
- * class='placeholder'>X</span></em>, <code>AST_LOGICAL_</code><em><span
- * class='placeholder'>X</span></em>, or <code>AST_RELATIONAL_</code><em><span
- * class='placeholder'>X</span></em>, as appropriate.  (Examples: {@link 
- * libsbmlConstants#AST_FUNCTION_LOG AST_FUNCTION_LOG}, {@link 
- * libsbmlConstants#AST_RELATIONAL_LEQ AST_RELATIONAL_LEQ}.)
+ * will be either <code style='margin-right: 0'>AST_FUNCTION_</code><span
+ * class='placeholder-nospace'>X</span>, <code style='margin-right: 0'>AST_LOGICAL_</code><span
+ * class='placeholder-nospace'>X</span>, or <code style='margin-right: 0'>AST_RELATIONAL_</code><span
+ * class='placeholder-nospace'>X</span>, as appropriate.  (Examples:
+ * {@link libsbmlConstants#AST_FUNCTION_LOG AST_FUNCTION_LOG},
+ * {@link libsbmlConstants#AST_RELATIONAL_LEQ AST_RELATIONAL_LEQ}.)
  <p>
  * <li> If the node refers to a user-defined function, the node's type will
- * be {@link  libsbmlConstants#AST_FUNCTION AST_FUNCTION} (because it holds the
+ * be {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} (because it holds the
  * name of the function).
  <p>
- * <li> If the node is a lambda expression, its type will be {@link 
- * libsbmlConstants#AST_LAMBDA AST_LAMBDA}.
+ * <li> If the node is a lambda expression, its type will be
+ * {@link libsbmlConstants#AST_LAMBDA AST_LAMBDA}.
  <p>
- * <li> If the node is a predefined constant (<code>'ExponentialE'</code>, <code>'Pi'</code>,
- * <code>'True'</code> or <code>'False'</code>), then the node's type will be {@link 
- * libsbmlConstants#AST_CONSTANT_E AST_CONSTANT_E}, {@link 
- * libsbmlConstants#AST_CONSTANT_PI AST_CONSTANT_PI}, {@link 
- * libsbmlConstants#AST_CONSTANT_TRUE AST_CONSTANT_TRUE}, or {@link 
- * libsbmlConstants#AST_CONSTANT_FALSE AST_CONSTANT_FALSE}.
+ * <li> If the node is a predefined constant (<code>'ExponentialE'</code>, <code>'Pi'</code>, 
+ * <code>'True'</code> or <code>'False'</code>), then the node's type will be
+ * {@link libsbmlConstants#AST_CONSTANT_E AST_CONSTANT_E},
+ * {@link libsbmlConstants#AST_CONSTANT_PI AST_CONSTANT_PI},
+ * {@link libsbmlConstants#AST_CONSTANT_TRUE AST_CONSTANT_TRUE}, or
+ * {@link libsbmlConstants#AST_CONSTANT_FALSE AST_CONSTANT_FALSE}.
  <p>
  * <li> (Levels&nbsp;2 and&nbsp;3 only) If the node is the special MathML
- * csymbol <code>time</code>, the value of the node will be {@link 
- * libsbmlConstants#AST_NAME_TIME AST_NAME_TIME}.  (Note, however, that
- * the MathML csymbol <code>delay</code> is translated into a node of type {@link 
- * libsbmlConstants#AST_FUNCTION_DELAY AST_FUNCTION_DELAY}.  The
- * difference is due to the fact that <code>time</code> is a single variable, whereas
- * <code>delay</code> is actually a function taking arguments.)
+ * csymbol <code>time</code>, the value of the node will be
+ * {@link libsbmlConstants#AST_NAME_TIME AST_NAME_TIME}.  (Note, however, that the
+ * MathML csymbol <code>delay</code> is translated into a node of type
+ * {@link libsbmlConstants#AST_FUNCTION_DELAY AST_FUNCTION_DELAY}.  The difference is due to
+ * the fact that <code>time</code> is a single variable, whereas <code>delay</code> is actually a
+ * function taking arguments.)
  <p>
- * <li> (Level&nbsp;3 only) If the node is the special MathML csymbol <code>avogadro</code>,
- * the value of the node will be <code>AST_NAME_AVOGADRO.</code>
+ * <li> (Level&nbsp;3 only) If the node is the special MathML csymbol 
+ * <code>avogadro</code>, the value of the node will be
+ * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}.
  <p>
- * <li> If the node contains a numerical value, its type will be {@link 
- * libsbmlConstants#AST_INTEGER AST_INTEGER}, {@link 
- * libsbmlConstants#AST_REAL AST_REAL}, {@link  libsbmlConstants#AST_REAL_E
- * AST_REAL_E}, or {@link  libsbmlConstants#AST_RATIONAL
- * AST_RATIONAL}, as appropriate.
+ * <li> If the node contains a numerical value, its type will be
+ * {@link libsbmlConstants#AST_INTEGER AST_INTEGER},
+ * {@link libsbmlConstants#AST_REAL AST_REAL},
+ * {@link libsbmlConstants#AST_REAL_E AST_REAL_E}, or
+ * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, as appropriate.
  *
  * </ul>
  <p>
- * <h3><a class='anchor' name='math-convert'>Converting between ASTs and text strings</a></h3>
+ * <h3><a class='anchor' name='math-convert'>Converting between ASTs and text
+ * strings</a></h3>
  <p>
- * The text-string form of mathematical formulas produced by <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString()</a></code> and
- * read by <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String formula)</a></code>
- * and
- * <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * are in a simple C-inspired infix notation.  A
- * formula in one of these two text-string formats can be handed to a program
- * that understands SBML mathematical expressions, or used as part of a
- * translation system.  The libSBML distribution comes with example
- * programs in the <code>'examples'</code> subdirectory that demonstrate such things
- * as translating infix formulas into MathML and vice-versa.
+ * The text-string form of mathematical formulas produced by
+ * <a href='libsbml.html#formulaToString(java.lang.String)'><code>libsbml.formulaToString(String)</code></a> and
+ * <a href='libsbml.html#formulaToL3String(java.lang.String)'><code>libsbml.formulaToL3String(String)</code></a>, and read by
+ * <a href='libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)'><code>libsbml.parseFormula(ASTNode)</code></a> and
+ * <a href='libsbml.html#parseL3Formula(org.sbml.libsbml.ASTNode)'><code>libsbml.parseL3Formula(ASTNode)</code></a>, are in a simple C-inspired
+ * infix notation.  A formula in one of these two text-string formats can be
+ * handed to a program that understands SBML mathematical expressions, or
+ * used as part of a translation system.  The libSBML distribution comes with
+ * example programs in the <code>'examples'</code> subdirectory that demonstrate such
+ * things as translating infix formulas into MathML and vice-versa.
  <p>
- * Please see the documentation for the functions
- * <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String formula)</a></code>
- * and
- * <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
- * for detailed explanations of the infix syntax they accept.
+ * Please see the documentation for the functions <a href='libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)'><code>libsbml.parseFormula(ASTNode)</code></a> and <a href='libsbml.html#parseL3Formula(org.sbml.libsbml.ASTNode)'><code>libsbml.parseL3Formula(ASTNode)</code></a> for detailed
+ * explanations of the infix syntax they accept.
  <p>
+ * <h3><a class='anchor' name='math-history'>Historical notes</a></h3>
  <p>
- <p>
- <p>
- * @see <code><a href='libsbml.html#parseL3Formula(String formula)'>libsbml.parseL3Formula(String formula)</a></code>
- @see <code><a href='libsbml.html#parseFormula(String formula)'>libsbml.parseFormula(String formula)</a></code>
- <p>
- <p>
- <p>
- * @see <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString()</a></code>
+ * Readers may wonder why this part of libSBML uses a seemingly less
+ * object-oriented design than other parts.  Originally, much of libSBML was
+ * written in&nbsp;C.  All subsequent development was done in C++, but the
+ * complexity of some of the functionality for converting between infix, AST
+ * and MathML, coupled with the desire to maintain stability and backward
+ * compatibility, means that some of the underlying code is still written
+ * in&nbsp;C.  This has lead to the exposed API being more C-like.
+<p>
+ * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * @see <a href='libsbml.html#getDefaultL3ParserSettings()'><code>libsbml.getDefaultL3ParserSettings()</code></a>
  */
 
 public class ASTNode extends ASTBase {
@@ -323,55 +322,27 @@ public class ASTNode extends ASTBase {
   }
 
   
-/**
-   * Creates a new {@link ASTNode}.
-   <p>
-   * Unless the argument <code>type</code> is given, the returned node will by
-   * default have a type of {@link  libsbmlConstants#AST_UNKNOWN
-   * AST_UNKNOWN}.  If the type isn't supplied when caling this
-   * constructor, the caller should set the node type to something else as
-   * soon as possible using
-   * {@link ASTNode#setType(int)}.
-   <p>
-   * @param type an optional
-   * type
-   * code indicating the type of node to create.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   */ public
+/** * @internal */ public
  ASTNode(int type) {
     this(libsbmlJNI.new_ASTNode__SWIG_0(type), true);
   }
 
   
 /** * @internal */ public
- ASTNode(SBMLNamespaces sbmlns, int type) {
-    this(libsbmlJNI.new_ASTNode__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns, type), true);
+ ASTNode() {
+    this(libsbmlJNI.new_ASTNode__SWIG_1(), true);
   }
 
   
 /** * @internal */ public
- ASTNode() {
-    this(libsbmlJNI.new_ASTNode__SWIG_3(), true);
+ ASTNode(SBMLNamespaces sbmlns, int type) {
+    this(libsbmlJNI.new_ASTNode__SWIG_2(SBMLNamespaces.getCPtr(sbmlns), sbmlns, type), true);
   }
 
   
 /** * @internal */ public
  ASTNode(SBMLNamespaces sbmlns) {
-    this(libsbmlJNI.new_ASTNode__SWIG_5(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
+    this(libsbmlJNI.new_ASTNode__SWIG_3(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
   }
 
   
@@ -381,7 +352,7 @@ appears in the documentation.
    * @param orig the {@link ASTNode} to be copied.
    */ public
  ASTNode(ASTNode orig) {
-    this(libsbmlJNI.new_ASTNode__SWIG_6(ASTNode.getCPtr(orig), orig), true);
+    this(libsbmlJNI.new_ASTNode__SWIG_4(ASTNode.getCPtr(orig), orig), true);
   }
 
   
@@ -389,15 +360,14 @@ appears in the documentation.
    * Frees the name of this {@link ASTNode} and sets it to <code>null.</code>
    <p>
    * This operation is only applicable to {@link ASTNode} objects corresponding to
-   * operators, numbers, or {@link  libsbmlConstants#AST_UNKNOWN
-   * AST_UNKNOWN}.  This method has no effect on other types of
-   * nodes.
+   * operators, numbers, or {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.  This
+   * method has no effect on other types of nodes.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    * </ul>
    */ public
  int freeName() {
@@ -411,31 +381,31 @@ appears in the documentation.
    * The rules determining the canonical form conversion are as follows:
    <p>
    * <ul>
-   * <li> If the node type is {@link  libsbmlConstants#AST_NAME AST_NAME}
+   * <li> If the node type is {@link libsbmlConstants#AST_NAME AST_NAME}
    * and the node name matches <code>'ExponentialE'</code>, <code>'Pi'</code>, <code>'True'</code> or 
    * <code>'False'</code> the node type is converted to the corresponding
    * <code>AST_CONSTANT_</code><em><span class='placeholder'>X</span></em> type.
-   * <li> If the node type is an {@link  libsbmlConstants#AST_FUNCTION
-   * AST_FUNCTION} and the node name matches an SBML (MathML) function name, logical operator name, or
-   * relational operator name, the node is converted to the corresponding
+   * <li> If the node type is an {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} and
+   * the node name matches an SBML (MathML) function name, logical operator name,
+   * or relational operator name, the node is converted to the corresponding
    * <code>AST_FUNCTION_</code><em><span class='placeholder'>X</span></em> or
    * <code>AST_LOGICAL_</code><em><span class='placeholder'>X</span></em> type.
    *
    * </ul> <p>
-   * SBML Level&nbsp;1 function names are searched first; thus, for
-   * example, canonicalizing <code>log</code> will result in a node type of {@link 
-   * libsbmlConstants#AST_FUNCTION_LN AST_FUNCTION_LN}.  (See the SBML
+   * SBML Level&nbsp;1 function names are searched first; thus, for example,
+   * canonicalizing <code>log</code> will result in a node type of
+   * {@link libsbmlConstants#AST_FUNCTION_LN AST_FUNCTION_LN}.  (See the SBML
    * Level&nbsp;1 Version&nbsp;2 Specification, Appendix C.)
    <p>
-   * Sometimes, canonicalization of a node results in a structural
-   * conversion of the node as a result of adding a child.  For example, a
-   * node with the SBML Level&nbsp;1 function name <code>sqr</code> and a single
-   * child node (the argument) will be transformed to a node of type
-   * {@link  libsbmlConstants#AST_FUNCTION_POWER AST_FUNCTION_POWER} with
-   * two children.  The first child will remain unchanged, but the second
-   * child will be an {@link ASTNode} of type {@link  libsbmlConstants#AST_INTEGER
-   * AST_INTEGER} and a value of 2.  The function names that result
-   * in structural changes are: <code>log10</code>, <code>sqr</code>, and <code>sqrt.</code>
+   * Sometimes, canonicalization of a node results in a structural conversion
+   * of the node as a result of adding a child.  For example, a node with the
+   * SBML Level&nbsp;1 function name <code>sqr</code> and a single child node (the
+   * argument) will be transformed to a node of type
+   * {@link libsbmlConstants#AST_FUNCTION_POWER AST_FUNCTION_POWER} with two children.  The
+   * first child will remain unchanged, but the second child will be an
+   * {@link ASTNode} of type {@link libsbmlConstants#AST_INTEGER AST_INTEGER} and a value of
+   * 2.  The function names that result in structural changes are: <code>log10</code>,
+   * <code>sqr</code>, and <code>sqrt.</code>
    <p>
    * @return <code>true</code> if this node was successfully converted to
    * canonical form, <code>false</code> otherwise.
@@ -455,8 +425,8 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -490,8 +460,8 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -522,8 +492,8 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function. The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    *
    * </ul> <p>
    * <p>
@@ -555,9 +525,9 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * <p>
@@ -590,9 +560,9 @@ appears in the documentation.
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * <p>
@@ -655,7 +625,7 @@ appears in the documentation.
    * with an argument of <code>0.</code>
    <p>
    * @see #getNumChildren()
-   * @see #getChild(long n)
+   * @see #getChild(long)
    * @see #getRightChild()
    */ public
  ASTNode getLeftChild() {
@@ -671,13 +641,13 @@ appears in the documentation.
    * right child.  If
    * {@link ASTNode#getNumChildren()}
    * <code>&gt; 1</code>, then this is equivalent to:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
 getChild( getNumChildren() - 1 );
-</pre></div>
+</pre>
    <p>
    * @see #getNumChildren()
    * @see #getLeftChild()
-   * @see #getChild(long n)
+   * @see #getChild(long)
    */ public
  ASTNode getRightChild() {
     long cPtr = libsbmlJNI.ASTNode_getRightChild(swigCPtr, this);
@@ -717,8 +687,8 @@ getChild( getNumChildren() - 1 );
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -733,7 +703,7 @@ getChild( getNumChildren() - 1 );
  * href='http://sbml.org/Forums'>sbml-interoperability</a>.
    <p>
    * @see ASTNode#getNumSemanticsAnnotations()
-   * @see ASTNode#getSemanticsAnnotation(long n)
+   * @see ASTNode#getSemanticsAnnotation(long)
    */ public
  int addSemanticsAnnotation(XMLNode sAnnotation) {
     return libsbmlJNI.ASTNode_addSemanticsAnnotation(swigCPtr, this, XMLNode.getCPtrAndDisown(sAnnotation), sAnnotation);
@@ -769,8 +739,8 @@ getChild( getNumChildren() - 1 );
  * href='http://sbml.org/Forums'>sbml-discuss</a> and/or <a target='_blank'
  * href='http://sbml.org/Forums'>sbml-interoperability</a>.
    <p>
-   * @see ASTNode#addSemanticsAnnotation(XMLNode sAnnotation)
-   * @see ASTNode#getSemanticsAnnotation(long n)
+   * @see ASTNode#addSemanticsAnnotation(XMLNode)
+   * @see ASTNode#getSemanticsAnnotation(long)
    */ public
  long getNumSemanticsAnnotations() {
     return libsbmlJNI.ASTNode_getNumSemanticsAnnotations(swigCPtr, this);
@@ -813,7 +783,7 @@ getChild( getNumChildren() - 1 );
  * href='http://sbml.org/Forums'>sbml-discuss</a> and/or <a target='_blank'
  * href='http://sbml.org/Forums'>sbml-interoperability</a>.
    <p>
-   * @see ASTNode#addSemanticsAnnotation(XMLNode sAnnotation)
+   * @see ASTNode#addSemanticsAnnotation(XMLNode)
    * @see ASTNode#getNumSemanticsAnnotations()
    */ public
  XMLNode getSemanticsAnnotation(long n) {
@@ -825,13 +795,9 @@ getChild( getNumChildren() - 1 );
 /**
    * Returns the value of this node as a single character.
    <p>
-   * This function should be called only when
-   * {@link ASTNode#getType()} returns
-   * {@link  libsbmlConstants#AST_PLUS AST_PLUS},
-   * {@link  libsbmlConstants#AST_MINUS AST_MINUS},
-   * {@link  libsbmlConstants#AST_TIMES AST_TIMES},
-   * {@link  libsbmlConstants#AST_DIVIDE AST_DIVIDE} or
-   * {@link  libsbmlConstants#AST_POWER AST_POWER}.
+   * This function should be called only when {@link ASTNode#getType()} returns
+   * {@link libsbmlConstants#AST_MINUS AST_MINUS}, {@link libsbmlConstants#AST_TIMES AST_TIMES}, {@link libsbmlConstants#AST_DIVIDE AST_DIVIDE} or
+   * {@link libsbmlConstants#AST_POWER AST_POWER}.
    <p>
    * @return the value of this {@link ASTNode} as a single character
    */ public
@@ -885,15 +851,15 @@ getChild( getNumChildren() - 1 );
 /**
    * Returns the value of this node as an integer.
    <p>
-   * If this node type is {@link  libsbmlConstants#AST_RATIONAL
-   * AST_RATIONAL}, this method returns the value of the numerator.
+   * If this node type is {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, this
+   * method returns the value of the numerator.
    <p>
    * @return the value of this {@link ASTNode} as a (<code>long</code>) integer.
    <p>
    * @note This function should be called only when
    * {@link ASTNode#getType()} returns
-   * {@link  libsbmlConstants#AST_INTEGER AST_INTEGER} or
-   * {@link  libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
+   * {@link libsbmlConstants#AST_INTEGER AST_INTEGER} or
+   * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
    * It will return <code>0</code> if the node type is <em>not</em> one of these, but since
    * <code>0</code> may be a valid value for integer, it is important to be sure that
    * the node type is one of the expected types in order to understand if 
@@ -908,7 +874,7 @@ getChild( getNumChildren() - 1 );
    * Returns the value of this node as a string.
    <p>
    * This function may be called on nodes that (1) are not operators, i.e.,
-   * nodes for which {@link ASTNode#isOperator()} 
+   * nodes for which {@link ASTNode#isOperator()}
    * returns <code>false</code>, and (2) are not numbers, i.e.,
    * {@link ASTNode#isNumber()} returns <code>false.</code>
    <p>
@@ -940,8 +906,8 @@ getChild( getNumChildren() - 1 );
    <p>
    * This function should be called only when
    * {@link ASTNode#getType()} returns
-   * {@link  libsbmlConstants#AST_RATIONAL AST_RATIONAL} or
-   * {@link  libsbmlConstants#AST_INTEGER AST_INTEGER}.
+   * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL} or
+   * {@link libsbmlConstants#AST_INTEGER AST_INTEGER}.
    <p>
    * @return the value of the numerator of this {@link ASTNode}.
    */ public
@@ -958,7 +924,7 @@ getChild( getNumChildren() - 1 );
    <p>
    * @note This function should be called only when
    * {@link ASTNode#getType()} returns
-   * {@link  libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
+   * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
    * It will return <code>1</code> if the node type is another type, but since <code>1</code> may
    * be a valid value for the denominator of a rational number, it is
    * important to be sure that the node type is the correct type in order to
@@ -973,9 +939,9 @@ getChild( getNumChildren() - 1 );
    * Returns the real-numbered value of this node.
    <p>
    * This function performs the necessary arithmetic if the node type is
-   * {@link  libsbmlConstants#AST_REAL_E AST_REAL_E} (<em>mantissa *
+   * {@link libsbmlConstants#AST_REAL_E AST_REAL_E} (<em>mantissa *
    * 10<sup> exponent</sup></em>) or
-   * {@link  libsbmlConstants#AST_RATIONAL AST_RATIONAL}
+   * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}
    * (<em>numerator / denominator</em>).
    <p>
    * @return the value of this {@link ASTNode} as a real (double), or <code>0</code>
@@ -996,7 +962,7 @@ getChild( getNumChildren() - 1 );
    * Returns the mantissa value of this node.
    <p>
    * If {@link ASTNode#getType()} returns
-   * {@link  libsbmlConstants#AST_REAL AST_REAL}, this method is
+   * {@link libsbmlConstants#AST_REAL AST_REAL}, this method is
    * identical to {@link ASTNode#getReal()}.
    <p>
    * @return the value of the mantissa of this {@link ASTNode}, or <code>0</code> if this
@@ -1004,9 +970,9 @@ getChild( getNumChildren() - 1 );
    <p>
    * @note This function should be called only when
    * {@link ASTNode#getType()} returns
-   * {@link  libsbmlConstants#AST_REAL_E AST_REAL_E},
-   * {@link  libsbmlConstants#AST_REAL AST_REAL} or
-   * {@link  libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}.  It
+   * {@link libsbmlConstants#AST_REAL_E AST_REAL_E},
+   * {@link libsbmlConstants#AST_REAL AST_REAL} or
+   * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}.  It
    * will return <code>0</code> if the node type is another type, but since <code>0</code> may be
    * a valid value, it is important to be sure that the node type is the
    * correct type in order to correctly interpret the returned value.
@@ -1024,7 +990,7 @@ getChild( getNumChildren() - 1 );
    <p>
    * @note This function should be called only when
    * {@link ASTNode#getType()}
-   * returns {@link  libsbmlConstants#AST_REAL_E AST_REAL_E}.
+   * returns {@link libsbmlConstants#AST_REAL_E AST_REAL_E}.
    * It will return <code>0</code> if the node type is another type, but since <code>0</code> may
    * be a valid value, it is important to be sure that the node type is the
    * correct type in order to correctly interpret the returned value.
@@ -1053,8 +1019,8 @@ getChild( getNumChildren() - 1 );
    * Returns the type of this {@link ASTNode}.
    <p>
    * The value returned is one of the Core AST type codes such as
-   * {@link  libsbmlConstants#AST_LAMBDA AST_LAMBDA},
-   * {@link  libsbmlConstants#AST_PLUS AST_PLUS}, etc.
+   * {@link libsbmlConstants#AST_LAMBDA AST_LAMBDA},
+   * {@link libsbmlConstants#AST_PLUS AST_PLUS}, etc.
    <p>
    * @return the type of this {@link ASTNode}.
    <p>
@@ -1062,9 +1028,10 @@ getChild( getNumChildren() - 1 );
    * it a need to allow for the possibility of node types that are defined by
    * plug-ins implementing SBML Level&nbsp;3 packages.  If a given {@link ASTNode} is
    * a construct created by a package rather than libSBML Core, then
-   * getType() will return {@link  libsbmlConstants#AST_ORIGINATES_IN_PACKAGE
-   * AST_ORIGINATES_IN_PACKAGE}.  Callers can then obtain the
-   * package-specific type by calling getExtendedType().
+   * getType() will return
+   * {@link libsbmlConstants#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE}.
+   * Callers can then obtain the package-specific type by
+   * calling getExtendedType().
    <p>
    * @see #getExtendedType()
    */ public
@@ -1082,11 +1049,11 @@ getChild( getNumChildren() - 1 );
    <p>
    * @return the type of this {@link ASTNode}.
    <p>
-   * @note When the {@link ASTNode} is of a type from a package, the
-   * value returned by {@link ASTNode#getType()} will be {@link 
-   * libsbmlConstants#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE}
-   * and getExtendedType() will return a package-specific type code.
-   * To find out the possible package-specific types (if any), please
+   * @note When the {@link ASTNode} is of a type from a package, the value returned
+   * by {@link ASTNode#getType()} will be
+   * {@link libsbmlConstants#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE}
+   * and getExtendedType() will return a package-specific type
+   * code.  To find out the possible package-specific types (if any), please
    * consult the documentation for the particular package.
    <p>
    * @see #getType()
@@ -1122,10 +1089,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * @note The <code>sbml:units</code> attribute is only available in SBML
    * Level&nbsp;3.  It may not be used in Levels 1&ndash;2 of SBML.
    <p>
-   <p>
-   <p>
-   <p>
-   * @see <code><a href='libsbml.html#parseL3Formula(String formula)'>libsbml.parseL3Formula(String formula)</a></code>
+   * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
    */ public
  String getUnits() {
     return libsbmlJNI.ASTNode_getUnits(swigCPtr, this);
@@ -1138,16 +1102,13 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * SBML Level&nbsp;3 introduced a predefined MathML <code>&lt;csymbol&gt;</code>
    * for the value of Avogadro's constant.  LibSBML stores this internally as
-   * a node of type {@link  libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}.
+   * a node of type {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}.
    * This method returns <code>true</code> if this node has that type.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is the special symbol avogadro,
    * <code>false</code> otherwise.
    <p>
-   <p>
-   <p>
-   <p>
-   * @see <code><a href='libsbml.html#parseL3Formula(String formula)'>libsbml.parseL3Formula(String formula)</a></code>
+   * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
    */ public
  boolean isAvogadro() {
     return libsbmlJNI.ASTNode_isAvogadro(swigCPtr, this);
@@ -1224,8 +1185,8 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return <code>true</code> if this {@link ASTNode} is a MathML constant, <code>false</code>
    * otherwise.
    <p>
-   * @note This function will also return <code>true</code> for nodes of type {@link 
-   * libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} in SBML Level&nbsp;3.
+   * @note This function will also return <code>true</code> for nodes of type
+   * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} in SBML Level&nbsp;3.
    */ public
  boolean isConstant() {
     return libsbmlJNI.ASTNode_isConstant(swigCPtr, this);
@@ -1262,8 +1223,7 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Returns <code>true</code> if this node contains an integer value.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is of type {@link 
-   * libsbmlConstants#AST_INTEGER AST_INTEGER}, <code>false</code> otherwise.
+   * @return <code>true</code> if this {@link ASTNode} is of type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}, <code>false</code> otherwise.
    */ public
  boolean isInteger() {
     return libsbmlJNI.ASTNode_isInteger(swigCPtr, this);
@@ -1274,8 +1234,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * Returns <code>true</code> if this node is a MathML
    * <code>&lt;lambda&gt;</code>.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is of type {@link  libsbmlConstants#AST_LAMBDA
-   * AST_LAMBDA}, <code>false</code> otherwise.
+   * @return <code>true</code> if this {@link ASTNode} is of type {@link libsbmlConstants#AST_LAMBDA AST_LAMBDA}, <code>false</code> otherwise.
    */ public
  boolean isLambda() {
     return libsbmlJNI.ASTNode_isLambda(swigCPtr, this);
@@ -1285,18 +1244,15 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Returns <code>true</code> if this node represents a <code>log10</code> function.
    <p>
-   * More precisely, this predicate returns <code>true</code> if the node type is {@link 
-   * libsbmlConstants#AST_FUNCTION_LOG AST_FUNCTION_LOG} with two
-   * children, the first of which is an {@link  libsbmlConstants#AST_INTEGER
-   * AST_INTEGER} equal to 10.
+   * More precisely, this predicate returns <code>true</code> if the node type is
+   * {@link libsbmlConstants#AST_FUNCTION_LOG AST_FUNCTION_LOG} with two children, the
+   * first of which is an {@link libsbmlConstants#AST_INTEGER AST_INTEGER} equal to
+   * 10.
    <p>
    * @return <code>true</code> if the given {@link ASTNode} represents a <code>log10</code>() function, 
    * <code>false</code> otherwise.
    <p>
-   <p>
-   <p>
-   <p>
-   * @see <code><a href='libsbml.html#parseL3Formula(String formula)'>libsbml.parseL3Formula(String formula)</a></code>
+   * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
    */ public
  boolean isLog10() {
     return libsbmlJNI.ASTNode_isLog10(swigCPtr, this);
@@ -1413,9 +1369,7 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Returns <code>true</code> if this node represents a rational number.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is of type {@link 
-   * libsbmlConstants#AST_RATIONAL AST_RATIONAL}, 
-   * <code>false</code> otherwise.
+   * @return <code>true</code> if this {@link ASTNode} is of type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, <code>false</code> otherwise.
    */ public
  boolean isRational() {
     return libsbmlJNI.ASTNode_isRational(swigCPtr, this);
@@ -1425,10 +1379,8 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Returns <code>true</code> if this node can represent a real number.
    <p>
-   * More precisely, this node must be of one of the following types: {@link 
-   * libsbmlConstants#AST_REAL AST_REAL}, {@link  libsbmlConstants#AST_REAL_E
-   * AST_REAL_E} or {@link  libsbmlConstants#AST_RATIONAL
-   * AST_RATIONAL}.
+   * More precisely, this node must be of one of the following types:
+   * {@link libsbmlConstants#AST_REAL AST_REAL}, {@link libsbmlConstants#AST_REAL_E AST_REAL_E} or {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
    <p>
    * @return <code>true</code> if the value of this {@link ASTNode} can represented as a real
    * number, <code>false</code> otherwise.
@@ -1469,10 +1421,8 @@ used to define a number with value <code>10</code> and unit of measurement
    * Returns <code>true</code> if this node represents a square root
    * function.
    <p>
-   * More precisely, the node type must be {@link 
-   * libsbmlConstants#AST_FUNCTION_ROOT AST_FUNCTION_ROOT} with two
-   * children, the first of which is an {@link  libsbmlConstants#AST_INTEGER
-   * AST_INTEGER} node having value equal to 2.
+   * More precisely, the node type must be {@link libsbmlConstants#AST_FUNCTION_ROOT AST_FUNCTION_ROOT} with two children, the first of which is an
+   * {@link libsbmlConstants#AST_INTEGER AST_INTEGER} node having value equal to 2.
    <p>
    * @return <code>true</code> if the given {@link ASTNode} represents a <code>sqrt()</code>
    * function, <code>false</code> otherwise.
@@ -1485,26 +1435,20 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Returns <code>true</code> if this node is a unary minus operator.
    <p>
-   * A node is defined as a unary minus node if it is of type {@link 
-   * libsbmlConstants#AST_MINUS AST_MINUS} and has exactly one child.
+   * A node is defined as a unary minus node if it is of type
+   * {@link libsbmlConstants#AST_MINUS AST_MINUS} and has exactly one child.
    <p>
    * For numbers, unary minus nodes can be 'collapsed' by negating the
-   * number.  In fact, 
-   * <code><a href='libsbml.html#parseFormula(java.lang.String)'>libsbml.parseFormula(String formula)</a></code>
-   * does this during its parsing process, and 
-   * <code><a href='libsbml.html#parseL3Formula(java.lang.String)'>libsbml.parseL3Formula(String formula)</a></code>
-   * has a configuration option that allows this behavior to be turned
-   * on or off.  However, unary minus nodes for symbols
-   * ({@link  libsbmlConstants#AST_NAME AST_NAME}) cannot
-   * be 'collapsed', so this predicate function is necessary.
+   * number.  In fact, <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a> does this during
+   * its parsing process, and <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a> has a
+   * configuration option that allows this behavior to be turned on or off.
+   * However, unary minus nodes for symbols ({@link libsbmlConstants#AST_NAME AST_NAME}) cannot be 'collapsed', so this predicate function is
+   * necessary.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is a unary minus, <code>false</code>
    * otherwise.
    <p>
-   <p>
-   <p>
-   <p>
-   * @see <code><a href='libsbml.html#parseL3Formula(String formula)'>libsbml.parseL3Formula(String formula)</a></code>
+   * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
    */ public
  boolean isUMinus() {
     return libsbmlJNI.ASTNode_isUMinus(swigCPtr, this);
@@ -1514,8 +1458,8 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Returns <code>true</code> if this node is a unary plus operator.
    <p>
-   * A node is defined as a unary plus node if it is of type {@link 
-   * libsbmlConstants#AST_PLUS AST_PLUS} and has exactly one child.
+   * A node is defined as a unary plus node if it is of type
+   * {@link libsbmlConstants#AST_PLUS AST_PLUS} and has exactly one child.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is a unary plus, <code>false</code> otherwise.
    */ public
@@ -1545,17 +1489,15 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Returns <code>true</code> if this node has an unknown type.
    <p>
-   * 'Unknown' nodes have the type {@link  libsbmlConstants#AST_UNKNOWN
-   * AST_UNKNOWN}.  Nodes with unknown types will not appear in an
-   * {@link ASTNode} tree returned by libSBML based upon valid SBML input; the only
-   * situation in which a node with type {@link  libsbmlConstants#AST_UNKNOWN
-   * AST_UNKNOWN} may appear is immediately after having create a
-   * new, untyped node using the {@link ASTNode} constructor.  Callers creating
-   * nodes should endeavor to set the type to a valid node type as soon as
-   * possible after creating new nodes.
+   * 'Unknown' nodes have the type {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.
+   * Nodes with unknown types will not appear in an {@link ASTNode} tree returned by
+   * libSBML based upon valid SBML input; the only situation in which a node
+   * with type {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN} may appear is
+   * immediately after having create a new, untyped node using the {@link ASTNode}
+   * constructor.  Callers creating nodes should endeavor to set the type to
+   * a valid node type as soon as possible after creating new nodes.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is of type {@link 
-   * libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}, <code>false</code> otherwise.
+   * @return <code>true</code> if this {@link ASTNode} is of type {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}, <code>false</code> otherwise.
    */ public
  boolean isUnknown() {
     return libsbmlJNI.ASTNode_isUnknown(swigCPtr, this);
@@ -1689,7 +1631,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * Sets the value of this {@link ASTNode} to the given character.  If character
    * is one of <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> or <code>^</code>, the node
    * type will be set accordingly.  For all other characters, the node type
-   * will be set to {@link  libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.
+   * will be set to {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.
    <p>
    * @param value the character value to which the node's value should be
    * set.
@@ -1697,7 +1639,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setCharacter(char value) {
@@ -1713,7 +1655,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #isSetId()
@@ -1733,14 +1675,13 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @note In the API interfaces for languages other than Java, this method
    * is named <code>setClass()</code>, but in Java it is renamed
    * <code>setClassName()</code> to avoid a name collision with Java's
    * standard object method of the same name.
-   <p>
    <p>
    * @see #isSetClass()
    * @see #getClass()
@@ -1759,7 +1700,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #isSetStyle()
@@ -1775,14 +1716,9 @@ used to define a number with value <code>10</code> and unit of measurement
    * Sets the value of this {@link ASTNode} to the given name.
    <p>
    * As a side effect, this {@link ASTNode} object's type will be reset to
-   * {@link  libsbmlConstants#AST_NAME AST_NAME} if (and <em>only
-   * if</em>) the {@link ASTNode} was previously an operator (i.e.,
-   * {@link ASTNode#isOperator()}
-   * returns <code>true</code>), number
-   * (i.e., {@link ASTNode#isNumber()}
-   * returns <code>true</code>), or unknown.
-   * This allows names to be set for {@link  libsbmlConstants#AST_FUNCTION
-   * AST_FUNCTION} nodes and the like.
+   * {@link libsbmlConstants#AST_NAME AST_NAME} if (and <em>only if</em>) the
+   * {@link ASTNode} was previously an operator (i.e., * {@link ASTNode#isOperator()} returns <code>true</code>), number (i.e., {@link ASTNode#isNumber()} returns <code>true</code>), or
+   * unknown.  This allows names to be set for {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} nodes and the like.
    <p>
    * @param name the string containing the name to which this node's value
    * should be set.
@@ -1790,7 +1726,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setName(String name) {
@@ -1801,15 +1737,15 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Sets the value of this {@link ASTNode} to the given (<code>long</code>) integer
    <p>
-   * As a side effect, this operation sets the node type to {@link 
-   * libsbmlConstants#AST_INTEGER AST_INTEGER}.
+   * As a side effect, this operation sets the node type to
+   * {@link libsbmlConstants#AST_INTEGER AST_INTEGER}.
    <p>
    * @param value the integer to which this node's value should be set.
    <p>
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setValue(int value) {
@@ -1820,8 +1756,8 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Sets the value of this {@link ASTNode} to the given rational.
    <p>
-   * As a side effect, this operation sets the node type to {@link 
-   * libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
+   * As a side effect, this operation sets the node type to
+   * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
    <p>
    * @param numerator the numerator value of the rational.
    * @param denominator the denominator value of the rational.
@@ -1829,7 +1765,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setValue(int numerator, int denominator) {
@@ -1840,13 +1776,13 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Sets the value of this {@link ASTNode} to the given real (<code>double</code>).
    <p>
-   * As a side effect, this operation sets the node type to {@link 
-   * libsbmlConstants#AST_REAL AST_REAL}.
+   * As a side effect, this operation sets the node type to
+   * {@link libsbmlConstants#AST_REAL AST_REAL}.
    <p>
    * This is functionally equivalent to:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
 setValue(value, 0);
-</pre></div>
+</pre>
    <p>
    * @param value the <code>double</code> format number to which this node's value
    * should be set.
@@ -1854,7 +1790,7 @@ setValue(value, 0);
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setValue(double value) {
@@ -1866,7 +1802,7 @@ setValue(value, 0);
    * Sets the value of this {@link ASTNode} to the given real (<code>double</code>)
    <p>
    * As a side effet, this operation sets the node type to
-   * {@link  libsbmlConstants#AST_REAL_E AST_REAL_E}.
+   * {@link libsbmlConstants#AST_REAL_E AST_REAL_E}.
    <p>
    * @param mantissa the mantissa of this node's real-numbered value.
    * @param exponent the exponent of this node's real-numbered value.
@@ -1874,7 +1810,7 @@ setValue(value, 0);
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
    */ public
  int setValue(double mantissa, int exponent) {
@@ -1883,25 +1819,29 @@ setValue(value, 0);
 
   
 /**
-   * Sets the type of this {@link ASTNode} to the given type code.
+   * Sets the type of this {@link ASTNode}.
    <p>
-   * @param type the type to which this node should be set.
+   * This uses integer type codes, which may come from ASTNodeType_t or an
+   * enumeration of AST types in an SBML Level&nbsp;3 package.
+   <p>
+   * @param type the integer representing the type to which this node should
+   * be set.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note A side-effect of doing this is that any numerical values
    * previously stored in this node are reset to zero.
    <p>
-   * @see #getType() 
-   * @see #setType(int Type)
+   * @see #getType()
+   * @see #setType(ASTNodeType_t type)
    */ public
  int setType(int type) {
-    return libsbmlJNI.ASTNode_setType__SWIG_0(swigCPtr, this, type);
+    return libsbmlJNI.ASTNode_setType(swigCPtr, this, type);
   }
 
   
@@ -1937,9 +1877,9 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note The <code>sbml:units</code> attribute is only available in SBML
@@ -1962,8 +1902,8 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int swapChildren(ASTNode that) {
@@ -1997,7 +1937,8 @@ used to define a number with value <code>10</code> and unit of measurement
 
   
 /**
-   * Replace any nodes of type AST_NAME with the name 'id' from the child 'math' object with the provided {@link ASTNode}. 
+   * Replace any nodes of type AST_NAME with the name 'id' from the child
+   * 'math' object with the provided {@link ASTNode}.
    <p>
    * @internal
    */ public
@@ -2007,14 +1948,25 @@ used to define a number with value <code>10</code> and unit of measurement
 
   
 /**
+   * Replaces any 'AST_NAME_TIME' nodes with a node that multiplies time by
+   * the given function.
+   <p>
+   * @internal
+   */ public
+ void setIsChildFlag(boolean flag) {
+    libsbmlJNI.ASTNode_setIsChildFlag(swigCPtr, this, flag);
+  }
+
+  
+/**
    * Unsets the units of this {@link ASTNode}.
    <p>
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetUnits() {
@@ -2028,8 +1980,8 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetId() {
@@ -2043,8 +1995,8 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetClass() {
@@ -2058,8 +2010,8 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetStyle() {
@@ -2075,8 +2027,8 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @see #setDefinitionURL(String url)
@@ -2096,8 +2048,8 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
    * @see #setDefinitionURL(XMLAttributes url)
@@ -2149,7 +2101,6 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return the parent SBML object of this {@link ASTNode}.
    <p>
    * @see #isSetParentSBMLObject()
-   * @see #setParentSBMLObject(SBase sb)
    */ public
  SBase getParentSBMLObject() {
   return libsbml.DowncastSBase(libsbmlJNI.ASTNode_getParentSBMLObject(swigCPtr, this), false);
@@ -2162,9 +2113,12 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * @see #isSetParentSBMLObject()
+   * @see #getParentSBMLObject()
    */ public
  int unsetParentSBMLObject() {
     return libsbmlJNI.ASTNode_unsetParentSBMLObject(swigCPtr, this);
@@ -2178,7 +2132,6 @@ used to define a number with value <code>10</code> and unit of measurement
    * @return true if this {@link ASTNode} has an parent SBML object set, <code>false</code> otherwise.
    <p>
    * @see #getParentSBMLObject()
-   * @see #setParentSBMLObject(SBase sb)
    */ public
  boolean isSetParentSBMLObject() {
     return libsbmlJNI.ASTNode_isSetParentSBMLObject(swigCPtr, this);
@@ -2188,7 +2141,7 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Reduces this {@link ASTNode} to a binary tree.
    <p>
-   * Example: if this {@link ASTNode} is <code>and(x, y, z)</code>, then the 
+   * Example: if this {@link ASTNode} is <code>and(x, y, z)</code>, then the
    * formula of the reduced node is <code>and(and(x, y), z)</code>.  The
    * operation replaces the formula stored in the current {@link ASTNode} object.
    */ public
@@ -2207,8 +2160,8 @@ used to define a number with value <code>10</code> and unit of measurement
   * @return integer value indicating success/failure of the
   * function.  The possible values returned by this function are:
   * <ul>
-  * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-  * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+  * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+  * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
   *
   * </ul> */ public
  int unsetUserData() {
@@ -2248,8 +2201,8 @@ used to define a number with value <code>10</code> and unit of measurement
   * Returns <code>true</code> if this {@link ASTNode} has the correct number of children for
   * its type.
   <p>
-  * For example, an {@link ASTNode} with type {@link  libsbmlConstants#AST_PLUS
-  * AST_PLUS} expects 2 child nodes.
+  * For example, an {@link ASTNode} with type {@link libsbmlConstants#AST_PLUS AST_PLUS}
+  * expects 2 child nodes.
   <p>
   * @return <code>true</code> if this {@link ASTNode} has the appropriate number of children
   * for its type, <code>false</code> otherwise.
@@ -2275,6 +2228,12 @@ used to define a number with value <code>10</code> and unit of measurement
    */ public
  String getDefinitionURLString() {
     return libsbmlJNI.ASTNode_getDefinitionURLString(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ boolean representsBvar() {
+    return libsbmlJNI.ASTNode_representsBvar(swigCPtr, this);
   }
 
   

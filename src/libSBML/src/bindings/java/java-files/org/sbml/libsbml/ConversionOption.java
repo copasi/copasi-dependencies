@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Class of object that encapsulates a conversion option.
+ *  A single configuration setting for an SBML converter.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -25,12 +25,15 @@ the implementation of extra functionality provided by libSBML.
  * such objects, individual options are encapsulated using {@link ConversionOption}
  * objects.
  <p>
- * A {@link ConversionOption} object consists of four parts:
+ * A {@link ConversionOption} object consists of
+ * four parts:
  * <ul>
- * <li> A <em>key</em>, acting as the name of the option;
- * <li> A <em>value</em> of this option;
- * <li> A <em>type</em> for the value; this is chosen from  the enumeration type
- * <a class='el' href='#ConversionOptionType_t'>ConversionOptionType_t</a>; and
+ * <li> A <em>key</em>, acting as the name of the option.
+ * <li> A <em>value</em> of this option.
+ * <li> A <em>type</em> for the value; the type code is chosen from a set of integer constants whose names all
+ * begin with the prefix <code>CNV_TYPE_</code>.  (See the separate <a
+ * class='el' href='#ConversionOptionType_t'>subsection</a> below for more
+ * information.)
  * <li> A <em>description</em> consisting of a text string that describes the
  * option in some way.
  *
@@ -42,10 +45,10 @@ the implementation of extra functionality provided by libSBML.
  <p>
  * An option in {@link ConversionOption} must have a data type declared, to
  * indicate whether it is a string value, an integer, and so forth.  The
- * possible types of values are taken from the enumeration <a
- * class='el' href='#ConversionOptionType_t'>ConversionOptionType_t</a>.
- * The following are the possible values:
- <p>
+ * possible types of values are taken from
+ * a set of
+ * constants whose symbol names begin with the prefix
+ * <code>CNV_TYPE_</code>. The following are the possible values:
  <p>
  * <center>
  * <table width='90%' cellspacing='1' cellpadding='1' border='0' class='normal-font'>
@@ -54,23 +57,23 @@ the implementation of extra functionality provided by libSBML.
  *      <td><strong>Meaning</strong></td>
  *  </tr>
  * <tr>
- * <td><code>{@link  libsbmlConstants#CNV_TYPE_BOOL CNV_TYPE_BOOL}</code></td>
+ * <td><code>{@link libsbmlConstants#CNV_TYPE_BOOL CNV_TYPE_BOOL}</code></td>
  * <td>Indicates the value type is a Boolean.</td>
  * </tr>
  * <tr>
- * <td><code>{@link  libsbmlConstants#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE}</code></td>
+ * <td><code>{@link libsbmlConstants#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE}</code></td>
  * <td>Indicates the value type is a double-sized float.</td>
  * </tr>
  * <tr>
- * <td><code>{@link  libsbmlConstants#CNV_TYPE_INT CNV_TYPE_INT}</code></td>
+ * <td><code>{@link libsbmlConstants#CNV_TYPE_INT CNV_TYPE_INT}</code></td>
  * <td>Indicates the value type is an integer.</td>
  * </tr>
  * <tr>
- * <td><code>{@link  libsbmlConstants#CNV_TYPE_SINGLE CNV_TYPE_SINGLE}</code></td>
+ * <td><code>{@link libsbmlConstants#CNV_TYPE_SINGLE CNV_TYPE_SINGLE}</code></td>
  * <td>Indicates the value type is a float.</td>
  * </tr>
  * <tr>
- * <td><code>{@link  libsbmlConstants#CNV_TYPE_STRING CNV_TYPE_STRING}</code></td>
+  * <td><code>{@link libsbmlConstants#CNV_TYPE_STRING CNV_TYPE_STRING}</code></td>
  * <td>Indicates the value type is a string.</td>
  * </tr>
  * </table>
@@ -128,10 +131,31 @@ public class ConversionOption {
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
    <p>
+   * <p>
+ * The conversion <code>type</code> argument value must be one of
+ * the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.
+   <p>
    * @param key the key for this option
    * @param value an optional value for this option
    * @param type the type of this option
    * @param description the description for this option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, String value, int type, String description) {
     this(libsbmlJNI.new_ConversionOption__SWIG_0(key, value, type, description), true);
@@ -144,10 +168,31 @@ public class ConversionOption {
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
    <p>
+   * <p>
+ * The conversion <code>type</code> argument value must be one of
+ * the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.
+   <p>
    * @param key the key for this option
    * @param value an optional value for this option
    * @param type the type of this option
    * @param description the description for this option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, String value, int type) {
     this(libsbmlJNI.new_ConversionOption__SWIG_1(key, value, type), true);
@@ -160,10 +205,31 @@ public class ConversionOption {
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
    <p>
+   * <p>
+ * The conversion <code>type</code> argument value must be one of
+ * the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.
+   <p>
    * @param key the key for this option
    * @param value an optional value for this option
    * @param type the type of this option
    * @param description the description for this option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, String value) {
     this(libsbmlJNI.new_ConversionOption__SWIG_2(key, value), true);
@@ -176,10 +242,31 @@ public class ConversionOption {
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
    <p>
+   * <p>
+ * The conversion <code>type</code> argument value must be one of
+ * the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.
+   <p>
    * @param key the key for this option
    * @param value an optional value for this option
    * @param type the type of this option
    * @param description the description for this option
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key) {
     this(libsbmlJNI.new_ConversionOption__SWIG_3(key), true);
@@ -192,6 +279,21 @@ public class ConversionOption {
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, String value, String description) {
     this(libsbmlJNI.new_ConversionOption__SWIG_4(key, value, description), true);
@@ -204,6 +306,21 @@ public class ConversionOption {
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, boolean value, String description) {
     this(libsbmlJNI.new_ConversionOption__SWIG_6(key, value, description), true);
@@ -216,6 +333,21 @@ public class ConversionOption {
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, boolean value) {
     this(libsbmlJNI.new_ConversionOption__SWIG_7(key, value), true);
@@ -228,6 +360,21 @@ public class ConversionOption {
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, double value, String description) {
     this(libsbmlJNI.new_ConversionOption__SWIG_8(key, value, description), true);
@@ -240,6 +387,21 @@ public class ConversionOption {
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, double value) {
     this(libsbmlJNI.new_ConversionOption__SWIG_9(key, value), true);
@@ -252,6 +414,21 @@ public class ConversionOption {
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, float value, String description) {
     this(libsbmlJNI.new_ConversionOption__SWIG_10(key, value, description), true);
@@ -264,6 +441,21 @@ public class ConversionOption {
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, float value) {
     this(libsbmlJNI.new_ConversionOption__SWIG_11(key, value), true);
@@ -276,6 +468,21 @@ public class ConversionOption {
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, int value, String description) {
     this(libsbmlJNI.new_ConversionOption__SWIG_12(key, value, description), true);
@@ -288,6 +495,21 @@ public class ConversionOption {
    * @param key the key for this option
    * @param value the value for this option
    * @param description an optional description
+   <p>
+   * 
+</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
+The native C++ implementation of this method defines a default argument
+value. In the documentation generated for different libSBML language
+bindings, you may or may not see corresponding arguments in the method
+declarations. For example, in Java and C#, a default argument is handled by
+declaring two separate methods, with one of them having the argument and
+the other one lacking the argument. However, the libSBML documentation will
+be <em>identical</em> for both methods. Consequently, if you are reading
+this and do not see an argument even though one is described, please look
+for descriptions of other variants of this method near where this one
+appears in the documentation.
+</dd></dl>
+ 
    */ public
  ConversionOption(String key, int value) {
     this(libsbmlJNI.new_ConversionOption__SWIG_13(key, value), true);
@@ -299,7 +521,7 @@ public class ConversionOption {
    <p>
    * @param orig the {@link ConversionOption} object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  ConversionOption(ConversionOption orig) {
@@ -307,10 +529,10 @@ public class ConversionOption {
   }
 
   
-/** 
+/**
    * Creates and returns a deep copy of this {@link ConversionOption} object.
    <p>
-   * @return a (deep) copy of this {@link ConversionOption} object.
+   * @return the (deep) copy of this {@link ConversionOption} object.
    */ public
  ConversionOption cloneObject() {
     long cPtr = libsbmlJNI.ConversionOption_cloneObject(swigCPtr, this);
@@ -391,6 +613,12 @@ public class ConversionOption {
 /**
    * Sets the type of this option.
    <p>
+   * <p>
+ * The conversion <code>type</code> argument value must be one of
+ * the constants whose names begin
+ * with the characters <code>CNV_TYPE_</code> in the interface class
+ * {@link libsbmlConstants}.
+   <p>
    * @param type the type value to use.
    */ public
  void setType(int type) {
@@ -408,11 +636,11 @@ public class ConversionOption {
   }
 
   
-/** 
+/**
    * Set the value of this option to a given Boolean value.
    <p>
    * Invoking this method will also set the type of the option to
-   * {@link  libsbmlConstants#CNV_TYPE_BOOL CNV_TYPE_BOOL}.
+   * {@link libsbmlConstants#CNV_TYPE_BOOL CNV_TYPE_BOOL}.
    <p>
    * @param value the Boolean value to set
    */ public
@@ -431,11 +659,11 @@ public class ConversionOption {
   }
 
   
-/** 
+/**
    * Set the value of this option to a given <code>double</code> value.
    <p>
    * Invoking this method will also set the type of the option to
-   * {@link  libsbmlConstants#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE}.
+   * {@link libsbmlConstants#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE}.
    <p>
    * @param value the value to set
    */ public
@@ -454,11 +682,11 @@ public class ConversionOption {
   }
 
   
-/** 
+/**
    * Set the value of this option to a given <code>float</code> value.
    <p>
    * Invoking this method will also set the type of the option to
-   * {@link  libsbmlConstants#CNV_TYPE_SINGLE CNV_TYPE_SINGLE}.
+   * {@link libsbmlConstants#CNV_TYPE_SINGLE CNV_TYPE_SINGLE}.
    <p>
    * @param value the value to set
    */ public
@@ -477,11 +705,11 @@ public class ConversionOption {
   }
 
   
-/** 
+/**
    * Set the value of this option to a given <code>int</code> value.
    <p>
    * Invoking this method will also set the type of the option to
-   * {@link  libsbmlConstants#CNV_TYPE_INT CNV_TYPE_INT}.
+   * {@link libsbmlConstants#CNV_TYPE_INT CNV_TYPE_INT}.
    <p>
    * @param value the value to set
    */ public

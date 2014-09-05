@@ -46,40 +46,53 @@ import sys, string, os.path, re
 def reformatDocString (match):
   text = match.group(1)
 
-  # The following are the bits we construct, assigned to variables to
-  # make the following code slightly more readable
+  # First, a regexp we use more than once below.
+  # This regexp matches signatures of the following form:
+  #    foo()
+  #    foo() -> result(arg, arg, ...)
+  #    foo(arg, arg, ...) -> result(arg, arg, ...)
+
+  sigLHS  = '\w+\([\w()=*:"<>?,.\n ]*\)'
+  sigRHS  = '( -> [\w()=*:"<>?|, \t]+)?'
+  sigLine = sigLHS + sigRHS
+
+  # We start by fixing some wonkiness with the output from SWIG: it sometimes
+  # doubles up the signature strings it puts at the top of the doc string.
+  # Here we try to remove the duplicates.
+
+  p = re.compile('(?P<sig>' + sigLine + ')\s+(?P=sig)', re.MULTILINE)
+  text = p.sub(r'\1', text)
+
+  # The following are the bits we add around the signature strings, assigned
+  # to variables to make the subsequent code slightly more readable.
 
   intro  = '<span class="signatureTitle">Python method signature(s)</span>:\n'
   sStart = '<pre class="signature">%'
   sEnd   = '</pre>'
 
-  # Regexp for one or more signatures of the form
-  #    foo() -> result(arg, arg, ...)
-  #    foo(arg, arg, ...) -> result(arg, arg, ...)
-  #    bar(arg, arg ...) -> result(arg, arg, ...)
+  # The next regexp matches multiple signatures.
   # This relies on the fact that the first line(s) (up to a blank line) in
   # every method documentation string is the signature of the method.
   # The \A at the beginning of the regexp forces it that way.
 
-  sigREfunc = '\w+\([\w()=*:"<>?,.\n ]*\)'
-  sigRE     = '\A(\s*)((' + sigREfunc + '( -> [\w()=*:"<>?|, \t]+)?\s*)+)'
+  sigRE  = '\A(\s*)((' + sigLine + '\s*)+)'
 
-  # This matches when the signatures are the only thing in a docstring.
+  # This matches when the signatures are the only things in a docstring.
   p = re.compile(sigRE + '\Z', re.MULTILINE)
-  text = p.sub(r'\1' + intro + r'\1' + sStart + r'\2' + sEnd, text)
+  text = p.sub(r'\1' + r'\1' + sStart + r'\2' + sEnd, text)
 
   # This matches when the signatures are followed with more text.
   p = re.compile(sigRE + '^\s*$', re.MULTILINE)
-  text = p.sub(r'\1' + intro + r'\1' + sStart + r'\2' + sEnd + r'\1<p>', text)
-  
+  text = p.sub(r'\1' + r'\1' + sStart + r'\2' + sEnd + r'\1<p>', text)
+
   # This ditches the "self" part of the signature string.
-  text = text.replace(r'(self)', '()')
-  text = text.replace(r'(self, ', '(')
+  text = re.sub(r'\(\w* ?self\)',  '()', text)
+  text = re.sub(r'\(\w* ?self, ',  '(',  text)
 
   # This fixes a weird translation by SWIG's doc string generator: it
   # seems to turn "char *" to "char" instead of "string".  In our code,
   # this is almost never correct.  So:
-  p = re.compile('(' + sigREfunc + ') -> char')
+  p = re.compile('(' + sigLHS + ') -> char')
   text = p.sub(r'\1 -> string', text)
 
   # Exceptions to the previous rule:
@@ -87,10 +100,19 @@ def reformatDocString (match):
 
   # Prettify the arrow:
   newArrow = '@htmlonly ' + \
-             '<img class="signatureArrow" src="right-arrow.gif"> ' + \
+             '<span class="signatureArrow"> </span>' + \
              '@endhtmlonly'
   p = re.compile(' -> ')
   text = p.sub(r' ' + newArrow + ' ', text)
+
+  # Now we do a final transformation: bring up the brief description, if there
+  # is one, to make it the first line of the doc string.
+
+  start = '<pre class="signature">'
+  brief = '\w[^.]+\.'
+
+  p = re.compile('(' + start + r'.*?)<p>\s*(' + brief + ')\s(.*)', re.DOTALL)
+  text = p.sub(r'\2\n\n' + r'\1' + r'\3', text)
 
   # Crucial detail: need a '!' character after the opening triple quotes or
   # else Doxygen puts the entire docstring inside a verbatim environment.
@@ -142,17 +164,21 @@ def filterDocStrings (contents):
   contents = re.sub(r'LayoutSBMLErrorCode_t\b',      'long',         contents)
   contents = re.sub(r'SBMLErrorCode_t\b',            'long',         contents)
 
-  # Other type replacements
-  contents = re.sub(r'const char* ',              'string ',         contents)
-  contents = re.sub(r'an unsigned int',           'a long integer',  contents)
-  contents = re.sub(r'unsigned int',              'long',            contents)
-  contents = re.sub(r'const std.string&',         'string',          contents)
-  contents = re.sub(r'const std.string',          'string',          contents)
-  contents = re.sub(r'const ',                    '',                contents)
-
   # We alter the names of some functions.
   contents = re.sub('SBML_parseFormula\b',        "parseFormula",    contents)
   contents = re.sub('SBML_formulaToString\b',     "formulaToString", contents)
+
+  # Other simple type replacements.
+  contents = contents.replace('an unsigned int',           'a long integer')
+  contents = contents.replace('unsigned int',              'long')
+  contents = contents.replace('const std.string&',         'string')
+  contents = contents.replace('const std.string',          'string')
+  contents = contents.replace('SBMLConstructorException',  'ValueError')
+  # Make sure to do the replacement for 'const' before the replacement for
+  # 'char *', because in the SWIG output, there are things like 'char const *'.
+  contents = contents.replace('const ',                    '')
+  contents = contents.replace('char *',                    'string')
+  contents = contents.replace('string *',                  'string')
 
   return contents
 

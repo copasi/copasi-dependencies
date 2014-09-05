@@ -14,22 +14,23 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Class of object that encapsulates the properties of an
- * SBML converter.
- * 
+@htmlinclude pkg-marker-core.html Set of configuration option values for a converter.
+ *
  * @htmlinclude libsbml-facility-only-warning.html
- * 
- * The properties of SBML converters are communicated using objects of
- * class ConversionProperties, and within such objects, individual options
- * are encapsulated using ConversionOption objects.  The ConversionProperties
- * class provides numerous methods for setting and getting options.
+ *
+ * LibSBML provides a number of converters that can perform transformations
+ * on SBML documents. The properties of SBML converters are communicated
+ * using objects of class ConversionProperties, and within such objects,
+ * individual options are encapsulated using ConversionOption objects.  The
+ * ConversionProperties class provides numerous methods for setting and
+ * getting options.
  *
  * ConversionProperties objects are also used to determine the target SBML
  * namespace when an SBML converter's behavior depends on the intended
  * Level+Version combination of SBML.  In addition, it is conceivable that
- * conversions may be affected by SBML Level&nbsp;3 packages being used
- * by an SBML document.  These, too, are communicated by the values of
- * the SBML namespaces set on a ConversionProperties object.
+ * conversions may be affected by SBML Level&nbsp;3 packages being used by an
+ * SBML document; consequently, the packages in use are also communicated by
+ * the values of the SBML namespaces set on a ConversionProperties object.
  *
  * @see ConversionOption
  * @see SBMLNamespaces
@@ -81,32 +82,36 @@ public class ConversionProperties : IDisposable {
   }
 
   
-/** 
+/**
    * Constructor that initializes the conversion properties
    * with a specific SBML target namespace.
-   * 
+   *
    * @param targetNS the target namespace to convert to
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionProperties(SBMLNamespaces targetNS) : this(libsbmlPINVOKE.new_ConversionProperties__SWIG_0(SBMLNamespaces.getCPtr(targetNS)), true) {
   }
 
   
-/** 
+/**
    * Constructor that initializes the conversion properties
    * with a specific SBML target namespace.
-   * 
+   *
    * @param targetNS the target namespace to convert to
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  ConversionProperties() : this(libsbmlPINVOKE.new_ConversionProperties__SWIG_1(), true) {
   }
 
   
-/** 
+/**
    * Copy constructor.
    *
    * @param orig the object to copy.
-   * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   *
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  ConversionProperties(ConversionProperties orig) : this(libsbmlPINVOKE.new_ConversionProperties__SWIG_2(ConversionProperties.getCPtr(orig)), true) {
@@ -114,11 +119,11 @@ public class ConversionProperties : IDisposable {
   }
 
   
-/** 
+/**
    * Creates and returns a deep copy of this ConversionProperties object.
-   * 
-   * @return a (deep) copy of this ConversionProperties object.
-   */ public
+   *
+   * @return the (deep) copy of this ConversionProperties object.
+   */ public new
  ConversionProperties clone() {
     IntPtr cPtr = libsbmlPINVOKE.ConversionProperties_clone(swigCPtr);
     ConversionProperties ret = (cPtr == IntPtr.Zero) ? null : new ConversionProperties(cPtr, true);
@@ -130,7 +135,7 @@ public class ConversionProperties : IDisposable {
    * Returns the current target SBML namespace.
    *
    * @return the SBMLNamepaces object expressing the target namespace.
-   */ public
+   */ public new
  SBMLNamespaces getTargetNamespaces() {
 	SBMLNamespaces ret
 	    = (SBMLNamespaces) libsbml.DowncastSBMLNamespaces(libsbmlPINVOKE.ConversionProperties_getTargetNamespaces(swigCPtr), false);
@@ -140,21 +145,21 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Returns @c true if the target SBML namespace has been set.
-   * 
+   *
    * @return @c true if the target namespace has been set, @c false
    * otherwise.
-   */ public
+   */ public new
  bool hasTargetNamespaces() {
     bool ret = libsbmlPINVOKE.ConversionProperties_hasTargetNamespaces(swigCPtr);
     return ret;
   }
 
   
-/** 
+/**
    * Sets the target namespace.
-   * 
+   *
    * @param targetNS the target namespace to use.
-   */ public
+   */ public new
  void setTargetNamespaces(SBMLNamespaces targetNS) {
     libsbmlPINVOKE.ConversionProperties_setTargetNamespaces(swigCPtr, SBMLNamespaces.getCPtr(targetNS));
   }
@@ -163,11 +168,11 @@ public class ConversionProperties : IDisposable {
 /**
    * Returns the description string for a given option in this properties
    * object.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @return the description text of the option with the given key.
-   */ public
+   */ public new
  string getDescription(string key) {
     string ret = libsbmlPINVOKE.ConversionProperties_getDescription(swigCPtr, key);
     return ret;
@@ -176,11 +181,11 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Returns the type of a given option in this properties object.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @return the type of the option with the given key.
-   */ public
+   */ public new
  int getType(string key) {
     int ret = libsbmlPINVOKE.ConversionProperties_getType(swigCPtr, key);
     return ret;
@@ -189,13 +194,27 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Returns the ConversionOption object for a given key.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @return the option with the given key.
-   */ public
+   */ public new
  ConversionOption getOption(string key) {
-    IntPtr cPtr = libsbmlPINVOKE.ConversionProperties_getOption(swigCPtr, key);
+    IntPtr cPtr = libsbmlPINVOKE.ConversionProperties_getOption__SWIG_0(swigCPtr, key);
+    ConversionOption ret = (cPtr == IntPtr.Zero) ? null : new ConversionOption(cPtr, false);
+    return ret;
+  }
+
+  
+/**
+   * Returns the ConversionOption object for the given index.
+   *
+   * @param index the index for the option.
+   *
+   * @return the option with the given index.
+   */ public new
+ ConversionOption getOption(int index) {
+    IntPtr cPtr = libsbmlPINVOKE.ConversionProperties_getOption__SWIG_1(swigCPtr, index);
     ConversionOption ret = (cPtr == IntPtr.Zero) ? null : new ConversionOption(cPtr, false);
     return ret;
   }
@@ -203,9 +222,9 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a copy of the given option to this properties object.
-   * 
+   *
    * @param option the option to add
-   */ public
+   */ public new
  void addOption(ConversionOption option) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_0(swigCPtr, ConversionOption.getCPtr(option));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -214,12 +233,15 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value (optional) the value of that option
-   * @param type (optional) the type of the option
+   * @param type (optional) the type of the option (see the documentation
+   * for ConversionOption for more information about the types)
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, string value, int type, string description) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_1(swigCPtr, key, value, type, description);
   }
@@ -227,12 +249,15 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value (optional) the value of that option
-   * @param type (optional) the type of the option
+   * @param type (optional) the type of the option (see the documentation
+   * for ConversionOption for more information about the types)
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, string value, int type) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_2(swigCPtr, key, value, type);
   }
@@ -240,12 +265,15 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value (optional) the value of that option
-   * @param type (optional) the type of the option
+   * @param type (optional) the type of the option (see the documentation
+   * for ConversionOption for more information about the types)
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, string value) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_3(swigCPtr, key, value);
   }
@@ -253,12 +281,15 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value (optional) the value of that option
-   * @param type (optional) the type of the option
+   * @param type (optional) the type of the option (see the documentation
+   * for ConversionOption for more information about the types)
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_4(swigCPtr, key);
   }
@@ -266,11 +297,13 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value the string value of that option
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, string value, string description) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_5(swigCPtr, key, value, description);
   }
@@ -278,11 +311,13 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value the bool value of that option
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, bool value, string description) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_7(swigCPtr, key, value, description);
   }
@@ -290,11 +325,13 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value the bool value of that option
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, bool value) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_8(swigCPtr, key, value);
   }
@@ -302,11 +339,13 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value the double value of that option
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, double value, string description) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_9(swigCPtr, key, value, description);
   }
@@ -314,11 +353,13 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value the double value of that option
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, double value) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_10(swigCPtr, key, value);
   }
@@ -326,11 +367,13 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value the float value of that option
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, float value, string description) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_11(swigCPtr, key, value, description);
   }
@@ -338,11 +381,13 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value the float value of that option
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, float value) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_12(swigCPtr, key, value);
   }
@@ -350,11 +395,13 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value the integer value of that option
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, int value, string description) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_13(swigCPtr, key, value, description);
   }
@@ -362,11 +409,13 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Adds a new ConversionOption object with the given parameters.
-   * 
+   *
    * @param key the key for the new option
    * @param value the integer value of that option
    * @param description (optional) the description for the option
-   */ public
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public new
  void addOption(string key, int value) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_14(swigCPtr, key, value);
   }
@@ -374,10 +423,10 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Removes the option with the given key from this properties object.
-   * 
+   *
    * @param key the key for the new option to remove
    * @return the removed option
-   */ public
+   */ public new
  ConversionOption removeOption(string key) {
     IntPtr cPtr = libsbmlPINVOKE.ConversionProperties_removeOption(swigCPtr, key);
     ConversionOption ret = (cPtr == IntPtr.Zero) ? null : new ConversionOption(cPtr, false);
@@ -385,15 +434,15 @@ public class ConversionProperties : IDisposable {
   }
 
   
-/** 
+/**
    * Returns @c true if this properties object contains an option with
    * the given key.
-   * 
+   *
    * @param key the key of the option to find.
-   * 
+   *
    * @return @c true if an option with the given @p key exists in
    * this properties object, @c false otherwise.
-   */ public
+   */ public new
  bool hasOption(string key) {
     bool ret = libsbmlPINVOKE.ConversionProperties_hasOption(swigCPtr, key);
     return ret;
@@ -402,11 +451,11 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Returns the value of the given option as a string.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @return the string value of the option with the given key.
-   */ public
+   */ public new
  string getValue(string key) {
     string ret = libsbmlPINVOKE.ConversionProperties_getValue(swigCPtr, key);
     return ret;
@@ -415,10 +464,10 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Sets the value of the given option to a string.
-   * 
+   *
    * @param key the key for the option
    * @param value the new value
-   */ public
+   */ public new
  void setValue(string key, string value) {
     libsbmlPINVOKE.ConversionProperties_setValue(swigCPtr, key, value);
   }
@@ -426,11 +475,11 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Returns the value of the given option as a Boolean.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @return the bool value of the option with the given key.
-   */ public
+   */ public new
  bool getBoolValue(string key) {
     bool ret = libsbmlPINVOKE.ConversionProperties_getBoolValue(swigCPtr, key);
     return ret;
@@ -439,11 +488,11 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Sets the value of the given option to a Boolean.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @param value the new Boolean value.
-   */ public
+   */ public new
  void setBoolValue(string key, bool value) {
     libsbmlPINVOKE.ConversionProperties_setBoolValue(swigCPtr, key, value);
   }
@@ -451,11 +500,11 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Returns the value of the given option as a @c double.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @return the double value of the option with the given key.
-   */ public
+   */ public new
  double getDoubleValue(string key) {
     double ret = libsbmlPINVOKE.ConversionProperties_getDoubleValue(swigCPtr, key);
     return ret;
@@ -464,11 +513,11 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Sets the value of the given option to a @c double.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @param value the new double value.
-   */ public
+   */ public new
  void setDoubleValue(string key, double value) {
     libsbmlPINVOKE.ConversionProperties_setDoubleValue(swigCPtr, key, value);
   }
@@ -476,11 +525,11 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Returns the value of the given option as a @c float.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @return the float value of the option with the given key.
-   */ public
+   */ public new
  float getFloatValue(string key) {
     float ret = libsbmlPINVOKE.ConversionProperties_getFloatValue(swigCPtr, key);
     return ret;
@@ -489,11 +538,11 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Sets the value of the given option to a @c float.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @param value the new float value.
-   */ public
+   */ public new
  void setFloatValue(string key, float value) {
     libsbmlPINVOKE.ConversionProperties_setFloatValue(swigCPtr, key, value);
   }
@@ -501,11 +550,11 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Returns the value of the given option as an integer.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @return the int value of the option with the given key.
-   */ public
+   */ public new
  int getIntValue(string key) {
     int ret = libsbmlPINVOKE.ConversionProperties_getIntValue(swigCPtr, key);
     return ret;
@@ -514,13 +563,24 @@ public class ConversionProperties : IDisposable {
   
 /**
    * Sets the value of the given option to an integer.
-   * 
+   *
    * @param key the key for the option.
-   * 
+   *
    * @param value the new integer value.
-   */ public
+   */ public new
  void setIntValue(string key, int value) {
     libsbmlPINVOKE.ConversionProperties_setIntValue(swigCPtr, key, value);
+  }
+
+  
+/** 
+   * Returns the number of options in this Conversion Properties object
+   *
+   * @return the number of options in this properties object
+   */ public new
+ int getNumOptions() {
+    int ret = libsbmlPINVOKE.ConversionProperties_getNumOptions(swigCPtr);
+    return ret;
   }
 
 }

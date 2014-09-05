@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's ListOfConstraints construct.
+ *  A list of {@link Constraint} objects.
  <p>
  * <p>
  * The various ListOf___ classes in SBML
@@ -129,9 +129,9 @@ public class ListOfConstraints extends ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this {@link ListOfConstraints} instance.
+   * Creates and returns a deep copy of this {@link ListOfConstraints} object.
    <p>
-   * @return a (deep) copy of this {@link ListOfConstraints}.
+   * @return the (deep) copy of this {@link ListOfConstraints} object.
    */ public
  ListOfConstraints cloneObject() {
     long cPtr = libsbmlJNI.ListOfConstraints_cloneObject(swigCPtr, this);
@@ -146,16 +146,16 @@ public class ListOfConstraints extends ListOf {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this {@link ListOf}
-   * instance: {@link  libsbmlConstants#SBML_CONSTRAINT SBML_CONSTRAINT} (default).
+   * instance: {@link libsbmlConstants#SBML_CONSTRAINT SBML_CONSTRAINT} (default).
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -170,7 +170,7 @@ public class ListOfConstraints extends ListOf {
    <p>
    * For {@link ListOfConstraints}, the XML element name is <code>'listOfConstraints'.</code>
    <p>
-   * @return the name of this element, i.e., <code>'listOfConstraints'.</code>
+   * @return the name of this element.
    */ public
  String getElementName() {
     return libsbmlJNI.ListOfConstraints_getElementName(swigCPtr, this);

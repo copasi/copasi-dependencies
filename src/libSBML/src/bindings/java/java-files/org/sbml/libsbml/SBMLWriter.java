@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Methods for writing SBML to files and text strings.
+ *  File and text-string SBML writer.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -35,8 +35,8 @@ defined in SBML.
  * formats (respectively, <code>&quot;.gz&quot;</code>,
  * <code>&quot;.zip&quot;</code>, or <code>&quot;.bz2&quot;</code>),
  * then the methods
- * {@link SBMLWriter#writeSBML(SBMLDocument d, String filename)}
- * and {@link SBMLReader#readSBML(String filename)}
+ * {@link SBMLWriter#writeSBML(SBMLDocument, String)}
+ * and {@link SBMLReader#readSBML(String)}
  * will automatically compress and decompress the file while writing and
  * reading it.  If the filename has no such extension, it
  * will be written and read uncompressed as normal.
@@ -167,13 +167,13 @@ public class SBMLWriter {
    * write out the {@link SBMLDocument}.
    <p>
    * If the program name and version are set (see
-   * {@link SBMLWriter#setProgramVersion(String version)}), the
+   * {@link SBMLWriter#setProgramVersion(String)}), the
    * following XML comment, intended for human consumption, will be written
    * at the beginning of the XML document:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
  &lt;!-- Created by &lt;program name&gt; version &lt;program version&gt;
  on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
- </pre></div>
+ </pre>
    <p>
    * If the program name and version are not set at some point before
    * calling the writeSBML() methods, no such comment is written out.
@@ -185,7 +185,7 @@ public class SBMLWriter {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #setProgramVersion(String version)
@@ -200,13 +200,13 @@ public class SBMLWriter {
    * write out the {@link SBMLDocument}.
    <p>
    * If the program version and name are set (see
-   * {@link SBMLWriter#setProgramName(String name)}), the
+   * {@link SBMLWriter#setProgramName(String)}), the
    * following XML comment, intended for human consumption, will be written
    * at the beginning of the document:
-   * <div class='fragment'><pre class='fragment'>
+   * <pre class='fragment'>
  &lt;!-- Created by &lt;program name&gt; version &lt;program version&gt;
  on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
- </pre></div>
+ </pre>
    <p>
    * If the program version and name are not set at some point before
    * calling the writeSBML() methods, no such comment is written out.
@@ -218,7 +218,7 @@ public class SBMLWriter {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #setProgramName(String name)

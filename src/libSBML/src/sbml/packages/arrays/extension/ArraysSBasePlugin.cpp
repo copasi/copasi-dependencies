@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2013-2014 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *     3. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -518,8 +523,14 @@ ArraysSBasePlugin::setSBMLDocument(SBMLDocument* d)
 {
   SBasePlugin::setSBMLDocument(d);
 
-  mIndexs.setSBMLDocument(d);
-  mDimensions.setSBMLDocument(d);
+  if (getNumIndexs() > 0) 
+  { 
+    mIndexs.setSBMLDocument(d);
+  }
+  if (getNumDimensions() > 0) 
+  {
+    mDimensions.setSBMLDocument(d);
+  }
 }
 
 
@@ -531,8 +542,14 @@ ArraysSBasePlugin::connectToParent(SBase* sbase)
 {
   SBasePlugin::connectToParent(sbase);
 
-  mIndexs.connectToParent(sbase);
-  mDimensions.connectToParent(sbase);
+  if (getNumIndexs() > 0) 
+  { 
+    mIndexs.connectToParent(sbase);
+  }
+  if (getNumDimensions() > 0) 
+  {
+    mDimensions.connectToParent(sbase);
+  }
 }
 
 
@@ -543,8 +560,14 @@ void
 ArraysSBasePlugin::enablePackageInternal(const std::string& pkgURI,
                                    const std::string& pkgPrefix, bool flag)
 {
-  mIndexs.enablePackageInternal(pkgURI, pkgPrefix, flag);
-  mDimensions.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  if (getNumIndexs() > 0) 
+  { 
+    mIndexs.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  } 
+  if (getNumDimensions() > 0) 
+  {
+    mDimensions.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  }
 }
 
 

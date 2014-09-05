@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %Parameter construct.
+@htmlinclude pkg-marker-core.html An SBML parameter: a named symbol with a value.
  *
  * A Parameter is used in SBML to define a symbol associated with a value;
  * this symbol can then be used in mathematical formulas in a model.  By
@@ -166,22 +166,27 @@ public class Parameter : SBase {
    * @param version a long integer, the SBML Version to assign to this
    * Parameter
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
    * *
- * @note Upon the addition of a Parameter object to an SBMLDocument
- * (e.g., using Model::addParameter(@if java Parameter p@endif)), the SBML Level, SBML Version
- * and XML namespace of the document @em override the values used
- * when creating the Parameter object via this constructor.  This is
- * necessary to ensure that an SBML document is a consistent structure.
- * Nevertheless, the ability to supply the values at the time of creation
- * of a Parameter is an important aid to producing valid SBML.  Knowledge
- * of the intented SBML Level and Version determine whether it is valid
- * to assign a particular value to an attribute, or whether it is valid
- * to add an object to an existing SBMLDocument.
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  Parameter(long level, long version) : this(libsbmlPINVOKE.new_Parameter__SWIG_0(level, version), true) {
@@ -194,7 +199,7 @@ public class Parameter : SBase {
    * @p sbmlns.
    *
    * *
- *  
+ * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
@@ -214,22 +219,27 @@ public class Parameter : SBase {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the given @p level and @p version combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
    * *
- * @note Upon the addition of a Parameter object to an SBMLDocument
- * (e.g., using Model::addParameter(@if java Parameter p@endif)), the SBML Level, SBML Version
- * and XML namespace of the document @em override the values used
- * when creating the Parameter object via this constructor.  This is
- * necessary to ensure that an SBML document is a consistent structure.
- * Nevertheless, the ability to supply the values at the time of creation
- * of a Parameter is an important aid to producing valid SBML.  Knowledge
- * of the intented SBML Level and Version determine whether it is valid
- * to assign a particular value to an attribute, or whether it is valid
- * to add an object to an existing SBMLDocument.
+ * @note Attempting to add an object to an SBMLDocument having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * SBMLDocument), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
+ *
  *
    */ public
  Parameter(SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_Parameter__SWIG_1(SBMLNamespaces.getCPtr(sbmlns)), true) {
@@ -242,7 +252,7 @@ public class Parameter : SBase {
    * 
    * @param orig the Parameter instance to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  Parameter(Parameter orig) : this(libsbmlPINVOKE.new_Parameter__SWIG_2(Parameter.getCPtr(orig)), true) {
@@ -251,9 +261,9 @@ public class Parameter : SBase {
 
   
 /**
-   * Creates and returns a deep copy of this Parameter.
-   * 
-   * @return a (deep) copy of this Parameter.
+   * Creates and returns a deep copy of this Parameter object.
+   *
+   * @return the (deep) copy of this Parameter object.
    */ public new
  Parameter clone() {
     IntPtr cPtr = libsbmlPINVOKE.Parameter_clone(swigCPtr);
@@ -275,7 +285,7 @@ public class Parameter : SBase {
    *
    * @see getConstant()
    * @see isSetConstant()
-   * @see setConstant(@if java bool flag@endif)
+   * @see setConstant(@if java bool@endif)
    */ public
  void initDefaults() {
     libsbmlPINVOKE.Parameter_initDefaults(swigCPtr);
@@ -350,7 +360,7 @@ public class Parameter : SBase {
  *
    * 
    * @see isSetUnits()
-   * @see setUnits(@if java String units@endif)
+   * @see setUnits(@if java String@endif)
    * @see getValue()
    */ public
  string getUnits() {
@@ -382,8 +392,8 @@ public class Parameter : SBase {
  *
    * 
    * @see isSetConstant()
-   * @see setConstant(@if java bool flag@endif)
-   */ public
+   * @see setConstant(@if java bool@endif)
+   */ public new
  bool getConstant() {
     bool ret = libsbmlPINVOKE.Parameter_getConstant(swigCPtr);
     return ret;
@@ -494,8 +504,8 @@ public class Parameter : SBase {
  *
    *
    * @see getConstant()
-   * @see setConstant(@if java bool flag@endif)
-   */ public
+   * @see setConstant(@if java bool@endif)
+   */ public new
  bool isSetConstant() {
     bool ret = libsbmlPINVOKE.Parameter_isSetConstant(swigCPtr);
     return ret;
@@ -511,15 +521,14 @@ public class Parameter : SBase {
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter ::= 'a'..'z','A'..'Z'
  * digit  ::= '0'..'9'
  * idChar ::= letter | digit | '_'
- * SId    ::= ( letter | '_' ) idChar*
- * </pre>
+ * SId    ::= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -528,15 +537,15 @@ public class Parameter : SBase {
  * conditions for the uniqueness of identifiers in an SBML model.  Please
  * consult the SBML specifications for the exact details of the uniqueness
  * requirements.
- * 
+ *
  *
    *
    * @param sid the string to use as the identifier of this Parameter
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setId(string sid) {
     int ret = libsbmlPINVOKE.Parameter_setId(swigCPtr, sid);
@@ -555,8 +564,8 @@ public class Parameter : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setName(string name) {
     int ret = libsbmlPINVOKE.Parameter_setName(swigCPtr, name);
@@ -574,7 +583,7 @@ public class Parameter : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(double value) {
     int ret = libsbmlPINVOKE.Parameter_setValue(swigCPtr, value);
@@ -592,8 +601,8 @@ public class Parameter : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setUnits(string units) {
     int ret = libsbmlPINVOKE.Parameter_setUnits(swigCPtr, units);
@@ -612,8 +621,8 @@ public class Parameter : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @note Readers who view the documentation for LocalParameter may be
@@ -633,7 +642,7 @@ public class Parameter : SBase {
    *
    * @see getConstant()
    * @see isSetConstant()
-   */ public
+   */ public new
  int setConstant(bool flag) {
     int ret = libsbmlPINVOKE.Parameter_setConstant(swigCPtr, flag);
     return ret;
@@ -646,8 +655,8 @@ public class Parameter : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.Parameter_unsetName(swigCPtr);
@@ -661,7 +670,7 @@ public class Parameter : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * In SBML Level&nbsp;1 Version&nbsp;1, parameters are required to have
    * values and therefore, the value of a Parameter <b>should always be
@@ -680,8 +689,8 @@ public class Parameter : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetUnits() {
     int ret = libsbmlPINVOKE.Parameter_unsetUnits(swigCPtr);
@@ -732,10 +741,10 @@ public class Parameter : SBase {
    * Returns the libSBML type code for this SBML object.
    * 
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -747,15 +756,15 @@ public class Parameter : SBase {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs.libsbml.SBML_PARAMETER SBML_PARAMETER@endlink (default).
+   * @link libsbmlcs#SBML_PARAMETER SBML_PARAMETER@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -791,12 +800,12 @@ public class Parameter : SBase {
    * all the required attributes for this Parameter object
    * have been set.
    *
-   * @note The required attributes for a Parameter object are:
+   * The required attributes for a Parameter object are:
    * @li 'id' (or 'name' in SBML Level&nbsp;1)
    * @li 'value' (required in Level&nbsp;1, optional otherwise)
    *
-   * @return a bool value indicating whether all the required
-   * attributes for this object have been defined.
+   * @return @c true if the required attributes have been set, @c false
+   * otherwise.
    */ public new
  bool hasRequiredAttributes() {
     bool ret = libsbmlPINVOKE.Parameter_hasRequiredAttributes(swigCPtr);
@@ -818,7 +827,7 @@ public class Parameter : SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
- * 
+ *
  *
    *
    * This method works by looking at all unit identifier attribute values
@@ -829,14 +838,14 @@ public class Parameter : SBase {
    * 
    * @param oldid the old identifier
    * @param newid the new identifier
-   */ public
+   */ public new
  void renameUnitSIdRefs(string oldid, string newid) {
     libsbmlPINVOKE.Parameter_renameUnitSIdRefs(swigCPtr, oldid, newid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  void setCalculatingUnits(bool calculatingUnits) {
     libsbmlPINVOKE.Parameter_setCalculatingUnits(swigCPtr, calculatingUnits);
   }

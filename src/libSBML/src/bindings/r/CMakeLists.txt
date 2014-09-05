@@ -46,6 +46,10 @@ if (NOT R_INCLUDE_DIRS)
         NAMES R.h
         PATHS /usr/include /usr/local/include /usr/share/R/include
               /Library/Frameworks/R.framework/Versions/Current/Resources/include
+              $ENV{ProgramFiles}/R/R-3.1.0/include
+              $ENV{ProgramW6432}/R/R-3.1.0/include
+              $ENV{ProgramFiles}/R/R-3.0.3/include
+              $ENV{ProgramW6432}/R/R-3.0.3/include
               $ENV{ProgramFiles}/R/R-2.15.3/include
               $ENV{ProgramW6432}/R/R-2.15.3/include
               $ENV{ProgramFiles}/R/R-2.15.2/include
@@ -70,6 +74,10 @@ if (NOT R_LIB)
 	find_library(R_LIB
 			NAMES Rlib.lib R
 			PATHS /usr/lib /usr/local/lib /usr/lib/R/lib
+            $ENV{ProgramFiles}/R/R-3.1.0/bin${R_SUFFIX}
+            $ENV{ProgramW6432}/R/R-3.1.0/bin${R_SUFFIX}
+            $ENV{ProgramFiles}/R/R-3.0.3/bin${R_SUFFIX}
+            $ENV{ProgramW6432}/R/R-3.0.3/bin${R_SUFFIX}
             $ENV{ProgramFiles}/R/R-2.15.3/bin${R_SUFFIX}
             $ENV{ProgramW6432}/R/R-2.15.3/bin${R_SUFFIX}
             $ENV{ProgramFiles}/R/R-2.15.2/bin${R_SUFFIX}
@@ -86,6 +94,10 @@ if (NOT R_INTERPRETER)
 	find_program(R_INTERPRETER
         NAMES R R32 R64
         PATHS 
+          $ENV{ProgramFiles}/R/R-3.1.0/bin
+          $ENV{ProgramW6432}/R/R-3.1.0/bin
+          $ENV{ProgramFiles}/R/R-3.0.3/bin
+          $ENV{ProgramW6432}/R/R-3.0.3/bin
           $ENV{ProgramFiles}/R/R-2.15.3/bin
           $ENV{ProgramW6432}/R/R-2.15.3/bin
           $ENV{ProgramFiles}/R/R-2.15.2/bin
@@ -182,6 +194,14 @@ update_cfile(
    "${DOWNCAST_EXTENSION}"
 )
 
+# - local-downcast-converters.cpp
+file(GLOB DOWNCAST_EXTENSION RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/local-downcast-converters-*.cpp")
+update_cfile(
+   "local-downcast-converters.cpp" 
+   ${CMAKE_CURRENT_BINARY_DIR} 
+   "${DOWNCAST_EXTENSION}"
+)
+
 #
 # Remove SWIG wrappers if requested
 #
@@ -251,6 +271,9 @@ if (UNIX)
 	set_target_properties (binding_r_lib PROPERTIES PREFIX "")
 	if (APPLE)
 		set_target_properties (binding_r_lib PROPERTIES SUFFIX ".so")
+    if( "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" )
+      set_target_properties (binding_r_lib PROPERTIES COMPILE_FLAGS " -std=c++0x -stdlib=libc++")
+    endif()
 	endif()
 endif()
 if (R_ADDITIONAL_PATH_ENTRIES)
@@ -258,7 +281,6 @@ target_link_libraries(binding_r_lib ${LIBSBML_LIBRARY}-static ${R_LIB} ${R_ADDIT
 else()
 target_link_libraries(binding_r_lib ${LIBSBML_LIBRARY}-static ${R_LIB})
 endif()
-install(TARGETS binding_r_lib DESTINATION lib )
 
 ####################################################################
 #
@@ -304,7 +326,7 @@ file(MAKE_DIRECTORY ${R_LIBRARY_DESTINATION}/i386)
 file(MAKE_DIRECTORY ${R_LIBRARY_DESTINATION}/x86_64)
 
 add_custom_command(	
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libSBML_5.5.0.zip
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libSBML_${PACKAGE_VERSION}.zip
 	COMMAND "${CMAKE_COMMAND}"
 			-DFILENAME=\"${CMAKE_CURRENT_BINARY_DIR}/libSBML.R\"
 			-P "${CMAKE_CURRENT_SOURCE_DIR}/patch-swig-file.cmake"
@@ -354,7 +376,7 @@ endif(APPLE)
 file(MAKE_DIRECTORY ${R_LIBRARY_DESTINATION})
 
 add_custom_command(	
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libSBML_5.5.0.zip
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libSBML_${PACKAGE_VERSION}.zip
 	COMMAND "${CMAKE_COMMAND}"
 			-DFILENAME=\"${CMAKE_CURRENT_BINARY_DIR}/libSBML.R\"
 			-P "${CMAKE_CURRENT_SOURCE_DIR}/patch-swig-file.cmake"
@@ -366,19 +388,15 @@ add_custom_command(
 	ARGS  -E copy_if_different 
 		 ${CMAKE_CURRENT_BINARY_DIR}/libSBML.R
 		 ${CMAKE_CURRENT_BINARY_DIR}/libSBML/R
-    COMMAND "${R_INTERPRETER}"
-    ARGS  CMD INSTALL --build 
-	      --no-libs 
-		  --no-test-load 
-		  --no-clean-on-error 
-		  --no-multiarch 
-		  libSBML
-		  -l temp		  
+  COMMAND "${CMAKE_COMMAND}"
+	ARGS -DR_INTERPRETER=\"${R_INTERPRETER}\"
+		 -P "${CMAKE_CURRENT_SOURCE_DIR}/create-r-package.cmake"
+  
 	MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/libSBML.R
 	DEPENDS ${SWIG_DEPENDENCIES}
     COMMENT "Create R Package (${LIBSBML_BUILD_TYPE})") 
 endif(APPLE AND ENABLE_UNIVERSAL)
-add_custom_target(binding_r_package ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libSBML_5.5.0.zip binding_r_lib)
+add_custom_target(binding_r_package ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libSBML_${PACKAGE_VERSION}.zip binding_r_lib)
 
 if(WITH_CHECK AND NOT MSVC)
 
@@ -388,3 +406,12 @@ if(WITH_CHECK AND NOT MSVC)
 	set_tests_properties(test_r_binding PROPERTIES PASS_REGULAR_EXPRESSION "TRUE" )
 
 endif()
+
+# at configuration time, we won't know what the final filename of the produced file 
+# is, so we need to run a separate script at the end of installation to print the 
+# message
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake-r-install.cmake.in
+               ${CMAKE_CURRENT_BINARY_DIR}/cmake-r-install.cmake @ONLY)
+
+INSTALL (SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/cmake-r-install.cmake )
+

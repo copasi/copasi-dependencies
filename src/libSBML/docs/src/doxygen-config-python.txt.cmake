@@ -86,6 +86,7 @@ INPUT = \
   libsbml-changes.txt                   \
   libsbml-coding.txt                    \
   libsbml-communications.txt            \
+  libsbml-converters.txt                \
   libsbml-core-versus-packages.txt      \
   libsbml-extending.txt                 \
   libsbml-extension-support-classes.txt \
@@ -95,17 +96,19 @@ INPUT = \
   libsbml-installation.txt              \
   libsbml-issues.txt                    \
   libsbml-license.txt                   \
+  libsbml-mainpage.txt                  \
   libsbml-math.txt                      \
   libsbml-news.txt                      \
   libsbml-old-news.txt                  \
   libsbml-other.txt                     \
-  libsbml-programming-python.txt        \
+  libsbml-programming.txt               \
   libsbml-python-creating-model.txt     \
   libsbml-python-example-files.txt      \
-  libsbml-python-mainpage.txt           \
   libsbml-python-reading-files.txt      \
   libsbml-release-info.txt              \
-  libsbml.py
+  libsbml.py                            \
+  ../../src/sbml/common/common-documentation.h \
+  ../../src/sbml/common/common-sbmlerror-codes.h
 
 LAYOUT_FILE = doxygen-layout-python.xml
 

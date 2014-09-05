@@ -2282,7 +2282,7 @@ SBase::getAncestorOfType(int type, const std::string pkgName)
   if (pkgName == "core" && type == SBML_DOCUMENT)
     return getSBMLDocument();
 
-  SBase *child = this;
+  SBase *child;
   SBase *parent = getParentSBMLObject();
 
   while ( parent != NULL &&
@@ -2311,7 +2311,7 @@ SBase::getAncestorOfType(int type, const std::string pkgName) const
   if (pkgName == "core" && type == SBML_DOCUMENT)
     return getSBMLDocument();
 
-  const SBase *child = this;
+  const SBase *child;
   const SBase *parent = getParentSBMLObject();
 
   while ( parent != NULL &&
@@ -4000,9 +4000,9 @@ SBase::setElementText(const std::string &text)
 void
 SBase::write (XMLOutputStream& stream) const
 {
-  XMLNamespaces *xmlns = getNamespaces();
 
-  if (0)
+#if 0
+  XMLNamespaces *xmlns = getNamespaces();
   {
     cout << "[DEBUG] SBase::write (element name) " << getElementName()
          << " (element ns) " << getElementNamespace();
@@ -4016,6 +4016,7 @@ SBase::write (XMLOutputStream& stream) const
     }
 
   }
+#endif
 
   stream.startElement( getElementName(), getPrefix() );
 
@@ -5463,6 +5464,7 @@ SBase::reconstructRDFAnnotation()
       // test file: histCVAddRDF/histCVOnly/histCVOther
       unsigned int noChild
         = history->getChild("RDF").getChild("Description").getNumChildren();
+      if (mAnnotation != NULL)
       for (unsigned int i = noChild; i > 0; i--)
       {
         ((mAnnotation->getChild("RDF")).getChild("Description")).insertChild(
@@ -5525,6 +5527,7 @@ SBase::reconstructRDFAnnotation()
       // test file: histCVAddRDF/histCVOnly/histCVOther
       unsigned int noChild
         = cvTerms->getChild("RDF").getChild("Description").getNumChildren();
+      if (mAnnotation != NULL)
       for (unsigned int i = 0; i < noChild; i++)
       {
         ((mAnnotation->getChild("RDF")).getChild("Description")).addChild(
@@ -5924,7 +5927,7 @@ SBase::read(XMLNode& node, XMLErrorSeverityOverride_t flag /*= LIBSBML_OVERRIDE_
   XMLErrorLog* log = getErrorLog();
 
   // set override for error messages
-  XMLErrorSeverityOverride_t old;
+  XMLErrorSeverityOverride_t old = LIBSBML_OVERRIDE_DISABLED;
   if (log != NULL )
   {
     old = log->getSeverityOverride();
@@ -6658,7 +6661,7 @@ SBase_setNotes (SBase_t *sb, XMLNode_t *notes)
 
 LIBSBML_EXTERN
 int
-SBase_setNotesString (SBase_t *sb, char *notes)
+SBase_setNotesString (SBase_t *sb, const char *notes)
 {
   if (sb != NULL)
   {
@@ -6678,7 +6681,7 @@ SBase_setNotesString (SBase_t *sb, char *notes)
 
 LIBSBML_EXTERN
 int
-SBase_setNotesStringAddMarkup (SBase_t *sb, char *notes)
+SBase_setNotesStringAddMarkup (SBase_t *sb, const char *notes)
 {
   if (sb != NULL)
   {
@@ -6709,7 +6712,7 @@ SBase_appendNotes (SBase_t *sb, XMLNode_t *notes)
 
 LIBSBML_EXTERN
 int
-SBase_appendNotesString (SBase_t *sb, char *notes)
+SBase_appendNotesString (SBase_t *sb, const char *notes)
 {
   if (sb != NULL)
   {
@@ -6736,7 +6739,7 @@ SBase_setAnnotation (SBase_t *sb, XMLNode_t *annotation)
 
 LIBSBML_EXTERN
 int
-SBase_setAnnotationString (SBase_t *sb, char *annotation)
+SBase_setAnnotationString (SBase_t *sb, const char *annotation)
 {
   if (sb != NULL)
   {
@@ -6767,7 +6770,7 @@ SBase_appendAnnotation (SBase_t *sb, XMLNode_t *annotation)
 
 LIBSBML_EXTERN
 int
-SBase_appendAnnotationString (SBase_t *sb, char *annotation)
+SBase_appendAnnotationString (SBase_t *sb, const char *annotation)
 {
   if (sb != NULL)
   {
@@ -6782,7 +6785,7 @@ SBase_appendAnnotationString (SBase_t *sb, char *annotation)
 
 LIBSBML_EXTERN
 int
-SBase_removeTopLevelAnnotationElement (SBase_t *sb, char *name)
+SBase_removeTopLevelAnnotationElement (SBase_t *sb, const char *name)
 {
   if (sb != NULL)
   {
@@ -6831,7 +6834,7 @@ SBase_replaceTopLevelAnnotationElement (SBase_t *sb, XMLNode_t *annotation)
 
 LIBSBML_EXTERN
 int
-SBase_replaceTopLevelAnnotationElementString (SBase_t *sb, char *annotation)
+SBase_replaceTopLevelAnnotationElementString (SBase_t *sb, const char *annotation)
 {
   if (sb != NULL)
   {

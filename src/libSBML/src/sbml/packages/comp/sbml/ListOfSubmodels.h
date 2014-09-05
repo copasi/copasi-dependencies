@@ -24,8 +24,7 @@
  *------------------------------------------------------------------------- -->
  *
  * @class ListOfSubmodels
- * @sbmlbrief{comp} Implementation of the %ListOfSubmodels construct from the
- * &ldquo;comp&rdquo; package.
+ * @sbmlbrief{comp} A list of Submodel objects.
  * 
  * The ListOfSubmodels is a container for the extended 
  * Model that contains Submodel objects to be instantiated in that Model.
@@ -183,7 +182,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
-   * @link SBMLTypeCode_t#SBML_COMP_SUBMODEL SBML_COMP_SUBMODEL@endlink (default).
+   * @sbmlconstant{SBML_COMP_SUBMODEL, SBMLTypeCode_t} (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -195,7 +194,7 @@ public:
    * Returns the XML element name of
    * this SBML object.
    *
-   * @return the string of the name of this element.
+   * @return the name of this element, as a text string.
    */
   virtual const std::string& getElementName () const;
 

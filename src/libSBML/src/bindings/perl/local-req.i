@@ -1,13 +1,8 @@
-/**
- * Filename    : local-req.i
- * Description : SBML req include file for bindings to downcast elements
- *
- * Contributor(s):
- */
-
 #ifdef USE_REQUIREDELEMENTS
 
-SBMLCONSTRUCTOR_EXCEPTION(RequiredElementsPkgNamespaces)
+SBMLCONSTRUCTOR_EXCEPTION(ReqPkgNamespaces)
+SBMLCONSTRUCTOR_EXCEPTION(ChangedMath)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfChangedMaths)
 
-#endif
+#endif // USE_REQUIREDELEMENTS 
 

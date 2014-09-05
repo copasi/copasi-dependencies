@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's Model construct.
+ *  An SBML model.
  <p>
  * In an SBML model definition, a single object of class {@link Model} serves as
  * the overall container for the lists of the various model components.
@@ -17,7 +17,7 @@ package org.sbml.libsbml;
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.10.0
+ * version 5.10.2
 
  * of libSBML:
  * <ul>
@@ -71,23 +71,22 @@ package org.sbml.libsbml;
  * Finally, SBML Level&nbsp;3 has introduced a number of additional {@link Model}
  * attributes.  They are discussed in a separate section below.
  <p>
- <p>
  * <h2>Approaches to creating objects using the libSBML API</h2>
  <p>
  * LibSBML provides two main mechanisms for creating objects: class
  * constructors
  * (e.g., <a href='org/sbml/libsbml/{@link Species}.html'>Species()</a> ), 
- * and <code>create<span class='placeholder'><em>Object</em></span>()</code>
+ * and <code>create<span class='placeholder-nospace'><em>Object</em></span>()</code>
  * methods (such as {@link Model#createSpecies()}) provided by certain <span
- * class='placeholder'><em>Object</em></span> classes such as {@link Model}.  These
+ * class='placeholder-nospace'><em>Object</em></span> classes such as {@link Model}.  These
  * multiple mechanisms are provided by libSBML for flexibility and to
  * support different use-cases, but they also have different implications
  * for the overall model structure.
  <p>
  * In general, the recommended approach is to use the <code>create<span
- * class='placeholder'><em>Object</em></span>()</code> methods.  These
+ * class='placeholder-nospace'><em>Object</em></span>()</code> methods.  These
  * methods both create an object <em>and</em> link it to the parent in one step.
- * Here is an example:<div class='fragment'><pre class='fragment'>
+ * Here is an example:<pre class='fragment'>
 // Create an {@link SBMLDocument} object in Level 3 Version 1 format:
 
 {@link SBMLDocument} sbmlDoc = new {@link SBMLDocument}(3, 1);
@@ -111,15 +110,14 @@ model.setId(&#34;BestModelEver&#34;);
 
 {@link Species} sp = model.createSpecies();
 sp.setId(&#34;BestSpeciesEver&#34;);
-</pre></div>
- <p>
+</pre>
  <p>
  * The <code>create<span
- * class='placeholder'><em>Object</em></span>()</code> methods return a
+ * class='placeholder-nospace'><em>Object</em></span>()</code> methods return a
  * pointer to the object created, but they also add the object to the
  * relevant list of object instances contained in the parent.  (These lists
  * become the <code>&lt;listOf<span
- * class='placeholder'><em>Object</em></span>s&gt;</code> elements in the
+ * class='placeholder-nospace'><em>Object</em></span>s&gt;</code> elements in the
  * finished XML rendition of SBML.)  In the example above,
  * {@link Model#createSpecies()} adds the created species directly to the
  * <code>&lt;listOfSpeciesgt;</code> list in the model.  Subsequently,
@@ -129,7 +127,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.10.0
+ * libSBML version 5.10.2
 
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
@@ -157,7 +155,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * make sure to call {@link SBMLDocument#checkInternalConsistency()} and/or
  * {@link SBMLDocument#checkConsistency()} before writing out the final version of
  * an SBML model.
- <p>
  <p>
  * <h2>Model attributes introduced in SBML Level&nbsp;3</h2>
  <p>
@@ -187,7 +184,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * on {@link Model} or {@link Species}.  Please see the discussion about units given in
  * the documentation for the {@link Species} class.
  <p>
- <p>
  * <h3>The 'timeUnits' attribute</h3>
  <p>
  * The 'timeUnits' attribute on SBML Level&nbsp;3's {@link Model} object is used to
@@ -203,7 +199,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * SBML model does not result in an invalid model in SBML Level&nbsp;3;
  * however, as a matter of best practice, we strongly recommend that all
  * models specify units of measurement for time.
- <p>
  <p>
  * <h3>The 'volumeUnits', 'areaUnits', and 'lengthUnits' attributes</h3>
  <p>
@@ -235,7 +230,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * 'lengthUnits' simultaneously, because SBML models may contain
  * compartments with different numbers of dimensions.
  <p>
- <p>
  * <h3>The 'extentUnits' attribute</h3>
  <p>
  * Reactions are processes that occur over time.  These processes involve
@@ -258,7 +252,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * for the rate of change of extent.  In other words, the units of all
  * reaction rates in the model <em>must be the same</em>.  There is only
  * one global value for 'extentUnits' and one global value for 'timeUnits'.
- <p>
  <p>
  * <h3>The 'conversionFactor' attribute</h3>
  <p>
@@ -331,22 +324,26 @@ public class Model extends SBase {
    * @param version a long integer, the SBML Version to assign to this
    * {@link Model}
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link Model} object to an {@link SBMLDocument}
- * (e.g., using {@link SBMLDocument#setModel(Model m)}), the SBML Level, SBML Version
- * and XML namespace of the document <em>override</em> the values used
- * when creating the {@link Model} object via this constructor.  This is
- * necessary to ensure that an SBML document is a consistent structure.
- * Nevertheless, the ability to supply the values at the time of creation
- * of a {@link Model} is an important aid to producing valid SBML.  Knowledge
- * of the intented SBML Level and Version determine whether it is valid
- * to assign a particular value to an attribute, or whether it is valid
- * to add an object to an existing {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  Model(long level, long version) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_Model__SWIG_0(level, version), true);
@@ -363,26 +360,30 @@ public class Model extends SBase {
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
  * common approach to using libSBML's {@link SBMLNamespaces} facilities is to create an
  * {@link SBMLNamespaces} object somewhere in a program once, then hand that object
- * as needed to object constructors that accept {@link SBMLNamespaces} as arguments. 
+ * as needed to object constructors that accept {@link SBMLNamespaces} as arguments.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
    * of SBML object, are either invalid or mismatched with respect to the
    * parent {@link SBMLDocument} object.
    <p>
    * <p>
- * @note Upon the addition of a {@link Model} object to an {@link SBMLDocument}
- * (e.g., using {@link SBMLDocument#setModel(Model m)}), the SBML Level, SBML Version
- * and XML namespace of the document <em>override</em> the values used
- * when creating the {@link Model} object via this constructor.  This is
- * necessary to ensure that an SBML document is a consistent structure.
- * Nevertheless, the ability to supply the values at the time of creation
- * of a {@link Model} is an important aid to producing valid SBML.  Knowledge
- * of the intented SBML Level and Version determine whether it is valid
- * to assign a particular value to an attribute, or whether it is valid
- * to add an object to an existing {@link SBMLDocument}.
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
  Model(SBMLNamespaces sbmlns) throws org.sbml.libsbml.SBMLConstructorException {
     this(libsbmlJNI.new_Model__SWIG_1(SBMLNamespaces.getCPtr(sbmlns), sbmlns), true);
@@ -394,7 +395,7 @@ public class Model extends SBase {
    <p>
    * @param orig the object to copy.
    <p>
-   * @throws SBMLConstructorException 
+   * @throws SBMLConstructorException
    * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
  Model(Model orig) throws org.sbml.libsbml.SBMLConstructorException {
@@ -405,7 +406,7 @@ public class Model extends SBase {
 /**
    * Creates and returns a deep copy of this {@link Model} object.
    <p>
-   * @return a (deep) copy of this {@link Model}.
+   * @return the (deep) copy of this {@link Model} object.
    */ public
  Model cloneObject() {
     long cPtr = libsbmlJNI.Model_cloneObject(swigCPtr, this);
@@ -414,12 +415,15 @@ public class Model extends SBase {
 
   
 /**
-   * Returns the first child element found that has the given <code>id</code> in the
-   * model-wide SId namespace, or <code>null</code> if no such object is found.
+   * Returns the first child element found that has the given <code>id</code>.
    <p>
-   * @param id string representing the id of objects to find.
+   * This operation searches the model-wide <code>SId</code> identifier
+   * type namespace
    <p>
-   * @return pointer to the first element found with the given <code>id</code>.
+   * @param id string representing the id of the object to find.
+   <p>
+   * @return pointer to the first element found with the given <code>id</code>, or 
+   * <code>null</code> if no such object is found.
    */ public
  SBase getElementBySId(String id) {
   return libsbml.DowncastSBase(libsbmlJNI.Model_getElementBySId(swigCPtr, this, id), false);
@@ -427,12 +431,13 @@ public class Model extends SBase {
 
   
 /**
-   * Returns the first child element it can find with the given <code>metaid</code>, or
+   * Returns the first child element it can find with the given <code>metaid</code>.
+   <p>
+   * @param metaid string representing the meta-identifier of the object to
+   * find.
+   <p>
+   * @return pointer to the first element found with the given <code>metaid</code>, or
    * null if no such object is found.
-   <p>
-   * @param metaid string representing the metaid of objects to find
-   <p>
-   * @return pointer to the first element found with the given <code>metaid</code>.
    */ public
  SBase getElementByMetaId(String metaid) {
   return libsbml.DowncastSBase(libsbmlJNI.Model_getElementByMetaId(swigCPtr, this, metaid), false);
@@ -687,15 +692,14 @@ public class Model extends SBase {
    * <p>
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type 
+ * The following is a summary of the definition of the SBML identifier type
  * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation: 
+ * express the syntax using an extended form of BNF notation:
  * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
  * letter .= 'a'..'z','A'..'Z'
  * digit  .= '0'..'9'
  * idChar .= letter | digit | '_'
- * SId    .= ( letter | '_' ) idChar*
- * </pre>
+ * SId    .= ( letter | '_' ) idChar*</pre>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -711,8 +715,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setId(String sid) {
@@ -731,8 +735,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    * </ul>
    */ public
  int setName(String name) {
@@ -751,9 +755,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note The 'substanceUnits' attribute is available in 
@@ -775,9 +779,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note The 'timeUnits' attribute is available in 
@@ -799,9 +803,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note The 'volumeUnits' attribute is available in 
@@ -823,9 +827,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note The 'areaUnits' attribute is available in 
@@ -847,9 +851,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note The 'lengthUnits' attribute is available in 
@@ -871,9 +875,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note The 'extentUnits' attribute is available in 
@@ -895,9 +899,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note The 'conversionFactor' attribute is available in 
@@ -915,8 +919,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetId() {
@@ -931,8 +935,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int unsetName() {
@@ -947,8 +951,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note The 'substanceUnits' attribute is available in 
@@ -966,8 +970,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note The 'timeUnits' attribute is available in 
@@ -985,8 +989,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note The 'volumeUnits' attribute is available in 
@@ -1004,9 +1008,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note The 'areaUnits' attribute is available in 
@@ -1024,9 +1028,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note The 'lengthUnits' attribute is available in 
@@ -1044,9 +1048,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note The 'extentUnits' attribute is available in 
@@ -1064,9 +1068,9 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @note The 'conversionFactor' attribute is available in 
@@ -1086,12 +1090,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1122,12 +1126,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1158,12 +1162,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1198,12 +1202,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1238,12 +1242,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1274,12 +1278,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1310,12 +1314,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1346,12 +1350,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1382,12 +1386,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1420,11 +1424,11 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1455,12 +1459,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1491,12 +1495,12 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH }
-   * <li> {@link  libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID }
-   * <li> {@link  libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * <p>
@@ -1777,13 +1781,16 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * The mechanism by which the last {@link Reaction} object was created and added
-   * to this {@link Model} is not significant.  It could have been created in a
-   * variety of ways, for example using createReaction().  If a {@link Reaction}
-   * does not exist for this model, a new {@link SpeciesReference} is <em>not</em>
-   * created and <code>null</code> is returned instead.
+   * <p>
+ * The mechanism by which the last {@link Reaction} object was created and added
+ * to this {@link Model} is not significant.  It could have been created in a
+ * variety of ways, for example using createReaction().  If a {@link Reaction}
+ * does not exist for this model, a new {@link SpeciesReference} is <em>not</em>
+ * created and <code>null</code> is returned instead.
    <p>
-   * @return the {@link SpeciesReference} object created
+   * @return the {@link SpeciesReference} object created.  If a {@link Reaction} does not
+   * exist for this model, a new {@link SpeciesReference} is <em>not</em> created and 
+   * <code>null</code> is returned.
    */ public
  SpeciesReference createReactant() {
     long cPtr = libsbmlJNI.Model_createReactant(swigCPtr, this);
@@ -1799,13 +1806,16 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * The mechanism by which the last {@link Reaction} object was created and added
-   * to this {@link Model} is not significant.  It could have been created in a
-   * variety of ways, for example using createReaction().  If a {@link Reaction}
-   * does not exist for this model, a new {@link SpeciesReference} is <em>not</em>
-   * created and <code>null</code> is returned instead.
+   * <p>
+ * The mechanism by which the last {@link Reaction} object was created and added
+ * to this {@link Model} is not significant.  It could have been created in a
+ * variety of ways, for example using createReaction().  If a {@link Reaction}
+ * does not exist for this model, a new {@link SpeciesReference} is <em>not</em>
+ * created and <code>null</code> is returned instead.
    <p>
-   * @return the {@link SpeciesReference} object created
+   * @return the {@link SpeciesReference} object created. If a {@link Reaction} does not
+   * exist for this model, a new {@link SpeciesReference} is <em>not</em> created and 
+   * <code>null</code> is returned.
    */ public
  SpeciesReference createProduct() {
     long cPtr = libsbmlJNI.Model_createProduct(swigCPtr, this);
@@ -1822,13 +1832,16 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * The mechanism by which the last {@link Reaction} object was created and added
-   * to this {@link Model} is not significant.  It could have been created in a
-   * variety of ways, for example using createReaction().  If a {@link Reaction}
-   * does not exist for this model, a new {@link ModifierSpeciesReference} is 
-   * <em>not</em> created and <code>null</code> is returned instead.
+   * <p>
+ * The mechanism by which the last {@link Reaction} object was created and added
+ * to this {@link Model} is not significant.  It could have been created in a
+ * variety of ways, for example using createReaction().  If a {@link Reaction}
+ * does not exist for this model, a new {@link SpeciesReference} is <em>not</em>
+ * created and <code>null</code> is returned instead.
    <p>
-   * @return the {@link SpeciesReference} object created
+   * @return the {@link SpeciesReference} object created.  If a {@link Reaction} does not
+   * exist for this model, a new {@link SpeciesReference} is <em>not</em> created and 
+   * <code>null</code> is returned.
    */ public
  ModifierSpeciesReference createModifier() {
     long cPtr = libsbmlJNI.Model_createModifier(swigCPtr, this);
@@ -1844,14 +1857,16 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * The mechanism by which the last {@link Reaction} object was created and added
-   * to this {@link Model} is not significant.  It could have been created in a
-   * variety of ways, for example using createReaction().  If a {@link Reaction}
-   * does not exist for this model, or a {@link Reaction} exists but already has a
-   * {@link KineticLaw}, a new {@link KineticLaw} is <em>not</em> created and <code>null</code> is returned
-   * instead.
+   * <p>
+ * The mechanism by which the last {@link Reaction} object was created and added
+ * to this {@link Model} is not significant.  It could have been created in a
+ * variety of ways, for example using createReaction().  If a {@link Reaction}
+ * does not exist for this model, a new {@link SpeciesReference} is <em>not</em>
+ * created and <code>null</code> is returned instead.
    <p>
-   * @return the {@link KineticLaw} object created
+   * @return the {@link KineticLaw} object created.  If a {@link Reaction} does not exist for
+   * this model, or a {@link Reaction} does exist but already has a {@link KineticLaw}, a new
+   * {@link KineticLaw} is <em>not</em> created and <code>null</code> is returned.
    */ public
  KineticLaw createKineticLaw() {
     long cPtr = libsbmlJNI.Model_createKineticLaw(swigCPtr, this);
@@ -1867,15 +1882,18 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * The last {@link KineticLaw} object in this {@link Model} could have been created in a
-   * variety of ways.  For example, it could have been added using
-   * createKineticLaw(), or it could be the result of using
-   * {@link Reaction#createKineticLaw()} on the {@link Reaction} object created by a
-   * createReaction().  If a {@link Reaction} does not exist for this model, or the
-   * last {@link Reaction} does not contain a {@link KineticLaw} object, a new {@link Parameter} is
-   * <em>not</em> created and <code>null</code> is returned instead.
+   * <p>
+ * The last {@link KineticLaw} object in this {@link Model} could have been created in a
+ * variety of ways.  For example, it could have been added using
+ * createKineticLaw(), or it could be the result of using
+ * {@link Reaction#createKineticLaw()} on the {@link Reaction} object created by a
+ * createReaction().  If a {@link Reaction} does not exist for this model, or the
+ * last {@link Reaction} does not contain a {@link KineticLaw} object, a new {@link Parameter} is
+ * <em>not</em> created and <code>null</code> is returned instead.
    <p>
-   * @return the {@link Parameter} object created
+   * @return the {@link Parameter} object created.  If a {@link Reaction} does not exist for
+   * this model, or a {@link KineticLaw} for the {@link Reaction} does not exist, a new
+   * {@link Parameter} is <em>not</em> created and <code>null</code> is returned.
    */ public
  Parameter createKineticLawParameter() {
     long cPtr = libsbmlJNI.Model_createKineticLawParameter(swigCPtr, this);
@@ -1891,15 +1909,18 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * The last {@link KineticLaw} object in this {@link Model} could have been created in a
-   * variety of ways.  For example, it could have been added using
-   * createKineticLaw(), or it could be the result of using
-   * {@link Reaction#createKineticLaw()} on the {@link Reaction} object created by a
-   * createReaction().  If a {@link Reaction} does not exist for this model, or the
-   * last {@link Reaction} does not contain a {@link KineticLaw} object, a new {@link Parameter} is
-   * <em>not</em> created and <code>null</code> is returned instead.
+   * <p>
+ * The last {@link KineticLaw} object in this {@link Model} could have been created in a
+ * variety of ways.  For example, it could have been added using
+ * createKineticLaw(), or it could be the result of using
+ * {@link Reaction#createKineticLaw()} on the {@link Reaction} object created by a
+ * createReaction().  If a {@link Reaction} does not exist for this model, or the
+ * last {@link Reaction} does not contain a {@link KineticLaw} object, a new {@link Parameter} is
+ * <em>not</em> created and <code>null</code> is returned instead.
    <p>
-   * @return the {@link Parameter} object created
+   * @return the {@link Parameter} object created.  If a {@link Reaction} does not exist for
+   * this model, or a {@link KineticLaw} for the {@link Reaction} does not exist, a new
+   * {@link Parameter} is <em>not</em> created and <code>null</code> is returned.
    */ public
  LocalParameter createKineticLawLocalParameter() {
     long cPtr = libsbmlJNI.Model_createKineticLawLocalParameter(swigCPtr, this);
@@ -1930,11 +1951,12 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * The mechanism by which the last {@link Event} object in this model was created
-   * is not significant.  It could have been created in a variety of ways,
-   * for example by using createEvent().  If no {@link Event} object exists in this
-   * {@link Model} object, a new {@link EventAssignment} is <em>not</em> created and <code>null</code> is
-   * returned instead.
+   * <p>
+ * The mechanism by which the last {@link Event} object in this model was created
+ * is not significant.  It could have been created in a variety of ways,
+ * for example by using createEvent().  If no {@link Event} object exists in this
+ * {@link Model} object, a new {@link EventAssignment} is <em>not</em> created and <code>null</code> is
+ * returned instead.
    <p>
    * @return the {@link EventAssignment} object created
    */ public
@@ -1952,11 +1974,12 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * The mechanism by which the last {@link Event} object in this model was created
-   * is not significant.  It could have been created in a variety of ways,
-   * for example by using createEvent().  If no {@link Event} object exists in this
-   * {@link Model} object, a new {@link Trigger} is <em>not</em> created and <code>null</code> is
-   * returned instead.
+   * <p>
+ * The mechanism by which the last {@link Event} object in this model was created
+ * is not significant.  It could have been created in a variety of ways,
+ * for example by using createEvent().  If no {@link Event} object exists in this
+ * {@link Model} object, a new {@link EventAssignment} is <em>not</em> created and <code>null</code> is
+ * returned instead.
    <p>
    * @return the {@link Trigger} object created
    */ public
@@ -1974,11 +1997,12 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * The mechanism by which the last {@link Event} object in this model was created
-   * is not significant.  It could have been created in a variety of ways,
-   * for example by using createEvent().  If no {@link Event} object exists in this
-   * {@link Model} object, a new {@link Delay} is <em>not</em> created and <code>null</code> is
-   * returned instead.
+   * <p>
+ * The mechanism by which the last {@link Event} object in this model was created
+ * is not significant.  It could have been created in a variety of ways,
+ * for example by using createEvent().  If no {@link Event} object exists in this
+ * {@link Model} object, a new {@link EventAssignment} is <em>not</em> created and <code>null</code> is
+ * returned instead.
    <p>
    * @return the {@link Delay} object created
    */ public
@@ -2006,7 +2030,7 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
    * @see #appendAnnotation(XMLNode annotation)
@@ -2034,8 +2058,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #appendAnnotation(String annotation)
@@ -2060,8 +2084,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #setAnnotation(XMLNode annotation)
@@ -2086,8 +2110,8 @@ public class Model extends SBase {
    * function.  The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
    * @see #setAnnotation(String annotation)
@@ -2240,6 +2264,8 @@ public class Model extends SBase {
 /**
    * Get the nth FunctionDefinitions object in this {@link Model}.
    <p>
+   * @param n the index of the object to return.
+   <p>
    * @return the nth {@link FunctionDefinition} of this {@link Model}.
    */ public
  FunctionDefinition getFunctionDefinition(long n) {
@@ -2250,6 +2276,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link FunctionDefinition} object based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link FunctionDefinition} in this {@link Model} with the identifier
    * <code>sid</code> or <code>null</code> if no such {@link FunctionDefinition} exists.
@@ -2263,6 +2291,8 @@ public class Model extends SBase {
 /**
    * Get the nth {@link UnitDefinition} object in this {@link Model}.
    <p>
+   * @param n the index of the object to return.
+   <p>
    * @return the nth {@link UnitDefinition} of this {@link Model}.
    */ public
  UnitDefinition getUnitDefinition(long n) {
@@ -2273,6 +2303,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link UnitDefinition} based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link UnitDefinition} in this {@link Model} with the identifier <code>sid</code> or
    * <code>null</code> if no such {@link UnitDefinition} exists.
@@ -2285,6 +2317,8 @@ public class Model extends SBase {
   
 /**
    * Get the nth {@link CompartmentType} object in this {@link Model}.
+   <p>
+   * @param n the index of the object to return.
    <p>
    * @return the nth {@link CompartmentType} of this {@link Model}.
    <p>
@@ -2300,6 +2334,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link CompartmentType} object based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link CompartmentType} in this {@link Model} with the identifier <code>sid</code>
    * or <code>null</code> if no such {@link CompartmentType} exists.
@@ -2317,6 +2353,8 @@ public class Model extends SBase {
 /**
    * Get the nth {@link SpeciesType} object in this {@link Model}.
    <p>
+   * @param n the index of the object to return.
+   <p>
    * @return the nth {@link SpeciesType} of this {@link Model}.
    <p>
    * @note The {@link SpeciesType} object class is only available in SBML
@@ -2331,6 +2369,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link SpeciesType} object based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link SpeciesType} in this {@link Model} with the identifier <code>sid</code> or
    * <code>null</code> if no such {@link SpeciesType} exists.
@@ -2348,6 +2388,8 @@ public class Model extends SBase {
 /**
    * Get the nth {@link Compartment} object in this {@link Model}.
    <p>
+   * @param n the index of the object to return.
+   <p>
    * @return the nth {@link Compartment} of this {@link Model}.
    */ public
  Compartment getCompartment(long n) {
@@ -2358,6 +2400,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link Compartment} object based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link Compartment} in this {@link Model} with the identifier <code>sid</code> or
    * <code>null</code> if no such {@link Compartment} exists.
@@ -2371,6 +2415,8 @@ public class Model extends SBase {
 /**
    * Get the nth {@link Species} object in this {@link Model}.
    <p>
+   * @param n the index of the object to return.
+   <p>
    * @return the nth {@link Species} of this {@link Model}.
    */ public
  Species getSpecies(long n) {
@@ -2381,6 +2427,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link Species} object based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link Species} in this {@link Model} with the identifier <code>sid</code> or <code>null</code>
    * if no such {@link Species} exists.
@@ -2394,6 +2442,8 @@ public class Model extends SBase {
 /**
    * Get the nth {@link Parameter} object in this {@link Model}.
    <p>
+   * @param n the index of the object to return.
+   <p>
    * @return the nth {@link Parameter} of this {@link Model}.
    */ public
  Parameter getParameter(long n) {
@@ -2404,6 +2454,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link Parameter} object based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link Parameter} in this {@link Model} with the identifier <code>sid</code> or <code>null</code>
    * if no such {@link Parameter} exists.
@@ -2417,6 +2469,8 @@ public class Model extends SBase {
 /**
    * Get the nth {@link InitialAssignment} object in this {@link Model}.
    <p>
+   * @param n the index of the object to return.
+   <p>
    * @return the nth {@link InitialAssignment} of this {@link Model}.
    */ public
  InitialAssignment getInitialAssignment(long n) {
@@ -2429,6 +2483,8 @@ public class Model extends SBase {
    * Get an {@link InitialAssignment} object based on the symbol to which it
    * assigns a value.
    <p>
+   * @param symbol the symbol to search for.
+   <p>
    * @return the {@link InitialAssignment} in this {@link Model} with the given 'symbol'
    * attribute value or <code>null</code> if no such {@link InitialAssignment} exists.
    */ public
@@ -2439,12 +2495,14 @@ public class Model extends SBase {
 
   
 /**
-  * Get an {@link InitialAssignment} object based on the symbol to which it
-  * assigns a value.
-  <p>
-  * @return the {@link InitialAssignment} in this {@link Model} with the given 'symbol'
-  * attribute value or <code>null</code> if no such {@link InitialAssignment} exists.
-  */ public
+   * Get an {@link InitialAssignment} object based on the symbol to which it
+   * assigns a value.
+   <p>
+   * @param symbol the symbol to search for.
+   <p>
+   * @return the {@link InitialAssignment} in this {@link Model} with the given 'symbol'
+   * attribute value or <code>null</code> if no such {@link InitialAssignment} exists.
+   */ public
  InitialAssignment getInitialAssignmentBySymbol(String symbol) {
     long cPtr = libsbmlJNI.Model_getInitialAssignmentBySymbol__SWIG_0(swigCPtr, this, symbol);
     return (cPtr == 0) ? null : new InitialAssignment(cPtr, false);
@@ -2453,6 +2511,8 @@ public class Model extends SBase {
   
 /**
    * Get the nth {@link Rule} object in this {@link Model}.
+   <p>
+   * @param n the index of the object to return.
    <p>
    * @return the nth {@link Rule} of this {@link Model}.
    */ public
@@ -2464,6 +2524,8 @@ public class Model extends SBase {
 /**
    * Get a {@link Rule} object based on the variable to which it assigns a value.
    <p>
+   * @param variable the variable to search for.
+   <p>
    * @return the {@link Rule} in this {@link Model} with the given 'variable' attribute
    * value or <code>null</code> if no such {@link Rule} exists.
    */ public
@@ -2473,11 +2535,13 @@ public class Model extends SBase {
 
   
 /**
-  * Get a {@link Rule} object based on the variable to which it assigns a value.
-  <p>
-  * @return the {@link Rule} in this {@link Model} with the given 'variable' attribute
-  * value or <code>null</code> if no such {@link Rule} exists.
-  */ public
+   * Get a {@link Rule} object based on the variable to which it assigns a value.
+   <p>
+   * @param variable the variable to search for.
+   <p>
+   * @return the {@link Rule} in this {@link Model} with the given 'variable' attribute
+   * value or <code>null</code> if no such {@link Rule} exists.
+   */ public
  Rule getRuleByVariable(String variable) {
   return (Rule) libsbml.DowncastSBase(libsbmlJNI.Model_getRuleByVariable__SWIG_0(swigCPtr, this, variable), false);
 }
@@ -2485,6 +2549,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link Rule} object based on the variable to which it assigns a value.
+   <p>
+   * @param variable the variable to search for.
    <p>
    * @return the {@link Rule} in this {@link Model} with the given 'variable' attribute
    * value or <code>null</code> if no such {@link Rule} exists.
@@ -2498,6 +2564,8 @@ public class Model extends SBase {
 /**
    * Get a {@link Rule} object based on the variable to which it assigns a value.
    <p>
+   * @param variable the symbol to search for.
+   <p>
    * @return the {@link Rule} in this {@link Model} with the given 'variable' attribute
    * value or <code>null</code> if no such {@link Rule} exists.
    */ public
@@ -2508,11 +2576,13 @@ public class Model extends SBase {
 
   
 /**
-  * Get a {@link Rule} object based on the variable to which it assigns a value.
-  <p>
-  * @return the {@link Rule} in this {@link Model} with the given 'variable' attribute
-  * value or <code>null</code> if no such {@link Rule} exists.
-  */ public
+   * Get a {@link Rule} object based on the variable to which it assigns a value.
+   <p>
+   * @param variable the variable to search for.
+   <p>
+   * @return the {@link Rule} in this {@link Model} with the given 'variable' attribute
+   * value or <code>null</code> if no such {@link Rule} exists.
+   */ public
  AssignmentRule getAssignmentRuleByVariable(String variable) {
     long cPtr = libsbmlJNI.Model_getAssignmentRuleByVariable__SWIG_0(swigCPtr, this, variable);
     return (cPtr == 0) ? null : new AssignmentRule(cPtr, false);
@@ -2520,11 +2590,13 @@ public class Model extends SBase {
 
   
 /**
-  * Get a {@link Rule} object based on the variable to which it assigns a value.
-  <p>
-  * @return the {@link Rule} in this {@link Model} with the given 'variable' attribute
-  * value or <code>null</code> if no such {@link Rule} exists.
-  */ public
+   * Get a {@link Rule} object based on the variable to which it assigns a value.
+   <p>
+   * @param variable the variable to search for.
+   <p>
+   * @return the {@link Rule} in this {@link Model} with the given 'variable' attribute
+   * value or <code>null</code> if no such {@link Rule} exists.
+   */ public
  RateRule getRateRuleByVariable(String variable) {
     long cPtr = libsbmlJNI.Model_getRateRuleByVariable__SWIG_0(swigCPtr, this, variable);
     return (cPtr == 0) ? null : new RateRule(cPtr, false);
@@ -2533,6 +2605,8 @@ public class Model extends SBase {
   
 /**
    * Get the nth {@link Constraint} object in this {@link Model}.
+   <p>
+   * @param n the index of the object to return.
    <p>
    * @return the nth {@link Constraint} of this {@link Model}.
    */ public
@@ -2545,6 +2619,8 @@ public class Model extends SBase {
 /**
    * Get the nth {@link Reaction} object in this {@link Model}.
    <p>
+   * @param n the index of the object to return.
+   <p>
    * @return the nth {@link Reaction} of this {@link Model}.
    */ public
  Reaction getReaction(long n) {
@@ -2555,6 +2631,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link Reaction} object based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link Reaction} in this {@link Model} with the identifier <code>sid</code> or <code>null</code>
    * if no such {@link Reaction} exists.
@@ -2568,6 +2646,8 @@ public class Model extends SBase {
 /**
    * Get a {@link SpeciesReference} object based on its identifier.
    <p>
+   * @param sid the identifier to search for.
+   <p>
    * @return the {@link SpeciesReference} in this {@link Model} with the identifier <code>sid</code> or <code>null</code>
    * if no such {@link SpeciesReference} exists.
    */ public
@@ -2579,6 +2659,8 @@ public class Model extends SBase {
   
 /**
    * Get a {@link ModifierSpeciesReference} object based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link ModifierSpeciesReference} in this {@link Model} with the 
    * identifier <code>sid</code> or <code>null</code>
@@ -2593,6 +2675,8 @@ public class Model extends SBase {
 /**
    * Get the nth {@link Event} object in this {@link Model}.
    <p>
+   * @param n the index of the object to return.
+   <p>
    * @return the nth {@link Event} of this {@link Model}.
    */ public
  Event getEvent(long n) {
@@ -2603,6 +2687,8 @@ public class Model extends SBase {
   
 /**
    * Get an {@link Event} object based on its identifier.
+   <p>
+   * @param sid the identifier to search for.
    <p>
    * @return the {@link Event} in this {@link Model} with the identifier <code>sid</code> or <code>null</code> if
    * no such {@link Event} exists.
@@ -2755,16 +2841,18 @@ public class Model extends SBase {
 
   
 /**
-   * Finds this {@link Model}'s parent {@link SBMLDocument} and calls setModel(null) on it,
-   * indirectly deleting itself.  Overridden from the {@link SBase} function since
-   * the parent is not a {@link ListOf}.
+   * Remove this {@link Model} from its parent {@link SBMLDocument} object.
+   <p>
+   * This works by finding this {@link Model}'s parent {@link SBMLDocument} and then calling
+   * <code>setModel(null)</code> on it, indirectly deleting itself.
+   * Overridden from the {@link SBase} function since the parent is not a {@link ListOf}.
    <p>
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
    * <ul>
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS }
-   * <li> {@link  libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED }
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int removeFromParentAndDelete() {
@@ -2785,10 +2873,11 @@ public class Model extends SBase {
 
   
 /**
-   * Renames all the <code>SIdRef</code> attributes on this element, including any
-   * found in MathML.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>SIdRef</code> type attribute value with another
+ * value.
+ <p>
+ * <p>
  * In SBML, object identifiers are of a data type called <code>SId</code>.
  * In SBML Level&nbsp;3, an explicit data type called <code>SIdRef</code> was
  * introduced for attribute values that refer to <code>SId</code> values; in
@@ -2798,14 +2887,15 @@ public class Model extends SBase {
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all attributes and (if appropriate)
-   * mathematical formulas, comparing the identifiers to the value of 
-   * <code>oldid</code>.  If any matches are found, the matching identifiers are replaced
-   * with <code>newid</code>.  The method does <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of <code>oldid</code>.  If any matches are found, the
+ * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
+ * descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Model_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -2813,9 +2903,11 @@ public class Model extends SBase {
 
   
 /**
-   * Renames all the <code>UnitSIdRef</code> attributes on this element.
-   <p>
    * <p>
+ * Replaces all uses of a given <code>UnitSIdRef</code> type attribute value with
+ * another value.
+ <p>
+ * <p>
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
  * introduced for attribute values that refer to <code>UnitSId</code> values; in
@@ -2825,15 +2917,15 @@ public class Model extends SBase {
  * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
-   <p>
-   * This method works by looking at all unit identifier attribute values
-   * (including, if appropriate, inside mathematical formulas), comparing the
-   * unit identifiers to the value of <code>oldid</code>.  If any matches are found,
-   * the matching identifiers are replaced with <code>newid</code>.  The method does
-   * <em>not</em> descend into child elements.
-   <p>
-   * @param oldid the old identifier
-   * @param newid the new identifier
+ <p>
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of <code>oldid</code>.  If any matches
+ * are found, the matching values are replaced with <code>newid</code>.  The method
+ * does <em>not</em> descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Model_renameUnitSIdRefs(swigCPtr, this, oldid, newid);
@@ -2990,16 +3082,16 @@ public class Model extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
-   * {@link  libsbmlConstants#SBML_MODEL SBML_MODEL} (default).
+   * {@link libsbmlConstants#SBML_MODEL SBML_MODEL} (default).
    <p>
    * <p>
  * @warning <span class='warning'>The specific integer values of the possible
@@ -3027,28 +3119,36 @@ public class Model extends SBase {
 
   
 /**
-   * Populates the list of FormulaDataUnits with the units derived 
-   * for the model. The list contains elements of class
-   * FormulaUnitsData. 
+   * Populates the internal list of derived units for this {@link Model} object.
    <p>
-   * The first element of the list refers to the default units
-   * of 'substance per time' derived from the model and has the
-   * unitReferenceId 'subs_per_time'. This facilitates the comparison of units
-   * derived from mathematical formula with the expected units.
+   * This method tells libSBML to (re)calculate all units for all components
+   * of the enclosing {@link Model} object.  The result is stored in an internal list
+   * of unit data.  Users can access the resulting data by calling the method
+   * {@link SBase#getDerivedUnitDefinition()} available on most objects.  (The name
+   * 'formula units data' is drawn from the name of the internal objects
+   * libSBML uses to store the data; note that these internal objects are not
+   * exposed to callers, because callers can interact with the results using
+   * the ordinary SBML unit objects.)
    <p>
-   * The next elements of the list record the units of the 
-   * compartments and species established from either explicitly
-   * declared or default units.
+   * This method is used by libSBML itself in the validator concerned with
+   * unit consistency.  The unit consistency validator (like all other
+   * validators in libSBML) is invoked by using
+   * {@link SBMLDocument#checkConsistency()}, with the consistency checks for the
+   * category {@link libsbmlConstants#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY} turned on.  The method
+   * populateListFormulaUnitsData() does not need to be called prior to
+   * invoking the validator if unit consistency checking has not been turned
+   * off.  This method is only provided for cases when callers have a special
+   * need to force the unit data to be recalculated.  For instance, during
+   * construction of a model, a caller may want to interrogate libSBML's
+   * inferred units without invoking full-blown model validation; this is a
+   * scenario in which calling populateListFormulaUnitsData() may be useful.
    <p>
-   * The next elements record the units of any parameters.
+   * @warning Computing and inferring units is a time-consuming operation.
+   * Callers may want to call isPopulatedListFormulaUnitsData() to determine
+   * whether the units may already have been computed, to save themselves the
+   * need of invoking unit inference unnecessarily.
    <p>
-   * Subsequent elements of the list record the units derived for
-   * each mathematical expression encountered within the model.
-   <p>
-   * @note This function is utilised by the {@link Unit} Consistency Validator.
-   * The list is populated prior to running the validation and thus
-   * the consistency of units can be checked by accessing the members
-   * of the list and comparing the appropriate data.
+   * @see #isPopulatedListFormulaUnitsData()
    */ public
  void populateListFormulaUnitsData() {
     libsbmlJNI.Model_populateListFormulaUnitsData(swigCPtr, this);
@@ -3056,25 +3156,58 @@ public class Model extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if 
-   * the list of FormulaUnitsData is populated.
+   * Predicate returning <code>true</code> if libSBML has derived units for the
+   * components of this model.
    <p>
-   * @return <code>true</code> if the list of FormulaUnitsData is populated, 
-   * <code>false</code> otherwise.
+   * LibSBML can infer the units of measurement associated with different
+   * elements of a model.  When libSBML does that, it builds a complex
+   * internal structure during a resource-intensive operation.  This is done
+   * automatically only when callers invoke validation (via
+   * {@link SBMLDocument#checkConsistency()}) and have not turned off the unit
+   * validation option.
+   <p>
+   * Callers can force units to be recalculated by calling
+   * populateListFormulaUnitsData().  To avoid calling that method
+   * unnecessarily, calling programs may first want to invoke this method
+   * (isPopulatedListFormulaUnitsData()) to determine whether it is even
+   * necessary.
+   <p>
+   * @return <code>true</code> if the units have already been computed, <code>false</code>
+   * otherwise.
    */ public
  boolean isPopulatedListFormulaUnitsData() {
     return libsbmlJNI.Model_isPopulatedListFormulaUnitsData(swigCPtr, this);
   }
 
   
-/** * @internal */ public
+/**
+   * Get a FormulaUnitsData variable object based on its unitReferenceId.
+   <p>
+   * @return the FormulaUnitsData in this {@link Model} with the unitReferenceId <code>sid</code> 
+   * that corrsponds to a variable object or <code>null</code>
+   * if no such FormulaUnitsData exists.
+   <p>
+   * @note  This function restricts the search to classes that can be varied
+   * {@link Species}, {@link Compartment}, {@link Parameter}, {@link SpeciesReference}.
+   * @internal
+   */ public
  SWIGTYPE_p_FormulaUnitsData getFormulaUnitsDataForVariable(String sid) {
     long cPtr = libsbmlJNI.Model_getFormulaUnitsDataForVariable(swigCPtr, this, sid);
     return (cPtr == 0) ? null : new SWIGTYPE_p_FormulaUnitsData(cPtr, false);
   }
 
   
-/** * @internal */ public
+/**
+   * Get a FormulaUnitsData variable object based on its unitReferenceId.
+   <p>
+   * @return the FormulaUnitsData in this {@link Model} with the unitReferenceId <code>sid</code> 
+   * that corrsponds to a variable object or <code>null</code>
+   * if no such FormulaUnitsData exists.
+   <p>
+   * @note  This function restricts the search to classes that can be varied
+   * {@link Species}, {@link Compartment}, {@link Parameter}, {@link SpeciesReference}.
+   * @internal
+   */ public
  SWIGTYPE_p_FormulaUnitsData getFormulaUnitsDataForAssignment(String sid) {
     long cPtr = libsbmlJNI.Model_getFormulaUnitsDataForAssignment(swigCPtr, this, sid);
     return (cPtr == 0) ? null : new SWIGTYPE_p_FormulaUnitsData(cPtr, false);
@@ -3082,13 +3215,8 @@ public class Model extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if
-   * all the required elements for this {@link Model} object
-   * have been set.
-   <p>
-   * @note The required elements for a {@link Model} object are:
-   * listOfCompartments (L1 only); listOfSpecies (L1V1 only);
-   * listOfReactions(L1V1 only)
+   * Predicate returning <code>true</code> if all the required elements for this {@link Model}
+   * object have been set.
    <p>
    * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
@@ -3106,9 +3234,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link FunctionDefinition} object to remove
    <p>
-   * @return the {@link FunctionDefinition} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link FunctionDefinition} object removed, or <code>null</code> if the given
+   * index is out of range.
    */ public
  FunctionDefinition removeFunctionDefinition(long n) {
     long cPtr = libsbmlJNI.Model_removeFunctionDefinition__SWIG_0(swigCPtr, this, n);
@@ -3121,14 +3248,12 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link FunctionDefinition} objects in this {@link Model} object have the identifier 
-   * <code>sid</code>, then <code>null</code> is returned.
    <p>
    * @param sid the identifier of the {@link FunctionDefinition} object to remove
    <p>
-   * @return the {@link FunctionDefinition} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link FunctionDefinition}
-   * object with the identifier exists in this {@link Model} object.
+   * @return the {@link FunctionDefinition} object removed, or <code>null</code> if no
+   * {@link FunctionDefinition} object with the identifier exists in this {@link Model}
+   * object.
    */ public
  FunctionDefinition removeFunctionDefinition(String sid) {
     long cPtr = libsbmlJNI.Model_removeFunctionDefinition__SWIG_1(swigCPtr, this, sid);
@@ -3144,9 +3269,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link UnitDefinition} object to remove
    <p>
-   * @return the {@link UnitDefinition} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link UnitDefinition} object removed., or <code>null</code> if the given
+   * index is out of range.
    */ public
  UnitDefinition removeUnitDefinition(long n) {
     long cPtr = libsbmlJNI.Model_removeUnitDefinition__SWIG_0(swigCPtr, this, n);
@@ -3159,14 +3283,11 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link UnitDefinition} objects in this {@link Model} object have the identifier 
-   * <code>sid</code>, then <code>null</code> is returned.
    <p>
    * @param sid the identifier of the {@link UnitDefinition} object to remove
    <p>
-   * @return the {@link UnitDefinition} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link UnitDefinition}
-   * object with the identifier exists in this {@link Model} object.
+   * @return the {@link UnitDefinition} object removed, or <code>null</code> if no
+   * {@link UnitDefinition} object with the identifier exists in this {@link Model} object.
    */ public
  UnitDefinition removeUnitDefinition(String sid) {
     long cPtr = libsbmlJNI.Model_removeUnitDefinition__SWIG_1(swigCPtr, this, sid);
@@ -3182,9 +3303,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link CompartmentType} object to remove
    <p>
-   * @return the ComapartmentType object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the ComapartmentType object removed, or <code>null</code> if the given
+   * index is out of range.
    */ public
  CompartmentType removeCompartmentType(long n) {
     long cPtr = libsbmlJNI.Model_removeCompartmentType__SWIG_0(swigCPtr, this, n);
@@ -3197,14 +3317,11 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link CompartmentType} objects in this {@link Model} object have the identifier 
-   * <code>sid</code>, then <code>null</code> is returned.
    <p>
    * @param sid the identifier of the object to remove
    <p>
-   * @return the {@link CompartmentType} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link CompartmentType}
-   * object with the identifier exists in this {@link Model} object.
+   * @return the {@link CompartmentType} object removed, or <code>null</code> if no
+   * {@link CompartmentType} object with the identifier exists in this {@link Model} object.
    */ public
  CompartmentType removeCompartmentType(String sid) {
     long cPtr = libsbmlJNI.Model_removeCompartmentType__SWIG_1(swigCPtr, this, sid);
@@ -3220,9 +3337,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link SpeciesType} object to remove
    <p>
-   * @return the {@link SpeciesType} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link SpeciesType} object removed, or <code>null</code> if the given index is
+   * out of range.
    */ public
  SpeciesType removeSpeciesType(long n) {
     long cPtr = libsbmlJNI.Model_removeSpeciesType__SWIG_0(swigCPtr, this, n);
@@ -3235,13 +3351,10 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link SpeciesType} objects in this {@link Model} object have the identifier 
-   * <code>sid</code>, then <code>null</code> is returned.
    <p>
    * @param sid the identifier of the {@link SpeciesType} object to remove
    <p>
-   * @return the {@link SpeciesType} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link SpeciesType}
+   * @return the {@link SpeciesType} object removed, or <code>null</code> if no {@link SpeciesType}
    * object with the identifier exists in this {@link Model} object.
    */ public
  SpeciesType removeSpeciesType(String sid) {
@@ -3258,9 +3371,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link Compartment} object to remove
    <p>
-   * @return the {@link Compartment} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link Compartment} object removed, or <code>null</code> if the given index is
+   * out of range.
    */ public
  Compartment removeCompartment(long n) {
     long cPtr = libsbmlJNI.Model_removeCompartment__SWIG_0(swigCPtr, this, n);
@@ -3273,13 +3385,10 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link Compartment} objects in this {@link Model} object have the identifier 
-   * <code>sid</code>, then <code>null</code> is returned.
    <p>
    * @param sid the identifier of the {@link Compartment} object to remove
    <p>
-   * @return the {@link Compartment} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link Compartment}
+   * @return the {@link Compartment} object removed, or <code>null</code> if no {@link Compartment}
    * object with the identifier exists in this {@link Model} object.
    */ public
  Compartment removeCompartment(String sid) {
@@ -3296,9 +3405,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link Species} object to remove
    <p>
-   * @return the {@link Species} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link Species} object removed, or <code>null</code> if the given index is out
+   * of range.
    */ public
  Species removeSpecies(long n) {
     long cPtr = libsbmlJNI.Model_removeSpecies__SWIG_0(swigCPtr, this, n);
@@ -3311,14 +3419,11 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link Species} objects in this {@link Model} object have the identifier 
-   * <code>sid</code>, then <code>null</code> is returned.
    <p>
    * @param sid the identifier of the {@link Species} object to remove
    <p>
-   * @return the {@link Species} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link Species}
-   * object with the identifier exists in this {@link Model} object.
+   * @return the {@link Species} object removed, or <code>null</code> if no {@link Species} object with
+   * the identifier exists in this {@link Model} object.
    */ public
  Species removeSpecies(String sid) {
     long cPtr = libsbmlJNI.Model_removeSpecies__SWIG_1(swigCPtr, this, sid);
@@ -3334,9 +3439,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link Parameter} object to remove
    <p>
-   * @return the {@link Parameter} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link Parameter} object removed, or <code>null</code> if the given index is
+   * out of range.
    */ public
  Parameter removeParameter(long n) {
     long cPtr = libsbmlJNI.Model_removeParameter__SWIG_0(swigCPtr, this, n);
@@ -3349,14 +3453,11 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link Parameter} objects in this {@link Model} object have the identifier 
-   * <code>sid</code>, then <code>null</code> is returned.
    <p>
    * @param sid the identifier of the {@link Parameter} object to remove
    <p>
-   * @return the {@link Parameter} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link Parameter}
-   * object with the identifier exists in this {@link Model} object.
+   * @return the {@link Parameter} object removed, or <code>null</code> if no {@link Parameter} object
+   * with the identifier exists in this {@link Model} object.
    */ public
  Parameter removeParameter(String sid) {
     long cPtr = libsbmlJNI.Model_removeParameter__SWIG_1(swigCPtr, this, sid);
@@ -3372,9 +3473,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link InitialAssignment} object to remove
    <p>
-   * @return the {@link InitialAssignment} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link InitialAssignment} object removed, or <code>null</code> if the given
+   * index is out of range.
    */ public
  InitialAssignment removeInitialAssignment(long n) {
     long cPtr = libsbmlJNI.Model_removeInitialAssignment__SWIG_0(swigCPtr, this, n);
@@ -3387,14 +3487,12 @@ public class Model extends SBase {
    * from this {@link Model} object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link InitialAssignment} objects in this {@link Model} object have the
-   * 'symbol' attribute <code>symbol</code>, then <code>null</code> is returned.
    <p>
    * @param symbol the 'symbol' attribute of the {@link InitialAssignment} object to remove
    <p>
-   * @return the {@link InitialAssignment} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link InitialAssignment}
-   * object with the 'symbol' attribute exists in this {@link Model} object.
+   * @return the {@link InitialAssignment} object removed, or <code>null</code> if no
+   * {@link InitialAssignment} object with the 'symbol' attribute exists in this
+   * {@link Model} object.
    */ public
  InitialAssignment removeInitialAssignment(String symbol) {
     long cPtr = libsbmlJNI.Model_removeInitialAssignment__SWIG_1(swigCPtr, this, symbol);
@@ -3410,9 +3508,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link Rule} object to remove
    <p>
-   * @return the {@link Rule} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link Rule} object removed, or <code>null</code> if the given index is out of
+   * range.
    */ public
  Rule removeRule(long n) {
   return (Rule) libsbml.DowncastSBase(libsbmlJNI.Model_removeRule__SWIG_0(swigCPtr, this, n), true);
@@ -3424,17 +3521,30 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link Rule} objects in this {@link Model} object have the 'variable' attribute
-   * <code>variable</code>, then <code>null</code> is returned.
    <p>
    * @param variable the 'variable' attribute of the {@link Rule} object to remove
    <p>
-   * @return the {@link Rule} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link Rule}
-   * object with the 'variable' attribute exists in this {@link Model} object.
+   * @return the {@link Rule} object removed, or <code>null</code> if no {@link Rule} object with the
+   * 'variable' attribute exists in this {@link Model} object.
    */ public
  Rule removeRule(String variable) {
   return (Rule) libsbml.DowncastSBase(libsbmlJNI.Model_removeRule__SWIG_1(swigCPtr, this, variable), true);
+}
+
+  
+/**
+   * Removes the {@link Rule} object with the given 'variable' attribute from this {@link Model} 
+   * object and returns a pointer to it.
+   <p>
+   * The caller owns the returned object and is responsible for deleting it.
+   <p>
+   * @param variable the 'variable' attribute of the {@link Rule} object to remove
+   <p>
+   * @return the {@link Rule} object removed, or <code>null</code> if no {@link Rule} object with the
+   * 'variable' attribute exists in this {@link Model} object.
+   */ public
+ Rule removeRuleByVariable(String variable) {
+  return (Rule) libsbml.DowncastSBase(libsbmlJNI.Model_removeRuleByVariable(swigCPtr, this, variable), false);
 }
 
   
@@ -3446,9 +3556,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link Constraint} object to remove
    <p>
-   * @return the {@link Constraint} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link Constraint} object removed, or <code>null</code> if the given index is
+   * out of range.
    */ public
  Constraint removeConstraint(long n) {
     long cPtr = libsbmlJNI.Model_removeConstraint(swigCPtr, this, n);
@@ -3464,9 +3573,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link Reaction} object to remove
    <p>
-   * @return the {@link Reaction} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link Reaction} object removed, or <code>null</code> if the given index is
+   * out of range.
    */ public
  Reaction removeReaction(long n) {
     long cPtr = libsbmlJNI.Model_removeReaction__SWIG_0(swigCPtr, this, n);
@@ -3479,14 +3587,11 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link Reaction} objects in this {@link Model} object have the identifier 
-   * <code>sid</code>, then <code>null</code> is returned.
    <p>
    * @param sid the identifier of the {@link Reaction} object to remove
    <p>
-   * @return the {@link Reaction} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link Reaction}
-   * object with the identifier exists in this {@link Model} object.
+   * @return the {@link Reaction} object removed, or <code>null</code> if no {@link Reaction} object
+   * with the identifier exists in this {@link Model} object.
    */ public
  Reaction removeReaction(String sid) {
     long cPtr = libsbmlJNI.Model_removeReaction__SWIG_1(swigCPtr, this, sid);
@@ -3502,9 +3607,8 @@ public class Model extends SBase {
    <p>
    * @param n the index of the {@link Event} object to remove
    <p>
-   * @return the {@link Event} object removed.  As mentioned above, 
-   * the caller owns the returned item. <code>null</code> is returned if the given index 
-   * is out of range.
+   * @return the {@link Event} object removed, or <code>null</code> if the given index is out
+   * of range.
    */ public
  Event removeEvent(long n) {
     long cPtr = libsbmlJNI.Model_removeEvent__SWIG_0(swigCPtr, this, n);
@@ -3517,14 +3621,11 @@ public class Model extends SBase {
    * object and returns a pointer to it.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
-   * If none of the {@link Event} objects in this {@link Model} object have the identifier 
-   * <code>sid</code>, then <code>null</code> is returned.
    <p>
    * @param sid the identifier of the {@link Event} object to remove
    <p>
-   * @return the {@link Event} object removed.  As mentioned above, the 
-   * caller owns the returned object. <code>null</code> is returned if no {@link Event}
-   * object with the identifier exists in this {@link Model} object.
+   * @return the {@link Event} object removed, or <code>null</code> if no {@link Event} object with the
+   * identifier exists in this {@link Model} object.
    */ public
  Event removeEvent(String sid) {
     long cPtr = libsbmlJNI.Model_removeEvent__SWIG_1(swigCPtr, this, sid);
@@ -3533,11 +3634,13 @@ public class Model extends SBase {
 
   
 /**
-   * Takes the contents of the passed-in {@link Model}, makes copies of everything,
-   * and appends those copies to the appropriate places in this {@link Model}.
+   * Copies a given {@link Model} object's subcomponents and appends the copies to
+   * the appropriate places in this {@link Model}.
    <p>
    * This method also calls the <code>appendFrom</code> method on all libSBML
-   * plug-in objects.&nbsp; <p>
+   * plug-in objects.
+   <p>
+   * <p>
  * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
  * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
  * that it uses one or more SBML packages, and likewise, a software tool may be

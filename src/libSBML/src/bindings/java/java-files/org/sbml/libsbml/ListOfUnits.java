@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Implementation of SBML's ListOfUnits construct.
+ *  A list of {@link Unit} objects.
  <p>
  * {@link ListOfUnits} is entirely contained within {@link UnitDefinition}.
  <p>
@@ -131,9 +131,9 @@ public class ListOfUnits extends ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this {@link ListOfUnits}.
+   * Creates and returns a deep copy of this {@link ListOfUnits} object.
    <p>
-   * @return a (deep) copy of this {@link ListOfUnits}.
+   * @return the (deep) copy of this {@link ListOfUnits} object.
    */ public
  ListOfUnits cloneObject() {
     long cPtr = libsbmlJNI.ListOfUnits_cloneObject(swigCPtr, this);
@@ -148,16 +148,16 @@ public class ListOfUnits extends ListOf {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
- * {@link libsbmlConstants}.    Note that different Level&nbsp;3 
+ * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
-   * {@link  libsbmlConstants#SBML_UNIT SBML_UNIT} (default).
+   * {@link libsbmlConstants#SBML_UNIT SBML_UNIT} (default).
    <p>
    * @see #getElementName()
    * @see #getPackageName()

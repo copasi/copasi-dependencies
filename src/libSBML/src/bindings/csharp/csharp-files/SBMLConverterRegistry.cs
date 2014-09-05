@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Registry of all SBML converters.
+@htmlinclude pkg-marker-core.html Registry of all libSBML SBML converters.
  *
  * @htmlinclude libsbml-facility-only-warning.html
  *
@@ -30,9 +30,9 @@ namespace libsbmlcs {
  * methods for discovering them.  Callers can use the method
  * SBMLConverterRegistry::getNumConverters() to find out how many
  * converters are registered, then use
- * SBMLConverterRegistry::getConverterByIndex(@if java int index@endif) to
+ * SBMLConverterRegistry::getConverterByIndex(@if java int@endif) to
  * iterate over each one; alternatively, callers can use
- * SBMLConverterRegistry::getConverterFor(@if java ConversionProperties props@endif)
+ * SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
  * to search for a converter having specific properties.
  */
 
@@ -104,8 +104,8 @@ public class SBMLConverterRegistry : IDisposable {
    * @return integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int addConverter(SBMLConverter converter) {
     int ret = libsbmlPINVOKE.SBMLConverterRegistry_addConverter(swigCPtr, SBMLConverter.getCPtr(converter));
@@ -128,10 +128,10 @@ public class SBMLConverterRegistry : IDisposable {
    * position.
    */ public
  SBMLConverter getConverterByIndex(int index) {
-    IntPtr cPtr = libsbmlPINVOKE.SBMLConverterRegistry_getConverterByIndex(swigCPtr, index);
-    SBMLConverter ret = (cPtr == IntPtr.Zero) ? null : new SBMLConverter(cPtr, false);
-    return ret;
-  }
+	SBMLConverter ret
+	    = (SBMLConverter) libsbml.DowncastSBMLConverter(libsbmlPINVOKE.SBMLConverterRegistry_getConverterByIndex(swigCPtr, index), false);
+	return ret;
+}
 
   
 /** 
@@ -151,14 +151,14 @@ public class SBMLConverterRegistry : IDisposable {
    * @return the converter matching the properties, or @c null if no
    * suitable converter is found.
    *
-   * @see getConverterByIndex(@if java int index@endif)
+   * @see getConverterByIndex(@if java int@endif)
    */ public
  SBMLConverter getConverterFor(ConversionProperties props) {
-    IntPtr cPtr = libsbmlPINVOKE.SBMLConverterRegistry_getConverterFor(swigCPtr, ConversionProperties.getCPtr(props));
-    SBMLConverter ret = (cPtr == IntPtr.Zero) ? null : new SBMLConverter(cPtr, false);
+	SBMLConverter ret
+	    = (SBMLConverter) libsbml.DowncastSBMLConverter(libsbmlPINVOKE.SBMLConverterRegistry_getConverterFor(swigCPtr, ConversionProperties.getCPtr(props)), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
+	return ret;
+}
 
   
 /**
@@ -166,7 +166,7 @@ public class SBMLConverterRegistry : IDisposable {
    * 
    * @return the number of registered converters.
    *
-   * @see getConverterByIndex(@if java int index@endif)
+   * @see getConverterByIndex(@if java int@endif)
    */ public
  int getNumConverters() {
     int ret = libsbmlPINVOKE.SBMLConverterRegistry_getNumConverters(swigCPtr);

@@ -1,4 +1,3 @@
-
 #ifdef USE_REQUIREDELEMENTS
 if (pkgName == "req")
 {
@@ -33,8 +32,9 @@ if (pkgName == "req")
 		case SBML_DELAY:
 		case SBML_STOICHIOMETRY_MATH:
 		case SBML_LOCAL_PARAMETER:
-			return SWIGTYPE_p_RequiredElementsSBasePlugin;
+			return SWIGTYPE_p_ReqSBasePlugin;
 	}
 }
-#endif // USE_REQUIREDELEMENTS
+
+#endif // USE_REQUIREDELEMENTS 
 

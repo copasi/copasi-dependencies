@@ -46,6 +46,8 @@
 LIBSBML_CPP_NAMESPACE_BEGIN
 #ifdef __cplusplus
 
+using namespace std;
+
 /*
  * Creates a new Dimensions object with all sizes set to 0.0.
  */ 
@@ -661,6 +663,7 @@ LIBSBML_EXTERN
 void
 Dimensions_initDefaults (Dimensions_t *d)
 {
+  if (d == NULL) return;
   d->initDefaults();
 }
 
@@ -668,6 +671,7 @@ LIBSBML_EXTERN
 void
 Dimensions_setBounds (Dimensions_t *dim, double w, double h, double d)
 {
+  if (dim == NULL) return;
   dim->setBounds(w, h, d);
 }
 
@@ -675,6 +679,7 @@ LIBSBML_EXTERN
 void
 Dimensions_setWidth (Dimensions_t *d, double w)
 {
+  if (d == NULL) return;
   d->setWidth(w);
 }
 
@@ -682,6 +687,7 @@ LIBSBML_EXTERN
 void
 Dimensions_setHeight (Dimensions_t *d, double h)
 {
+  if (d == NULL) return;
   d->setHeight(h);
 }
 
@@ -689,6 +695,7 @@ LIBSBML_EXTERN
 void
 Dimensions_setDepth (Dimensions_t *dim, double d)
 {
+  if (dim == NULL) return;
   dim->setDepth(d);
 }
 
@@ -696,6 +703,7 @@ LIBSBML_EXTERN
 double
 Dimensions_width (const Dimensions_t *d)
 {
+  if (d == NULL) return numeric_limits<double>::quiet_NaN();
   return d->width();
 }
 
@@ -703,6 +711,7 @@ LIBSBML_EXTERN
 double
 Dimensions_height(const Dimensions_t *d)
 {
+  if (d == NULL) return numeric_limits<double>::quiet_NaN();
   return d->height();
 }
 
@@ -710,6 +719,7 @@ LIBSBML_EXTERN
 double
 Dimensions_depth (const Dimensions_t *d)
 {
+  if (d == NULL) return numeric_limits<double>::quiet_NaN();
   return d->depth();
 }
 
@@ -717,6 +727,7 @@ LIBSBML_EXTERN
 double
 Dimensions_getWidth (const Dimensions_t *d)
 {
+  if (d == NULL) return numeric_limits<double>::quiet_NaN();
   return d->width();
 }
 
@@ -724,6 +735,7 @@ LIBSBML_EXTERN
 double
 Dimensions_getHeight(const Dimensions_t *d)
 {
+  if (d == NULL) return numeric_limits<double>::quiet_NaN();
   return d->height();
 }
 
@@ -731,6 +743,7 @@ LIBSBML_EXTERN
 double
 Dimensions_getDepth (const Dimensions_t *d)
 {
+  if (d == NULL) return numeric_limits<double>::quiet_NaN();
   return d->depth();
 }
 
@@ -738,6 +751,7 @@ LIBSBML_EXTERN
 Dimensions_t *
 Dimensions_clone (const Dimensions_t *m)
 {
+  if (m == NULL) return NULL;
   return static_cast<Dimensions*>( m->clone() );
 }
 

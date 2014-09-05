@@ -14,7 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Representation of XML Namespaces.
+@htmlinclude pkg-marker-core.html An XML Namespace.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -134,7 +134,7 @@ public class XMLNamespaces : IDisposable {
    *
    * @param orig the XMLNamespaces object to copy
    *
-   * @throws @if python ValueError @else XMLConstructorException @endif
+   * @throws XMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  XMLNamespaces(XMLNamespaces orig) : this(libsbmlPINVOKE.new_XMLNamespaces__SWIG_1(XMLNamespaces.getCPtr(orig)), true) {
@@ -143,9 +143,9 @@ public class XMLNamespaces : IDisposable {
 
   
 /**
-   * Creates and returns a deep copy of this XMLNamespaces list.
-   * 
-   * @return a (deep) copy of this XMLNamespaces list.
+   * Creates and returns a deep copy of this XMLNamespaces object.
+   *
+   * @return the (deep) copy of this XMLNamespaces object.
    */ public
  XMLNamespaces clone() {
     IntPtr cPtr = libsbmlPINVOKE.XMLNamespaces_clone(swigCPtr);
@@ -179,11 +179,11 @@ public class XMLNamespaces : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int add(string uri, string prefix) {
     int ret = libsbmlPINVOKE.XMLNamespaces_add__SWIG_0(swigCPtr, uri, prefix);
@@ -217,11 +217,11 @@ public class XMLNamespaces : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
  int add(string uri) {
     int ret = libsbmlPINVOKE.XMLNamespaces_add__SWIG_1(swigCPtr, uri);
@@ -238,8 +238,8 @@ public class XMLNamespaces : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int remove(int index) {
     int ret = libsbmlPINVOKE.XMLNamespaces_remove__SWIG_0(swigCPtr, index);
@@ -255,8 +255,8 @@ public class XMLNamespaces : IDisposable {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * @see remove(int index)
    */ public
@@ -274,8 +274,8 @@ public class XMLNamespaces : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see remove(int index)
    */ public
@@ -438,7 +438,7 @@ public class XMLNamespaces : IDisposable {
    * prefix, or an empty string if no such prefix-and-URI pair exists
    * in this XMLNamespaces object
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    * 
    * @see getURI()
    */ public
@@ -462,7 +462,7 @@ public class XMLNamespaces : IDisposable {
    * prefix, or an empty string if no such prefix-and-URI pair exists
    * in this XMLNamespaces object
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    * 
    * @see getURI()
    */ public

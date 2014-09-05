@@ -14,7 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Base class for SBML validators
+@htmlinclude pkg-marker-core.html Base class for SBML validators.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -40,7 +40,7 @@ namespace libsbml {
  *
  * Users of libSBML may already be familiar with the facilities encompassed
  * by the validation system, in the form of the consistency-checking methods
- * defined on SBMLDocument.  The methods SBMLDocument::setConsistencyChecks(@if java int categ, bool onoff@endif),
+ * defined on SBMLDocument.  The methods SBMLDocument::setConsistencyChecks(@if java int, bool@endif),
  * SBMLDocument::checkConsistency(), SBMLDocument::checkInternalConsistency()
  * and other method of that sort are in fact implemented via SBMLValidator,
  * specifically as methods on the class SBMLInternalValidator.
@@ -109,7 +109,7 @@ public class SBMLValidator : IDisposable {
    *
    * @param orig the object to copy.
    * 
-   * @throws @if python ValueError @else SBMLConstructorException @endif
+   * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
  SBMLValidator(SBMLValidator orig) : this(libsbmlPINVOKE.new_SBMLValidator__SWIG_1(SBMLValidator.getCPtr(orig)), true) {
@@ -119,10 +119,10 @@ public class SBMLValidator : IDisposable {
 
   
 /**
-   * Creates and returns a deep copy of this SBMLValidator.
-   * 
-   * @return a (deep) copy of this SBMLValidator.
-   */ public
+   * Creates and returns a deep copy of this SBMLValidator object.
+   *
+   * @return the (deep) copy of this SBMLValidator object.
+   */ public new
  SBMLValidator clone() {
     IntPtr cPtr = (SwigDerivedClassHasMethod("clone", swigMethodTypes0) ? libsbmlPINVOKE.SBMLValidator_cloneSwigExplicitSBMLValidator(swigCPtr) : libsbmlPINVOKE.SBMLValidator_clone(swigCPtr));
     SBMLValidator ret = (cPtr == IntPtr.Zero) ? null : new SBMLValidator(cPtr, true);
@@ -135,8 +135,8 @@ public class SBMLValidator : IDisposable {
    * 
    * @return the current SBML document
    *
-   * @see setDocument(@if java SBMLDocument doc@endif)
-   */ public
+   * @see setDocument(@if java SBMLDocument@endif)
+   */ public new
  SBMLDocument getDocument() {
     IntPtr cPtr = (SwigDerivedClassHasMethod("getDocument", swigMethodTypes1) ? libsbmlPINVOKE.SBMLValidator_getDocumentSwigExplicitSBMLValidator__SWIG_0(swigCPtr) : libsbmlPINVOKE.SBMLValidator_getDocument__SWIG_0(swigCPtr));
     SBMLDocument ret = (cPtr == IntPtr.Zero) ? null : new SBMLDocument(cPtr, false);
@@ -153,10 +153,10 @@ public class SBMLValidator : IDisposable {
    * validation.  @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values returned by this
    * function are
-   * @li @link libsbmlcs.libsbml.LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
+   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getDocument()
-   */ public
+   */ public new
  int setDocument(SBMLDocument doc) {
     int ret = (SwigDerivedClassHasMethod("setDocument", swigMethodTypes3) ? libsbmlPINVOKE.SBMLValidator_setDocumentSwigExplicitSBMLValidator(swigCPtr, SBMLDocument.getCPtr(doc)) : libsbmlPINVOKE.SBMLValidator_setDocument(swigCPtr, SBMLDocument.getCPtr(doc)));
     return ret;
@@ -170,7 +170,7 @@ public class SBMLValidator : IDisposable {
    * validation.  @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values returned by this
    * function are determined by the specific subclasses of this class.
-   */ public
+   */ public new
  long validate() { return (long)(SwigDerivedClassHasMethod("validate", swigMethodTypes4) ? libsbmlPINVOKE.SBMLValidator_validateSwigExplicitSBMLValidator__SWIG_0(swigCPtr) : libsbmlPINVOKE.SBMLValidator_validate__SWIG_0(swigCPtr)); }
 
   
@@ -182,7 +182,7 @@ public class SBMLValidator : IDisposable {
    * the last validation run and before validating the next document.
    *
    * @if clike @see getFailures() @endif
-   */ public
+   */ public new
  void clearFailures() {
     if (SwigDerivedClassHasMethod("clearFailures", swigMethodTypes5)) libsbmlPINVOKE.SBMLValidator_clearFailuresSwigExplicitSBMLValidator(swigCPtr); else libsbmlPINVOKE.SBMLValidator_clearFailures(swigCPtr);
   }
@@ -204,7 +204,7 @@ public class SBMLValidator : IDisposable {
 /**
    * Validates the given SBMLDocument object.
    *
-   * This is identical to calling setDocument(@if java SBMLDocument d @endif)
+   * This is identical to calling setDocument(@if java SBMLDocument @endif)
    * followed by validate().
    *
    * @param d the SBML document to validate
@@ -255,12 +255,12 @@ public class SBMLValidator : IDisposable {
    * It is important to note that this method <em>does not create</em> a
    * Model instance.  The model in the SBMLDocument must have been created
    * at some prior time, for example using SBMLDocument::createModel() 
-   * or SBMLDocument::setModel(@if java Model m@endif).
+   * or SBMLDocument::setModel(@if java Model@endif).
    * This method returns @c null if a model does not yet exist.
    * 
    * @return the Model contained in this validator's SBMLDocument object.
    *
-   * @see SBMLDocument::setModel(@if java Model m@endif)
+   * @see SBMLDocument::setModel(@if java Model@endif)
    * @see SBMLDocument::createModel()
    */ public
  Model getModel() {

@@ -14,8 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Methods for interacting with Systems Biology Ontology
- * terms.
+@htmlinclude pkg-marker-core.html Facilities for using the Systems Biology Ontology.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -67,7 +66,7 @@ namespace libsbmlcs {
  * this is simply impossible to do: not only do humans often disagree on
  * the names themselves, but it would not allow for correction of errors or
  * updates to the list of predefined names except by issuing new releases
- * of the SBML specification&mdash;to say nothing of many other limitations
+ * of the SBML specification---to say nothing of many other limitations
  * with this approach.  Moreover, the parameters and variables that appear
  * in rate expressions also need to be identified in a way that software
  * tools can interpret mechanically, implying that the names of these
@@ -222,6 +221,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isQuantitativeParameter(long term) {
     bool ret = libsbmlPINVOKE.SBO_isQuantitativeParameter(term);
@@ -242,6 +243,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isParticipantRole(long term) {
     bool ret = libsbmlPINVOKE.SBO_isParticipantRole(term);
@@ -262,6 +265,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isModellingFramework(long term) {
     bool ret = libsbmlPINVOKE.SBO_isModellingFramework(term);
@@ -282,6 +287,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isMathematicalExpression(long term) {
     bool ret = libsbmlPINVOKE.SBO_isMathematicalExpression(term);
@@ -302,6 +309,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isKineticConstant(long term) {
     bool ret = libsbmlPINVOKE.SBO_isKineticConstant(term);
@@ -322,6 +331,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isReactant(long term) {
     bool ret = libsbmlPINVOKE.SBO_isReactant(term);
@@ -342,6 +353,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isProduct(long term) {
     bool ret = libsbmlPINVOKE.SBO_isProduct(term);
@@ -362,6 +375,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isModifier(long term) {
     bool ret = libsbmlPINVOKE.SBO_isModifier(term);
@@ -382,6 +397,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isRateLaw(long term) {
     bool ret = libsbmlPINVOKE.SBO_isRateLaw(term);
@@ -402,6 +419,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isEvent(long term) {
     bool ret = libsbmlPINVOKE.SBO_isEvent(term);
@@ -422,6 +441,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
     */ public
  static bool isPhysicalParticipant(long term) {
     bool ret = libsbmlPINVOKE.SBO_isPhysicalParticipant(term);
@@ -442,6 +463,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isParticipant(long term) {
     bool ret = libsbmlPINVOKE.SBO_isParticipant(term);
@@ -462,6 +485,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isInteraction(long term) {
     bool ret = libsbmlPINVOKE.SBO_isInteraction(term);
@@ -482,6 +507,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isEntity(long term) {
     bool ret = libsbmlPINVOKE.SBO_isEntity(term);
@@ -502,6 +529,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isFunctionalEntity(long term) {
     bool ret = libsbmlPINVOKE.SBO_isFunctionalEntity(term);
@@ -522,6 +551,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isMaterialEntity(long term) {
     bool ret = libsbmlPINVOKE.SBO_isMaterialEntity(term);
@@ -542,6 +573,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isConservationLaw(long term) {
     bool ret = libsbmlPINVOKE.SBO_isConservationLaw(term);
@@ -562,6 +595,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isSteadyStateExpression(long term) {
     bool ret = libsbmlPINVOKE.SBO_isSteadyStateExpression(term);
@@ -582,6 +617,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isFunctionalCompartment(long term) {
     bool ret = libsbmlPINVOKE.SBO_isFunctionalCompartment(term);
@@ -602,6 +639,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isContinuousFramework(long term) {
     bool ret = libsbmlPINVOKE.SBO_isContinuousFramework(term);
@@ -622,6 +661,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isDiscreteFramework(long term) {
     bool ret = libsbmlPINVOKE.SBO_isDiscreteFramework(term);
@@ -642,6 +683,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isLogicalFramework(long term) {
     bool ret = libsbmlPINVOKE.SBO_isLogicalFramework(term);
@@ -662,6 +705,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isMetadataRepresentation(long term) {
     bool ret = libsbmlPINVOKE.SBO_isMetadataRepresentation(term);
@@ -682,6 +727,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isOccurringEntityRepresentation(long term) {
     bool ret = libsbmlPINVOKE.SBO_isOccurringEntityRepresentation(term);
@@ -702,6 +749,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isPhysicalEntityRepresentation(long term) {
     bool ret = libsbmlPINVOKE.SBO_isPhysicalEntityRepresentation(term);
@@ -722,6 +771,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isSystemsDescriptionParameter(long term) {
     bool ret = libsbmlPINVOKE.SBO_isSystemsDescriptionParameter(term);
@@ -742,6 +793,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool isObselete(long term) {
     bool ret = libsbmlPINVOKE.SBO_isObselete(term);
@@ -765,6 +818,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static string intToString(int sboTerm) {
     string ret = libsbmlPINVOKE.SBO_intToString(sboTerm);
@@ -787,6 +842,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static int stringToInt(string sboTerm) {
     int ret = libsbmlPINVOKE.SBO_stringToInt(sboTerm);
@@ -809,6 +866,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool checkTerm(string sboTerm) {
     bool ret = libsbmlPINVOKE.SBO_checkTerm__SWIG_0(sboTerm);
@@ -832,6 +891,8 @@ public class SBO : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static bool checkTerm(int sboTerm) {
     bool ret = libsbmlPINVOKE.SBO_checkTerm__SWIG_1(sboTerm);

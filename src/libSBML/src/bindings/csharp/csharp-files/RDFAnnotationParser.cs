@@ -14,8 +14,7 @@ namespace libsbmlcs {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Read/write/manipulate RDF annotations stored in SBML
- * annotation elements.
+@htmlinclude pkg-marker-core.html MIRIAM-compliant RDF annotation reader/writer.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -108,6 +107,8 @@ public class RDFAnnotationParser : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @return a pointer to the ModelHistory created.
    */ public
@@ -137,6 +138,8 @@ public class RDFAnnotationParser : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @return a pointer to the ModelHistory created.
    */ public
@@ -166,6 +169,8 @@ public class RDFAnnotationParser : IDisposable {
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @return a pointer to the ModelHistory created.
    */ public
@@ -186,7 +191,7 @@ public class RDFAnnotationParser : IDisposable {
    * created, containing MIRIAM-style annotations, and that @c sbmlObject
    * is an SBML object derived from SBase (e.g., a Model, or a Species, or
    * a Compartment, etc.).  Then:@if clike
-@verbatim
+@code{.cpp}
 int success;                              // Status code variable, used below.
 
 XMLNode RDF = createRDFAnnotation();     // Create RDF annotation XML structure.
@@ -199,9 +204,9 @@ success = ann->addChild(RDF);             // Put the RDF annotation into it.
 
 success = sbmlObject->setAnnotation(ann); // Set object's annotation to what we built.
 ...                                       // Check 'success' return code value.
-@endverbatim
+@endcode
    * @endif@if java
-@verbatim
+@code{.java}
 int success;                                   // Status code variable, used below.
 
 XMLNode RDF = createRDFAnnotation();          // Create RDF annotation XML structure.
@@ -214,9 +219,9 @@ success      = ann.addChild(RDF);              // Put the RDF annotation into it
 
 success      = sbmlObject.setAnnotation(ann); // Set object's annotation to what we built.
 ...                                            // Check 'success' return code value.
-@endverbatim
+@endcode
    * @endif@if python
-@verbatim
+@code{.py}
 RDF     = RDFAnnotationParser.createRDFAnnotation() # Create RDF annotation XML structure.
 success = RDF.addChild(...content...)               # Put some content into it.
 ...                                                 # Check 'success' return code value.
@@ -227,7 +232,7 @@ success = annot.addChild(RDF)                       # Put the RDF annotation int
 
 success = sbmlObject.setAnnotation(annot)           # Set object's annotation to what we built.
 ...                                                 # Check 'success' return code value.
-@endverbatim
+@endcode
    * @endif
    * The SBML specification contains more information about the format of
    * annotations.  We urge readers to consult Section&nbsp;6 of the SBML
@@ -244,6 +249,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation to
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @see @if clike createRDFAnnotation() @else RDFAnnotationParser::createRDFAnnotation() @endif
    */ public
@@ -286,6 +293,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation to
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    *
    * @see @if clike createAnnotation() @else RDFAnnotationParser::createAnnotation() @endif
    */ public
@@ -317,6 +326,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation to
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static XMLNode createCVTerms(SBase obj) {
     IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_createCVTerms(SBase.getCPtr(obj));
@@ -349,6 +360,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation to
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static XMLNode parseCVTerms(SBase obj) {
     IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_parseCVTerms(SBase.getCPtr(obj));
@@ -378,6 +391,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation to
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static XMLNode parseModelHistory(SBase obj) {
     IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_parseModelHistory(SBase.getCPtr(obj));
@@ -403,6 +418,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation to
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static XMLNode parseOnlyModelHistory(SBase obj) {
     IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_parseOnlyModelHistory(SBase.getCPtr(obj));
@@ -436,6 +453,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation to
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static XMLNode deleteRDFAnnotation(XMLNode annotation) {
     IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_deleteRDFAnnotation(XMLNode.getCPtr(annotation));
@@ -469,6 +488,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation to
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static XMLNode deleteRDFHistoryAnnotation(XMLNode annotation) {
     IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_deleteRDFHistoryAnnotation(XMLNode.getCPtr(annotation));
@@ -502,6 +523,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation to
  * function with the name <em>ClassName_methodName()</em>. This is merely an
  * artifact of how the language interfaces are created in libSBML.  The
  * methods are functionally identical. @endif
+ *
+ *
    */ public
  static XMLNode deleteRDFCVTermAnnotation(XMLNode annotation) {
     IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_deleteRDFCVTermAnnotation(XMLNode.getCPtr(annotation));

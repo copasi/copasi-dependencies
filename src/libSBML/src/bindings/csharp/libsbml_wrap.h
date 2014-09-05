@@ -45,6 +45,7 @@ class SwigDirector_SBMLConverter : public SBMLConverter, public Swig::Director {
 
 public:
     SwigDirector_SBMLConverter();
+    SwigDirector_SBMLConverter(std::string const &name);
     SwigDirector_SBMLConverter(SBMLConverter const &c);
     virtual ~SwigDirector_SBMLConverter();
     virtual SBMLConverter *clone() const;
@@ -67,10 +68,9 @@ public:
     typedef unsigned int (SWIGSTDCALL* SWIG_Callback5_t)(void *);
     typedef int (SWIGSTDCALL* SWIG_Callback6_t)(void *);
     typedef int (SWIGSTDCALL* SWIG_Callback7_t)(void *);
-    typedef int (SWIGSTDCALL* SWIG_Callback8_t)(void *);
-    typedef void * (SWIGSTDCALL* SWIG_Callback9_t)();
-    typedef int (SWIGSTDCALL* SWIG_Callback10_t)();
-    void swig_connect_director(SWIG_Callback0_t callbackclone, SWIG_Callback1_t callbackgetDocument__SWIG_0, SWIG_Callback2_t callbackgetDocument__SWIG_1, SWIG_Callback3_t callbackgetDefaultProperties, SWIG_Callback4_t callbackgetTargetNamespaces, SWIG_Callback5_t callbackmatchesProperties, SWIG_Callback6_t callbacksetDocument__SWIG_0, SWIG_Callback7_t callbacksetDocument__SWIG_1, SWIG_Callback8_t callbacksetProperties, SWIG_Callback9_t callbackgetProperties, SWIG_Callback10_t callbackconvert);
+    typedef void * (SWIGSTDCALL* SWIG_Callback8_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback9_t)();
+    void swig_connect_director(SWIG_Callback0_t callbackclone, SWIG_Callback1_t callbackgetDocument__SWIG_0, SWIG_Callback2_t callbackgetDocument__SWIG_1, SWIG_Callback3_t callbackgetDefaultProperties, SWIG_Callback4_t callbackgetTargetNamespaces, SWIG_Callback5_t callbackmatchesProperties, SWIG_Callback6_t callbacksetDocument, SWIG_Callback7_t callbacksetProperties, SWIG_Callback8_t callbackgetProperties, SWIG_Callback9_t callbackconvert);
 
 private:
     SWIG_Callback0_t swig_callbackclone;
@@ -79,11 +79,10 @@ private:
     SWIG_Callback3_t swig_callbackgetDefaultProperties;
     SWIG_Callback4_t swig_callbackgetTargetNamespaces;
     SWIG_Callback5_t swig_callbackmatchesProperties;
-    SWIG_Callback6_t swig_callbacksetDocument__SWIG_0;
-    SWIG_Callback7_t swig_callbacksetDocument__SWIG_1;
-    SWIG_Callback8_t swig_callbacksetProperties;
-    SWIG_Callback9_t swig_callbackgetProperties;
-    SWIG_Callback10_t swig_callbackconvert;
+    SWIG_Callback6_t swig_callbacksetDocument;
+    SWIG_Callback7_t swig_callbacksetProperties;
+    SWIG_Callback8_t swig_callbackgetProperties;
+    SWIG_Callback9_t swig_callbackconvert;
     void swig_init_callbacks();
 };
 

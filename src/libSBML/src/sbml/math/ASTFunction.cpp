@@ -988,6 +988,74 @@ ASTFunction::swapChildren(ASTFunction* that)
   }
 }
 
+void 
+ASTFunction::setIsChildFlag(bool flag)
+{
+  ASTBase::setIsChildFlag(flag);
+
+  if (mUnaryFunction != NULL)
+  {
+    mUnaryFunction->setIsChildFlag(flag);
+  }
+  else if (mBinaryFunction != NULL)
+  {
+    mBinaryFunction->setIsChildFlag(flag);
+  }
+  else if (mNaryFunction != NULL)
+  {
+    mNaryFunction->setIsChildFlag(flag);
+  }
+  else if (mUserFunction != NULL)
+  {
+    mUserFunction->setIsChildFlag(flag);
+  }
+  else if (mLambda != NULL)
+  {
+    mLambda->setIsChildFlag(flag);
+  }
+  else if (mPiecewise != NULL)
+  {
+    mPiecewise->setIsChildFlag(flag);
+  }
+  else if (mCSymbol != NULL)
+  {
+    mCSymbol->setIsChildFlag(flag);
+  }
+  else if (mQualifier != NULL)
+  {
+    mQualifier->setIsChildFlag(flag);
+  }
+  else if (mSemantics != NULL)
+  {
+    mSemantics->setIsChildFlag(flag);
+  }
+  else if (mIsOther == true)
+  {
+    if (mPackageName.empty() == false && mPackageName != "core")
+    {
+      const_cast<ASTBase*>(getPlugin(mPackageName)->getMath())
+                                     ->setIsChildFlag(flag);
+    }
+    else
+    {
+      unsigned int i = 0;
+      bool found = false;
+      while (found == false && i < getNumPlugins())
+      {
+        if (getPlugin(i)->isSetMath() == true)
+        {
+          const_cast<ASTBase*>(getPlugin(i)->getMath())
+                                         ->setIsChildFlag(flag);
+          found = true;
+        }
+        i++;
+      }
+    }
+  }
+}
+
+
+
 int 
 ASTFunction::setClass(std::string className)
 {
@@ -3640,7 +3708,7 @@ ASTFunction::read(XMLInputStream& stream, const std::string& reqd_prefix)
   {
     read = readPiecewise(stream, reqd_prefix, currentElement);
   }
-  else if (representsQualifier(getTypeFromName(currentName)) == true)
+  else if (representsQualifierNode(getTypeFromName(currentName)) == true)
   {
     read = readQualifier(stream, reqd_prefix, currentElement);
   }
@@ -3732,85 +3800,32 @@ ASTFunction::readApply(XMLInputStream& stream, const std::string& reqd_prefix,
     done = true;
   }
 
-
-  while (done == false && i <= numPlugins)
+  if (done == false)
   {
-    ASTBasePlugin* plugin = static_cast<ASTBasePlugin*>(getPlugin(i)); 
-    
-    if (representsUnaryFunction(type, plugin) == true)  
-    {
-      reset();
-      mUnaryFunction = new ASTUnaryFunctionNode();
-      mUnaryFunction->setExpectedNumChildren(numChildren);
-      read = mUnaryFunction->read(stream, reqd_prefix);
-      if (read == true && mUnaryFunction != NULL)
-      {
-        // if the type came from a plugin set the packagename
-        if (type > AST_UNKNOWN)
-        {
-          mUnaryFunction->setPackageName(plugin->getPackageName());
-        }
-        this->ASTBase::syncMembersAndResetParentsFrom(mUnaryFunction);
-        done = true;
-      }
-      else if (read == false)
-      {
-        stream.skipPastEnd(nextElement);   
-        done = true;
-      }
-    }
-    else if (representsBinaryFunction(type, plugin) == true)
-    {
-      reset();
-      mBinaryFunction = new ASTBinaryFunctionNode();
-      mBinaryFunction->setExpectedNumChildren(numChildren);
-      read = mBinaryFunction->read(stream, reqd_prefix);
-      if (read == true && mBinaryFunction != NULL)
-      {
-        // if the type came from a plugin set the packagename
-        if (type > AST_UNKNOWN)
-        {
-          mBinaryFunction->setPackageName(plugin->getPackageName());
-        }
-        this->ASTBase::syncMembersAndResetParentsFrom(mBinaryFunction);
-        done = true;
-      }
-      else if (read == false)
-      {
-        stream.skipPastEnd(nextElement);   
-        done = true;
-      }
-    }
-    else if (representsNaryFunction(type, plugin) == true)
-    {
-      reset();
-      mNaryFunction = new ASTNaryFunctionNode();
-      mNaryFunction->setExpectedNumChildren(numChildren);
-      read = mNaryFunction->read(stream, reqd_prefix);
-      if (read == true && mNaryFunction != NULL)
-      {
-        if (numChildren > 2 && (type == AST_TIMES || type == AST_PLUS))
-        {
-          /* HACK to repliacte old behaviour */
-          mNaryFunction->reduceOperatorsToBinary();
-        }
-          
-        // if the type came from a plugin set the packagename
-        if (type > AST_UNKNOWN)
-        {
-          mNaryFunction->setPackageName(plugin->getPackageName());
-        }
-        this->ASTBase::syncMembersAndResetParentsFrom(mNaryFunction);
-        done = true;
-      }
-      else if (read == false)
-      {
-        stream.skipPastEnd(nextElement);   
-        done = true;
-      }
-    }
-    i++;
+    done = readFunctionNode(stream, reqd_prefix, nextElement, 
+                            read, type, numChildren);
   }
+
+  // if we are not done look at plugins for function name
+  // but only if we are allowed to read from that plugin
+  if (stream.getSBMLNamespaces()->getLevel() > 2)
+  {
+    while (done == false && i < numPlugins)
+    {
+      ASTBasePlugin* plugin = static_cast<ASTBasePlugin*>(getPlugin(i)); 
+      
+      // are we allowed to use the plugin
+      // ie is the ns declared
+      if (stream.getSBMLNamespaces()->getNamespaces()
+                                    ->containsUri(plugin->getURI()))
+      {
+        done = readFunctionNode(stream, reqd_prefix, nextElement, read, type, 
+                                numChildren, plugin);
+      }
+      i++;
+    }
+  }
+  
   if (done == false)
   {
     std::string message = "The element <" + nextName + "> is not a " +
@@ -3821,6 +3836,89 @@ ASTFunction::readApply(XMLInputStream& stream, const std::string& reqd_prefix,
   return read;
 }
 
+
+bool
+ASTFunction::readFunctionNode(XMLInputStream& stream, const std::string& reqd_prefix,
+                  const XMLToken& nextElement, bool& read,
+                  int type, unsigned int numChildren, ASTBasePlugin* plugin)
+{
+  bool done = false;
+  
+  if (representsUnaryFunction(type, plugin) == true)  
+  {
+    reset();
+    mUnaryFunction = new ASTUnaryFunctionNode();
+    mUnaryFunction->setExpectedNumChildren(numChildren);
+    read = mUnaryFunction->read(stream, reqd_prefix);
+    if (read == true && mUnaryFunction != NULL)
+    {
+      // if the type came from a plugin set the packagename
+      if (type > AST_UNKNOWN)
+      {
+        mUnaryFunction->setPackageName(plugin->getPackageName());
+      }
+      this->ASTBase::syncMembersAndResetParentsFrom(mUnaryFunction);
+      done = true;
+    }
+    else if (read == false)
+    {
+      stream.skipPastEnd(nextElement);   
+      done = true;
+    }
+  }
+  else if (representsBinaryFunction(type, plugin) == true)
+  {
+    reset();
+    mBinaryFunction = new ASTBinaryFunctionNode();
+    mBinaryFunction->setExpectedNumChildren(numChildren);
+    read = mBinaryFunction->read(stream, reqd_prefix);
+    if (read == true && mBinaryFunction != NULL)
+    {
+      // if the type came from a plugin set the packagename
+      if (type > AST_UNKNOWN)
+      {
+        mBinaryFunction->setPackageName(plugin->getPackageName());
+      }
+      this->ASTBase::syncMembersAndResetParentsFrom(mBinaryFunction);
+      done = true;
+    }
+    else if (read == false)
+    {
+      stream.skipPastEnd(nextElement);   
+      done = true;
+    }
+  }
+  else if (representsNaryFunction(type, plugin) == true)
+  {
+    reset();
+    mNaryFunction = new ASTNaryFunctionNode();
+    mNaryFunction->setExpectedNumChildren(numChildren);
+    read = mNaryFunction->read(stream, reqd_prefix);
+    if (read == true && mNaryFunction != NULL)
+    {
+      if (numChildren > 2 && (type == AST_TIMES || type == AST_PLUS))
+      {
+        /* HACK to repliacte old behaviour */
+        mNaryFunction->reduceOperatorsToBinary();
+      }
+        
+      // if the type came from a plugin set the packagename
+      if (type > AST_UNKNOWN)
+      {
+        mNaryFunction->setPackageName(plugin->getPackageName());
+      }
+      this->ASTBase::syncMembersAndResetParentsFrom(mNaryFunction);
+      done = true;
+    }
+    else if (read == false)
+    {
+      stream.skipPastEnd(nextElement);   
+      done = true;
+    }
+  }
+
+  return done;
+}
 
 bool 
 ASTFunction::readLambda(XMLInputStream& stream, const std::string& reqd_prefix,
@@ -3969,6 +4067,19 @@ ASTFunction::readQualifier(XMLInputStream& stream, const std::string& reqd_prefi
     if (numChildren > 0)
     {
       read = mQualifier->read(stream, reqd_prefix);
+
+      /* HACK for replicating old behaviour */
+      if (read == true)
+      {
+        if (mQualifier->ASTBase::representsBvar() == true)
+        {
+          for (unsigned int n = 0; n < numChildren; n++)
+          {
+            mQualifier->getChild(n)->ASTBase::setIsBvar(true);
+          }
+        }
+      }
+
     }
   }
   
@@ -4322,8 +4433,60 @@ ASTFunction::syncMembersAndTypeFrom(ASTFunction* rhs, int type)
       node->setType(type);
       this->ASTBase::syncMembersFrom(node);
       // note this will clone plugins and therefore any children they may have
-      // so do not recopy teh children
-      copyChildren = false;
+      // so do not recopy the children
+      if (rhs->getNumChildren() == this->getNumChildren())
+      {
+        copyChildren = false;
+      }
+    }
+  }
+
+  if (copyChildren == true)
+  {
+    for (unsigned int i = 0; i < rhs->getNumChildren(); i++)
+    {
+      this->addChild(rhs->getChild(i)->deepCopy());
+    }
+  }
+}
+
+
+void
+ASTFunction::syncPackageMembersAndTypeFrom(ASTFunction* rhs, int type)
+{
+  bool copyChildren = true;
+  if (mIsOther == true)
+  {
+    ASTBase * node = NULL;
+    if (mPackageName.empty() == false && mPackageName != "core")
+    {
+      node = const_cast<ASTBase*>(getPlugin(mPackageName)->getMath());
+    }
+    else
+    {
+      unsigned int i = 0;
+      bool found = false;
+      while (found == false && i < getNumPlugins())
+      {
+        if (getPlugin(i)->isSetMath() == true)
+        {
+          node = const_cast<ASTBase*>(getPlugin(i)->getMath());
+          found = true;
+        }
+        i++;
+      }
+    }
+
+    if (node != NULL)
+    {
+      node->ASTBase::syncMembersOnlyFrom(rhs);
+      this->ASTBase::syncMembersOnlyFrom(node);
+      // note this will clone plugins and therefore any children they may have
+      // so do not recopy the children
+      if (rhs->getNumChildren() == this->getNumChildren())
+      {
+        copyChildren = false;
+      }
     }
   }
 
@@ -4397,6 +4560,27 @@ ASTFunction::reset()
   mIsOther = false;
 }
 
+
+bool
+ASTFunction::representsQualifierNode(int type)
+{
+  bool valid = false;
+  
+  unsigned int i = 0;
+
+  while (valid == false && i <= ASTBase::getNumPlugins())
+  {
+    ASTBasePlugin* plugin = static_cast<ASTBasePlugin*>(getPlugin(i)); 
+    
+    if (representsQualifier(type, plugin) == true)  
+    {
+      valid = true;
+    }
+    i++;
+  }
+
+  return valid;
+}
 LIBSBML_CPP_NAMESPACE_END
 
 

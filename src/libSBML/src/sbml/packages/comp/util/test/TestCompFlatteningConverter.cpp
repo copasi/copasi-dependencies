@@ -64,7 +64,8 @@ START_TEST (test_comp_get_flattening_converter)
   // ensure that conversion without model does not work
   fail_unless(converter->convert() == LIBSBML_INVALID_OBJECT);
 
-  Model* model = doc.createModel("model");
+  //Model* model =
+  doc.createModel("model");
 
   // now conversion should work
   fail_unless(converter->convert() == LIBSBML_OPERATION_SUCCESS);
@@ -183,6 +184,17 @@ void TestFlattenedPair(string file1, string file2)
   string ffile = filename + file2;
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
   string flatModel = writeSBMLToString(fdoc);
+/*
+  if (flatModel != newModel)
+  {
+    stringstream outName; outName << "converter_fail_new_" << file1;
+    writeSBMLToFile(doc, outName.str().c_str());
+    outName.str("");
+    outName.clear();
+    outName << "converter_fail_flat_" << file1;
+    writeSBMLToFile(fdoc, outName.str().c_str());
+  }
+*/
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1523,6 +1535,21 @@ SBMLDocument* test_flatten_qual(string orig, string flat, string noqual)
   return doc;
 }
 
+#if (0)
+// unused test
+START_TEST (test_comp_flatten_converter_layout_submodel)
+{ 
+  SBMLDocument* doc = test_flatten_layout("layout_submodel.xml", "layout_submodel_flat.xml", "layout_submodel_flat_layout_removed.xml");
+  if (SBMLExtensionRegistry::isPackageEnabled("layout") == false)
+  {
+    fail_unless(doc->getNumErrors() == 2);
+    fail_unless(doc->getErrorLog()->getError(0)->getErrorId() == UnrequiredPackagePresent);
+    fail_unless(doc->getErrorLog()->getError(1)->getErrorId() == CompFlatteningNotRecognisedNotReqd);
+  }
+  delete doc;
+}
+END_TEST
+#endif
 
 START_TEST (test_comp_flatten_converter_layout1)
 { 
@@ -1942,6 +1969,8 @@ create_suite_TestFlatteningConverter (void)
 { 
   TCase *tcase = tcase_create("SBMLCompFlatteningConverter");
   Suite *suite = suite_create("SBMLCompFlatteningConverter");
+  
+  //tcase_add_test(tcase, test_comp_flatten_converter_layout_submodel);
   
   tcase_add_test(tcase, test_comp_flatten_double_ext2);
   tcase_add_test(tcase, test_comp_get_flattening_converter);

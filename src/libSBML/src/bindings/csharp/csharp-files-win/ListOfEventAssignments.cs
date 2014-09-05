@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Implementation of SBML's %ListOfEventAssignments
- * construct.
+@htmlinclude pkg-marker-core.html A list of EventAssignment objects.
  * 
  * *
  * 
@@ -148,9 +147,9 @@ public class ListOfEventAssignments : ListOf {
 
   
 /**
-   * Creates and returns a deep copy of this ListOfEventAssignments.
+   * Creates and returns a deep copy of this ListOfEventAssignments object.
    *
-   * @return a (deep) copy of this ListOfEventAssignments.
+   * @return the (deep) copy of this ListOfEventAssignments object.
    */ public new
  ListOfEventAssignments clone() {
     IntPtr cPtr = libsbmlPINVOKE.ListOfEventAssignments_clone(swigCPtr);
@@ -164,10 +163,10 @@ public class ListOfEventAssignments : ListOf {
    * (i.e., EventAssignment objects, if the list is non-empty).
    *
    * *
- *  
+ * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;. 
+ * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -179,15 +178,15 @@ public class ListOfEventAssignments : ListOf {
  * constants in the interface class @link libsbml@endlink.@endif@if csharp In
  * the C# language interface for libSBML, the type codes are defined as
  * static integer constants in the interface class
- * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3 
+ * @link libsbmlcs.libsbml@endlink.@endif  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
  * to which a given object belongs, call the <code>getPackageName()</code>
  * method on the object.
- * 
+ *
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs.libsbml.SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT@endlink (default).
+   * @link libsbmlcs#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -297,7 +296,7 @@ public class ListOfEventAssignments : ListOf {
    * @param id string representing the id of objects to find
    *
    * @return pointer to the first element found with the given @p id.
-   */ public
+   */ public new
  SBase getElementBySId(string id) {
 	SBase ret = (SBase) libsbml.DowncastSBase(libsbmlPINVOKE.ListOfEventAssignments_getElementBySId(swigCPtr, id), false);
 	return ret;

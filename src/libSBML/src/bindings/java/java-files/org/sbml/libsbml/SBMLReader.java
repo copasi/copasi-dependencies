@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  Methods for reading SBML from files and text strings.
+ *  File and text-string SBML reader.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -19,26 +19,22 @@ defined in SBML.
 </p>
 
  <p>
- * The {@link SBMLReader} class provides the main interface for reading SBML
- * content from files and strings.  The methods for reading SBML all return
- * an {@link SBMLDocument} object representing the results.
- <p>
- * In the case of failures (such as if the SBML contains errors or a file
- * cannot be read), the errors will be recorded with the {@link SBMLErrorLog}
- * object kept in the {@link SBMLDocument} returned by {@link SBMLReader}.  Consequently,
- * immediately after calling a method on {@link SBMLReader}, callers should always
- * check for errors and warnings using the methods for this purpose
- * provided by {@link SBMLDocument}.
+ * The {@link SBMLReader} class provides the main interface for reading SBML content
+ * from files and strings.  The methods for reading SBML all return an
+ * {@link SBMLDocument}
+ * object representing the results.  In the case of failures (such as if the
+ * SBML contains errors or a file cannot be read), the errors will be
+ * recorded with the {@link SBMLErrorLog} object kept in the
+ * {@link SBMLDocument}
+ * returned by {@link SBMLReader}.  Consequently, immediately after calling a method
+ * on {@link SBMLReader}, callers should always check for errors and warnings using
+ * the methods for this purpose provided by {@link SBMLDocument}.
  <p>
  * For convenience as well as easy access from other languages besides C++,
- * this file also defines two global functions,
- * {@link libsbml#readSBML(String filename)}
- * and {@link libsbml#readSBMLFromString(String xml)}.
- * They are equivalent to creating an {@link SBMLReader}
- * object and then calling the
- * {@link SBMLReader#readSBML(String filename)} or
- * {@link SBMLReader#readSBMLFromString(String xml)}
- * methods, respectively.
+ * this file also defines two global functions, <a href='libsbml.html#readSBML(java.lang.String)'><code>libsbml.readSBML(String)</code></a> and <a href='libsbml.html#readSBMLFromString(java.lang.String)'><code>libsbml.readSBMLFromString(String)</code></a>.  They are
+ * equivalent to creating an {@link SBMLReader} object and then calling the
+ * {@link SBMLReader#readSBML(String)} and
+ * {@link SBMLReader#readSBMLFromString(String)} methods, respectively.
  <p>
  * <h2>Support for reading compressed files</h2>
  <p>
@@ -48,16 +44,18 @@ defined in SBML.
  * deliberate to invoke the functionality.  If a given SBML filename ends
  * with an extension for the <em>gzip</em>, <em>zip</em> or <em>bzip2</em> compression
  * formats (respectively, <code>.gz</code>, <code>.zip</code>, or <code>.bz2</code>), then the methods
- * {@link SBMLReader#readSBML(String filename)} and
- * {@link SBMLWriter#writeSBML(SBMLDocument d, String filename)}
- * will automatically decompress and compress the file while writing and
- * reading it.  If the filename has no such extension, it
- * will be read and written uncompressed as normal.
+ * @link {@link SBMLReader#readSBML(String)} {@link SBMLReader}.readSBML(String)@endlink and
+ * @link {@link SBMLWriter#writeSBML(String)} {@link SBMLWriter}.writeSBML(String)@endlink
+ * will automatically decompress and compress the file while reading and
+ * writing it.  If the filename has no such extension, it will be read and
+ * written uncompressed as normal.
  <p>
  * The compression feature requires that the <em>zlib</em> (for <em>gzip</em> and 
  * <em>zip</em> formats) and/or <em>bzip2</em> (for <em>bzip2</em> format) be available on the
  * system running libSBML, and that libSBML was configured with their
- * support compiled-in.  Please see the libSBML <a href='../../../libsbml-installation.html'>installation instructions</a>  for more information about this.  The methods
+ * support compiled-in.  Please see the libSBML
+ * <a href='../../../libsbml-installation.html'>installation instructions</a> 
+ * for more information about this.  The methods
  * {@link SBMLReader#hasZlib()} and
  * {@link SBMLReader#hasBzip2()}
  * can be used by an application to query at run-time whether support
@@ -164,9 +162,9 @@ public class SBMLReader {
 
   
 /**
-   * Creates a new {@link SBMLReader} and returns it. 
+   * Creates a new {@link SBMLReader} object and returns it.
    <p>
-   * The libSBML {@link SBMLReader} objects offer methods for reading SBML in
+   * The libSBML {@link SBMLReader} object offers methods for reading SBML in
    * XML form from files and text strings.
    */ public
  SBMLReader() {
@@ -175,51 +173,56 @@ public class SBMLReader {
 
   
 /**
-   * Reads an SBML document from a file.
-   <p>
-   * This method is identical to {@link SBMLReader#readSBMLFromFile(String filename)}.
-   <p>
-   * If the file named <code>filename</code> does not exist or its content is not
-   * valid SBML, one or more errors will be logged with the {@link SBMLDocument}
-   * object returned by this method.  Callers can use the methods on
-   * {@link SBMLDocument} such as {@link SBMLDocument#getNumErrors()} and
-   * {@link SBMLDocument#getError(long n)} to get the errors.  The object returned by
-   * {@link SBMLDocument#getError(long n)} is an {@link SBMLError} object, and it has methods to
-   * get the error code, category, and severity level of the problem, as
-   * well as a textual description of the problem.  The possible severity
-   * levels range from informational messages to fatal errors; see the
-   * documentation for {@link SBMLError} for more information.
-   <p>
-   * If the file <code>filename</code> could not be read, the file-reading error will
-   * appear first.  The error code  can provide a clue about what happened.  For example,
-   * a file might be unreadable (either because it does not actually exist
-   * or because the user does not have the necessary access priviledges to
-   * read it) or some sort of file operation error may have been reported
-   * by the underlying operating system.  Callers can check for these
-   * situations using a program fragment such as the following:
-   * <div class='fragment'><pre class='fragment'>
- {@link SBMLReader} reader = new {@link SBMLReader}();
- {@link SBMLDocument} doc  = reader.readSBMLFromFile(filename);
- 
- if (doc.getNumErrors() &gt; 0)
- {
-     if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileUnreadable)
-     {
-         // Handle case of unreadable file here.
-     } 
-     else if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileOperationError)
-     {
-         // Handle case of other file operation error here.
-     }
-     else
-     {
-         // Handle other error cases.
-     }
- }
- </pre></div>
- <p>
-   <p>
    * <p>
+ * Reads an SBML document from the given file.
+ <p>
+ * If the file named <code>filename</code> does not exist or its content is not
+ * valid SBML, one or more errors will be logged with the
+ * {@link SBMLDocument}
+ * object returned by this method.  Callers can use the methods on
+ * {@link SBMLDocument} such as
+ * {@link SBMLDocument#getNumErrors()}
+ * and
+ * {@link SBMLDocument#getError(long)}
+ * to get the errors.  The object returned by
+ * {@link SBMLDocument#getError(long)}
+ * is an {@link SBMLError} object, and it has methods to get the error code,
+ * category, and severity level of the problem, as well as a textual
+ * description of the problem.  The possible severity levels range from
+ * informational messages to fatal errors; see the documentation for
+ * {@link SBMLError}
+ * for more information.
+ <p>
+ * If the file <code>filename</code> could not be read, the file-reading error will
+ * appear first.  The error code  can provide a clue about what
+ * happened.  For example, a file might be unreadable (either because it does
+ * not actually exist or because the user does not have the necessary access
+ * priviledges to read it) or some sort of file operation error may have been
+ * reported by the underlying operating system.  Callers can check for these
+ * situations using a program fragment such as the following:
+ <p>
+<pre class='fragment'>
+{@link SBMLReader} reader = new {@link SBMLReader}();
+{@link SBMLDocument} doc  = reader.readSBMLFromFile(filename);
+
+if (doc.getNumErrors() &gt; 0)
+{
+    if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileUnreadable)
+    {
+        // Handle case of unreadable file here.
+    }
+    else if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileOperationError)
+    {
+        // Handle case of other file operation error here.
+    }
+    else
+    {
+        // Handle other error cases.
+    }
+}
+</pre>
+<p>
+ * <p>
  * If the given filename ends with the suffix <code>'.gz'</code> (for example, 
  * <code>'myfile.xml.gz'</code>), the file is assumed to be compressed in <em>gzip</em>
  * format and will be automatically decompressed upon reading.
@@ -229,8 +232,8 @@ public class SBMLReader {
  * uncompressed.  Note that if the file is in <em>zip</em> format but the
  * archive contains more than one file, only the first file in the
  * archive will be read and the rest ignored.
-   <p>
-   * <p>
+ <p>
+ * <p>
  * To read a gzip/zip file, libSBML needs to be configured and linked with the
  * <a target='_blank' href='http://www.zlib.net/'>zlib</a> library at compile
  * time.  It also needs to be linked with the <a target='_blank'
@@ -239,9 +242,13 @@ public class SBMLReader {
  * files will be logged if a compressed filename is given and libSBML was
  * <em>not</em> linked with the corresponding required library.
    <p>
+   * This method is identical to
+   * @link {@link SBMLReader#readSBMLFromFile(String)} {@link SBMLReader}.readSBMLFromFile(String)@endlink.
+   <p>
    * @param filename the name or full pathname of the file to be read.
    <p>
-   * @return a pointer to the {@link SBMLDocument} created from the SBML content.
+   * @return a pointer to the {@link SBMLDocument} object created from the SBML
+   * content in <code>filename</code>.
    <p>
    * <p>
  * @note LibSBML versions 2.x and later versions behave differently in
@@ -260,6 +267,7 @@ public class SBMLReader {
  * reporting, and sometimes libSBML has to resort to the lowest common
  * denominator.
    <p>
+   * @see #readSBMLFromString(String)
    * @see SBMLError
    * @see SBMLDocument
    */ public
@@ -270,51 +278,56 @@ public class SBMLReader {
 
   
 /**
-   * Reads an SBML document from a file.
-   <p>
-   * This method is identical to {@link SBMLReader#readSBML(String filename)}.
-   <p>
-   * If the file named <code>filename</code> does not exist or its content is not
-   * valid SBML, one or more errors will be logged with the {@link SBMLDocument}
-   * object returned by this method.  Callers can use the methods on
-   * {@link SBMLDocument} such as {@link SBMLDocument#getNumErrors()} and
-   * {@link SBMLDocument#getError(long n)} to get the errors.  The object returned by
-   * {@link SBMLDocument#getError(long n)} is an {@link SBMLError} object, and it has methods to
-   * get the error code, category, and severity level of the problem, as
-   * well as a textual description of the problem.  The possible severity
-   * levels range from informational messages to fatal errors; see the
-   * documentation for {@link SBMLError} for more information.
-   <p>
-   * If the file <code>filename</code> could not be read, the file-reading error will
-   * appear first.  The error code  can provide a clue about what happened.  For example,
-   * a file might be unreadable (either because it does not actually exist
-   * or because the user does not have the necessary access priviledges to
-   * read it) or some sort of file operation error may have been reported
-   * by the underlying operating system.  Callers can check for these
-   * situations using a program fragment such as the following:
-   * <div class='fragment'><pre class='fragment'>
- {@link SBMLReader} reader = new {@link SBMLReader}();
- {@link SBMLDocument} doc  = reader.readSBMLFromFile(filename);
- 
- if (doc.getNumErrors() &gt; 0)
- {
-     if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileUnreadable)
-     {
-         // Handle case of unreadable file here.
-     } 
-     else if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileOperationError)
-     {
-         // Handle case of other file operation error here.
-     }
-     else
-     {
-         // Handle other error cases.
-     }
- }
- </pre></div>
- <p>
-   <p>
    * <p>
+ * Reads an SBML document from the given file.
+ <p>
+ * If the file named <code>filename</code> does not exist or its content is not
+ * valid SBML, one or more errors will be logged with the
+ * {@link SBMLDocument}
+ * object returned by this method.  Callers can use the methods on
+ * {@link SBMLDocument} such as
+ * {@link SBMLDocument#getNumErrors()}
+ * and
+ * {@link SBMLDocument#getError(long)}
+ * to get the errors.  The object returned by
+ * {@link SBMLDocument#getError(long)}
+ * is an {@link SBMLError} object, and it has methods to get the error code,
+ * category, and severity level of the problem, as well as a textual
+ * description of the problem.  The possible severity levels range from
+ * informational messages to fatal errors; see the documentation for
+ * {@link SBMLError}
+ * for more information.
+ <p>
+ * If the file <code>filename</code> could not be read, the file-reading error will
+ * appear first.  The error code  can provide a clue about what
+ * happened.  For example, a file might be unreadable (either because it does
+ * not actually exist or because the user does not have the necessary access
+ * priviledges to read it) or some sort of file operation error may have been
+ * reported by the underlying operating system.  Callers can check for these
+ * situations using a program fragment such as the following:
+ <p>
+<pre class='fragment'>
+{@link SBMLReader} reader = new {@link SBMLReader}();
+{@link SBMLDocument} doc  = reader.readSBMLFromFile(filename);
+
+if (doc.getNumErrors() &gt; 0)
+{
+    if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileUnreadable)
+    {
+        // Handle case of unreadable file here.
+    }
+    else if (doc.getError(0).getErrorId() == libsbmlConstants.XMLFileOperationError)
+    {
+        // Handle case of other file operation error here.
+    }
+    else
+    {
+        // Handle other error cases.
+    }
+}
+</pre>
+<p>
+ * <p>
  * If the given filename ends with the suffix <code>'.gz'</code> (for example, 
  * <code>'myfile.xml.gz'</code>), the file is assumed to be compressed in <em>gzip</em>
  * format and will be automatically decompressed upon reading.
@@ -324,8 +337,8 @@ public class SBMLReader {
  * uncompressed.  Note that if the file is in <em>zip</em> format but the
  * archive contains more than one file, only the first file in the
  * archive will be read and the rest ignored.
-   <p>
-   * <p>
+ <p>
+ * <p>
  * To read a gzip/zip file, libSBML needs to be configured and linked with the
  * <a target='_blank' href='http://www.zlib.net/'>zlib</a> library at compile
  * time.  It also needs to be linked with the <a target='_blank'
@@ -334,9 +347,13 @@ public class SBMLReader {
  * files will be logged if a compressed filename is given and libSBML was
  * <em>not</em> linked with the corresponding required library.
    <p>
+   * This method is identical to
+   * @link {@link SBMLReader#readSBML(String)} {@link SBMLReader}.readSBML(String)@endlink.
+   <p>
    * @param filename the name or full pathname of the file to be read.
    <p>
-   * @return a pointer to the {@link SBMLDocument} created from the SBML content.
+   * @return a pointer to the {@link SBMLDocument} object created from the SBML
+   * content in <code>filename</code>.
    <p>
    * <p>
  * @note LibSBML versions 2.x and later versions behave differently in
@@ -355,6 +372,7 @@ public class SBMLReader {
  * reporting, and sometimes libSBML has to resort to the lowest common
  * denominator.
    <p>
+   * @see #readSBMLFromString(String)
    * @see SBMLError
    * @see SBMLDocument
    */ public
@@ -365,31 +383,38 @@ public class SBMLReader {
 
   
 /**
-   * Reads an SBML document from the given XML string.
-   <p>
-   * This method is flexible with respect to the presence of an XML
-   * declaration at the beginning of the string.  In particular, if the
-   * string in <code>xml</code> does not begin with the XML declaration
-   * <code>&lt;?xml version='1.0' encoding='UTF-8'?&gt;</code>, then this
-   * method will automatically prepend the declaration to <code>xml</code>.
-   <p>
-   * This method will log a fatal error if the content given in the
-   * parameter <code>xml</code> is not SBML.  See the method documentation for
-   * {@link SBMLReader#readSBML(String filename)}
-   * for an example of code for testing the returned error code.
+   * <p>
+ * Reads an SBML document from a text string.
+ <p>
+ * This method is flexible with respect to the presence of an XML
+ * declaration at the beginning of the string.  In particular, if the
+ * string in <code>xml</code> does not begin with the XML declaration
+ * <pre class='fragment'>
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+</pre>
+ * then this method will automatically prepend the declaration
+ * to <code>xml</code>.
+ <p>
+ * This method will log a fatal error if the content given in the parameter
+ * <code>xml</code> is not in SBML format.  See the method documentation for
+ * {@link SBMLReader#readSBML(String)} for an example of code for
+ * testing the returned error code.
    <p>
    * @param xml a string containing a full SBML model
    <p>
-   * @return a pointer to the {@link SBMLDocument} created from the SBML content.
+   * @return a pointer to the {@link SBMLDocument} created from the SBML content,
+   * or a null pointer if <code>xml</code> is null.
    <p>
-   * @note When using this method to read an {@link SBMLDocument} that uses 
-   * the SBML L3 Hierarchical {@link Model} Composition package (comp) the
-   * document location cannot be set automatically. Thus, if the model
-   * contains references to ExternalModelDefinitions, it will be necessary
-   * to manually set the document URI location (setLocationURI) in order 
-   * to facilitate resolving these models.
+   * <p>
+ * @note When using this method to read an {@link SBMLDocument} that uses the SBML
+ * Level&nbsp;3 Hierarchical Model Composition package (comp) the document
+ * location cannot be set automatically. Thus, if the model contains
+ * references to ExternalModelDefinition objects, it will be necessary to
+ * manually set the document URI location
+ * ({@link SBMLDocument#setLocationURI(String)} in order to facilitate
+ * resolving these models.
    <p>
-   * @see SBMLReader#readSBML(String filename)
+   * @see SBMLReader#readSBML(String)
    */ public
  SBMLDocument readSBMLFromString(String xml) {
     long cPtr = libsbmlJNI.SBMLReader_readSBMLFromString(swigCPtr, this, xml);
@@ -406,7 +431,7 @@ public class SBMLReader {
    <p>
    * 
    <p>
-   * @see SBMLReader#hasBzip2() 
+   * @see SBMLReader#hasBzip2()
    */ public
  static boolean hasZlib() {
     return libsbmlJNI.SBMLReader_hasZlib();
@@ -422,7 +447,7 @@ public class SBMLReader {
    <p>
    * 
    <p>
-   * @see SBMLReader#hasZlib() 
+   * @see SBMLReader#hasZlib()
    */ public
  static boolean hasBzip2() {
     return libsbmlJNI.SBMLReader_hasBzip2();

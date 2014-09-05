@@ -14,8 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Log of errors and other events encountered during SBML
- * processing.
+@htmlinclude pkg-marker-core.html Log of diagnostics reported during processing.
  *
  * @htmlinclude not-sbml-warning.html
  *
@@ -195,7 +194,7 @@ public class SBMLErrorLog : XMLErrorLog {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details, long line, long column, long severity, long category) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_0(swigCPtr, errorId, level, version, details, line, column, severity, category);
@@ -227,7 +226,7 @@ public class SBMLErrorLog : XMLErrorLog {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details, long line, long column, long severity) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_1(swigCPtr, errorId, level, version, details, line, column, severity);
@@ -259,7 +258,7 @@ public class SBMLErrorLog : XMLErrorLog {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details, long line, long column) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_2(swigCPtr, errorId, level, version, details, line, column);
@@ -291,7 +290,7 @@ public class SBMLErrorLog : XMLErrorLog {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details, long line) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_3(swigCPtr, errorId, level, version, details, line);
@@ -323,7 +322,7 @@ public class SBMLErrorLog : XMLErrorLog {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_4(swigCPtr, errorId, level, version, details);
@@ -355,7 +354,7 @@ public class SBMLErrorLog : XMLErrorLog {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_5(swigCPtr, errorId, level, version);
@@ -387,7 +386,7 @@ public class SBMLErrorLog : XMLErrorLog {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ /* libsbml-internal */ public
  void logError(long errorId, long level) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_6(swigCPtr, errorId, level);
@@ -419,7 +418,7 @@ public class SBMLErrorLog : XMLErrorLog {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ /* libsbml-internal */ public
  void logError(long errorId) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_7(swigCPtr, errorId);
@@ -451,7 +450,7 @@ public class SBMLErrorLog : XMLErrorLog {
    * @param category an integer indicating the category to which the error
    * belongs.
    *
-   * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ /* libsbml-internal */ public
  void logError() {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_8(swigCPtr);

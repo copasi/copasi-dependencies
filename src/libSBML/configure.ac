@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 20004 $)
+AC_REVISION($Revision: 20535 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -545,6 +545,7 @@ AC_CONFIG_FILES([docs/src/doxygen-config-python.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-perl.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-matlab.txt])
 AC_CONFIG_FILES([docs/src/java-substitutions/libsbmlConstants.java])
+AC_CONFIG_FILES([docs/src/libsbml-accessing.html])
 AC_CONFIG_FILES([docs/src/libsbml-installation.html])
 AC_CONFIG_FILES([docs/src/libsbml-group-core-intro.html])
 AC_CONFIG_FILES([docs/src/libsbml-group-comp-intro.html])
@@ -600,27 +601,32 @@ dnl ---------------------------------------------------------------------------
 
 AC_CONFIG_FILES([src/bindings/csharp/local-downcast-extension.i])
 AC_CONFIG_FILES([src/bindings/csharp/local-downcast-namespaces.i])
+AC_CONFIG_FILES([src/bindings/csharp/local-downcast-converters.i])
 AC_CONFIG_FILES([src/bindings/csharp/local-packages.i])
 
 AC_CONFIG_FILES([src/bindings/java/local-downcast-extension.i])
 AC_CONFIG_FILES([src/bindings/java/local-downcast-namespaces.i])
+AC_CONFIG_FILES([src/bindings/java/local-downcast-converters.i])
 AC_CONFIG_FILES([src/bindings/java/local-packages.i])
 
 AC_CONFIG_FILES([src/bindings/perl/local-downcast.cpp])
 AC_CONFIG_FILES([src/bindings/perl/local-downcast-extension.cpp])
 AC_CONFIG_FILES([src/bindings/perl/local-downcast-namespaces.cpp])
+AC_CONFIG_FILES([src/bindings/perl/local-downcast-converters.cpp])
 AC_CONFIG_FILES([src/bindings/perl/local-downcast-plugins.cpp])
 AC_CONFIG_FILES([src/bindings/perl/local-packages.i])
 
 AC_CONFIG_FILES([src/bindings/python/local-downcast.cpp])
 AC_CONFIG_FILES([src/bindings/python/local-downcast-extension.cpp])
 AC_CONFIG_FILES([src/bindings/python/local-downcast-namespaces.cpp])
+AC_CONFIG_FILES([src/bindings/python/local-downcast-converters.cpp])
 AC_CONFIG_FILES([src/bindings/python/local-downcast-plugins.cpp])
 AC_CONFIG_FILES([src/bindings/python/local-packages.i])
 
 AC_CONFIG_FILES([src/bindings/ruby/local-downcast.cpp])
 AC_CONFIG_FILES([src/bindings/ruby/local-downcast-extension.cpp])
 AC_CONFIG_FILES([src/bindings/ruby/local-downcast-namespaces.cpp])
+AC_CONFIG_FILES([src/bindings/ruby/local-downcast-converters.cpp])
 AC_CONFIG_FILES([src/bindings/ruby/local-downcast-plugins.cpp])
 AC_CONFIG_FILES([src/bindings/ruby/local-packages.i])
 
