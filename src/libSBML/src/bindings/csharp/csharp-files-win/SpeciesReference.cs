@@ -551,7 +551,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setStoichiometry(double value) {
     int ret = libsbmlPINVOKE.SpeciesReference_setStoichiometry(swigCPtr, value);
@@ -597,10 +597,10 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    */ public
  int setStoichiometryMath(StoichiometryMath math) {
     int ret = libsbmlPINVOKE.SpeciesReference_setStoichiometryMath(swigCPtr, StoichiometryMath.getCPtr(math));
@@ -628,7 +628,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setDenominator(int value) {
     int ret = libsbmlPINVOKE.SpeciesReference_setDenominator(swigCPtr, value);
@@ -646,8 +646,8 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int setConstant(bool flag) {
     int ret = libsbmlPINVOKE.SpeciesReference_setConstant(swigCPtr, flag);
@@ -661,9 +661,9 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * In SBML Level 2, product and reactant stoichiometries can be specified
    * using <em>either</em> 'stoichiometry' or 'stoichiometryMath' in a
@@ -702,8 +702,8 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note In SBML Level&nbsp;1, the 'stoichiometry' attribute of this
    * SpeciesReference object will be just reset to a default value (@c 1.0)
@@ -756,7 +756,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
    * @see appendAnnotation(string annotation)
@@ -784,8 +784,8 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
    * @see appendAnnotation(string annotation)
@@ -811,8 +811,8 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see setAnnotation(string annotation)
    * @see setAnnotation(XMLNode annotation)
@@ -838,8 +838,8 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see setAnnotation(string annotation)
    * @see setAnnotation(XMLNode annotation)
@@ -877,7 +877,7 @@ public class SpeciesReference : SimpleSpeciesReference {
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE@endlink (default).
+   * @link libsbml#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

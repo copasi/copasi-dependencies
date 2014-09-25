@@ -603,8 +603,8 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setId(string sid) {
     int ret = libsbmlPINVOKE.Reaction_setId(swigCPtr, sid);
@@ -623,8 +623,8 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setName(string name) {
     int ret = libsbmlPINVOKE.Reaction_setName(swigCPtr, name);
@@ -642,9 +642,9 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
   */ public
  int setKineticLaw(KineticLaw kl) {
     int ret = libsbmlPINVOKE.Reaction_setKineticLaw(swigCPtr, KineticLaw.getCPtr(kl));
@@ -661,7 +661,7 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setReversible(bool value) {
     int ret = libsbmlPINVOKE.Reaction_setReversible(swigCPtr, value);
@@ -678,7 +678,7 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * 
    * * 
  * @warning <span class='warning'>SBML definitions before SBML Level&nbsp;2
@@ -712,9 +712,9 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The 'compartment' attribute is available in SBML
    * Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
@@ -733,8 +733,8 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.Reaction_unsetName(swigCPtr);
@@ -749,8 +749,8 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetKineticLaw() {
     int ret = libsbmlPINVOKE.Reaction_unsetKineticLaw(swigCPtr);
@@ -765,8 +765,8 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * * 
  * @warning <span class='warning'>SBML definitions before SBML Level&nbsp;2
@@ -796,9 +796,9 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The 'compartment' attribute is available in SBML
    * Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
@@ -822,12 +822,12 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -863,10 +863,10 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -903,12 +903,12 @@ public class Reaction : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -1335,7 +1335,7 @@ public class Reaction : SBase {
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_REACTION SBML_REACTION@endlink (default).
+   * @link libsbml#SBML_REACTION SBML_REACTION@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible

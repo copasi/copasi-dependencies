@@ -1005,7 +1005,7 @@ allowed to modify it.
 
 
 %feature("docstring") SBase "
-SBML's SBase, the base class of most SBML objects.
+SBML's SBase class, the base class of most SBML objects.
 
 Most components in SBML are derived from a single abstract base type,
 SBase.  In addition to serving as the parent class for most other
@@ -1152,7 +1152,8 @@ identifier.
 Returns a List of all child SBase objects, including those nested to
 an arbitrary depth.
 
-Returns a pointer to a List of pointers to all children objects.
+Returns a pointer to a List of pointers to all objects that are
+children of this object.
 ";
 
 
@@ -1485,7 +1486,8 @@ unsetAnnotation().
 
 
 %feature("docstring") SBase::getNamespaces "
-Returns a list of the XML Namespaces declared on this SBML document.
+Returns a list of the XML Namespaces declared on the SBML document
+owning this object.
 
 The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
 information.  It is used to communicate the SBML Level, Version, and
@@ -1628,11 +1630,11 @@ not set.
 
 
 %feature("docstring") SBase::getSBOTermAsURL "
-Returns the identifiers.org URL representation of the 'sboTerm'
-attribute of this object.
+Returns the URL representation of the 'sboTerm' attribute of this
+object.
 
 This method returns the entire SBO identifier as a text string in the
-form  'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'.
+form http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'.
 
 SBO terms are a type of optional annotation, and each different class
 of SBML object derived from SBase imposes its own requirements about
@@ -1640,10 +1642,8 @@ the values permitted for 'sboTerm'.  Please consult the SBML Level 2
 Version 4 specification for more information about the use of SBO and
 the 'sboTerm' attribute.
 
-Returns the value of the 'sboTerm' attribute as an identifiers.org URL
-(its value will be of the form
-'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'), or an empty
-string if the value is not set.
+Returns the value of the 'sboTerm' attribute as an identifiers.org
+URL, or an empty string if the value is not set.
 ";
 
 
@@ -2849,16 +2849,16 @@ plug-ins supporting additional Level 3 packages.
 
 Parameter 'n' is the index of the plug-in to return
 
-Returns the plug-in object (the libSBML extension interface) of a
-package extension with the given package name or URI.
+Returns the nth plug-in object (the libSBML extension interface) of a
+package extension.
 
-______________________________________________________________________
-Method variant with the following signature:
+See also getNumPlugins(), getPlugin(), getPlugin().
+";
 
-getPlugin(string package)
 
-Returns a plug-in object (extension interface) for an SBML Level 3
-package extension with the given package name or URI.
+%feature("docstring") SBase::getDisabledPlugin "
+Returns the nth disabled plug-in object (extension interface) for an
+SBML Level 3 package extension.
 
 SBML Level 3 consists of a Core definition that can be extended via
 optional SBML Level 3 packages.  A given model may indicate that it
@@ -2874,10 +2874,12 @@ SBML package.  A given SBML model may thus contain not only objects
 defined by SBML Level 3 Core, but also objects created by libSBML
 plug-ins supporting additional Level 3 packages.
 
-Parameter 'package' is the name or URI of the package
+Parameter 'n' is the index of the disabled plug-in to return
 
-Returns the plug-in object (the libSBML extension interface) of a
-package extension with the given package name or URI.
+Returns the nth disabled plug-in object (the libSBML extension
+interface) of a package extension.
+
+See also getNumDisabledPlugins(), getPlugin().
 ";
 
 
@@ -2901,6 +2903,42 @@ plug-ins supporting additional Level 3 packages.
 
 Returns the number of plug-in objects (extension interfaces) of
 package extensions known by this instance of libSBML.
+
+See also getPlugin().
+";
+
+
+%feature("docstring") SBase::getNumDisabledPlugins "
+Returns the number of disabled plug-in objects (extenstion interfaces)
+for SBML Level 3 package extensions known.
+
+SBML Level 3 consists of a Core definition that can be extended via
+optional SBML Level 3 packages.  A given model may indicate that it
+uses one or more SBML packages, and likewise, a software tool may be
+able to support one or more packages.  LibSBML does not come
+preconfigured with all possible packages included and enabled, in part
+because not all package specifications have been finalized.  To
+support the ability for software systems to enable support for the
+Level 3 packages they choose, libSBML features a plug-in mechanism.
+Each SBML Level 3 package is implemented in a separate code plug-in
+that can be enabled by the application to support working with that
+SBML package.  A given SBML model may thus contain not only objects
+defined by SBML Level 3 Core, but also objects created by libSBML
+plug-ins supporting additional Level 3 packages.
+
+Returns the number of disabled plug-in objects (extension interfaces)
+of package extensions known by this instance of libSBML.
+";
+
+
+%feature("docstring") SBase::deleteDisabledPlugins "
+Deletes all information stored in disabled plugins.
+
+Parameter 'recursive' is if True, the disabled information will be
+deleted also from all child elements, otherwise only from this SBase
+element.
+
+See also getNumDisabledPlugins().
 ";
 
 
@@ -2963,7 +3001,7 @@ being added.  Here is a code example to help clarify this:
     doc.printErrors()
     sys.exit(1)
   
-  # We extract one of the species from the model we just read in.
+  # We extract one of the species from the model.
   
   model = doc.getModel()
   if model == None:
@@ -3979,7 +4017,7 @@ the overall container for the lists of the various model components.
 All of the lists are optional, but if a given list container is
 present within the model, the list must not be empty; that is, it must
 have length one or more.  The following are the components and lists
-permitted in different Levels and Versions of SBML in version 5.10.2
+permitted in different Levels and Versions of SBML in version 5.10.3
 of libSBML:
 
 * In SBML Level 1, the components are: UnitDefinition, Compartment,
@@ -4098,7 +4136,7 @@ Consistency and adherence to SBML specifications
 ======================================================================
 
 To make it easier for applications to do whatever they need, libSBML
-version 5.10.2 is relatively lax when it comes to enforcing
+version 5.10.3 is relatively lax when it comes to enforcing
 correctness and completeness of models during model construction and
 editing. Essentially, libSBML will not in most cases check
 automatically that a model's components have valid attribute values,
@@ -7732,7 +7770,7 @@ or using the methods on the SBMLErrorLog object.
 The default SBML Level of new SBMLDocument objects.
 
 This 'default Level' corresponds to the most recent SBML
-specification Level available at the time libSBML version 5.10.2 was
+specification Level available at the time libSBML version 5.10.3 was
 released.  The default Level is used by SBMLDocument if no Level is
 explicitly specified at the time of the construction of an
 SBMLDocument instance.
@@ -7758,7 +7796,7 @@ The default Version of new SBMLDocument objects.
 
 This 'default Version' corresponds to the most recent Version within
 the most recent Level of SBML available at the time libSBML version
-5.10.2 was released.  The default Version is used by SBMLDocument if
+5.10.3 was released.  The default Version is used by SBMLDocument if
 no Version is explicitly specified at the time of the construction of
 an SBMLDocument instance.
 
@@ -7879,6 +7917,14 @@ Returns the result of calling v.visit().
 Creates and returns a deep copy of this SBMLDocument object.
 
 Returns the (deep) copy of this SBMLDocument object.
+";
+
+
+%feature("docstring") SBMLDocument::isSetModel "
+Returns True if the Model object has been set, otherwise  returns
+False.
+
+Returns True if the Model object has been set
 ";
 
 
@@ -19204,7 +19250,7 @@ Returns the XML element name of this object.
 
 The returned value can be any of a number of different strings,
 depending on the SBML Level in use and the kind of Rule object this
-is.  The rules as of libSBML version 5.10.2 are the following:
+is.  The rules as of libSBML version 5.10.3 are the following:
 
 * (Level 2 and 3) RateRule: returns 'rateRule'
 
@@ -31481,7 +31527,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
 ";
@@ -31887,9 +31933,14 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLFunctionDefinitionConverter::init "
+Internal implementation method.
 ";
 
 
@@ -32094,9 +32145,14 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLIdConverter::init "
+Internal implementation method.
 ";
 
 
@@ -32273,13 +32329,18 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
 ";
 
 
-%feature("docstring") SBMLInferUnitsConverter "
+%feature("docstring") SBMLInferUnitsConverter::init "
+Internal implementation method.
+";
+
+
+%feature("docstring") SBMLInferUnitsConverter::SBMLInferUnitsConverter "
 This method has multiple variants; they differ in the arguments  they
 accept.  Each variant is described separately below.
 
@@ -32301,7 +32362,7 @@ Parameter 'obj' is the SBMLInferUnitsConverter object to copy.
 ";
 
 
-%feature("docstring") clone "
+%feature("docstring") SBMLInferUnitsConverter::clone "
 Creates and returns a deep copy of this SBMLInferUnitsConverter
 object.
 
@@ -32309,7 +32370,7 @@ Returns a (deep) copy of this converter.
 ";
 
 
-%feature("docstring") matchesProperties "
+%feature("docstring") SBMLInferUnitsConverter::matchesProperties "
 Returns True if this converter object's properties match the given
 properties.
 
@@ -32326,7 +32387,7 @@ Returns True if this converter's properties match, False otherwise.
 ";
 
 
-%feature("docstring") convert "
+%feature("docstring") SBMLInferUnitsConverter::convert "
 Perform the conversion.
 
 This method causes the converter to do the actual conversion work,
@@ -32347,7 +32408,7 @@ The possible values are:
 ";
 
 
-%feature("docstring") getDefaultProperties "
+%feature("docstring") SBMLInferUnitsConverter::getDefaultProperties "
 Returns the default properties of this converter.
 
 A given converter exposes one or more properties that can be adjusted
@@ -32467,9 +32528,14 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLInitialAssignmentConverter::init "
+Internal implementation method.
 ";
 
 
@@ -32657,13 +32723,18 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
 ";
 
 
-%feature("docstring") SBMLLevelVersionConverter "
+%feature("docstring") SBMLLevelVersionConverter::init "
+Internal implementation method.
+";
+
+
+%feature("docstring") SBMLLevelVersionConverter::SBMLLevelVersionConverter "
 This method has multiple variants; they differ in the arguments  they
 accept.  Each variant is described separately below.
 
@@ -32686,7 +32757,7 @@ Parameter 'obj' is the SBMLLevelVersionConverter object to copy.
 ";
 
 
-%feature("docstring") clone "
+%feature("docstring") SBMLLevelVersionConverter::clone "
 Creates and returns a deep copy of this SBMLLevelVersionConverter
 object.
 
@@ -32694,7 +32765,7 @@ Returns a (deep) copy of this converter.
 ";
 
 
-%feature("docstring") matchesProperties "
+%feature("docstring") SBMLLevelVersionConverter::matchesProperties "
 Returns True if this converter object's properties match the given
 properties.
 
@@ -32711,7 +32782,7 @@ Returns True if this converter's properties match, False otherwise.
 ";
 
 
-%feature("docstring") convert "
+%feature("docstring") SBMLLevelVersionConverter::convert "
 Perform the conversion.
 
 This method causes the converter to do the actual conversion work,
@@ -32734,7 +32805,7 @@ The possible values are:
 ";
 
 
-%feature("docstring") getDefaultProperties "
+%feature("docstring") SBMLLevelVersionConverter::getDefaultProperties "
 Returns the default properties of this converter.
 
 A given converter exposes one or more properties that can be adjusted
@@ -32748,21 +32819,21 @@ properties for this converter.
 ";
 
 
-%feature("docstring") getTargetLevel "
+%feature("docstring") SBMLLevelVersionConverter::getTargetLevel "
 Returns the target SBML Level for the conversion.
 
 Returns an integer indicating the SBML Level.
 ";
 
 
-%feature("docstring") getTargetVersion "
+%feature("docstring") SBMLLevelVersionConverter::getTargetVersion "
 Returns the target SBML Version for the conversion.
 
 Returns an integer indicating the Version within the SBML Level.
 ";
 
 
-%feature("docstring") getValidityFlag "
+%feature("docstring") SBMLLevelVersionConverter::getValidityFlag "
 Returns the flag indicating whether the conversion has been set to
 'strict'.
 
@@ -32868,9 +32939,14 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLLocalParameterConverter::init "
+Internal implementation method.
 ";
 
 
@@ -33047,9 +33123,14 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLReactionConverter::init "
+Internal implementation method.
 ";
 
 
@@ -33321,9 +33402,14 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLRuleConverter::init "
+Internal implementation method.
 ";
 
 
@@ -33501,9 +33587,14 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLStripPackageConverter::init "
+Internal implementation method.
 ";
 
 
@@ -33692,9 +33783,14 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.10.2:
+provided by libSBML 5.10.3:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLUnitsConverter::init "
+Internal implementation method.
 ";
 
 
@@ -36502,11 +36598,11 @@ debugging purposes.
 %feature("docstring") XMLNode "
 A node in libSBML's XML document tree.
 
-Beginning with version 3.0.0, libSBML implements an XML abstraction
-layer.  This layer presents a uniform XML interface to calling
-programs regardless of which underlying XML parser libSBML has
-actually been configured to use.  The basic data object in the XML
-abstraction is a node, represented by XMLNode.
+LibSBML implements an XML abstraction layer.  This layer presents a
+uniform XML interface to calling programs regardless of which
+underlying XML parser libSBML has actually been configured to use.
+The basic data object in the XML abstraction is a node, represented by
+XMLNode.
 
 An XMLNode can contain any number of children.  Each child is another
 XMLNode, thereby forming a tree.  The methods XMLNode.getNumChildren()
@@ -36524,20 +36620,21 @@ Conversion between an XML string and an XMLNode
 LibSBML provides the following utility functions for converting an XML
 string (e.g., <annotation>...</annotation>) to/from an XMLNode object.
 
-* XMLNode.toXMLString() returns a string representation of the XMLNode
-object.
+* XMLNode.toXMLString() returns a string representation of the
+XMLNode object.
 
-* XMLNode.convertXMLNodeToString() (static function) returns a string
-representation  of the given XMLNode object.
+* XMLNode.convertXMLNodeToString() (static function) returns a
+string representation of the given XMLNode object.
 
 * XMLNode.convertStringToXMLNode() (static function) returns an
-XMLNode object converted  from the given XML string. The returned
-XMLNode object by XMLNode.convertStringToXMLNode() is a dummy root
-(container) XMLNode if the given XML string has two or more top-level
-elements (e.g., \" ... ...\"). In the dummy root node, each top-level
-element in the given XML string is contained as a child XMLNode.
-XMLToken.isEOF() can be used to identify if the returned XMLNode
-object is a dummy node or not.  Here is an example:
+XMLNode object converted from the given XML string.
+
+The returned XMLNode object by XMLNode.convertStringToXMLNode() is a
+dummy root (container) XMLNode if the given XML string has two or more
+top-level elements (e.g., \" ... ...\"). In the dummy root node, each
+top-level element in the given XML string is contained as a child
+XMLNode. XMLToken.isEOF() can be used to identify if the returned
+XMLNode object is a dummy node or not.  Here is an example:
 
   xn = XMLNode.convertStringToXMLNode(\'<p></p>\')
   if xn == None:
@@ -36780,7 +36877,7 @@ getChild(string  name)
 
 Returns the first child of this XMLNode with the corresponding name.
 
-If no child with corrsponding name can be found,  this method returns
+If no child with corrsponding name can be found, this method returns
 an empty node.
 
 Parameter 'name' is the name of the node to return
@@ -37053,21 +37150,41 @@ different XML parsers (Xerces, Expat or libxml2), libSBML implements
 an abstraction layer.  XMLInputStream and XMLOutputStream are two
 parts of that abstraction layer.
 
-XMLOutputStream provides a wrapper above a standard ostream to
-facilitate writing XML.  XMLOutputStream keeps track of start and end
-elements, indentation, XML namespace prefixes, and more.  The
-interface provides features for converting non-text data types into
-appropriate textual form; this takes the form of overloaded
-writeAttribute methods that allow users to simply use the same method
-with any data type.  For example,
+XMLOutputStream provides a wrapper above output streams to facilitate
+writing XML.  XMLOutputStream keeps track of start and end elements,
+indentation, XML namespace prefixes, and more.  The interface provides
+features for converting non-text data types into appropriate textual
+form; this takes the form of overloaded writeAttribute(...) methods
+that allow users to simply use the same method with any data type.
+For example, suppose an element testElement has two attributes, size
+and id, and the attributes are variables in your code as follows:
 
-  double size = 3.2;
-  string id = \'id\';
+  size = 3.2;
+  id = \'id\';
 
-can be written out using
+Then, the element and the attributes can be written to the standard
+output stream (provided as cout in the libSBML language bindings) as
+follows:
 
-  writeAttribute(\'size\', size);
-  writeAttribute(\'id\', id);
+  from libsbml import *
+  
+  size = 3.2;
+  id = \'id\';
+  
+  # Create an XMLOutputStream object that will write to the standard
+  # output stream, which is provide in libSBML\'s Python language
+  # interface as the object \'libsbml.cout\'.  Since we imported * from
+  # the libsbml module, we can simply refer to it as \'cout\' here:
+  
+  output_stream = XMLOutputStream(cout)
+  
+  # Create the start element, write the attributes, and close the
+  # element.  The output is written immediately by each method.
+  
+  output_stream.startElement(\'testElement\')
+  output_stream.writeAttribute(\'size\', size)
+  output_stream.writeAttribute(\'id\', id)
+  output_stream.endElement(\'testElement\')
 
 Other classes in SBML take XMLOutputStream objects as arguments, and
 use that to write elements and attributes seamlessly to the XML output
@@ -37520,11 +37637,27 @@ string to write as a comment in the output stream.
 
 %feature("docstring") XMLOutputStream::downIndent "
 Decreases the indentation level for this XMLOutputStream.
+
+LibSBML tries to produce human-readable XML output by automatically
+indenting the bodies of elements.  Callers can manually control
+indentation further by using the XMLOutputStream.upIndent() and
+XMLOutputStream.downIndent() methods to increase and decrease,
+respectively, the current level of indentation in the XML output.
+
+See also upIndent().
 ";
 
 
 %feature("docstring") XMLOutputStream::upIndent "
 Increases the indentation level for this XMLOutputStream.
+
+LibSBML tries to produce human-readable XML output by automatically
+indenting the bodies of elements.  Callers can manually control
+indentation further by using the XMLOutputStream.upIndent() and
+XMLOutputStream.downIndent() methods to increase and decrease,
+respectively, the current level of indentation in the XML output.
+
+See also downIndent().
 ";
 
 
@@ -39784,7 +39917,7 @@ of its meaning.
 with SBMLError objects
 ......................................................................
 
-In libSBML version 5.10.2 there are no additional severity codes
+In libSBML version 5.10.3 there are no additional severity codes
 beyond those defined by XMLError. They are implemented as static
 integer constants defined in the interface class libsbml, and have
 names beginning with LIBSBML_SEV_.
@@ -41925,8 +42058,8 @@ accept.  Each variant is described separately below.
 ______________________________________________________________________
 Method variant with the following signature:
 
-parseRDFAnnotation(XMLNodeannotation, List *CVTerms, string metaId
-= None, XMLInputStream stream = None)
+parseRDFAnnotation(XMLNode annotation, List *CVTerms, string
+metaId = None, XMLInputStream stream = None)
 
 Parses an annotation (given as an XMLNode tree) into a list of CVTerm
 objects.
@@ -41954,7 +42087,7 @@ functionally identical.
 ______________________________________________________________________
 Method variant with the following signature:
 
-parseRDFAnnotation(XMLNodeannotation, string metaId = None,
+parseRDFAnnotation(XMLNode annotation, string metaId = None,
 XMLInputStream stream = None)
 
 Parses an annotation into a ModelHistory class instance.
@@ -41993,16 +42126,16 @@ MIRIAM-style annotations, and that sbmlObject is an SBML object
 derived from SBase (e.g., a Model, or a Species, or a Compartment,
 etc.).  Then:
 
-  RDF     = RDFAnnotationParser.createRDFAnnotation() # Create RDF annotation XML structure.
+  RDF     = RDFAnnotationParser.createRDFAnnotation() # Create XML structure.
   success = RDF.addChild(...content...)               # Put some content into it.
-  ...                                                 # Check \'success\' return code value.
+  ...                                                 # Check return code value.
   
-  annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation> container.
-  success = annot.addChild(RDF)                       # Put the RDF annotation into it.
-  ...                                                 # Check \'success\' return code value.
+  annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation>.
+  success = annot.addChild(RDF)                       # Put the annotation into it.
+  ...                                                 # Check return code value.
   
-  success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation to what we built.
-  ...                                                 # Check \'success\' return code value.
+  success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
+  ...                                                 # Check return code value.
 
 The SBML specification contains more information about the format of
 annotations.  We urge readers to consult Section 6 of the SBML Level 2
@@ -42414,7 +42547,7 @@ implementations such as:
 
 *  virtual void setSBMLDocument(SBMLDocument d)
 
-*  virtual void connectToParent(SBasesbase)
+*  virtual void connectToParent(SBase sbase)
 
 *  virtual void enablePackageInternal(string pkgURI, string
 pkgPrefix, bool flag)  These functions must be overridden by
@@ -42706,8 +42839,8 @@ accept.  Each variant is described separately below.
 ______________________________________________________________________
 Method variant with the following signature:
 
-SBMLDocumentPlugin(string &uri, string &prefix,
-SBMLNamespacessbmlns)
+SBMLDocumentPlugin(string &uri, string &prefix, SBMLNamespaces
+sbmlns)
 
 Constructor
 
@@ -43206,6 +43339,14 @@ registered, otherwise false will be returned.
 Returns a list of registered packages (such as 'layout', 'fbc' or
 'comp') the list contains char* strings and has to be freed by the
 caller.
+
+Returns the names of the registered packages in a list
+";
+
+
+%feature("docstring") SBMLExtensionRegistry::getAllRegisteredPackageNames "
+Returns a vector of registered packages (such as 'layout', 'fbc' or
+'comp') the vector contains strings.
 
 Returns the names of the registered packages in a list
 ";

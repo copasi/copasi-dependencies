@@ -14,7 +14,7 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html SBML's <em>%SBase</em>, the base class of most SBML objects.
+@htmlinclude pkg-marker-core.html SBML's %SBase class, the base class of most SBML objects.
  *
  * Most components in SBML are derived from a single abstract base type,
  * SBase.  In addition to serving as the parent class for most other
@@ -707,7 +707,8 @@ public class SBase : IDisposable {
 
   
 /**
-   * Returns a list of the XML Namespaces declared on this SBML document.
+   * Returns a list of the XML Namespaces declared on the SBML document
+   * owning this object.
    *
    * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
    * information.  It is used to communicate the SBML Level, Version, and (in
@@ -938,12 +939,11 @@ public class SBase : IDisposable {
 
   
 /**
-   * Returns the identifiers.org URL representation of the 'sboTerm' attribute of
-   * this object.
+   * Returns the URL representation of the 'sboTerm' attribute of this
+   * object.
    *
-   * This method returns the entire SBO
-   * identifier as a text string in the form 
-   * 'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'.
+   * This method returns the entire SBO identifier as a text string in the
+   * form <code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://identifiers.org/biomodels.sbo/SBO:NNNNNNN'</code>.
    *
    * SBO terms are a type of optional annotation, and each different class
    * of SBML object derived from SBase imposes its own requirements about
@@ -951,10 +951,8 @@ public class SBase : IDisposable {
    * Level&nbsp;2 Version&nbsp;4 specification for more information about
    * the use of SBO and the 'sboTerm' attribute.
    *
-   * @return the value of the 'sboTerm' attribute as an identifiers.org URL
-   * (its value will be of the form 
-   * 'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'), or an empty string if
-   * the value is not set.
+   * @return the value of the 'sboTerm' attribute as an identifiers.org URL,
+   * or an empty string if the value is not set.
    */ public
  string getSBOTermAsURL() {
     string ret = libsbmlPINVOKE.SBase_getSBOTermAsURL(swigCPtr);
@@ -965,7 +963,7 @@ public class SBase : IDisposable {
 /**
    * Returns the line number on which this object first appears in the XML
    * representation of the SBML document.
-   * 
+   *
    * @return the line number of this SBML object.
    *
    * @note The line number for each construct in an SBML model is set upon
@@ -1207,9 +1205,9 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @see getMetaId()
    * @see isSetMetaId()
@@ -1285,7 +1283,7 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1334,8 +1332,8 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1378,8 +1376,8 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1422,8 +1420,8 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -1460,10 +1458,10 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
-   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
+   * @li @link libsbml#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
    *
    * @see replaceTopLevelAnnotationElement(XMLNode )
    * @see replaceTopLevelAnnotationElement(string)
@@ -1496,10 +1494,10 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
-   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
+   * @li @link libsbml#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
    *
    * @see replaceTopLevelAnnotationElement(XMLNode )
    * @see replaceTopLevelAnnotationElement(string)
@@ -1532,10 +1530,10 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
-   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
+   * @li @link libsbml#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
    *
    * @see replaceTopLevelAnnotationElement(XMLNode )
    * @see replaceTopLevelAnnotationElement(string)
@@ -1565,9 +1563,9 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see removeTopLevelAnnotationElement(string elementName, string elementURI)
    * @see replaceTopLevelAnnotationElement(string)
@@ -1597,9 +1595,9 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see removeTopLevelAnnotationElement(string elementName, string elementURI)
    * @see replaceTopLevelAnnotationElement(XMLNode)
@@ -1641,8 +1639,8 @@ public class SBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1735,9 +1733,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1830,9 +1828,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1878,9 +1876,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1926,9 +1924,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -1954,9 +1952,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * 
    * @note In SBML Level&nbsp;2, model history annotations were only
    * permitted on the Model element.  In SBML Level&nbsp;3, they are
@@ -2024,9 +2022,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see setSBOTerm(@if java String@else string sboid@endif)
    */ public new
@@ -2060,9 +2058,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see setSBOTerm(int value)
    */ public new
@@ -2086,7 +2084,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setNamespaces(XMLNamespaces xmlns) {
     int ret = libsbmlPINVOKE.SBase_setNamespaces(swigCPtr, XMLNamespaces.getCPtr(xmlns));
@@ -2123,9 +2121,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *  
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetMetaId() {
     int ret = libsbmlPINVOKE.SBase_unsetMetaId(swigCPtr);
@@ -2143,8 +2141,8 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetId() {
     int ret = libsbmlPINVOKE.SBase_unsetId(swigCPtr);
@@ -2190,8 +2188,8 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * 
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.SBase_unsetName(swigCPtr);
@@ -2224,7 +2222,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -2259,7 +2257,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getAnnotation()
    * @see getAnnotationString()
@@ -2280,8 +2278,8 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int unsetSBOTerm() {
     int ret = libsbmlPINVOKE.SBase_unsetSBOTerm(swigCPtr);
@@ -2300,11 +2298,11 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
    * this object lacks a 'metaid' attribute
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note Since the CV Term uses the 'metaid' attribute of the object as a
    * reference, if the object has no 'metaid' attribute value set, then the
@@ -2343,11 +2341,11 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
    * this object lacks a 'metaid' attribute
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note Since the CV Term uses the 'metaid' attribute of the object as a
    * reference, if the object has no 'metaid' attribute value set, then the
@@ -2416,8 +2414,8 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetCVTerms() {
     int ret = libsbmlPINVOKE.SBase_unsetCVTerms(swigCPtr);
@@ -2430,9 +2428,9 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
    * @note In SBML Level&nbsp;2, model history annotations were only
    * permitted on the Model element.  In SBML Level&nbsp;3, they are
@@ -2489,7 +2487,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * <code>'http://www.geneontology.org/#GO:0005892'</code>.
    *
    * @return the qualifier associated with the resource,
-   * or @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink if the
+   * or @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink if the
    * resource does not exist.
    *
    * @if clike
@@ -2573,7 +2571,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * <code>'http://www.geneontology.org/#GO:0005892'</code>.
    *
    * @return the @if clike #ModelQualifierType_t value@else model qualifier
-   * type@endif associated with the resource, or @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink if the resource does not exist.
+   * type@endif associated with the resource, or @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink if the resource does not exist.
    *
    * @if clike
    * @note The set of MIRIAM biological qualifiers grows over
@@ -2867,7 +2865,7 @@ void example (SBase sb)
  *
    *
    * @return the @if clike #SBMLTypeCode_t value@else SBML object type
-   * code@endif of this SBML object, or @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink (the default).  The latter is possible because
+   * code@endif of this SBML object, or @link libsbml#SBML_UNKNOWN SBML_UNKNOWN@endlink (the default).  The latter is possible because
    * subclasses of SBase are not required to implement this method to return
    * a type code.
    *
@@ -2889,19 +2887,18 @@ void example (SBase sb)
 
   
 /**
-   * Predicate returning @c true if this
-   * object's level/version and namespace values correspond to a valid
-   * SBML specification.
+   * Predicate returning @c true if this object's level/version and namespace
+   * values correspond to a valid SBML specification.
    *
    * The valid combinations of SBML Level, Version and Namespace as of this
    * release of libSBML are the following:
    * <ul>
-   * <li> Level&nbsp;1 Version&nbsp;2: <code>'http://www.sbml.org/sbml/level1'</code>
-   * <li> Level&nbsp;2 Version&nbsp;1: <code>'http://www.sbml.org/sbml/level2'</code>
-   * <li> Level&nbsp;2 Version&nbsp;2: <code>'http://www.sbml.org/sbml/level2/version2'</code>
-   * <li> Level&nbsp;2 Version&nbsp;3: <code>'http://www.sbml.org/sbml/level2/version3'</code>
-   * <li> Level&nbsp;2 Version&nbsp;4: <code>'http://www.sbml.org/sbml/level2/version4'</code>
-   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code>'http://www.sbml.org/sbml/level3/version1/core'</code>
+   * <li> Level&nbsp;1 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level1'</code>
+   * <li> Level&nbsp;2 Version&nbsp;1: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2'</code>
+   * <li> Level&nbsp;2 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version2'</code>
+   * <li> Level&nbsp;2 Version&nbsp;3: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version3'</code>
+   * <li> Level&nbsp;2 Version&nbsp;4: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version4'</code>
+   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level3/version1/core'</code>
    * </ul>
    *
    * @return @c true if the level, version and namespace values of this 
@@ -2987,6 +2984,8 @@ void example (SBase sb)
    *
    * @return the plug-in object (the libSBML extension interface) of
    * a package extension with the given package name or URI.
+   *
+   * @see getPlugin(long n)
    */ public
  SBasePlugin getPlugin(string package) {
         SBasePlugin ret = (SBasePlugin) libsbml.DowncastSBasePlugin(libsbmlPINVOKE.SBase_getPlugin__SWIG_0(swigCPtr, package), false);
@@ -3018,11 +3017,50 @@ void example (SBase sb)
    *
    * @param n the index of the plug-in to return
    *
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
+   * @return the nth plug-in object (the libSBML extension interface) of a
+   * package extension.
+   *
+   * @see getNumPlugins()
+   * @see getPlugin(@if java String@else string package@endif)
    */ public
  SBasePlugin getPlugin(long n) {
         SBasePlugin ret = (SBasePlugin) libsbml.DowncastSBasePlugin(libsbmlPINVOKE.SBase_getPlugin__SWIG_2(swigCPtr, n), false);
+        return ret;
+}
+
+  
+/**
+   * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension.
+   *
+   * *
+ * 
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+ *
+ *
+   *
+   * @param n the index of the disabled plug-in to return
+   *
+   * @return the nth disabled plug-in object (the libSBML extension interface) of a
+   * package extension.
+   *
+   * @see getNumDisabledPlugins()
+   * @see getPlugin(@if java String@else string package@endif)
+   */ public
+ SBasePlugin getDisabledPlugin(long n) {
+        SBasePlugin ret = (SBasePlugin) libsbml.DowncastSBasePlugin(libsbmlPINVOKE.SBase_getDisabledPlugin__SWIG_0(swigCPtr, n), false);
         return ret;
 }
 
@@ -3051,8 +3089,65 @@ void example (SBase sb)
    *
    * @return the number of plug-in objects (extension interfaces) of
    * package extensions known by this instance of libSBML.
+   *
+   * @see getPlugin(long n)
    */ public
  long getNumPlugins() { return (long)libsbmlPINVOKE.SBase_getNumPlugins(swigCPtr); }
+
+  
+/**
+   * Returns the number of disabled plug-in objects (extenstion interfaces) 
+   * for SBML Level&nbsp;3 package extensions known.
+   *
+   * *
+ * 
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+ *
+ *
+   *
+   * @return the number of disabled plug-in objects (extension interfaces) 
+   * of package extensions known by this instance of libSBML.
+   *
+   */ public
+ long getNumDisabledPlugins() { return (long)libsbmlPINVOKE.SBase_getNumDisabledPlugins(swigCPtr); }
+
+  
+/** 
+   * Deletes all information stored in disabled plugins. 
+   *
+   * @param recursive if @c true, the disabled information will be deleted
+   * also from all child elements, otherwise only from this SBase element.
+   *
+   * @see getNumDisabledPlugins()
+   */ public
+ void deleteDisabledPlugins(bool recursive) {
+    libsbmlPINVOKE.SBase_deleteDisabledPlugins__SWIG_0(swigCPtr, recursive);
+  }
+
+  
+/** 
+   * Deletes all information stored in disabled plugins. 
+   *
+   * @param recursive if @c true, the disabled information will be deleted
+   * also from all child elements, otherwise only from this SBase element.
+   *
+   * @see getNumDisabledPlugins()
+   */ public
+ void deleteDisabledPlugins() {
+    libsbmlPINVOKE.SBase_deleteDisabledPlugins__SWIG_1(swigCPtr);
+  }
 
   
 /**
@@ -3073,10 +3168,10 @@ void example (SBase sb)
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
+   * @li @link libsbml#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
    *
    * @see disablePackage(string pkgURI, string pkgPrefix)
    */ public
@@ -3105,23 +3200,26 @@ void example (SBase sb)
    * object being added.  Here is a code example to help clarify this:
    * @if cpp
 @code{.cpp}
-// We read in an SBML L3V1 model that uses the 'comp' package namespace
+// We read in an SBML L3V1 model that uses the 'comp'
+// package namespace.
 doc = readSBML('sbml-file-with-comp-elements.xml');
 
-// We extract one of the species from the model we just read in.
+// We extract one of the species from the model.
 Species s1 = doc->getModel()->getSpecies(0);
 
-// We construct a new model.  This model does not use the 'comp' package.
+// We construct a new model.  This model does not use the
+// 'comp' package.
 Model  newModel = new Model(3,1);
 
-// The following will fail with an error, because addSpecies() will
-// first check that the parent of the given object has namespaces
-// declared, and will discover that s1 does but newModel does not.
+// The following will fail with an error, because addSpecies()
+// will first check that the parent of the given object has
+// namespaces declared, and will discover that s1 does but
+// newModel does not.
 
 // newModel->addSpecies(s1);
 
-// However, if we disable the 'comp' package on s1, then the call
-// to addSpecies will work.
+// However, if we disable the 'comp' package on s1, then
+// the call to addSpecies will work.
 
 s1->disablePackage('http://www.sbml.org/sbml/level3/version1/comp/version1',
                    'comp');
@@ -3142,7 +3240,7 @@ if doc.getNumErrors() > 0:
   doc.printErrors()
   sys.exit(1)
 
-# We extract one of the species from the model we just read in.
+# We extract one of the species from the model.
 
 model = doc.getModel()
 if model == None:
@@ -3225,10 +3323,10 @@ newModel.addSpecies(s1);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
+   * @li @link libsbml#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
    *
    * @see enablePackage(string pkgURI, string pkgPrefix, bool flag)
    */ public
@@ -3418,8 +3516,8 @@ newModel.addSpecies(s1);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int removeFromParentAndDelete() {
     int ret = libsbmlPINVOKE.SBase_removeFromParentAndDelete(swigCPtr);

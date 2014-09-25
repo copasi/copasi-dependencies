@@ -1838,7 +1838,7 @@ setValue(value, 0);
    * previously stored in this node are reset to zero.
    <p>
    * @see #getType()
-   * @see #setType(ASTNodeType_t type)
+   * @see #setType(int)
    */ public
  int setType(int type) {
     return libsbmlJNI.ASTNode_setType(swigCPtr, this, type);

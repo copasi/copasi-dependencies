@@ -179,8 +179,8 @@ public class SimpleSpeciesReference : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setSpecies(string sid) {
     int ret = libsbmlPINVOKE.SimpleSpeciesReference_setSpecies(swigCPtr, sid);
@@ -221,9 +221,9 @@ public class SimpleSpeciesReference : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public new
  int setId(string sid) {
     int ret = libsbmlPINVOKE.SimpleSpeciesReference_setId(swigCPtr, sid);
@@ -241,9 +241,9 @@ public class SimpleSpeciesReference : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public new
  int setName(string name) {
     int ret = libsbmlPINVOKE.SimpleSpeciesReference_setName(swigCPtr, name);
@@ -257,8 +257,8 @@ public class SimpleSpeciesReference : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetId() {
     int ret = libsbmlPINVOKE.SimpleSpeciesReference_unsetId(swigCPtr);
@@ -272,8 +272,8 @@ public class SimpleSpeciesReference : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.SimpleSpeciesReference_unsetName(swigCPtr);

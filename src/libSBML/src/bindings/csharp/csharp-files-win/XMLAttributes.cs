@@ -145,7 +145,7 @@ public class XMLAttributes : IDisposable {
    * @return an integer code indicating the success or failure of the
    * function.  The possible values returned by this
    * function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @note if local name with the same namespace URI already exists in this 
    * attribute set, its value and prefix will be replaced.
@@ -170,7 +170,7 @@ public class XMLAttributes : IDisposable {
    * @return an integer code indicating the success or failure of the
    * function.  The possible values returned by this
    * function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @note if local name with the same namespace URI already exists in this 
    * attribute set, its value and prefix will be replaced.
@@ -195,7 +195,7 @@ public class XMLAttributes : IDisposable {
    * @return an integer code indicating the success or failure of the
    * function.  The possible values returned by this
    * function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @note if local name with the same namespace URI already exists in this 
    * attribute set, its value and prefix will be replaced.
@@ -220,7 +220,7 @@ public class XMLAttributes : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int add(XMLTriple triple, string value) {
     int ret = libsbmlPINVOKE.XMLAttributes_add__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple), value);
@@ -236,8 +236,8 @@ public class XMLAttributes : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removeResource(int n) {
     int ret = libsbmlPINVOKE.XMLAttributes_removeResource(swigCPtr, n);
@@ -254,8 +254,8 @@ public class XMLAttributes : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int remove(int n) {
     int ret = libsbmlPINVOKE.XMLAttributes_remove__SWIG_0(swigCPtr, n);
@@ -273,8 +273,8 @@ public class XMLAttributes : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int remove(string name, string uri) {
     int ret = libsbmlPINVOKE.XMLAttributes_remove__SWIG_1(swigCPtr, name, uri);
@@ -292,8 +292,8 @@ public class XMLAttributes : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int remove(string name) {
     int ret = libsbmlPINVOKE.XMLAttributes_remove__SWIG_2(swigCPtr, name);
@@ -309,8 +309,8 @@ public class XMLAttributes : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int remove(XMLTriple triple) {
     int ret = libsbmlPINVOKE.XMLAttributes_remove__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple));
@@ -325,7 +325,7 @@ public class XMLAttributes : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int clear() {
     int ret = libsbmlPINVOKE.XMLAttributes_clear(swigCPtr);

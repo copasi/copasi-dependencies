@@ -186,7 +186,7 @@ public class ListOfUnitDefinitions : ListOf {
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
+   * @link libsbml#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

@@ -186,7 +186,7 @@ public class ListOfRules : ListOf {
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_RULE SBML_RULE@endlink (default).
+   * @link libsbml#SBML_RULE SBML_RULE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

@@ -186,7 +186,7 @@ public class ListOfReactions : ListOf {
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_REACTION SBML_REACTION@endlink (default).
+   * @link libsbml#SBML_REACTION SBML_REACTION@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

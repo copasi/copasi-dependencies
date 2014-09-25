@@ -86,7 +86,7 @@ struct DeletePluginEntity : public unary_function<SBasePlugin*, void>
 struct ClonePluginEntity : public unary_function<SBasePlugin*, SBasePlugin*>
 {
   SBasePlugin* operator() (SBasePlugin* sb) {
-    if (!sb) return 0;
+    if (!sb) return NULL;
     return sb->clone();
   }
 };
@@ -281,8 +281,9 @@ SBase::getAllElementsFromPlugins(ElementFilter *filter)
  * Creates a new SBase object with the given level and version.
  * Only subclasses may create SBase objects.
  */
-SBase::SBase (unsigned int level, unsigned int version) :
-   mNotes     ( NULL )
+SBase::SBase (unsigned int level, unsigned int version) 
+ : mMetaId ("")
+ , mNotes(NULL)
  , mAnnotation( NULL )
  , mSBML      ( NULL )
  , mSBMLNamespaces (NULL)
@@ -324,8 +325,9 @@ SBase::SBase (unsigned int level, unsigned int version) :
  * Creates a new SBase object with the given SBMLNamespaces.
  * Only subclasses may create SBase objects.
  */
-SBase::SBase (SBMLNamespaces *sbmlns) :
-   mNotes     ( NULL )
+SBase::SBase (SBMLNamespaces *sbmlns) 
+ : mMetaId("")
+ , mNotes(NULL)
  , mAnnotation( NULL )
  , mSBML      ( NULL )
  , mSBMLNamespaces (NULL)
@@ -482,6 +484,7 @@ SBase::~SBase ()
   mHasBeenDeleted = true;
 
   for_each( mPlugins.begin(), mPlugins.end(), DeletePluginEntity() );
+  deleteDisabledPlugins(false);
 }
 
 /*
@@ -1473,7 +1476,9 @@ SBase::appendAnnotation (const XMLNode* annotation)
     }
     else
     {
-      success = setAnnotation(mAnnotation->clone());
+      XMLNode *copy = mAnnotation->clone();
+      success = setAnnotation(copy);
+      delete copy;
     }
 
 
@@ -1547,17 +1552,42 @@ SBase::removeTopLevelAnnotationElement(const std::string elementName,
   else
   {
     // check uri matches
-    std::string prefix = mAnnotation->getChild(index).getPrefix();
-
-    if (elementURI.empty() == false
-      && elementURI != mAnnotation->getChild(index).getNamespaceURI(prefix))
+    if (elementURI.empty() == false)
     {
-      success = LIBSBML_ANNOTATION_NS_NOT_FOUND;
-      return success;
+      XMLNode child = mAnnotation->getChild(index);
+      std::string prefix = child.getPrefix();
+
+      if (prefix.empty() == false
+        && elementURI != child.getNamespaceURI(prefix))
+      {
+        success = LIBSBML_ANNOTATION_NS_NOT_FOUND;
+        return success;
+      }
+      else
+      {
+        bool match = false;
+        int n = 0;
+
+        while (match == false && n < child.getNamespacesLength())
+        {
+          if (elementURI == child.getNamespaceURI(n))
+          {
+            match = true;
+          }
+          n++;
+        }
+
+        if (match == false)
+        {
+          success = LIBSBML_ANNOTATION_NS_NOT_FOUND;
+          return success;
+        }
+      }
     }
 
     // remove the annotation at the index corresponding to the name
-    mAnnotation->removeChild(index);
+    XMLNode* removed = mAnnotation->removeChild(index);
+    delete removed;
     if (removeEmpty && mAnnotation->getNumChildren() == 0)
     {
       delete mAnnotation;
@@ -1627,8 +1657,9 @@ SBase::replaceTopLevelAnnotationElement(const std::string& annotation)
   if(annt_xmln != NULL)
   {
     success = replaceTopLevelAnnotationElement(annt_xmln);
-    delete annt_xmln;
   }
+
+  delete annt_xmln;
 
   return success;
 }
@@ -2989,6 +3020,14 @@ SBase::getPlugin(unsigned int n)
 }
 
 
+SBasePlugin*
+SBase::getDisabledPlugin(unsigned int n)
+{
+  if (n>=getNumDisabledPlugins()) return NULL;
+  return mDisabledPlugins[n];
+}
+
+
 /*
  * Returns a plugin object (extenstion interface) of package extension
  * with the given package name or URI.
@@ -3005,6 +3044,13 @@ SBase::getPlugin(unsigned int n) const
 }
 
 
+const SBasePlugin*
+SBase::getDisabledPlugin(unsigned int n) const
+{
+  return const_cast<SBase*>(this)->getDisabledPlugin(n);
+}
+
+
 /*
  * Returns the number of plugin objects of package extensions.
  *
@@ -3014,6 +3060,27 @@ unsigned int
 SBase::getNumPlugins() const
 {
   return (int)mPlugins.size();
+}
+
+unsigned int
+SBase::getNumDisabledPlugins() const
+{
+  return (int)mDisabledPlugins.size();
+}
+
+void 
+SBase::deleteDisabledPlugins(bool recursive /*= true*/)
+{
+  for_each(mDisabledPlugins.begin(), mDisabledPlugins.end(), DeletePluginEntity());
+  mDisabledPlugins.clear();
+
+  if (recursive)
+  {
+    List* list = getAllElements();
+    for (unsigned int i = 0; i < list->getSize(); ++i)
+      ((SBase*)list->get(i))->deleteDisabledPlugins();
+  }
+
 }
 
 int
@@ -3138,25 +3205,49 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
     {
 #if 0
       cout << "[DEBUG] SBase::enablePackageInternal() (uri) " <<  pkgURI
-           << " (prefix) " << pkgPrefix << " (element) " << getElementName() << endl;
+        << " (prefix) " << pkgPrefix << " (element) " << getElementName() << endl;
 #endif
-      mSBMLNamespaces->addNamespace(pkgURI,pkgPrefix);
+      mSBMLNamespaces->addNamespace(pkgURI, pkgPrefix);
     }
 
     //
-    // enable the given package
+    // go through disabled plugins, and if we have one re-enable that one, rather 
+    // than creating a new one
     //
-    const SBMLExtension* sbmlext = SBMLExtensionRegistry::getInstance().getExtensionInternal(pkgURI);
 
-    if (sbmlext)
+    bool wasDisabled = false;
+    int numDisabledPlugins = (int)mDisabledPlugins.size();
+    for (int i = numDisabledPlugins - 1; i >= 0; --i)
     {
-      SBaseExtensionPoint extPoint(getPackageName(),getTypeCode());
-      const SBasePluginCreatorBase* sbPluginCreator = sbmlext->getSBasePluginCreator(extPoint);
-      if (sbPluginCreator)
+      SBasePlugin *current = mDisabledPlugins[i];
+      std::string uri = current->getURI();
+      if (pkgURI == uri)
       {
-        SBasePlugin* entity = sbPluginCreator->createPlugin(pkgURI,pkgPrefix,getNamespaces());
-        entity->connectToParent(this);
-        mPlugins.push_back(entity);
+        mDisabledPlugins.erase(mDisabledPlugins.begin() + i);
+        current->connectToParent(this);
+        mPlugins.push_back(current);
+        wasDisabled = true;
+      }
+    }
+
+
+    if (!wasDisabled)
+    {
+      //
+      // enable the given package
+      //
+      const SBMLExtension* sbmlext = SBMLExtensionRegistry::getInstance().getExtensionInternal(pkgURI);
+
+      if (sbmlext)
+      {
+        SBaseExtensionPoint extPoint(getPackageName(), getTypeCode());
+        const SBasePluginCreatorBase* sbPluginCreator = sbmlext->getSBasePluginCreator(extPoint);
+        if (sbPluginCreator)
+        {
+          SBasePlugin* entity = sbPluginCreator->createPlugin(pkgURI, pkgPrefix, getNamespaces());
+          entity->connectToParent(this);
+          mPlugins.push_back(entity);
+        }
       }
 
     }
@@ -3183,7 +3274,8 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
         && pkgPrefix == mElementsOfUnknownDisabledPkg.getChild(i).getPrefix())
       {
         mElementsOfUnknownPkg.addChild(mElementsOfUnknownDisabledPkg.getChild(i));
-        mElementsOfUnknownDisabledPkg.removeChild(i);
+        XMLNode* removed = mElementsOfUnknownDisabledPkg.removeChild(i);
+        delete removed;
       }
       else {
         i++;
@@ -3195,12 +3287,15 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
     //
     // disable the given package
     //
-    for (size_t i=0; i < mPlugins.size(); i++)
+    int numPlugins = (int)mPlugins.size();
+    for (int i=numPlugins-1; i >= 0; --i)
     {
-      std::string uri = mPlugins[i]->getURI();
+      SBasePlugin *current = mPlugins[i];
+      std::string uri = current->getURI();
       if (pkgURI == uri)
-      {
+      {        
         mPlugins.erase( mPlugins.begin() + i );
+        mDisabledPlugins.push_back(current);
       }
     }
 
@@ -3232,7 +3327,8 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
         && pkgPrefix == mElementsOfUnknownPkg.getChild(i).getPrefix())
       {
         mElementsOfUnknownDisabledPkg.addChild(mElementsOfUnknownPkg.getChild(i));
-        mElementsOfUnknownPkg.removeChild(i);
+        XMLNode* removed = mElementsOfUnknownPkg.removeChild(i);
+        delete removed;
       }
       else {
         i++;

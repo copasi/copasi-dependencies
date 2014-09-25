@@ -209,7 +209,11 @@ public class libsbmlJNI {
   public final static native long SBase_toXMLNode(long jarg1, SBase jarg1_);
   public final static native long SBase_getPlugin__SWIG_0(long jarg1, SBase jarg1_, String jarg2);
   public final static native long SBase_getPlugin__SWIG_2(long jarg1, SBase jarg1_, long jarg2);
+  public final static native long SBase_getDisabledPlugin__SWIG_0(long jarg1, SBase jarg1_, long jarg2);
   public final static native long SBase_getNumPlugins(long jarg1, SBase jarg1_);
+  public final static native long SBase_getNumDisabledPlugins(long jarg1, SBase jarg1_);
+  public final static native void SBase_deleteDisabledPlugins__SWIG_0(long jarg1, SBase jarg1_, boolean jarg2);
+  public final static native void SBase_deleteDisabledPlugins__SWIG_1(long jarg1, SBase jarg1_);
   public final static native int SBase_enablePackage(long jarg1, SBase jarg1_, String jarg2, String jarg3, boolean jarg4);
   public final static native int SBase_disablePackage(long jarg1, SBase jarg1_, String jarg2, String jarg3);
   public final static native void SBase_enablePackageInternal(long jarg1, SBase jarg1_, String jarg2, String jarg3, boolean jarg4);
@@ -469,6 +473,7 @@ public class libsbmlJNI {
   public final static native void delete_SBMLDocument(long jarg1);
   public final static native long new_SBMLDocument__SWIG_4(long jarg1, SBMLDocument jarg1_) throws org.sbml.libsbml.SBMLConstructorException;
   public final static native long SBMLDocument_cloneObject(long jarg1, SBMLDocument jarg1_);
+  public final static native boolean SBMLDocument_isSetModel(long jarg1, SBMLDocument jarg1_);
   public final static native long SBMLDocument_getModel__SWIG_0(long jarg1, SBMLDocument jarg1_);
   public final static native long SBMLDocument_getElementBySId(long jarg1, SBMLDocument jarg1_, String jarg2);
   public final static native long SBMLDocument_getElementByMetaId(long jarg1, SBMLDocument jarg1_, String jarg2);
@@ -2058,12 +2063,12 @@ public class libsbmlJNI {
   public final static native void delete_CVTerm(long jarg1);
   public final static native long new_CVTerm__SWIG_3(long jarg1, CVTerm jarg1_);
   public final static native long CVTerm_cloneObject(long jarg1, CVTerm jarg1_);
-  public final static native int CVTerm_getQualifierType(long jarg1, CVTerm jarg1_);
-  public final static native int CVTerm_getModelQualifierType(long jarg1, CVTerm jarg1_);
-  public final static native int CVTerm_getBiologicalQualifierType(long jarg1, CVTerm jarg1_);
+  public final static native int CVTerm_getQualifierType__SWIG_0(long jarg1, CVTerm jarg1_);
+  public final static native int CVTerm_getModelQualifierType__SWIG_0(long jarg1, CVTerm jarg1_);
+  public final static native int CVTerm_getBiologicalQualifierType__SWIG_0(long jarg1, CVTerm jarg1_);
   public final static native long CVTerm_getResources__SWIG_0(long jarg1, CVTerm jarg1_);
-  public final static native long CVTerm_getNumResources(long jarg1, CVTerm jarg1_);
-  public final static native String CVTerm_getResourceURI(long jarg1, CVTerm jarg1_, long jarg2);
+  public final static native long CVTerm_getNumResources__SWIG_0(long jarg1, CVTerm jarg1_);
+  public final static native String CVTerm_getResourceURI__SWIG_0(long jarg1, CVTerm jarg1_, long jarg2);
   public final static native int CVTerm_setQualifierType(long jarg1, CVTerm jarg1_, int jarg2);
   public final static native int CVTerm_setModelQualifierType__SWIG_0(long jarg1, CVTerm jarg1_, int jarg2);
   public final static native int CVTerm_setBiologicalQualifierType__SWIG_0(long jarg1, CVTerm jarg1_, int jarg2);
@@ -2071,7 +2076,7 @@ public class libsbmlJNI {
   public final static native int CVTerm_setBiologicalQualifierType__SWIG_1(long jarg1, CVTerm jarg1_, String jarg2);
   public final static native int CVTerm_addResource(long jarg1, CVTerm jarg1_, String jarg2);
   public final static native int CVTerm_removeResource(long jarg1, CVTerm jarg1_, String jarg2);
-  public final static native boolean CVTerm_hasRequiredAttributes(long jarg1, CVTerm jarg1_);
+  public final static native boolean CVTerm_hasRequiredAttributes__SWIG_0(long jarg1, CVTerm jarg1_);
   public final static native boolean CVTerm_hasBeenModified(long jarg1, CVTerm jarg1_);
   public final static native void CVTerm_resetModifiedFlags(long jarg1, CVTerm jarg1_);
   public final static native long new_Date__SWIG_0(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5, long jarg6, long jarg7, long jarg8, long jarg9);
@@ -2268,6 +2273,7 @@ public class libsbmlJNI {
   public final static native boolean SBMLExtensionRegistry_setEnabled(long jarg1, SBMLExtensionRegistry jarg1_, String jarg2, boolean jarg3);
   public final static native boolean SBMLExtensionRegistry_isEnabled(long jarg1, SBMLExtensionRegistry jarg1_, String jarg2);
   public final static native boolean SBMLExtensionRegistry_isRegistered(long jarg1, SBMLExtensionRegistry jarg1_, String jarg2);
+  public final static native long SBMLExtensionRegistry_getAllRegisteredPackageNames();
   public final static native long SBMLExtensionRegistry_getNumRegisteredPackages();
   public final static native String SBMLExtensionRegistry_getRegisteredPackageName(long jarg1);
   public final static native boolean representsNumber(int jarg1);

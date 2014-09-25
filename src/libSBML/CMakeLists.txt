@@ -159,6 +159,25 @@ option(WITH_RUBY     "Generate the Ruby language interface for libSBML"    OFF)
 option(WITH_R        "Generate the R language interface for libSBML"       OFF)
 option(WITH_OCTAVE   "Generate the Octave language interface for libSBML." OFF)
 option(WITH_MATLAB   "Generate the MATLAB language interface for libSBML." OFF)
+option(WITH_JAVASCRIPT   "Generate the Javascript language interface for libSBML." ON)
+
+if (SWIG_VERSION)
+if (${SWIG_VERSION} VERSION_GREATER 3.0.1)
+
+  find_program(NODE_GYP_EXECUTABLE
+        NAMES node-gyp node-gyp.cmd
+        PATHS
+              /usr/local/bin
+              /opt/local/bin
+              /usr/bin
+			  $ENV{PROGRAMFILES}/nodejs/
+        DOC "The file name of the node-gyp executable."
+        )
+if (NODE_GYP_EXECUTABLE AND EXISTS ${NODE_GYP_EXECUTABLE})
+option(WITH_JAVASCRIPT   "Generate the experimental NodeJS language interface for libSBML." OFF)
+endif()
+endif()
+endif()
 
 # Add an option to compile with all warnings shown
 option(WITH_WALL     "Compile with -Wall, so that the compiler will display all warnings." OFF)
@@ -269,6 +288,8 @@ if(WITH_SWIG)
     find_program(SWIG_EXECUTABLE
         NAMES swig
         PATHS
+              c:/swigwin-3.0.2
+              c:/swigwin-3.0.1
               c:/swigwin-2.0.11
               c:/swigwin-2.0.10
               c:/swigwin-2.0.9
@@ -290,9 +311,10 @@ if(WITH_SWIG)
     if (SWIG_FOUND AND SWIG_VERSION VERSION_LESS "2.0.4")
     	message(WARNING
 "You are using SWIG version ${SWIG_VERSION}.  We strongly recommend
-using at least version 2.0.4.")
+using at least version 2.0.4, for Javascript support you will need SWIG > 3.0.1.")
     endif()
-    set(SWIG_EXTRA_ARGS)
+    set(SWIG_EXTRA_ARGS -DLIBSBML_COMPILED_IN_SRC)
+    add_definitions(-DLIBSBML_COMPILED_IN_SRC)
     set(SWIG_SWIGDOCDEFINES)
 endif(WITH_SWIG)
 
@@ -324,6 +346,7 @@ if(WITH_EXPAT)
               )
 
     add_definitions( -DUSE_EXPAT )
+    list(APPEND SWIG_EXTRA_ARGS -DUSE_EXPAT)	
 
     set(LIBSBML_XML_LIBRARY "expat")
     set(LIBSBML_XML_LIBRARY_INCLUDE ${LIBEXPAT_INCLUDE_DIR})
@@ -362,6 +385,7 @@ if(WITH_LIBXML)
               )
 
     add_definitions( -DUSE_LIBXML )
+	list(APPEND SWIG_EXTRA_ARGS -DUSE_LIBXML)	
 	set(USE_LIBXML ON)
 
     set(LIBSBML_XML_LIBRARY "libxml2")
@@ -383,6 +407,8 @@ endif(WITH_LIBXML)
 
 if(WITH_XERCES)
     add_definitions( -DUSE_XERCES )
+    list(APPEND SWIG_EXTRA_ARGS -DUSE_XERCES)
+
     find_library(XERCES_LIBRARY
         NAMES xerces-c_3.lib xerces-c
         PATHS /usr/lib /usr/local/lib
@@ -458,6 +484,7 @@ if(WITH_BZIP2)
 
     set(USE_BZ2 ON)
     add_definitions( -DUSE_BZ2 )
+	list(APPEND SWIG_EXTRA_ARGS -DUSE_BZ2)
 
     # make sure that we have a valid bzip2 library
     check_library_exists("${LIBBZ_LIBRARY}" "BZ2_bzCompressInit" "" LIBBZ_FOUND_SYMBOL)
@@ -540,6 +567,7 @@ if(WITH_ZLIB)
     endif()
     set(USE_ZLIB ON)
     add_definitions( -DUSE_ZLIB )
+	list(APPEND SWIG_EXTRA_ARGS -DUSE_ZLIB)	
 
     # make sure that we have a valid zip library
     check_library_exists("${LIBZ_LIBRARY}" "gzopen" "" LIBZ_FOUND_SYMBOL)
@@ -745,7 +773,7 @@ other operating systems.)" OFF)
         endif(ENABLE_UNIVERSAL)
     else(APPLE)
         add_definitions(-DLINUX)
-
+		
         if(NOT CYGWIN)
             # on cygwin all code is position independent so -fPIC is not needed
             set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing -fPIC")
@@ -778,10 +806,27 @@ else(UNIX)
                 if(${flag_var} MATCHES "/MD")
                     string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
                 endif(${flag_var} MATCHES "/MD")
+								
             endforeach(flag_var)
         add_definitions( -D_MT)
         endif(WITH_STATIC_RUNTIME)
 
+		# CMake no longer creates PDB files for static libraries after 2.8.11
+		# so we store debug information in the object files instead
+		if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
+            foreach(flag_var
+                CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+                CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO
+                CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
+                CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO)
+
+                if(${flag_var} MATCHES "/Zi")
+				    STRING(REPLACE "/Zi"  "/Z7" "${flag_var}" "${${flag_var}}")
+                endif(${flag_var} MATCHES "/Zi")
+
+            endforeach(flag_var)		  
+		endif()
+		
         file(GLOB WIN32_BINARIES ${LIBSBML_DEPENDENCY_DIR}/bin/*.dll)
         INSTALL(FILES ${WIN32_BINARIES} DESTINATION bin)
         file(GLOB WIN32_DEPENDENCIES ${LIBSBML_DEPENDENCY_DIR}/lib/*.lib)
@@ -1006,6 +1051,10 @@ endif()
 
 if(WITH_MATLAB)
     message(STATUS "     Using Matlab                    = ${MATLAB_ROOT_PATH}")
+endif()
+
+if(WITH_R)
+    message(STATUS "     Using R                         = ${R_INTERPRETER}")
 endif()
 
 if(WITH_CHECK)

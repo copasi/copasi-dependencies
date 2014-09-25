@@ -503,6 +503,8 @@ SWIGINTERN ListWrapper< SBase > *SBasePlugin_getListOfAllElements__SWIG_0(SBaseP
 
 #else
 
+#ifdef LIBSBML_COMPILED_IN_SRC
+
 #include <sbml/math-legacy/ASTNode.h>
 #include <sbml/math-legacy/MathML.h>
 #include <sbml/math-legacy/L3FormulaFormatter.h>
@@ -510,6 +512,18 @@ SWIGINTERN ListWrapper< SBase > *SBasePlugin_getListOfAllElements__SWIG_0(SBaseP
 #include <sbml/math-legacy/FormulaParser.h>
 #include <sbml/math-legacy/L3Parser.h>
 #include <sbml/math-legacy/L3ParserSettings.h>
+
+#else 
+
+#include <sbml/math/ASTNode.h>
+#include <sbml/math/MathML.h>
+#include <sbml/math/L3FormulaFormatter.h>
+#include <sbml/math/FormulaFormatter.h>
+#include <sbml/math/FormulaParser.h>
+#include <sbml/math/L3Parser.h>
+#include <sbml/math/L3ParserSettings.h>
+
+#endif
 
 #endif
 
@@ -1644,22 +1658,23 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_IdList__SWIG_1(char * jarg1) {
 
 SWIGEXPORT void SWIGSTDCALL CSharp_IdList_append(void * jarg1, char * jarg2) {
   IdList *arg1 = (IdList *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   
   arg1 = (IdList *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
-  (arg1)->append(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  (arg1)->append((std::string const &)*arg2);
 }
 
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IdList_contains(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   IdList *arg1 = (IdList *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   bool result;
   
   arg1 = (IdList *)jarg1; 
@@ -1667,8 +1682,9 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IdList_contains(void * jarg1, char * 
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  (&arg2)->assign(jarg2); 
-  result = (bool)((IdList const *)arg1)->contains(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (bool)((IdList const *)arg1)->contains((std::string const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -1676,15 +1692,16 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IdList_contains(void * jarg1, char * 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_IdList_removeIdsBefore(void * jarg1, char * jarg2) {
   IdList *arg1 = (IdList *) 0 ;
-  std::string arg2 ;
+  std::string *arg2 = 0 ;
   
   arg1 = (IdList *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  (&arg2)->assign(jarg2); 
-  (arg1)->removeIdsBefore(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  (arg1)->removeIdsBefore((std::string const &)*arg2);
 }
 
 
@@ -3518,6 +3535,22 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SBase_getPlugin__SWIG_2(void * jarg1, long 
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBase_getDisabledPlugin__SWIG_0(void * jarg1, long long jarg2) {
+  void * jresult ;
+  SBase *arg1 = (SBase *) 0 ;
+  unsigned int arg2 ;
+  SBasePlugin *result = 0 ;
+  
+  arg1 = (SBase *)jarg1; 
+  {
+    arg2 = (unsigned int)jarg2;  
+  }
+  result = (SBasePlugin *)(arg1)->getDisabledPlugin(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_getNumPlugins(void * jarg1) {
   unsigned int jresult ;
   SBase *arg1 = (SBase *) 0 ;
@@ -3527,6 +3560,36 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_getNumPlugins(void * jarg1) {
   result = (unsigned int)((SBase const *)arg1)->getNumPlugins();
   jresult = result; 
   return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_getNumDisabledPlugins(void * jarg1) {
+  unsigned int jresult ;
+  SBase *arg1 = (SBase *) 0 ;
+  unsigned int result;
+  
+  arg1 = (SBase *)jarg1; 
+  result = (unsigned int)((SBase const *)arg1)->getNumDisabledPlugins();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBase_deleteDisabledPlugins__SWIG_0(void * jarg1, unsigned int jarg2) {
+  SBase *arg1 = (SBase *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (SBase *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->deleteDisabledPlugins(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBase_deleteDisabledPlugins__SWIG_1(void * jarg1) {
+  SBase *arg1 = (SBase *) 0 ;
+  
+  arg1 = (SBase *)jarg1; 
+  (arg1)->deleteDisabledPlugins();
 }
 
 
@@ -7316,6 +7379,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLDocument_clone(void * jarg1) {
   arg1 = (SBMLDocument *)jarg1; 
   result = (SBMLDocument *)((SBMLDocument const *)arg1)->clone();
   jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_isSetModel(void * jarg1) {
+  unsigned int jresult ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  bool result;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  result = (bool)((SBMLDocument const *)arg1)->isSetModel();
+  jresult = result; 
   return jresult;
 }
 
@@ -32058,7 +32133,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_CVTerm_clone(void * jarg1) {
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_CVTerm_getQualifierType(void * jarg1) {
+SWIGEXPORT int SWIGSTDCALL CSharp_CVTerm_getQualifierType__SWIG_0(void * jarg1) {
   int jresult ;
   CVTerm *arg1 = (CVTerm *) 0 ;
   QualifierType_t result;
@@ -32070,7 +32145,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_CVTerm_getQualifierType(void * jarg1) {
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_CVTerm_getModelQualifierType(void * jarg1) {
+SWIGEXPORT int SWIGSTDCALL CSharp_CVTerm_getModelQualifierType__SWIG_0(void * jarg1) {
   int jresult ;
   CVTerm *arg1 = (CVTerm *) 0 ;
   ModelQualifierType_t result;
@@ -32082,7 +32157,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_CVTerm_getModelQualifierType(void * jarg1) {
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_CVTerm_getBiologicalQualifierType(void * jarg1) {
+SWIGEXPORT int SWIGSTDCALL CSharp_CVTerm_getBiologicalQualifierType__SWIG_0(void * jarg1) {
   int jresult ;
   CVTerm *arg1 = (CVTerm *) 0 ;
   BiolQualifierType_t result;
@@ -32106,7 +32181,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_CVTerm_getResources__SWIG_0(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CVTerm_getNumResources(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CVTerm_getNumResources__SWIG_0(void * jarg1) {
   unsigned int jresult ;
   CVTerm *arg1 = (CVTerm *) 0 ;
   unsigned int result;
@@ -32118,7 +32193,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CVTerm_getNumResources(void * jarg1) 
 }
 
 
-SWIGEXPORT char * SWIGSTDCALL CSharp_CVTerm_getResourceURI(void * jarg1, long long jarg2) {
+SWIGEXPORT char * SWIGSTDCALL CSharp_CVTerm_getResourceURI__SWIG_0(void * jarg1, long long jarg2) {
   char * jresult ;
   CVTerm *arg1 = (CVTerm *) 0 ;
   unsigned int arg2 ;
@@ -32251,7 +32326,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_CVTerm_removeResource(void * jarg1, char * jar
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CVTerm_hasRequiredAttributes(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CVTerm_hasRequiredAttributes__SWIG_0(void * jarg1) {
   unsigned int jresult ;
   CVTerm *arg1 = (CVTerm *) 0 ;
   bool result;
@@ -35079,6 +35154,16 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLExtensionRegistry_isRegistered(vo
   arg2 = &arg2_str; 
   result = (bool)(arg1)->isRegistered((std::string const &)*arg2);
   jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLExtensionRegistry_getAllRegisteredPackageNames() {
+  void * jresult ;
+  SwigValueWrapper< std::vector< std::string > > result;
+  
+  result = SBMLExtensionRegistry::getAllRegisteredPackageNames();
+  jresult = new std::vector< std::string >((const std::vector< std::string > &)result); 
   return jresult;
 }
 

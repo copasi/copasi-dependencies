@@ -94,14 +94,14 @@
 "
 
 
-%csmethodmodifiers IdList::append(const std::string id) "
+%csmethodmodifiers IdList::append(const std::string& id) "
 /**
    * Appends id to the list of ids.
    */ /* libsbml-internal */ public
 ";
 
 
-%csmethodmodifiers IdList::contains(const std::string id) const "
+%csmethodmodifiers IdList::contains(const std::string& id) const "
 /**
    * Returns true if id is already in this IdList, false otherwise.
    *
@@ -110,7 +110,7 @@
 ";
 
 
-%csmethodmodifiers IdList::removeIdsBefore(const std::string id) "
+%csmethodmodifiers IdList::removeIdsBefore(const std::string& id) "
 /**
    * Removes all ids in this IdList before the given @p id.
    */ /* libsbml-internal */ public
@@ -219,8 +219,8 @@
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @warning This <em>user data</em> is specific to an ElementFilter object
    * instance, and is not the same as the user data that may be attached to
@@ -388,11 +388,11 @@ SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
 if (doc.getNumErrors() > 0)
 {
-    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileUnreadable)
     {
         // Handle case of unreadable file here.
     }
-    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    else if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileOperationError)
     {
         // Handle case of other file operation error here.
     }
@@ -589,11 +589,11 @@ SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
 if (doc.getNumErrors() > 0)
 {
-    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileUnreadable)
     {
         // Handle case of unreadable file here.
     }
-    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    else if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileOperationError)
     {
         // Handle case of other file operation error here.
     }
@@ -887,11 +887,11 @@ SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
 if (doc.getNumErrors() > 0)
 {
-    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileUnreadable)
     {
         // Handle case of unreadable file here.
     }
-    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    else if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileOperationError)
     {
         // Handle case of other file operation error here.
     }
@@ -1061,11 +1061,11 @@ SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
 if (doc.getNumErrors() > 0)
 {
-    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileUnreadable)
     {
         // Handle case of unreadable file here.
     }
-    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    else if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileOperationError)
     {
         // Handle case of other file operation error here.
     }
@@ -1282,7 +1282,7 @@ if (doc.getNumErrors() > 0)
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * 
    * @see setProgramVersion(string version)
    */ public
@@ -1312,7 +1312,7 @@ if (doc.getNumErrors() > 0)
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setProgramName(string name)
    */ public
@@ -1614,7 +1614,7 @@ if (doc.getNumErrors() > 0)
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html SBML\'s <em>%SBase</em>, the base class of most SBML objects.
+@htmlinclude pkg-marker-core.html SBML\'s %SBase class, the base class of most SBML objects.
  *
  * Most components in SBML are derived from a single abstract base type,
  * SBase.  In addition to serving as the parent class for most other
@@ -1784,7 +1784,8 @@ if (doc.getNumErrors() > 0)
    * Returns a List of all child SBase objects, including those nested to
    * an arbitrary depth.
    *
-   * @return a pointer to a List of pointers to all children objects.
+   * @return a pointer to a List of pointers to all objects that are children
+   * of this object.
    */ public new
 ";
 
@@ -2457,7 +2458,7 @@ if (doc.getNumErrors() > 0)
  * the data as well as help reduce conflicts between annotations added by
  * different tools.  Please see the SBML specifications for more details.
  *
- * 
+ *
    *
    * The annotations returned by this method will be in string form.  See the
    * method getAnnotation() for a version that returns annotations in XML form.
@@ -2477,7 +2478,8 @@ if (doc.getNumErrors() > 0)
 
 %csmethodmodifiers SBase::getNamespaces() const "
 /**
-   * Returns a list of the XML Namespaces declared on this SBML document.
+   * Returns a list of the XML Namespaces declared on the SBML document
+   * owning this object.
    *
    * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
    * information.  It is used to communicate the SBML Level, Version, and (in
@@ -2736,12 +2738,11 @@ if (doc.getNumErrors() > 0)
 
 %csmethodmodifiers SBase::getSBOTermAsURL() const "
 /**
-   * Returns the identifiers.org URL representation of the \'sboTerm\' attribute of
-   * this object.
+   * Returns the URL representation of the \'sboTerm\' attribute of this
+   * object.
    *
-   * This method returns the entire SBO
-   * identifier as a text string in the form 
-   * \'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'.
+   * This method returns the entire SBO identifier as a text string in the
+   * form <code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'</code>.
    *
    * SBO terms are a type of optional annotation, and each different class
    * of SBML object derived from SBase imposes its own requirements about
@@ -2749,10 +2750,8 @@ if (doc.getNumErrors() > 0)
    * Level&nbsp;2 Version&nbsp;4 specification for more information about
    * the use of SBO and the \'sboTerm\' attribute.
    *
-   * @return the value of the \'sboTerm\' attribute as an identifiers.org URL
-   * (its value will be of the form 
-   * \'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'), or an empty string if
-   * the value is not set.
+   * @return the value of the \'sboTerm\' attribute as an identifiers.org URL,
+   * or an empty string if the value is not set.
    */ public
 ";
 
@@ -2761,7 +2760,7 @@ if (doc.getNumErrors() > 0)
 /**
    * Returns the line number on which this object first appears in the XML
    * representation of the SBML document.
-   * 
+   *
    * @return the line number of this SBML object.
    *
    * @note The line number for each construct in an SBML model is set upon
@@ -3004,9 +3003,9 @@ if (doc.getNumErrors() > 0)
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @see getMetaId()
    * @see isSetMetaId()
@@ -3074,7 +3073,7 @@ if (doc.getNumErrors() > 0)
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -3121,8 +3120,8 @@ if (doc.getNumErrors() > 0)
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -3163,8 +3162,8 @@ if (doc.getNumErrors() > 0)
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -3205,8 +3204,8 @@ if (doc.getNumErrors() > 0)
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -3241,10 +3240,10 @@ if (doc.getNumErrors() > 0)
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
-   * @li @link libsbmlcs#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
+   * @li @link libsbml#LIBSBML_ANNOTATION_NS_NOT_FOUND LIBSBML_ANNOTATION_NS_NOT_FOUND@endlink
    *
    * @see replaceTopLevelAnnotationElement(XMLNode )
    * @see replaceTopLevelAnnotationElement(string)
@@ -3272,9 +3271,9 @@ if (doc.getNumErrors() > 0)
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see removeTopLevelAnnotationElement(string elementName, string elementURI)
    * @see replaceTopLevelAnnotationElement(string)
@@ -3302,9 +3301,9 @@ if (doc.getNumErrors() > 0)
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see removeTopLevelAnnotationElement(string elementName, string elementURI)
    * @see replaceTopLevelAnnotationElement(XMLNode)
@@ -3344,8 +3343,8 @@ if (doc.getNumErrors() > 0)
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -3436,9 +3435,9 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -3482,9 +3481,9 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -3528,9 +3527,9 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -3554,9 +3553,9 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * 
    * @note In SBML Level&nbsp;2, model history annotations were only
    * permitted on the Model element.  In SBML Level&nbsp;3, they are
@@ -3647,9 +3646,9 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see setSBOTerm(@if java String@else string sboid@endif)
    */ public new
@@ -3681,9 +3680,9 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see setSBOTerm(int value)
    */ public new
@@ -3705,7 +3704,7 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -3740,9 +3739,9 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *  
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -3758,8 +3757,8 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -3803,8 +3802,8 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * 
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -3835,7 +3834,7 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getNotesString()
    * @see isSetNotes()
@@ -3868,7 +3867,7 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getAnnotation()
    * @see getAnnotationString()
@@ -3887,8 +3886,8 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
 ";
 
@@ -3905,11 +3904,11 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
    * this object lacks a \'metaid\' attribute
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note Since the CV Term uses the \'metaid\' attribute of the object as a
    * reference, if the object has no \'metaid\' attribute value set, then the
@@ -3982,8 +3981,8 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -3994,9 +3993,9 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
    * @note In SBML Level&nbsp;2, model history annotations were only
    * permitted on the Model element.  In SBML Level&nbsp;3, they are
@@ -4051,7 +4050,7 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * <code>\'http://www.geneontology.org/#GO:0005892\'</code>.
    *
    * @return the qualifier associated with the resource,
-   * or @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink if the
+   * or @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink if the
    * resource does not exist.
    *
    * @if clike
@@ -4133,7 +4132,7 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * <code>\'http://www.geneontology.org/#GO:0005892\'</code>.
    *
    * @return the @if clike #ModelQualifierType_t value@else model qualifier
-   * type@endif associated with the resource, or @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink if the resource does not exist.
+   * type@endif associated with the resource, or @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink if the resource does not exist.
    *
    * @if clike
    * @note The set of MIRIAM biological qualifiers grows over
@@ -4423,7 +4422,7 @@ void example (SBase sb)
  *
    *
    * @return the @if clike #SBMLTypeCode_t value@else SBML object type
-   * code@endif of this SBML object, or @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink (the default).  The latter is possible because
+   * code@endif of this SBML object, or @link libsbml#SBML_UNKNOWN SBML_UNKNOWN@endlink (the default).  The latter is possible because
    * subclasses of SBase are not required to implement this method to return
    * a type code.
    *
@@ -4443,19 +4442,18 @@ void example (SBase sb)
 
 %csmethodmodifiers SBase::hasValidLevelVersionNamespaceCombination "
 /**
-   * Predicate returning @c true if this
-   * object\'s level/version and namespace values correspond to a valid
-   * SBML specification.
+   * Predicate returning @c true if this object\'s level/version and namespace
+   * values correspond to a valid SBML specification.
    *
    * The valid combinations of SBML Level, Version and Namespace as of this
    * release of libSBML are the following:
    * <ul>
-   * <li> Level&nbsp;1 Version&nbsp;2: <code>\'http://www.sbml.org/sbml/level1\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;1: <code>\'http://www.sbml.org/sbml/level2\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;2: <code>\'http://www.sbml.org/sbml/level2/version2\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;3: <code>\'http://www.sbml.org/sbml/level2/version3\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;4: <code>\'http://www.sbml.org/sbml/level2/version4\'</code>
-   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code>\'http://www.sbml.org/sbml/level3/version1/core\'</code>
+   * <li> Level&nbsp;1 Version&nbsp;2: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level1\'</code>
+   * <li> Level&nbsp;2 Version&nbsp;1: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2\'</code>
+   * <li> Level&nbsp;2 Version&nbsp;2: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version2\'</code>
+   * <li> Level&nbsp;2 Version&nbsp;3: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version3\'</code>
+   * <li> Level&nbsp;2 Version&nbsp;4: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version4\'</code>
+   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level3/version1/core\'</code>
    * </ul>
    *
    * @return @c true if the level, version and namespace values of this 
@@ -4549,6 +4547,8 @@ void example (SBase sb)
    *
    * @return the plug-in object (the libSBML extension interface) of
    * a package extension with the given package name or URI.
+   *
+   * @see getPlugin(long n)
    */ public
 ";
 
@@ -4580,6 +4580,8 @@ void example (SBase sb)
    *
    * @return the plug-in object (the libSBML extension interface) of a
    * package extension with the given package name or URI.
+   *
+   * @see getPlugin(long n)
    */ public
 ";
 
@@ -4609,8 +4611,11 @@ void example (SBase sb)
    *
    * @param n the index of the plug-in to return
    *
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
+   * @return the nth plug-in object (the libSBML extension interface) of a
+   * package extension.
+   *
+   * @see getNumPlugins()
+   * @see getPlugin(@if java String@else string package@endif)
    */ public
 ";
 
@@ -4640,8 +4645,79 @@ void example (SBase sb)
    *
    * @param n the index of the plug-in to return
    *
-   * @return the plug-in object (the libSBML extension interface) of a
-   * package extension with the given package name or URI.
+   * @return the nth plug-in object (the libSBML extension interface) of a
+   * package extension.
+   *
+   * @see getNumPlugins()
+   * @see getPlugin(@if java String@else string package@endif)
+   */ public
+";
+
+
+%csmethodmodifiers SBase::getDisabledPlugin(unsigned int n) "
+/**
+   * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension.
+   *
+   * *
+ * 
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+ *
+ *
+   *
+   * @param n the index of the disabled plug-in to return
+   *
+   * @return the nth disabled plug-in object (the libSBML extension interface) of a
+   * package extension.
+   *
+   * @see getNumDisabledPlugins()
+   * @see getPlugin(@if java String@else string package@endif)
+   */ public
+";
+
+
+%csmethodmodifiers SBase::getDisabledPlugin "
+/**
+   * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension.
+   *
+   * *
+ * 
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+ *
+ *
+   *
+   * @param n the index of the disabled plug-in to return
+   *
+   * @return the nth disabled plug-in object (the libSBML extension interface) of a
+   * package extension.
+   *
+   * @see getNumDisabledPlugins()
+   * @see getPlugin(@if java String@else string package@endif)
    */ public
 ";
 
@@ -4671,6 +4747,50 @@ void example (SBase sb)
    *
    * @return the number of plug-in objects (extension interfaces) of
    * package extensions known by this instance of libSBML.
+   *
+   * @see getPlugin(long n)
+   */ public
+";
+
+
+%csmethodmodifiers SBase::getNumDisabledPlugins() const "
+/**
+   * Returns the number of disabled plug-in objects (extenstion interfaces) 
+   * for SBML Level&nbsp;3 package extensions known.
+   *
+   * *
+ * 
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+ *
+ *
+   *
+   * @return the number of disabled plug-in objects (extension interfaces) 
+   * of package extensions known by this instance of libSBML.
+   *
+   */ public
+";
+
+
+%csmethodmodifiers SBase::deleteDisabledPlugins(bool recursive=true) "
+/** 
+   * Deletes all information stored in disabled plugins. 
+   *
+   * @param recursive if @c true, the disabled information will be deleted
+   * also from all child elements, otherwise only from this SBase element.
+   *
+   * @see getNumDisabledPlugins()
    */ public
 ";
 
@@ -4694,10 +4814,10 @@ void example (SBase sb)
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
+   * @li @link libsbml#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
    *
    * @see disablePackage(string pkgURI, string pkgPrefix)
    */ public
@@ -4724,23 +4844,26 @@ void example (SBase sb)
    * object being added.  Here is a code example to help clarify this:
    * @if cpp
 @code{.cpp}
-// We read in an SBML L3V1 model that uses the \'comp\' package namespace
+// We read in an SBML L3V1 model that uses the \'comp\'
+// package namespace.
 doc = readSBML(\'sbml-file-with-comp-elements.xml\');
 
-// We extract one of the species from the model we just read in.
+// We extract one of the species from the model.
 Species s1 = doc->getModel()->getSpecies(0);
 
-// We construct a new model.  This model does not use the \'comp\' package.
+// We construct a new model.  This model does not use the
+// \'comp\' package.
 Model  newModel = new Model(3,1);
 
-// The following will fail with an error, because addSpecies() will
-// first check that the parent of the given object has namespaces
-// declared, and will discover that s1 does but newModel does not.
+// The following will fail with an error, because addSpecies()
+// will first check that the parent of the given object has
+// namespaces declared, and will discover that s1 does but
+// newModel does not.
 
 // newModel->addSpecies(s1);
 
-// However, if we disable the \'comp\' package on s1, then the call
-// to addSpecies will work.
+// However, if we disable the \'comp\' package on s1, then
+// the call to addSpecies will work.
 
 s1->disablePackage(\'http://www.sbml.org/sbml/level3/version1/comp/version1\',
                    \'comp\');
@@ -4761,7 +4884,7 @@ if doc.getNumErrors() > 0:
   doc.printErrors()
   sys.exit(1)
 
-# We extract one of the species from the model we just read in.
+# We extract one of the species from the model.
 
 model = doc.getModel()
 if model == None:
@@ -4844,10 +4967,10 @@ newModel.addSpecies(s1);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
+   * @li @link libsbml#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_PKG_CONFLICTED_VERSION LIBSBML_PKG_CONFLICTED_VERSION@endlink
    *
    * @see enablePackage(string pkgURI, string pkgPrefix, bool flag)
    */ public
@@ -5045,8 +5168,8 @@ newModel.addSpecies(s1);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -5162,8 +5285,8 @@ newModel.addSpecies(s1);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -5511,8 +5634,8 @@ newModel.addSpecies(s1);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ /* libsbml-internal */ public
 ";
 
@@ -5870,8 +5993,8 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see appendAndOwn(SBase item)
    * @see appendFrom(ListOf list)
@@ -5894,8 +6017,8 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see append(SBase item)
    * @see appendFrom(ListOf list)
@@ -5916,8 +6039,8 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see append(SBase item)
    * @see appendAndOwn(SBase item)
@@ -5940,8 +6063,8 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see insertAndOwn(int location, SBase item)
    */ public
@@ -5963,8 +6086,8 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see insert(int location, SBase item)
    */ public
@@ -6075,7 +6198,7 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
 ";
 
@@ -6134,7 +6257,7 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
 %csmethodmodifiers ListOf::getTypeCode() const "
 /**
    * Returns the libSBML type code for this object, namely,
-   * @link libsbmlcs#SBML_LIST_OF SBML_LIST_OF@endlink.
+   * @link libsbml#SBML_LIST_OF SBML_LIST_OF@endlink.
    * 
    * *
  * 
@@ -6160,7 +6283,7 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_LIST_OF SBML_LIST_OF@endlink (default).
+   * @link libsbml#SBML_LIST_OF SBML_LIST_OF@endlink (default).
    *
    * @note The various ListOf classes mostly differ from each other in what they
    * contain.  Hence, one must call getItemTypeCode() to fully determine the
@@ -6211,10 +6334,10 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * Classes that inherit from the ListOf class should override this method
    * to return the SBML type code for the objects contained in this ListOf.
    * If they do not, this method will return
-   * @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink
+   * @link libsbml#SBML_UNKNOWN SBML_UNKNOWN@endlink
    *
    * @return The ListOf base class contains no SBML objects, and therefore
-   * this method returns @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink.
+   * this method returns @link libsbml#SBML_UNKNOWN SBML_UNKNOWN@endlink.
    *
    * @see getElementName()
    * @see getPackageName()
@@ -7069,8 +7192,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -7086,8 +7209,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -7103,9 +7226,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The \'substanceUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7124,9 +7247,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The \'timeUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7145,9 +7268,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The \'volumeUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7166,9 +7289,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The \'areaUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7187,9 +7310,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The \'lengthUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7208,9 +7331,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The \'extentUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7229,9 +7352,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The \'conversionFactor\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7246,8 +7369,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -7259,8 +7382,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -7272,8 +7395,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The \'substanceUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7288,8 +7411,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The \'timeUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7304,8 +7427,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The \'volumeUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7320,9 +7443,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The \'areaUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7337,9 +7460,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The \'lengthUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7354,9 +7477,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The \'extentUnits\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7371,9 +7494,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The \'conversionFactor\' attribute is available in 
    * SBML Level&nbsp;3 but is not present on Model in lower Levels of SBML.
@@ -7390,12 +7513,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7425,12 +7548,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7460,12 +7583,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7499,12 +7622,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7538,12 +7661,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7573,12 +7696,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7608,12 +7731,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7643,12 +7766,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7678,12 +7801,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7715,11 +7838,11 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7749,12 +7872,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -7784,12 +7907,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -8291,7 +8414,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
    */ public new
@@ -8316,8 +8439,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see appendAnnotation(string annotation)
    */ public new
@@ -8339,8 +8462,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see setAnnotation(XMLNode annotation)
    */ public new
@@ -8362,8 +8485,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see setAnnotation(string annotation)
    */ public new
@@ -9500,8 +9623,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -9769,7 +9892,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_MODEL SBML_MODEL@endlink (default).
+   * @link libsbml#SBML_MODEL SBML_MODEL@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -9831,7 +9954,7 @@ sp.setId(\'MySpecies\');
    * unit consistency.  The unit consistency validator (like all other
    * validators in libSBML) is invoked by using
    * SBMLDocument::checkConsistency(), with the consistency checks for the
-   * category @link libsbmlcs#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink turned on.  The method
+   * category @link libsbml#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink turned on.  The method
    * populateListFormulaUnitsData() does not need to be called prior to
    * invoking the validator if unit consistency checking has not been turned
    * off.  This method is only provided for cases when callers have a special
@@ -11083,6 +11206,16 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers SBMLDocument::isSetModel() const "
+/**
+  * Returns @c true if the Model object has been set, otherwise 
+  * returns @c false.
+  *
+  * @return @c true if the Model object has been set
+  */ public
+";
+
+
 %csmethodmodifiers SBMLDocument::getModel() const "
 /**
    * Returns the Model object stored in this SBMLDocument.
@@ -11306,9 +11439,9 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    *
    * @see createModel()
    * @see getModel()
@@ -11398,14 +11531,14 @@ sp.setId(\'MySpecies\');
    * The following are the possible choices:
    * @endif
    * <ul>
-   * <li> @link libsbmlcs#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink:
    * Correctness and consistency of specific SBML language constructs.
    * Performing this set of checks is highly recommended.  With respect to
    * the SBML specification, these concern failures in applying the
    * validation rules numbered 2xxxx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink:
    * Correctness and consistency of identifiers used for model entities.  An
    * example of inconsistency would be using a species identifier in a
    * reaction rate formula without first having declared the species.  With
@@ -11413,31 +11546,31 @@ sp.setId(\'MySpecies\');
    * the validation rules numbered 103xx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink:
    * Consistency of measurement units associated with quantities in a model.
    * With respect to the SBML specification, these concern failures in
    * applying the validation rules numbered 105xx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink:
    * Syntax of MathML constructs.  With respect to the SBML specification,
    * these concern failures in applying the validation rules numbered 102xx
    * in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
    * Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink:
    * Consistency and validity of %SBO identifiers (if any) used in the model.
    * With respect to the SBML specification, these concern failures in
    * applying the validation rules numbered 107xx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink:
    * Static analysis of whether the system of equations implied by a model is
    * mathematically overdetermined.  With respect to the SBML specification,
    * this is validation rule #10601 in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink:
    * Additional checks for recommended good modeling practice. (These are
    * tests performed by libSBML and do not have equivalent SBML validation
    * rules.)  </ul>
@@ -11501,14 +11634,14 @@ sp.setId(\'MySpecies\');
    * The following are the possible choices:
    * @endif
    * <ul>
-   * <li> @link libsbmlcs#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink:
    * Correctness and consistency of specific SBML language constructs.
    * Performing this set of checks is highly recommended.  With respect to
    * the SBML specification, these concern failures in applying the
    * validation rules numbered 2xxxx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink:
    * Correctness and consistency of identifiers used for model entities.  An
    * example of inconsistency would be using a species identifier in a
    * reaction rate formula without first having declared the species.  With
@@ -11516,32 +11649,32 @@ sp.setId(\'MySpecies\');
    * the validation rules numbered 103xx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink:
 
    * Consistency of measurement units associated with quantities in a model.
    * With respect to the SBML specification, these concern failures in
    * applying the validation rules numbered 105xx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink:
    * Syntax of MathML constructs.  With respect to the SBML specification,
    * these concern failures in applying the validation rules numbered 102xx
    * in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
    * Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink:
    * Consistency and validity of %SBO identifiers (if any) used in the model.
    * With respect to the SBML specification, these concern failures in
    * applying the validation rules numbered 107xx in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink:
    * Static analysis of whether the system of equations implied by a model is
    * mathematically overdetermined.  With respect to the SBML specification,
    * this is validation rule #10601 in the Level&nbsp;2
    * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
    * 
-   * <li> @link libsbmlcs#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink:
+   * <li> @link libsbml#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink:
    * Additional checks for recommended good modeling practice. (These are
    * tests performed by libSBML and do not have equivalent SBML validation
    * rules.)
@@ -11831,9 +11964,9 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
    */ public new
 ";
 
@@ -11878,7 +12011,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_DOCUMENT SBML_DOCUMENT@endlink (default).
+   * @link libsbml#SBML_DOCUMENT SBML_DOCUMENT@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -11956,8 +12089,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    */ public
 ";
 
@@ -11993,8 +12126,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    */ public
 ";
 
@@ -12079,8 +12212,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    *
    * @deprecated Replaced in libSBML 5.2.0 by
    * setPackageRequired(@if java String, bool@endif)
@@ -12620,8 +12753,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -12638,8 +12771,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -12656,8 +12789,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -12670,8 +12803,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -12778,7 +12911,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION@endlink (default).
+   * @link libsbml#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -12987,7 +13120,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION@endlink (default).
+   * @link libsbml#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -13134,8 +13267,8 @@ sp.setId(\'MySpecies\');
  * This function behaves exactly like C\'s <code>==</code> operator, except
  * for the following two cases:
  * <ul>
-  * <li>@link libsbmlcs#UNIT_KIND_LITER UNIT_KIND_LITER@endlink <code>==</code> @link libsbmlcs#UNIT_KIND_LITRE UNIT_KIND_LITRE@endlink
- * <li>@link libsbmlcs#UNIT_KIND_METER UNIT_KIND_METER@endlink <code>==</code> @link libsbmlcs#UNIT_KIND_METRE UNIT_KIND_METRE@endlink
+  * <li>@link libsbml#UNIT_KIND_LITER UNIT_KIND_LITER@endlink <code>==</code> @link libsbml#UNIT_KIND_LITRE UNIT_KIND_LITRE@endlink
+ * <li>@link libsbml#UNIT_KIND_METER UNIT_KIND_METER@endlink <code>==</code> @link libsbml#UNIT_KIND_METRE UNIT_KIND_METRE@endlink
  * </ul>
  *
  * In the two cases above, C equality comparison would yield @c false
@@ -13349,7 +13482,7 @@ sp.setId(\'MySpecies\');
  * However, libSBML maintains UnitKind in the form of of a set of static
  * integer constants whose names begin with the characters
  * <code>UNIT_KIND_</code>.  These constants are defined in the class
- * <code><a href=\'libsbmlcs.libsbml.html\'>libsbmlConstants</a></code>.
+ * <code><a href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>.
  * @endif@if python In SBML Level&nbsp;2 Versions before
  * Version&nbsp;3, there existed an enumeration of units called @c
  * UnitKind.  In Version&nbsp;3, this enumeration was removed and the
@@ -13611,7 +13744,7 @@ sp.setId(\'MySpecies\');
    * @return the value of the \'kind\' attribute of this Unit as a
    * value from the set of constants whose names begin
    * with <code>UNIT_KIND_</code> defined in the class
-   * <code><a href=\'libsbmlcs.libsbml.html\'>libsbmlConstants</a></code>.
+   * <code><a href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>.
    * @endif@if python
    * @return the value of the \'kind\' attribute of this Unit as a
    * value from the set of constants whose names begin
@@ -14086,7 +14219,7 @@ sp.setId(\'MySpecies\');
    * @endif@if java
    * @param kind a unit identifier chosen from the set of constants whose
    * names begin with <code>UNIT_KIND_</code> in <code><a
-   * href=\'libsbmlcs.libsbml.html\'>libsbmlConstants</a></code>.
+   * href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>.
    * @endif@if python
    * @param kind a unit identifier chosen from the set of constants whose
    * names begin with <code>UNIT_KIND_</code> in @link libsbml libsbml@endlink.
@@ -14095,8 +14228,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -14110,8 +14243,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -14125,7 +14258,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -14139,7 +14272,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -14154,8 +14287,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
 ";
 
@@ -14170,8 +14303,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * * 
  * @warning <span class=\'warning\'>The \'offset\' attribute is only available in
@@ -14216,7 +14349,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_UNIT SBML_UNIT@endlink (default).
+   * @link libsbml#SBML_UNIT SBML_UNIT@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -14406,7 +14539,7 @@ sp.setId(\'MySpecies\');
    *
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * *
  * @if python @note Because this is a static method on a class, the Python
@@ -14716,7 +14849,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_UNIT SBML_UNIT@endlink (default).
+   * @link libsbml#SBML_UNIT SBML_UNIT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -15322,8 +15455,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -15339,8 +15472,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -15352,8 +15485,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -15466,11 +15599,11 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -15501,7 +15634,7 @@ sp.setId(\'MySpecies\');
    * @note It is worth emphasizing that the attribute \'kind\' value of a
    * Unit is a required attribute for a valid Unit definition.  The
    * createUnit() method does not assign a valid kind to the constructed
-   * unit (instead, it sets the \'kind\' to @link libsbmlcs#UNIT_KIND_INVALID UNIT_KIND_INVALID@endlink).
+   * unit (instead, it sets the \'kind\' to @link libsbml#UNIT_KIND_INVALID UNIT_KIND_INVALID@endlink).
    * Callers are cautioned to set the newly-constructed Unit\'s kind using
    * Unit::setKind(@if java int@endif) soon after calling this method.
    *
@@ -15642,7 +15775,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
+   * @link libsbml#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -16087,7 +16220,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
+   * @link libsbml#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -16576,8 +16709,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see getId()
    * @see unsetId()
@@ -16598,8 +16731,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see getName()
    * @see isSetName()
@@ -16616,8 +16749,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getName()
    * @see setName(@if java String@endif)
@@ -16654,7 +16787,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE@endlink (default).
+   * @link libsbml#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -16810,7 +16943,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for the objects contained in this ListOf
-   * instance: @link libsbmlcs#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE@endlink (default).
+   * instance: @link libsbml#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -17260,8 +17393,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -17278,8 +17411,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -17292,8 +17425,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -17326,7 +17459,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_SPECIES_TYPE SBML_SPECIES_TYPE@endlink (default).
+   * @link libsbml#SBML_SPECIES_TYPE SBML_SPECIES_TYPE@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -17479,7 +17612,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_SPECIES_TYPE SBML_SPECIES_TYPE@endlink (default).
+   * @link libsbml#SBML_SPECIES_TYPE SBML_SPECIES_TYPE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -18607,13 +18740,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this Compartment object. If
    * the string is @c null, this method will return
-   * @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
+   * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see getId()
    * @see unsetId()
@@ -18630,13 +18763,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the Compartment object. If the string is @c
    * null, this method will return
-   * @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
+   * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see getName()
    * @see isSetName()
@@ -18651,14 +18784,14 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the identifier of a CompartmentType object defined elsewhere
    * in this Model. If the string is @c null, this method will return
-   * @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
+   * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The \'compartmentType\' attribute is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.
@@ -18680,9 +18813,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see getSpatialDimensions()
    * @see isSetSpatialDimensions()
@@ -18701,9 +18834,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see getSpatialDimensions()
    * @see isSetSpatialDimensions()
@@ -18723,7 +18856,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @note This method is identical to
    * @if java Compartment::setVolume(double value)@else setVolume()@endif.
@@ -18752,7 +18885,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * *
  * @note The attribute \'volume\' only exists by that name in SBML
@@ -18780,13 +18913,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the identifier of the defined units to use.  If @p sid is @c
    * null, then this method will return
-   * @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
+   * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see isSetUnits()
    * @see getUnits()
@@ -18801,13 +18934,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the identifier of a compartment that encloses this one. If @p
    * sid is @c null, then this method will return
-   * @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
+   * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The \'outside\' attribute is defined in SBML Level&nbsp;1 and
    * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
@@ -18831,8 +18964,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see isSetConstant()
    * @see getConstant()
@@ -18916,8 +19049,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getName()
    * @see setName(@if java String@endif)
@@ -18933,9 +19066,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The \'compartmentType\' attribute is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.
@@ -18961,8 +19094,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note This method is identical to
    * @if java Compartment::unsetVolume()@else unsetVolume()@endif.
@@ -18986,8 +19119,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note The attribute \'volume\' only exists by that name in SBML
@@ -19016,8 +19149,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see isSetUnits()
    * @see setUnits(@if java String@endif)
@@ -19033,8 +19166,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The \'outside\' attribute is defined in SBML Level&nbsp;1 and
    * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
@@ -19055,14 +19188,14 @@ sp.setId(\'MySpecies\');
    * In SBML Levels prior to Level&nbsp;3, compartments must always have a
    * value for the number of dimensions.  Consequently, calling this method
    * on a model of SBML Level 1&ndash;2 will result in a return value of
-   * @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note This function is only valid for SBML Level&nbsp;3.
    *
@@ -19199,7 +19332,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_COMPARTMENT SBML_COMPARTMENT@endlink (default).
+   * @link libsbml#SBML_COMPARTMENT SBML_COMPARTMENT@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -19369,7 +19502,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for the objects contained in this ListOf
-   * instance: @link libsbmlcs#SBML_COMPARTMENT SBML_COMPARTMENT@endlink (default).
+   * instance: @link libsbml#SBML_COMPARTMENT SBML_COMPARTMENT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -20461,8 +20594,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -20478,8 +20611,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -20494,9 +20627,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @note The \'speciesType\' attribute is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.
@@ -20514,8 +20647,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -20533,7 +20666,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -20551,8 +20684,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute \'initialConcentration\' is only available in SBML
    * Level&nbsp;2 and&nbsp;3.  It does not exist on Species in Level&nbsp;1.
@@ -20569,8 +20702,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -20584,9 +20717,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @warning <span class=\'warning\'>In versions of SBML Level&nbsp;2 before
@@ -20611,8 +20744,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
   */ public
 ";
 
@@ -20626,8 +20759,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The \'hasOnlySubstanceUnits\' attribute does not exist in SBML
    * Level&nbsp;1.
@@ -20644,7 +20777,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -20671,8 +20804,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
 ";
 
@@ -20686,8 +20819,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute \'constant\' is only available in SBML Levels&nbsp;2
    * and&nbsp;3.  It does not exist on Species in Level&nbsp;1.
@@ -20706,9 +20839,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * 
    * @note The \'conversionFactor\' attribute was introduced in SBML
    * Level&nbsp;3.  It does not exist on Species in SBML Levels&nbsp;1
@@ -20724,8 +20857,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -20737,8 +20870,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The attribute \'speciesType\' is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.
@@ -20753,8 +20886,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -20766,8 +20899,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The attribute \'initialConcentration\' is only available in SBML
    * Level&nbsp;2 and&nbsp;3.  It does not exist on Species in Level&nbsp;1.
@@ -20782,8 +20915,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -20795,8 +20928,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @warning <span class=\'warning\'>In versions of SBML Level&nbsp;2 before
@@ -20819,8 +20952,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -20833,9 +20966,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * * 
  * @note Beginning in SBML Level&nbsp;2 Version&nbsp;2, the \'charge\'
@@ -20860,9 +20993,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
    * @note The \'conversionFactor\' attribute was introduced in SBML
    * Level&nbsp;3.  It does not exist on Species in SBML Levels&nbsp;1
@@ -20987,7 +21120,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_SPECIES SBML_SPECIES@endlink (default).
+   * @link libsbml#SBML_SPECIES SBML_SPECIES@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -21235,7 +21368,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_SPECIES SBML_SPECIES@endlink (default).
+   * @link libsbml#SBML_SPECIES SBML_SPECIES@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -21919,8 +22052,8 @@ sp.setId(\'MySpecies\');
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -21936,8 +22069,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -21952,7 +22085,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -21968,8 +22101,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -21985,8 +22118,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @note Readers who view the documentation for LocalParameter may be
@@ -22017,8 +22150,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -22030,7 +22163,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * In SBML Level&nbsp;1 Version&nbsp;1, parameters are required to have
    * values and therefore, the value of a Parameter <b>should always be
@@ -22047,8 +22180,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -22153,7 +22286,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_PARAMETER SBML_PARAMETER@endlink (default).
+   * @link libsbml#SBML_PARAMETER SBML_PARAMETER@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -22393,7 +22526,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this objects contained in this list:
-   * @link libsbmlcs#SBML_PARAMETER SBML_PARAMETER@endlink (default).
+   * @link libsbml#SBML_PARAMETER SBML_PARAMETER@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -22920,7 +23053,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
+   * @link libsbml#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -23075,7 +23208,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
+   * @link libsbml#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -23619,8 +23752,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -23637,8 +23770,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -23803,7 +23936,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
+   * @link libsbml#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -24076,7 +24209,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
+   * @link libsbml#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -24381,11 +24514,11 @@ sp.setId(\'MySpecies\');
  * that work @if clike a libSBML enumeration type, RuleType_t, whose values
  * are @else with the enumeration values @endif listed below.
  *
- * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
+ * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
  * the rule is a \'rate\' rule.
- * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
+ * @li @link libsbml#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
  * Indicates the rule is a \'scalar\' rule.
- * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
+ * @li @link libsbml#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
  * Indicates the rule type is unknown or not yet set.
  *
  *
@@ -24500,7 +24633,7 @@ sp.setId(\'MySpecies\');
    * Returns the mathematical expression of this Rule in text-string form.
    *
    * The text string is produced by
-   * @if java <code><a href=\'libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)\'>libsbml.formulaToString()</a></code>@else libsbmlcs.libsbml.formulaToString()@endif; please consult
+   * @if java <code><a href=\'libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)\'>libsbml.formulaToString()</a></code>@else libsbml.formulaToString()@endif; please consult
    * the documentation for that function to find out more about the format
    * of the text-string formula.
    * 
@@ -24668,8 +24801,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note The attribute \'formula\' is specific to SBML Level&nbsp;1; in
    * higher Levels of SBML, it has been replaced with a subelement named
@@ -24692,8 +24825,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note The subelement \'math\' is present in SBML Levels&nbsp;2
    * and&nbsp;3.  In SBML Level&nbsp;1, the equivalent construct is the
@@ -24731,9 +24864,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
 ";
 
@@ -24747,9 +24880,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute \'units\' exists on SBML Level&nbsp;1 ParameterRule
    * objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
@@ -24764,9 +24897,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute \'units\' exists on SBML Level&nbsp;1 ParameterRule
    * objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
@@ -24904,9 +25037,9 @@ sp.setId(\'MySpecies\');
    *
    * @return the rule type, which will be one of the following three possible
    * values:
-   * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink
-   * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
-   * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
+   * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink
+   * @li @link libsbml#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
+   * @li @link libsbml#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
    *
    * @note The attribute \'type\' on Rule objects is present only in SBML
    * Level&nbsp;1.  In SBML Level&nbsp;2 and later, the type has been
@@ -25036,9 +25169,9 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object, either
-   * @link libsbmlcs#SBML_ASSIGNMENT_RULE SBML_ASSIGNMENT_RULE@endlink,
-   * @link libsbmlcs#SBML_RATE_RULE SBML_RATE_RULE@endlink, or
-   * @link libsbmlcs#SBML_ALGEBRAIC_RULE SBML_ALGEBRAIC_RULE@endlink 
+   * @link libsbml#SBML_ASSIGNMENT_RULE SBML_ASSIGNMENT_RULE@endlink,
+   * @link libsbml#SBML_RATE_RULE SBML_RATE_RULE@endlink, or
+   * @link libsbml#SBML_ALGEBRAIC_RULE SBML_ALGEBRAIC_RULE@endlink 
    * for %SBML Core.
    *
    * *
@@ -25061,13 +25194,13 @@ sp.setId(\'MySpecies\');
    *
    * This method only applies to SBML Level&nbsp;1 model objects.  If this is
    * not an SBML Level&nbsp;1 rule object, this method will return
-   * @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink.
+   * @link libsbml#SBML_UNKNOWN SBML_UNKNOWN@endlink.
    *
    * @return the SBML Level&nbsp;1 type code for this Rule (namely,
-   * @link libsbmlcs#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
-   * @link libsbmlcs#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink,
-   * @link libsbmlcs#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink, or
-   * @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink).
+   * @link libsbml#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
+   * @link libsbml#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink,
+   * @link libsbml#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink, or
+   * @link libsbml#SBML_UNKNOWN SBML_UNKNOWN@endlink).
    */ public
 ";
 
@@ -25113,14 +25246,14 @@ sp.setId(\'MySpecies\');
    * Sets the SBML Level&nbsp;1 type code for this Rule.
    *
    * @param type the SBML Level&nbsp;1 type code for this Rule. The allowable
-   * values are @link libsbmlcs#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
-   * @link libsbmlcs#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
-   * @link libsbmlcs#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink.
+   * values are @link libsbml#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
+   * @link libsbml#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
+   * @link libsbml#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * if given @p type value is not one of the above.
    */ public
 ";
@@ -25393,7 +25526,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_RULE SBML_RULE@endlink (default).
+   * @link libsbml#SBML_RULE SBML_RULE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -25719,11 +25852,11 @@ sp.setId(\'MySpecies\');
  * that work @if clike a libSBML enumeration type, RuleType_t, whose values
  * are @else with the enumeration values @endif listed below.
  *
- * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
+ * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
  * the rule is a \'rate\' rule.
- * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
+ * @li @link libsbml#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
  * Indicates the rule is a \'scalar\' rule.
- * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
+ * @li @link libsbml#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
  * Indicates the rule type is unknown or not yet set.
  *
  *
@@ -26090,11 +26223,11 @@ sp.setId(\'MySpecies\');
  * that work @if clike a libSBML enumeration type, RuleType_t, whose values
  * are @else with the enumeration values @endif listed below.
  *
- * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
+ * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
  * the rule is a \'rate\' rule.
- * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
+ * @li @link libsbml#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
  * Indicates the rule is a \'scalar\' rule.
- * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
+ * @li @link libsbml#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
  * Indicates the rule type is unknown or not yet set.
  *
  *
@@ -26454,11 +26587,11 @@ sp.setId(\'MySpecies\');
  * that work @if clike a libSBML enumeration type, RuleType_t, whose values
  * are @else with the enumeration values @endif listed below.
  *
- * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
+ * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
  * the rule is a \'rate\' rule.
- * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
+ * @li @link libsbml#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
  * Indicates the rule is a \'scalar\' rule.
- * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
+ * @li @link libsbml#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
  * Indicates the rule type is unknown or not yet set.
  *
  *
@@ -26950,8 +27083,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -26968,8 +27101,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -26982,8 +27115,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -27093,7 +27226,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
+   * @link libsbml#SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -27257,7 +27390,7 @@ sp.setId(\'MySpecies\');
  *
    * 
    * @return the SBML type code for the objects contained in this ListOf
-   * instance: @link libsbmlcs#SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
+   * instance: @link libsbml#SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -27953,8 +28086,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -27971,8 +28104,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -27988,9 +28121,9 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
   */ public
 ";
 
@@ -28005,7 +28138,7 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -28020,7 +28153,7 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * 
    * * 
  * @warning <span class=\'warning\'>SBML definitions before SBML Level&nbsp;2
@@ -28052,9 +28185,9 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The \'compartment\' attribute is available in SBML
    * Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
@@ -28071,8 +28204,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -28085,8 +28218,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -28099,8 +28232,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * * 
  * @warning <span class=\'warning\'>SBML definitions before SBML Level&nbsp;2
@@ -28128,9 +28261,9 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The \'compartment\' attribute is available in SBML
    * Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
@@ -28152,12 +28285,12 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -28191,10 +28324,10 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -28229,12 +28362,12 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -28731,7 +28864,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_REACTION SBML_REACTION@endlink (default).
+   * @link libsbml#SBML_REACTION SBML_REACTION@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -28911,7 +29044,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_REACTION SBML_REACTION@endlink (default).
+   * @link libsbml#SBML_REACTION SBML_REACTION@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -29431,8 +29564,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note @htmlinclude level-1-uses-text-string-math.html
    *
@@ -29457,8 +29590,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see setFormula(string formula)
    */ public
@@ -29475,9 +29608,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @note The attributes \'timeUnits\' and \'substanceUnits\' are present only
@@ -29501,9 +29634,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @note The attributes \'timeUnits\' and \'substanceUnits\' are present only
@@ -29524,9 +29657,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @note The attributes \'timeUnits\' and \'substanceUnits\' are present only
@@ -29547,9 +29680,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @note The attributes \'timeUnits\' and \'substanceUnits\' are present only
@@ -29572,12 +29705,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -29608,12 +29741,12 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -30070,7 +30203,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_KINETIC_LAW SBML_KINETIC_LAW@endlink (default).
+   * @link libsbml#SBML_KINETIC_LAW SBML_KINETIC_LAW@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -30154,8 +30287,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -30482,8 +30615,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -30522,9 +30655,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public new
 ";
 
@@ -30540,9 +30673,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public new
 ";
 
@@ -30554,8 +30687,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -30567,8 +30700,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -31286,7 +31419,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -31330,10 +31463,10 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    */ public
 ";
 
@@ -31359,7 +31492,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -31375,8 +31508,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
 ";
 
@@ -31388,9 +31521,9 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * In SBML Level 2, product and reactant stoichiometries can be specified
    * using <em>either</em> \'stoichiometry\' or \'stoichiometryMath\' in a
@@ -31427,8 +31560,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note In SBML Level&nbsp;1, the \'stoichiometry\' attribute of this
    * SpeciesReference object will be just reset to a default value (@c 1.0)
@@ -31476,7 +31609,7 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
    * @see appendAnnotation(string annotation)
@@ -31502,8 +31635,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
    * @see appendAnnotation(string annotation)
@@ -31527,8 +31660,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see setAnnotation(string annotation)
    * @see setAnnotation(XMLNode annotation)
@@ -31552,8 +31685,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see setAnnotation(string annotation)
    * @see setAnnotation(XMLNode annotation)
@@ -31589,7 +31722,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE@endlink (default).
+   * @link libsbml#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -31789,7 +31922,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE@endlink (default).
+   * @link libsbml#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -32072,7 +32205,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_MODIFIER_SPECIES_REFERENCE SBML_MODIFIER_SPECIES_REFERENCE@endlink (default).
+   * @link libsbml#SBML_MODIFIER_SPECIES_REFERENCE SBML_MODIFIER_SPECIES_REFERENCE@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -32796,8 +32929,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -32814,8 +32947,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -32831,9 +32964,9 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    */ public
 ";
 
@@ -32849,9 +32982,9 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    */ public
 ";
 
@@ -32867,10 +33000,10 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @note The element \'priority\' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -32888,9 +33021,9 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @warning <span class=\'warning\'>Definitions of Event in SBML Level 2
@@ -32950,8 +33083,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * *
  * @warning <span class=\'warning\'>The attribute \'useValuesFromTriggerTime\'
@@ -32973,8 +33106,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -32987,8 +33120,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -33001,8 +33134,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -33015,8 +33148,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
    * @note The element \'priority\' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -33032,8 +33165,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
    * @note The element \'priority\' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -33049,9 +33182,9 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @warning <span class=\'warning\'>Definitions of Event in SBML Level 2
@@ -33078,11 +33211,11 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
-   * @li @link libsbmlcs#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note This method should be used with some caution.  The fact that this
@@ -33325,7 +33458,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_EVENT SBML_EVENT@endlink (default).
+   * @link libsbml#SBML_EVENT SBML_EVENT@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -33513,7 +33646,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs#SBML_EVENT SBML_EVENT@endlink (default).
+   * @link libsbml#SBML_EVENT SBML_EVENT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -34037,8 +34170,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -34055,8 +34188,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -34255,7 +34388,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT@endlink (default).
+   * @link libsbml#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -34527,7 +34660,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT@endlink (default).
+   * @link libsbml#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()
@@ -34948,8 +35081,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -34964,8 +35097,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @note The attribute \'initialValue\' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -34983,8 +35116,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
    * @note The attribute \'persistent\' is available in SBML Level&nbsp;3
    * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
@@ -35020,7 +35153,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_TRIGGER SBML_TRIGGER@endlink (default).
+   * @link libsbml#SBML_TRIGGER SBML_TRIGGER@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -35181,8 +35314,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -35506,8 +35639,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t.  @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -35718,7 +35851,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_DELAY SBML_DELAY@endlink (default).
+   * @link libsbml#SBML_DELAY SBML_DELAY@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -35791,8 +35924,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -36221,8 +36354,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t.  @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -36255,7 +36388,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_PRIORITY SBML_PRIORITY@endlink (default).\
+   * @link libsbml#SBML_PRIORITY SBML_PRIORITY@endlink (default).\
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -36327,8 +36460,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -37995,8 +38128,8 @@ sp.setId(\'MySpecies\');
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * * 
  * @note The StoichiometryMath construct exists only in SBML Level&nbsp;2.
@@ -38173,7 +38306,7 @@ sp.setId(\'MySpecies\');
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_STOICHIOMETRY_MATH SBML_STOICHIOMETRY_MATH@endlink (default).
+   * @link libsbml#SBML_STOICHIOMETRY_MATH SBML_STOICHIOMETRY_MATH@endlink (default).
    *
    * *
  * @warning <span class=\'warning\'>The specific integer values of the possible
@@ -38244,8 +38377,8 @@ sp.setId(\'MySpecies\');
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -38804,9 +38937,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -38823,9 +38956,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -38841,8 +38974,8 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -38863,11 +38996,11 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note An XML namespace of a non-registered package extension can\'t be
-   * added by this function (@link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * added by this function (@link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
    * will be returned).
    *
    * @see addNamespace(@if java String, String@endif)
@@ -38887,11 +39020,11 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+   * added (just ignored) by this function. @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
    * xmlns is null.
    */ public
 ";
@@ -38911,9 +39044,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -38934,11 +39067,11 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note An XML namespace of a non-registered package extension can\'t be
-   * added by this function (@link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
+   * added by this function (@link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
    * will be returned).
    *
    * @see addNamespace(@if java String, String@endif)
@@ -38959,11 +39092,11 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
+   * added (just ignored) by this function. @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
    * xmlns is null.
    */ /* libsbml-internal */ public
 ";
@@ -38983,9 +39116,9 @@ else
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ /* libsbml-internal */ public
 ";
 
@@ -39222,23 +39355,23 @@ else
  *      <td><strong>Meaning</strong></td>
  *  </tr>
  * <tr>
- * <td><code>@link libsbmlcs#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink</code></td>
+ * <td><code>@link libsbml#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink</code></td>
  * <td>Indicates the value type is a Boolean.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink</code></td>
+ * <td><code>@link libsbml#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink</code></td>
  * <td>Indicates the value type is a double-sized float.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs#CNV_TYPE_INT CNV_TYPE_INT@endlink</code></td>
+ * <td><code>@link libsbml#CNV_TYPE_INT CNV_TYPE_INT@endlink</code></td>
  * <td>Indicates the value type is an integer.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink</code></td>
+ * <td><code>@link libsbml#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink</code></td>
  * <td>Indicates the value type is a float.</td>
  * </tr>
  * <tr>
-  * <td><code>@link libsbmlcs#CNV_TYPE_STRING CNV_TYPE_STRING@endlink</code></td>
+  * <td><code>@link libsbml#CNV_TYPE_STRING CNV_TYPE_STRING@endlink</code></td>
  * <td>Indicates the value type is a string.</td>
  * </tr>
  * </table>
@@ -39458,7 +39591,7 @@ else
    * Set the value of this option to a given Boolean value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink.
+   * @link libsbml#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink.
    *
    * @param value the Boolean value to set
    */ public new
@@ -39479,7 +39612,7 @@ else
    * Set the value of this option to a given @c double value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink.
+   * @link libsbml#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink.
    *
    * @param value the value to set
    */ public new
@@ -39500,7 +39633,7 @@ else
    * Set the value of this option to a given @c float value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink.
+   * @link libsbml#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink.
    *
    * @param value the value to set
    */ public new
@@ -39521,7 +39654,7 @@ else
    * Set the value of this option to a given @c int value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs#CNV_TYPE_INT CNV_TYPE_INT@endlink.
+   * @link libsbml#CNV_TYPE_INT CNV_TYPE_INT@endlink.
    *
    * @param value the value to set
    */ public new
@@ -40145,7 +40278,7 @@ if (config != None) {
    *
    * @see setProperties(@if java ConversionProperties@endif)
    * @see matchesProperties(@if java ConversionProperties@endif)
-   */ public new
+   */ public virtual
 ";
 
 
@@ -40163,7 +40296,7 @@ if (config != None) {
    *
    * @return the SBMLNamespaces object that describes the SBML namespaces
    * in effect.
-   */ public new
+   */ public virtual
 ";
 
 
@@ -40176,7 +40309,7 @@ if (config != None) {
    *
    * @return @c true if this converter\'s properties match, @c false
    * otherwise.
-   */ public new
+   */ public virtual
 ";
 
 
@@ -40192,13 +40325,13 @@ if (config != None) {
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @warning Even though the argument @p doc is \'const\', it is immediately
    * cast to a non-version, which is then usually changed by the
    * converter upon a successful conversion.  This variant of the
    * setDocument() method is here solely to preserve backwards compatibility.
-   */ public new
+   */ public virtual
 ";
 
 
@@ -40214,8 +40347,8 @@ if (config != None) {
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   */ public new
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   */ public virtual
 ";
 
 
@@ -40232,12 +40365,12 @@ if (config != None) {
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getProperties()
    * @see matchesProperties(@if java ConversionProperties@endif)
-   */ public new
+   */ public virtual
 ";
 
 
@@ -40255,7 +40388,7 @@ if (config != None) {
    *
    * @see setProperties(@if java ConversionProperties@endif)
    * @see matchesProperties(@if java ConversionProperties@endif)
-   */ public new
+   */ public virtual
 ";
 
 
@@ -40275,7 +40408,7 @@ if (config != None) {
    * be returned depends on the converter subclass; please consult
    * the documentation for the relevant class to find out what the
    * possibilities are.
-   */ public new
+   */ public virtual
 ";
 
 
@@ -40340,8 +40473,8 @@ if (config != None) {
    * @return integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -40607,6 +40740,13 @@ if (config != None) {
 "
 
 
+%csmethodmodifiers SBMLFunctionDefinitionConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers SBMLFunctionDefinitionConverter::SBMLFunctionDefinitionConverter "
 /**
    * Creates a new SBMLFunctionDefinitionConverter object.
@@ -40668,10 +40808,10 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
    */ public new
 ";
 
@@ -40901,6 +41041,13 @@ if (config != None) {
 "
 
 
+%csmethodmodifiers SBMLIdConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers SBMLIdConverter::SBMLIdConverter "
 /**
    * Creates a new SBMLIdConverter object.
@@ -40962,11 +41109,11 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
 ";
 
@@ -41170,14 +41317,21 @@ if (config != None) {
 "
 
 
-%csmethodmodifiers SBMLInferUnitsConverter "
+%csmethodmodifiers SBMLInferUnitsConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLInferUnitsConverter::SBMLInferUnitsConverter "
 /**
    * Creates a new SBMLInferUnitsConverter object.
    */ public
 ";
 
 
-%csmethodmodifiers SBMLInferUnitsConverter(const SBMLInferUnitsConverter& obj) "
+%csmethodmodifiers SBMLInferUnitsConverter::SBMLInferUnitsConverter(const SBMLInferUnitsConverter& obj) "
 /**
    * Copy constructor; creates a copy of an SBMLInferUnitsConverter
    * object.
@@ -41187,7 +41341,7 @@ if (config != None) {
 ";
 
 
-%csmethodmodifiers clone() const "
+%csmethodmodifiers SBMLInferUnitsConverter::clone() const "
 /**
    * Creates and returns a deep copy of this SBMLInferUnitsConverter
    * object.
@@ -41197,7 +41351,7 @@ if (config != None) {
 ";
 
 
-%csmethodmodifiers matchesProperties(const ConversionProperties &props) const "
+%csmethodmodifiers SBMLInferUnitsConverter::matchesProperties(const ConversionProperties &props) const "
 /**
    * Returns @c true if this converter object\'s properties match the given
    * properties.
@@ -41218,7 +41372,7 @@ if (config != None) {
 ";
 
 
-%csmethodmodifiers convert "
+%csmethodmodifiers SBMLInferUnitsConverter::convert "
 /**
    * Perform the conversion.
    *
@@ -41231,15 +41385,15 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
    */ public new
 ";
 
 
-%csmethodmodifiers getDefaultProperties() const "
+%csmethodmodifiers SBMLInferUnitsConverter::getDefaultProperties() const "
 /**
    * Returns the default properties of this converter.
    *
@@ -41470,6 +41624,13 @@ if (config != None) {
 "
 
 
+%csmethodmodifiers SBMLInitialAssignmentConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers SBMLInitialAssignmentConverter::SBMLInitialAssignmentConverter "
 /**
    * Creates a new SBMLInitialAssignmentConverter object.
@@ -41531,9 +41692,9 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public new
 ";
 
@@ -41753,14 +41914,21 @@ if (config != None) {
 "
 
 
-%csmethodmodifiers SBMLLevelVersionConverter "
+%csmethodmodifiers SBMLLevelVersionConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLLevelVersionConverter::SBMLLevelVersionConverter "
 /**
    * Creates a new SBMLLevelVersionConverter object.
    */ public
 ";
 
 
-%csmethodmodifiers SBMLLevelVersionConverter(const SBMLLevelVersionConverter& obj) "
+%csmethodmodifiers SBMLLevelVersionConverter::SBMLLevelVersionConverter(const SBMLLevelVersionConverter& obj) "
 /**
    * Copy constructor; creates a copy of an SBMLLevelVersionConverter
    * object.
@@ -41770,7 +41938,7 @@ if (config != None) {
 ";
 
 
-%csmethodmodifiers clone() const "
+%csmethodmodifiers SBMLLevelVersionConverter::clone() const "
 /**
    * Creates and returns a deep copy of this SBMLLevelVersionConverter
    * object.
@@ -41780,7 +41948,7 @@ if (config != None) {
 ";
 
 
-%csmethodmodifiers matchesProperties(const ConversionProperties &props) const "
+%csmethodmodifiers SBMLLevelVersionConverter::matchesProperties(const ConversionProperties &props) const "
 /**
    * Returns @c true if this converter object\'s properties match the given
    * properties.
@@ -41801,7 +41969,7 @@ if (config != None) {
 ";
 
 
-%csmethodmodifiers convert "
+%csmethodmodifiers SBMLLevelVersionConverter::convert "
 /**
    * Perform the conversion.
    *
@@ -41814,16 +41982,16 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_INVALID_TARGET_NAMESPACE LIBSBML_CONV_INVALID_TARGET_NAMESPACE@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_TARGET_NAMESPACE LIBSBML_CONV_INVALID_TARGET_NAMESPACE@endlink
+   * @li @link libsbml#LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
    */ public new
 ";
 
 
-%csmethodmodifiers getDefaultProperties() const "
+%csmethodmodifiers SBMLLevelVersionConverter::getDefaultProperties() const "
 /**
    * Returns the default properties of this converter.
    *
@@ -41839,7 +42007,7 @@ if (config != None) {
 ";
 
 
-%csmethodmodifiers getTargetLevel "
+%csmethodmodifiers SBMLLevelVersionConverter::getTargetLevel "
 /**
    * Returns the target SBML Level for the conversion.
    *
@@ -41848,7 +42016,7 @@ if (config != None) {
 ";
 
 
-%csmethodmodifiers getTargetVersion "
+%csmethodmodifiers SBMLLevelVersionConverter::getTargetVersion "
 /**
    * Returns the target SBML Version for the conversion.
    *
@@ -41857,7 +42025,7 @@ if (config != None) {
 ";
 
 
-%csmethodmodifiers getValidityFlag "
+%csmethodmodifiers SBMLLevelVersionConverter::getValidityFlag "
 /**
    * Returns the flag indicating whether the conversion has been set to \'strict\'.
    *
@@ -42058,6 +42226,13 @@ if (config != None) {
 "
 
 
+%csmethodmodifiers SBMLLocalParameterConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers SBMLLocalParameterConverter::SBMLLocalParameterConverter "
 /**
    * Creates a new SBMLLocalParameterConverter object.
@@ -42119,9 +42294,9 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public new
 ";
 
@@ -42327,6 +42502,13 @@ if (config != None) {
 "
 
 
+%csmethodmodifiers SBMLReactionConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers SBMLReactionConverter::SBMLReactionConverter "
 /**
    * Creates a new SBMLReactionConverter object.
@@ -42388,10 +42570,10 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
    */ public new
 ";
 
@@ -42429,7 +42611,7 @@ if (config != None) {
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
 ";
 
@@ -42446,7 +42628,7 @@ if (config != None) {
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
 ";
 
@@ -42689,6 +42871,13 @@ if (config != None) {
 "
 
 
+%csmethodmodifiers SBMLRuleConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers SBMLRuleConverter::SBMLRuleConverter "
 /**
    * Creates a new SBMLLevelVersionConverter object.
@@ -42750,9 +42939,9 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
    */ public new
 ";
 
@@ -42960,6 +43149,13 @@ if (config != None) {
 "
 
 
+%csmethodmodifiers SBMLStripPackageConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers SBMLStripPackageConverter::SBMLStripPackageConverter "
 /**
    * Creates a new SBMLStripPackageConverter object.
@@ -43021,10 +43217,10 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN@endlink
    */ public new
 ";
 
@@ -43242,6 +43438,13 @@ if (config != None) {
 "
 
 
+%csmethodmodifiers SBMLUnitsConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers SBMLUnitsConverter::SBMLUnitsConverter "
 /**
    * Creates a new SBMLUnitsConverter object.
@@ -43303,11 +43506,11 @@ if (config != None) {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
    */ public new
 ";
 
@@ -43397,7 +43600,7 @@ if (config != None) {
    * Creates and returns a deep copy of this SBMLValidator object.
    *
    * @return the (deep) copy of this SBMLValidator object.
-   */ public new
+   */ public virtual
 ";
 
 
@@ -43408,7 +43611,7 @@ if (config != None) {
    * @return the current SBML document
    *
    * @see setDocument(@if java SBMLDocument@endif)
-   */ public new
+   */ public virtual
 ";
 
 
@@ -43419,7 +43622,7 @@ if (config != None) {
    * @return a reference to the current SBML document
    * 
    * @see setDocument(@if java SBMLDocument@endif)
-   */ public new
+   */ public virtual
 ";
 
 
@@ -43433,10 +43636,10 @@ if (config != None) {
    * validation.  @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values returned by this
    * function are
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getDocument()
-   */ public new
+   */ public virtual
 ";
 
 
@@ -43448,7 +43651,7 @@ if (config != None) {
    * validation.  @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values returned by this
    * function are determined by the specific subclasses of this class.
-   */ public new
+   */ public virtual
 ";
 
 
@@ -43461,7 +43664,7 @@ if (config != None) {
    * the last validation run and before validating the next document.
    *
    * @if clike @see getFailures() @endif
-   */ public new
+   */ public virtual
 ";
 
 
@@ -43500,7 +43703,7 @@ if (config != None) {
    *
    * @return the number of validation failures that occurred.  The objects
    * describing the actual failures can be retrieved using getFailures().
-   */ public
+   */ public virtual
 ";
 
 
@@ -43515,7 +43718,7 @@ if (config != None) {
    *
    * @return the number of validation failures that occurred.  The objects
    * describing the actual failures can be retrieved using getFailures().
-   */ public
+   */ public virtual
 ";
 
 
@@ -43808,7 +44011,7 @@ if (config != None) {
    * @return an integer code indicating the success or failure of the
    * function.  The possible values returned by this
    * function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @note if local name with the same namespace URI already exists in this 
    * attribute set, its value and prefix will be replaced.
@@ -43831,7 +44034,7 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -43853,7 +44056,7 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ /* libsbml-internal */ public
 ";
 
@@ -43866,8 +44069,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -43882,8 +44085,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -43899,8 +44102,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -43914,8 +44117,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -43927,7 +44130,7 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -44557,7 +44760,7 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ /* libsbml-internal */ public
 ";
 
@@ -44868,9 +45071,9 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -44886,8 +45089,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -44901,8 +45104,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * @see remove(int index)
    */ public
@@ -44917,8 +45120,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see remove(int index)
    */ public
@@ -45251,10 +45454,10 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note This function replaces the existing XMLAttributes with the new one.
    */ public
@@ -45275,8 +45478,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @note if local name with the same namespace URI already exists in the
    * attribute set, its value and prefix will be replaced.
@@ -45301,8 +45504,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    */ public
 ";
 
@@ -45318,9 +45521,9 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -45337,9 +45540,9 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -45355,9 +45558,9 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -45370,8 +45573,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    */ public
 ";
 
@@ -45613,10 +45816,10 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note This function replaces the existing XMLNamespaces with the new one.
    */ public
@@ -45637,8 +45840,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45656,9 +45859,9 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -45673,9 +45876,9 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
 ";
 
@@ -45689,8 +45892,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    */ public
 ";
 
@@ -45856,10 +46059,10 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -45912,8 +46115,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -46009,8 +46212,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -46022,8 +46225,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -46035,8 +46238,8 @@ if (config != None) {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -46067,12 +46270,11 @@ if (config != None) {
  * @sbmlpackage{core}
  *
 @htmlinclude pkg-marker-core.html A node in libSBML\'s XML document tree.
- * 
- * Beginning with version 3.0.0, libSBML implements an XML abstraction
- * layer.  This layer presents a uniform XML interface to calling programs
- * regardless of which underlying XML parser libSBML has actually been
- * configured to use.  The basic data object in the XML abstraction is a
- * @em node, represented by XMLNode.
+ *
+ * LibSBML implements an XML abstraction layer.  This layer presents a
+ * uniform XML interface to calling programs regardless of which underlying
+ * XML parser libSBML has actually been configured to use.  The basic data
+ * object in the XML abstraction is a @em node, represented by XMLNode.
  *
  * An XMLNode can contain any number of children.  Each child is another
  * XMLNode, thereby forming a tree.  The methods XMLNode::getNumChildren()
@@ -46089,54 +46291,55 @@ if (config != None) {
  * LibSBML provides the following utility functions for converting an XML
  * string (e.g., <code>&lt;annotation&gt;...&lt;/annotation&gt;</code>)
  * to/from an XMLNode object.
- * <ul>
- * <li> XMLNode::toXMLString() returns a string representation of the XMLNode object. 
  *
- * <li> XMLNode::convertXMLNodeToString(@if java XMLNode@endif)
- * (static function) returns a string representation 
- * of the given XMLNode object.
+ * @li XMLNode::toXMLString() returns a string representation of the XMLNode
+ * object.
  *
- * <li> XMLNode::convertStringToXMLNode(@if java String@endif)
- * (static function) returns an XMLNode object converted 
- * from the given XML string.
- * </ul>
+ * @li XMLNode::convertXMLNodeToString(@if java XMLNode@endif) (static
+ * function) returns a string representation of the given XMLNode object.
  *
- * The returned XMLNode object by XMLNode::convertStringToXMLNode(@if java String@endif)
- * is a dummy root (container) XMLNode if the given XML string has two or
- * more top-level elements (e.g.,
- * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In the
- * dummy root node, each top-level element in the given XML string is
+ * @li XMLNode::convertStringToXMLNode(@if java String@endif) (static
+ * function) returns an XMLNode object converted from the given XML string.
+ *
+ * The returned XMLNode object by XMLNode::convertStringToXMLNode(@if java
+ * String@endif) is a dummy root (container) XMLNode if the given XML string
+ * has two or more top-level elements (e.g.,
+ * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In
+ * the dummy root node, each top-level element in the given XML string is
  * contained as a child XMLNode. XMLToken::isEOF() can be used to identify
  * if the returned XMLNode object is a dummy node or not.  Here is an
- * example: @if clike
- * @verbatim
-// Checks if the XMLNode object returned by XMLNode::convertStringToXMLNode() is a dummy root node:
-                                                                                         
-string str = \'...\'; 
-XMLNode xn = XMLNode::convertStringToXMLNode(str);                                      
+ * example: 
+@if cpp
+@code{.cpp}
+// Checks if the XMLNode object returned by XMLNode::convertStringToXMLNode()
+// is a dummy root node:
+
+string str = \'...\';
+XMLNode xn = XMLNode::convertStringToXMLNode(str);
 if ( xn == null )
-{                                                                                      
-  // returned value is null (error)                                                    
+{
+  // returned value is null (error)
   ...
-}                                                                                      
-else if ( xn->isEOF() )                                                                 
-{                                                                                      
-  // root node is a dummy node                                                         
-  for ( int i = 0; i < xn->getNumChildren(); i++ )                                          
-  {                                                                                    
-    // access to each child node of the dummy node.                                    
-    XMLNode xnChild = xn->getChild(i);                                                  
-    ...                                                                                
-  }                                                                                    
-}                                                                                      
-else                                                                                   
-{                                                                                      
-  // root node is NOT a dummy node                                                     
-  ...                                                                                  
 }
-@endverbatim
-  *  @endif@if java
-@verbatim
+else if ( xn->isEOF() )
+{
+  // Root node is a dummy node.
+  for ( int i = 0; i < xn->getNumChildren(); i++ )
+  {
+    // access to each child node of the dummy node.
+    XMLNode xnChild = xn->getChild(i);
+    ...
+  }
+}
+else
+{
+  // Root node is NOT a dummy node.
+  ...
+}
+@endcode
+@endif
+@if java
+@code{.java}
 // Checks if the returned XMLNode object is a dummy root node:
 
 String str = \'...\';
@@ -46148,7 +46351,7 @@ if ( xn == null )
 }
 else if ( xn.isEOF() )
 {
-  // root node is a dummy node
+  // Root node is a dummy node.
   for ( int i = 0; i < xn.getNumChildren(); i++ )
   {
     // access to each child node of the dummy node.
@@ -46158,12 +46361,13 @@ else if ( xn.isEOF() )
 }
 else
 {
-  // root node is NOT a dummy node
+  // Root node is NOT a dummy node.
   ...
 }
-@endverbatim
- * @endif@if python
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
 xn = XMLNode.convertStringToXMLNode(\'<p></p>\')
 if xn == None:
   # Do something to handle exceptional situation.
@@ -46173,8 +46377,9 @@ elif xn.isEOF():
 
 else:
   # None is not a dummy node.
-@endverbatim
- * @endif
+@endcode
+@endif
+ *
  */
 "
 
@@ -46253,7 +46458,7 @@ else:
 
 %csmethodmodifiers XMLNode::XMLNode(XMLInputStream& stream) "
 /**
-   * Creates a new XMLNode by reading XMLTokens from stream.  
+   * Creates a new XMLNode by reading XMLTokens from stream.
    *
    * The stream must be positioned on a start element
    * (<code>stream.peek().isStart() == true</code>) and will be read until
@@ -46267,7 +46472,7 @@ else:
 %csmethodmodifiers XMLNode::XMLNode(const XMLNode& orig) "
 /**
    * Copy constructor; creates a copy of this XMLNode.
-   * 
+   *
    * @param orig the XMLNode instance to copy.
    *
    * @throws XMLConstructorException
@@ -46296,8 +46501,8 @@ else:
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @note The given node is added at the end of the children list.
    */ public
@@ -46348,7 +46553,7 @@ else:
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -46361,7 +46566,7 @@ else:
    * this method returns an empty node.
    *
    * @param n a long integereger, the index of the node to return
-   * 
+   *
    * @return the <code>n</code>th child of this XMLNode.
    */ public
 ";
@@ -46375,7 +46580,7 @@ else:
    * this method returns an empty node.
    *
    * @param n a long integereger, the index of the node to return
-   * 
+   *
    * @return the <code>n</code>th child of this XMLNode.
    */ public
 ";
@@ -46385,11 +46590,11 @@ else:
 /**
    * Returns the first child of this XMLNode with the corresponding name.
    *
-   * If no child with corrsponding name can be found, 
+   * If no child with corrsponding name can be found,
    * this method returns an empty node.
    *
    * @param name the name of the node to return
-   * 
+   *
    * @return the first child of this XMLNode with given name.
    */ public
 ";
@@ -46399,11 +46604,11 @@ else:
 /**
    * Returns the first child of this XMLNode with the corresponding name.
    *
-   * If no child with corrsponding name can be found, 
+   * If no child with corrsponding name can be found,
    * this method returns an empty node.
    *
    * @param name the name of the node to return
-   * 
+   *
    * @return the first child of this XMLNode with given name.
    */ public
 ";
@@ -46413,7 +46618,7 @@ else:
 /**
    * Return the index of the first child of this XMLNode with the given name.
    *
-   * @param name a string, the name of the child for which the 
+   * @param name a string, the name of the child for which the
    * index is required.
    *
    * @return the index of the first child of this XMLNode with the given
@@ -46472,7 +46677,7 @@ else:
 
 %csmethodmodifiers XMLNode::toXMLString() const "
 /**
-   * Returns a string representation of this XMLNode. 
+   * Returns a string representation of this XMLNode.
    *
    * @return a string derived from this XMLNode.
    */ public
@@ -46481,7 +46686,7 @@ else:
 
 %csmethodmodifiers XMLNode::convertXMLNodeToString(const XMLNode* node) "
 /**
-   * Returns a string representation of a given XMLNode. 
+   * Returns a string representation of a given XMLNode.
    *
    * @param node the XMLNode to be represented as a string
    *
@@ -46690,21 +46895,113 @@ else:
  * layer.  XMLInputStream and XMLOutputStream are two parts of that
  * abstraction layer.
  *
- * XMLOutputStream provides a wrapper above a standard ostream to facilitate
+ * XMLOutputStream provides a wrapper above output streams to facilitate
  * writing XML.  XMLOutputStream keeps track of start and end elements,
  * indentation, XML namespace prefixes, and more.  The interface provides
  * features for converting non-text data types into appropriate textual form;
- * this takes the form of overloaded <code>writeAttribute</code> methods that
- * allow users to simply use the same method with any data type.  For example,
- * @verbatim
+ * this takes the form of overloaded <code>writeAttribute(...)</code> methods
+ * that allow users to simply use the same method with any data type.  For
+ * example, suppose an element @c testElement has two attributes, @c size and
+ * @c id, and the attributes are variables in your code as follows:
+@if cpp
+@code{.cpp}
 double size = 3.2;
 string id = \'id\';
-@endverbatim
-  * can be written out using
-  * @verbatim
-writeAttribute(\'size\', size);
-writeAttribute(\'id\', id);
-@endverbatim
+@endcode
+@endif
+@if java
+@code
+double size = 3.2;
+String id = \'id\';
+@endcode
+@endif
+@if python
+@code
+size = 3.2;
+id = \'id\';
+@endcode
+@endif
+  * Then, the element and the attributes can be written to the
+  * standard output stream @ifnot cpp (provided as @c cout in the libSBML
+  * language bindings)@endif as follows:
+@if cpp
+@code{.cpp}
+double size = 3.2;
+string id = \'id\';
+
+// Create an XMLOutputStream object that will write to the
+// standard output stream:
+
+XMLOutputStream xos = new XMLOutputStream(cout);
+
+// Create the start element, write the attributes, and close
+// the element.  The output will be written immediately as
+// each method is called.
+
+xos.startElement(\'testElement\')
+xos.writeAttribute(\'size\', size)
+xos.writeAttribute(\'id\', id)
+xos.endElement(\'testElement\')
+@endcode
+@endif
+@if java
+@code{.java}
+import org.sbml.libsbml.XMLOutputStream;
+import org.sbml.libsbml.libsbml;
+
+public class test
+{
+    public static void main (String[] args)
+    {
+        double size = 3.2;
+        String id = \'id\';
+
+        // Create an XMLOutputStream object that will write to the
+        // standard output stream, which is provide in libSBML\'s
+        // Java language interface as the object \'libsbml.cout\'.
+
+        XMLOutputStream xos = new XMLOutputStream(libsbml.cout);
+
+        // Create the start element, write the attributes, and close
+        // the element.  The output will be written immediately as
+        // each method is called.
+
+        xos.startElement(\'testElement\');
+        xos.writeAttribute(\'size\', size);
+        xos.writeAttribute(\'id\', id);
+        xos.endElement(\'testElement\');
+    }
+
+    static
+    {
+        System.loadLibrary(\'sbmlj\');
+    }
+}
+@endcode
+@endif
+@if python
+@code{.py}
+from libsbml import *
+
+size = 3.2;
+id = \'id\';
+
+# Create an XMLOutputStream object that will write to the standard
+# output stream, which is provide in libSBML\'s Python language
+# interface as the object \'libsbml.cout\'.  Since we imported * from
+# the libsbml module, we can simply refer to it as \'cout\' here:
+
+output_stream = XMLOutputStream(cout)
+
+# Create the start element, write the attributes, and close the
+# element.  The output is written immediately by each method.
+
+output_stream.startElement(\'testElement\')
+output_stream.writeAttribute(\'size\', size)
+output_stream.writeAttribute(\'id\', id)
+output_stream.endElement(\'testElement\')
+@endcode
+@endif
  *
  * Other classes in SBML take XMLOutputStream objects as arguments, and use
  * that to write elements and attributes seamlessly to the XML output stream.
@@ -46744,6 +47041,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * comment is also not mandated by any SBML specification.  This libSBML
  * functionality is provided for the convenience of calling programs, and to
  * help humans trace the origin of SBML files.
+ *
+ *
    *
    * *
  * 
@@ -47170,6 +47469,16 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 %csmethodmodifiers XMLOutputStream::downIndent "
 /**
    * Decreases the indentation level for this XMLOutputStream.
+   *
+   * *
+ * LibSBML tries to produce human-readable XML output by automatically
+ * indenting the bodies of elements.  Callers can manually control
+ * indentation further by using the XMLOutputStream::upIndent()
+ * and XMLOutputStream::downIndent() methods to increase and
+ * decrease, respectively, the current level of indentation in the
+ * XML output.
+   *
+   * @see upIndent()
    */ public
 ";
 
@@ -47177,6 +47486,16 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 %csmethodmodifiers XMLOutputStream::upIndent "
 /**
    * Increases the indentation level for this XMLOutputStream.
+   *
+   * *
+ * LibSBML tries to produce human-readable XML output by automatically
+ * indenting the bodies of elements.  Callers can manually control
+ * indentation further by using the XMLOutputStream::upIndent()
+ * and XMLOutputStream::downIndent() methods to increase and
+ * decrease, respectively, the current level of indentation in the
+ * XML output.
+   *
+   * @see downIndent()
    */ public
 ";
 
@@ -47206,7 +47525,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
 %csmethodmodifiers XMLOutputStream::XMLOutputStream(const XMLOutputStream& other) "
 /**
-   * Copy Constructor, made private so as to notify users, that copying an input stream is not supported. 
+   * Copy Constructor, made private so as to notify users, that copying an input stream is not supported.
    */ /* libsbml-internal */ public
 ";
 
@@ -47538,8 +47857,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * operation.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this method are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -47715,8 +48034,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * @if clike the enumeration <a class=\'el\' href=\'#XMLErrorSeverity_t\'>XMLErrorSeverity_t</a>@else a
  * set of constants whose names begin with the characters @c LIBSBML_SEV_@endif,
  * described below. Severity levels range from informational
- * (@link libsbmlcs#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink) to
- * fatal errors (@link libsbmlcs#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
+ * (@link libsbml#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink) to
+ * fatal errors (@link libsbml#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
  *
  * Finally, XMLError objects record the line and column near where the
  * problem occurred in the XML content.  The values can be retrieved using
@@ -47749,7 +48068,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * listed in the table below.  In the libSBML Java language interface,
  * these error identifiers are currently implemented as static integer
  * constants defined in the interface class <code><a
- * href=\'libsbmlcs.libsbml.html\'>libsbmlConstants</a></code>.  This is
+ * href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>.  This is
  * admittedly not an ideal approach from the standpoint of modern Java
  * programming, but it was necessary to work around the lack of
  * enumerations in Java prior to JDK 1.5.  Future versions of libSBML may
@@ -47780,50 +48099,50 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *      <th width=\'90\' style=\'text-align: left\'>Category</th>
  *      <th width=\'90\' style=\'text-align: left\'>Severity</th>
  *  </tr>
- * <tr><td>@link libsbmlcs#XMLUnknownError XMLUnknownError@endlink</td><td>Unrecognized error encountered internally</td><td>INTERNAL</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs#XMLOutOfMemory XMLOutOfMemory@endlink</td> <td>Out of memory</td><td>SYSTEM</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs#XMLFileUnreadable XMLFileUnreadable@endlink</td> <td>File unreadable</td><td>SYSTEM</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLFileUnwritable XMLFileUnwritable@endlink</td> <td>File unwritable</td><td>SYSTEM</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLFileOperationError XMLFileOperationError@endlink</td><td>Error encountered while attempting file operation</td><td>SYSTEM</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLNetworkAccessError XMLNetworkAccessError@endlink</td><td>Network access error</td><td>SYSTEM</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#InternalXMLParserError InternalXMLParserError@endlink</td><td>Internal XML parser state error</td><td>INTERNAL</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs#UnrecognizedXMLParserCode UnrecognizedXMLParserCode@endlink</td><td>XML parser returned an unrecognized error code</td><td>INTERNAL</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs#XMLTranscoderError XMLTranscoderError@endlink</td><td>Character transcoder error</td><td>INTERNAL</td><td>FATAL</td></tr>
- * <tr><td>@link libsbmlcs#MissingXMLDecl MissingXMLDecl@endlink</td><td>Missing XML declaration at beginning of XML input</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#MissingXMLEncoding MissingXMLEncoding@endlink</td><td>Missing encoding attribute in XML declaration</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLDecl BadXMLDecl@endlink</td><td>Invalid or unrecognized XML declaration or XML encoding</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLDOCTYPE BadXMLDOCTYPE@endlink</td><td>Invalid, malformed or unrecognized XML DOCTYPE declaration</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#InvalidCharInXML InvalidCharInXML@endlink</td><td>Invalid character in XML content</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadlyFormedXML BadlyFormedXML@endlink</td><td>XML content is not well-formed</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#UnclosedXMLToken UnclosedXMLToken@endlink</td><td>Unclosed XML token</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#InvalidXMLConstruct InvalidXMLConstruct@endlink</td><td>XML construct is invalid or not permitted</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLTagMismatch XMLTagMismatch@endlink</td><td>Element tag mismatch or missing tag</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#DuplicateXMLAttribute DuplicateXMLAttribute@endlink</td><td>Duplicate XML attribute</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#UndefinedXMLEntity UndefinedXMLEntity@endlink</td><td>Undefined XML entity</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadProcessingInstruction BadProcessingInstruction@endlink</td><td>Invalid, malformed or unrecognized XML processing instruction</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLPrefix BadXMLPrefix@endlink</td><td>Invalid or undefined XML namespace prefix</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLPrefixValue BadXMLPrefixValue@endlink</td><td>Invalid XML namespace prefix value</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#MissingXMLRequiredAttribute MissingXMLRequiredAttribute@endlink</td><td>Missing a required XML attribute</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLAttributeTypeMismatch XMLAttributeTypeMismatch@endlink</td><td>Data type mismatch for the value of an attribute</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLBadUTF8Content XMLBadUTF8Content@endlink</td><td>Invalid UTF8 content</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#MissingXMLAttributeValue MissingXMLAttributeValue@endlink</td><td>Missing or improperly formed attribute value</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLAttributeValue BadXMLAttributeValue@endlink</td><td>Invalid or unrecognizable attribute value</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLAttribute BadXMLAttribute@endlink</td><td>Invalid, unrecognized or malformed attribute</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#UnrecognizedXMLElement UnrecognizedXMLElement@endlink</td><td>Element either not recognized or not permitted</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLComment BadXMLComment@endlink</td><td>Badly formed XML comment</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLDeclLocation BadXMLDeclLocation@endlink</td><td>XML declaration not permitted in this location</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLUnexpectedEOF XMLUnexpectedEOF@endlink</td><td>Reached end of input unexpectedly</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLIDValue BadXMLIDValue@endlink</td><td>Value is invalid for XML ID, or has already been used</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLIDRef BadXMLIDRef@endlink</td><td>XML ID value was never declared</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#UninterpretableXMLContent UninterpretableXMLContent@endlink</td><td>Unable to interpret content</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#BadXMLDocumentStructure BadXMLDocumentStructure@endlink</td><td>Bad XML document structure</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#InvalidAfterXMLContent InvalidAfterXMLContent@endlink</td><td>Encountered invalid content after expected content</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLExpectedQuotedString XMLExpectedQuotedString@endlink</td><td>Expected to find a quoted string</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLEmptyValueNotPermitted XMLEmptyValueNotPermitted@endlink</td><td>An empty value is not permitted in this context</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLBadNumber XMLBadNumber@endlink</td><td>Invalid or unrecognized number</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLBadColon XMLBadColon@endlink</td><td>Colon characters are invalid in this context</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#MissingXMLElements MissingXMLElements@endlink</td><td>One or more expected elements are missing</td><td>XML</td><td>ERROR</td></tr>
- * <tr><td>@link libsbmlcs#XMLContentEmpty XMLContentEmpty@endlink</td><td>Main XML content is empty</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLUnknownError XMLUnknownError@endlink</td><td>Unrecognized error encountered internally</td><td>INTERNAL</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbml#XMLOutOfMemory XMLOutOfMemory@endlink</td> <td>Out of memory</td><td>SYSTEM</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbml#XMLFileUnreadable XMLFileUnreadable@endlink</td> <td>File unreadable</td><td>SYSTEM</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLFileUnwritable XMLFileUnwritable@endlink</td> <td>File unwritable</td><td>SYSTEM</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLFileOperationError XMLFileOperationError@endlink</td><td>Error encountered while attempting file operation</td><td>SYSTEM</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLNetworkAccessError XMLNetworkAccessError@endlink</td><td>Network access error</td><td>SYSTEM</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#InternalXMLParserError InternalXMLParserError@endlink</td><td>Internal XML parser state error</td><td>INTERNAL</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbml#UnrecognizedXMLParserCode UnrecognizedXMLParserCode@endlink</td><td>XML parser returned an unrecognized error code</td><td>INTERNAL</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbml#XMLTranscoderError XMLTranscoderError@endlink</td><td>Character transcoder error</td><td>INTERNAL</td><td>FATAL</td></tr>
+ * <tr><td>@link libsbml#MissingXMLDecl MissingXMLDecl@endlink</td><td>Missing XML declaration at beginning of XML input</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#MissingXMLEncoding MissingXMLEncoding@endlink</td><td>Missing encoding attribute in XML declaration</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLDecl BadXMLDecl@endlink</td><td>Invalid or unrecognized XML declaration or XML encoding</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLDOCTYPE BadXMLDOCTYPE@endlink</td><td>Invalid, malformed or unrecognized XML DOCTYPE declaration</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#InvalidCharInXML InvalidCharInXML@endlink</td><td>Invalid character in XML content</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadlyFormedXML BadlyFormedXML@endlink</td><td>XML content is not well-formed</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#UnclosedXMLToken UnclosedXMLToken@endlink</td><td>Unclosed XML token</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#InvalidXMLConstruct InvalidXMLConstruct@endlink</td><td>XML construct is invalid or not permitted</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLTagMismatch XMLTagMismatch@endlink</td><td>Element tag mismatch or missing tag</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#DuplicateXMLAttribute DuplicateXMLAttribute@endlink</td><td>Duplicate XML attribute</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#UndefinedXMLEntity UndefinedXMLEntity@endlink</td><td>Undefined XML entity</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadProcessingInstruction BadProcessingInstruction@endlink</td><td>Invalid, malformed or unrecognized XML processing instruction</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLPrefix BadXMLPrefix@endlink</td><td>Invalid or undefined XML namespace prefix</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLPrefixValue BadXMLPrefixValue@endlink</td><td>Invalid XML namespace prefix value</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#MissingXMLRequiredAttribute MissingXMLRequiredAttribute@endlink</td><td>Missing a required XML attribute</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLAttributeTypeMismatch XMLAttributeTypeMismatch@endlink</td><td>Data type mismatch for the value of an attribute</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLBadUTF8Content XMLBadUTF8Content@endlink</td><td>Invalid UTF8 content</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#MissingXMLAttributeValue MissingXMLAttributeValue@endlink</td><td>Missing or improperly formed attribute value</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLAttributeValue BadXMLAttributeValue@endlink</td><td>Invalid or unrecognizable attribute value</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLAttribute BadXMLAttribute@endlink</td><td>Invalid, unrecognized or malformed attribute</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#UnrecognizedXMLElement UnrecognizedXMLElement@endlink</td><td>Element either not recognized or not permitted</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLComment BadXMLComment@endlink</td><td>Badly formed XML comment</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLDeclLocation BadXMLDeclLocation@endlink</td><td>XML declaration not permitted in this location</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLUnexpectedEOF XMLUnexpectedEOF@endlink</td><td>Reached end of input unexpectedly</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLIDValue BadXMLIDValue@endlink</td><td>Value is invalid for XML ID, or has already been used</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLIDRef BadXMLIDRef@endlink</td><td>XML ID value was never declared</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#UninterpretableXMLContent UninterpretableXMLContent@endlink</td><td>Unable to interpret content</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#BadXMLDocumentStructure BadXMLDocumentStructure@endlink</td><td>Bad XML document structure</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#InvalidAfterXMLContent InvalidAfterXMLContent@endlink</td><td>Encountered invalid content after expected content</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLExpectedQuotedString XMLExpectedQuotedString@endlink</td><td>Expected to find a quoted string</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLEmptyValueNotPermitted XMLEmptyValueNotPermitted@endlink</td><td>An empty value is not permitted in this context</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLBadNumber XMLBadNumber@endlink</td><td>Invalid or unrecognized number</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLBadColon XMLBadColon@endlink</td><td>Colon characters are invalid in this context</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#MissingXMLElements MissingXMLElements@endlink</td><td>One or more expected elements are missing</td><td>XML</td><td>ERROR</td></tr>
+ * <tr><td>@link libsbml#XMLContentEmpty XMLContentEmpty@endlink</td><td>Main XML content is empty</td><td>XML</td><td>ERROR</td></tr>
  * </table>
  * </center>
  *
@@ -47851,7 +48170,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * interface, the category identifiers are currently implemented as static
  * integer constants defined in the interface class
  * <code>libsbmlConstants</code> in the file \'<a
- * href=\'libsbmlcs.libsbml.html\'>libsbmlcs.libsbml.java</a>\'.
+ * href=\'libsbml.libsbml.html\'>libsbml.libsbml.java</a>\'.
  * @endif@if csharp <h3><a class=\'anchor\'
  * name=\'error-categories\'>Category codes associated with XMLError objects</a></h3>
  *
@@ -47873,17 +48192,17 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *      <th style=\'text-align: left\'>Enumerator</th>
  *      <th>Meaning</th>
  *  </tr>
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink</td>
+ * <tr><td>@link libsbml#LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink</td>
  * <td>A problem involving the libSBML
  * software itself or the underlying XML parser.  This almost certainly
  * indicates a software defect (i.e., bug) in libSBML.  Please report
  * instances of this to the libSBML developers.</td></tr>
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM@endlink</td>
+ * <tr><td>@link libsbml#LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM@endlink</td>
  * <td>A problem reported by the operating
  * system, such as an inability to read or write a file.  This indicates
  * something that is not a program error but is outside of the control of
  * libSBML.</td></tr>
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_XML LIBSBML_CAT_XML@endlink</td>
+ * <tr><td>@link libsbml#LIBSBML_CAT_XML LIBSBML_CAT_XML@endlink</td>
  * <td>A problem in the XML content itself.  This
  * usually arises from malformed XML or the use of
  * constructs not permitted in SBML.</td></tr>
@@ -47914,7 +48233,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * interface, these severity codes are currently
  * implemented as static integer constants defined in the interface class
  * <code>libsbmlConstants</code> in the file \'<a
- * href=\'libsbmlcs.libsbml.html\'>libsbmlcs.libsbml.java</a>\'.  This
+ * href=\'libsbml.libsbml.html\'>libsbml.libsbml.java</a>\'.  This
  * is admittedly not an ideal approach from the standpoint of modern Java
  * programming, but it was necessary to work around the lack of
  * enumerations in Java prior to JDK 1.5.  Future versions of libSBML may
@@ -47940,19 +48259,19 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *      <th style=\'text-align: left\'>Enumerator</th>
  *      <th>Meaning</th>
  *  </tr>
- * <tr><td>@link libsbmlcs#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink</td>
+ * <tr><td>@link libsbml#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink</td>
  * <td>The error is actually informational and
  * not necessarily a serious problem.</td></tr>
- * <tr><td>@link libsbmlcs#LIBSBML_SEV_WARNING LIBSBML_SEV_WARNING@endlink</td>
+ * <tr><td>@link libsbml#LIBSBML_SEV_WARNING LIBSBML_SEV_WARNING@endlink</td>
  * <td>The error object represents a problem
  * that is not serious enough to necessarily stop the problem, but
  * applications should take note of the problem and evaluate what its
  * implications may be.</td></tr>
- * <tr><td>@link libsbmlcs#LIBSBML_SEV_ERROR LIBSBML_SEV_ERROR@endlink</td>
+ * <tr><td>@link libsbml#LIBSBML_SEV_ERROR LIBSBML_SEV_ERROR@endlink</td>
  * <td>The error object represents a serious
  * error.  The application may continue running but it is unlikely to be
  * able to continue processing the same XML file or data stream.</td></tr>
- * <tr><td>@link libsbmlcs#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink</td>
+ * <tr><td>@link libsbml#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink</td>
  * <td>A serious error occurred, such as an
  * out-of-memory condition, and the software should terminate
  * immediately.</td></tr>
@@ -47973,7 +48292,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * href=\'#error-codes\'>XMLErrorCode_t</a>.
    * @else These numbers are defined as unsigned 
    * integer constants in the file
-   * \'libsbmlcs.libsbml.java\'.  See the <a class=\'el\'
+   * \'libsbml.libsbml.java\'.  See the <a class=\'el\'
    * href=\'#error-codes\'>top of this documentation</a> for a table
    * listing the possible values and their meanings. @endif The argument @p
    * errorId to this constructor @em can be (but does not have to be) a
@@ -48260,7 +48579,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * This is equivalent to obtaining the severity code from an XMLError
    * object (via XMLError::getSeverity()) and then comparing it to the
-   * value @link libsbmlcs#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink from the
+   * value @link libsbml#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink from the
    * @if clike enumeration #XMLErrorSeverity_t. @else set of predefined
    * severity codes.@endif
    *
@@ -48281,7 +48600,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * This is equivalent to obtaining the severity code from an XMLError
    * object (via XMLError::getSeverity()) and then comparing it to the
-   * value @link libsbmlcs#LIBSBML_SEV_WARNING LIBSBML_SEV_WARNING@endlink from the
+   * value @link libsbml#LIBSBML_SEV_WARNING LIBSBML_SEV_WARNING@endlink from the
    * @if clike enumeration #XMLErrorSeverity_t. @else set of predefined
    * severity codes.@endif
    *
@@ -48301,7 +48620,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * This is equivalent to obtaining the severity code from an XMLError
    * object (via XMLError::getSeverity()) and then comparing it to the
-   * value @link libsbmlcs#LIBSBML_SEV_ERROR LIBSBML_SEV_ERROR@endlink from the
+   * value @link libsbml#LIBSBML_SEV_ERROR LIBSBML_SEV_ERROR@endlink from the
    * @if clike enumeration #XMLErrorSeverity_t. @else set of predefined
    * severity codes.@endif
    *
@@ -48321,7 +48640,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * This is equivalent to obtaining the severity code from an XMLError
    * object (via XMLError::getSeverity()) and then comparing it to the
-   * value @link libsbmlcs#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink from the
+   * value @link libsbml#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink from the
    * @if clike enumeration #XMLErrorSeverity_t. @else set of predefined severity codes.@endif
    *
    * @return @c true if this error is a fatal error, @c false otherwise.
@@ -48340,7 +48659,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * This is equivalent to obtaining the category identifier from an
    * XMLError object (via XMLError::getCategory()) and then comparing it to
-   * the value @link libsbmlcs#LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink from the
+   * the value @link libsbml#LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink from the
    * @if clike enumeration #XMLErrorCategory_t. @else set of predefined category codes.@endif
    *
    * @return @c true or @c false
@@ -48358,7 +48677,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * This is equivalent to obtaining the category identifier from an
    * XMLError object (via XMLError::getCategory()) and then comparing it to
-   * the value @link libsbmlcs#LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM@endlink from the
+   * the value @link libsbml#LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM@endlink from the
    * @if clike enumeration #XMLErrorCategory_t. @else set of predefined category codes.@endif
    *
    * @return @c true or @c false
@@ -48377,7 +48696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * This is equivalent to obtaining the category identifier from an
    * XMLError object (via XMLError::getCategory()) and then comparing it to
-   * the value @link libsbmlcs#LIBSBML_CAT_XML LIBSBML_CAT_XML@endlink from the
+   * the value @link libsbml#LIBSBML_CAT_XML LIBSBML_CAT_XML@endlink from the
    * @if clike enumeration #XMLErrorCategory_t. @else set of predefined category codes.@endif
    *
    * @return @c true or @c false
@@ -48413,7 +48732,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setColumn(long column)
    */ public
@@ -48429,7 +48748,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setLine(long line)
    */ public
@@ -48637,8 +48956,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @return integer value indicating success/failure of the
    * function.   The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ /* libsbml-internal */ public
 ";
 
@@ -48743,9 +49062,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @return a severity override code.  The possible values are @if clike drawn
    * from the enumeration #XMLErrorSeverityOverride_t@endif:
-   * @li @link libsbmlcs#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
-   * @li @link libsbmlcs#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink
-   * @li @link libsbmlcs#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink
+   * @li @link libsbml#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
+   * @li @link libsbml#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink
+   * @li @link libsbml#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink
    *
    * @see isSeverityOverridden()
    * @see setSeverityOverride(@if java int@endif)
@@ -48769,12 +49088,12 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * changed again by the calling application.
    *
    * @param severity an override code indicating what to do.  If the value is
-   * @link libsbmlcs#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
+   * @link libsbml#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
    * (the default setting) all errors logged will be given the severity
    * specified in their usual definition.   If the value is
-   * @link libsbmlcs#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink,
+   * @link libsbml#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink,
    * then all errors will be logged as warnings.  If the value is 
-   * @link libsbmlcs#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink,
+   * @link libsbml#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink,
    * no error will be logged, regardless of their severity.
    *
    * @see isSeverityOverridden()
@@ -48915,7 +49234,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * #SBMLErrorSeverity_t @endif@if java @param severity a
    * value from the set of <code>LIBSBML_SEV_</code> constants defined by
    * the interface class <code><a
-   * href=\'libsbmlcs.libsbml.html\'>libsbmlConstants</a></code> @endif@if python @param severity a
+   * href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code> @endif@if python @param severity a
    * value from the set of <code>LIBSBML_SEV_</code> constants defined by
    * the interface class @link libsbml libsbml@endlink. @endif
    *
@@ -48948,7 +49267,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * #SBMLErrorSeverity_t @endif@if java @param severity a
    * value from the set of <code>LIBSBML_SEV_</code> constants defined by
    * the interface class <code><a
-   * href=\'libsbmlcs.libsbml.html\'>libsbmlConstants</a></code> @endif@if python @param severity a
+   * href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code> @endif@if python @param severity a
    * value from the set of <code>LIBSBML_SEV_</code> constants defined by
    * the interface class @link libsbml libsbml@endlink. @endif
    *
@@ -49099,7 +49418,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * identifies the nature of the problem.  This \'error id\' number will be up
  * to five digits long, and it will come from one of two sets of static
  * integer constants defined in the interface class <code><a
- * href=\'libsbmlcs.libsbml.html\'> libsbmlConstants</a></code>: either the
+ * href=\'libsbml.libsbml.html\'> libsbmlConstants</a></code>: either the
  * SBML error identifiers <a class=\'el\' href=\'#SBMLErrorCode_t\'> (described
  * below)</a> or the XML error identifiers (described in the documentation
  * for the class <code><a href=\'XMLError.html\'> XMLError</a></code>).  The
@@ -49139,24 +49458,24 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * Categories are used to partition errors into distinct conceptual groups.
  * This is principally used by the libSBML validation system to group
  * classes of validation checks.  For example, 
- * @link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
+ * @link libsbml#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
  * is the category for tests that check identifier consistency;
- * @link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
+ * @link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
  * is the category for MathML consistency checking; and
  * so on.
  * @endif@if java
  * An SBMLError object also contains a category code; its value may be
  * retrieved using the method SBMLError::getCategory().  Category values
  * are drawn from a set of static integer constants
- * defined in <code><a href=\'libsbmlcs.libsbml.html\'>libsbmlConstants</a></code>,
+ * defined in <code><a href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>,
  * and having names beginning with the characters
  * <code>LIBSBML_CAT_</code>.  The list of possible codes is described in a
  * separate section below.  Categories are used to partition errors into
  * distinct conceptual groups.  This is principally used by the libSBML
  * validation system to group classes of validation checks.  For example,
- * @link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
+ * @link libsbml#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
  * is the category for tests that check identifier consistency;
- * @link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
+ * @link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
  * is the category for MathML consistency checking; and
  * so on.
  * @endif@if python
@@ -49168,9 +49487,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * separate section below.  Categories are used to partition errors into
  * distinct conceptual groups.  This is principally used by the libSBML
  * validation system to group classes of validation checks.  For example,
- * @link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
+ * @link libsbml#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
  * is the category for tests that check identifier consistency;
- * @link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
+ * @link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
  * is the category for MathML consistency checking; and
  * so on.
  * @endif
@@ -49179,9 +49498,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * retrieved using the method SBMLError::getSeverity().  The possible
  * severity values are the same as those reported by @if clike XMLError.@endif@if python XMLError.@endif@if java <code><a href=\'XMLError.html\'>XMLError</a></code>.@endif 
  * Severity levels currently range from informational
- * (@link libsbmlcs#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink)
+ * (@link libsbml#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink)
  * to fatal errors
- * (@link libsbmlcs#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
+ * (@link libsbml#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
  * They can be
  * used by an application to evaluate how serious a given problem
  * is. 
@@ -49245,7 +49564,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * given SBMLError object instance.  In the libSBML Java language
  * interface, these error identifiers are currently
  * implemented as static integer constants defined in the interface class
- * <code><a href=\'libsbmlcs.libsbml.html\'>libsbmlConstants</a></code>.  This
+ * <code><a href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>.  This
  * is admittedly not an ideal approach from the standpoint of modern Java
  * programming, but it was necessary to work around the lack of
  * enumerations in Java prior to JDK 1.5.  Future versions of libSBML may
@@ -49317,7 +49636,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
      <th align=\'center\' width=\'10\'>L2 V4</th>
      <th align=\'center\' width=\'10\'>L3 V1</th>
  </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLUnknownError XMLUnknownError@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLUnknownError XMLUnknownError@endlink</td>
 <td class=\'meaning\'>Unknown error</td>
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
@@ -49327,7 +49646,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLOutOfMemory XMLOutOfMemory@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLOutOfMemory XMLOutOfMemory@endlink</td>
 <td class=\'meaning\'>Out of memory</td>
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
@@ -49337,7 +49656,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLFileUnreadable XMLFileUnreadable@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLFileUnreadable XMLFileUnreadable@endlink</td>
 <td class=\'meaning\'>File unreadable</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49347,7 +49666,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLFileUnwritable XMLFileUnwritable@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLFileUnwritable XMLFileUnwritable@endlink</td>
 <td class=\'meaning\'>File unwritable</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49357,7 +49676,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLFileOperationError XMLFileOperationError@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLFileOperationError XMLFileOperationError@endlink</td>
 <td class=\'meaning\'>File operation error</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49367,7 +49686,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLNetworkAccessError XMLNetworkAccessError@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLNetworkAccessError XMLNetworkAccessError@endlink</td>
 <td class=\'meaning\'>Network access error</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49377,7 +49696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InternalXMLParserError InternalXMLParserError@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InternalXMLParserError InternalXMLParserError@endlink</td>
 <td class=\'meaning\'>Internal XML parser error</td>
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
@@ -49387,7 +49706,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UnrecognizedXMLParserCode UnrecognizedXMLParserCode@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UnrecognizedXMLParserCode UnrecognizedXMLParserCode@endlink</td>
 <td class=\'meaning\'>Unrecognized XML parser code</td>
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
@@ -49397,7 +49716,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLTranscoderError XMLTranscoderError@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLTranscoderError XMLTranscoderError@endlink</td>
 <td class=\'meaning\'>Transcoder error</td>
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
@@ -49407,7 +49726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingXMLDecl MissingXMLDecl@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingXMLDecl MissingXMLDecl@endlink</td>
 <td class=\'meaning\'>Missing XML declaration</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49417,7 +49736,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingXMLEncoding MissingXMLEncoding@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingXMLEncoding MissingXMLEncoding@endlink</td>
 <td class=\'meaning\'>Missing XML encoding attribute</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49427,7 +49746,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLDecl BadXMLDecl@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLDecl BadXMLDecl@endlink</td>
 <td class=\'meaning\'>Bad XML declaration</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49437,7 +49756,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLDOCTYPE BadXMLDOCTYPE@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLDOCTYPE BadXMLDOCTYPE@endlink</td>
 <td class=\'meaning\'>Bad XML DOCTYPE</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49447,7 +49766,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidCharInXML InvalidCharInXML@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidCharInXML InvalidCharInXML@endlink</td>
 <td class=\'meaning\'>Invalid character</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49457,7 +49776,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadlyFormedXML BadlyFormedXML@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadlyFormedXML BadlyFormedXML@endlink</td>
 <td class=\'meaning\'>Badly formed XML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49467,7 +49786,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UnclosedXMLToken UnclosedXMLToken@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UnclosedXMLToken UnclosedXMLToken@endlink</td>
 <td class=\'meaning\'>Unclosed token</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49477,7 +49796,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidXMLConstruct InvalidXMLConstruct@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidXMLConstruct InvalidXMLConstruct@endlink</td>
 <td class=\'meaning\'>Invalid XML construct</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49487,7 +49806,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLTagMismatch XMLTagMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLTagMismatch XMLTagMismatch@endlink</td>
 <td class=\'meaning\'>XML tag mismatch</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49497,7 +49816,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateXMLAttribute DuplicateXMLAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateXMLAttribute DuplicateXMLAttribute@endlink</td>
 <td class=\'meaning\'>Duplicate attribute</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49507,7 +49826,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UndefinedXMLEntity UndefinedXMLEntity@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UndefinedXMLEntity UndefinedXMLEntity@endlink</td>
 <td class=\'meaning\'>Undefined XML entity</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49517,7 +49836,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadProcessingInstruction BadProcessingInstruction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadProcessingInstruction BadProcessingInstruction@endlink</td>
 <td class=\'meaning\'>Bad XML processing instruction</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49527,7 +49846,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLPrefix BadXMLPrefix@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLPrefix BadXMLPrefix@endlink</td>
 <td class=\'meaning\'>Bad XML prefix</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49537,7 +49856,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLPrefixValue BadXMLPrefixValue@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLPrefixValue BadXMLPrefixValue@endlink</td>
 <td class=\'meaning\'>Bad XML prefix value</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49547,7 +49866,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingXMLRequiredAttribute MissingXMLRequiredAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingXMLRequiredAttribute MissingXMLRequiredAttribute@endlink</td>
 <td class=\'meaning\'>Missing required attribute</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49557,7 +49876,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLAttributeTypeMismatch XMLAttributeTypeMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLAttributeTypeMismatch XMLAttributeTypeMismatch@endlink</td>
 <td class=\'meaning\'>Attribute type mismatch</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49567,7 +49886,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLBadUTF8Content XMLBadUTF8Content@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLBadUTF8Content XMLBadUTF8Content@endlink</td>
 <td class=\'meaning\'>Bad UTF8 content</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49577,7 +49896,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingXMLAttributeValue MissingXMLAttributeValue@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingXMLAttributeValue MissingXMLAttributeValue@endlink</td>
 <td class=\'meaning\'>Missing attribute value</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49587,7 +49906,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLAttributeValue BadXMLAttributeValue@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLAttributeValue BadXMLAttributeValue@endlink</td>
 <td class=\'meaning\'>Bad attribute value</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49597,7 +49916,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLAttribute BadXMLAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLAttribute BadXMLAttribute@endlink</td>
 <td class=\'meaning\'>Bad XML attribute</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49607,7 +49926,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UnrecognizedXMLElement UnrecognizedXMLElement@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UnrecognizedXMLElement UnrecognizedXMLElement@endlink</td>
 <td class=\'meaning\'>Unrecognized XML element</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49617,7 +49936,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLComment BadXMLComment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLComment BadXMLComment@endlink</td>
 <td class=\'meaning\'>Bad XML comment</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49627,7 +49946,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLDeclLocation BadXMLDeclLocation@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLDeclLocation BadXMLDeclLocation@endlink</td>
 <td class=\'meaning\'>Bad XML declaration location</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49637,7 +49956,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLUnexpectedEOF XMLUnexpectedEOF@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLUnexpectedEOF XMLUnexpectedEOF@endlink</td>
 <td class=\'meaning\'>Unexpected EOF</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49647,7 +49966,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLIDValue BadXMLIDValue@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLIDValue BadXMLIDValue@endlink</td>
 <td class=\'meaning\'>Bad XML ID value</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49657,7 +49976,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLIDRef BadXMLIDRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLIDRef BadXMLIDRef@endlink</td>
 <td class=\'meaning\'>Bad XML IDREF</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49667,7 +49986,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UninterpretableXMLContent UninterpretableXMLContent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UninterpretableXMLContent UninterpretableXMLContent@endlink</td>
 <td class=\'meaning\'>Uninterpretable XML content</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49677,7 +49996,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadXMLDocumentStructure BadXMLDocumentStructure@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadXMLDocumentStructure BadXMLDocumentStructure@endlink</td>
 <td class=\'meaning\'>Bad XML document structure</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49687,7 +50006,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidAfterXMLContent InvalidAfterXMLContent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidAfterXMLContent InvalidAfterXMLContent@endlink</td>
 <td class=\'meaning\'>Invalid content after XML content</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49697,7 +50016,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLExpectedQuotedString XMLExpectedQuotedString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLExpectedQuotedString XMLExpectedQuotedString@endlink</td>
 <td class=\'meaning\'>Expected quoted string</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49707,7 +50026,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLEmptyValueNotPermitted XMLEmptyValueNotPermitted@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLEmptyValueNotPermitted XMLEmptyValueNotPermitted@endlink</td>
 <td class=\'meaning\'>Empty value not permitted</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49717,7 +50036,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLBadNumber XMLBadNumber@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLBadNumber XMLBadNumber@endlink</td>
 <td class=\'meaning\'>Bad number</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49727,7 +50046,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLBadColon XMLBadColon@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLBadColon XMLBadColon@endlink</td>
 <td class=\'meaning\'>Colon character not permitted</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49737,7 +50056,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingXMLElements MissingXMLElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingXMLElements MissingXMLElements@endlink</td>
 <td class=\'meaning\'>Missing XML elements</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49747,7 +50066,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#XMLContentEmpty XMLContentEmpty@endlink</td>
+<tr><td class=\'code\'>@link libsbml#XMLContentEmpty XMLContentEmpty@endlink</td>
 <td class=\'meaning\'>Empty XML content</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49757,7 +50076,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UnknownError UnknownError@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UnknownError UnknownError@endlink</td>
 <td class=\'meaning\'>Encountered unknown internal libSBML error</td>
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
@@ -49767,7 +50086,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-fatal\'></td>
 <td class=\'s-fatal\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NotUTF8 NotUTF8@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NotUTF8 NotUTF8@endlink</td>
 <td class=\'meaning\'>File does not use UTF-8 encoding</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49777,7 +50096,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UnrecognizedElement UnrecognizedElement@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UnrecognizedElement UnrecognizedElement@endlink</td>
 <td class=\'meaning\'>Encountered unrecognized element</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49787,7 +50106,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NotSchemaConformant NotSchemaConformant@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NotSchemaConformant NotSchemaConformant@endlink</td>
 <td class=\'meaning\'>Document does not conform to the SBML XML schema</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -49797,7 +50116,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3NotSchemaConformant L3NotSchemaConformant@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3NotSchemaConformant L3NotSchemaConformant@endlink</td>
 <td class=\'meaning\'>Document is not well-formed XML</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49807,7 +50126,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidMathElement InvalidMathElement@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidMathElement InvalidMathElement@endlink</td>
 <td class=\'meaning\'>Invalid MathML</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49817,7 +50136,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DisallowedMathMLSymbol DisallowedMathMLSymbol@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DisallowedMathMLSymbol DisallowedMathMLSymbol@endlink</td>
 <td class=\'meaning\'>Disallowed MathML symbol found</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49827,7 +50146,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DisallowedMathMLEncodingUse DisallowedMathMLEncodingUse@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DisallowedMathMLEncodingUse DisallowedMathMLEncodingUse@endlink</td>
 <td class=\'meaning\'>Use of the MathML \'encoding\' attribute is not allowed on this element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49837,7 +50156,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DisallowedDefinitionURLUse DisallowedDefinitionURLUse@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DisallowedDefinitionURLUse DisallowedDefinitionURLUse@endlink</td>
 <td class=\'meaning\'>Use of the MathML \'definitionURL\' attribute is not allowed on this element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49847,7 +50166,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadCsymbolDefinitionURLValue BadCsymbolDefinitionURLValue@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadCsymbolDefinitionURLValue BadCsymbolDefinitionURLValue@endlink</td>
 <td class=\'meaning\'>Invalid <code>&lt;csymbol&gt;</code> \'definitionURL\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49857,7 +50176,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DisallowedMathTypeAttributeUse DisallowedMathTypeAttributeUse@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DisallowedMathTypeAttributeUse DisallowedMathTypeAttributeUse@endlink</td>
 <td class=\'meaning\'>Use of the MathML \'type\' attribute is not allowed on this element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49867,7 +50186,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DisallowedMathTypeAttributeValue DisallowedMathTypeAttributeValue@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DisallowedMathTypeAttributeValue DisallowedMathTypeAttributeValue@endlink</td>
 <td class=\'meaning\'>Disallowed MathML \'type\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49877,7 +50196,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LambdaOnlyAllowedInFunctionDef LambdaOnlyAllowedInFunctionDef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LambdaOnlyAllowedInFunctionDef LambdaOnlyAllowedInFunctionDef@endlink</td>
 <td class=\'meaning\'>Use of <code>&lt;lambda&gt;</code> not permitted outside of FunctionDefinition objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49887,7 +50206,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BooleanOpsNeedBooleanArgs BooleanOpsNeedBooleanArgs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BooleanOpsNeedBooleanArgs BooleanOpsNeedBooleanArgs@endlink</td>
 <td class=\'meaning\'>Non-Boolean argument given to Boolean operator</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49897,7 +50216,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NumericOpsNeedNumericArgs NumericOpsNeedNumericArgs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NumericOpsNeedNumericArgs NumericOpsNeedNumericArgs@endlink</td>
 <td class=\'meaning\'>Non-numerical argument given to numerical operator</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49907,7 +50226,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ArgsToEqNeedSameType ArgsToEqNeedSameType@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ArgsToEqNeedSameType ArgsToEqNeedSameType@endlink</td>
 <td class=\'meaning\'>Arguments to <code>&lt;eq&gt;</code> and <code>&lt;neq&gt;</code> must have the same data types</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49917,7 +50236,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#PiecewiseNeedsConsistentTypes PiecewiseNeedsConsistentTypes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#PiecewiseNeedsConsistentTypes PiecewiseNeedsConsistentTypes@endlink</td>
 <td class=\'meaning\'>Terms in a <code>&lt;piecewise&gt;</code> expression must have consistent data types</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49927,7 +50246,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#PieceNeedsBoolean PieceNeedsBoolean@endlink</td>
+<tr><td class=\'code\'>@link libsbml#PieceNeedsBoolean PieceNeedsBoolean@endlink</td>
 <td class=\'meaning\'>The second argument of a <code>&lt;piece&gt;</code> expression must yield a Boolean value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49937,7 +50256,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ApplyCiMustBeUserFunction ApplyCiMustBeUserFunction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ApplyCiMustBeUserFunction ApplyCiMustBeUserFunction@endlink</td>
 <td class=\'meaning\'>A <code>&lt;ci&gt;</code> element in this context must refer to a function definition</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49947,7 +50266,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ApplyCiMustBeModelComponent ApplyCiMustBeModelComponent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ApplyCiMustBeModelComponent ApplyCiMustBeModelComponent@endlink</td>
 <td class=\'meaning\'>A <code>&lt;ci&gt;</code> element in this context must refer to a model component</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49957,7 +50276,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#KineticLawParametersAreLocalOnly KineticLawParametersAreLocalOnly@endlink</td>
+<tr><td class=\'code\'>@link libsbml#KineticLawParametersAreLocalOnly KineticLawParametersAreLocalOnly@endlink</td>
 <td class=\'meaning\'>Cannot use a KineticLaw local parameter outside of its local scope</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49967,7 +50286,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MathResultMustBeNumeric MathResultMustBeNumeric@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MathResultMustBeNumeric MathResultMustBeNumeric@endlink</td>
 <td class=\'meaning\'>A formula\'s result in this context must be a numerical value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49977,7 +50296,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OpsNeedCorrectNumberOfArgs OpsNeedCorrectNumberOfArgs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OpsNeedCorrectNumberOfArgs OpsNeedCorrectNumberOfArgs@endlink</td>
 <td class=\'meaning\'>Incorrect number of arguments given to MathML operator</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49987,7 +50306,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidNoArgsPassedToFunctionDef InvalidNoArgsPassedToFunctionDef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidNoArgsPassedToFunctionDef InvalidNoArgsPassedToFunctionDef@endlink</td>
 <td class=\'meaning\'>Incorrect number of arguments given to function invocation</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -49997,7 +50316,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DisallowedMathUnitsUse DisallowedMathUnitsUse@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DisallowedMathUnitsUse DisallowedMathUnitsUse@endlink</td>
 <td class=\'meaning\'>Attribute \'units\' is only permitted on <code>&lt;cn&gt;</code> elements</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50007,7 +50326,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidUnitsValue InvalidUnitsValue@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidUnitsValue InvalidUnitsValue@endlink</td>
 <td class=\'meaning\'>Invalid value given for the \'units\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50017,7 +50336,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateComponentId DuplicateComponentId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateComponentId DuplicateComponentId@endlink</td>
 <td class=\'meaning\'>Duplicate \'id\' attribute value</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50027,7 +50346,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateUnitDefinitionId DuplicateUnitDefinitionId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateUnitDefinitionId DuplicateUnitDefinitionId@endlink</td>
 <td class=\'meaning\'>Duplicate unit definition \'id\' attribute value</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50037,7 +50356,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateLocalParameterId DuplicateLocalParameterId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateLocalParameterId DuplicateLocalParameterId@endlink</td>
 <td class=\'meaning\'>Duplicate local parameter \'id\' attribute value</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50047,7 +50366,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MultipleAssignmentOrRateRules MultipleAssignmentOrRateRules@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MultipleAssignmentOrRateRules MultipleAssignmentOrRateRules@endlink</td>
 <td class=\'meaning\'>Multiple rules for the same variable are not allowed</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50057,7 +50376,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MultipleEventAssignmentsForId MultipleEventAssignmentsForId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MultipleEventAssignmentsForId MultipleEventAssignmentsForId@endlink</td>
 <td class=\'meaning\'>Multiple event assignments for the same variable are not allowed</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50067,7 +50386,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EventAndAssignmentRuleForId EventAndAssignmentRuleForId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EventAndAssignmentRuleForId EventAndAssignmentRuleForId@endlink</td>
 <td class=\'meaning\'>An event assignment and an assignment rule must not have the same value for \'variable\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50077,7 +50396,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateMetaId DuplicateMetaId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateMetaId DuplicateMetaId@endlink</td>
 <td class=\'meaning\'>Duplicate \'metaid\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50087,7 +50406,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSBOTermSyntax InvalidSBOTermSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSBOTermSyntax InvalidSBOTermSyntax@endlink</td>
 <td class=\'meaning\'>Invalid syntax for an \'sboTerm\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50097,7 +50416,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidMetaidSyntax InvalidMetaidSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidMetaidSyntax InvalidMetaidSyntax@endlink</td>
 <td class=\'meaning\'>Invalid syntax for a \'metaid\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50107,7 +50426,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidIdSyntax InvalidIdSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidIdSyntax InvalidIdSyntax@endlink</td>
 <td class=\'meaning\'>Invalid syntax for an \'id\' attribute value</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50117,7 +50436,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidUnitIdSyntax InvalidUnitIdSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidUnitIdSyntax InvalidUnitIdSyntax@endlink</td>
 <td class=\'meaning\'>Invalid syntax for the identifier of a unit</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50127,7 +50446,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidNameSyntax InvalidNameSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidNameSyntax InvalidNameSyntax@endlink</td>
 <td class=\'meaning\'>Invalid syntax for a \'name\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50137,7 +50456,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingAnnotationNamespace MissingAnnotationNamespace@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingAnnotationNamespace MissingAnnotationNamespace@endlink</td>
 <td class=\'meaning\'>Missing declaration of the XML namespace for the annotation</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50147,7 +50466,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateAnnotationNamespaces DuplicateAnnotationNamespaces@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateAnnotationNamespaces DuplicateAnnotationNamespaces@endlink</td>
 <td class=\'meaning\'>Multiple annotations using the same XML namespace</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50157,7 +50476,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SBMLNamespaceInAnnotation SBMLNamespaceInAnnotation@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SBMLNamespaceInAnnotation SBMLNamespaceInAnnotation@endlink</td>
 <td class=\'meaning\'>The SBML XML namespace cannot be used in an Annotation object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50167,7 +50486,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MultipleAnnotations MultipleAnnotations@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MultipleAnnotations MultipleAnnotations@endlink</td>
 <td class=\'meaning\'>Only one Annotation object is permitted under a given SBML object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50177,7 +50496,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InconsistentArgUnits InconsistentArgUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InconsistentArgUnits InconsistentArgUnits@endlink</td>
 <td class=\'meaning\'>The units of the function call\'s arguments are not consistent with its definition</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -50187,7 +50506,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InconsistentKineticLawUnitsL3 InconsistentKineticLawUnitsL3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InconsistentKineticLawUnitsL3 InconsistentKineticLawUnitsL3@endlink</td>
 <td class=\'meaning\'>The kinetic law\'s units are inconsistent with those of other kinetic laws in the model</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50197,7 +50516,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AssignRuleCompartmentMismatch AssignRuleCompartmentMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AssignRuleCompartmentMismatch AssignRuleCompartmentMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in assignment rule for compartment</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50207,7 +50526,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AssignRuleSpeciesMismatch AssignRuleSpeciesMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AssignRuleSpeciesMismatch AssignRuleSpeciesMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in assignment rule for species</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50217,7 +50536,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AssignRuleParameterMismatch AssignRuleParameterMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AssignRuleParameterMismatch AssignRuleParameterMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in assignment rule for parameter</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50227,7 +50546,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AssignRuleStoichiometryMismatch AssignRuleStoichiometryMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AssignRuleStoichiometryMismatch AssignRuleStoichiometryMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in assignment rule for stoichiometry</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50237,7 +50556,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InitAssignCompartmenMismatch InitAssignCompartmenMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InitAssignCompartmenMismatch InitAssignCompartmenMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in initial assignment to compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50247,7 +50566,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InitAssignSpeciesMismatch InitAssignSpeciesMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InitAssignSpeciesMismatch InitAssignSpeciesMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in initial assignment to species</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50257,7 +50576,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InitAssignParameterMismatch InitAssignParameterMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InitAssignParameterMismatch InitAssignParameterMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in initial assignment to parameter</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50267,7 +50586,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InitAssignStoichiometryMismatch InitAssignStoichiometryMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InitAssignStoichiometryMismatch InitAssignStoichiometryMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in initial assignment to stoichiometry</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50277,7 +50596,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RateRuleCompartmentMismatch RateRuleCompartmentMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RateRuleCompartmentMismatch RateRuleCompartmentMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in rate rule for compartment</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50287,7 +50606,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RateRuleSpeciesMismatch RateRuleSpeciesMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RateRuleSpeciesMismatch RateRuleSpeciesMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in rate rule for species</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50297,7 +50616,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RateRuleParameterMismatch RateRuleParameterMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RateRuleParameterMismatch RateRuleParameterMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in rate rule for parameter</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50307,7 +50626,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RateRuleStoichiometryMismatch RateRuleStoichiometryMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RateRuleStoichiometryMismatch RateRuleStoichiometryMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in rate rule for stoichiometry</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50317,7 +50636,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#KineticLawNotSubstancePerTime KineticLawNotSubstancePerTime@endlink</td>
+<tr><td class=\'code\'>@link libsbml#KineticLawNotSubstancePerTime KineticLawNotSubstancePerTime@endlink</td>
 <td class=\'meaning\'>The units of the kinetic law are not \'substance\'/\'time\'</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50327,7 +50646,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpeciesInvalidExtentUnits SpeciesInvalidExtentUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpeciesInvalidExtentUnits SpeciesInvalidExtentUnits@endlink</td>
 <td class=\'meaning\'>The species\' units are not consistent with units of extent</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50337,7 +50656,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DelayUnitsNotTime DelayUnitsNotTime@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DelayUnitsNotTime DelayUnitsNotTime@endlink</td>
 <td class=\'meaning\'>The units of the delay expression are not units of time</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50347,7 +50666,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EventAssignCompartmentMismatch EventAssignCompartmentMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EventAssignCompartmentMismatch EventAssignCompartmentMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in event assignment for compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50357,7 +50676,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EventAssignSpeciesMismatch EventAssignSpeciesMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EventAssignSpeciesMismatch EventAssignSpeciesMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in event assignment for species</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50367,7 +50686,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EventAssignParameterMismatch EventAssignParameterMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EventAssignParameterMismatch EventAssignParameterMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in event assignment for parameter</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50377,7 +50696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EventAssignStoichiometryMismatch EventAssignStoichiometryMismatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EventAssignStoichiometryMismatch EventAssignStoichiometryMismatch@endlink</td>
 <td class=\'meaning\'>Mismatched units in event assignment for stoichiometry</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50387,7 +50706,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#PriorityUnitsNotDimensionless PriorityUnitsNotDimensionless@endlink</td>
+<tr><td class=\'code\'>@link libsbml#PriorityUnitsNotDimensionless PriorityUnitsNotDimensionless@endlink</td>
 <td class=\'meaning\'>The units of a priority expression must be \'dimensionless\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50397,7 +50716,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OverdeterminedSystem OverdeterminedSystem@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OverdeterminedSystem OverdeterminedSystem@endlink</td>
 <td class=\'meaning\'>The model is overdetermined</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -50407,7 +50726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidModelSBOTerm InvalidModelSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidModelSBOTerm InvalidModelSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a Model object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50417,7 +50736,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidFunctionDefSBOTerm InvalidFunctionDefSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidFunctionDefSBOTerm InvalidFunctionDefSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a FunctionDefinition object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50427,7 +50746,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidParameterSBOTerm InvalidParameterSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidParameterSBOTerm InvalidParameterSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a Parameter object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50437,7 +50756,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidInitAssignSBOTerm InvalidInitAssignSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidInitAssignSBOTerm InvalidInitAssignSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for an InitialAssignment object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50447,7 +50766,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidRuleSBOTerm InvalidRuleSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidRuleSBOTerm InvalidRuleSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a Rule object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50457,7 +50776,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidConstraintSBOTerm InvalidConstraintSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidConstraintSBOTerm InvalidConstraintSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a Constraint object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50467,7 +50786,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidReactionSBOTerm InvalidReactionSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidReactionSBOTerm InvalidReactionSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a Reaction object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50477,7 +50796,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSpeciesReferenceSBOTerm InvalidSpeciesReferenceSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSpeciesReferenceSBOTerm InvalidSpeciesReferenceSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a SpeciesReference object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50487,7 +50806,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidKineticLawSBOTerm InvalidKineticLawSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidKineticLawSBOTerm InvalidKineticLawSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a KineticLaw object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50497,7 +50816,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidEventSBOTerm InvalidEventSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidEventSBOTerm InvalidEventSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for an Event object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50507,7 +50826,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidEventAssignmentSBOTerm InvalidEventAssignmentSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidEventAssignmentSBOTerm InvalidEventAssignmentSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for an EventAssignment object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50517,7 +50836,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidCompartmentSBOTerm InvalidCompartmentSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidCompartmentSBOTerm InvalidCompartmentSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a Compartment object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50527,7 +50846,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSpeciesSBOTerm InvalidSpeciesSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSpeciesSBOTerm InvalidSpeciesSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a Species object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50537,7 +50856,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidCompartmentTypeSBOTerm InvalidCompartmentTypeSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidCompartmentTypeSBOTerm InvalidCompartmentTypeSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a CompartmentType object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50547,7 +50866,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSpeciesTypeSBOTerm InvalidSpeciesTypeSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSpeciesTypeSBOTerm InvalidSpeciesTypeSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for a SpeciesType object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50557,7 +50876,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidTriggerSBOTerm InvalidTriggerSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidTriggerSBOTerm InvalidTriggerSBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for an Event Trigger object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50567,7 +50886,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidDelaySBOTerm InvalidDelaySBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidDelaySBOTerm InvalidDelaySBOTerm@endlink</td>
 <td class=\'meaning\'>Invalid \'sboTerm\' attribute value for an Event Delay object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50577,7 +50896,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NotesNotInXHTMLNamespace NotesNotInXHTMLNamespace@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NotesNotInXHTMLNamespace NotesNotInXHTMLNamespace@endlink</td>
 <td class=\'meaning\'>Notes must be placed in the XHTML XML namespace</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50587,7 +50906,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NotesContainsXMLDecl NotesContainsXMLDecl@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NotesContainsXMLDecl NotesContainsXMLDecl@endlink</td>
 <td class=\'meaning\'>XML declarations are not permitted in Notes objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50597,7 +50916,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NotesContainsDOCTYPE NotesContainsDOCTYPE@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NotesContainsDOCTYPE NotesContainsDOCTYPE@endlink</td>
 <td class=\'meaning\'>XML DOCTYPE elements are not permitted in Notes objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50607,7 +50926,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidNotesContent InvalidNotesContent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidNotesContent InvalidNotesContent@endlink</td>
 <td class=\'meaning\'>Invalid notes content found</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50617,7 +50936,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyOneNotesElementAllowed OnlyOneNotesElementAllowed@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyOneNotesElementAllowed OnlyOneNotesElementAllowed@endlink</td>
 <td class=\'meaning\'>Only one Notes subobject is permitted on a given SBML object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50627,7 +50946,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidNamespaceOnSBML InvalidNamespaceOnSBML@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidNamespaceOnSBML InvalidNamespaceOnSBML@endlink</td>
 <td class=\'meaning\'>Invalid XML namespace for the SBML container element</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50637,7 +50956,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingOrInconsistentLevel MissingOrInconsistentLevel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingOrInconsistentLevel MissingOrInconsistentLevel@endlink</td>
 <td class=\'meaning\'>Missing or inconsistent value for the \'level\' attribute</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50647,7 +50966,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingOrInconsistentVersion MissingOrInconsistentVersion@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingOrInconsistentVersion MissingOrInconsistentVersion@endlink</td>
 <td class=\'meaning\'>Missing or inconsistent value for the \'version\' attribute</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50657,7 +50976,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#PackageNSMustMatch PackageNSMustMatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#PackageNSMustMatch PackageNSMustMatch@endlink</td>
 <td class=\'meaning\'>Inconsistent or invalid SBML Level/Version for the package namespace declaration</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50667,7 +50986,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LevelPositiveInteger LevelPositiveInteger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LevelPositiveInteger LevelPositiveInteger@endlink</td>
 <td class=\'meaning\'>The \'level\' attribute must have a positive integer value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50677,7 +50996,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#VersionPositiveInteger VersionPositiveInteger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#VersionPositiveInteger VersionPositiveInteger@endlink</td>
 <td class=\'meaning\'>The \'version\' attribute must have a positive integer value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50687,7 +51006,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnSBML AllowedAttributesOnSBML@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnSBML AllowedAttributesOnSBML@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the SBML container element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50697,7 +51016,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3PackageOnLowerSBML L3PackageOnLowerSBML@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3PackageOnLowerSBML L3PackageOnLowerSBML@endlink</td>
 <td class=\'meaning\'>An L3 package ns found on the SBML container element</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -50707,7 +51026,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingModel MissingModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingModel MissingModel@endlink</td>
 <td class=\'meaning\'>No model definition found</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50717,7 +51036,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#IncorrectOrderInModel IncorrectOrderInModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#IncorrectOrderInModel IncorrectOrderInModel@endlink</td>
 <td class=\'meaning\'>Incorrect ordering of components within the Model object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50727,7 +51046,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EmptyListElement EmptyListElement@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EmptyListElement EmptyListElement@endlink</td>
 <td class=\'meaning\'>Empty ListOf___ object found</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50737,7 +51056,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NeedCompartmentIfHaveSpecies NeedCompartmentIfHaveSpecies@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NeedCompartmentIfHaveSpecies NeedCompartmentIfHaveSpecies@endlink</td>
 <td class=\'meaning\'>The presence of a species requires a compartment</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -50747,7 +51066,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneOfEachListOf OneOfEachListOf@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneOfEachListOf OneOfEachListOf@endlink</td>
 <td class=\'meaning\'>Only one of each kind of ListOf___ object is allowed inside a Model object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50757,7 +51076,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyFuncDefsInListOfFuncDefs OnlyFuncDefsInListOfFuncDefs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyFuncDefsInListOfFuncDefs OnlyFuncDefsInListOfFuncDefs@endlink</td>
 <td class=\'meaning\'>Only FunctionDefinition, Notes and Annotation objects are allowed in ListOfFunctionDefinitions</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50767,7 +51086,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyUnitDefsInListOfUnitDefs OnlyUnitDefsInListOfUnitDefs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyUnitDefsInListOfUnitDefs OnlyUnitDefsInListOfUnitDefs@endlink</td>
 <td class=\'meaning\'>Only UnitDefinition, Notes and Annotation objects are allowed in ListOfUnitDefinitions objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50777,7 +51096,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyCompartmentsInListOfCompartments OnlyCompartmentsInListOfCompartments@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyCompartmentsInListOfCompartments OnlyCompartmentsInListOfCompartments@endlink</td>
 <td class=\'meaning\'>Only Compartment, Notes and Annotation objects are allowed in ListOfCompartments objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50787,7 +51106,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlySpeciesInListOfSpecies OnlySpeciesInListOfSpecies@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlySpeciesInListOfSpecies OnlySpeciesInListOfSpecies@endlink</td>
 <td class=\'meaning\'>Only Species, Notes and Annotation objects are allowed in ListOfSpecies objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50797,7 +51116,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyParametersInListOfParameters OnlyParametersInListOfParameters@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyParametersInListOfParameters OnlyParametersInListOfParameters@endlink</td>
 <td class=\'meaning\'>Only Parameter, Notes and Annotation objects are allowed in ListOfParameters objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50807,7 +51126,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyInitAssignsInListOfInitAssigns OnlyInitAssignsInListOfInitAssigns@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyInitAssignsInListOfInitAssigns OnlyInitAssignsInListOfInitAssigns@endlink</td>
 <td class=\'meaning\'>Only InitialAssignment, Notes and Annotation objects are allowed in ListOfInitialAssignments objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50817,7 +51136,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyRulesInListOfRules OnlyRulesInListOfRules@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyRulesInListOfRules OnlyRulesInListOfRules@endlink</td>
 <td class=\'meaning\'>Only Rule, Notes and Annotation objects are allowed in ListOfRules objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50827,7 +51146,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyConstraintsInListOfConstraints OnlyConstraintsInListOfConstraints@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyConstraintsInListOfConstraints OnlyConstraintsInListOfConstraints@endlink</td>
 <td class=\'meaning\'>Only Constraint, Notes and Annotation objects are allowed in ListOfConstraints objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50837,7 +51156,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyReactionsInListOfReactions OnlyReactionsInListOfReactions@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyReactionsInListOfReactions OnlyReactionsInListOfReactions@endlink</td>
 <td class=\'meaning\'>Only Reaction, Notes and Annotation objects are allowed in ListOfReactions objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50847,7 +51166,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyEventsInListOfEvents OnlyEventsInListOfEvents@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyEventsInListOfEvents OnlyEventsInListOfEvents@endlink</td>
 <td class=\'meaning\'>Only Event, Notes and Annotation objects are allowed in ListOfEvents objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50857,7 +51176,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3ConversionFactorOnModel L3ConversionFactorOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3ConversionFactorOnModel L3ConversionFactorOnModel@endlink</td>
 <td class=\'meaning\'>A \'conversionFactor\' attribute value must reference a Parameter object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50867,7 +51186,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3TimeUnitsOnModel L3TimeUnitsOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3TimeUnitsOnModel L3TimeUnitsOnModel@endlink</td>
 <td class=\'meaning\'>Invalid \'timeUnits\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50877,7 +51196,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3VolumeUnitsOnModel L3VolumeUnitsOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3VolumeUnitsOnModel L3VolumeUnitsOnModel@endlink</td>
 <td class=\'meaning\'>Invalid \'volumeUnits\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50887,7 +51206,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3AreaUnitsOnModel L3AreaUnitsOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3AreaUnitsOnModel L3AreaUnitsOnModel@endlink</td>
 <td class=\'meaning\'>Invalid \'areaUnits\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50897,7 +51216,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3LengthUnitsOnModel L3LengthUnitsOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3LengthUnitsOnModel L3LengthUnitsOnModel@endlink</td>
 <td class=\'meaning\'>Invalid \'lengthUnits\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50907,7 +51226,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3ExtentUnitsOnModel L3ExtentUnitsOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3ExtentUnitsOnModel L3ExtentUnitsOnModel@endlink</td>
 <td class=\'meaning\'>Invalid \'extentUnits\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50917,7 +51236,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnModel AllowedAttributesOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnModel AllowedAttributesOnModel@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the Model object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50927,7 +51246,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfFuncs AllowedAttributesOnListOfFuncs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfFuncs AllowedAttributesOnListOfFuncs@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfFunctionDefinitions object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50937,7 +51256,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfUnitDefs AllowedAttributesOnListOfUnitDefs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfUnitDefs AllowedAttributesOnListOfUnitDefs@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfUnitDefinitions object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50947,7 +51266,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfComps AllowedAttributesOnListOfComps@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfComps AllowedAttributesOnListOfComps@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfCompartments object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50957,7 +51276,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfSpecies AllowedAttributesOnListOfSpecies@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfSpecies AllowedAttributesOnListOfSpecies@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfSpecies object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50967,7 +51286,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfParams AllowedAttributesOnListOfParams@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfParams AllowedAttributesOnListOfParams@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfParameters object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50977,7 +51296,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfInitAssign AllowedAttributesOnListOfInitAssign@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfInitAssign AllowedAttributesOnListOfInitAssign@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfInitialAssignments object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50987,7 +51306,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfRules AllowedAttributesOnListOfRules@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfRules AllowedAttributesOnListOfRules@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfRules object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -50997,7 +51316,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfConstraints AllowedAttributesOnListOfConstraints@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfConstraints AllowedAttributesOnListOfConstraints@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfConstraints object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51007,7 +51326,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfReactions AllowedAttributesOnListOfReactions@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfReactions AllowedAttributesOnListOfReactions@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfReactions object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51017,7 +51336,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfEvents AllowedAttributesOnListOfEvents@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfEvents AllowedAttributesOnListOfEvents@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfEvents object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51027,7 +51346,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FunctionDefMathNotLambda FunctionDefMathNotLambda@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FunctionDefMathNotLambda FunctionDefMathNotLambda@endlink</td>
 <td class=\'meaning\'>Invalid expression found in the function definition</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51037,7 +51356,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidApplyCiInLambda InvalidApplyCiInLambda@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidApplyCiInLambda InvalidApplyCiInLambda@endlink</td>
 <td class=\'meaning\'>Invalid forward reference in the MathML <code>&lt;apply&gt;</code><code>&lt;ci&gt;</code>...<code>&lt;/ci&gt;</code><code>&lt;/apply&gt;</code> expression</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51047,7 +51366,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RecursiveFunctionDefinition RecursiveFunctionDefinition@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RecursiveFunctionDefinition RecursiveFunctionDefinition@endlink</td>
 <td class=\'meaning\'>Recursive function definitions are not permitted</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51057,7 +51376,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidCiInLambda InvalidCiInLambda@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidCiInLambda InvalidCiInLambda@endlink</td>
 <td class=\'meaning\'>Invalid <code>&lt;ci&gt;</code> reference found inside the <code>&lt;lambda&gt;</code> mathematical formula</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51067,7 +51386,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidFunctionDefReturnType InvalidFunctionDefReturnType@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidFunctionDefReturnType InvalidFunctionDefReturnType@endlink</td>
 <td class=\'meaning\'>A function\'s return type must be either a number or a Boolean</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51077,7 +51396,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMathElementPerFunc OneMathElementPerFunc@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMathElementPerFunc OneMathElementPerFunc@endlink</td>
 <td class=\'meaning\'>A FunctionDefinition object must contain one <code>&lt;math&gt;</code> element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51087,7 +51406,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnFunc AllowedAttributesOnFunc@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnFunc AllowedAttributesOnFunc@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the FunctionDefinition object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51097,7 +51416,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidUnitDefId InvalidUnitDefId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidUnitDefId InvalidUnitDefId@endlink</td>
 <td class=\'meaning\'>Invalid \'id\' attribute value for a UnitDefinition object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51107,7 +51426,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSubstanceRedefinition InvalidSubstanceRedefinition@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSubstanceRedefinition InvalidSubstanceRedefinition@endlink</td>
 <td class=\'meaning\'>Invalid redefinition of built-in type \'substance\'</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51117,7 +51436,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidLengthRedefinition InvalidLengthRedefinition@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidLengthRedefinition InvalidLengthRedefinition@endlink</td>
 <td class=\'meaning\'>Invalid redefinition of built-in type \'length\'</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -51127,7 +51446,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidAreaRedefinition InvalidAreaRedefinition@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidAreaRedefinition InvalidAreaRedefinition@endlink</td>
 <td class=\'meaning\'>Invalid redefinition of built-in type name \'area\'</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -51137,7 +51456,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidTimeRedefinition InvalidTimeRedefinition@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidTimeRedefinition InvalidTimeRedefinition@endlink</td>
 <td class=\'meaning\'>Invalid redefinition of built-in type name \'time\'</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51147,7 +51466,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidVolumeRedefinition InvalidVolumeRedefinition@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidVolumeRedefinition InvalidVolumeRedefinition@endlink</td>
 <td class=\'meaning\'>Invalid redefinition of built-in type name \'volume\'</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51157,7 +51476,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#VolumeLitreDefExponentNotOne VolumeLitreDefExponentNotOne@endlink</td>
+<tr><td class=\'code\'>@link libsbml#VolumeLitreDefExponentNotOne VolumeLitreDefExponentNotOne@endlink</td>
 <td class=\'meaning\'>Must use \'exponent\'=1 when defining \'volume\' in terms of litres</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51167,7 +51486,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#VolumeMetreDefExponentNot3 VolumeMetreDefExponentNot3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#VolumeMetreDefExponentNot3 VolumeMetreDefExponentNot3@endlink</td>
 <td class=\'meaning\'>Must use \'exponent\'=3 when defining \'volume\' in terms of metres</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51177,7 +51496,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EmptyListOfUnits EmptyListOfUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EmptyListOfUnits EmptyListOfUnits@endlink</td>
 <td class=\'meaning\'>An empty list of Unit objects is not permitted in a UnitDefinition object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51187,7 +51506,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidUnitKind InvalidUnitKind@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidUnitKind InvalidUnitKind@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'kind\' attribute of a UnitDefinition object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51197,7 +51516,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OffsetNoLongerValid OffsetNoLongerValid@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OffsetNoLongerValid OffsetNoLongerValid@endlink</td>
 <td class=\'meaning\'>Unit attribute \'offset\' is not supported in this Level+Version of SBML</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51207,7 +51526,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CelsiusNoLongerValid CelsiusNoLongerValid@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CelsiusNoLongerValid CelsiusNoLongerValid@endlink</td>
 <td class=\'meaning\'>Unit name \'Celsius\' is not defined in this Level+Version of SBML</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51217,7 +51536,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EmptyUnitListElement EmptyUnitListElement@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EmptyUnitListElement EmptyUnitListElement@endlink</td>
 <td class=\'meaning\'>A ListOfUnits object must not be empty</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51227,7 +51546,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneListOfUnitsPerUnitDef OneListOfUnitsPerUnitDef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneListOfUnitsPerUnitDef OneListOfUnitsPerUnitDef@endlink</td>
 <td class=\'meaning\'>At most one ListOfUnits object is allowed inside a UnitDefinition object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51237,7 +51556,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyUnitsInListOfUnits OnlyUnitsInListOfUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyUnitsInListOfUnits OnlyUnitsInListOfUnits@endlink</td>
 <td class=\'meaning\'>Only Unit, Notes and Annotation objects are allowed in ListOfUnits objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51247,7 +51566,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnUnitDefinition AllowedAttributesOnUnitDefinition@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnUnitDefinition AllowedAttributesOnUnitDefinition@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the UnitDefinition object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51257,7 +51576,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfUnits AllowedAttributesOnListOfUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfUnits AllowedAttributesOnListOfUnits@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfUnits object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51267,7 +51586,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnUnit AllowedAttributesOnUnit@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnUnit AllowedAttributesOnUnit@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the Unit object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51277,7 +51596,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ZeroDimensionalCompartmentSize ZeroDimensionalCompartmentSize@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ZeroDimensionalCompartmentSize ZeroDimensionalCompartmentSize@endlink</td>
 <td class=\'meaning\'>Invalid use of the \'size\' attribute for a zero-dimensional compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51287,7 +51606,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ZeroDimensionalCompartmentUnits ZeroDimensionalCompartmentUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ZeroDimensionalCompartmentUnits ZeroDimensionalCompartmentUnits@endlink</td>
 <td class=\'meaning\'>Invalid use of the \'units\' attribute for a zero-dimensional compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51297,7 +51616,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ZeroDimensionalCompartmentConst ZeroDimensionalCompartmentConst@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ZeroDimensionalCompartmentConst ZeroDimensionalCompartmentConst@endlink</td>
 <td class=\'meaning\'>Zero-dimensional compartments must be defined to be constant</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51307,7 +51626,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UndefinedOutsideCompartment UndefinedOutsideCompartment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UndefinedOutsideCompartment UndefinedOutsideCompartment@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'outside\' attribute of a Compartment object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51317,7 +51636,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RecursiveCompartmentContainment RecursiveCompartmentContainment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RecursiveCompartmentContainment RecursiveCompartmentContainment@endlink</td>
 <td class=\'meaning\'>Recursive nesting of compartments via the \'outside\' attribute is not permitted</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -51327,7 +51646,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ZeroDCompartmentContainment ZeroDCompartmentContainment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ZeroDCompartmentContainment ZeroDCompartmentContainment@endlink</td>
 <td class=\'meaning\'>Invalid nesting of zero-dimensional compartments</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51337,7 +51656,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#Invalid1DCompartmentUnits Invalid1DCompartmentUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#Invalid1DCompartmentUnits Invalid1DCompartmentUnits@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'units\' attribute of a one-dimensional compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51347,7 +51666,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#Invalid2DCompartmentUnits Invalid2DCompartmentUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#Invalid2DCompartmentUnits Invalid2DCompartmentUnits@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'units\' attribute of a two-dimensional compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51357,7 +51676,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#Invalid3DCompartmentUnits Invalid3DCompartmentUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#Invalid3DCompartmentUnits Invalid3DCompartmentUnits@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'units\' attribute of a three-dimensional compartment</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51367,7 +51686,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidCompartmentTypeRef InvalidCompartmentTypeRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidCompartmentTypeRef InvalidCompartmentTypeRef@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'compartmentType\' attribute of a compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51377,7 +51696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneDimensionalCompartmentUnits OneDimensionalCompartmentUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneDimensionalCompartmentUnits OneDimensionalCompartmentUnits@endlink</td>
 <td class=\'meaning\'>No units defined for 1-D compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51387,7 +51706,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#TwoDimensionalCompartmentUnits TwoDimensionalCompartmentUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#TwoDimensionalCompartmentUnits TwoDimensionalCompartmentUnits@endlink</td>
 <td class=\'meaning\'>No units defined for 2-D compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51397,7 +51716,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ThreeDimensionalCompartmentUnits ThreeDimensionalCompartmentUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ThreeDimensionalCompartmentUnits ThreeDimensionalCompartmentUnits@endlink</td>
 <td class=\'meaning\'>No units defined for 3-D Compartment object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51407,7 +51726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnCompartment AllowedAttributesOnCompartment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnCompartment AllowedAttributesOnCompartment@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on Compartment object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51417,7 +51736,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoUnitsOnCompartment NoUnitsOnCompartment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoUnitsOnCompartment NoUnitsOnCompartment@endlink</td>
 <td class=\'meaning\'>No units defined for Compartment object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51427,7 +51746,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSpeciesCompartmentRef InvalidSpeciesCompartmentRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSpeciesCompartmentRef InvalidSpeciesCompartmentRef@endlink</td>
 <td class=\'meaning\'>Invalid value found for Species \'compartment\' attribute</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51437,7 +51756,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#HasOnlySubsNoSpatialUnits HasOnlySubsNoSpatialUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#HasOnlySubsNoSpatialUnits HasOnlySubsNoSpatialUnits@endlink</td>
 <td class=\'meaning\'>Attribute \'spatialSizeUnits\' must not be set if \'hasOnlySubstanceUnits\'=\'true\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51447,7 +51766,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSpatialUnitsInZeroD NoSpatialUnitsInZeroD@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSpatialUnitsInZeroD NoSpatialUnitsInZeroD@endlink</td>
 <td class=\'meaning\'>Attribute \'spatialSizeUnits\' must not be set if the compartment is zero-dimensional</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51457,7 +51776,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoConcentrationInZeroD NoConcentrationInZeroD@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoConcentrationInZeroD NoConcentrationInZeroD@endlink</td>
 <td class=\'meaning\'>Attribute \'initialConcentration\' must not be set if the compartment is zero-dimensional</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51467,7 +51786,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpatialUnitsInOneD SpatialUnitsInOneD@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpatialUnitsInOneD SpatialUnitsInOneD@endlink</td>
 <td class=\'meaning\'>Invalid value for \'spatialSizeUnits\' attribute of a one-dimensional compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51477,7 +51796,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpatialUnitsInTwoD SpatialUnitsInTwoD@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpatialUnitsInTwoD SpatialUnitsInTwoD@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'spatialSizeUnits\' attribute of a two-dimensional compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51487,7 +51806,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpatialUnitsInThreeD SpatialUnitsInThreeD@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpatialUnitsInThreeD SpatialUnitsInThreeD@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'spatialSizeUnits\' attribute of a three-dimensional compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51497,7 +51816,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSpeciesSusbstanceUnits InvalidSpeciesSusbstanceUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSpeciesSusbstanceUnits InvalidSpeciesSusbstanceUnits@endlink</td>
 <td class=\'meaning\'>Invalid value for a Species \'units\' attribute</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51507,7 +51826,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BothAmountAndConcentrationSet BothAmountAndConcentrationSet@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BothAmountAndConcentrationSet BothAmountAndConcentrationSet@endlink</td>
 <td class=\'meaning\'>Cannot set both \'initialConcentration\' and \'initialAmount\' attributes simultaneously</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51517,7 +51836,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NonBoundarySpeciesAssignedAndUsed NonBoundarySpeciesAssignedAndUsed@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NonBoundarySpeciesAssignedAndUsed NonBoundarySpeciesAssignedAndUsed@endlink</td>
 <td class=\'meaning\'>Cannot use a non-boundary species in both reactions and rules simultaneously</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -51527,7 +51846,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NonConstantSpeciesUsed NonConstantSpeciesUsed@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NonConstantSpeciesUsed NonConstantSpeciesUsed@endlink</td>
 <td class=\'meaning\'>Cannot use a constant, non-boundary species as a reactant or product</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51537,7 +51856,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSpeciesTypeRef InvalidSpeciesTypeRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSpeciesTypeRef InvalidSpeciesTypeRef@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'speciesType\' attribute of a species</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51547,7 +51866,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MultSpeciesSameTypeInCompartment MultSpeciesSameTypeInCompartment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MultSpeciesSameTypeInCompartment MultSpeciesSameTypeInCompartment@endlink</td>
 <td class=\'meaning\'>Cannot have multiple species of the same species type in the same compartment</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51557,7 +51876,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingSpeciesCompartment MissingSpeciesCompartment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingSpeciesCompartment MissingSpeciesCompartment@endlink</td>
 <td class=\'meaning\'>Missing value for the \'compartment\' attribute</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51567,7 +51886,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpatialSizeUnitsRemoved SpatialSizeUnitsRemoved@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpatialSizeUnitsRemoved SpatialSizeUnitsRemoved@endlink</td>
 <td class=\'meaning\'>Attribute \'spatialSizeUnits\' is not supported in this Level+Version of SBML</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51577,7 +51896,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SubstanceUnitsOnSpecies SubstanceUnitsOnSpecies@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SubstanceUnitsOnSpecies SubstanceUnitsOnSpecies@endlink</td>
 <td class=\'meaning\'>No substance units defined for the species</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51587,7 +51906,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConversionFactorOnSpecies ConversionFactorOnSpecies@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConversionFactorOnSpecies ConversionFactorOnSpecies@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'conversionFactor\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51597,7 +51916,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnSpecies AllowedAttributesOnSpecies@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnSpecies AllowedAttributesOnSpecies@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on Species object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51607,7 +51926,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidParameterUnits InvalidParameterUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidParameterUnits InvalidParameterUnits@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'units\' attribute of a Parameter object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51617,7 +51936,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ParameterUnits ParameterUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ParameterUnits ParameterUnits@endlink</td>
 <td class=\'meaning\'>No units defined for the parameter</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51627,7 +51946,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConversionFactorMustConstant ConversionFactorMustConstant@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConversionFactorMustConstant ConversionFactorMustConstant@endlink</td>
 <td class=\'meaning\'>A conversion factor must reference a Parameter object declared to be a constant</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51637,7 +51956,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnParameter AllowedAttributesOnParameter@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnParameter AllowedAttributesOnParameter@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on Parameter object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51647,7 +51966,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidInitAssignSymbol InvalidInitAssignSymbol@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidInitAssignSymbol InvalidInitAssignSymbol@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'symbol\' attribute of an InitialAssignment object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51657,7 +51976,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MultipleInitAssignments MultipleInitAssignments@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MultipleInitAssignments MultipleInitAssignments@endlink</td>
 <td class=\'meaning\'>Multiple initial assignments for the same \'symbol\' value are not allowed</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51667,7 +51986,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InitAssignmentAndRuleForSameId InitAssignmentAndRuleForSameId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InitAssignmentAndRuleForSameId InitAssignmentAndRuleForSameId@endlink</td>
 <td class=\'meaning\'>Cannot set a value using both an initial assignment and an assignment rule simultaneously</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51677,7 +51996,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMathElementPerInitialAssign OneMathElementPerInitialAssign@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMathElementPerInitialAssign OneMathElementPerInitialAssign@endlink</td>
 <td class=\'meaning\'>An InitialAssignment object must contain one <code>&lt;math&gt;</code> element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51687,7 +52006,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnInitialAssign AllowedAttributesOnInitialAssign@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnInitialAssign AllowedAttributesOnInitialAssign@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on an InitialAssignment object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51697,7 +52016,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidAssignRuleVariable InvalidAssignRuleVariable@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidAssignRuleVariable InvalidAssignRuleVariable@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'variable\' attribute of an AssignmentRule object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51707,7 +52026,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidRateRuleVariable InvalidRateRuleVariable@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidRateRuleVariable InvalidRateRuleVariable@endlink</td>
 <td class=\'meaning\'>Invalid value for the \'variable\' attribute of a RateRule object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51717,7 +52036,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AssignmentToConstantEntity AssignmentToConstantEntity@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AssignmentToConstantEntity AssignmentToConstantEntity@endlink</td>
 <td class=\'meaning\'>An assignment rule cannot assign an entity declared to be constant</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51727,7 +52046,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RateRuleForConstantEntity RateRuleForConstantEntity@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RateRuleForConstantEntity RateRuleForConstantEntity@endlink</td>
 <td class=\'meaning\'>A rate rule cannot assign an entity declared to be constant</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51737,7 +52056,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CircularRuleDependency CircularRuleDependency@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CircularRuleDependency CircularRuleDependency@endlink</td>
 <td class=\'meaning\'>Circular dependencies involving rules and reactions are not permitted</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51747,7 +52066,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMathElementPerRule OneMathElementPerRule@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMathElementPerRule OneMathElementPerRule@endlink</td>
 <td class=\'meaning\'>A rule object must contain one <code>&lt;math&gt;</code> element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51757,7 +52076,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnAssignRule AllowedAttributesOnAssignRule@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnAssignRule AllowedAttributesOnAssignRule@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on an AssignmentRule object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51767,7 +52086,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnRateRule AllowedAttributesOnRateRule@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnRateRule AllowedAttributesOnRateRule@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on a RateRule object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51777,7 +52096,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnAlgRule AllowedAttributesOnAlgRule@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnAlgRule AllowedAttributesOnAlgRule@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on an AlgebraicRule object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51787,7 +52106,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConstraintMathNotBoolean ConstraintMathNotBoolean@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConstraintMathNotBoolean ConstraintMathNotBoolean@endlink</td>
 <td class=\'meaning\'>A Constraint object\'s <code>&lt;math&gt;</code> must evaluate to a Boolean value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51797,7 +52116,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#IncorrectOrderInConstraint IncorrectOrderInConstraint@endlink</td>
+<tr><td class=\'code\'>@link libsbml#IncorrectOrderInConstraint IncorrectOrderInConstraint@endlink</td>
 <td class=\'meaning\'>Subobjects inside the Constraint object are not in the prescribed order</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51807,7 +52126,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConstraintNotInXHTMLNamespace ConstraintNotInXHTMLNamespace@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConstraintNotInXHTMLNamespace ConstraintNotInXHTMLNamespace@endlink</td>
 <td class=\'meaning\'>A Constraint\'s Message subobject must be in the XHTML XML namespace</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51817,7 +52136,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConstraintContainsXMLDecl ConstraintContainsXMLDecl@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConstraintContainsXMLDecl ConstraintContainsXMLDecl@endlink</td>
 <td class=\'meaning\'>XML declarations are not permitted within Constraint\'s Message objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51827,7 +52146,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConstraintContainsDOCTYPE ConstraintContainsDOCTYPE@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConstraintContainsDOCTYPE ConstraintContainsDOCTYPE@endlink</td>
 <td class=\'meaning\'>XML DOCTYPE elements are not permitted within Constraint\'s Message objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51837,7 +52156,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidConstraintContent InvalidConstraintContent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidConstraintContent InvalidConstraintContent@endlink</td>
 <td class=\'meaning\'>Invalid content for a Constraint object\'s Message object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51847,7 +52166,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMathElementPerConstraint OneMathElementPerConstraint@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMathElementPerConstraint OneMathElementPerConstraint@endlink</td>
 <td class=\'meaning\'>A Constraint object must contain one <code>&lt;math&gt;</code> element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51857,7 +52176,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMessageElementPerConstraint OneMessageElementPerConstraint@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMessageElementPerConstraint OneMessageElementPerConstraint@endlink</td>
 <td class=\'meaning\'>A Constraint object must contain one Message subobject</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51867,7 +52186,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnConstraint AllowedAttributesOnConstraint@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnConstraint AllowedAttributesOnConstraint@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on Constraint object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51877,7 +52196,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoReactantsOrProducts NoReactantsOrProducts@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoReactantsOrProducts NoReactantsOrProducts@endlink</td>
 <td class=\'meaning\'>Cannot have a reaction with neither reactants nor products</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51887,7 +52206,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#IncorrectOrderInReaction IncorrectOrderInReaction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#IncorrectOrderInReaction IncorrectOrderInReaction@endlink</td>
 <td class=\'meaning\'>Subobjects inside the Reaction object are not in the prescribed order</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51897,7 +52216,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EmptyListInReaction EmptyListInReaction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EmptyListInReaction EmptyListInReaction@endlink</td>
 <td class=\'meaning\'>Reaction components, if present, cannot be empty</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51907,7 +52226,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidReactantsProductsList InvalidReactantsProductsList@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidReactantsProductsList InvalidReactantsProductsList@endlink</td>
 <td class=\'meaning\'>Invalid object found in the list of reactants or products</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51917,7 +52236,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidModifiersList InvalidModifiersList@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidModifiersList InvalidModifiersList@endlink</td>
 <td class=\'meaning\'>Invalid object found in the list of modifiers</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51927,7 +52246,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneSubElementPerReaction OneSubElementPerReaction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneSubElementPerReaction OneSubElementPerReaction@endlink</td>
 <td class=\'meaning\'>A Reaction object can only contain one of each allowed type of object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51937,7 +52256,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompartmentOnReaction CompartmentOnReaction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompartmentOnReaction CompartmentOnReaction@endlink</td>
 <td class=\'meaning\'>Invalid value for the Reaction \'compartment\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51947,7 +52266,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnReaction AllowedAttributesOnReaction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnReaction AllowedAttributesOnReaction@endlink</td>
 <td class=\'meaning\'>Invalid attribute for a Reaction object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51957,7 +52276,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSpeciesReference InvalidSpeciesReference@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSpeciesReference InvalidSpeciesReference@endlink</td>
 <td class=\'meaning\'>Invalid \'species\' attribute value in SpeciesReference object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -51967,7 +52286,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BothStoichiometryAndMath BothStoichiometryAndMath@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BothStoichiometryAndMath BothStoichiometryAndMath@endlink</td>
 <td class=\'meaning\'>The \'stoichiometry\' attribute and StoichiometryMath subobject are mutually exclusive</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51977,7 +52296,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnSpeciesReference AllowedAttributesOnSpeciesReference@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnSpeciesReference AllowedAttributesOnSpeciesReference@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the SpeciesReference object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51987,7 +52306,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnModifier AllowedAttributesOnModifier@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnModifier AllowedAttributesOnModifier@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ModifierSpeciesReference object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -51997,7 +52316,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UndeclaredSpeciesRef UndeclaredSpeciesRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UndeclaredSpeciesRef UndeclaredSpeciesRef@endlink</td>
 <td class=\'meaning\'>Unknown species referenced in the kinetic law <code>&lt;math&gt;</code> formula</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -52007,7 +52326,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#IncorrectOrderInKineticLaw IncorrectOrderInKineticLaw@endlink</td>
+<tr><td class=\'code\'>@link libsbml#IncorrectOrderInKineticLaw IncorrectOrderInKineticLaw@endlink</td>
 <td class=\'meaning\'>Incorrect ordering of components in the KineticLaw object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52017,7 +52336,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EmptyListInKineticLaw EmptyListInKineticLaw@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EmptyListInKineticLaw EmptyListInKineticLaw@endlink</td>
 <td class=\'meaning\'>The list of parameters, if present, cannot be empty</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -52027,7 +52346,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NonConstantLocalParameter NonConstantLocalParameter@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NonConstantLocalParameter NonConstantLocalParameter@endlink</td>
 <td class=\'meaning\'>Parameters local to a KineticLaw object must have a \'constant\' attribute value of \'true\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52037,7 +52356,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SubsUnitsNoLongerValid SubsUnitsNoLongerValid@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SubsUnitsNoLongerValid SubsUnitsNoLongerValid@endlink</td>
 <td class=\'meaning\'>Attribute \'substanceUnits\' is not supported in this Level+Version of SBML</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52047,7 +52366,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#TimeUnitsNoLongerValid TimeUnitsNoLongerValid@endlink</td>
+<tr><td class=\'code\'>@link libsbml#TimeUnitsNoLongerValid TimeUnitsNoLongerValid@endlink</td>
 <td class=\'meaning\'>Attribute \'timeUnits\' is not supported in this Level+Version of SBML</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52057,7 +52376,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneListOfPerKineticLaw OneListOfPerKineticLaw@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneListOfPerKineticLaw OneListOfPerKineticLaw@endlink</td>
 <td class=\'meaning\'>Only one ListOfLocalParameters object is permitted within a KineticLaw object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52067,7 +52386,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyLocalParamsInListOfLocalParams OnlyLocalParamsInListOfLocalParams@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyLocalParamsInListOfLocalParams OnlyLocalParamsInListOfLocalParams@endlink</td>
 <td class=\'meaning\'>Only LocalParameter, Notes and Annotation objects are allowed in ListOfLocalParameter objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52077,7 +52396,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfLocalParam AllowedAttributesOnListOfLocalParam@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfLocalParam AllowedAttributesOnListOfLocalParam@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfLocalParameters object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52087,7 +52406,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMathPerKineticLaw OneMathPerKineticLaw@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMathPerKineticLaw OneMathPerKineticLaw@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;math&gt;</code> element is allowed in a KineticLaw object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52097,7 +52416,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UndeclaredSpeciesInStoichMath UndeclaredSpeciesInStoichMath@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UndeclaredSpeciesInStoichMath UndeclaredSpeciesInStoichMath@endlink</td>
 <td class=\'meaning\'>Unknown species referenced in the StoichiometryMath object\'s <code>&lt;math&gt;</code> formula</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52107,7 +52426,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnKineticLaw AllowedAttributesOnKineticLaw@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnKineticLaw AllowedAttributesOnKineticLaw@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the KineticLaw object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52117,7 +52436,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfSpeciesRef AllowedAttributesOnListOfSpeciesRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfSpeciesRef AllowedAttributesOnListOfSpeciesRef@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfSpeciesReferences object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52127,7 +52446,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfMods AllowedAttributesOnListOfMods@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfMods AllowedAttributesOnListOfMods@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfModifiers object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52137,7 +52456,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnLocalParameter AllowedAttributesOnLocalParameter@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnLocalParameter AllowedAttributesOnLocalParameter@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the LocalParameter object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52147,7 +52466,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingTriggerInEvent MissingTriggerInEvent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingTriggerInEvent MissingTriggerInEvent@endlink</td>
 <td class=\'meaning\'>The Event object is missing a Trigger subobject</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52157,7 +52476,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#TriggerMathNotBoolean TriggerMathNotBoolean@endlink</td>
+<tr><td class=\'code\'>@link libsbml#TriggerMathNotBoolean TriggerMathNotBoolean@endlink</td>
 <td class=\'meaning\'>A Trigger object\'s <code>&lt;math&gt;</code> expression must evaluate to a Boolean value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52167,7 +52486,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MissingEventAssignment MissingEventAssignment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MissingEventAssignment MissingEventAssignment@endlink</td>
 <td class=\'meaning\'>The Event object is missing an EventAssignment subobject</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52177,7 +52496,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#TimeUnitsEvent TimeUnitsEvent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#TimeUnitsEvent TimeUnitsEvent@endlink</td>
 <td class=\'meaning\'>Units referenced by \'timeUnits\' attribute are not compatible with units of time</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52187,7 +52506,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#IncorrectOrderInEvent IncorrectOrderInEvent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#IncorrectOrderInEvent IncorrectOrderInEvent@endlink</td>
 <td class=\'meaning\'>Incorrect ordering of components in Event object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52197,7 +52516,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ValuesFromTriggerTimeNeedDelay ValuesFromTriggerTimeNeedDelay@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ValuesFromTriggerTimeNeedDelay ValuesFromTriggerTimeNeedDelay@endlink</td>
 <td class=\'meaning\'>Attribute \'useValuesFromTriggerTime\'=\'false\', but the Event object does not define a delay</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52207,7 +52526,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DelayNeedsValuesFromTriggerTime DelayNeedsValuesFromTriggerTime@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DelayNeedsValuesFromTriggerTime DelayNeedsValuesFromTriggerTime@endlink</td>
 <td class=\'meaning\'>The use of a Delay object requires the Event attribute \'useValuesFromTriggerTime\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52217,7 +52536,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMathPerTrigger OneMathPerTrigger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMathPerTrigger OneMathPerTrigger@endlink</td>
 <td class=\'meaning\'>A Trigger object must have one <code>&lt;math&gt;</code> element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52227,7 +52546,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMathPerDelay OneMathPerDelay@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMathPerDelay OneMathPerDelay@endlink</td>
 <td class=\'meaning\'>A Delay object must have one <code>&lt;math&gt;</code> element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52237,7 +52556,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidEventAssignmentVariable InvalidEventAssignmentVariable@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidEventAssignmentVariable InvalidEventAssignmentVariable@endlink</td>
 <td class=\'meaning\'>Invalid \'variable\' attribute value in Event object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52247,7 +52566,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EventAssignmentForConstantEntity EventAssignmentForConstantEntity@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EventAssignmentForConstantEntity EventAssignmentForConstantEntity@endlink</td>
 <td class=\'meaning\'>An EventAssignment object cannot assign to a component having attribute \'constant\'=\'true\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52257,7 +52576,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMathPerEventAssignment OneMathPerEventAssignment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMathPerEventAssignment OneMathPerEventAssignment@endlink</td>
 <td class=\'meaning\'>An EventAssignment object must have one <code>&lt;math&gt;</code> element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52267,7 +52586,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnEventAssignment AllowedAttributesOnEventAssignment@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnEventAssignment AllowedAttributesOnEventAssignment@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the EventAssignment object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52277,7 +52596,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyOneDelayPerEvent OnlyOneDelayPerEvent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyOneDelayPerEvent OnlyOneDelayPerEvent@endlink</td>
 <td class=\'meaning\'>An Event object can only have one Delay subobject</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52287,7 +52606,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneListOfEventAssignmentsPerEvent OneListOfEventAssignmentsPerEvent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneListOfEventAssignmentsPerEvent OneListOfEventAssignmentsPerEvent@endlink</td>
 <td class=\'meaning\'>An Event object can only have one ListOfEventAssignments subobject</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52297,7 +52616,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyEventAssignInListOfEventAssign OnlyEventAssignInListOfEventAssign@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyEventAssignInListOfEventAssign OnlyEventAssignInListOfEventAssign@endlink</td>
 <td class=\'meaning\'>Only EventAssignment, Notes and Annotation objects are allowed in ListOfEventAssignments</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52307,7 +52626,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnListOfEventAssign AllowedAttributesOnListOfEventAssign@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnListOfEventAssign AllowedAttributesOnListOfEventAssign@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the ListOfEventAssignments object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52317,7 +52636,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnEvent AllowedAttributesOnEvent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnEvent AllowedAttributesOnEvent@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the Event object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52327,7 +52646,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnTrigger AllowedAttributesOnTrigger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnTrigger AllowedAttributesOnTrigger@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the Trigger object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52337,7 +52656,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnDelay AllowedAttributesOnDelay@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnDelay AllowedAttributesOnDelay@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the Delay object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52347,7 +52666,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#PersistentNotBoolean PersistentNotBoolean@endlink</td>
+<tr><td class=\'code\'>@link libsbml#PersistentNotBoolean PersistentNotBoolean@endlink</td>
 <td class=\'meaning\'>The Trigger attribute \'persistent\' must evaluate to a Boolean value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52357,7 +52676,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InitialValueNotBoolean InitialValueNotBoolean@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InitialValueNotBoolean InitialValueNotBoolean@endlink</td>
 <td class=\'meaning\'>The Trigger attribute \'initialValue\' must evaluate to a Boolean value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52367,7 +52686,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OnlyOnePriorityPerEvent OnlyOnePriorityPerEvent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OnlyOnePriorityPerEvent OnlyOnePriorityPerEvent@endlink</td>
 <td class=\'meaning\'>An Event object can only have one Priority subobject</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52377,7 +52696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OneMathPerPriority OneMathPerPriority@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OneMathPerPriority OneMathPerPriority@endlink</td>
 <td class=\'meaning\'>A Priority object must have one <code>&lt;math&gt;</code> element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52387,7 +52706,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AllowedAttributesOnPriority AllowedAttributesOnPriority@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AllowedAttributesOnPriority AllowedAttributesOnPriority@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on the Priority object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52397,7 +52716,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompartmentShouldHaveSize CompartmentShouldHaveSize@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompartmentShouldHaveSize CompartmentShouldHaveSize@endlink</td>
 <td class=\'meaning\'>It\'s best to define a size for every compartment in a model</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52407,7 +52726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpeciesShouldHaveValue SpeciesShouldHaveValue@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpeciesShouldHaveValue SpeciesShouldHaveValue@endlink</td>
 <td class=\'meaning\'>It\'s best to define an initial amount or initial concentration for every species in a model</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52417,7 +52736,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ParameterShouldHaveUnits ParameterShouldHaveUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ParameterShouldHaveUnits ParameterShouldHaveUnits@endlink</td>
 <td class=\'meaning\'>It\'s best to declare units for every parameter in a model</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -52427,7 +52746,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LocalParameterShadowsId LocalParameterShadowsId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LocalParameterShadowsId LocalParameterShadowsId@endlink</td>
 <td class=\'meaning\'>Local parameters defined within a kinetic law shadow global object symbols</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -52437,7 +52756,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CannotConvertToL1V1 CannotConvertToL1V1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CannotConvertToL1V1 CannotConvertToL1V1@endlink</td>
 <td class=\'meaning\'>Cannot convert to SBML Level 1 Version 1</td>
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
@@ -52447,7 +52766,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoEventsInL1 NoEventsInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoEventsInL1 NoEventsInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support events</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52457,7 +52776,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoFunctionDefinitionsInL1 NoFunctionDefinitionsInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoFunctionDefinitionsInL1 NoFunctionDefinitionsInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support function definitions</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52467,7 +52786,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoConstraintsInL1 NoConstraintsInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoConstraintsInL1 NoConstraintsInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support constraints</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52477,7 +52796,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoInitialAssignmentsInL1 NoInitialAssignmentsInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoInitialAssignmentsInL1 NoInitialAssignmentsInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support initial assignments</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52487,7 +52806,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSpeciesTypesInL1 NoSpeciesTypesInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSpeciesTypesInL1 NoSpeciesTypesInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support species types</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52497,7 +52816,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoCompartmentTypeInL1 NoCompartmentTypeInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoCompartmentTypeInL1 NoCompartmentTypeInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support compartment types</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52507,7 +52826,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoNon3DCompartmentsInL1 NoNon3DCompartmentsInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoNon3DCompartmentsInL1 NoNon3DCompartmentsInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 only supports three-dimensional compartments</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52517,7 +52836,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoFancyStoichiometryMathInL1 NoFancyStoichiometryMathInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoFancyStoichiometryMathInL1 NoFancyStoichiometryMathInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support non-integer nor non-rational stoichiometry formulas</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52527,7 +52846,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoNonIntegerStoichiometryInL1 NoNonIntegerStoichiometryInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoNonIntegerStoichiometryInL1 NoNonIntegerStoichiometryInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support non-integer \'stoichiometry\' attribute values</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52537,7 +52856,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoUnitMultipliersOrOffsetsInL1 NoUnitMultipliersOrOffsetsInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoUnitMultipliersOrOffsetsInL1 NoUnitMultipliersOrOffsetsInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support multipliers or offsets in unit definitions</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52547,7 +52866,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpeciesCompartmentRequiredInL1 SpeciesCompartmentRequiredInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpeciesCompartmentRequiredInL1 SpeciesCompartmentRequiredInL1@endlink</td>
 <td class=\'meaning\'>In SBML Level 1, a value for \'compartment\' is mandatory in species definitions</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52557,7 +52876,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSpeciesSpatialSizeUnitsInL1 NoSpeciesSpatialSizeUnitsInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSpeciesSpatialSizeUnitsInL1 NoSpeciesSpatialSizeUnitsInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support species \'spatialSizeUnits\' settings</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52567,7 +52886,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSBOTermsInL1 NoSBOTermsInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSBOTermsInL1 NoSBOTermsInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support the \'sboTerm\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52577,7 +52896,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#StrictUnitsRequiredInL1 StrictUnitsRequiredInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#StrictUnitsRequiredInL1 StrictUnitsRequiredInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 requires strict unit consistency</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52587,7 +52906,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConversionFactorNotInL1 ConversionFactorNotInL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConversionFactorNotInL1 ConversionFactorNotInL1@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support the \'conversionFactor\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52597,7 +52916,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompartmentNotOnL1Reaction CompartmentNotOnL1Reaction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompartmentNotOnL1Reaction CompartmentNotOnL1Reaction@endlink</td>
 <td class=\'meaning\'>SBML Level 1 does not support the \'compartment\' attribute on Reaction objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52607,7 +52926,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ExtentUnitsNotSubstance ExtentUnitsNotSubstance@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ExtentUnitsNotSubstance ExtentUnitsNotSubstance@endlink</td>
 <td class=\'meaning\'>Units of extent must be compatible with units of substance</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52617,7 +52936,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#GlobalUnitsNotDeclared GlobalUnitsNotDeclared@endlink</td>
+<tr><td class=\'code\'>@link libsbml#GlobalUnitsNotDeclared GlobalUnitsNotDeclared@endlink</td>
 <td class=\'meaning\'>Global units must be refer to unit kind or unitDefinition.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52627,7 +52946,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#HasOnlySubstanceUnitsNotinL1 HasOnlySubstanceUnitsNotinL1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#HasOnlySubstanceUnitsNotinL1 HasOnlySubstanceUnitsNotinL1@endlink</td>
 <td class=\'meaning\'>The concept of hasOnlySubstanceUnits was not available in SBML Level 1.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52637,7 +52956,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AvogadroNotSupported AvogadroNotSupported@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AvogadroNotSupported AvogadroNotSupported@endlink</td>
 <td class=\'meaning\'>Avogadro not supported in Levels 2 and 1.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52647,7 +52966,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoConstraintsInL2v1 NoConstraintsInL2v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoConstraintsInL2v1 NoConstraintsInL2v1@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support Constraint objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52657,7 +52976,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoInitialAssignmentsInL2v1 NoInitialAssignmentsInL2v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoInitialAssignmentsInL2v1 NoInitialAssignmentsInL2v1@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support InitialAssignment objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52667,7 +52986,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSpeciesTypeInL2v1 NoSpeciesTypeInL2v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSpeciesTypeInL2v1 NoSpeciesTypeInL2v1@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support SpeciesType objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52677,7 +52996,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoCompartmentTypeInL2v1 NoCompartmentTypeInL2v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoCompartmentTypeInL2v1 NoCompartmentTypeInL2v1@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support CompartmentType objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52687,7 +53006,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSBOTermsInL2v1 NoSBOTermsInL2v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSBOTermsInL2v1 NoSBOTermsInL2v1@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support the \'sboTerm\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52697,7 +53016,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoIdOnSpeciesReferenceInL2v1 NoIdOnSpeciesReferenceInL2v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoIdOnSpeciesReferenceInL2v1 NoIdOnSpeciesReferenceInL2v1@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support the \'id\' attribute on SpeciesReference objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52707,7 +53026,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoDelayedEventAssignmentInL2v1 NoDelayedEventAssignmentInL2v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoDelayedEventAssignmentInL2v1 NoDelayedEventAssignmentInL2v1@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support the \'useValuesFromTriggerTime\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52717,7 +53036,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#StrictUnitsRequiredInL2v1 StrictUnitsRequiredInL2v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#StrictUnitsRequiredInL2v1 StrictUnitsRequiredInL2v1@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 requires strict unit consistency</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52727,7 +53046,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#IntegerSpatialDimensions IntegerSpatialDimensions@endlink</td>
+<tr><td class=\'code\'>@link libsbml#IntegerSpatialDimensions IntegerSpatialDimensions@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 requires that compartments have spatial dimensions of 0-3</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52737,7 +53056,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#StoichiometryMathNotYetSupported StoichiometryMathNotYetSupported@endlink</td>
+<tr><td class=\'code\'>@link libsbml#StoichiometryMathNotYetSupported StoichiometryMathNotYetSupported@endlink</td>
 <td class=\'meaning\'>Conversion to StoichiometryMath objects not yet supported</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52747,7 +53066,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#PriorityLostFromL3 PriorityLostFromL3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#PriorityLostFromL3 PriorityLostFromL3@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support priorities on Event objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52757,7 +53076,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NonPersistentNotSupported NonPersistentNotSupported@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NonPersistentNotSupported NonPersistentNotSupported@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support the \'persistent\' attribute on Trigger objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52767,7 +53086,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InitialValueFalseEventNotSupported InitialValueFalseEventNotSupported@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InitialValueFalseEventNotSupported InitialValueFalseEventNotSupported@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 1 does not support the \'initialValue\' attribute on Trigger objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52777,7 +53096,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SBOTermNotUniversalInL2v2 SBOTermNotUniversalInL2v2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SBOTermNotUniversalInL2v2 SBOTermNotUniversalInL2v2@endlink</td>
 <td class=\'meaning\'>The \'sboTerm\' attribute is invalid for this component in SBML Level 2 Version 2</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52787,7 +53106,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoUnitOffsetInL2v2 NoUnitOffsetInL2v2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoUnitOffsetInL2v2 NoUnitOffsetInL2v2@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'offset\' attribute on Unit objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52797,7 +53116,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoKineticLawTimeUnitsInL2v2 NoKineticLawTimeUnitsInL2v2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoKineticLawTimeUnitsInL2v2 NoKineticLawTimeUnitsInL2v2@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'timeUnits\' attribute on KineticLaw objects</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -52807,7 +53126,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoKineticLawSubstanceUnitsInL2v2 NoKineticLawSubstanceUnitsInL2v2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoKineticLawSubstanceUnitsInL2v2 NoKineticLawSubstanceUnitsInL2v2@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'substanceUnits\' attribute on KineticLaw objects</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -52817,7 +53136,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoDelayedEventAssignmentInL2v2 NoDelayedEventAssignmentInL2v2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoDelayedEventAssignmentInL2v2 NoDelayedEventAssignmentInL2v2@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'useValuesFromTriggerTime\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52827,7 +53146,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ModelSBOBranchChangedBeyondL2v2 ModelSBOBranchChangedBeyondL2v2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ModelSBOBranchChangedBeyondL2v2 ModelSBOBranchChangedBeyondL2v2@endlink</td>
 <td class=\'meaning\'>The allowable \'sboTerm\' attribute values for Model objects differ for this SBML Level+Version</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52837,7 +53156,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#StrictUnitsRequiredInL2v2 StrictUnitsRequiredInL2v2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#StrictUnitsRequiredInL2v2 StrictUnitsRequiredInL2v2@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 2 requires strict unit consistency</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52847,7 +53166,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#StrictSBORequiredInL2v2 StrictSBORequiredInL2v2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#StrictSBORequiredInL2v2 StrictSBORequiredInL2v2@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 2 requires strict SBO term consistency</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52857,7 +53176,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateAnnotationInvalidInL2v2 DuplicateAnnotationInvalidInL2v2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateAnnotationInvalidInL2v2 DuplicateAnnotationInvalidInL2v2@endlink</td>
 <td class=\'meaning\'>Duplicate top-level annotations are invalid in SBML Level 2 Version 2</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -52867,7 +53186,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoUnitOffsetInL2v3 NoUnitOffsetInL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoUnitOffsetInL2v3 NoUnitOffsetInL2v3@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'offset\' attribute on Unit objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52877,7 +53196,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoKineticLawTimeUnitsInL2v3 NoKineticLawTimeUnitsInL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoKineticLawTimeUnitsInL2v3 NoKineticLawTimeUnitsInL2v3@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'timeUnits\' attribute on KineticLaw objects</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -52887,7 +53206,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoKineticLawSubstanceUnitsInL2v3 NoKineticLawSubstanceUnitsInL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoKineticLawSubstanceUnitsInL2v3 NoKineticLawSubstanceUnitsInL2v3@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'substanceUnits\' attribute on KineticLaw objects</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -52897,7 +53216,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSpeciesSpatialSizeUnitsInL2v3 NoSpeciesSpatialSizeUnitsInL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSpeciesSpatialSizeUnitsInL2v3 NoSpeciesSpatialSizeUnitsInL2v3@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'spatialSizeUnit\' attribute on Species objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52907,7 +53226,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoEventTimeUnitsInL2v3 NoEventTimeUnitsInL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoEventTimeUnitsInL2v3 NoEventTimeUnitsInL2v3@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'timeUnits\' attribute on Event objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52917,7 +53236,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoDelayedEventAssignmentInL2v3 NoDelayedEventAssignmentInL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoDelayedEventAssignmentInL2v3 NoDelayedEventAssignmentInL2v3@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'useValuesFromTriggerTime\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52927,7 +53246,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ModelSBOBranchChangedBeyondL2v3 ModelSBOBranchChangedBeyondL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ModelSBOBranchChangedBeyondL2v3 ModelSBOBranchChangedBeyondL2v3@endlink</td>
 <td class=\'meaning\'>The allowable \'sboTerm\' attribute values for Model objects differ for this SBML Level+Version</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52937,7 +53256,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#StrictUnitsRequiredInL2v3 StrictUnitsRequiredInL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#StrictUnitsRequiredInL2v3 StrictUnitsRequiredInL2v3@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 3 requires strict unit consistency</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52947,7 +53266,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#StrictSBORequiredInL2v3 StrictSBORequiredInL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#StrictSBORequiredInL2v3 StrictSBORequiredInL2v3@endlink</td>
 <td class=\'meaning\'>SBML Level 2 Version 3 requires strict SBO term consistency</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52957,7 +53276,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateAnnotationInvalidInL2v3 DuplicateAnnotationInvalidInL2v3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateAnnotationInvalidInL2v3 DuplicateAnnotationInvalidInL2v3@endlink</td>
 <td class=\'meaning\'>Duplicate top-level annotations are invalid in SBML Level 2 Version 3</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -52967,7 +53286,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoUnitOffsetInL2v4 NoUnitOffsetInL2v4@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoUnitOffsetInL2v4 NoUnitOffsetInL2v4@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'offset\' attribute on Unit objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -52977,7 +53296,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoKineticLawTimeUnitsInL2v4 NoKineticLawTimeUnitsInL2v4@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoKineticLawTimeUnitsInL2v4 NoKineticLawTimeUnitsInL2v4@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'timeUnits\' attribute on KineticLaw objects</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -52987,7 +53306,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoKineticLawSubstanceUnitsInL2v4 NoKineticLawSubstanceUnitsInL2v4@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoKineticLawSubstanceUnitsInL2v4 NoKineticLawSubstanceUnitsInL2v4@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'substanceUnits\' attribute on KineticLaw objects</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -52997,7 +53316,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSpeciesSpatialSizeUnitsInL2v4 NoSpeciesSpatialSizeUnitsInL2v4@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSpeciesSpatialSizeUnitsInL2v4 NoSpeciesSpatialSizeUnitsInL2v4@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'spatialSizeUnit\' attribute on Species objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53007,7 +53326,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoEventTimeUnitsInL2v4 NoEventTimeUnitsInL2v4@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoEventTimeUnitsInL2v4 NoEventTimeUnitsInL2v4@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'timeUnits\' attribute on Event objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53017,7 +53336,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ModelSBOBranchChangedInL2v4 ModelSBOBranchChangedInL2v4@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ModelSBOBranchChangedInL2v4 ModelSBOBranchChangedInL2v4@endlink</td>
 <td class=\'meaning\'>The allowable \'sboTerm\' attribute values for Model objects differ for this SBML Level+Version</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53027,7 +53346,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateAnnotationInvalidInL2v4 DuplicateAnnotationInvalidInL2v4@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateAnnotationInvalidInL2v4 DuplicateAnnotationInvalidInL2v4@endlink</td>
 <td class=\'meaning\'>Duplicate top-level annotations are invalid in SBML Level 2 Version 4</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -53037,7 +53356,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSpeciesTypeInL3v1 NoSpeciesTypeInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSpeciesTypeInL3v1 NoSpeciesTypeInL3v1@endlink</td>
 <td class=\'meaning\'>SBML Level 3 Version 1 does not support SpeciesType objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53047,7 +53366,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoCompartmentTypeInL3v1 NoCompartmentTypeInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoCompartmentTypeInL3v1 NoCompartmentTypeInL3v1@endlink</td>
 <td class=\'meaning\'>SBML Level 3 Version 1 does not support CompartmentType objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53057,7 +53376,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoUnitOffsetInL3v1 NoUnitOffsetInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoUnitOffsetInL3v1 NoUnitOffsetInL3v1@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'offset\' attribute on Unit objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53067,7 +53386,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoKineticLawTimeUnitsInL3v1 NoKineticLawTimeUnitsInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoKineticLawTimeUnitsInL3v1 NoKineticLawTimeUnitsInL3v1@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'timeUnits\' attribute on KineticLaw objects</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53077,7 +53396,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoKineticLawSubstanceUnitsInL3v1 NoKineticLawSubstanceUnitsInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoKineticLawSubstanceUnitsInL3v1 NoKineticLawSubstanceUnitsInL3v1@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'substanceUnits\' attribute on KineticLaw objects</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53087,7 +53406,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoSpeciesSpatialSizeUnitsInL3v1 NoSpeciesSpatialSizeUnitsInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoSpeciesSpatialSizeUnitsInL3v1 NoSpeciesSpatialSizeUnitsInL3v1@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'spatialSizeUnit\' attribute on Species objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53097,7 +53416,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoEventTimeUnitsInL3v1 NoEventTimeUnitsInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoEventTimeUnitsInL3v1 NoEventTimeUnitsInL3v1@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'timeUnits\' attribute on Event objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53107,7 +53426,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ModelSBOBranchChangedInL3v1 ModelSBOBranchChangedInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ModelSBOBranchChangedInL3v1 ModelSBOBranchChangedInL3v1@endlink</td>
 <td class=\'meaning\'>The allowable \'sboTerm\' attribute values for Model objects differ for this SBML Level+Version</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53117,7 +53436,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DuplicateAnnotationInvalidInL3v1 DuplicateAnnotationInvalidInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DuplicateAnnotationInvalidInL3v1 DuplicateAnnotationInvalidInL3v1@endlink</td>
 <td class=\'meaning\'>Duplicate top-level annotations are invalid in SBML Level 3 Version 1</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -53127,7 +53446,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoCompartmentOutsideInL3v1 NoCompartmentOutsideInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoCompartmentOutsideInL3v1 NoCompartmentOutsideInL3v1@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'outside\' attribute on Compartment objects</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -53137,7 +53456,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoStoichiometryMathInL3v1 NoStoichiometryMathInL3v1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoStoichiometryMathInL3v1 NoStoichiometryMathInL3v1@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the StoichiometryMath object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53147,7 +53466,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidSBMLLevelVersion InvalidSBMLLevelVersion@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidSBMLLevelVersion InvalidSBMLLevelVersion@endlink</td>
 <td class=\'meaning\'>Unknown Level+Version combination of SBML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53157,7 +53476,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AnnotationNotesNotAllowedLevel1 AnnotationNotesNotAllowedLevel1@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AnnotationNotesNotAllowedLevel1 AnnotationNotesNotAllowedLevel1@endlink</td>
 <td class=\'meaning\'>Annotation objects on the SBML container element are not permitted in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53167,7 +53486,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidRuleOrdering InvalidRuleOrdering@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidRuleOrdering InvalidRuleOrdering@endlink</td>
 <td class=\'meaning\'>Invalid ordering of rules</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53177,7 +53496,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RequiredPackagePresent RequiredPackagePresent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RequiredPackagePresent RequiredPackagePresent@endlink</td>
 <td class=\'meaning\'>The SBML document requires an SBML Level 3 package unavailable in this software</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53187,7 +53506,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UnrequiredPackagePresent UnrequiredPackagePresent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UnrequiredPackagePresent UnrequiredPackagePresent@endlink</td>
 <td class=\'meaning\'>The SBML document uses an SBML Level 3 package unavailable in this software</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53197,7 +53516,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#PackageRequiredShouldBeFalse PackageRequiredShouldBeFalse@endlink</td>
+<tr><td class=\'code\'>@link libsbml#PackageRequiredShouldBeFalse PackageRequiredShouldBeFalse@endlink</td>
 <td class=\'meaning\'>This package expects required to be false</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53207,7 +53526,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SubsUnitsAllowedInKL SubsUnitsAllowedInKL@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SubsUnitsAllowedInKL SubsUnitsAllowedInKL@endlink</td>
 <td class=\'meaning\'>Disallowed value for attribute \'substanceUnits\' on KineticLaw object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53217,7 +53536,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#TimeUnitsAllowedInKL TimeUnitsAllowedInKL@endlink</td>
+<tr><td class=\'code\'>@link libsbml#TimeUnitsAllowedInKL TimeUnitsAllowedInKL@endlink</td>
 <td class=\'meaning\'>Disallowed value for attribute \'timeUnits\' on KineticLaw object</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53227,7 +53546,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FormulaInLevel1KL FormulaInLevel1KL@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FormulaInLevel1KL FormulaInLevel1KL@endlink</td>
 <td class=\'meaning\'>Only predefined functions are allowed in SBML Level 1 formulas</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53237,7 +53556,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3SubstanceUnitsOnModel L3SubstanceUnitsOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3SubstanceUnitsOnModel L3SubstanceUnitsOnModel@endlink</td>
 <td class=\'meaning\'>Invalid \'substanceUnits\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53247,7 +53566,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#TimeUnitsRemoved TimeUnitsRemoved@endlink</td>
+<tr><td class=\'code\'>@link libsbml#TimeUnitsRemoved TimeUnitsRemoved@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'timeUnits\' attribute on Event objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53257,7 +53576,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadMathML BadMathML@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadMathML BadMathML@endlink</td>
 <td class=\'meaning\'>Invalid MathML expression</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53267,7 +53586,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FailedMathMLReadOfDouble FailedMathMLReadOfDouble@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FailedMathMLReadOfDouble FailedMathMLReadOfDouble@endlink</td>
 <td class=\'meaning\'>Missing or invalid floating-point number in MathML expression</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53277,7 +53596,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FailedMathMLReadOfInteger FailedMathMLReadOfInteger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FailedMathMLReadOfInteger FailedMathMLReadOfInteger@endlink</td>
 <td class=\'meaning\'>Missing or invalid integer in MathML expression</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53287,7 +53606,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FailedMathMLReadOfExponential FailedMathMLReadOfExponential@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FailedMathMLReadOfExponential FailedMathMLReadOfExponential@endlink</td>
 <td class=\'meaning\'>Missing or invalid exponential expression in MathML</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53297,7 +53616,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FailedMathMLReadOfRational FailedMathMLReadOfRational@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FailedMathMLReadOfRational FailedMathMLReadOfRational@endlink</td>
 <td class=\'meaning\'>Missing or invalid rational expression in MathML</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53307,7 +53626,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#BadMathMLNodeType BadMathMLNodeType@endlink</td>
+<tr><td class=\'code\'>@link libsbml#BadMathMLNodeType BadMathMLNodeType@endlink</td>
 <td class=\'meaning\'>Invalid MathML element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53317,7 +53636,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidMathMLAttribute InvalidMathMLAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidMathMLAttribute InvalidMathMLAttribute@endlink</td>
 <td class=\'meaning\'>Invalid MathML attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53327,7 +53646,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoTimeSymbolInFunctionDef NoTimeSymbolInFunctionDef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoTimeSymbolInFunctionDef NoTimeSymbolInFunctionDef@endlink</td>
 <td class=\'meaning\'>Use of <code>&lt;csymbol&gt;</code> for \'time\' not allowed within FunctionDefinition objects</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53337,7 +53656,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NoBodyInFunctionDef NoBodyInFunctionDef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NoBodyInFunctionDef NoBodyInFunctionDef@endlink</td>
 <td class=\'meaning\'>There must be a <code>&lt;lambda&gt;</code> body within the <code>&lt;math&gt;</code> element of a FunctionDefinition object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53347,7 +53666,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#DanglingUnitSIdRef DanglingUnitSIdRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#DanglingUnitSIdRef DanglingUnitSIdRef@endlink</td>
 <td class=\'meaning\'>Units must refer to valid unit or unitDefinition</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -53357,7 +53676,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RDFMissingAboutTag RDFMissingAboutTag@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RDFMissingAboutTag RDFMissingAboutTag@endlink</td>
 <td class=\'meaning\'>RDF missing the <code>&lt;about&gt;</code> tag</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53367,7 +53686,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RDFEmptyAboutTag RDFEmptyAboutTag@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RDFEmptyAboutTag RDFEmptyAboutTag@endlink</td>
 <td class=\'meaning\'>RDF empty <code>&lt;about&gt;</code> tag</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53377,7 +53696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RDFAboutTagNotMetaid RDFAboutTagNotMetaid@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RDFAboutTagNotMetaid RDFAboutTagNotMetaid@endlink</td>
 <td class=\'meaning\'>RDF <code>&lt;about&gt;</code> tag is not metaid</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53387,7 +53706,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RDFNotCompleteModelHistory RDFNotCompleteModelHistory@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RDFNotCompleteModelHistory RDFNotCompleteModelHistory@endlink</td>
 <td class=\'meaning\'>RDF does not contain valid ModelHistory</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53397,7 +53716,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#RDFNotModelHistory RDFNotModelHistory@endlink</td>
+<tr><td class=\'code\'>@link libsbml#RDFNotModelHistory RDFNotModelHistory@endlink</td>
 <td class=\'meaning\'>RDF does not result in a ModelHistory</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53407,7 +53726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#AnnotationNotElement AnnotationNotElement@endlink</td>
+<tr><td class=\'code\'>@link libsbml#AnnotationNotElement AnnotationNotElement@endlink</td>
 <td class=\'meaning\'>Annotation must contain element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53417,7 +53736,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UndeclaredUnits UndeclaredUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UndeclaredUnits UndeclaredUnits@endlink</td>
 <td class=\'meaning\'>Missing unit declarations on parameters or literal numbers in expression</td>
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
@@ -53427,7 +53746,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UndeclaredTimeUnitsL3 UndeclaredTimeUnitsL3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UndeclaredTimeUnitsL3 UndeclaredTimeUnitsL3@endlink</td>
 <td class=\'meaning\'>Unable to verify consistency of units: the unit of time has not been declared</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53437,7 +53756,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UndeclaredExtentUnitsL3 UndeclaredExtentUnitsL3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UndeclaredExtentUnitsL3 UndeclaredExtentUnitsL3@endlink</td>
 <td class=\'meaning\'>Unable to verify consistency of units: the units of reaction extent have not been declared</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53447,7 +53766,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UndeclaredObjectUnitsL3 UndeclaredObjectUnitsL3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UndeclaredObjectUnitsL3 UndeclaredObjectUnitsL3@endlink</td>
 <td class=\'meaning\'>Unable to verify consistency of units: encountered a model entity with no declared units</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53457,7 +53776,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UnrecognisedSBOTerm UnrecognisedSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UnrecognisedSBOTerm UnrecognisedSBOTerm@endlink</td>
 <td class=\'meaning\'>Unrecognized \'sboTerm\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53467,7 +53786,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ObseleteSBOTerm ObseleteSBOTerm@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ObseleteSBOTerm ObseleteSBOTerm@endlink</td>
 <td class=\'meaning\'>Obsolete \'sboTerm\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53477,7 +53796,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-warning\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#IncorrectCompartmentSpatialDimensions IncorrectCompartmentSpatialDimensions@endlink</td>
+<tr><td class=\'code\'>@link libsbml#IncorrectCompartmentSpatialDimensions IncorrectCompartmentSpatialDimensions@endlink</td>
 <td class=\'meaning\'>In SBML Level 1, only three-dimensional compartments are allowed</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53487,7 +53806,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompartmentTypeNotValidAttribute CompartmentTypeNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompartmentTypeNotValidAttribute CompartmentTypeNotValidAttribute@endlink</td>
 <td class=\'meaning\'>CompartmentType objects are not available in this Level+Version of SBML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53497,7 +53816,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConstantNotValidAttribute ConstantNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConstantNotValidAttribute ConstantNotValidAttribute@endlink</td>
 <td class=\'meaning\'>This Level+Version of SBML does not support the \'constant\' attribute on this component</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53507,7 +53826,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MetaIdNotValidAttribute MetaIdNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MetaIdNotValidAttribute MetaIdNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'metaid\' is not available in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53517,7 +53836,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SBOTermNotValidAttributeBeforeL2V3 SBOTermNotValidAttributeBeforeL2V3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SBOTermNotValidAttributeBeforeL2V3 SBOTermNotValidAttributeBeforeL2V3@endlink</td>
 <td class=\'meaning\'>The \'sboTerm\' attribute is not available on this component before SBML Level 2 Version 3</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53527,7 +53846,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidL1CompartmentUnits InvalidL1CompartmentUnits@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidL1CompartmentUnits InvalidL1CompartmentUnits@endlink</td>
 <td class=\'meaning\'>Invalid units for a compartment in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53537,7 +53856,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L1V1CompartmentVolumeReqd L1V1CompartmentVolumeReqd@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L1V1CompartmentVolumeReqd L1V1CompartmentVolumeReqd@endlink</td>
 <td class=\'meaning\'>In SBML Level 1, a compartment\'s volume must be specified</td>
 <td class=\'s-error\'></td>
 <td class=\'s-na\'></td>
@@ -53547,7 +53866,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompartmentTypeNotValidComponent CompartmentTypeNotValidComponent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompartmentTypeNotValidComponent CompartmentTypeNotValidComponent@endlink</td>
 <td class=\'meaning\'>CompartmentType objects are not available in this Level+Version of SBML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53557,7 +53876,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConstraintNotValidComponent ConstraintNotValidComponent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConstraintNotValidComponent ConstraintNotValidComponent@endlink</td>
 <td class=\'meaning\'>Constraint objects are not available in this Level+Version of SBML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53567,7 +53886,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#EventNotValidComponent EventNotValidComponent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#EventNotValidComponent EventNotValidComponent@endlink</td>
 <td class=\'meaning\'>Event objects are not available in this Level+Version of SBML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53577,7 +53896,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SBOTermNotValidAttributeBeforeL2V2 SBOTermNotValidAttributeBeforeL2V2@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SBOTermNotValidAttributeBeforeL2V2 SBOTermNotValidAttributeBeforeL2V2@endlink</td>
 <td class=\'meaning\'>The \'sboTerm\' attribute is invalid for this component before Level 2 Version 2</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53587,7 +53906,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FuncDefNotValidComponent FuncDefNotValidComponent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FuncDefNotValidComponent FuncDefNotValidComponent@endlink</td>
 <td class=\'meaning\'>FunctionDefinition objects are not available in this Level+Version of SBML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53597,7 +53916,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InitialAssignNotValidComponent InitialAssignNotValidComponent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InitialAssignNotValidComponent InitialAssignNotValidComponent@endlink</td>
 <td class=\'meaning\'>InitialAssignment objects are not available in this Level+Version of SBML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53607,7 +53926,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#VariableNotValidAttribute VariableNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#VariableNotValidAttribute VariableNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'variable\' is not available on this component in this Level+Version of SBML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53617,7 +53936,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#UnitsNotValidAttribute UnitsNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#UnitsNotValidAttribute UnitsNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'units\' is not available on this component in this Level+Version of SBML</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53627,7 +53946,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#ConstantSpeciesNotValidAttribute ConstantSpeciesNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#ConstantSpeciesNotValidAttribute ConstantSpeciesNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'constant\' is not available on Species objects in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53637,7 +53956,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpatialSizeUnitsNotValidAttribute SpatialSizeUnitsNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpatialSizeUnitsNotValidAttribute SpatialSizeUnitsNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'spatialSizeUnits\' is not available on Species objects in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53647,7 +53966,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpeciesTypeNotValidAttribute SpeciesTypeNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpeciesTypeNotValidAttribute SpeciesTypeNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'speciesType\' is not available on Species objects in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53657,7 +53976,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#HasOnlySubsUnitsNotValidAttribute HasOnlySubsUnitsNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#HasOnlySubsUnitsNotValidAttribute HasOnlySubsUnitsNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'hasOnlySubstanceUnits\' is not available on Species objects in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53667,7 +53986,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#IdNotValidAttribute IdNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#IdNotValidAttribute IdNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'id\' is not available on SpeciesReference objects in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53677,7 +53996,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#NameNotValidAttribute NameNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#NameNotValidAttribute NameNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'name\' is not available on SpeciesReference objects in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53687,7 +54006,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#SpeciesTypeNotValidComponent SpeciesTypeNotValidComponent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#SpeciesTypeNotValidComponent SpeciesTypeNotValidComponent@endlink</td>
 <td class=\'meaning\'>The SpeciesType object is not supported in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53697,7 +54016,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#StoichiometryMathNotValidComponent StoichiometryMathNotValidComponent@endlink</td>
+<tr><td class=\'code\'>@link libsbml#StoichiometryMathNotValidComponent StoichiometryMathNotValidComponent@endlink</td>
 <td class=\'meaning\'>The StoichiometryMath object is not supported in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53707,7 +54026,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#MultiplierNotValidAttribute MultiplierNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#MultiplierNotValidAttribute MultiplierNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'multiplier\' on Unit objects is not supported in SBML Level 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53717,7 +54036,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#OffsetNotValidAttribute OffsetNotValidAttribute@endlink</td>
+<tr><td class=\'code\'>@link libsbml#OffsetNotValidAttribute OffsetNotValidAttribute@endlink</td>
 <td class=\'meaning\'>Attribute \'offset\' on Unit objects is only available in SBML Level 2 Version 1</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53727,7 +54046,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3SpatialDimensionsUnset L3SpatialDimensionsUnset@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3SpatialDimensionsUnset L3SpatialDimensionsUnset@endlink</td>
 <td class=\'meaning\'>No value given for \'spatialDimensions\' attribute; assuming a value of 3</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53737,7 +54056,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#PackageConversionNotSupported PackageConversionNotSupported@endlink</td>
+<tr><td class=\'code\'>@link libsbml#PackageConversionNotSupported PackageConversionNotSupported@endlink</td>
 <td class=\'meaning\'>Conversion of SBML Level 3 package constructs is not yet supported</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53747,7 +54066,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#InvalidTargetLevelVersion InvalidTargetLevelVersion@endlink</td>
+<tr><td class=\'code\'>@link libsbml#InvalidTargetLevelVersion InvalidTargetLevelVersion@endlink</td>
 <td class=\'meaning\'>The requested SBML Level/Version combination is not known to exist</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53757,7 +54076,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#L3NotSupported L3NotSupported@endlink</td>
+<tr><td class=\'code\'>@link libsbml#L3NotSupported L3NotSupported@endlink</td>
 <td class=\'meaning\'>SBML Level 3 is not yet supported</td>
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
@@ -53767,7 +54086,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompUnknown CompUnknown@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompUnknown CompUnknown@endlink</td>
 <td class=\'meaning\'></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53777,7 +54096,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompNSUndeclared CompNSUndeclared@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompNSUndeclared CompNSUndeclared@endlink</td>
 <td class=\'meaning\'>The comp ns is not correctly declared</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53787,7 +54106,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompElementNotInNs CompElementNotInNs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompElementNotInNs CompElementNotInNs@endlink</td>
 <td class=\'meaning\'>Element not in comp namespace</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53797,7 +54116,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompDuplicateComponentId CompDuplicateComponentId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompDuplicateComponentId CompDuplicateComponentId@endlink</td>
 <td class=\'meaning\'>Duplicate \'id\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53807,7 +54126,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompUniqueModelIds CompUniqueModelIds@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompUniqueModelIds CompUniqueModelIds@endlink</td>
 <td class=\'meaning\'>Model and ExternalModelDefinitions must have unique ids</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53817,7 +54136,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompUniquePortIds CompUniquePortIds@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompUniquePortIds CompUniquePortIds@endlink</td>
 <td class=\'meaning\'>Ports must have unique ids</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53827,7 +54146,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidSIdSyntax CompInvalidSIdSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidSIdSyntax CompInvalidSIdSyntax@endlink</td>
 <td class=\'meaning\'>Invalid SId syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53837,7 +54156,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidSubmodelRefSyntax CompInvalidSubmodelRefSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidSubmodelRefSyntax CompInvalidSubmodelRefSyntax@endlink</td>
 <td class=\'meaning\'>Invalid submodelRef syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53847,7 +54166,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidDeletionSyntax CompInvalidDeletionSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidDeletionSyntax CompInvalidDeletionSyntax@endlink</td>
 <td class=\'meaning\'>Invalid deletion syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53857,7 +54176,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidConversionFactorSyntax CompInvalidConversionFactorSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidConversionFactorSyntax CompInvalidConversionFactorSyntax@endlink</td>
 <td class=\'meaning\'>Invalid conversionFactor syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53867,7 +54186,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidNameSyntax CompInvalidNameSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidNameSyntax CompInvalidNameSyntax@endlink</td>
 <td class=\'meaning\'>Invalid name syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53877,7 +54196,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedUnitsShouldMatch CompReplacedUnitsShouldMatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedUnitsShouldMatch CompReplacedUnitsShouldMatch@endlink</td>
 <td class=\'meaning\'>Units of replaced elements should match replacement units.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53887,7 +54206,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompOneListOfReplacedElements CompOneListOfReplacedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompOneListOfReplacedElements CompOneListOfReplacedElements@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;listOfReplacedElements&gt;</code> allowed.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53897,7 +54216,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOReplaceElementsAllowedElements CompLOReplaceElementsAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOReplaceElementsAllowedElements CompLOReplaceElementsAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed children of <code>&lt;listOfReplacedElements&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53907,7 +54226,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOReplacedElementsAllowedAttribs CompLOReplacedElementsAllowedAttribs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOReplacedElementsAllowedAttribs CompLOReplacedElementsAllowedAttribs@endlink</td>
 <td class=\'meaning\'>Allowed <code>&lt;listOfReplacedElements&gt;</code> attributes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53917,7 +54236,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompEmptyLOReplacedElements CompEmptyLOReplacedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompEmptyLOReplacedElements CompEmptyLOReplacedElements@endlink</td>
 <td class=\'meaning\'><code>&lt;listOfReplacedElements&gt;</code> must not be empty</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53927,7 +54246,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompOneReplacedByElement CompOneReplacedByElement@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompOneReplacedByElement CompOneReplacedByElement@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;replacedBy&gt;</code> object allowed.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53937,7 +54256,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompAttributeRequiredMissing CompAttributeRequiredMissing@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompAttributeRequiredMissing CompAttributeRequiredMissing@endlink</td>
 <td class=\'meaning\'>Required comp:required attribute on <code>&lt;sbml&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53947,7 +54266,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompAttributeRequiredMustBeBoolean CompAttributeRequiredMustBeBoolean@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompAttributeRequiredMustBeBoolean CompAttributeRequiredMustBeBoolean@endlink</td>
 <td class=\'meaning\'>The comp:required attribute must be Boolean</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53957,7 +54276,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompRequiredTrueIfElementsRemain CompRequiredTrueIfElementsRemain@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompRequiredTrueIfElementsRemain CompRequiredTrueIfElementsRemain@endlink</td>
 <td class=\'meaning\'>The comp:required attribute must be \'true\' if math changes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53967,7 +54286,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompRequiredFalseIfAllElementsReplaced CompRequiredFalseIfAllElementsReplaced@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompRequiredFalseIfAllElementsReplaced CompRequiredFalseIfAllElementsReplaced@endlink</td>
 <td class=\'meaning\'>The comp:required attribute must be \'false\' if math does not change</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53977,7 +54296,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompOneListOfModelDefinitions CompOneListOfModelDefinitions@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompOneListOfModelDefinitions CompOneListOfModelDefinitions@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;listOfModelDefinitions&gt;</code> allowed.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53987,7 +54306,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompEmptyLOModelDefs CompEmptyLOModelDefs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompEmptyLOModelDefs CompEmptyLOModelDefs@endlink</td>
 <td class=\'meaning\'><code>&lt;listOfModelDefinitions&gt;</code> and <code>&lt;listOfExternalModelDefinitions&gt;</code> must not be empty</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -53997,7 +54316,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOModelDefsAllowedElements CompLOModelDefsAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOModelDefsAllowedElements CompLOModelDefsAllowedElements@endlink</td>
 <td class=\'meaning\'>Only <code>&lt;modelDefinitions&gt;</code> in <code>&lt;listOfModelDefinitions&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54007,7 +54326,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOExtModelDefsAllowedElements CompLOExtModelDefsAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOExtModelDefsAllowedElements CompLOExtModelDefsAllowedElements@endlink</td>
 <td class=\'meaning\'>Only <code>&lt;externalModelDefinitions&gt;</code> in <code>&lt;listOfExternalModelDefinitions&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54017,7 +54336,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOModelDefsAllowedAttributes CompLOModelDefsAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOModelDefsAllowedAttributes CompLOModelDefsAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed <code>&lt;listOfModelDefinitions&gt;</code> attributes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54027,7 +54346,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOExtModDefsAllowedAttributes CompLOExtModDefsAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOExtModDefsAllowedAttributes CompLOExtModDefsAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed <code>&lt;listOfExternalModelDefinitions&gt;</code> attributes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54037,7 +54356,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompOneListOfExtModelDefinitions CompOneListOfExtModelDefinitions@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompOneListOfExtModelDefinitions CompOneListOfExtModelDefinitions@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;listOfExternalModelDefinitions&gt;</code> allowed.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54047,7 +54366,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompAttributeRequiredMustBeTrue CompAttributeRequiredMustBeTrue@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompAttributeRequiredMustBeTrue CompAttributeRequiredMustBeTrue@endlink</td>
 <td class=\'meaning\'>The comp:required attribute must be \'true\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54057,7 +54376,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompExtModDefAllowedCoreAttributes CompExtModDefAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompExtModDefAllowedCoreAttributes CompExtModDefAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Allowed <code>&lt;externalModelDefinitions&gt;</code> core attributes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54067,7 +54386,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompExtModDefAllowedElements CompExtModDefAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompExtModDefAllowedElements CompExtModDefAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed <code>&lt;externalModelDefinitions&gt;</code> elements</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54077,7 +54396,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompExtModDefAllowedAttributes CompExtModDefAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompExtModDefAllowedAttributes CompExtModDefAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed <code>&lt;externalModelDefinitions&gt;</code> attributes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54087,7 +54406,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReferenceMustBeL3 CompReferenceMustBeL3@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReferenceMustBeL3 CompReferenceMustBeL3@endlink</td>
 <td class=\'meaning\'>External models must be L3</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54097,7 +54416,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompModReferenceMustIdOfModel CompModReferenceMustIdOfModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompModReferenceMustIdOfModel CompModReferenceMustIdOfModel@endlink</td>
 <td class=\'meaning\'>\'modelRef\' must be the \'id\' of a model in the \'source\' document</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54107,7 +54426,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompExtModMd5DoesNotMatch CompExtModMd5DoesNotMatch@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompExtModMd5DoesNotMatch CompExtModMd5DoesNotMatch@endlink</td>
 <td class=\'meaning\'>MD5 checksum does not match the \'source\' document</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54117,7 +54436,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidSourceSyntax CompInvalidSourceSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidSourceSyntax CompInvalidSourceSyntax@endlink</td>
 <td class=\'meaning\'>The \'comp:source\' attribute must be of type \'anyURI\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54127,7 +54446,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidModelRefSyntax CompInvalidModelRefSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidModelRefSyntax CompInvalidModelRefSyntax@endlink</td>
 <td class=\'meaning\'>The \'comp:modelRef\' attribute must have the syntax of \'SId\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54137,7 +54456,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidMD5Syntax CompInvalidMD5Syntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidMD5Syntax CompInvalidMD5Syntax@endlink</td>
 <td class=\'meaning\'>The \'comp:md5\' attribute must have the syntax of \'string\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54147,7 +54466,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompCircularExternalModelReference CompCircularExternalModelReference@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompCircularExternalModelReference CompCircularExternalModelReference@endlink</td>
 <td class=\'meaning\'>Circular reference in <code>&lt;externalModelDefinition&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54157,7 +54476,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompOneListOfOnModel CompOneListOfOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompOneListOfOnModel CompOneListOfOnModel@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;listOfSubmodels&gt;</code> and one <code>&lt;listOfPorts&gt;</code> allowed</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54167,7 +54486,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompNoEmptyListOfOnModel CompNoEmptyListOfOnModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompNoEmptyListOfOnModel CompNoEmptyListOfOnModel@endlink</td>
 <td class=\'meaning\'>No empty listOf elements allowed</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54177,7 +54496,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOSubmodelsAllowedElements CompLOSubmodelsAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOSubmodelsAllowedElements CompLOSubmodelsAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on <code>&lt;listOfSubmodels&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54187,7 +54506,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOPortsAllowedElements CompLOPortsAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOPortsAllowedElements CompLOPortsAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on <code>&lt;listOfPorts&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54197,7 +54516,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOSubmodelsAllowedAttributes CompLOSubmodelsAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOSubmodelsAllowedAttributes CompLOSubmodelsAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on <code>&lt;listOfSubmodels&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54207,7 +54526,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLOPortsAllowedAttributes CompLOPortsAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLOPortsAllowedAttributes CompLOPortsAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on <code>&lt;listOfPorts&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54217,7 +54536,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompSubmodelAllowedCoreAttributes CompSubmodelAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompSubmodelAllowedCoreAttributes CompSubmodelAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Allowed core attributes on <code>&lt;submodel&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54227,7 +54546,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompSubmodelAllowedElements CompSubmodelAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompSubmodelAllowedElements CompSubmodelAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on <code>&lt;submodel&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54237,7 +54556,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompOneListOfDeletionOnSubmodel CompOneListOfDeletionOnSubmodel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompOneListOfDeletionOnSubmodel CompOneListOfDeletionOnSubmodel@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;listOfDeletions&gt;</code> on a <code>&lt;submodel&gt;</code> allowed</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54247,7 +54566,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompSubmodelNoEmptyLODeletions CompSubmodelNoEmptyLODeletions@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompSubmodelNoEmptyLODeletions CompSubmodelNoEmptyLODeletions@endlink</td>
 <td class=\'meaning\'>No empty listOfDeletions elements allowed</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54257,7 +54576,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLODeletionsAllowedElements CompLODeletionsAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLODeletionsAllowedElements CompLODeletionsAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on <code>&lt;listOfDeletions&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54267,7 +54586,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLODeletionAllowedAttributes CompLODeletionAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLODeletionAllowedAttributes CompLODeletionAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed <code>&lt;listOfDeletions&gt;</code> attributes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54277,7 +54596,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompSubmodelAllowedAttributes CompSubmodelAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompSubmodelAllowedAttributes CompSubmodelAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed <code>&lt;submodel&gt;</code> attributes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54287,7 +54606,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompModReferenceSyntax CompModReferenceSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompModReferenceSyntax CompModReferenceSyntax@endlink</td>
 <td class=\'meaning\'>\'comp:modelRef\' must conform to SId syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54297,7 +54616,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidTimeConvFactorSyntax CompInvalidTimeConvFactorSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidTimeConvFactorSyntax CompInvalidTimeConvFactorSyntax@endlink</td>
 <td class=\'meaning\'>\'comp:timeConversionFactor\' must conform to SId syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54307,7 +54626,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidExtentConvFactorSyntax CompInvalidExtentConvFactorSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidExtentConvFactorSyntax CompInvalidExtentConvFactorSyntax@endlink</td>
 <td class=\'meaning\'>\'comp:extentConversionFactor\' must conform to SId syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54317,7 +54636,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompSubmodelMustReferenceModel CompSubmodelMustReferenceModel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompSubmodelMustReferenceModel CompSubmodelMustReferenceModel@endlink</td>
 <td class=\'meaning\'>The \'comp:modelRef\' attribute must reference a model</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54327,7 +54646,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompSubmodelCannotReferenceSelf CompSubmodelCannotReferenceSelf@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompSubmodelCannotReferenceSelf CompSubmodelCannotReferenceSelf@endlink</td>
 <td class=\'meaning\'>The \'comp:modelRef\' attribute cannot reference own model</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54337,7 +54656,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompModCannotCircularlyReferenceSelf CompModCannotCircularlyReferenceSelf@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompModCannotCircularlyReferenceSelf CompModCannotCircularlyReferenceSelf@endlink</td>
 <td class=\'meaning\'><code>&lt;model&gt;</code> may not reference <code>&lt;submodel&gt;</code> that references itself.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54347,7 +54666,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompTimeConversionMustBeParameter CompTimeConversionMustBeParameter@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompTimeConversionMustBeParameter CompTimeConversionMustBeParameter@endlink</td>
 <td class=\'meaning\'>The \'comp:timeConversionFactor\' must reference a parameter</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54357,7 +54676,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompExtentConversionMustBeParameter CompExtentConversionMustBeParameter@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompExtentConversionMustBeParameter CompExtentConversionMustBeParameter@endlink</td>
 <td class=\'meaning\'>The \'comp:extentConversionFactor\' must reference a parameter</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54367,7 +54686,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompPortRefMustReferencePort CompPortRefMustReferencePort@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompPortRefMustReferencePort CompPortRefMustReferencePort@endlink</td>
 <td class=\'meaning\'>The \'comp:portRef\' attribute must be the \'id\' of a <code>&lt;port&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54377,7 +54696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompIdRefMustReferenceObject CompIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompIdRefMustReferenceObject CompIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>The \'comp:idRef\' attribute must be the \'id\' of a model element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54387,7 +54706,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompUnitRefMustReferenceUnitDef CompUnitRefMustReferenceUnitDef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompUnitRefMustReferenceUnitDef CompUnitRefMustReferenceUnitDef@endlink</td>
 <td class=\'meaning\'>The \'comp:unitRef\' attribute must be the \'id\' of a UnitDefinition</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54397,7 +54716,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompMetaIdRefMustReferenceObject CompMetaIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompMetaIdRefMustReferenceObject CompMetaIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>The \'comp:metaIdRef\' attribute must be the \'metaid\' of an object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54407,7 +54726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompParentOfSBRefChildMustBeSubmodel CompParentOfSBRefChildMustBeSubmodel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompParentOfSBRefChildMustBeSubmodel CompParentOfSBRefChildMustBeSubmodel@endlink</td>
 <td class=\'meaning\'>If <code>&lt;sBaseRef&gt;</code> has a child <code>&lt;sBaseRef&gt;</code> its parent must be a <code>&lt;submodel&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54417,7 +54736,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidPortRefSyntax CompInvalidPortRefSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidPortRefSyntax CompInvalidPortRefSyntax@endlink</td>
 <td class=\'meaning\'>The \'comp:portRef\' attribute must have the syntax of an SBML SId</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54427,7 +54746,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidIdRefSyntax CompInvalidIdRefSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidIdRefSyntax CompInvalidIdRefSyntax@endlink</td>
 <td class=\'meaning\'>The \'comp:idRef\' attribute must have the syntax of an SBML SId</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54437,7 +54756,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidUnitRefSyntax CompInvalidUnitRefSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidUnitRefSyntax CompInvalidUnitRefSyntax@endlink</td>
 <td class=\'meaning\'>The \'comp:unitRef\' attribute must have the syntax of an SBML SId</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54447,7 +54766,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompInvalidMetaIdRefSyntax CompInvalidMetaIdRefSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompInvalidMetaIdRefSyntax CompInvalidMetaIdRefSyntax@endlink</td>
 <td class=\'meaning\'>The \'comp:metaIdRef\' attribute must have the syntax of an XML ID</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54457,7 +54776,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompOneSBaseRefOnly CompOneSBaseRefOnly@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompOneSBaseRefOnly CompOneSBaseRefOnly@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;sbaseRef&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54467,7 +54786,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompDeprecatedSBaseRefSpelling CompDeprecatedSBaseRefSpelling@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompDeprecatedSBaseRefSpelling CompDeprecatedSBaseRefSpelling@endlink</td>
 <td class=\'meaning\'>The spelling \'sbaseRef\' is deprecated</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54477,7 +54796,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompSBaseRefMustReferenceObject CompSBaseRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompSBaseRefMustReferenceObject CompSBaseRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>An SBaseRef must reference an object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54487,7 +54806,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompSBaseRefMustReferenceOnlyOneObject CompSBaseRefMustReferenceOnlyOneObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompSBaseRefMustReferenceOnlyOneObject CompSBaseRefMustReferenceOnlyOneObject@endlink</td>
 <td class=\'meaning\'>An SBaseRef must reference only one other object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54497,7 +54816,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompNoMultipleReferences CompNoMultipleReferences@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompNoMultipleReferences CompNoMultipleReferences@endlink</td>
 <td class=\'meaning\'>Objects may not be referenced by mutiple SBaseRef constructs.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54507,7 +54826,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompPortMustReferenceObject CompPortMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompPortMustReferenceObject CompPortMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Port must reference an object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54517,7 +54836,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompPortMustReferenceOnlyOneObject CompPortMustReferenceOnlyOneObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompPortMustReferenceOnlyOneObject CompPortMustReferenceOnlyOneObject@endlink</td>
 <td class=\'meaning\'>Port must reference only one other object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54527,7 +54846,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompPortAllowedAttributes CompPortAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompPortAllowedAttributes CompPortAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on a Port</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54537,7 +54856,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompPortReferencesUnique CompPortReferencesUnique@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompPortReferencesUnique CompPortReferencesUnique@endlink</td>
 <td class=\'meaning\'>Port definitions must be unique.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54547,7 +54866,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompDeletionMustReferenceObject CompDeletionMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompDeletionMustReferenceObject CompDeletionMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Deletion must reference an object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54557,7 +54876,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompDeletionMustReferOnlyOneObject CompDeletionMustReferOnlyOneObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompDeletionMustReferOnlyOneObject CompDeletionMustReferOnlyOneObject@endlink</td>
 <td class=\'meaning\'>Deletion must reference only one other object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54567,7 +54886,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompDeletionAllowedAttributes CompDeletionAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompDeletionAllowedAttributes CompDeletionAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on a Deletion</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54577,7 +54896,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedElementMustRefObject CompReplacedElementMustRefObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedElementMustRefObject CompReplacedElementMustRefObject@endlink</td>
 <td class=\'meaning\'>ReplacedElement must reference an object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54587,7 +54906,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedElementMustRefOnlyOne CompReplacedElementMustRefOnlyOne@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedElementMustRefOnlyOne CompReplacedElementMustRefOnlyOne@endlink</td>
 <td class=\'meaning\'>ReplacedElement must reference only one other object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54597,7 +54916,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedElementAllowedAttributes CompReplacedElementAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedElementAllowedAttributes CompReplacedElementAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on <code>&lt;replacedElement&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54607,7 +54926,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedElementSubModelRef CompReplacedElementSubModelRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedElementSubModelRef CompReplacedElementSubModelRef@endlink</td>
 <td class=\'meaning\'>The \'comp:submodelRef\' attribute must point to a <code>&lt;submodel&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54617,7 +54936,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedElementDeletionRef CompReplacedElementDeletionRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedElementDeletionRef CompReplacedElementDeletionRef@endlink</td>
 <td class=\'meaning\'>The \'comp:deletion\' attribute must point to a <code>&lt;deletion&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54627,7 +54946,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedElementConvFactorRef CompReplacedElementConvFactorRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedElementConvFactorRef CompReplacedElementConvFactorRef@endlink</td>
 <td class=\'meaning\'>The \'comp:conversionFactor attribute must point to a <code>&lt;parameter&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54637,7 +54956,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedElementSameReference CompReplacedElementSameReference@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedElementSameReference CompReplacedElementSameReference@endlink</td>
 <td class=\'meaning\'>No <code>&lt;replacedElement&gt;</code> refer to same object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54647,7 +54966,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedElementNoDelAndConvFact CompReplacedElementNoDelAndConvFact@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedElementNoDelAndConvFact CompReplacedElementNoDelAndConvFact@endlink</td>
 <td class=\'meaning\'>No <code>&lt;replacedElement&gt;</code> with deletion and conversionfactor</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54657,7 +54976,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedByMustRefObject CompReplacedByMustRefObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedByMustRefObject CompReplacedByMustRefObject@endlink</td>
 <td class=\'meaning\'>ReplacedBy must reference an object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54667,7 +54986,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedByMustRefOnlyOne CompReplacedByMustRefOnlyOne@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedByMustRefOnlyOne CompReplacedByMustRefOnlyOne@endlink</td>
 <td class=\'meaning\'>ReplacedBy must reference only one other object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54677,7 +54996,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedByAllowedAttributes CompReplacedByAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedByAllowedAttributes CompReplacedByAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on <code>&lt;replacedBy&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54687,7 +55006,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompReplacedBySubModelRef CompReplacedBySubModelRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompReplacedBySubModelRef CompReplacedBySubModelRef@endlink</td>
 <td class=\'meaning\'>The \'comp:submodelRef\' attribute must point to a <code>&lt;submodel&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54697,7 +55016,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompMustReplaceSameClass CompMustReplaceSameClass@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompMustReplaceSameClass CompMustReplaceSameClass@endlink</td>
 <td class=\'meaning\'>Replaced classes must match.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54707,7 +55026,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompMustReplaceIDs CompMustReplaceIDs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompMustReplaceIDs CompMustReplaceIDs@endlink</td>
 <td class=\'meaning\'>Replaced IDs must be replaced with IDs.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54717,7 +55036,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompMustReplaceMetaIDs CompMustReplaceMetaIDs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompMustReplaceMetaIDs CompMustReplaceMetaIDs@endlink</td>
 <td class=\'meaning\'>Replaced metaids must be replaced with metaids.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54727,7 +55046,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompMustReplacePackageIDs CompMustReplacePackageIDs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompMustReplacePackageIDs CompMustReplacePackageIDs@endlink</td>
 <td class=\'meaning\'>Replaced package IDs must be replaced with package IDs.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54737,7 +55056,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompUnresolvedReference CompUnresolvedReference@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompUnresolvedReference CompUnresolvedReference@endlink</td>
 <td class=\'meaning\'>Unresolved reference.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54747,7 +55066,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompNoModelInReference CompNoModelInReference@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompNoModelInReference CompNoModelInReference@endlink</td>
 <td class=\'meaning\'>No model in referenced document.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54757,7 +55076,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompExtModDefBad CompExtModDefBad@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompExtModDefBad CompExtModDefBad@endlink</td>
 <td class=\'meaning\'>Referenced <code>&lt;externalModelDefinition&gt;</code> unresolvable.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54767,7 +55086,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompModelFlatteningFailed CompModelFlatteningFailed@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompModelFlatteningFailed CompModelFlatteningFailed@endlink</td>
 <td class=\'meaning\'>Model failed to flatten.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54777,7 +55096,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompFlatModelNotValid CompFlatModelNotValid@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompFlatModelNotValid CompFlatModelNotValid@endlink</td>
 <td class=\'meaning\'>Flat model not valid.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54787,7 +55106,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompLineNumbersUnreliable CompLineNumbersUnreliable@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompLineNumbersUnreliable CompLineNumbersUnreliable@endlink</td>
 <td class=\'meaning\'>Line numbers unreliable.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54797,7 +55116,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompFlatteningNotRecognisedReqd CompFlatteningNotRecognisedReqd@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompFlatteningNotRecognisedReqd CompFlatteningNotRecognisedReqd@endlink</td>
 <td class=\'meaning\'>Flattening not implemented for required package.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54807,7 +55126,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompFlatteningNotRecognisedNotReqd CompFlatteningNotRecognisedNotReqd@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompFlatteningNotRecognisedNotReqd CompFlatteningNotRecognisedNotReqd@endlink</td>
 <td class=\'meaning\'>Flattening not implemented for unrequired package.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54817,7 +55136,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompFlatteningNotImplementedNotReqd CompFlatteningNotImplementedNotReqd@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompFlatteningNotImplementedNotReqd CompFlatteningNotImplementedNotReqd@endlink</td>
 <td class=\'meaning\'>Flattening not implemented for unrequired package.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54827,7 +55146,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompFlatteningNotImplementedReqd CompFlatteningNotImplementedReqd@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompFlatteningNotImplementedReqd CompFlatteningNotImplementedReqd@endlink</td>
 <td class=\'meaning\'>Flattening not implemented for required package.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54837,7 +55156,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompFlatteningWarning CompFlatteningWarning@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompFlatteningWarning CompFlatteningWarning@endlink</td>
 <td class=\'meaning\'>Flattening reference may come from package.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54847,7 +55166,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompDeprecatedDeleteFunction CompDeprecatedDeleteFunction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompDeprecatedDeleteFunction CompDeprecatedDeleteFunction@endlink</td>
 <td class=\'meaning\'>The performDeletions functions is deprecated.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54857,7 +55176,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompDeprecatedReplaceFunction CompDeprecatedReplaceFunction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompDeprecatedReplaceFunction CompDeprecatedReplaceFunction@endlink</td>
 <td class=\'meaning\'>The performReplacementsAndConversions fuctions is deprecated.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54867,7 +55186,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompDeletedReplacement CompDeletedReplacement@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompDeletedReplacement CompDeletedReplacement@endlink</td>
 <td class=\'meaning\'>Element deleted before a subelement could be replaced.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54877,7 +55196,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompIdRefMayReferenceUnknownPackage CompIdRefMayReferenceUnknownPackage@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompIdRefMayReferenceUnknownPackage CompIdRefMayReferenceUnknownPackage@endlink</td>
 <td class=\'meaning\'>The \'comp:idRef\' attribute must be the \'id\' of a model element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54887,7 +55206,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#CompMetaIdRefMayReferenceUnknownPkg CompMetaIdRefMayReferenceUnknownPkg@endlink</td>
+<tr><td class=\'code\'>@link libsbml#CompMetaIdRefMayReferenceUnknownPkg CompMetaIdRefMayReferenceUnknownPkg@endlink</td>
 <td class=\'meaning\'>The \'comp:metaIdRef\' attribute must be the \'metaid\' of a model element</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54897,7 +55216,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcUnknown FbcUnknown@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcUnknown FbcUnknown@endlink</td>
 <td class=\'meaning\'></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54907,7 +55226,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcNSUndeclared FbcNSUndeclared@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcNSUndeclared FbcNSUndeclared@endlink</td>
 <td class=\'meaning\'>The fbc ns is not correctly declared</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54917,7 +55236,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcElementNotInNs FbcElementNotInNs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcElementNotInNs FbcElementNotInNs@endlink</td>
 <td class=\'meaning\'>Element not in fbc namespace</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54927,7 +55246,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcDuplicateComponentId FbcDuplicateComponentId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcDuplicateComponentId FbcDuplicateComponentId@endlink</td>
 <td class=\'meaning\'>Duplicate \'id\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54937,7 +55256,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcSBMLSIdSyntax FbcSBMLSIdSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcSBMLSIdSyntax FbcSBMLSIdSyntax@endlink</td>
 <td class=\'meaning\'>Invalid \'id\' attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54947,7 +55266,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcAttributeRequiredMissing FbcAttributeRequiredMissing@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcAttributeRequiredMissing FbcAttributeRequiredMissing@endlink</td>
 <td class=\'meaning\'>Required fbc:required attribute on <code>&lt;sbml&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54957,7 +55276,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcAttributeRequiredMustBeBoolean FbcAttributeRequiredMustBeBoolean@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcAttributeRequiredMustBeBoolean FbcAttributeRequiredMustBeBoolean@endlink</td>
 <td class=\'meaning\'>The fbc:required attribute must be Boolean</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54967,7 +55286,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcRequiredFalse FbcRequiredFalse@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcRequiredFalse FbcRequiredFalse@endlink</td>
 <td class=\'meaning\'>The fbc:required attribute must be \'false\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54977,7 +55296,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcOnlyOneEachListOf FbcOnlyOneEachListOf@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcOnlyOneEachListOf FbcOnlyOneEachListOf@endlink</td>
 <td class=\'meaning\'>One of each list of allowed</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54987,7 +55306,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcNoEmptyListOfs FbcNoEmptyListOfs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcNoEmptyListOfs FbcNoEmptyListOfs@endlink</td>
 <td class=\'meaning\'>ListOf elements cannot be empty</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -54997,7 +55316,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcLOFluxBoundsAllowedElements FbcLOFluxBoundsAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcLOFluxBoundsAllowedElements FbcLOFluxBoundsAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on ListOfFluxBounds</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55007,7 +55326,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcLOObjectivesAllowedElements FbcLOObjectivesAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcLOObjectivesAllowedElements FbcLOObjectivesAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on ListOfObjectives</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55017,7 +55336,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcLOFluxBoundsAllowedAttributes FbcLOFluxBoundsAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcLOFluxBoundsAllowedAttributes FbcLOFluxBoundsAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on ListOfFluxBounds</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55027,7 +55346,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcLOObjectivesAllowedAttributes FbcLOObjectivesAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcLOObjectivesAllowedAttributes FbcLOObjectivesAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on ListOfObjectives</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55037,7 +55356,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcActiveObjectiveSyntax FbcActiveObjectiveSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcActiveObjectiveSyntax FbcActiveObjectiveSyntax@endlink</td>
 <td class=\'meaning\'>Type of activeObjective attribute</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55047,7 +55366,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcActiveObjectiveRefersObjective FbcActiveObjectiveRefersObjective@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcActiveObjectiveRefersObjective FbcActiveObjectiveRefersObjective@endlink</td>
 <td class=\'meaning\'>ActiveObjective must reference Objective</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55057,7 +55376,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcSpeciesAllowedL3Attributes FbcSpeciesAllowedL3Attributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcSpeciesAllowedL3Attributes FbcSpeciesAllowedL3Attributes@endlink</td>
 <td class=\'meaning\'>Species allowed attributes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55067,7 +55386,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcSpeciesChargeMustBeInteger FbcSpeciesChargeMustBeInteger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcSpeciesChargeMustBeInteger FbcSpeciesChargeMustBeInteger@endlink</td>
 <td class=\'meaning\'>Charge must be integer</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55077,7 +55396,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcSpeciesFormulaMustBeString FbcSpeciesFormulaMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcSpeciesFormulaMustBeString FbcSpeciesFormulaMustBeString@endlink</td>
 <td class=\'meaning\'>Chemical formula must be string</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55087,7 +55406,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxBoundAllowedL3Attributes FbcFluxBoundAllowedL3Attributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxBoundAllowedL3Attributes FbcFluxBoundAllowedL3Attributes@endlink</td>
 <td class=\'meaning\'><code>&lt;fluxBound&gt;</code> may only have \'metaId\' and \'sboTerm\' from L3 namespace</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55097,7 +55416,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxBoundAllowedElements FbcFluxBoundAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxBoundAllowedElements FbcFluxBoundAllowedElements@endlink</td>
 <td class=\'meaning\'><code>&lt;fluxBound&gt;</code> may only have <code>&lt;notes&gt;</code> and <code>&lt;annotations&gt;</code> from L3 Core</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55107,7 +55426,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxBoundRequiredAttributes FbcFluxBoundRequiredAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxBoundRequiredAttributes FbcFluxBoundRequiredAttributes@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on <code>&lt;fluxBound&gt;</code> object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55117,7 +55436,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxBoundRectionMustBeSIdRef FbcFluxBoundRectionMustBeSIdRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxBoundRectionMustBeSIdRef FbcFluxBoundRectionMustBeSIdRef@endlink</td>
 <td class=\'meaning\'>Datatype for \'fbc:reaction\' must be SIdRef</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55127,7 +55446,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxBoundNameMustBeString FbcFluxBoundNameMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxBoundNameMustBeString FbcFluxBoundNameMustBeString@endlink</td>
 <td class=\'meaning\'>The attribute \'fbc:name\' must be of the data type string</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55137,7 +55456,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxBoundOperationMustBeEnum FbcFluxBoundOperationMustBeEnum@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxBoundOperationMustBeEnum FbcFluxBoundOperationMustBeEnum@endlink</td>
 <td class=\'meaning\'>The attribute \'fbc:operation\' must be of data type FbcOperation</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55147,7 +55466,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxBoundValueMustBeDouble FbcFluxBoundValueMustBeDouble@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxBoundValueMustBeDouble FbcFluxBoundValueMustBeDouble@endlink</td>
 <td class=\'meaning\'>The attribute \'fbc:value\' must be of the data type double</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55157,7 +55476,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxBoundReactionMustExist FbcFluxBoundReactionMustExist@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxBoundReactionMustExist FbcFluxBoundReactionMustExist@endlink</td>
 <td class=\'meaning\'>\'fbc:reaction\' must refer to valid reaction</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55167,7 +55486,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxBoundsForReactionConflict FbcFluxBoundsForReactionConflict@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxBoundsForReactionConflict FbcFluxBoundsForReactionConflict@endlink</td>
 <td class=\'meaning\'>Conflicting set of FluxBounds for a reaction</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55177,7 +55496,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcObjectiveAllowedL3Attributes FbcObjectiveAllowedL3Attributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcObjectiveAllowedL3Attributes FbcObjectiveAllowedL3Attributes@endlink</td>
 <td class=\'meaning\'><code>&lt;objective&gt;</code> may only have \'metaId\' and \'sboTerm\' from L3 namespace</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55187,7 +55506,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcObjectiveAllowedElements FbcObjectiveAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcObjectiveAllowedElements FbcObjectiveAllowedElements@endlink</td>
 <td class=\'meaning\'><code>&lt;objective&gt;</code> may only have <code>&lt;notes&gt;</code> and <code>&lt;annotations&gt;</code> from L3 Core</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55197,7 +55516,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcObjectiveRequiredAttributes FbcObjectiveRequiredAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcObjectiveRequiredAttributes FbcObjectiveRequiredAttributes@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on <code>&lt;objective&gt;</code> object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55207,7 +55526,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcObjectiveNameMustBeString FbcObjectiveNameMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcObjectiveNameMustBeString FbcObjectiveNameMustBeString@endlink</td>
 <td class=\'meaning\'>The attribute \'fbc:name\' must be of the data type string</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55217,7 +55536,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcObjectiveTypeMustBeEnum FbcObjectiveTypeMustBeEnum@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcObjectiveTypeMustBeEnum FbcObjectiveTypeMustBeEnum@endlink</td>
 <td class=\'meaning\'>The attribute \'fbc:type\' must be of data type FbcType.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55227,7 +55546,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcObjectiveOneListOfObjectives FbcObjectiveOneListOfObjectives@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcObjectiveOneListOfObjectives FbcObjectiveOneListOfObjectives@endlink</td>
 <td class=\'meaning\'>An <code>&lt;objective&gt;</code> must have one <code>&lt;listOfFluxObjectives&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55237,7 +55556,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcObjectiveLOFluxObjMustNotBeEmpty FbcObjectiveLOFluxObjMustNotBeEmpty@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcObjectiveLOFluxObjMustNotBeEmpty FbcObjectiveLOFluxObjMustNotBeEmpty@endlink</td>
 <td class=\'meaning\'><code>&lt;listOfFluxObjectives&gt;</code> subobject must not be empty</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55247,7 +55566,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcObjectiveLOFluxObjOnlyFluxObj FbcObjectiveLOFluxObjOnlyFluxObj@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcObjectiveLOFluxObjOnlyFluxObj FbcObjectiveLOFluxObjOnlyFluxObj@endlink</td>
 <td class=\'meaning\'>Invalid element found in <code>&lt;listOfFluxObjectives&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55257,7 +55576,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcObjectiveLOFluxObjAllowedAttribs FbcObjectiveLOFluxObjAllowedAttribs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcObjectiveLOFluxObjAllowedAttribs FbcObjectiveLOFluxObjAllowedAttribs@endlink</td>
 <td class=\'meaning\'><code>&lt;listOfFluxObjectives&gt;</code> may only have \'metaId\' and \'sboTerm\' from L3 core</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55267,7 +55586,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxObjectAllowedL3Attributes FbcFluxObjectAllowedL3Attributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxObjectAllowedL3Attributes FbcFluxObjectAllowedL3Attributes@endlink</td>
 <td class=\'meaning\'><code>&lt;fluxObjective&gt;</code> may only have \'metaId\' and \'sboTerm\' from L3 namespace</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55277,7 +55596,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxObjectAllowedElements FbcFluxObjectAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxObjectAllowedElements FbcFluxObjectAllowedElements@endlink</td>
 <td class=\'meaning\'><code>&lt;fluxObjective&gt;</code> may only have <code>&lt;notes&gt;</code> and <code>&lt;annotations&gt;</code> from L3 Core</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55287,7 +55606,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxObjectRequiredAttributes FbcFluxObjectRequiredAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxObjectRequiredAttributes FbcFluxObjectRequiredAttributes@endlink</td>
 <td class=\'meaning\'>Invalid attribute found on <code>&lt;fluxObjective&gt;</code> object</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55297,7 +55616,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxObjectNameMustBeString FbcFluxObjectNameMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxObjectNameMustBeString FbcFluxObjectNameMustBeString@endlink</td>
 <td class=\'meaning\'>The attribute \'fbc:name\' must be of the data type string</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55307,7 +55626,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxObjectReactionMustBeSIdRef FbcFluxObjectReactionMustBeSIdRef@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxObjectReactionMustBeSIdRef FbcFluxObjectReactionMustBeSIdRef@endlink</td>
 <td class=\'meaning\'>Datatype for \'fbc:reaction\' must be SIdRef</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55317,7 +55636,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxObjectReactionMustExist FbcFluxObjectReactionMustExist@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxObjectReactionMustExist FbcFluxObjectReactionMustExist@endlink</td>
 <td class=\'meaning\'>\'fbc:reaction\' must refer to valid reaction</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55327,7 +55646,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#FbcFluxObjectCoefficientMustBeDouble FbcFluxObjectCoefficientMustBeDouble@endlink</td>
+<tr><td class=\'code\'>@link libsbml#FbcFluxObjectCoefficientMustBeDouble FbcFluxObjectCoefficientMustBeDouble@endlink</td>
 <td class=\'meaning\'>The attribute \'fbc:coefficient\' must be of the data type double</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55337,7 +55656,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualUnknown QualUnknown@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualUnknown QualUnknown@endlink</td>
 <td class=\'meaning\'></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55347,7 +55666,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualNSUndeclared QualNSUndeclared@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualNSUndeclared QualNSUndeclared@endlink</td>
 <td class=\'meaning\'>The qual ns is not correctly declared</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55357,7 +55676,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualElementNotInNs QualElementNotInNs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualElementNotInNs QualElementNotInNs@endlink</td>
 <td class=\'meaning\'>Element not in qual namespace</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55367,7 +55686,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualFunctionTermBool QualFunctionTermBool@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualFunctionTermBool QualFunctionTermBool@endlink</td>
 <td class=\'meaning\'>FunctionTerm should return bool</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55377,7 +55696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualMathCSymbolDisallowed QualMathCSymbolDisallowed@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualMathCSymbolDisallowed QualMathCSymbolDisallowed@endlink</td>
 <td class=\'meaning\'>CSymbol time or delay not allowed</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55387,7 +55706,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-warning\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualDuplicateComponentId QualDuplicateComponentId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualDuplicateComponentId QualDuplicateComponentId@endlink</td>
 <td class=\'meaning\'>Duplicate \'id\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55397,7 +55716,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualAttributeRequiredMissing QualAttributeRequiredMissing@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualAttributeRequiredMissing QualAttributeRequiredMissing@endlink</td>
 <td class=\'meaning\'>Required qual:required attribute on <code>&lt;sbml&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55407,7 +55726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualAttributeRequiredMustBeBoolean QualAttributeRequiredMustBeBoolean@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualAttributeRequiredMustBeBoolean QualAttributeRequiredMustBeBoolean@endlink</td>
 <td class=\'meaning\'>The qual:required attribute must be Boolean</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55417,7 +55736,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualRequiredTrueIfTransitions QualRequiredTrueIfTransitions@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualRequiredTrueIfTransitions QualRequiredTrueIfTransitions@endlink</td>
 <td class=\'meaning\'>The qual:required attribute must be \'true\' if math changes</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55427,7 +55746,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOneListOfTransOrQS QualOneListOfTransOrQS@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOneListOfTransOrQS QualOneListOfTransOrQS@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;listOfTransitions&gt;</code> or <code>&lt;listOfQualitativeSpeciesgt;</code> allowed.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55437,7 +55756,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualEmptyLONotAllowed QualEmptyLONotAllowed@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualEmptyLONotAllowed QualEmptyLONotAllowed@endlink</td>
 <td class=\'meaning\'>Empty <code>&lt;listOfTransitions&gt;</code> or <code>&lt;listOfQualitativeSpeciesgt;</code> not allowed.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55447,7 +55766,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualLOTransitiondAllowedElements QualLOTransitiondAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualLOTransitiondAllowedElements QualLOTransitiondAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;listOfTransitions&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55457,7 +55776,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualLOQualSpeciesAllowedElements QualLOQualSpeciesAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualLOQualSpeciesAllowedElements QualLOQualSpeciesAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;listOfTransitions&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55467,7 +55786,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualLOQualSpeciesAllowedAttributes QualLOQualSpeciesAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualLOQualSpeciesAllowedAttributes QualLOQualSpeciesAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfQualitativeSpeciesgt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55477,7 +55796,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualLOTransitionsAllowedAttributes QualLOTransitionsAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualLOTransitionsAllowedAttributes QualLOTransitionsAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfTransitions&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55487,7 +55806,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualQualSpeciesAllowedCoreAttributes QualQualSpeciesAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualQualSpeciesAllowedCoreAttributes QualQualSpeciesAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;qualitativeSpeciesgt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55497,7 +55816,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualQualSpeciesAllowedElements QualQualSpeciesAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualQualSpeciesAllowedElements QualQualSpeciesAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;qualitativeSpeciesgt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55507,7 +55826,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualQualSpeciesAllowedAttributes QualQualSpeciesAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualQualSpeciesAllowedAttributes QualQualSpeciesAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;qualitativeSpeciesgt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55517,7 +55836,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualConstantMustBeBool QualConstantMustBeBool@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualConstantMustBeBool QualConstantMustBeBool@endlink</td>
 <td class=\'meaning\'>Attribute \'constant\' on <code>&lt;qualitativeSpeciesgt;</code> must be bool.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55527,7 +55846,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualNameMustBeString QualNameMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualNameMustBeString QualNameMustBeString@endlink</td>
 <td class=\'meaning\'>Attribute \'name\' on <code>&lt;qualitativeSpeciesgt;</code> must be string.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55537,7 +55856,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInitialLevelMustBeInt QualInitialLevelMustBeInt@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInitialLevelMustBeInt QualInitialLevelMustBeInt@endlink</td>
 <td class=\'meaning\'>Attribute \'initialLevel\' on <code>&lt;qualitativeSpeciesgt;</code> must be integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55547,7 +55866,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualMaxLevelMustBeInt QualMaxLevelMustBeInt@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualMaxLevelMustBeInt QualMaxLevelMustBeInt@endlink</td>
 <td class=\'meaning\'>Attribute \'maxLevel\' on <code>&lt;qualitativeSpeciesgt;</code> must be integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55557,7 +55876,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualCompartmentMustReferExisting QualCompartmentMustReferExisting@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualCompartmentMustReferExisting QualCompartmentMustReferExisting@endlink</td>
 <td class=\'meaning\'>Attribute \'compartment\' on <code>&lt;qualitativeSpeciesgt;</code> must reference compartment.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55567,7 +55886,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInitialLevelCannotExceedMax QualInitialLevelCannotExceedMax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInitialLevelCannotExceedMax QualInitialLevelCannotExceedMax@endlink</td>
 <td class=\'meaning\'>Attribute \'initialLevel\' on <code>&lt;qualitativeSpeciesgt;</code> cannot exceed maxLevel.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55577,7 +55896,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualConstantQSCannotBeOutput QualConstantQSCannotBeOutput@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualConstantQSCannotBeOutput QualConstantQSCannotBeOutput@endlink</td>
 <td class=\'meaning\'>Constant <code>&lt;qualitativeSpeciesgt;</code> cannot be an Output.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55587,7 +55906,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualQSAssignedOnlyOnce QualQSAssignedOnlyOnce@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualQSAssignedOnlyOnce QualQSAssignedOnlyOnce@endlink</td>
 <td class=\'meaning\'>A <code>&lt;qualitativeSpeciesgt;</code> can only be assigned once.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55597,7 +55916,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInitalLevelNotNegative QualInitalLevelNotNegative@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInitalLevelNotNegative QualInitalLevelNotNegative@endlink</td>
 <td class=\'meaning\'>Attribute \'initialLevel\' on <code>&lt;qualitativeSpeciesgt;</code> cannot be negative.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55607,7 +55926,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualMaxLevelNotNegative QualMaxLevelNotNegative@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualMaxLevelNotNegative QualMaxLevelNotNegative@endlink</td>
 <td class=\'meaning\'>Attribute \'maxLevel\' on <code>&lt;qualitativeSpeciesgt;</code> cannot be negative.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55617,7 +55936,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionAllowedCoreAttributes QualTransitionAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionAllowedCoreAttributes QualTransitionAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;transition&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55627,7 +55946,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionAllowedElements QualTransitionAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionAllowedElements QualTransitionAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;transition&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55637,7 +55956,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionAllowedAttributes QualTransitionAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionAllowedAttributes QualTransitionAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;transition&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55647,7 +55966,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionNameMustBeString QualTransitionNameMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionNameMustBeString QualTransitionNameMustBeString@endlink</td>
 <td class=\'meaning\'>Attribute \'name\' on <code>&lt;transition&gt;</code> must be string.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55657,7 +55976,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionLOElements QualTransitionLOElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionLOElements QualTransitionLOElements@endlink</td>
 <td class=\'meaning\'>ListOf elements on <code>&lt;transition&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55667,7 +55986,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionEmptyLOElements QualTransitionEmptyLOElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionEmptyLOElements QualTransitionEmptyLOElements@endlink</td>
 <td class=\'meaning\'>ListOf elements on <code>&lt;transition&gt;</code> not empty.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55677,7 +55996,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionLOInputElements QualTransitionLOInputElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionLOInputElements QualTransitionLOInputElements@endlink</td>
 <td class=\'meaning\'>Elements on <code>&lt;listOfInputs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55687,7 +56006,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionLOOutputElements QualTransitionLOOutputElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionLOOutputElements QualTransitionLOOutputElements@endlink</td>
 <td class=\'meaning\'>Elements on <code>&lt;listOfOutputs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55697,7 +56016,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionLOFuncTermElements QualTransitionLOFuncTermElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionLOFuncTermElements QualTransitionLOFuncTermElements@endlink</td>
 <td class=\'meaning\'>Elements on <code>&lt;listOfFunctionTerms&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55707,7 +56026,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionLOInputAttributes QualTransitionLOInputAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionLOInputAttributes QualTransitionLOInputAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfInputs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55717,7 +56036,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionLOOutputAttributes QualTransitionLOOutputAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionLOOutputAttributes QualTransitionLOOutputAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfOutputs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55727,7 +56046,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionLOFuncTermAttributes QualTransitionLOFuncTermAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionLOFuncTermAttributes QualTransitionLOFuncTermAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfFunctionTerms&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55737,7 +56056,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionLOFuncTermExceedMax QualTransitionLOFuncTermExceedMax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionLOFuncTermExceedMax QualTransitionLOFuncTermExceedMax@endlink</td>
 <td class=\'meaning\'><code>&lt;listOfFunctionTerms&gt;</code> cannot make qualitativeSpecies exceed maxLevel.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55747,7 +56066,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualTransitionLOFuncTermNegative QualTransitionLOFuncTermNegative@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualTransitionLOFuncTermNegative QualTransitionLOFuncTermNegative@endlink</td>
 <td class=\'meaning\'><code>&lt;listOfFunctionTerms&gt;</code> cannot make qualitativeSpecies negative.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55757,7 +56076,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputAllowedCoreAttributes QualInputAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputAllowedCoreAttributes QualInputAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;input&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55767,7 +56086,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputAllowedElements QualInputAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputAllowedElements QualInputAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;input&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55777,7 +56096,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputAllowedAttributes QualInputAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputAllowedAttributes QualInputAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;input&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55787,7 +56106,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputNameMustBeString QualInputNameMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputNameMustBeString QualInputNameMustBeString@endlink</td>
 <td class=\'meaning\'>Attribute \'name\' on <code>&lt;input&gt;</code> must be string.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55797,7 +56116,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputSignMustBeSignEnum QualInputSignMustBeSignEnum@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputSignMustBeSignEnum QualInputSignMustBeSignEnum@endlink</td>
 <td class=\'meaning\'>Attribute \'sign\' on <code>&lt;input&gt;</code> must be enum.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55807,7 +56126,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputTransEffectMustBeInputEffect QualInputTransEffectMustBeInputEffect@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputTransEffectMustBeInputEffect QualInputTransEffectMustBeInputEffect@endlink</td>
 <td class=\'meaning\'>Attribute \'transitionEffect\' on <code>&lt;input&gt;</code> must be enum.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55817,7 +56136,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputThreshMustBeInteger QualInputThreshMustBeInteger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputThreshMustBeInteger QualInputThreshMustBeInteger@endlink</td>
 <td class=\'meaning\'>Attribute \'thresholdLevel\' on <code>&lt;input&gt;</code> must be non negative integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55827,7 +56146,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputQSMustBeExistingQS QualInputQSMustBeExistingQS@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputQSMustBeExistingQS QualInputQSMustBeExistingQS@endlink</td>
 <td class=\'meaning\'>Attribute \'qualitativeSpecies\' on <code>&lt;input&gt;</code> must refer to existing</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55837,7 +56156,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputConstantCannotBeConsumed QualInputConstantCannotBeConsumed@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputConstantCannotBeConsumed QualInputConstantCannotBeConsumed@endlink</td>
 <td class=\'meaning\'>Constant <code>&lt;input&gt;</code> cannot be consumed.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55847,7 +56166,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualInputThreshMustBeNonNegative QualInputThreshMustBeNonNegative@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualInputThreshMustBeNonNegative QualInputThreshMustBeNonNegative@endlink</td>
 <td class=\'meaning\'>Attribute \'thresholdLevel\' on <code>&lt;input&gt;</code> must be non negative integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55857,7 +56176,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputAllowedCoreAttributes QualOutputAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputAllowedCoreAttributes QualOutputAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;output&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55867,7 +56186,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputAllowedElements QualOutputAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputAllowedElements QualOutputAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;output&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55877,7 +56196,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputAllowedAttributes QualOutputAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputAllowedAttributes QualOutputAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;output&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55887,7 +56206,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputNameMustBeString QualOutputNameMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputNameMustBeString QualOutputNameMustBeString@endlink</td>
 <td class=\'meaning\'>Attribute \'name\' on <code>&lt;output&gt;</code> must be string.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55897,7 +56216,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputTransEffectMustBeOutput QualOutputTransEffectMustBeOutput@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputTransEffectMustBeOutput QualOutputTransEffectMustBeOutput@endlink</td>
 <td class=\'meaning\'>Attribute \'transitionEffect\' on <code>&lt;output&gt;</code> must be enum.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55907,7 +56226,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputLevelMustBeInteger QualOutputLevelMustBeInteger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputLevelMustBeInteger QualOutputLevelMustBeInteger@endlink</td>
 <td class=\'meaning\'>Attribute \'outputLevel\' on <code>&lt;output&gt;</code> must be non negative integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55917,7 +56236,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputQSMustBeExistingQS QualOutputQSMustBeExistingQS@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputQSMustBeExistingQS QualOutputQSMustBeExistingQS@endlink</td>
 <td class=\'meaning\'>Attribute \'qualitativeSpecies\' on <code>&lt;output&gt;</code> must refer to existing</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55927,7 +56246,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputConstantMustBeFalse QualOutputConstantMustBeFalse@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputConstantMustBeFalse QualOutputConstantMustBeFalse@endlink</td>
 <td class=\'meaning\'>Constant \'qualitativeSpecies\' cannot be <code>&lt;output&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55937,7 +56256,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputProductionMustHaveLevel QualOutputProductionMustHaveLevel@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputProductionMustHaveLevel QualOutputProductionMustHaveLevel@endlink</td>
 <td class=\'meaning\'><code>&lt;output&gt;</code> being produced must have level</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55947,7 +56266,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualOutputLevelMustBeNonNegative QualOutputLevelMustBeNonNegative@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualOutputLevelMustBeNonNegative QualOutputLevelMustBeNonNegative@endlink</td>
 <td class=\'meaning\'>Attribute \'outputLevel\' on <code>&lt;output&gt;</code> must be non negative integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55957,7 +56276,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualDefaultTermAllowedCoreAttributes QualDefaultTermAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualDefaultTermAllowedCoreAttributes QualDefaultTermAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;defaultTerm&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55967,7 +56286,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualDefaultTermAllowedElements QualDefaultTermAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualDefaultTermAllowedElements QualDefaultTermAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;defaultTerm&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55977,7 +56296,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualDefaultTermAllowedAttributes QualDefaultTermAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualDefaultTermAllowedAttributes QualDefaultTermAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;defaultTerm&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55987,7 +56306,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualDefaultTermResultMustBeInteger QualDefaultTermResultMustBeInteger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualDefaultTermResultMustBeInteger QualDefaultTermResultMustBeInteger@endlink</td>
 <td class=\'meaning\'>Attribute \'resultLevel\' on <code>&lt;defaultTerm&gt;</code> must be non negative integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -55997,7 +56316,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualDefaultTermResultMustBeNonNeg QualDefaultTermResultMustBeNonNeg@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualDefaultTermResultMustBeNonNeg QualDefaultTermResultMustBeNonNeg@endlink</td>
 <td class=\'meaning\'>Attribute \'resultLevel\' on <code>&lt;defaultTerm&gt;</code> must be non negative integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56007,7 +56326,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualFuncTermAllowedCoreAttributes QualFuncTermAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualFuncTermAllowedCoreAttributes QualFuncTermAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;functionTerm&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56017,7 +56336,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualFuncTermAllowedElements QualFuncTermAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualFuncTermAllowedElements QualFuncTermAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;functionTerm&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56027,7 +56346,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualFuncTermAllowedAttributes QualFuncTermAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualFuncTermAllowedAttributes QualFuncTermAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;functionTerm&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56037,7 +56356,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualFuncTermOnlyOneMath QualFuncTermOnlyOneMath@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualFuncTermOnlyOneMath QualFuncTermOnlyOneMath@endlink</td>
 <td class=\'meaning\'>Only one <code>&lt;math&gt;</code> on <code>&lt;functionTerm&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56047,7 +56366,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualFuncTermResultMustBeInteger QualFuncTermResultMustBeInteger@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualFuncTermResultMustBeInteger QualFuncTermResultMustBeInteger@endlink</td>
 <td class=\'meaning\'>Attribute \'resultLevel\' on <code>&lt;functionTerm&gt;</code> must be non negative integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56057,7 +56376,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#QualFuncTermResultMustBeNonNeg QualFuncTermResultMustBeNonNeg@endlink</td>
+<tr><td class=\'code\'>@link libsbml#QualFuncTermResultMustBeNonNeg QualFuncTermResultMustBeNonNeg@endlink</td>
 <td class=\'meaning\'>Attribute \'resultLevel\' on <code>&lt;functionTerm&gt;</code> must be non negative integer.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56067,7 +56386,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutUnknownError LayoutUnknownError@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutUnknownError LayoutUnknownError@endlink</td>
 <td class=\'meaning\'></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56077,7 +56396,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutNSUndeclared LayoutNSUndeclared@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutNSUndeclared LayoutNSUndeclared@endlink</td>
 <td class=\'meaning\'>The layout ns is not correctly declared</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56087,7 +56406,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutElementNotInNs LayoutElementNotInNs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutElementNotInNs LayoutElementNotInNs@endlink</td>
 <td class=\'meaning\'>Element not in layout namespace</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56097,7 +56416,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutDuplicateComponentId LayoutDuplicateComponentId@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutDuplicateComponentId LayoutDuplicateComponentId@endlink</td>
 <td class=\'meaning\'>Duplicate \'id\' attribute value</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56107,7 +56426,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSIdSyntax LayoutSIdSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSIdSyntax LayoutSIdSyntax@endlink</td>
 <td class=\'meaning\'>\'id\' attribute incorrect syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56117,7 +56436,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutXsiTypeAllowedLocations LayoutXsiTypeAllowedLocations@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutXsiTypeAllowedLocations LayoutXsiTypeAllowedLocations@endlink</td>
 <td class=\'meaning\'>\'xsi:type\' allowed locations</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56127,7 +56446,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutXsiTypeSyntax LayoutXsiTypeSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutXsiTypeSyntax LayoutXsiTypeSyntax@endlink</td>
 <td class=\'meaning\'>\'xsi:type\' attribute incorrect syntax</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56137,7 +56456,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutAttributeRequiredMissing LayoutAttributeRequiredMissing@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutAttributeRequiredMissing LayoutAttributeRequiredMissing@endlink</td>
 <td class=\'meaning\'>Required layout:required attribute on <code>&lt;sbml&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56147,7 +56466,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutAttributeRequiredMustBeBoolean LayoutAttributeRequiredMustBeBoolean@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutAttributeRequiredMustBeBoolean LayoutAttributeRequiredMustBeBoolean@endlink</td>
 <td class=\'meaning\'>The layout:required attribute must be Boolean</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56157,7 +56476,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRequiredFalse LayoutRequiredFalse@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRequiredFalse LayoutRequiredFalse@endlink</td>
 <td class=\'meaning\'>The layout:required attribute must be \'false\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56167,7 +56486,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutOnlyOneLOLayouts LayoutOnlyOneLOLayouts@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutOnlyOneLOLayouts LayoutOnlyOneLOLayouts@endlink</td>
 <td class=\'meaning\'>Only one listOfLayouts on <code>&lt;model&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56177,7 +56496,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOLayoutsNotEmpty LayoutLOLayoutsNotEmpty@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOLayoutsNotEmpty LayoutLOLayoutsNotEmpty@endlink</td>
 <td class=\'meaning\'>ListOf elements cannot be empty</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56187,7 +56506,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOLayoutsAllowedElements LayoutLOLayoutsAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOLayoutsAllowedElements LayoutLOLayoutsAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on ListOfLayouts</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56197,7 +56516,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOLayoutsAllowedAttributes LayoutLOLayoutsAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOLayoutsAllowedAttributes LayoutLOLayoutsAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on ListOfLayouts</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56207,7 +56526,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLayoutAllowedElements LayoutLayoutAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLayoutAllowedElements LayoutLayoutAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on Layout</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56217,7 +56536,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLayoutAllowedCoreAttributes LayoutLayoutAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLayoutAllowedCoreAttributes LayoutLayoutAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Allowed core attributes on Layout</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56227,7 +56546,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutOnlyOneEachListOf LayoutOnlyOneEachListOf@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutOnlyOneEachListOf LayoutOnlyOneEachListOf@endlink</td>
 <td class=\'meaning\'>Only one each listOf on <code>&lt;layout&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56237,7 +56556,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutNoEmptyListOfs LayoutNoEmptyListOfs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutNoEmptyListOfs LayoutNoEmptyListOfs@endlink</td>
 <td class=\'meaning\'>ListOf elements cannot be empty</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56247,7 +56566,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLayoutAllowedAttributes LayoutLayoutAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLayoutAllowedAttributes LayoutLayoutAllowedAttributes@endlink</td>
 <td class=\'meaning\'><code>&lt;layout&gt;</code> must have \'id\' and may have \'name\'</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56257,7 +56576,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLayoutNameMustBeString LayoutLayoutNameMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLayoutNameMustBeString LayoutLayoutNameMustBeString@endlink</td>
 <td class=\'meaning\'>\'name\' must be string</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56267,7 +56586,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOCompGlyphAllowedAttributes LayoutLOCompGlyphAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOCompGlyphAllowedAttributes LayoutLOCompGlyphAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfCompartmentGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56277,7 +56596,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOCompGlyphAllowedElements LayoutLOCompGlyphAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOCompGlyphAllowedElements LayoutLOCompGlyphAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;listOfCompartmentGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56287,7 +56606,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOSpeciesGlyphAllowedAttributes LayoutLOSpeciesGlyphAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOSpeciesGlyphAllowedAttributes LayoutLOSpeciesGlyphAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfSpeciesGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56297,7 +56616,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOSpeciesGlyphAllowedElements LayoutLOSpeciesGlyphAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOSpeciesGlyphAllowedElements LayoutLOSpeciesGlyphAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;listOfSpeciesGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56307,7 +56626,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLORnGlyphAllowedAttributes LayoutLORnGlyphAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLORnGlyphAllowedAttributes LayoutLORnGlyphAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfReactionGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56317,7 +56636,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLORnGlyphAllowedElements LayoutLORnGlyphAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLORnGlyphAllowedElements LayoutLORnGlyphAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;listOfReactionGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56327,7 +56646,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOAddGOAllowedAttribut LayoutLOAddGOAllowedAttribut@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOAddGOAllowedAttribut LayoutLOAddGOAllowedAttribut@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfAdditionalGraphicalObjectGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56337,7 +56656,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOAddGOAllowedElements LayoutLOAddGOAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOAddGOAllowedElements LayoutLOAddGOAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;listOfAdditionalGraphicalObjectGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56347,7 +56666,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLayoutMustHaveDimensions LayoutLayoutMustHaveDimensions@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLayoutMustHaveDimensions LayoutLayoutMustHaveDimensions@endlink</td>
 <td class=\'meaning\'>Layout must have <code>&lt;dimensions&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56357,7 +56676,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOTextGlyphAllowedAttributes LayoutLOTextGlyphAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOTextGlyphAllowedAttributes LayoutLOTextGlyphAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Attributes allowed on <code>&lt;listOfTextGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56367,7 +56686,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOTextGlyphAllowedElements LayoutLOTextGlyphAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOTextGlyphAllowedElements LayoutLOTextGlyphAllowedElements@endlink</td>
 <td class=\'meaning\'>Elements allowed on <code>&lt;listOfTextGlyphs&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56377,7 +56696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGOAllowedCoreElements LayoutGOAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGOAllowedCoreElements LayoutGOAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;graphicalObject&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56387,7 +56706,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGOAllowedCoreAttributes LayoutGOAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGOAllowedCoreAttributes LayoutGOAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;graphicalObject&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56397,7 +56716,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGOAllowedElements LayoutGOAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGOAllowedElements LayoutGOAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;graphicalObject&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56407,7 +56726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGOAllowedAttributes LayoutGOAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGOAllowedAttributes LayoutGOAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;graphicalObject&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56417,7 +56736,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGOMetaIdRefMustBeIDREF LayoutGOMetaIdRefMustBeIDREF@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGOMetaIdRefMustBeIDREF LayoutGOMetaIdRefMustBeIDREF@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must be IDREF.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56427,7 +56746,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGOMetaIdRefMustReferenceObject LayoutGOMetaIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGOMetaIdRefMustReferenceObject LayoutGOMetaIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must reference existing object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56437,7 +56756,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGOMustContainBoundingBox LayoutGOMustContainBoundingBox@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGOMustContainBoundingBox LayoutGOMustContainBoundingBox@endlink</td>
 <td class=\'meaning\'>A <code>&lt;graphicalObject&gt;</code> must contain a <code>&lt;boundingBox&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56447,7 +56766,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGAllowedCoreElements LayoutCGAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGAllowedCoreElements LayoutCGAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;compartmentGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56457,7 +56776,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGAllowedCoreAttributes LayoutCGAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGAllowedCoreAttributes LayoutCGAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;compartmentGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56467,7 +56786,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGAllowedElements LayoutCGAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGAllowedElements LayoutCGAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;compartmentGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56477,7 +56796,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGAllowedAttributes LayoutCGAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGAllowedAttributes LayoutCGAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;compartmentGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56487,7 +56806,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGMetaIdRefMustBeIDREF LayoutCGMetaIdRefMustBeIDREF@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGMetaIdRefMustBeIDREF LayoutCGMetaIdRefMustBeIDREF@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must be IDREF.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56497,7 +56816,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGMetaIdRefMustReferenceObject LayoutCGMetaIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGMetaIdRefMustReferenceObject LayoutCGMetaIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must reference existing object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56507,7 +56826,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGCompartmentSyntax LayoutCGCompartmentSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGCompartmentSyntax LayoutCGCompartmentSyntax@endlink</td>
 <td class=\'meaning\'>CompartmentGlyph \'compartment\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56517,7 +56836,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGCompartmentMustRefComp LayoutCGCompartmentMustRefComp@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGCompartmentMustRefComp LayoutCGCompartmentMustRefComp@endlink</td>
 <td class=\'meaning\'>CompartmentGlyph compartment must reference existing compartment.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56527,7 +56846,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGNoDuplicateReferences LayoutCGNoDuplicateReferences@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGNoDuplicateReferences LayoutCGNoDuplicateReferences@endlink</td>
 <td class=\'meaning\'>CompartmentGlyph cannot reference two objects.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56537,7 +56856,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCGOrderMustBeDouble LayoutCGOrderMustBeDouble@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCGOrderMustBeDouble LayoutCGOrderMustBeDouble@endlink</td>
 <td class=\'meaning\'>CompartmentGlyph order must be double.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56547,7 +56866,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSGAllowedCoreElements LayoutSGAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSGAllowedCoreElements LayoutSGAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;speciesGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56557,7 +56876,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSGAllowedCoreAttributes LayoutSGAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSGAllowedCoreAttributes LayoutSGAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;speciesGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56567,7 +56886,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSGAllowedElements LayoutSGAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSGAllowedElements LayoutSGAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;speciesGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56577,7 +56896,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSGAllowedAttributes LayoutSGAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSGAllowedAttributes LayoutSGAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;speciesGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56587,7 +56906,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSGMetaIdRefMustBeIDREF LayoutSGMetaIdRefMustBeIDREF@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSGMetaIdRefMustBeIDREF LayoutSGMetaIdRefMustBeIDREF@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must be IDREF.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56597,7 +56916,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSGMetaIdRefMustReferenceObject LayoutSGMetaIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSGMetaIdRefMustReferenceObject LayoutSGMetaIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must reference existing object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56607,7 +56926,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSGSpeciesSyntax LayoutSGSpeciesSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSGSpeciesSyntax LayoutSGSpeciesSyntax@endlink</td>
 <td class=\'meaning\'>SpeciesGlyph \'species\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56617,7 +56936,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSGSpeciesMustRefSpecies LayoutSGSpeciesMustRefSpecies@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSGSpeciesMustRefSpecies LayoutSGSpeciesMustRefSpecies@endlink</td>
 <td class=\'meaning\'>SpeciesGlyph species must reference existing species.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56627,7 +56946,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSGNoDuplicateReferences LayoutSGNoDuplicateReferences@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSGNoDuplicateReferences LayoutSGNoDuplicateReferences@endlink</td>
 <td class=\'meaning\'>SpeciesGlyph cannot reference two objects.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56637,7 +56956,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRGAllowedCoreElements LayoutRGAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRGAllowedCoreElements LayoutRGAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;reactionGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56647,7 +56966,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRGAllowedCoreAttributes LayoutRGAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRGAllowedCoreAttributes LayoutRGAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;reactionGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56657,7 +56976,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRGAllowedElements LayoutRGAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRGAllowedElements LayoutRGAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;reactionGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56667,7 +56986,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRGAllowedAttributes LayoutRGAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRGAllowedAttributes LayoutRGAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;reactionGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56677,7 +56996,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRGMetaIdRefMustBeIDREF LayoutRGMetaIdRefMustBeIDREF@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRGMetaIdRefMustBeIDREF LayoutRGMetaIdRefMustBeIDREF@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must be IDREF.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56687,7 +57006,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRGMetaIdRefMustReferenceObject LayoutRGMetaIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRGMetaIdRefMustReferenceObject LayoutRGMetaIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must reference existing object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56697,7 +57016,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRGReactionSyntax LayoutRGReactionSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRGReactionSyntax LayoutRGReactionSyntax@endlink</td>
 <td class=\'meaning\'>ReactionGlyph \'reaction\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56707,7 +57026,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRGReactionMustRefReaction LayoutRGReactionMustRefReaction@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRGReactionMustRefReaction LayoutRGReactionMustRefReaction@endlink</td>
 <td class=\'meaning\'>ReactionGlyph reaction must reference existing reaction.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56717,7 +57036,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutRGNoDuplicateReferences LayoutRGNoDuplicateReferences@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutRGNoDuplicateReferences LayoutRGNoDuplicateReferences@endlink</td>
 <td class=\'meaning\'>ReactionGlyph cannot reference two objects.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56727,7 +57046,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOSpeciesRefGlyphAllowedElements LayoutLOSpeciesRefGlyphAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOSpeciesRefGlyphAllowedElements LayoutLOSpeciesRefGlyphAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on ListOfSpeciesReferenceGlyphs</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56737,7 +57056,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOSpeciesRefGlyphAllowedAttribs LayoutLOSpeciesRefGlyphAllowedAttribs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOSpeciesRefGlyphAllowedAttribs LayoutLOSpeciesRefGlyphAllowedAttribs@endlink</td>
 <td class=\'meaning\'>Allowed attributes on ListOfSpeciesReferenceGlyphs</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56747,7 +57066,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOSpeciesRefGlyphNotEmpty LayoutLOSpeciesRefGlyphNotEmpty@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOSpeciesRefGlyphNotEmpty LayoutLOSpeciesRefGlyphNotEmpty@endlink</td>
 <td class=\'meaning\'>ListOfSpeciesReferenceGlyphs not empty</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56757,7 +57076,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGGAllowedCoreElements LayoutGGAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGGAllowedCoreElements LayoutGGAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;generalGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56767,7 +57086,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGGAllowedCoreAttributes LayoutGGAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGGAllowedCoreAttributes LayoutGGAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;generalGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56777,7 +57096,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGGAllowedElements LayoutGGAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGGAllowedElements LayoutGGAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;generalGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56787,7 +57106,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGGAllowedAttributes LayoutGGAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGGAllowedAttributes LayoutGGAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;generalGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56797,7 +57116,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGGMetaIdRefMustBeIDREF LayoutGGMetaIdRefMustBeIDREF@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGGMetaIdRefMustBeIDREF LayoutGGMetaIdRefMustBeIDREF@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must be IDREF.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56807,7 +57126,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGGMetaIdRefMustReferenceObject LayoutGGMetaIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGGMetaIdRefMustReferenceObject LayoutGGMetaIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must reference existing object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56817,7 +57136,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGGReferenceSyntax LayoutGGReferenceSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGGReferenceSyntax LayoutGGReferenceSyntax@endlink</td>
 <td class=\'meaning\'>GeneralGlyph \'reference\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56827,7 +57146,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGGReferenceMustRefObject LayoutGGReferenceMustRefObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGGReferenceMustRefObject LayoutGGReferenceMustRefObject@endlink</td>
 <td class=\'meaning\'>GeneralGlyph \'reference\' must reference existing element.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56837,7 +57156,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutGGNoDuplicateReferences LayoutGGNoDuplicateReferences@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutGGNoDuplicateReferences LayoutGGNoDuplicateReferences@endlink</td>
 <td class=\'meaning\'>GeneralGlyph cannot reference two objects.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56847,7 +57166,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOReferenceGlyphAllowedElements LayoutLOReferenceGlyphAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOReferenceGlyphAllowedElements LayoutLOReferenceGlyphAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on ListOfReferenceGlyphs</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56857,7 +57176,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOReferenceGlyphAllowedAttribs LayoutLOReferenceGlyphAllowedAttribs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOReferenceGlyphAllowedAttribs LayoutLOReferenceGlyphAllowedAttribs@endlink</td>
 <td class=\'meaning\'>Allowed attributes on ListOfReferenceGlyphs</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56867,7 +57186,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOSubGlyphAllowedElements LayoutLOSubGlyphAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOSubGlyphAllowedElements LayoutLOSubGlyphAllowedElements@endlink</td>
 <td class=\'meaning\'></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56877,7 +57196,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOSubGlyphAllowedAttribs LayoutLOSubGlyphAllowedAttribs@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOSubGlyphAllowedAttribs LayoutLOSubGlyphAllowedAttribs@endlink</td>
 <td class=\'meaning\'>Allowed attributes on ListOfSubGlyphs</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56887,7 +57206,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGAllowedCoreElements LayoutTGAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGAllowedCoreElements LayoutTGAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;textGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56897,7 +57216,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGAllowedCoreAttributes LayoutTGAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGAllowedCoreAttributes LayoutTGAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;textGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56907,7 +57226,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGAllowedElements LayoutTGAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGAllowedElements LayoutTGAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;textGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56917,7 +57236,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGAllowedAttributes LayoutTGAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGAllowedAttributes LayoutTGAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;textGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56927,7 +57246,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGMetaIdRefMustBeIDREF LayoutTGMetaIdRefMustBeIDREF@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGMetaIdRefMustBeIDREF LayoutTGMetaIdRefMustBeIDREF@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must be IDREF.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56937,7 +57256,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGMetaIdRefMustReferenceObject LayoutTGMetaIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGMetaIdRefMustReferenceObject LayoutTGMetaIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must reference existing object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56947,7 +57266,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGOriginOfTextSyntax LayoutTGOriginOfTextSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGOriginOfTextSyntax LayoutTGOriginOfTextSyntax@endlink</td>
 <td class=\'meaning\'>TextGlyph \'originOfText\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56957,7 +57276,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGOriginOfTextMustRefObject LayoutTGOriginOfTextMustRefObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGOriginOfTextMustRefObject LayoutTGOriginOfTextMustRefObject@endlink</td>
 <td class=\'meaning\'>TextGlyph \'originOfText\' must reference existing element.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56967,7 +57286,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGNoDuplicateReferences LayoutTGNoDuplicateReferences@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGNoDuplicateReferences LayoutTGNoDuplicateReferences@endlink</td>
 <td class=\'meaning\'>TextGlyph cannot reference two objects.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56977,7 +57296,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGGraphicalObjectSyntax LayoutTGGraphicalObjectSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGGraphicalObjectSyntax LayoutTGGraphicalObjectSyntax@endlink</td>
 <td class=\'meaning\'>TextGlyph \'graphicalObject\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56987,7 +57306,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGGraphicalObjectMustRefObject LayoutTGGraphicalObjectMustRefObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGGraphicalObjectMustRefObject LayoutTGGraphicalObjectMustRefObject@endlink</td>
 <td class=\'meaning\'>TextGlyph \'graphicalObject\' must reference existing element.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -56997,7 +57316,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutTGTextMustBeString LayoutTGTextMustBeString@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutTGTextMustBeString LayoutTGTextMustBeString@endlink</td>
 <td class=\'meaning\'>TextGlyph \'text\' must be string.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57007,7 +57326,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGAllowedCoreElements LayoutSRGAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGAllowedCoreElements LayoutSRGAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;speciesReferenceGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57017,7 +57336,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGAllowedCoreAttributes LayoutSRGAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGAllowedCoreAttributes LayoutSRGAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;speciesReferenceGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57027,7 +57346,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGAllowedElements LayoutSRGAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGAllowedElements LayoutSRGAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;speciesReferenceGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57037,7 +57356,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGAllowedAttributes LayoutSRGAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGAllowedAttributes LayoutSRGAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;speciesReferenceGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57047,7 +57366,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGMetaIdRefMustBeIDREF LayoutSRGMetaIdRefMustBeIDREF@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGMetaIdRefMustBeIDREF LayoutSRGMetaIdRefMustBeIDREF@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must be IDREF.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57057,7 +57376,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGMetaIdRefMustReferenceObject LayoutSRGMetaIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGMetaIdRefMustReferenceObject LayoutSRGMetaIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must reference existing object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57067,7 +57386,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGSpeciesReferenceSyntax LayoutSRGSpeciesReferenceSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGSpeciesReferenceSyntax LayoutSRGSpeciesReferenceSyntax@endlink</td>
 <td class=\'meaning\'>SpeciesReferenceGlyph \'speciesReference\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57077,7 +57396,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGSpeciesRefMustRefObject LayoutSRGSpeciesRefMustRefObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGSpeciesRefMustRefObject LayoutSRGSpeciesRefMustRefObject@endlink</td>
 <td class=\'meaning\'>SpeciesReferenceGlyph \'speciesReference\' must reference existing element.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57087,7 +57406,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGNoDuplicateReferences LayoutSRGNoDuplicateReferences@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGNoDuplicateReferences LayoutSRGNoDuplicateReferences@endlink</td>
 <td class=\'meaning\'>SpeciesReferenceGlyph cannot reference two objects.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57097,7 +57416,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGSpeciesGlyphSyntax LayoutSRGSpeciesGlyphSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGSpeciesGlyphSyntax LayoutSRGSpeciesGlyphSyntax@endlink</td>
 <td class=\'meaning\'>SpeciesReferenceGlyph \'speciesGlyph\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57107,7 +57426,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGSpeciesGlyphMustRefObject LayoutSRGSpeciesGlyphMustRefObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGSpeciesGlyphMustRefObject LayoutSRGSpeciesGlyphMustRefObject@endlink</td>
 <td class=\'meaning\'>SpeciesReferenceGlyph \'speciesGlyph\' must reference existing element.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57117,7 +57436,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutSRGRoleSyntax LayoutSRGRoleSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutSRGRoleSyntax LayoutSRGRoleSyntax@endlink</td>
 <td class=\'meaning\'>SpeciesReferenceGlyph \'role\' must be string from enumeration.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57127,7 +57446,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGAllowedCoreElements LayoutREFGAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGAllowedCoreElements LayoutREFGAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;referenceGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57137,7 +57456,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGAllowedCoreAttributes LayoutREFGAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGAllowedCoreAttributes LayoutREFGAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;referenceGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57147,7 +57466,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGAllowedElements LayoutREFGAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGAllowedElements LayoutREFGAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;referenceGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57157,7 +57476,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGAllowedAttributes LayoutREFGAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGAllowedAttributes LayoutREFGAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;referenceGlyph&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57167,7 +57486,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGMetaIdRefMustBeIDREF LayoutREFGMetaIdRefMustBeIDREF@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGMetaIdRefMustBeIDREF LayoutREFGMetaIdRefMustBeIDREF@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must be IDREF.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57177,7 +57496,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGMetaIdRefMustReferenceObject LayoutREFGMetaIdRefMustReferenceObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGMetaIdRefMustReferenceObject LayoutREFGMetaIdRefMustReferenceObject@endlink</td>
 <td class=\'meaning\'>Layout \'metIdRef\' must reference existing object.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57187,7 +57506,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGReferenceSyntax LayoutREFGReferenceSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGReferenceSyntax LayoutREFGReferenceSyntax@endlink</td>
 <td class=\'meaning\'>ReferenceGlyph \'reference\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57197,7 +57516,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGReferenceMustRefObject LayoutREFGReferenceMustRefObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGReferenceMustRefObject LayoutREFGReferenceMustRefObject@endlink</td>
 <td class=\'meaning\'>ReferenceGlyph \'reference\' must reference existing element.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57207,7 +57526,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGNoDuplicateReferences LayoutREFGNoDuplicateReferences@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGNoDuplicateReferences LayoutREFGNoDuplicateReferences@endlink</td>
 <td class=\'meaning\'>ReferenceGlyph cannot reference two objects.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57217,7 +57536,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGGlyphSyntax LayoutREFGGlyphSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGGlyphSyntax LayoutREFGGlyphSyntax@endlink</td>
 <td class=\'meaning\'>ReferenceGlyph \'glyph\' must have SIdRef syntax.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57227,7 +57546,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGGlyphMustRefObject LayoutREFGGlyphMustRefObject@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGGlyphMustRefObject LayoutREFGGlyphMustRefObject@endlink</td>
 <td class=\'meaning\'>ReferenceGlyph \'glyph\' must reference existing element.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57237,7 +57556,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutREFGRoleSyntax LayoutREFGRoleSyntax@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutREFGRoleSyntax LayoutREFGRoleSyntax@endlink</td>
 <td class=\'meaning\'>ReferenceGlyph \'role\' must be string.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57247,7 +57566,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutPointAllowedCoreElements LayoutPointAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutPointAllowedCoreElements LayoutPointAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;point&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57257,7 +57576,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutPointAllowedCoreAttributes LayoutPointAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutPointAllowedCoreAttributes LayoutPointAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;point&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57267,7 +57586,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutPointAllowedAttributes LayoutPointAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutPointAllowedAttributes LayoutPointAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;point&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57277,7 +57596,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutPointAttributesMustBeDouble LayoutPointAttributesMustBeDouble@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutPointAttributesMustBeDouble LayoutPointAttributesMustBeDouble@endlink</td>
 <td class=\'meaning\'>Layout \'x\', \'y\' and \'z\' must be double.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57287,7 +57606,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutBBoxAllowedCoreElements LayoutBBoxAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutBBoxAllowedCoreElements LayoutBBoxAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;boundingBox&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57297,7 +57616,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutBBoxAllowedCoreAttributes LayoutBBoxAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutBBoxAllowedCoreAttributes LayoutBBoxAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;boundingBox&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57307,7 +57626,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutBBoxAllowedElements LayoutBBoxAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutBBoxAllowedElements LayoutBBoxAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;boundingBox&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57317,7 +57636,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutBBoxAllowedAttributes LayoutBBoxAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutBBoxAllowedAttributes LayoutBBoxAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;boundingBox&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57327,7 +57646,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutBBoxConsistent3DDefinition LayoutBBoxConsistent3DDefinition@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutBBoxConsistent3DDefinition LayoutBBoxConsistent3DDefinition@endlink</td>
 <td class=\'meaning\'>Layout consistent dimensions on a <code>&lt;boundingBox&gt;</code></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57337,7 +57656,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCurveAllowedCoreElements LayoutCurveAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCurveAllowedCoreElements LayoutCurveAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;curve&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57347,7 +57666,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCurveAllowedCoreAttributes LayoutCurveAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCurveAllowedCoreAttributes LayoutCurveAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;curve&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57357,7 +57676,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCurveAllowedElements LayoutCurveAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCurveAllowedElements LayoutCurveAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;curve&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57367,7 +57686,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCurveAllowedAttributes LayoutCurveAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCurveAllowedAttributes LayoutCurveAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;curve&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57377,7 +57696,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOCurveSegsAllowedAttributes LayoutLOCurveSegsAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOCurveSegsAllowedAttributes LayoutLOCurveSegsAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Allowed attributes on ListOfCurveSegments</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57387,7 +57706,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOCurveSegsAllowedElements LayoutLOCurveSegsAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOCurveSegsAllowedElements LayoutLOCurveSegsAllowedElements@endlink</td>
 <td class=\'meaning\'>Allowed elements on ListOfCurveSegments</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57397,7 +57716,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLOCurveSegsNotEmpty LayoutLOCurveSegsNotEmpty@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLOCurveSegsNotEmpty LayoutLOCurveSegsNotEmpty@endlink</td>
 <td class=\'meaning\'>No empty ListOfCurveSegments</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57407,7 +57726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLSegAllowedCoreElements LayoutLSegAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLSegAllowedCoreElements LayoutLSegAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;lineSegment&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57417,7 +57736,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLSegAllowedCoreAttributes LayoutLSegAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLSegAllowedCoreAttributes LayoutLSegAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;lineSegment&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57427,7 +57746,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLSegAllowedElements LayoutLSegAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLSegAllowedElements LayoutLSegAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;lineSegment&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57437,7 +57756,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutLSegAllowedAttributes LayoutLSegAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutLSegAllowedAttributes LayoutLSegAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;lineSegment&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57447,7 +57766,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCBezAllowedCoreElements LayoutCBezAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCBezAllowedCoreElements LayoutCBezAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;cubicBezier&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57457,7 +57776,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCBezAllowedCoreAttributes LayoutCBezAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCBezAllowedCoreAttributes LayoutCBezAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;cubicBezier&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57467,7 +57786,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCBezAllowedElements LayoutCBezAllowedElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCBezAllowedElements LayoutCBezAllowedElements@endlink</td>
 <td class=\'meaning\'>Layout elements allowed on <code>&lt;cubicBezier&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57477,7 +57796,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutCBezAllowedAttributes LayoutCBezAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutCBezAllowedAttributes LayoutCBezAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;cubicBezier&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57487,7 +57806,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutDimsAllowedCoreElements LayoutDimsAllowedCoreElements@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutDimsAllowedCoreElements LayoutDimsAllowedCoreElements@endlink</td>
 <td class=\'meaning\'>Core elements allowed on <code>&lt;dimensions&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57497,7 +57816,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutDimsAllowedCoreAttributes LayoutDimsAllowedCoreAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutDimsAllowedCoreAttributes LayoutDimsAllowedCoreAttributes@endlink</td>
 <td class=\'meaning\'>Core attributes allowed on <code>&lt;dimensions&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57507,7 +57826,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutDimsAllowedAttributes LayoutDimsAllowedAttributes@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutDimsAllowedAttributes LayoutDimsAllowedAttributes@endlink</td>
 <td class=\'meaning\'>Layout attributes allowed on <code>&lt;dimensions&gt;</code>.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57517,7 +57836,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-na\'></td>
 <td class=\'s-error\'></td>
 </tr>
-<tr><td class=\'code\'>@link libsbmlcs#LayoutDimsAttributesMustBeDouble LayoutDimsAttributesMustBeDouble@endlink</td>
+<tr><td class=\'code\'>@link libsbml#LayoutDimsAttributesMustBeDouble LayoutDimsAttributesMustBeDouble@endlink</td>
 <td class=\'meaning\'>Layout \'width\', \'height\' and \'depth\' must be double.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -57601,73 +57920,73 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *      <th>Enumerator</td>
  *      <th>Meaning</td>
  *  </tr>
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML LIBSBML_CAT_SBML@endlink</td><td>General error not falling into
+ * <tr><td>@link libsbml#LIBSBML_CAT_SBML LIBSBML_CAT_SBML@endlink</td><td>General error not falling into
  * another category below.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L1_COMPAT LIBSBML_CAT_SBML_L1_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L1_COMPAT LIBSBML_CAT_SBML_L1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model from SBML Level&nbsp;2 to SBML
  * Level&nbsp;1.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L2V1_COMPAT LIBSBML_CAT_SBML_L2V1_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V1_COMPAT LIBSBML_CAT_SBML_L2V1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;1.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L2V2_COMPAT LIBSBML_CAT_SBML_L2V2_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V2_COMPAT LIBSBML_CAT_SBML_L2V2_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;2.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbml#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating general SBML constructs.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbml#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating symbol identifiers in a model.
  * With respect to the SBML specification, these concern failures in
  * applying the validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>  
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbml#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating the units of measurement on
  * quantities in a model.  With respect to the SBML specification, these
  * concern failures in applying the validation rules numbered 105xx in the
  * Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating MathML formulas in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 102xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink</td><td>Category of errors
+ * <tr><td>@link libsbml#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink</td><td>Category of errors
  * that can occur while validating SBO identifiers in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink</td><td>Error in the
+ * <tr><td>@link libsbml#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink</td><td>Error in the
  * system of equations in the model: the system is overdetermined,
  * therefore violating a tenet of proper SBML.  With respect to the SBML
  * specification, this is validation rule #10601 in the SBML Level&nbsp;2 Versions&nbsp;2&ndash;4
  * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L2V3_COMPAT LIBSBML_CAT_SBML_L2V3_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V3_COMPAT LIBSBML_CAT_SBML_L2V3_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;3.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink</td><td>Category of
+ * <tr><td>@link libsbml#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink</td><td>Category of
  * warnings about recommended good practices involving SBML and
  * computational modeling.  (These are tests performed by libSBML and do
  * not have equivalent SBML validation rules.)</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_INTERNAL_CONSISTENCY LIBSBML_CAT_INTERNAL_CONSISTENCY@endlink</td><td>Category of
+ * <tr><td>@link libsbml#LIBSBML_CAT_INTERNAL_CONSISTENCY LIBSBML_CAT_INTERNAL_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating libSBML\'s internal representation
  * of SBML constructs. (These are tests performed by libSBML and do
  * not have equivalent SBML validation rules.)</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L2V4_COMPAT LIBSBML_CAT_SBML_L2V4_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V4_COMPAT LIBSBML_CAT_SBML_L2V4_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
  * Version&nbsp;4.</td></tr> 
- * <tr><td>@link libsbmlcs#LIBSBML_CAT_SBML_L3V1_COMPAT LIBSBML_CAT_SBML_L3V1_COMPAT@endlink</td><td>Category of errors
+ * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L3V1_COMPAT LIBSBML_CAT_SBML_L3V1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;3
@@ -57696,7 +58015,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * In libSBML version @htmlinclude libsbml-version.html
  * there are no additional severity codes beyond those defined by XMLError.  
  * They are implemented as static integer constants defined in the interface 
- * class <code><a href=\'libsbmlcs.libsbml.html\'>libsbmlConstants</a></code>, 
+ * class <code><a href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>, 
  * and have names beginning with <code>LIBSBML_SEV_</code>.
  * @endif@if python <h3><a class=\'anchor\'
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with SBMLError
@@ -57725,7 +58044,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * href=\'#SBMLErrorCode_t\'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
    * defined as longeger constants in the file
-   * \'libsbmlcs.libsbml.html\'.  See the <a class=\'el\'
+   * \'libsbml.libsbml.html\'.  See the <a class=\'el\'
    * href=\'#SBMLErrorCode_t\'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
    * numbers are defined as longeger constants in the interface
@@ -58015,9 +58334,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * 
    *
    * This method creates an empty CVTerm object.  The possible qualifier
-   * types usable as values of @p type are @link libsbmlcs#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link libsbmlcs#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If
+   * types usable as values of @p type are @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If
    * an explicit value for @p type is not given, this method defaults to
-   * using @link libsbmlcs#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier type@endif 
+   * using @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier type@endif 
    * can be set later using the
    * CVTerm::setQualifierType(@if java int@endif) method.
    *
@@ -58142,9 +58461,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * the CVTerm class is concerned).  Consequently, this method will return
    * one of the following values:
    * 
-   * @li @link libsbmlcs#MODEL_QUALIFIER MODEL_QUALIFIER@endlink
-   * @li @link libsbmlcs#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink
-   * @li @link libsbmlcs#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
+   * @li @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink
+   * @li @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink
+   * @li @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
    *
    * The specific relationship of this CVTerm to the enclosing SBML object
    * can be determined using the CVTerm methods such as
@@ -58154,13 +58473,18 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * relationship.
    *
    * @return the @if clike #QualifierType_t value@else qualifier type@endif
-   * of this object or @link libsbmlcs#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
+   * of this object or @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
    * (the default).
    *
    * @see getResources()
    * @see getModelQualifierType()
    * @see getBiologicalQualifierType()
    */ public
+";
+
+
+%csmethodmodifiers CVTerm::getQualifierType() const "
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -58218,18 +58542,23 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * <br> The set of known model qualifiers is, at the time of this libSBML
    * release, the following:
    *
-   * @li @link libsbmlcs#BQM_IS BQM_IS@endlink
-   * @li @link libsbmlcs#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY@endlink
-   * @li @link libsbmlcs#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM@endlink
+   * @li @link libsbml#BQM_IS BQM_IS@endlink
+   * @li @link libsbml#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY@endlink
+   * @li @link libsbml#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM@endlink
    *
    * Any other BioModels.net qualifier found in the model is considered
    * unknown by libSBML and reported as
-   * @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink.
+   * @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
    *
    * @return the @if clike #ModelQualifierType_t value@else model qualifier type@endif
-   * of this object or @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink
+   * of this object or @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink
    * (the default).
    */ public
+";
+
+
+%csmethodmodifiers CVTerm::getModelQualifierType() const "
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -58287,27 +58616,32 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * <br> The set of known biological qualifiers is, at the time of this
    * libSBML release, the following:
    *
-   * @li @link libsbmlcs#BQB_IS BQB_IS@endlink
-   * @li @link libsbmlcs#BQB_HAS_PART BQB_HAS_PART@endlink
-   * @li @link libsbmlcs#BQB_IS_PART_OF BQB_IS_PART_OF@endlink
-   * @li @link libsbmlcs#BQB_IS_VERSION_OF BQB_IS_VERSION_OF@endlink
-   * @li @link libsbmlcs#BQB_HAS_VERSION BQB_HAS_VERSION@endlink
-   * @li @link libsbmlcs#BQB_IS_HOMOLOG_TO BQB_IS_HOMOLOG_TO@endlink
-   * @li @link libsbmlcs#BQB_IS_DESCRIBED_BY BQB_IS_DESCRIBED_BY@endlink
-   * @li @link libsbmlcs#BQB_IS_ENCODED_BY BQB_IS_ENCODED_BY@endlink
-   * @li @link libsbmlcs#BQB_ENCODES BQB_ENCODES@endlink
-   * @li @link libsbmlcs#BQB_OCCURS_IN BQB_OCCURS_IN@endlink
-   * @li @link libsbmlcs#BQB_HAS_PROPERTY BQB_HAS_PROPERTY@endlink
-   * @li @link libsbmlcs#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF@endlink
+   * @li @link libsbml#BQB_IS BQB_IS@endlink
+   * @li @link libsbml#BQB_HAS_PART BQB_HAS_PART@endlink
+   * @li @link libsbml#BQB_IS_PART_OF BQB_IS_PART_OF@endlink
+   * @li @link libsbml#BQB_IS_VERSION_OF BQB_IS_VERSION_OF@endlink
+   * @li @link libsbml#BQB_HAS_VERSION BQB_HAS_VERSION@endlink
+   * @li @link libsbml#BQB_IS_HOMOLOG_TO BQB_IS_HOMOLOG_TO@endlink
+   * @li @link libsbml#BQB_IS_DESCRIBED_BY BQB_IS_DESCRIBED_BY@endlink
+   * @li @link libsbml#BQB_IS_ENCODED_BY BQB_IS_ENCODED_BY@endlink
+   * @li @link libsbml#BQB_ENCODES BQB_ENCODES@endlink
+   * @li @link libsbml#BQB_OCCURS_IN BQB_OCCURS_IN@endlink
+   * @li @link libsbml#BQB_HAS_PROPERTY BQB_HAS_PROPERTY@endlink
+   * @li @link libsbml#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF@endlink
    *
    * Any other BioModels.net qualifier found in the model is considered
    * unknown by libSBML and reported as
-   * @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink.
+   * @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
    *
    * @return the @if clike #BiolQualifierType_t value@else biology qualifier type@endif
-   * of this object or @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink
+   * of this object or @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink
    * (the default).
    */ public
+";
+
+
+%csmethodmodifiers CVTerm::getBiologicalQualifierType() const "
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -58466,7 +58800,110 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 ";
 
 
+%csmethodmodifiers CVTerm::getNumResources() const "
+/**
+   * Returns the number of resources for this CVTerm object.
+   * 
+   * *
+ * 
+ * The RDF element used in the SBML format for referring to external entities
+ * is <code>&lt;rdf:Description&gt;</code>, with a
+ * <code>&lt;rdf:Bag&gt;</code> element inside of it containing one or more
+ * <code>&lt;rdf:li&gt;</code> elements.  The following template illustrates
+ * the structure:
+ * <pre class=\'fragment\'>
+ * &lt;rdf:Description rdf:about=&quot;#<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot;&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #ddd; border-bottom: 2px dotted #888\'>HISTORY</span>
+ * &nbsp;&nbsp;&lt;<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:Bag&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:li rdf:resource=&quot;<span style=\'background-color: #d0d0ee\'>resource URI</span>&quot; /&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/rdf:Bag&gt;
+ * &nbsp;&nbsp;&lt;/<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &lt;/rdf:Description&gt;
+ * </pre>
+ * In the template above, the placeholder <span class=\'code\'
+ * style=\'border-bottom: 1px solid black\'>meta id</span> stands for the
+ * element\'s meta identifier, which is a field available on all SBML
+ * components derived from the SBase base object class.  The <span
+ * style=\'border-bottom: 2px dotted #888\'>dotted</span> portions are
+ * optional, and the ellipses <span class=\'code\' style=\'background-color:
+ * #edd\'>...</span> are placeholders for zero or more elements of the same
+ * form as the immediately preceding element.
+ *
+   *
+   * The fragment above illustrates that there can be more than one
+   * resource referenced by a given relationship annotation (i.e., the
+   * <span class=\'code\' style=\'background-color: #d0d0ee\'>resource
+   * URI</span> values associated with a particular <span class=\'code\'
+   * style=\'background-color: #bbb\'>RELATION_ELEMENT</span>).  The present
+   * method returns a count of the resources stored in this CVTerm object.
+   *
+   * @return the number of resources in the set of XMLAttributes
+   * of this CVTerm.
+   *
+   * @see getResources()
+   * @see getResourceURI(long n)
+   */ public
+";
+
+
 %csmethodmodifiers CVTerm::getResourceURI(unsigned int n) "
+/**
+   * Returns the value of the <em>n</em>th resource for this CVTerm object.
+   *
+   * *
+ * 
+ * The RDF element used in the SBML format for referring to external entities
+ * is <code>&lt;rdf:Description&gt;</code>, with a
+ * <code>&lt;rdf:Bag&gt;</code> element inside of it containing one or more
+ * <code>&lt;rdf:li&gt;</code> elements.  The following template illustrates
+ * the structure:
+ * <pre class=\'fragment\'>
+ * &lt;rdf:Description rdf:about=&quot;#<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot;&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #ddd; border-bottom: 2px dotted #888\'>HISTORY</span>
+ * &nbsp;&nbsp;&lt;<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:Bag&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:li rdf:resource=&quot;<span style=\'background-color: #d0d0ee\'>resource URI</span>&quot; /&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/rdf:Bag&gt;
+ * &nbsp;&nbsp;&lt;/<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &lt;/rdf:Description&gt;
+ * </pre>
+ * In the template above, the placeholder <span class=\'code\'
+ * style=\'border-bottom: 1px solid black\'>meta id</span> stands for the
+ * element\'s meta identifier, which is a field available on all SBML
+ * components derived from the SBase base object class.  The <span
+ * style=\'border-bottom: 2px dotted #888\'>dotted</span> portions are
+ * optional, and the ellipses <span class=\'code\' style=\'background-color:
+ * #edd\'>...</span> are placeholders for zero or more elements of the same
+ * form as the immediately preceding element.
+ *
+   *
+   * The fragment above illustrates that there can be more than one
+   * resource referenced by a given relationship annotation (i.e., the
+   * <span class=\'code\' style=\'background-color: #d0d0ee\'>resource
+   * URI</span> values associated with a particular <span class=\'code\'
+   * style=\'background-color: #bbb\'>RELATION_ELEMENT</span>).  LibSBML
+   * stores all resource URIs in a single CVTerm object for a given
+   * relationship.  Callers can use getNumResources() to find out how many
+   * resources are stored in this CVTerm object, then call this method to
+   * retrieve the <em>n</em>th resource URI.
+   * 
+   * @param n the index of the resource to query
+   *
+   * @return string representing the value of the nth resource
+   * in the set of XMLAttributes of this CVTerm.
+   *
+   * @see getNumResources()
+   * @see getQualifierType()
+   */ public
+";
+
+
+%csmethodmodifiers CVTerm::getResourceURI "
 /**
    * Returns the value of the <em>n</em>th resource for this CVTerm object.
    *
@@ -58527,7 +58964,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @param type the @if clike #QualifierType_t value@else qualifier type@endif.
    * The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getQualifierType()
    */ public
@@ -58543,13 +58980,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @return integer value indicating success/failure of the
    * function. The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
-   * @link libsbmlcs#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
+   * @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
    * then the ModelQualifierType_t value will default to
-   * @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink.
+   * @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
    *
    * @see getQualifierType()
    * @see setQualifierType(@if java int@endif)
@@ -58566,13 +59003,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @return integer value indicating success/failure of the
    * function. The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
-   * @link libsbmlcs#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
+   * @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
    * then the @if clike #BiolQualifierType_t value@else biology qualifier type@endif will default
-   * to @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink.
+   * to @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
    *
    * @see getQualifierType()
    * @see setQualifierType(@if java int@endif)
@@ -58589,13 +59026,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
-   * @link libsbmlcs#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
+   * @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
    * then the ModelQualifierType_t value will default to
-   * @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink.
+   * @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
    *
    * @see getQualifierType()
    * @see setQualifierType(@if java int@endif)
@@ -58613,13 +59050,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
-   * @link libsbmlcs#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
+   * @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
    * then the @if clike #BiolQualifierType_t@endif@if java biology qualifier type code@endif value will default
-   * to @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink.
+   * to @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
    *
    * @see getQualifierType()
    * @see setQualifierType(@if java int@endif)
@@ -58708,8 +59145,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @return integer value indicating success/failure of the call. The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getResources()
    * @see removeResource(string resource)
@@ -58731,8 +59168,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see addResource(string resource)
    */ public
@@ -58757,6 +59194,11 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
 
 %csmethodmodifiers CVTerm::resetModifiedFlags "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers CVTerm::hasRequiredAttributes() const "
 /** */ /* libsbml-internal */ public
 ";
 
@@ -59139,8 +59581,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59156,8 +59598,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59173,8 +59615,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59190,8 +59632,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59207,8 +59649,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59224,8 +59666,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59243,8 +59685,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59261,8 +59703,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59279,8 +59721,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59343,8 +59785,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -59600,7 +60042,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -59615,7 +60057,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -59630,7 +60072,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -59646,7 +60088,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -59665,7 +60107,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setOrganization(string organization)
    */ public
@@ -59680,8 +60122,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -59694,8 +60136,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -59708,8 +60150,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -59722,8 +60164,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -59738,8 +60180,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see unsetOrganization()
    */ public
@@ -59938,8 +60380,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -59955,9 +60397,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -59978,9 +60420,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
 ";
 
@@ -60043,9 +60485,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -60138,7 +60580,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * Format</a>).  The general scheme is as follows.  A set of RDF-based
  * annotations attached to a given SBML <code>&lt;annotation&gt;</code>
  * element are read by RDFAnnotationParser and converted into a list of
- * CVTerm objects.  There are different versions of the main method, @if clike RDFAnnotationParser::parseRDFAnnotation(XMLNode annotation, %List *CVTerms) @endif@if java RDFAnnotationParser::parseRDFAnnotation(XMLNode annotation, %CVTermList CVTerms) @endif and
+ * CVTerm objects.  There are different versions of the main method, @if clike RDFAnnotationParser::parseRDFAnnotation(XMLNode annotation, %List *CVTerms) @endif@if java RDFAnnotationParser::parseRDFAnnotation(XMLNode, %CVTermList) @endif and
  * RDFAnnotationParser::parseRDFAnnotation(XMLNode annotation), used
  * depending on whether the annotation in question concerns the MIRIAM model
  * history or other MIRIAM resource annotations.  A special object class,
@@ -60220,46 +60662,46 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * is an SBML object derived from SBase (e.g., a Model, or a Species, or
    * a Compartment, etc.).  Then:@if clike
 @code{.cpp}
-int success;                              // Status code variable, used below.
+int success;                              // Status code variable.
 
-XMLNode RDF = createRDFAnnotation();     // Create RDF annotation XML structure.
+XMLNode RDF = createRDFAnnotation();     // Create XML structure.
 success = RDF->addChild(...content...);   // Put some content into it.
-...                                       // Check \'success\' return code value.
+...                                       // Check return code value.
 
-XMLNode ann = createAnnotation();        // Create <annotation> container.
-success = ann->addChild(RDF);             // Put the RDF annotation into it.
-...                                       // Check \'success\' return code value.
+XMLNode ann = createAnnotation();        // Create <annotation>.
+success = ann->addChild(RDF);             // Put the annotation into it.
+...                                       // Check return code value.
 
-success = sbmlObject->setAnnotation(ann); // Set object\'s annotation to what we built.
-...                                       // Check \'success\' return code value.
+success = sbmlObject->setAnnotation(ann); // Set object\'s annotation.
+...                                       // Check return code value.
 @endcode
    * @endif@if java
 @code{.java}
-int success;                                   // Status code variable, used below.
+int success;                                   // Status code variable.
 
-XMLNode RDF = createRDFAnnotation();          // Create RDF annotation XML structure.
+XMLNode RDF = createRDFAnnotation();          // Create XML structure.
 success      = RDF.addChild(...content...);    // Put some content into it.
-...                                            // Check \'success\' return code value.
+...                                            // Check return code value.
 
-XMLNode ann = createAnnotation();             // Create <annotation> container.
-success      = ann.addChild(RDF);              // Put the RDF annotation into it.
-...                                            // Check \'success\' return code value.
+XMLNode ann = createAnnotation();             // Create <annotation>.
+success      = ann.addChild(RDF);              // Put the annotation into it.
+...                                            // Check return code value.
 
-success      = sbmlObject.setAnnotation(ann); // Set object\'s annotation to what we built.
-...                                            // Check \'success\' return code value.
+success      = sbmlObject.setAnnotation(ann); // Set object\'s annotation.
+...                                            // Check return code value.
 @endcode
    * @endif@if python
 @code{.py}
-RDF     = RDFAnnotationParser.createRDFAnnotation() # Create RDF annotation XML structure.
+RDF     = RDFAnnotationParser.createRDFAnnotation() # Create XML structure.
 success = RDF.addChild(...content...)               # Put some content into it.
-...                                                 # Check \'success\' return code value.
+...                                                 # Check return code value.
 
-annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation> container.
-success = annot.addChild(RDF)                       # Put the RDF annotation into it.
-...                                                 # Check \'success\' return code value.
+annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation>.
+success = annot.addChild(RDF)                       # Put the annotation into it.
+...                                                 # Check return code value.
 
-success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation to what we built.
-...                                                 # Check \'success\' return code value.
+success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
+...                                                 # Check return code value.
 @endcode
    * @endif
    * The SBML specification contains more information about the format of
@@ -61155,8 +61597,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation t
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -61402,8 +61844,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation t
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public new
 ";
 
@@ -61439,8 +61881,8 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation t
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -62257,9 +62699,9 @@ GroupsExtension::init()
    *   
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -62400,6 +62842,16 @@ GroupsExtension::init()
 /** 
    * Returns a list of registered packages (such as \'layout\', \'fbc\' or \'comp\')
    * the list contains char* strings and has to be freed by the caller. 
+   * 
+   * @return the names of the registered packages in a list
+   */ public
+";
+
+
+%csmethodmodifiers SBMLExtensionRegistry::getAllRegisteredPackageNames "
+/** 
+   * Returns a vector of registered packages (such as \'layout\', \'fbc\' or \'comp\')
+   * the vector contains strings. 
    * 
    * @return the names of the registered packages in a list
    */ public
@@ -62702,7 +63154,7 @@ GroupsExtension::init()
 %csmethodmodifiers ASTBase::getType() const "
 /**
    * Get the type of this ASTNode.  The value returned is one of the
-   * enumeration values such as @link libsbmlcs#AST_LAMBDA AST_LAMBDA@endlink, @link libsbmlcs#AST_PLUS AST_PLUS@endlink,
+   * enumeration values such as @link libsbml#AST_LAMBDA AST_LAMBDA@endlink, @link libsbml#AST_PLUS AST_PLUS@endlink,
    * etc.
    * 
    * @return the type of this ASTNode.
@@ -62730,8 +63182,8 @@ GroupsExtension::init()
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ /* libsbml-internal */ public new
 ";
 
@@ -63340,7 +63792,7 @@ GroupsExtension::init()
  * @link ASTNode.h::ASTNodeType_t <code>ASTNodeType_t</code>@endlink.@endif
  * @if java The type is recorded as a value drawn from a
  * set of static integer constants defined in the class @link
- * libsbmlcs.libsbml@endlink. Their names begin with the characters @c AST_.@endif
+ * libsbml.libsbml@endlink. Their names begin with the characters @c AST_.@endif
  * @if python The type is recorded as a value drawn from a
  * set of static integer constants defined in the class @link
  * libsbml@endlink. Their names begin with the characters @c AST_.@endif
@@ -63356,11 +63808,11 @@ GroupsExtension::init()
  * The types have the following meanings:
  *
  * @li If the node is basic mathematical operator (e.g., @c \'+\'), then the
- * node\'s type will be @link libsbmlcs#AST_PLUS AST_PLUS@endlink,
- * @link libsbmlcs#AST_MINUS AST_MINUS@endlink,
- * @link libsbmlcs#AST_TIMES AST_TIMES@endlink,
- * @link libsbmlcs#AST_DIVIDE AST_DIVIDE@endlink, or
- * @link libsbmlcs#AST_POWER AST_POWER@endlink, as appropriate.
+ * node\'s type will be @link libsbml#AST_PLUS AST_PLUS@endlink,
+ * @link libsbml#AST_MINUS AST_MINUS@endlink,
+ * @link libsbml#AST_TIMES AST_TIMES@endlink,
+ * @link libsbml#AST_DIVIDE AST_DIVIDE@endlink, or
+ * @link libsbml#AST_POWER AST_POWER@endlink, as appropriate.
  *
  * @li If the node is a predefined function or operator from %SBML
  * Level&nbsp;1 (in the string-based formula syntax used in Level&nbsp;1) or
@@ -63370,40 +63822,40 @@ GroupsExtension::init()
  * class=\'placeholder-nospace\'>X</span>, <code style=\'margin-right: 0\'>AST_LOGICAL_</code><span
  * class=\'placeholder-nospace\'>X</span>, or <code style=\'margin-right: 0\'>AST_RELATIONAL_</code><span
  * class=\'placeholder-nospace\'>X</span>, as appropriate.  (Examples:
- * @link libsbmlcs#AST_FUNCTION_LOG AST_FUNCTION_LOG@endlink,
- * @link libsbmlcs#AST_RELATIONAL_LEQ AST_RELATIONAL_LEQ@endlink.)
+ * @link libsbml#AST_FUNCTION_LOG AST_FUNCTION_LOG@endlink,
+ * @link libsbml#AST_RELATIONAL_LEQ AST_RELATIONAL_LEQ@endlink.)
  *
  * @li If the node refers to a user-defined function, the node\'s type will
- * be @link libsbmlcs#AST_FUNCTION AST_FUNCTION@endlink (because it holds the
+ * be @link libsbml#AST_FUNCTION AST_FUNCTION@endlink (because it holds the
  * name of the function).
  *
  * @li If the node is a lambda expression, its type will be
- * @link libsbmlcs#AST_LAMBDA AST_LAMBDA@endlink.
+ * @link libsbml#AST_LAMBDA AST_LAMBDA@endlink.
  *
  * @li If the node is a predefined constant (@c \'ExponentialE\', @c \'Pi\', @c
  * \'True\' or @c \'False\'), then the node\'s type will be
- * @link libsbmlcs#AST_CONSTANT_E AST_CONSTANT_E@endlink,
- * @link libsbmlcs#AST_CONSTANT_PI AST_CONSTANT_PI@endlink,
- * @link libsbmlcs#AST_CONSTANT_TRUE AST_CONSTANT_TRUE@endlink, or
- * @link libsbmlcs#AST_CONSTANT_FALSE AST_CONSTANT_FALSE@endlink.
+ * @link libsbml#AST_CONSTANT_E AST_CONSTANT_E@endlink,
+ * @link libsbml#AST_CONSTANT_PI AST_CONSTANT_PI@endlink,
+ * @link libsbml#AST_CONSTANT_TRUE AST_CONSTANT_TRUE@endlink, or
+ * @link libsbml#AST_CONSTANT_FALSE AST_CONSTANT_FALSE@endlink.
  *
  * @li (Levels&nbsp;2 and&nbsp;3 only) If the node is the special MathML
  * csymbol @c time, the value of the node will be
- * @link libsbmlcs#AST_NAME_TIME AST_NAME_TIME@endlink.  (Note, however, that the
+ * @link libsbml#AST_NAME_TIME AST_NAME_TIME@endlink.  (Note, however, that the
  * MathML csymbol @c delay is translated into a node of type
- * @link libsbmlcs#AST_FUNCTION_DELAY AST_FUNCTION_DELAY@endlink.  The difference is due to
+ * @link libsbml#AST_FUNCTION_DELAY AST_FUNCTION_DELAY@endlink.  The difference is due to
  * the fact that @c time is a single variable, whereas @c delay is actually a
  * function taking arguments.)
  *
  * @li (Level&nbsp;3 only) If the node is the special MathML csymbol @c
  * avogadro, the value of the node will be
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
  *
  * @li If the node contains a numerical value, its type will be
- * @link libsbmlcs#AST_INTEGER AST_INTEGER@endlink,
- * @link libsbmlcs#AST_REAL AST_REAL@endlink,
- * @link libsbmlcs#AST_REAL_E AST_REAL_E@endlink, or
- * @link libsbmlcs#AST_RATIONAL AST_RATIONAL@endlink, as appropriate.
+ * @link libsbml#AST_INTEGER AST_INTEGER@endlink,
+ * @link libsbml#AST_REAL AST_REAL@endlink,
+ * @link libsbml#AST_REAL_E AST_REAL_E@endlink, or
+ * @link libsbml#AST_RATIONAL AST_RATIONAL@endlink, as appropriate.
  *
  *
  *
@@ -63452,13 +63904,13 @@ GroupsExtension::init()
    * Creates a new ASTNode.
    *
    * Unless the argument @p type is given, the returned node will by default
-   * have a type of @link libsbmlcs#AST_UNKNOWN AST_UNKNOWN@endlink.  If the type
+   * have a type of @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink.  If the type
    * isn\'t supplied when caling this constructor, the caller should set the
    * node type to something else as soon as possible using @if clike
    * setType()@else ASTNode::setType(int)@endif.
    *
    * @param type an optional
-   * @if clike @link libsbmlcs#ASTNodeType_t ASTNodeType_t@endlink@else type@endif
+   * @if clike @link libsbml#ASTNodeType_t ASTNodeType_t@endlink@else type@endif
    * code indicating the type of node to create.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
@@ -63507,13 +63959,13 @@ GroupsExtension::init()
    * Frees the name of this ASTNode and sets it to @c null.
    *
    * This operation is only applicable to ASTNode objects corresponding to
-   * operators, numbers, or @link libsbmlcs#AST_UNKNOWN AST_UNKNOWN@endlink.  This
+   * operators, numbers, or @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink.  This
    * method has no effect on other types of nodes.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
 ";
 
@@ -63524,11 +63976,11 @@ GroupsExtension::init()
    *
    * The rules determining the canonical form conversion are as follows:
    *
-   * @li If the node type is @link libsbmlcs#AST_NAME AST_NAME@endlink
+   * @li If the node type is @link libsbml#AST_NAME AST_NAME@endlink
    * and the node name matches @c \'ExponentialE\', @c \'Pi\', @c \'True\' or @c
    * \'False\' the node type is converted to the corresponding
    * <code>AST_CONSTANT_</code><em><span class=\'placeholder\'>X</span></em> type.
-   * @li If the node type is an @link libsbmlcs#AST_FUNCTION AST_FUNCTION@endlink and
+   * @li If the node type is an @link libsbml#AST_FUNCTION AST_FUNCTION@endlink and
    * the node name matches an SBML (MathML) function name, logical operator name,
    * or relational operator name, the node is converted to the corresponding
    * <code>AST_FUNCTION_</code><em><span class=\'placeholder\'>X</span></em> or
@@ -63536,16 +63988,16 @@ GroupsExtension::init()
    *
    * SBML Level&nbsp;1 function names are searched first; thus, for example,
    * canonicalizing @c log will result in a node type of
-   * @link libsbmlcs#AST_FUNCTION_LN AST_FUNCTION_LN@endlink.  (See the SBML
+   * @link libsbml#AST_FUNCTION_LN AST_FUNCTION_LN@endlink.  (See the SBML
    * Level&nbsp;1 Version&nbsp;2 Specification, Appendix C.)
    *
    * Sometimes, canonicalization of a node results in a structural conversion
    * of the node as a result of adding a child.  For example, a node with the
    * SBML Level&nbsp;1 function name @c sqr and a single child node (the
    * argument) will be transformed to a node of type
-   * @link libsbmlcs#AST_FUNCTION_POWER AST_FUNCTION_POWER@endlink with two children.  The
+   * @link libsbml#AST_FUNCTION_POWER AST_FUNCTION_POWER@endlink with two children.  The
    * first child will remain unchanged, but the second child will be an
-   * ASTNode of type @link libsbmlcs#AST_INTEGER AST_INTEGER@endlink and a value of
+   * ASTNode of type @link libsbml#AST_INTEGER AST_INTEGER@endlink and a value of
    * 2.  The function names that result in structural changes are: @c log10,
    * @c sqr, and @c sqrt.
    *
@@ -63565,8 +64017,8 @@ GroupsExtension::init()
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @warning Explicitly adding, removing or replacing children of an
@@ -63599,8 +64051,8 @@ GroupsExtension::init()
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @warning Explicitly adding, removing or replacing children of an
@@ -63630,8 +64082,8 @@ GroupsExtension::init()
    *
    * @return integer value indicating success/failure of the
    * function. The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * *
  * @warning Explicitly adding, removing or replacing children of an
@@ -63662,9 +64114,9 @@ GroupsExtension::init()
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * *
  * @warning Explicitly adding, removing or replacing children of an
@@ -63696,9 +64148,9 @@ GroupsExtension::init()
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * *
  * @warning Explicitly adding, removing or replacing children of an
@@ -63815,8 +64267,8 @@ getChild( getNumChildren() - 1 );
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * *
  * @note Although SBML permits the use of the MathML
@@ -63983,8 +64435,8 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns the value of this node as a single character.
    *
    * This function should be called only when ASTNode::getType() returns
-   * @link libsbmlcs#AST_MINUS AST_MINUS@endlink, @link libsbmlcs#AST_TIMES AST_TIMES@endlink, @link libsbmlcs#AST_DIVIDE AST_DIVIDE@endlink or
-   * @link libsbmlcs#AST_POWER AST_POWER@endlink.
+   * @link libsbml#AST_MINUS AST_MINUS@endlink, @link libsbml#AST_TIMES AST_TIMES@endlink, @link libsbml#AST_DIVIDE AST_DIVIDE@endlink or
+   * @link libsbml#AST_POWER AST_POWER@endlink.
    *
    * @return the value of this ASTNode as a single character
    */ public
@@ -64034,15 +64486,15 @@ int (*ASTNodePredicate) (ASTNode_t *node);
 /**
    * Returns the value of this node as an integer.
    *
-   * If this node type is @link libsbmlcs#AST_RATIONAL AST_RATIONAL@endlink, this
+   * If this node type is @link libsbml#AST_RATIONAL AST_RATIONAL@endlink, this
    * method returns the value of the numerator.
    *
    * @return the value of this ASTNode as a (<code>long</code>) integer.
    *
    * @note This function should be called only when
    * @if clike getType()@else ASTNode::getType()@endif returns
-   * @link libsbmlcs#AST_INTEGER AST_INTEGER@endlink or
-   * @link libsbmlcs#AST_RATIONAL AST_RATIONAL@endlink.
+   * @link libsbml#AST_INTEGER AST_INTEGER@endlink or
+   * @link libsbml#AST_RATIONAL AST_RATIONAL@endlink.
    * It will return @c 0 if the node type is @em not one of these, but since
    * @c 0 may be a valid value for integer, it is important to be sure that
    * the node type is one of the expected types in order to understand if @c
@@ -64086,8 +64538,8 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * This function should be called only when
    * @if clike getType()@else ASTNode::getType()@endif returns
-   * @link libsbmlcs#AST_RATIONAL AST_RATIONAL@endlink or
-   * @link libsbmlcs#AST_INTEGER AST_INTEGER@endlink.
+   * @link libsbml#AST_RATIONAL AST_RATIONAL@endlink or
+   * @link libsbml#AST_INTEGER AST_INTEGER@endlink.
    *
    * @return the value of the numerator of this ASTNode.
    */ public
@@ -64103,7 +64555,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @note This function should be called only when
    * @if clike getType()@else ASTNode::getType()@endif returns
-   * @link libsbmlcs#AST_RATIONAL AST_RATIONAL@endlink.
+   * @link libsbml#AST_RATIONAL AST_RATIONAL@endlink.
    * It will return @c 1 if the node type is another type, but since @c 1 may
    * be a valid value for the denominator of a rational number, it is
    * important to be sure that the node type is the correct type in order to
@@ -64117,9 +64569,9 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns the real-numbered value of this node.
    *
    * This function performs the necessary arithmetic if the node type is
-   * @link libsbmlcs#AST_REAL_E AST_REAL_E@endlink (<em>mantissa *
+   * @link libsbml#AST_REAL_E AST_REAL_E@endlink (<em>mantissa *
    * 10<sup> exponent</sup></em>) or
-   * @link libsbmlcs#AST_RATIONAL AST_RATIONAL@endlink
+   * @link libsbml#AST_RATIONAL AST_RATIONAL@endlink
    * (<em>numerator / denominator</em>).
    *
    * @return the value of this ASTNode as a real (double), or @c 0
@@ -64139,7 +64591,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns the mantissa value of this node.
    *
    * If @if clike getType()@else ASTNode::getType()@endif returns
-   * @link libsbmlcs#AST_REAL AST_REAL@endlink, this method is
+   * @link libsbml#AST_REAL AST_REAL@endlink, this method is
    * identical to ASTNode::getReal().
    *
    * @return the value of the mantissa of this ASTNode, or @c 0 if this
@@ -64147,9 +64599,9 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @note This function should be called only when
    * @if clike getType()@else ASTNode::getType()@endif returns
-   * @link libsbmlcs#AST_REAL_E AST_REAL_E@endlink,
-   * @link libsbmlcs#AST_REAL AST_REAL@endlink or
-   * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.  It
+   * @link libsbml#AST_REAL_E AST_REAL_E@endlink,
+   * @link libsbml#AST_REAL AST_REAL@endlink or
+   * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.  It
    * will return @c 0 if the node type is another type, but since @c 0 may be
    * a valid value, it is important to be sure that the node type is the
    * correct type in order to correctly interpret the returned value.
@@ -64166,7 +64618,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @note This function should be called only when
    * @if clike getType()@else ASTNode::getType()@endif
-   * returns @link libsbmlcs#AST_REAL_E AST_REAL_E@endlink.
+   * returns @link libsbml#AST_REAL_E AST_REAL_E@endlink.
    * It will return @c 0 if the node type is another type, but since @c 0 may
    * be a valid value, it is important to be sure that the node type is the
    * correct type in order to correctly interpret the returned value.
@@ -64193,8 +64645,8 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns the type of this ASTNode.
    *
    * The value returned is one of the Core AST type codes such as
-   * @link libsbmlcs#AST_LAMBDA AST_LAMBDA@endlink,
-   * @link libsbmlcs#AST_PLUS AST_PLUS@endlink, etc.
+   * @link libsbml#AST_LAMBDA AST_LAMBDA@endlink,
+   * @link libsbml#AST_PLUS AST_PLUS@endlink, etc.
    *
    * @return the type of this ASTNode.
    *
@@ -64203,7 +64655,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * plug-ins implementing SBML Level&nbsp;3 packages.  If a given ASTNode is
    * a construct created by a package rather than libSBML Core, then
    * getType() will return
-   * @link libsbmlcs#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE@endlink.
+   * @link libsbml#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE@endlink.
    * Callers can then obtain the package-specific type by
    * calling getExtendedType().
    *
@@ -64224,7 +64676,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @note When the ASTNode is of a type from a package, the value returned
    * by ASTNode::getType() will be
-   * @link libsbmlcs#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE@endlink
+   * @link libsbml#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE@endlink
    * and getExtendedType() will return a package-specific type
    * code.  To find out the possible package-specific types (if any), please
    * consult the documentation for the particular package.
@@ -64257,7 +64709,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * SBML Level&nbsp;3 introduced a predefined MathML <code>&lt;csymbol&gt;</code>
    * for the value of Avogadro\'s constant.  LibSBML stores this internally as
-   * a node of type @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
+   * a node of type @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
    * This method returns @c true if this node has that type.
    *
    * @return @c true if this ASTNode is the special symbol avogadro,
@@ -64314,7 +64766,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * otherwise.
    *
    * @note This function will also return @c true for nodes of type
-   * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink in SBML Level&nbsp;3.
+   * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink in SBML Level&nbsp;3.
    */ public new
 ";
 
@@ -64348,7 +64800,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
 /**
    * Returns @c true if this node contains an integer value.
    *
-   * @return @c true if this ASTNode is of type @link libsbmlcs#AST_INTEGER AST_INTEGER@endlink, @c false otherwise.
+   * @return @c true if this ASTNode is of type @link libsbml#AST_INTEGER AST_INTEGER@endlink, @c false otherwise.
    */ public new
 ";
 
@@ -64358,7 +64810,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns @c true if this node is a MathML
    * <code>&lt;lambda&gt;</code>.
    *
-   * @return @c true if this ASTNode is of type @link libsbmlcs#AST_LAMBDA AST_LAMBDA@endlink, @c false otherwise.
+   * @return @c true if this ASTNode is of type @link libsbml#AST_LAMBDA AST_LAMBDA@endlink, @c false otherwise.
    */ public new
 ";
 
@@ -64368,8 +64820,8 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns @c true if this node represents a @c log10 function.
    *
    * More precisely, this predicate returns @c true if the node type is
-   * @link libsbmlcs#AST_FUNCTION_LOG AST_FUNCTION_LOG@endlink with two children, the
-   * first of which is an @link libsbmlcs#AST_INTEGER AST_INTEGER@endlink equal to
+   * @link libsbml#AST_FUNCTION_LOG AST_FUNCTION_LOG@endlink with two children, the
+   * first of which is an @link libsbml#AST_INTEGER AST_INTEGER@endlink equal to
    * 10.
    *
    * @return @c true if the given ASTNode represents a @c log10() function, @c
@@ -64483,7 +64935,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
 /**
    * Returns @c true if this node represents a rational number.
    *
-   * @return @c true if this ASTNode is of type @link libsbmlcs#AST_RATIONAL AST_RATIONAL@endlink, @c false otherwise.
+   * @return @c true if this ASTNode is of type @link libsbml#AST_RATIONAL AST_RATIONAL@endlink, @c false otherwise.
    */ public new
 ";
 
@@ -64493,7 +64945,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns @c true if this node can represent a real number.
    *
    * More precisely, this node must be of one of the following types:
-   * @link libsbmlcs#AST_REAL AST_REAL@endlink, @link libsbmlcs#AST_REAL_E AST_REAL_E@endlink or @link libsbmlcs#AST_RATIONAL AST_RATIONAL@endlink.
+   * @link libsbml#AST_REAL AST_REAL@endlink, @link libsbml#AST_REAL_E AST_REAL_E@endlink or @link libsbml#AST_RATIONAL AST_RATIONAL@endlink.
    *
    * @return @c true if the value of this ASTNode can represented as a real
    * number, @c false otherwise.
@@ -64531,8 +64983,8 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns @c true if this node represents a square root
    * function.
    *
-   * More precisely, the node type must be @link libsbmlcs#AST_FUNCTION_ROOT AST_FUNCTION_ROOT@endlink with two children, the first of which is an
-   * @link libsbmlcs#AST_INTEGER AST_INTEGER@endlink node having value equal to 2.
+   * More precisely, the node type must be @link libsbml#AST_FUNCTION_ROOT AST_FUNCTION_ROOT@endlink with two children, the first of which is an
+   * @link libsbml#AST_INTEGER AST_INTEGER@endlink node having value equal to 2.
    *
    * @return @c true if the given ASTNode represents a <code>sqrt()</code>
    * function, @c false otherwise.
@@ -64545,13 +64997,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns @c true if this node is a unary minus operator.
    *
    * A node is defined as a unary minus node if it is of type
-   * @link libsbmlcs#AST_MINUS AST_MINUS@endlink and has exactly one child.
+   * @link libsbml#AST_MINUS AST_MINUS@endlink and has exactly one child.
    *
    * For numbers, unary minus nodes can be \'collapsed\' by negating the
    * number.  In fact, @sbmlfunction{parseFormula, String} does this during
    * its parsing process, and @sbmlfunction{parseL3Formula, String} has a
    * configuration option that allows this behavior to be turned on or off.
-   * However, unary minus nodes for symbols (@link libsbmlcs#AST_NAME AST_NAME@endlink) cannot be \'collapsed\', so this predicate function is
+   * However, unary minus nodes for symbols (@link libsbml#AST_NAME AST_NAME@endlink) cannot be \'collapsed\', so this predicate function is
    * necessary.
    *
    * @return @c true if this ASTNode is a unary minus, @c false
@@ -64567,7 +65019,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns @c true if this node is a unary plus operator.
    *
    * A node is defined as a unary plus node if it is of type
-   * @link libsbmlcs#AST_PLUS AST_PLUS@endlink and has exactly one child.
+   * @link libsbml#AST_PLUS AST_PLUS@endlink and has exactly one child.
    *
    * @return @c true if this ASTNode is a unary plus, @c false otherwise.
    */ public
@@ -64595,15 +65047,15 @@ int (*ASTNodePredicate) (ASTNode_t *node);
 /**
    * Returns @c true if this node has an unknown type.
    *
-   * \'Unknown\' nodes have the type @link libsbmlcs#AST_UNKNOWN AST_UNKNOWN@endlink.
+   * \'Unknown\' nodes have the type @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink.
    * Nodes with unknown types will not appear in an ASTNode tree returned by
    * libSBML based upon valid SBML input; the only situation in which a node
-   * with type @link libsbmlcs#AST_UNKNOWN AST_UNKNOWN@endlink may appear is
+   * with type @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink may appear is
    * immediately after having create a new, untyped node using the ASTNode
    * constructor.  Callers creating nodes should endeavor to set the type to
    * a valid node type as soon as possible after creating new nodes.
    *
-   * @return @c true if this ASTNode is of type @link libsbmlcs#AST_UNKNOWN AST_UNKNOWN@endlink, @c false otherwise.
+   * @return @c true if this ASTNode is of type @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink, @c false otherwise.
    */ public new
 ";
 
@@ -64699,14 +65151,14 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Sets the value of this ASTNode to the given character.  If character
    * is one of @c +, @c -, <code>*</code>, <code>/</code> or @c ^, the node
    * type will be set accordingly.  For all other characters, the node type
-   * will be set to @link libsbmlcs#AST_UNKNOWN AST_UNKNOWN@endlink.
+   * will be set to @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink.
    *
    * @param value the character value to which the node\'s value should be
    * set.
    *
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -64719,7 +65171,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see isSetId()
    * @see getId()
@@ -64736,7 +65188,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @if java
    * @note In the API interfaces for languages other than Java, this method
@@ -64760,7 +65212,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see isSetStyle()
    * @see getStyle()
@@ -64774,18 +65226,18 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Sets the value of this ASTNode to the given name.
    *
    * As a side effect, this ASTNode object\'s type will be reset to
-   * @link libsbmlcs#AST_NAME AST_NAME@endlink if (and <em>only if</em>) the
+   * @link libsbml#AST_NAME AST_NAME@endlink if (and <em>only if</em>) the
    * ASTNode was previously an operator (i.e., @if clike isOperator()@else
    * ASTNode::isOperator()@endif returns @c true), number (i.e., @if clike
    * isNumber()@else ASTNode::isNumber()@endif returns @c true), or
-   * unknown.  This allows names to be set for @link libsbmlcs#AST_FUNCTION AST_FUNCTION@endlink nodes and the like.
+   * unknown.  This allows names to be set for @link libsbml#AST_FUNCTION AST_FUNCTION@endlink nodes and the like.
    *
    * @param name the string containing the name to which this node\'s value
    * should be set.
    *
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -64795,13 +65247,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Sets the value of this ASTNode to the given integer
    *
    * As a side effect, this operation sets the node type to
-   * @link libsbmlcs#AST_INTEGER AST_INTEGER@endlink.
+   * @link libsbml#AST_INTEGER AST_INTEGER@endlink.
    *
    * @param value the integer to which this node\'s value should be set.
    *
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -64811,13 +65263,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Sets the value of this ASTNode to the given (@c long) integer
    *
    * As a side effect, this operation sets the node type to
-   * @link libsbmlcs#AST_INTEGER AST_INTEGER@endlink.
+   * @link libsbml#AST_INTEGER AST_INTEGER@endlink.
    *
    * @param value the integer to which this node\'s value should be set.
    *
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -64827,14 +65279,14 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Sets the value of this ASTNode to the given rational.
    *
    * As a side effect, this operation sets the node type to
-   * @link libsbmlcs#AST_RATIONAL AST_RATIONAL@endlink.
+   * @link libsbml#AST_RATIONAL AST_RATIONAL@endlink.
    *
    * @param numerator the numerator value of the rational.
    * @param denominator the denominator value of the rational.
    *
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -64844,7 +65296,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Sets the value of this ASTNode to the given real (@c double).
    *
    * As a side effect, this operation sets the node type to
-   * @link libsbmlcs#AST_REAL AST_REAL@endlink.
+   * @link libsbml#AST_REAL AST_REAL@endlink.
    *
    * This is functionally equivalent to:
    * @verbatim
@@ -64856,7 +65308,7 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -64866,14 +65318,14 @@ setValue(value, 0);
    * Sets the value of this ASTNode to the given real (@c double)
    *
    * As a side effet, this operation sets the node type to
-   * @link libsbmlcs#AST_REAL_E AST_REAL_E@endlink.
+   * @link libsbml#AST_REAL_E AST_REAL_E@endlink.
    *
    * @param mantissa the mantissa of this node\'s real-numbered value.
    * @param exponent the exponent of this node\'s real-numbered value.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
 
@@ -64886,8 +65338,8 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note A side-effect of doing this is that any numerical values
    * previously stored in this node are reset to zero.
@@ -64910,14 +65362,14 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note A side-effect of doing this is that any numerical values
    * previously stored in this node are reset to zero.
    *
    * @see getType()
-   * @see setType(ASTNodeType_t type)
+   * @see setType(@if java int@else ASTNodeType_t type@endif)
    */ public
 ";
 
@@ -64938,9 +65390,9 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The <code>sbml:units</code> attribute is only available in SBML
    * Level&nbsp;3.  It may not be used in Levels 1&ndash;2 of SBML.
@@ -64960,8 +65412,8 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -65013,9 +65465,9 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -65026,8 +65478,8 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -65038,8 +65490,8 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -65050,8 +65502,8 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -65064,8 +65516,8 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see setDefinitionURL(string url)
    * @see getDefinitionURL()
@@ -65082,8 +65534,8 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see setDefinitionURL(XMLAttributes url)
    * @see getDefinitionURL()
@@ -65131,8 +65583,8 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see isSetParentSBMLObject()
    * @see getParentSBMLObject()
@@ -65158,8 +65610,8 @@ setValue(value, 0);
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see isSetParentSBMLObject()
    * @see getParentSBMLObject()
@@ -65203,8 +65655,8 @@ setValue(value, 0);
   *
   * @return integer value indicating success/failure of the
   * function.  The possible values returned by this function are:
-  * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-  * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+  * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
   *
   * @if clike
   * @see ASTNode::isSetUserData()
@@ -65241,8 +65693,8 @@ setValue(value, 0);
   *
   * @return integer value indicating success/failure of the
   * function.  The possible values returned by this function are:
-  * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-  * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+  * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
   *
   * @if clike
   * @see ASTNode::setUserData()
@@ -65290,7 +65742,7 @@ setValue(value, 0);
   * Returns @c true if this ASTNode has the correct number of children for
   * its type.
   *
-  * For example, an ASTNode with type @link libsbmlcs#AST_PLUS AST_PLUS@endlink
+  * For example, an ASTNode with type @link libsbml#AST_PLUS AST_PLUS@endlink
   * expects 2 child nodes.
   *
   * @return @c true if this ASTNode has the appropriate number of children
@@ -65836,12 +66288,12 @@ setValue(value, 0);
  *
  * Again, as mentioned above, whether the string
  * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
- * @link libsbmlcs#AST_NAME AST_NAME@endlink is configurable; use the version of
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
+ * @link libsbml#AST_NAME AST_NAME@endlink is configurable; use the version of
  * the parser function called @sbmlfunction{parseL3FormulaWithSettings,
  * String\, L3ParserSettings}.  This Avogadro-related
  * functionality is provided because SBML Level&nbsp;2 models may not use
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
  *
  *
  *
@@ -66263,12 +66715,12 @@ setValue(value, 0);
  *
  * Again, as mentioned above, whether the string
  * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
- * @link libsbmlcs#AST_NAME AST_NAME@endlink is configurable; use the version of
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
+ * @link libsbml#AST_NAME AST_NAME@endlink is configurable; use the version of
  * the parser function called @sbmlfunction{parseL3FormulaWithSettings,
  * String\, L3ParserSettings}.  This Avogadro-related
  * functionality is provided because SBML Level&nbsp;2 models may not use
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
  *
  *
  *
@@ -66374,7 +66826,7 @@ setValue(value, 0);
  * &quot;<code>- -3</code>&quot;) from the input and incorporate single unary
  * minuses into the number node, or (2) preserve all minuses in the AST node
  * structure, turning them into ASTNode objects of type
- * @link libsbmlcs#AST_MINUS AST_MINUS@endlink.
+ * @link libsbml#AST_MINUS AST_MINUS@endlink.
  * @li The character sequence &quot;<code>number id</code>&quot; can be
  * interpreted as a numerical value @c number followed by units of measurement
  * indicated by @c id, or it can be treated as a syntax error.  (In
@@ -66387,8 +66839,8 @@ setValue(value, 0);
  * @li The symbol @c avogadro can be parsed either as a MathML @em csymbol or
  * as a identifier.  More specifically, &quot;<code>avogadro</code>&quot; can
  * be treated as an ASTNode of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or of type
- * @link libsbmlcs#AST_NAME AST_NAME@endlink.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or of type
+ * @link libsbml#AST_NAME AST_NAME@endlink.
  * @li Strings that match built-in functions and constants can either be parsed
  * as a match regardless of capitalization, or may be required to be
  * all-lower-case to be considered a match.  
@@ -66647,12 +67099,12 @@ setValue(value, 0);
  *
  * Again, as mentioned above, whether the string
  * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
- * @link libsbmlcs#AST_NAME AST_NAME@endlink is configurable; use the version of
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
+ * @link libsbml#AST_NAME AST_NAME@endlink is configurable; use the version of
  * the parser function called @sbmlfunction{parseL3FormulaWithSettings,
  * String\, L3ParserSettings}.  This Avogadro-related
  * functionality is provided because SBML Level&nbsp;2 models may not use
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
  *
  *
  *
@@ -66756,7 +67208,7 @@ setValue(value, 0);
  * &quot;<code>- -3</code>&quot;) from the input and incorporate single unary
  * minuses into the number node, or (2) preserve all minuses in the AST node
  * structure, turning them into ASTNode objects of type
- * @link libsbmlcs#AST_MINUS AST_MINUS@endlink.
+ * @link libsbml#AST_MINUS AST_MINUS@endlink.
  * @li The character sequence &quot;<code>number id</code>&quot; can be
  * interpreted as a numerical value @c number followed by units of measurement
  * indicated by @c id, or it can be treated as a syntax error.  (In
@@ -66769,8 +67221,8 @@ setValue(value, 0);
  * @li The symbol @c avogadro can be parsed either as a MathML @em csymbol or
  * as a identifier.  More specifically, &quot;<code>avogadro</code>&quot; can
  * be treated as an ASTNode of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or of type
- * @link libsbmlcs#AST_NAME AST_NAME@endlink.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or of type
+ * @link libsbml#AST_NAME AST_NAME@endlink.
  * @li Strings that match built-in functions and constants can either be parsed
  * as a match regardless of capitalization, or may be required to be
  * all-lower-case to be considered a match.  
@@ -66810,16 +67262,16 @@ setValue(value, 0);
    * field values in the L3ParserSettings object:
    *
    * @li <em>parseunits</em> (\'parse units\') is set to
-   * @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink.
+   * @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink.
    *
    * @li <em>collapseminus</em> (\'collapse minus\') is set to
-   * @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink.
+   * @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink.
    *
    * @li <em>parselog</em> (\'parse log\') is set to
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink.
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink.
    *
    * @li <em>avocsymbol</em> (\'Avogadro csymbol\') is set to
-   * @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink.
+   * @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink.
    *
    * @li <em>sbmlns</em> (\'SBML namespaces\') is set to @c null (which
    * indicates that no syntax extensions due to SBML Level&nbsp;3 packages
@@ -66844,9 +67296,9 @@ setValue(value, 0);
    * with a single argument (&quot;<code>log(x)</code>&quot;) can be parsed
    * as <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
    * desired, by using the parameter values
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink, respectively.
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+   * @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
+   * @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink, respectively.
    *
    * @param collapseminus (\'collapse minus\') a flag that controls how the
    * parser will handle minus signs in formulas.  Unary minus signs can be
@@ -66855,27 +67307,27 @@ setValue(value, 0);
    * entirely and single unary minuses can be incorporated into the number
    * node, or all minuses can be preserved in the AST node structure.
    * The possible values of this field are
-   * @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (to collapse unary minuses) and
-   * @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (to expand unary minuses).
+   * @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (to collapse unary minuses) and
+   * @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (to expand unary minuses).
    *
    * @param parseunits (\'parse units\') a flag that controls how the parser
    * will handle apparent references to units of measurement associated with
    * raw numbers in a formula.  If set to the value
-   * @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink, units are parsed; if set to the value
-   * @link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink, units are not parsed.
+   * @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink, units are parsed; if set to the value
+   * @link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink, units are not parsed.
    *
    * @param avocsymbol (\'Avogadro csymbol\') a flag that controls how the
    * parser will handle the appearance of the symbol @c avogadro in a
-   * formula.  If set to the value @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink,
+   * formula.  If set to the value @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink,
    * the symbol is interpreted as the SBML/MathML @em csymbol @c avogadro; if
-   * set to the value @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
+   * set to the value @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
    * interpreted as a plain symbol name.
    *
    * @param caseSensitive a flag that controls how the
    * parser will handle case sensitivity of any function name.
-   * If set to the value @link libsbmlcs#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
+   * If set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
    * the name is interpreted as teh relevant math function regardless of case; if
-   * set to the value @link libsbmlcs#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
+   * set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
    * interpreted as a user defined function unless it is all lower case.
    *
    * @param sbmlns (\'SBML namespaces\') an SBML namespaces object.  The
@@ -66988,15 +67440,15 @@ setValue(value, 0);
    * (&quot;<code>log(x)</code>&quot;) can be parsed as
    * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error.
    * These three behaviors are set, respectively, by using the value
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+   * @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
+   * @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
    * for the @p type parameter.
    *
    * @param type a constant, one of following three possibilities:
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
    *
    * @see getParseLog()
    */ public
@@ -67013,14 +67465,14 @@ setValue(value, 0);
    * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
    * desired.  These three possible behaviors are indicated, respectively, by
    * the values
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, and
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink.
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+   * @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, and
+   * @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink.
    *
    * @return One of following three constants:
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
    *
    * @see setParseLog(@if java int@endif)
    */ public
@@ -67040,10 +67492,10 @@ setValue(value, 0);
  * AST node tree that is generated by the parser.  Second, minus signs in
  * front of numbers can be collapsed into the number node itself; for
  * example, a &quot;<code>- 4.1</code>&quot; can be turned into a single
- * ASTNode of type @link libsbmlcs#AST_REAL AST_REAL@endlink with a value of
+ * ASTNode of type @link libsbml#AST_REAL AST_REAL@endlink with a value of
  * <code>-4.1</code>, or it can be turned into a node of type
- * @link libsbmlcs#AST_MINUS AST_MINUS@endlink having a child node of type
- * @link libsbmlcs#AST_REAL AST_REAL@endlink.
+ * @link libsbml#AST_MINUS AST_MINUS@endlink having a child node of type
+ * @link libsbml#AST_REAL AST_REAL@endlink.
  *
    *
    * This method lets you tell the parser which behavior to use---either
@@ -67052,17 +67504,17 @@ setValue(value, 0);
    *
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
+ * <li> @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
  * unary minuses where possible.
- * <li> @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (value = @c false): do not
+ * <li> @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (value = @c false): do not
  * collapse unary minuses, and instead translate each one into an AST node of
- * type @link libsbmlcs#AST_MINUS AST_MINUS@endlink.
+ * type @link libsbml#AST_MINUS AST_MINUS@endlink.
  * </ul>
  *
    *
    * @param collapseminus a bool value (one of the constants
-   * @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink or
-   * @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink)
+   * @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink or
+   * @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink)
    * indicating how unary minus signs in the input should be handled.
    *
    * @see getParseCollapseMinus()
@@ -67083,21 +67535,21 @@ setValue(value, 0);
  * AST node tree that is generated by the parser.  Second, minus signs in
  * front of numbers can be collapsed into the number node itself; for
  * example, a &quot;<code>- 4.1</code>&quot; can be turned into a single
- * ASTNode of type @link libsbmlcs#AST_REAL AST_REAL@endlink with a value of
+ * ASTNode of type @link libsbml#AST_REAL AST_REAL@endlink with a value of
  * <code>-4.1</code>, or it can be turned into a node of type
- * @link libsbmlcs#AST_MINUS AST_MINUS@endlink having a child node of type
- * @link libsbmlcs#AST_REAL AST_REAL@endlink.
+ * @link libsbml#AST_MINUS AST_MINUS@endlink having a child node of type
+ * @link libsbml#AST_REAL AST_REAL@endlink.
  *
    *
    * @return A bool indicating the behavior currently set.  The possible
    * values are as follows:
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
+ * <li> @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
  * unary minuses where possible.
- * <li> @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (value = @c false): do not
+ * <li> @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (value = @c false): do not
  * collapse unary minuses, and instead translate each one into an AST node of
- * type @link libsbmlcs#AST_MINUS AST_MINUS@endlink.
+ * type @link libsbml#AST_MINUS AST_MINUS@endlink.
  * </ul>
  *
    *
@@ -67134,9 +67586,9 @@ setValue(value, 0);
    * possible values are as follows:
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
+ * <li> @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
  * text-string formula.
- * <li> @link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c false): treat units in the
+ * <li> @link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c false): treat units in the
  * text-string formula as errors.
  * </ul>
  *
@@ -67170,16 +67622,16 @@ setValue(value, 0);
    *
    * Since SBML Level&nbsp;2 does not have the ability to associate units
    * with pure numbers, the value should be expected to be @c false
-   * (@link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink) when parsing text-string
+   * (@link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink) when parsing text-string
    * formulas intended for use in SBML Level&nbsp;2 documents.
    *
    * @return A bool indicating whether to parse units.  The
    * possible values are as follows:
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
+ * <li> @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
  * text-string formula.
- * <li> @link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c false): treat units in the
+ * <li> @link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c false): treat units in the
  * text-string formula as errors.
  * </ul>
  *
@@ -67212,24 +67664,24 @@ setValue(value, 0);
    *
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
+ * <li> @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
  * parser to translate the string @c avogadro (in any capitalization) into an
- * AST node of type @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
- * <li> @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink (value = @c false): tells the
+ * AST node of type @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
+ * <li> @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink (value = @c false): tells the
  * parser to translate the string @c avogadro into an AST of type
- * @link libsbmlcs#AST_NAME AST_NAME@endlink.
+ * @link libsbml#AST_NAME AST_NAME@endlink.
  * </ul>
  *
    *
    * Since SBML Level&nbsp;2 does not define a symbol for Avogadro\'s
    * constant, the value should be set to
-   * @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink when parsing text-string formulas
+   * @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink when parsing text-string formulas
    * intended for use in SBML Level&nbsp;2 documents.
    *
    * @param l2only a bool value indicating how the string @c avogadro
    * should be treated when encountered in a formula.  This will be one of
-   * the values @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink or
-   * @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
+   * the values @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink or
+   * @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
    *
    * @see getParseAvogadroCsymbol()
    */ public
@@ -67259,19 +67711,19 @@ setValue(value, 0);
    *
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
+ * <li> @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
  * parser to translate the string @c avogadro (in any capitalization) into an
- * AST node of type @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
- * <li> @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink (value = @c false): tells the
+ * AST node of type @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
+ * <li> @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink (value = @c false): tells the
  * parser to translate the string @c avogadro into an AST of type
- * @link libsbmlcs#AST_NAME AST_NAME@endlink.
+ * @link libsbml#AST_NAME AST_NAME@endlink.
  * </ul>
  *
    *
    * @return A bool indicating which mode is currently set; one of
-   * @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink
+   * @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink
    * or
-   * @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
+   * @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
    *
    * @see setParseAvogadroCsymbol(@if java bool@endif)
    */ public
@@ -67553,8 +68005,8 @@ setValue(value, 0);
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ /* libsbml-internal */ public
 ";
 

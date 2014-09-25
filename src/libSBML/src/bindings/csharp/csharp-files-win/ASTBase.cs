@@ -81,7 +81,7 @@ public class ASTBase : IDisposable {
   
 /**
    * Get the type of this ASTNode.  The value returned is one of the
-   * enumeration values such as @link libsbmlcs#AST_LAMBDA AST_LAMBDA@endlink, @link libsbmlcs#AST_PLUS AST_PLUS@endlink,
+   * enumeration values such as @link libsbml#AST_LAMBDA AST_LAMBDA@endlink, @link libsbml#AST_PLUS AST_PLUS@endlink,
    * etc.
    * 
    * @return the type of this ASTNode.
@@ -115,8 +115,8 @@ public class ASTBase : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ /* libsbml-internal */ public new
  int setType(int type) {
     int ret = libsbmlPINVOKE.ASTBase_setType__SWIG_0(swigCPtr, type);

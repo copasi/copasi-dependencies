@@ -186,7 +186,7 @@ public class ListOfSpeciesTypes : ListOf {
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_SPECIES_TYPE SBML_SPECIES_TYPE@endlink (default).
+   * @link libsbml#SBML_SPECIES_TYPE SBML_SPECIES_TYPE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

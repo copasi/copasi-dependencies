@@ -65,9 +65,10 @@
 
 #include <map>
 #include <string>
-class SpeciesReference;
 
 LIBSBML_CPP_NAMESPACE_BEGIN
+
+class SpeciesReference;
 
 typedef std::vector< std::pair<std::string, ASTNode *> >             RuleMap;
 typedef std::vector< std::pair<std::string, ASTNode *> >::iterator   RuleMapIter;
@@ -76,9 +77,11 @@ class LIBSBML_EXTERN SBMLReactionConverter : public SBMLConverter
 {
 public:
 
-  /** @cond doxygenLibsbmlInternal */
+  /** @cond doxygenLibsbmlInternal  */
 
-  /* register with the ConversionRegistry */
+  /**
+   * Register with the ConversionRegistry.
+   */
   static void init();
 
   /** @endcond */

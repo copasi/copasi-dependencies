@@ -186,7 +186,7 @@ public class ListOfInitialAssignments : ListOf {
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
+   * @link libsbml#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

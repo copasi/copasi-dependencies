@@ -370,8 +370,8 @@ public class StoichiometryMath : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * * 
  * @note The StoichiometryMath construct exists only in SBML Level&nbsp;2.
@@ -488,7 +488,7 @@ public class StoichiometryMath : SBase {
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_STOICHIOMETRY_MATH SBML_STOICHIOMETRY_MATH@endlink (default).
+   * @link libsbml#SBML_STOICHIOMETRY_MATH SBML_STOICHIOMETRY_MATH@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -546,8 +546,8 @@ public class StoichiometryMath : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int removeFromParentAndDelete() {
     int ret = libsbmlPINVOKE.StoichiometryMath_removeFromParentAndDelete(swigCPtr);

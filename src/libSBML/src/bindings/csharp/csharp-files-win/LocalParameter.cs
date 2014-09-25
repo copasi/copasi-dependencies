@@ -326,7 +326,7 @@ public class LocalParameter : Parameter {
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
+   * @link libsbml#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible

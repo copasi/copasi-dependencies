@@ -157,11 +157,11 @@ namespace libsbml {
  * that work @if clike a libSBML enumeration type, RuleType_t, whose values
  * are @else with the enumeration values @endif listed below.
  *
- * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
+ * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
  * the rule is a 'rate' rule.
- * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
+ * @li @link libsbml#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
  * Indicates the rule is a 'scalar' rule.
- * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
+ * @li @link libsbml#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
  * Indicates the rule type is unknown or not yet set.
  *
  *
@@ -244,7 +244,7 @@ public class Rule : SBase {
    * Returns the mathematical expression of this Rule in text-string form.
    *
    * The text string is produced by
-   * @if java <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString()</a></code>@else libsbmlcs.libsbml.formulaToString()@endif; please consult
+   * @if java <code><a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'>libsbml.formulaToString()</a></code>@else libsbml.formulaToString()@endif; please consult
    * the documentation for that function to find out more about the format
    * of the text-string formula.
    * 
@@ -429,8 +429,8 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note The attribute 'formula' is specific to SBML Level&nbsp;1; in
    * higher Levels of SBML, it has been replaced with a subelement named
@@ -455,8 +455,8 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note The subelement 'math' is present in SBML Levels&nbsp;2
    * and&nbsp;3.  In SBML Level&nbsp;1, the equivalent construct is the
@@ -496,9 +496,9 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int setVariable(string sid) {
     int ret = libsbmlPINVOKE.Rule_setVariable(swigCPtr, sid);
@@ -514,9 +514,9 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute 'units' exists on SBML Level&nbsp;1 ParameterRule
    * objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
@@ -533,9 +533,9 @@ public class Rule : SBase {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute 'units' exists on SBML Level&nbsp;1 ParameterRule
    * objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
@@ -618,9 +618,9 @@ public class Rule : SBase {
    *
    * @return the rule type, which will be one of the following three possible
    * values:
-   * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink
-   * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
-   * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
+   * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink
+   * @li @link libsbml#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink
+   * @li @link libsbml#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink
    *
    * @note The attribute 'type' on Rule objects is present only in SBML
    * Level&nbsp;1.  In SBML Level&nbsp;2 and later, the type has been
@@ -766,9 +766,9 @@ public class Rule : SBase {
  *
    *
    * @return the SBML type code for this object, either
-   * @link libsbmlcs#SBML_ASSIGNMENT_RULE SBML_ASSIGNMENT_RULE@endlink,
-   * @link libsbmlcs#SBML_RATE_RULE SBML_RATE_RULE@endlink, or
-   * @link libsbmlcs#SBML_ALGEBRAIC_RULE SBML_ALGEBRAIC_RULE@endlink 
+   * @link libsbml#SBML_ASSIGNMENT_RULE SBML_ASSIGNMENT_RULE@endlink,
+   * @link libsbml#SBML_RATE_RULE SBML_RATE_RULE@endlink, or
+   * @link libsbml#SBML_ALGEBRAIC_RULE SBML_ALGEBRAIC_RULE@endlink 
    * for %SBML Core.
    *
    * *
@@ -793,13 +793,13 @@ public class Rule : SBase {
    *
    * This method only applies to SBML Level&nbsp;1 model objects.  If this is
    * not an SBML Level&nbsp;1 rule object, this method will return
-   * @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink.
+   * @link libsbml#SBML_UNKNOWN SBML_UNKNOWN@endlink.
    *
    * @return the SBML Level&nbsp;1 type code for this Rule (namely,
-   * @link libsbmlcs#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
-   * @link libsbmlcs#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink,
-   * @link libsbmlcs#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink, or
-   * @link libsbmlcs#SBML_UNKNOWN SBML_UNKNOWN@endlink).
+   * @link libsbml#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
+   * @link libsbml#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink,
+   * @link libsbml#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink, or
+   * @link libsbml#SBML_UNKNOWN SBML_UNKNOWN@endlink).
    */ public
  int getL1TypeCode() {
     int ret = libsbmlPINVOKE.Rule_getL1TypeCode(swigCPtr);
@@ -840,14 +840,14 @@ public class Rule : SBase {
    * Sets the SBML Level&nbsp;1 type code for this Rule.
    *
    * @param type the SBML Level&nbsp;1 type code for this Rule. The allowable
-   * values are @link libsbmlcs#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
-   * @link libsbmlcs#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
-   * @link libsbmlcs#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink.
+   * values are @link libsbml#SBML_COMPARTMENT_VOLUME_RULE SBML_COMPARTMENT_VOLUME_RULE@endlink,
+   * @link libsbml#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
+   * @link libsbml#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink.
    *
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * if given @p type value is not one of the above.
    */ public
  int setL1TypeCode(int type) {

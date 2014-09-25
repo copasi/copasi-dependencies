@@ -64,19 +64,19 @@ public:
   /**
    * Appends id to the list of ids.
    */
-  void append (const std::string id) { mIds.push_back(id); }
+  void append (const std::string& id) { mIds.push_back(id); }
 
   /**
    * Returns true if id is already in this IdList, false otherwise.
    *
    * @return true if id is already in this IdList, false otherwise.
    */
-  bool contains (const std::string id) const;
+  bool contains (const std::string& id) const;
 
   /**
    * Removes all ids in this IdList before the given @p id.
    */
-  void removeIdsBefore (const std::string id);
+  void removeIdsBefore (const std::string& id);
 
   /**
    * Returns the number of ids in this IdList.

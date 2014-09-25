@@ -186,7 +186,7 @@ public class ListOfCompartmentTypes : ListOf {
  *
    *
    * @return the SBML type code for the objects contained in this ListOf
-   * instance: @link libsbmlcs#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE@endlink (default).
+   * instance: @link libsbml#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

@@ -1474,7 +1474,7 @@ allowed to modify it.
 %feature("docstring") SBase "
 @sbmlpackage{core}
 
-@htmlinclude pkg-marker-core.html SBML\'s <em>%SBase</em>, the base class of most SBML objects.
+@htmlinclude pkg-marker-core.html SBML\'s %SBase class, the base class of most SBML objects.
 
 Most components in SBML are derived from a single abstract base type,
 SBase.  In addition to serving as the parent class for most other
@@ -1631,7 +1631,8 @@ object to find.
 Returns a List of all child SBase objects, including those nested to
 an arbitrary depth.
 
-@return a pointer to a List of pointers to all children objects.
+@return a pointer to a List of pointers to all objects that are children
+of this object.
 ";
 
 
@@ -2049,7 +2050,8 @@ method getAnnotation() for a version that returns annotations in XML form.
 
 
 %feature("docstring") SBase::getNamespaces "
-Returns a list of the XML Namespaces declared on this SBML document.
+Returns a list of the XML Namespaces declared on the SBML document
+owning this object.
 
 The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
 information.  It is used to communicate the SBML Level, Version, and (in
@@ -2200,12 +2202,11 @@ the value is not set.
 
 
 %feature("docstring") SBase::getSBOTermAsURL "
-Returns the identifiers.org URL representation of the \'sboTerm\' attribute of
-this object.
+Returns the URL representation of the \'sboTerm\' attribute of this
+object.
 
-This method returns the entire SBO
-identifier as a text string in the form 
-\'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'.
+This method returns the entire SBO identifier as a text string in the
+form <code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'</code>.
 
 SBO terms are a type of optional annotation, and each different class
 of SBML object derived from SBase imposes its own requirements about
@@ -2213,10 +2214,8 @@ the values permitted for \'sboTerm\'.  Please consult the SBML
 Level&nbsp;2 Version&nbsp;4 specification for more information about
 the use of SBO and the \'sboTerm\' attribute.
 
-@return the value of the \'sboTerm\' attribute as an identifiers.org URL
-(its value will be of the form 
-\'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'), or an empty string if
-the value is not set.
+@return the value of the \'sboTerm\' attribute as an identifiers.org URL,
+or an empty string if the value is not set.
 ";
 
 
@@ -3729,7 +3728,7 @@ The following example code illustrates the combined use of
 SBase.getPackageName() and SBase.getTypeCode():
 @if cpp
 @code{.cpp}
- void example (SBasesb)
+ void example (SBase sb)
  {
    cons string pkgName = sb->getPackageName();
    if (pkgName == \'core\')
@@ -3902,8 +3901,11 @@ packages.
 
 @param n the index of the plug-in to return
 
-@return the plug-in object (the libSBML extension interface) of a
-package extension with the given package name or URI.
+@return the nth plug-in object (the libSBML extension interface) of a
+package extension.
+
+@see getNumPlugins()
+@see getPlugin()
    
 
 @par
@@ -3933,6 +3935,37 @@ packages.
 
 @return the plug-in object (the libSBML extension interface) of a
 package extension with the given package name or URI.
+
+@see getPlugin()
+";
+
+
+%feature("docstring") SBase::getDisabledPlugin "
+Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
+package extension.
+
+@par
+SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+that it uses one or more SBML packages, and likewise, a software tool may be
+able to support one or more packages.  LibSBML does not come preconfigured
+with all possible packages included and enabled, in part because not all
+package specifications have been finalized.  To support the ability for
+software systems to enable support for the Level&nbsp;3 packages they choose,
+libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+package is implemented in a separate code plug-in that can be enabled by the
+application to support working with that SBML package.  A given SBML model
+may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+objects created by libSBML plug-ins supporting additional Level&nbsp;3
+packages.
+
+@param n the index of the disabled plug-in to return
+
+@return the nth disabled plug-in object (the libSBML extension interface) of a
+package extension.
+
+@see getNumDisabledPlugins()
+@see getPlugin()
 ";
 
 
@@ -3957,6 +3990,42 @@ packages.
 
 @return the number of plug-in objects (extension interfaces) of
 package extensions known by this instance of libSBML.
+
+@see getPlugin()
+";
+
+
+%feature("docstring") SBase::getNumDisabledPlugins "
+Returns the number of disabled plug-in objects (extenstion interfaces) 
+for SBML Level&nbsp;3 package extensions known.
+
+@par
+SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+that it uses one or more SBML packages, and likewise, a software tool may be
+able to support one or more packages.  LibSBML does not come preconfigured
+with all possible packages included and enabled, in part because not all
+package specifications have been finalized.  To support the ability for
+software systems to enable support for the Level&nbsp;3 packages they choose,
+libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+package is implemented in a separate code plug-in that can be enabled by the
+application to support working with that SBML package.  A given SBML model
+may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+objects created by libSBML plug-ins supporting additional Level&nbsp;3
+packages.
+
+@return the number of disabled plug-in objects (extension interfaces) 
+of package extensions known by this instance of libSBML.
+";
+
+
+%feature("docstring") SBase::deleteDisabledPlugins "
+Deletes all information stored in disabled plugins. 
+
+@param recursive if @c True, the disabled information will be deleted
+also from all child elements, otherwise only from this SBase element.
+
+@see getNumDisabledPlugins()
 ";
 
 
@@ -4006,23 +4075,26 @@ but as a shortcut, you could also disable the package namespace on the
 object being added.  Here is a code example to help clarify this:
 @if cpp
 @code{.cpp}
-// We read in an SBML L3V1 model that uses the \'comp\' package namespace
+// We read in an SBML L3V1 model that uses the \'comp\'
+// package namespace.
 doc = readSBML(\'sbml-file-with-comp-elements.xml\');
 
-// We extract one of the species from the model we just read in.
+// We extract one of the species from the model.
 Species s1 = doc->getModel()->getSpecies(0);
 
-// We construct a new model.  This model does not use the \'comp\' package.
-Model newModel = new Model(3,1);
+// We construct a new model.  This model does not use the
+// \'comp\' package.
+Model  newModel = new Model(3,1);
 
-// The following will fail with an error, because addSpecies() will
-// first check that the parent of the given object has namespaces
-// declared, and will discover that s1 does but newModel does not.
+// The following will fail with an error, because addSpecies()
+// will first check that the parent of the given object has
+// namespaces declared, and will discover that s1 does but
+// newModel does not.
 
 // newModel->addSpecies(s1);
 
-// However, if we disable the \'comp\' package on s1, then the call
-// to addSpecies will work.
+// However, if we disable the \'comp\' package on s1, then
+// the call to addSpecies will work.
 
 s1->disablePackage(\'http://www.sbml.org/sbml/level3/version1/comp/version1\',
                    \'comp\');
@@ -4043,7 +4115,7 @@ if doc.getNumErrors() > 0:
   doc.printErrors()
   sys.exit(1)
 
-# We extract one of the species from the model we just read in.
+# We extract one of the species from the model.
 
 model = doc.getModel()
 if model == None:
@@ -5521,7 +5593,7 @@ model->setId(\'BestModelEver\');
 // object created, and methods called on that object affect the attributes
 // of the object attached to the model (as expected).
 
-Speciessp = model->createSpecies();
+Species sp = model->createSpecies();
 sp->setId(\'MySpecies\');
 @endcode
 @endif@if java
@@ -9599,6 +9671,14 @@ Accepts the given SBMLVisitor for this instance of SBMLDocument.
 Creates and returns a deep copy of this SBMLDocument object.
 
 @return the (deep) copy of this SBMLDocument object.
+";
+
+
+%feature("docstring") SBMLDocument::isSetModel "
+Returns @c True if the Model object has been set, otherwise 
+returns @c False.
+
+@return @c True if the Model object has been set
 ";
 
 
@@ -33931,7 +34011,7 @@ namespace to the list of namespaces recorded by the top-level
 namespace a prefix of <code>html</code>.
 @if cpp
 @code{.cpp}
-SBMLDocumentsd;
+SBMLDocument sd;
 try
 {
     sd = new SBMLDocument(3, 1);
@@ -35669,6 +35749,14 @@ provided by libSBML @htmlinclude libsbml-version.html:
 ";
 
 
+%feature("docstring") SBMLFunctionDefinitionConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
+";
+
+
 %feature("docstring") SBMLFunctionDefinitionConverter::SBMLFunctionDefinitionConverter "
 This method has multiple variants; they differ in the arguments
  they accept.  Each variant is described separately below.
@@ -35956,6 +36044,14 @@ provided by libSBML @htmlinclude libsbml-version.html:
 ";
 
 
+%feature("docstring") SBMLIdConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
+";
+
+
 %feature("docstring") SBMLIdConverter::SBMLIdConverter "
 This method has multiple variants; they differ in the arguments
  they accept.  Each variant is described separately below.
@@ -36216,7 +36312,15 @@ provided by libSBML @htmlinclude libsbml-version.html:
 ";
 
 
-%feature("docstring") SBMLInferUnitsConverter "
+%feature("docstring") SBMLInferUnitsConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
+";
+
+
+%feature("docstring") SBMLInferUnitsConverter::SBMLInferUnitsConverter "
 This method has multiple variants; they differ in the arguments
  they accept.  Each variant is described separately below.
 
@@ -36240,7 +36344,7 @@ object.
 ";
 
 
-%feature("docstring") clone "
+%feature("docstring") SBMLInferUnitsConverter::clone "
 Creates and returns a deep copy of this SBMLInferUnitsConverter
 object.
 
@@ -36248,7 +36352,7 @@ object.
 ";
 
 
-%feature("docstring") matchesProperties "
+%feature("docstring") SBMLInferUnitsConverter::matchesProperties "
 Returns @c True if this converter object\'s properties match the given
 properties.
 
@@ -36267,7 +36371,7 @@ otherwise.
 ";
 
 
-%feature("docstring") convert "
+%feature("docstring") SBMLInferUnitsConverter::convert "
 Perform the conversion.
 
 This method causes the converter to do the actual conversion work,
@@ -36286,7 +36390,7 @@ SBMLConverter.setProperties().
 ";
 
 
-%feature("docstring") getDefaultProperties "
+%feature("docstring") SBMLInferUnitsConverter::getDefaultProperties "
 Returns the default properties of this converter.
 
 A given converter exposes one or more properties that can be adjusted
@@ -36503,6 +36607,14 @@ names end in @em Converter. The following are the built-in converters
 provided by libSBML @htmlinclude libsbml-version.html:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLInitialAssignmentConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
 ";
 
 
@@ -36779,7 +36891,15 @@ provided by libSBML @htmlinclude libsbml-version.html:
 ";
 
 
-%feature("docstring") SBMLLevelVersionConverter "
+%feature("docstring") SBMLLevelVersionConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
+";
+
+
+%feature("docstring") SBMLLevelVersionConverter::SBMLLevelVersionConverter "
 This method has multiple variants; they differ in the arguments
  they accept.  Each variant is described separately below.
 
@@ -36803,7 +36923,7 @@ object.
 ";
 
 
-%feature("docstring") clone "
+%feature("docstring") SBMLLevelVersionConverter::clone "
 Creates and returns a deep copy of this SBMLLevelVersionConverter
 object.
 
@@ -36811,7 +36931,7 @@ object.
 ";
 
 
-%feature("docstring") matchesProperties "
+%feature("docstring") SBMLLevelVersionConverter::matchesProperties "
 Returns @c True if this converter object\'s properties match the given
 properties.
 
@@ -36830,7 +36950,7 @@ otherwise.
 ";
 
 
-%feature("docstring") convert "
+%feature("docstring") SBMLLevelVersionConverter::convert "
 Perform the conversion.
 
 This method causes the converter to do the actual conversion work,
@@ -36850,7 +36970,7 @@ SBMLConverter.setProperties().
 ";
 
 
-%feature("docstring") getDefaultProperties "
+%feature("docstring") SBMLLevelVersionConverter::getDefaultProperties "
 Returns the default properties of this converter.
 
 A given converter exposes one or more properties that can be adjusted
@@ -36864,21 +36984,21 @@ for this converter.
 ";
 
 
-%feature("docstring") getTargetLevel "
+%feature("docstring") SBMLLevelVersionConverter::getTargetLevel "
 Returns the target SBML Level for the conversion.
 
 @return an integer indicating the SBML Level.
 ";
 
 
-%feature("docstring") getTargetVersion "
+%feature("docstring") SBMLLevelVersionConverter::getTargetVersion "
 Returns the target SBML Version for the conversion.
 
 @return an integer indicating the Version within the SBML Level.
 ";
 
 
-%feature("docstring") getValidityFlag "
+%feature("docstring") SBMLLevelVersionConverter::getValidityFlag "
 Returns the flag indicating whether the conversion has been set to \'strict\'.
 
 @return @c True if strict validity has been requested, @c False
@@ -37065,6 +37185,14 @@ names end in @em Converter. The following are the built-in converters
 provided by libSBML @htmlinclude libsbml-version.html:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLLocalParameterConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
 ";
 
 
@@ -37325,6 +37453,14 @@ names end in @em Converter. The following are the built-in converters
 provided by libSBML @htmlinclude libsbml-version.html:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLReactionConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
 ";
 
 
@@ -37687,6 +37823,14 @@ provided by libSBML @htmlinclude libsbml-version.html:
 ";
 
 
+%feature("docstring") SBMLRuleConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
+";
+
+
 %feature("docstring") SBMLRuleConverter::SBMLRuleConverter "
 This method has multiple variants; they differ in the arguments
  they accept.  Each variant is described separately below.
@@ -37946,6 +38090,14 @@ names end in @em Converter. The following are the built-in converters
 provided by libSBML @htmlinclude libsbml-version.html:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLStripPackageConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
 ";
 
 
@@ -38219,6 +38371,14 @@ names end in @em Converter. The following are the built-in converters
 provided by libSBML @htmlinclude libsbml-version.html:
 
 @copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLUnitsConverter::init "
+@internal
+Register with the ConversionRegistry.
+
+@internal
 ";
 
 
@@ -40863,11 +41023,10 @@ debugging purposes.
 
 @htmlinclude pkg-marker-core.html A node in libSBML\'s XML document tree.
 
-Beginning with version 3.0.0, libSBML implements an XML abstraction
-layer.  This layer presents a uniform XML interface to calling programs
-regardless of which underlying XML parser libSBML has actually been
-configured to use.  The basic data object in the XML abstraction is a
-@em node, represented by XMLNode.
+LibSBML implements an XML abstraction layer.  This layer presents a
+uniform XML interface to calling programs regardless of which underlying
+XML parser libSBML has actually been configured to use.  The basic data
+object in the XML abstraction is a @em node, represented by XMLNode.
 
 An XMLNode can contain any number of children.  Each child is another
 XMLNode, thereby forming a tree.  The methods XMLNode.getNumChildren()
@@ -40884,54 +41043,54 @@ XMLToken.getAttributes().
 LibSBML provides the following utility functions for converting an XML
 string (e.g., <code>&lt;annotation&gt;...&lt;/annotation&gt;</code>)
 to/from an XMLNode object.
-<ul>
-<li> XMLNode.toXMLString() returns a string representation of the XMLNode object. 
 
-<li> XMLNode.convertXMLNodeToString()
-(static function) returns a string representation 
-of the given XMLNode object.
+@li XMLNode.toXMLString() returns a string representation of the XMLNode
+object.
 
-<li> XMLNode.convertStringToXMLNode()
-(static function) returns an XMLNode object converted 
-from the given XML string.
-</ul>
+@li XMLNode.convertXMLNodeToString() (static
+function) returns a string representation of the given XMLNode object.
 
-The returned XMLNode object by XMLNode.convertStringToXMLNode()
-is a dummy root (container) XMLNode if the given XML string has two or
-more top-level elements (e.g.,
-&quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In the
-dummy root node, each top-level element in the given XML string is
+@li XMLNode.convertStringToXMLNode() (static
+function) returns an XMLNode object converted from the given XML string.
+
+The returned XMLNode object by XMLNode.convertStringToXMLNode() is a dummy root (container) XMLNode if the given XML string
+has two or more top-level elements (e.g.,
+&quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In
+the dummy root node, each top-level element in the given XML string is
 contained as a child XMLNode. XMLToken.isEOF() can be used to identify
 if the returned XMLNode object is a dummy node or not.  Here is an
-example: @if clike
-@verbatim
-// Checks if the XMLNode object returned by XMLNode.convertStringToXMLNode() is a dummy root node:
-                                                                                         
-string str = \'...\'; 
-XMLNode xn = XMLNode.convertStringToXMLNode();                                      
+example: 
+@if cpp
+@code{.cpp}
+// Checks if the XMLNode object returned by XMLNode.convertStringToXMLNode()
+// is a dummy root node:
+
+string str = \'...\';
+XMLNode xn = XMLNode.convertStringToXMLNode();
 if ( xn == None )
-{                                                                                      
-  // returned value is null (error)                                                    
+{
+  // returned value is null (error)
   ...
-}                                                                                      
-else if ( xn->isEOF() )                                                                 
-{                                                                                      
-  // root node is a dummy node                                                         
-  for ( int i = 0; i < xn->getNumChildren(); i++ )                                          
-  {                                                                                    
-    // access to each child node of the dummy node.                                    
-    XMLNode xnChild = xn->getChild(i);                                                  
-    ...                                                                                
-  }                                                                                    
-}                                                                                      
-else                                                                                   
-{                                                                                      
-  // root node is NOT a dummy node                                                     
-  ...                                                                                  
 }
-@endverbatim
-@endif@if java
-@verbatim
+else if ( xn->isEOF() )
+{
+  // Root node is a dummy node.
+  for ( int i = 0; i < xn->getNumChildren(); i++ )
+  {
+    // access to each child node of the dummy node.
+    XMLNode xnChild = xn->getChild(i);
+    ...
+  }
+}
+else
+{
+  // Root node is NOT a dummy node.
+  ...
+}
+@endcode
+@endif
+@if java
+@code{.java}
 // Checks if the returned XMLNode object is a dummy root node:
 
 String str = \'...\';
@@ -40943,7 +41102,7 @@ if ( xn == null )
 }
 else if ( xn.isEOF() )
 {
-  // root node is a dummy node
+  // Root node is a dummy node.
   for ( int i = 0; i < xn.getNumChildren(); i++ )
   {
     // access to each child node of the dummy node.
@@ -40953,12 +41112,13 @@ else if ( xn.isEOF() )
 }
 else
 {
-  // root node is NOT a dummy node
+  // Root node is NOT a dummy node.
   ...
 }
-@endverbatim
-@endif@if python
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
 xn = XMLNode.convertStringToXMLNode(\'<p></p>\')
 if xn == None:
   # Do something to handle exceptional situation.
@@ -40968,8 +41128,8 @@ elif xn.isEOF():
 
 else:
   # None is not a dummy node.
-@endverbatim
-@endif@~
+@endcode
+@endif
 ";
 
 
@@ -41162,7 +41322,7 @@ this method returns an empty node.
 
 Returns the first child of this XMLNode with the corresponding name.
 
-If no child with corrsponding name can be found, 
+If no child with corrsponding name can be found,
 this method returns an empty node.
 
 @param name the name of the node to return
@@ -41174,7 +41334,7 @@ this method returns an empty node.
 %feature("docstring") XMLNode::getIndex "
 Return the index of the first child of this XMLNode with the given name.
 
-@param name a string, the name of the child for which the 
+@param name a string, the name of the child for which the
 index is required.
 
 @return the index of the first child of this XMLNode with the given
@@ -41226,14 +41386,14 @@ is to be written.
 
 
 %feature("docstring") XMLNode::toXMLString "
-Returns a string representation of this XMLNode. 
+Returns a string representation of this XMLNode.
 
 @return a string derived from this XMLNode.
 ";
 
 
 %feature("docstring") XMLNode::convertXMLNodeToString "
-Returns a string representation of a given XMLNode. 
+Returns a string representation of a given XMLNode.
 
 @param node the XMLNode to be represented as a string
 
@@ -41427,21 +41587,113 @@ parsers (Xerces, Expat or libxml2), libSBML implements an abstraction
 layer.  XMLInputStream and XMLOutputStream are two parts of that
 abstraction layer.
 
-XMLOutputStream provides a wrapper above a standard ostream to facilitate
+XMLOutputStream provides a wrapper above output streams to facilitate
 writing XML.  XMLOutputStream keeps track of start and end elements,
 indentation, XML namespace prefixes, and more.  The interface provides
 features for converting non-text data types into appropriate textual form;
-this takes the form of overloaded <code>writeAttribute</code> methods that
-allow users to simply use the same method with any data type.  For example,
-@verbatim
+this takes the form of overloaded <code>writeAttribute(...)</code> methods
+that allow users to simply use the same method with any data type.  For
+example, suppose an element @c testElement has two attributes, @c size and
+@c id, and the attributes are variables in your code as follows:
+@if cpp
+@code{.cpp}
 double size = 3.2;
 string id = \'id\';
-@endverbatim
-can be written out using
-@verbatim
-writeAttribute(\'size\', size);
-writeAttribute(\'id\', id);
-@endverbatim
+@endcode
+@endif
+@if java
+@code
+double size = 3.2;
+String id = \'id\';
+@endcode
+@endif
+@if python
+@code
+size = 3.2;
+id = \'id\';
+@endcode
+@endif
+Then, the element and the attributes can be written to the
+standard output stream @ifnot cpp (provided as @c cout in the libSBML
+language bindings)@endif@~ as follows:
+@if cpp
+@code{.cpp}
+double size = 3.2;
+string id = \'id\';
+
+// Create an XMLOutputStream object that will write to the
+// standard output stream:
+
+XMLOutputStream xos = new XMLOutputStream(cout);
+
+// Create the start element, write the attributes, and close
+// the element.  The output will be written immediately as
+// each method is called.
+
+xos.startElement(\'testElement\')
+xos.writeAttribute(\'size\', size)
+xos.writeAttribute(\'id\', id)
+xos.endElement(\'testElement\')
+@endcode
+@endif
+@if java
+@code{.java}
+import org.sbml.libsbml.XMLOutputStream;
+import org.sbml.libsbml.libsbml;
+
+public class test
+{
+    public static void main (String[] args)
+    {
+        double size = 3.2;
+        String id = \'id\';
+
+        // Create an XMLOutputStream object that will write to the
+        // standard output stream, which is provide in libSBML\'s
+        // Java language interface as the object \'libsbml.cout\'.
+
+        XMLOutputStream xos = new XMLOutputStream(libsbml.cout);
+
+        // Create the start element, write the attributes, and close
+        // the element.  The output will be written immediately as
+        // each method is called.
+
+        xos.startElement(\'testElement\');
+        xos.writeAttribute(\'size\', size);
+        xos.writeAttribute(\'id\', id);
+        xos.endElement(\'testElement\');
+    }
+
+    static
+    {
+        System.loadLibrary(\'sbmlj\');
+    }
+}
+@endcode
+@endif
+@if python
+@code{.py}
+from libsbml import *
+
+size = 3.2;
+id = \'id\';
+
+# Create an XMLOutputStream object that will write to the standard
+# output stream, which is provide in libSBML\'s Python language
+# interface as the object \'libsbml.cout\'.  Since we imported * from
+# the libsbml module, we can simply refer to it as \'cout\' here:
+
+output_stream = XMLOutputStream(cout)
+
+# Create the start element, write the attributes, and close the
+# element.  The output is written immediately by each method.
+
+output_stream.startElement(\'testElement\')
+output_stream.writeAttribute(\'size\', size)
+output_stream.writeAttribute(\'id\', id)
+output_stream.endElement(\'testElement\')
+@endcode
+@endif
 
 Other classes in SBML take XMLOutputStream objects as arguments, and use
 that to write elements and attributes seamlessly to the XML output stream.
@@ -41889,11 +42141,29 @@ as a comment in the output stream.
 
 %feature("docstring") XMLOutputStream::downIndent "
 Decreases the indentation level for this XMLOutputStream.
+
+LibSBML tries to produce human-readable XML output by automatically
+indenting the bodies of elements.  Callers can manually control
+indentation further by using the XMLOutputStream.upIndent()
+and XMLOutputStream.downIndent() methods to increase and
+decrease, respectively, the current level of indentation in the
+XML output.
+
+@see upIndent()
 ";
 
 
 %feature("docstring") XMLOutputStream::upIndent "
 Increases the indentation level for this XMLOutputStream.
+
+LibSBML tries to produce human-readable XML output by automatically
+indenting the bodies of elements.  Callers can manually control
+indentation further by using the XMLOutputStream.upIndent()
+and XMLOutputStream.downIndent() methods to increase and
+decrease, respectively, the current level of indentation in the
+XML output.
+
+@see downIndent()
 ";
 
 
@@ -54360,7 +54630,7 @@ This method has multiple variants; they differ in the arguments
 @par
 <hr>
 <span class='variant-sig-heading'>Method variant with the following signature</span>:
- <pre class='signature'>parseRDFAnnotation(XMLNodeannotation, List *CVTerms, string metaId = None, XMLInputStream stream = None)</pre>
+ <pre class='signature'>parseRDFAnnotation(XMLNode annotation, List *CVTerms, string metaId = None, XMLInputStream stream = None)</pre>
 
 Parses an annotation (given as an XMLNode tree) into a list of
 CVTerm objects.
@@ -54386,7 +54656,7 @@ methods are functionally identical. @endif@~
 @par
 <hr>
 <span class='variant-sig-heading'>Method variant with the following signature</span>:
- <pre class='signature'>parseRDFAnnotation(XMLNodeannotation, string metaId = None, XMLInputStream stream = None)</pre>
+ <pre class='signature'>parseRDFAnnotation(XMLNode annotation, string metaId = None, XMLInputStream stream = None)</pre>
 
 Parses an annotation into a ModelHistory class instance.
 
@@ -54421,46 +54691,46 @@ created, containing MIRIAM-style annotations, and that @c sbmlObject
 is an SBML object derived from SBase (e.g., a Model, or a Species, or
 a Compartment, etc.).  Then:@if clike
 @code{.cpp}
-int success;                              // Status code variable, used below.
+int success;                              // Status code variable.
 
-XMLNodeRDF = createRDFAnnotation();     // Create RDF annotation XML structure.
+XMLNode RDF = createRDFAnnotation();     // Create XML structure.
 success = RDF->addChild(...content...);   // Put some content into it.
-...                                       // Check \'success\' return code value.
+...                                       // Check return code value.
 
-XMLNodeann = createAnnotation();        // Create <annotation> container.
-success = ann->addChild(RDF);             // Put the RDF annotation into it.
-...                                       // Check \'success\' return code value.
+XMLNode ann = createAnnotation();        // Create <annotation>.
+success = ann->addChild(RDF);             // Put the annotation into it.
+...                                       // Check return code value.
 
-success = sbmlObject->setAnnotation(ann); // Set object\'s annotation to what we built.
-...                                       // Check \'success\' return code value.
+success = sbmlObject->setAnnotation(ann); // Set object\'s annotation.
+...                                       // Check return code value.
 @endcode
 @endif@if java
 @code{.java}
-int success;                                   // Status code variable, used below.
+int success;                                   // Status code variable.
 
-XMLNode RDF = createRDFAnnotation();          // Create RDF annotation XML structure.
+XMLNode RDF = createRDFAnnotation();          // Create XML structure.
 success      = RDF.addChild(...content...);    // Put some content into it.
-...                                            // Check \'success\' return code value.
+...                                            // Check return code value.
 
-XMLNode ann = createAnnotation();             // Create <annotation> container.
-success      = ann.addChild(RDF);              // Put the RDF annotation into it.
-...                                            // Check \'success\' return code value.
+XMLNode ann = createAnnotation();             // Create <annotation>.
+success      = ann.addChild(RDF);              // Put the annotation into it.
+...                                            // Check return code value.
 
-success      = sbmlObject.setAnnotation(ann); // Set object\'s annotation to what we built.
-...                                            // Check \'success\' return code value.
+success      = sbmlObject.setAnnotation(ann); // Set object\'s annotation.
+...                                            // Check return code value.
 @endcode
 @endif@if python
 @code{.py}
-RDF     = RDFAnnotationParser.createRDFAnnotation() # Create RDF annotation XML structure.
+RDF     = RDFAnnotationParser.createRDFAnnotation() # Create XML structure.
 success = RDF.addChild(...content...)               # Put some content into it.
-...                                                 # Check \'success\' return code value.
+...                                                 # Check return code value.
 
-annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation> container.
-success = annot.addChild(RDF)                       # Put the RDF annotation into it.
-...                                                 # Check \'success\' return code value.
+annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation>.
+success = annot.addChild(RDF)                       # Put the annotation into it.
+...                                                 # Check return code value.
 
-success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation to what we built.
-...                                                 # Check \'success\' return code value.
+success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
+...                                                 # Check return code value.
 @endcode
 @endif@~
 The SBML specification contains more information about the format of
@@ -54945,7 +55215,7 @@ such as:
 
 <ul>
 <li><code> virtual void setSBMLDocument(SBMLDocument d) </code>
-<li><code> virtual void connectToParent(SBasesbase) </code>
+<li><code> virtual void connectToParent(SBase sbase) </code>
 <li><code> virtual void enablePackageInternal(string pkgURI, string pkgPrefix, bool flag) </code>
 </ul>
 
@@ -55431,7 +55701,7 @@ This method has multiple variants; they differ in the arguments
 @par
 <hr>
 <span class='variant-sig-heading'>Method variant with the following signature</span>:
- <pre class='signature'>SBMLDocumentPlugin(string &uri, string &prefix, SBMLNamespacessbmlns)</pre>
+ <pre class='signature'>SBMLDocumentPlugin(string &uri, string &prefix, SBMLNamespaces sbmlns)</pre>
 
 Constructor
 
@@ -55804,7 +56074,7 @@ value of getTypeCode() function but also that of getPackageName()
 function should be checked as follows:
 </p>
 @verbatim
-          void example (SBasesb)
+          void example (SBase sb)
           {
             string pkgName = sb->getPackageName();
             if (pkgName == \'core\') {
@@ -56381,6 +56651,14 @@ is registered, otherwise false will be returned.
 %feature("docstring") SBMLExtensionRegistry::getRegisteredPackageNames "
 Returns a list of registered packages (such as \'layout\', \'fbc\' or \'comp\')
 the list contains char* strings and has to be freed by the caller. 
+
+@return the names of the registered packages in a list
+";
+
+
+%feature("docstring") SBMLExtensionRegistry::getAllRegisteredPackageNames "
+Returns a vector of registered packages (such as \'layout\', \'fbc\' or \'comp\')
+the vector contains strings. 
 
 @return the names of the registered packages in a list
 ";
@@ -57776,7 +58054,7 @@ different programming languages, the predicate is passed in as a pointer
 to a function.  @if clike The function definition must have the type
 @link ASTNode.h::ASTNodePredicate ASTNodePredicate@endlink, which is defined as
 @code{.cpp}
-int (*ASTNodePredicate) (ASTNodenode);
+int (*ASTNodePredicate) (ASTNode node);
 @endcode
 where a return value of nonzero represents @c True and zero
 represents @c False. @endif

@@ -240,7 +240,7 @@ public class SBMLDocument extends SBase {
    <p>
    * <p>
  * This 'default Level' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.10.2
+ * Level available at the time libSBML version 5.10.3
  was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
@@ -262,7 +262,7 @@ public class SBMLDocument extends SBase {
    * <p>
  * This 'default Version' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.10.2
+ * 5.10.3
  was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
@@ -486,6 +486,17 @@ appears in the documentation.
  SBMLDocument cloneObject() {
     long cPtr = libsbmlJNI.SBMLDocument_cloneObject(swigCPtr, this);
     return (cPtr == 0) ? null : new SBMLDocument(cPtr, true);
+  }
+
+  
+/**
+  * Returns <code>true</code> if the {@link Model} object has been set, otherwise 
+  * returns <code>false.</code>
+  <p>
+  * @return <code>true</code> if the {@link Model} object has been set
+  */ public
+ boolean isSetModel() {
+    return libsbmlJNI.SBMLDocument_isSetModel(swigCPtr, this);
   }
 
   

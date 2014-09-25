@@ -214,6 +214,17 @@ public class SBMLExtensionRegistry {
 
   
 /** 
+   * Returns a vector of registered packages (such as 'layout', 'fbc' or 'comp')
+   * the vector contains Strings. 
+   <p>
+   * @return the names of the registered packages in a list
+   */ public
+ static SWIGTYPE_p_std__vectorT_std__string_t getAllRegisteredPackageNames() {
+    return new SWIGTYPE_p_std__vectorT_std__string_t(libsbmlJNI.SBMLExtensionRegistry_getAllRegisteredPackageNames(), true);
+  }
+
+  
+/** 
    * Returns the number of registered packages.
    <p>
    * @return the number of registered packages.

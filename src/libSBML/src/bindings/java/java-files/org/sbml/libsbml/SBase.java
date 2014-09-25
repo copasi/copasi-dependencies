@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  SBML's <em>%SBase</em>, the base class of most SBML objects.
+ *  SBML's SBase class, the base class of most SBML objects.
  <p>
  * Most components in SBML are derived from a single abstract base type,
  * {@link SBase}.  In addition to serving as the parent class for most other
@@ -672,7 +672,8 @@ public class SBase {
 
   
 /**
-   * Returns a list of the XML Namespaces declared on this SBML document.
+   * Returns a list of the XML Namespaces declared on the SBML document
+   * owning this object.
    <p>
    * The {@link SBMLNamespaces} object encapsulates SBML Level/Version/namespaces
    * information.  It is used to communicate the SBML Level, Version, and (in
@@ -891,12 +892,11 @@ appears in the documentation.
 
   
 /**
-   * Returns the identifiers.org URL representation of the 'sboTerm' attribute of
-   * this object.
+   * Returns the URL representation of the 'sboTerm' attribute of this
+   * object.
    <p>
-   * This method returns the entire {@link SBO}
-   * identifier as a text string in the form 
-   * 'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'.
+   * This method returns the entire {@link SBO} identifier as a text string in the
+   * form <code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://identifiers.org/biomodels.sbo/SBO:NNNNNNN'</code>.
    <p>
    * {@link SBO} terms are a type of optional annotation, and each different class
    * of SBML object derived from {@link SBase} imposes its own requirements about
@@ -904,10 +904,8 @@ appears in the documentation.
    * Level&nbsp;2 Version&nbsp;4 specification for more information about
    * the use of {@link SBO} and the 'sboTerm' attribute.
    <p>
-   * @return the value of the 'sboTerm' attribute as an identifiers.org URL
-   * (its value will be of the form 
-   * 'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'), or an empty string if
-   * the value is not set.
+   * @return the value of the 'sboTerm' attribute as an identifiers.org URL,
+   * or an empty string if the value is not set.
    */ public
  String getSBOTermAsURL() {
     return libsbmlJNI.SBase_getSBOTermAsURL(swigCPtr, this);
@@ -2667,19 +2665,18 @@ void example (SBase sb)
 
   
 /**
-   * Predicate returning <code>true</code> if this
-   * object's level/version and namespace values correspond to a valid
-   * SBML specification.
+   * Predicate returning <code>true</code> if this object's level/version and namespace
+   * values correspond to a valid SBML specification.
    <p>
    * The valid combinations of SBML Level, Version and Namespace as of this
    * release of libSBML are the following:
    * <ul>
-   * <li> Level&nbsp;1 Version&nbsp;2: <code>'http://www.sbml.org/sbml/level1'</code>
-   * <li> Level&nbsp;2 Version&nbsp;1: <code>'http://www.sbml.org/sbml/level2'</code>
-   * <li> Level&nbsp;2 Version&nbsp;2: <code>'http://www.sbml.org/sbml/level2/version2'</code>
-   * <li> Level&nbsp;2 Version&nbsp;3: <code>'http://www.sbml.org/sbml/level2/version3'</code>
-   * <li> Level&nbsp;2 Version&nbsp;4: <code>'http://www.sbml.org/sbml/level2/version4'</code>
-   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code>'http://www.sbml.org/sbml/level3/version1/core'</code>
+   * <li> Level&nbsp;1 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level1'</code>
+   * <li> Level&nbsp;2 Version&nbsp;1: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2'</code>
+   * <li> Level&nbsp;2 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version2'</code>
+   * <li> Level&nbsp;2 Version&nbsp;3: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version3'</code>
+   * <li> Level&nbsp;2 Version&nbsp;4: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version4'</code>
+   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level3/version1/core'</code>
    * </ul>
    <p>
    * @return <code>true</code> if the level, version and namespace values of this 
@@ -2758,6 +2755,8 @@ void example (SBase sb)
    <p>
    * @return the plug-in object (the libSBML extension interface) of
    * a package extension with the given package name or URI.
+   <p>
+   * @see #getPlugin(long n)
    */ public
  SBasePlugin getPlugin(String arg0) {
 	return libsbml.DowncastSBasePlugin(libsbmlJNI.SBase_getPlugin__SWIG_0(swigCPtr, this, arg0), false);
@@ -2785,11 +2784,46 @@ void example (SBase sb)
    <p>
    * @param n the index of the plug-in to return
    <p>
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
+   * @return the nth plug-in object (the libSBML extension interface) of a
+   * package extension.
+   <p>
+   * @see #getNumPlugins()
+   * @see #getPlugin(String)
    */ public
  SBasePlugin getPlugin(long n) {
 	return libsbml.DowncastSBasePlugin(libsbmlJNI.SBase_getPlugin__SWIG_2(swigCPtr, this, n), false);
+}
+
+  
+/**
+   * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension.
+   <p>
+   * <p>
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+   <p>
+   * @param n the index of the disabled plug-in to return
+   <p>
+   * @return the nth disabled plug-in object (the libSBML extension interface) of a
+   * package extension.
+   <p>
+   * @see #getNumDisabledPlugins()
+   * @see #getPlugin(String)
+   */ public
+ SBasePlugin getDisabledPlugin(long n) {
+	return libsbml.DowncastSBasePlugin(libsbmlJNI.SBase_getDisabledPlugin__SWIG_0(swigCPtr, this, n), false);
 }
 
   
@@ -2814,9 +2848,64 @@ void example (SBase sb)
    <p>
    * @return the number of plug-in objects (extension interfaces) of
    * package extensions known by this instance of libSBML.
+   <p>
+   * @see #getPlugin(long n)
    */ public
  long getNumPlugins() {
     return libsbmlJNI.SBase_getNumPlugins(swigCPtr, this);
+  }
+
+  
+/**
+   * Returns the number of disabled plug-in objects (extenstion interfaces) 
+   * for SBML Level&nbsp;3 package extensions known.
+   <p>
+   * <p>
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+   <p>
+   * @return the number of disabled plug-in objects (extension interfaces) 
+   * of package extensions known by this instance of libSBML.
+   */ public
+ long getNumDisabledPlugins() {
+    return libsbmlJNI.SBase_getNumDisabledPlugins(swigCPtr, this);
+  }
+
+  
+/** 
+   * Deletes all information stored in disabled plugins. 
+   <p>
+   * @param recursive if <code>true</code>, the disabled information will be deleted
+   * also from all child elements, otherwise only from this {@link SBase} element.
+   <p>
+   * @see #getNumDisabledPlugins()
+   */ public
+ void deleteDisabledPlugins(boolean recursive) {
+    libsbmlJNI.SBase_deleteDisabledPlugins__SWIG_0(swigCPtr, this, recursive);
+  }
+
+  
+/** 
+   * Deletes all information stored in disabled plugins. 
+   <p>
+   * @param recursive if <code>true</code>, the disabled information will be deleted
+   * also from all child elements, otherwise only from this {@link SBase} element.
+   <p>
+   * @see #getNumDisabledPlugins()
+   */ public
+ void deleteDisabledPlugins() {
+    libsbmlJNI.SBase_deleteDisabledPlugins__SWIG_1(swigCPtr, this);
   }
 
   

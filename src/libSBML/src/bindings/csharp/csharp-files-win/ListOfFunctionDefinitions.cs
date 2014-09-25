@@ -186,7 +186,7 @@ public class ListOfFunctionDefinitions : ListOf {
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION@endlink (default).
+   * @link libsbml#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

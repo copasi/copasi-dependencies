@@ -522,11 +522,11 @@ SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
 if (doc.getNumErrors() > 0)
 {
-    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileUnreadable)
     {
         // Handle case of unreadable file here.
     }
-    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    else if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileOperationError)
     {
         // Handle case of other file operation error here.
     }
@@ -699,11 +699,11 @@ SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
 if (doc.getNumErrors() > 0)
 {
-    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileUnreadable)
     {
         // Handle case of unreadable file here.
     }
-    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    else if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileOperationError)
     {
         // Handle case of other file operation error here.
     }
@@ -989,8 +989,8 @@ if (doc.getNumErrors() > 0)
  * This function behaves exactly like C's <code>==</code> operator, except
  * for the following two cases:
  * <ul>
-  * <li>@link libsbmlcs#UNIT_KIND_LITER UNIT_KIND_LITER@endlink <code>==</code> @link libsbmlcs#UNIT_KIND_LITRE UNIT_KIND_LITRE@endlink
- * <li>@link libsbmlcs#UNIT_KIND_METER UNIT_KIND_METER@endlink <code>==</code> @link libsbmlcs#UNIT_KIND_METRE UNIT_KIND_METRE@endlink
+  * <li>@link libsbml#UNIT_KIND_LITER UNIT_KIND_LITER@endlink <code>==</code> @link libsbml#UNIT_KIND_LITRE UNIT_KIND_LITRE@endlink
+ * <li>@link libsbml#UNIT_KIND_METER UNIT_KIND_METER@endlink <code>==</code> @link libsbml#UNIT_KIND_METRE UNIT_KIND_METRE@endlink
  * </ul>
  *
  * In the two cases above, C equality comparison would yield @c false
@@ -1612,12 +1612,12 @@ if (doc.getNumErrors() > 0)
  *
  * Again, as mentioned above, whether the string
  * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
- * @link libsbmlcs#AST_NAME AST_NAME@endlink is configurable; use the version of
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
+ * @link libsbml#AST_NAME AST_NAME@endlink is configurable; use the version of
  * the parser function called @sbmlfunction{parseL3FormulaWithSettings,
  * String\, L3ParserSettings}.  This Avogadro-related
  * functionality is provided because SBML Level&nbsp;2 models may not use
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
  *
  *
  *
@@ -2045,12 +2045,12 @@ if (doc.getNumErrors() > 0)
  *
  * Again, as mentioned above, whether the string
  * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
- * @link libsbmlcs#AST_NAME AST_NAME@endlink is configurable; use the version of
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
+ * @link libsbml#AST_NAME AST_NAME@endlink is configurable; use the version of
  * the parser function called @sbmlfunction{parseL3FormulaWithSettings,
  * String\, L3ParserSettings}.  This Avogadro-related
  * functionality is provided because SBML Level&nbsp;2 models may not use
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
  *
  *
  *
@@ -2162,7 +2162,7 @@ if (doc.getNumErrors() > 0)
  * &quot;<code>- -3</code>&quot;) from the input and incorporate single unary
  * minuses into the number node, or (2) preserve all minuses in the AST node
  * structure, turning them into ASTNode objects of type
- * @link libsbmlcs#AST_MINUS AST_MINUS@endlink.
+ * @link libsbml#AST_MINUS AST_MINUS@endlink.
  * @li The character sequence &quot;<code>number id</code>&quot; can be
  * interpreted as a numerical value @c number followed by units of measurement
  * indicated by @c id, or it can be treated as a syntax error.  (In
@@ -2175,8 +2175,8 @@ if (doc.getNumErrors() > 0)
  * @li The symbol @c avogadro can be parsed either as a MathML @em csymbol or
  * as a identifier.  More specifically, &quot;<code>avogadro</code>&quot; can
  * be treated as an ASTNode of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or of type
- * @link libsbmlcs#AST_NAME AST_NAME@endlink.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or of type
+ * @link libsbml#AST_NAME AST_NAME@endlink.
  * @li Strings that match built-in functions and constants can either be parsed
  * as a match regardless of capitalization, or may be required to be
  * all-lower-case to be considered a match.  
@@ -2438,12 +2438,12 @@ if (doc.getNumErrors() > 0)
  *
  * Again, as mentioned above, whether the string
  * &quot;<code>avogadro</code>&quot; is parsed as an AST node of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
- * @link libsbmlcs#AST_NAME AST_NAME@endlink is configurable; use the version of
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or
+ * @link libsbml#AST_NAME AST_NAME@endlink is configurable; use the version of
  * the parser function called @sbmlfunction{parseL3FormulaWithSettings,
  * String\, L3ParserSettings}.  This Avogadro-related
  * functionality is provided because SBML Level&nbsp;2 models may not use
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink AST nodes.
  *
  *
  *
@@ -2493,9 +2493,9 @@ if (doc.getNumErrors() > 0)
     return ret;
   }
 
-  public const string LIBSBML_DOTTED_VERSION = "5.10.2";
-  public const int LIBSBML_VERSION = 51002;
-  public const string LIBSBML_VERSION_STRING = "51002";
+  public const string LIBSBML_DOTTED_VERSION = "5.10.3";
+  public const int LIBSBML_VERSION = 51003;
+  public const string LIBSBML_VERSION_STRING = "51003";
   // OperationReturnValues_t 
   public const int LIBSBML_OPERATION_SUCCESS = 0;
   public const int LIBSBML_INDEX_EXCEEDS_SIZE = -1;

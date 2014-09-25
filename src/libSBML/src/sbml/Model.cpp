@@ -4778,7 +4778,7 @@ Model::getSubstanceUD()
       Unit* uFromModel = getUnitDefinition("substance")->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -4823,7 +4823,7 @@ Model::getL3SubstanceUD()
       Unit* uFromModel = getUnitDefinition(substanceUnits)->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -4881,7 +4881,7 @@ Model::getTimeUD()
       Unit* uFromModel = getUnitDefinition("time")->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -4926,7 +4926,7 @@ Model::getL3TimeUD()
       Unit* uFromModel = getUnitDefinition(timeUnits)->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -4984,7 +4984,7 @@ Model::getVolumeUD()
       Unit* uFromModel = getUnitDefinition("volume")->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -5029,7 +5029,7 @@ Model::getL3VolumeUD()
       Unit* uFromModel = getUnitDefinition(volumeUnits)->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -5087,7 +5087,7 @@ Model::getAreaUD()
       Unit* uFromModel = getUnitDefinition("area")->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -5133,7 +5133,7 @@ Model::getL3AreaUD()
       Unit* uFromModel = getUnitDefinition(areaUnits)->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -5191,7 +5191,7 @@ Model::getLengthUD()
       Unit* uFromModel = getUnitDefinition("length")->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -5236,7 +5236,7 @@ Model::getL3LengthUD()
       Unit* uFromModel = getUnitDefinition(lengthUnits)->getUnit(n);
       if (uFromModel  != NULL)
       {
-        ud->addUnit(uFromModel->clone());
+        ud->addUnit(uFromModel);
       }
     }
   }
@@ -5435,7 +5435,7 @@ Model::createCompartmentUnitsData()
 {
   UnitDefinition *ud = NULL;
   FormulaUnitsData *fud = NULL;
-  UnitFormulaFormatter *unitFormatter = new UnitFormulaFormatter(this);
+  UnitFormulaFormatter unitFormatter = this;
   
   for (unsigned int n = 0; n < getNumCompartments(); n++)
   {
@@ -5445,7 +5445,7 @@ Model::createCompartmentUnitsData()
     fud->setUnitReferenceId(c->getId());
     fud->setComponentTypecode(SBML_COMPARTMENT);
     
-    ud = unitFormatter->getUnitDefinitionFromCompartment(c);
+    ud = unitFormatter.getUnitDefinitionFromCompartment(c);
     
     if (ud->getNumUnits() == 0)
     {
@@ -5468,7 +5468,7 @@ Model::createSpeciesUnitsData()
 {
   UnitDefinition *ud = NULL;
   FormulaUnitsData *fud = NULL;
-  UnitFormulaFormatter *unitFormatter = new UnitFormulaFormatter(this);
+  UnitFormulaFormatter unitFormatter = this;
 
   for (unsigned int n=0; n < getNumSpecies(); n++)
   {
@@ -5486,7 +5486,7 @@ Model::createSpeciesUnitsData()
     }
     else
     {
-      ud = unitFormatter->getUnitDefinitionFromSpecies(s);
+      ud = unitFormatter.getUnitDefinitionFromSpecies(s);
     }
 
     if (ud->getNumUnits() == 0)
@@ -5510,20 +5510,20 @@ Model::createL3SpeciesUnitsData()
 {
   UnitDefinition *ud = NULL;
   FormulaUnitsData *fud = NULL;
-  UnitFormulaFormatter *unitFormatter = new UnitFormulaFormatter(this);
+  UnitFormulaFormatter unitFormatter = this;
   
   for (unsigned int n=0; n < getNumSpecies(); n++)
   {
     Species* s = getSpecies(n);
 
     /* create the substance unit */
-    unitFormatter->resetFlags();
+    unitFormatter.resetFlags();
 
     fud = createFormulaUnitsData();
     fud->setUnitReferenceId(s->getId()+"subs");
     fud->setComponentTypecode(SBML_SPECIES);
     
-    ud = unitFormatter->getSpeciesSubstanceUnitDefinition(s);
+    ud = unitFormatter.getSpeciesSubstanceUnitDefinition(s);
    
     if (ud->getNumUnits() == 0)
     {
@@ -5533,21 +5533,21 @@ Model::createL3SpeciesUnitsData()
     else
     {
       fud->setContainsParametersWithUndeclaredUnits
-                              (unitFormatter->getContainsUndeclaredUnits());
+                              (unitFormatter.getContainsUndeclaredUnits());
       fud->setCanIgnoreUndeclaredUnits
-                                (unitFormatter->canIgnoreUndeclaredUnits());
+                                (unitFormatter.canIgnoreUndeclaredUnits());
     }
 
     fud->setSpeciesSubstanceUnitDefinition(ud);
 
     /* create the extent unit */
-    unitFormatter->resetFlags();
+    unitFormatter.resetFlags();
     
     fud = createFormulaUnitsData();
     fud->setUnitReferenceId(s->getId()+"extent");
     fud->setComponentTypecode(SBML_SPECIES);
     
-    ud = unitFormatter->getSpeciesExtentUnitDefinition(s);
+    ud = unitFormatter.getSpeciesExtentUnitDefinition(s);
     
     if (ud->getNumUnits() == 0)
     {
@@ -5557,9 +5557,9 @@ Model::createL3SpeciesUnitsData()
     else
     {
       fud->setContainsParametersWithUndeclaredUnits
-                              (unitFormatter->getContainsUndeclaredUnits());
+                              (unitFormatter.getContainsUndeclaredUnits());
       fud->setCanIgnoreUndeclaredUnits
-                                (unitFormatter->canIgnoreUndeclaredUnits());
+                                (unitFormatter.canIgnoreUndeclaredUnits());
     }
       
     fud->setSpeciesExtentUnitDefinition(ud);
@@ -5576,26 +5576,26 @@ Model::createParameterUnitsData()
 {
   UnitDefinition *ud = NULL;
   FormulaUnitsData *fud = NULL;
-  UnitFormulaFormatter *unitFormatter = new UnitFormulaFormatter(this);
+  UnitFormulaFormatter unitFormatter = this;
   
   for (unsigned int n=0; n < getNumParameters(); n++)
   {
     Parameter* p = getParameter(n);
     
-    unitFormatter->resetFlags();
+    unitFormatter.resetFlags();
 
     fud = createFormulaUnitsData();
     fud->setUnitReferenceId(p->getId());
     fud->setComponentTypecode(SBML_PARAMETER);
     
-    unitFormatter->resetFlags();
-    ud = unitFormatter->getUnitDefinitionFromParameter(p);
+    unitFormatter.resetFlags();
+    ud = unitFormatter.getUnitDefinitionFromParameter(p);
     
     fud->setUnitDefinition(ud);
     fud->setContainsParametersWithUndeclaredUnits
-                                (unitFormatter->getContainsUndeclaredUnits());
+                                (unitFormatter.getContainsUndeclaredUnits());
     fud->setCanIgnoreUndeclaredUnits
-                                  (unitFormatter->canIgnoreUndeclaredUnits());
+                                  (unitFormatter.canIgnoreUndeclaredUnits());
 
     populatePerTimeUnitDefinition(fud);
   }

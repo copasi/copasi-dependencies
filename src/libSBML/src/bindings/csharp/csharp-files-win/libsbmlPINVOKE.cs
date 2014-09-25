@@ -855,8 +855,20 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_getPlugin__SWIG_2")]
   public static extern IntPtr SBase_getPlugin__SWIG_2(HandleRef jarg1, long jarg2);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_getDisabledPlugin__SWIG_0")]
+  public static extern IntPtr SBase_getDisabledPlugin__SWIG_0(HandleRef jarg1, long jarg2);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_getNumPlugins")]
   public static extern uint SBase_getNumPlugins(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_getNumDisabledPlugins")]
+  public static extern uint SBase_getNumDisabledPlugins(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_deleteDisabledPlugins__SWIG_0")]
+  public static extern void SBase_deleteDisabledPlugins__SWIG_0(HandleRef jarg1, bool jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_deleteDisabledPlugins__SWIG_1")]
+  public static extern void SBase_deleteDisabledPlugins__SWIG_1(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_enablePackage")]
   public static extern int SBase_enablePackage(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2, [MarshalAs(UnmanagedType.LPWStr)]string jarg3, bool jarg4);
@@ -1648,6 +1660,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_clone")]
   public static extern IntPtr SBMLDocument_clone(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_isSetModel")]
+  public static extern bool SBMLDocument_isSetModel(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_getModel__SWIG_0")]
   public static extern IntPtr SBMLDocument_getModel__SWIG_0(HandleRef jarg1);
@@ -6560,24 +6575,24 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_clone")]
   public static extern IntPtr CVTerm_clone(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getQualifierType")]
-  public static extern int CVTerm_getQualifierType(HandleRef jarg1);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getQualifierType__SWIG_0")]
+  public static extern int CVTerm_getQualifierType__SWIG_0(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getModelQualifierType")]
-  public static extern int CVTerm_getModelQualifierType(HandleRef jarg1);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getModelQualifierType__SWIG_0")]
+  public static extern int CVTerm_getModelQualifierType__SWIG_0(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getBiologicalQualifierType")]
-  public static extern int CVTerm_getBiologicalQualifierType(HandleRef jarg1);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getBiologicalQualifierType__SWIG_0")]
+  public static extern int CVTerm_getBiologicalQualifierType__SWIG_0(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getResources__SWIG_0")]
   public static extern IntPtr CVTerm_getResources__SWIG_0(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getNumResources")]
-  public static extern uint CVTerm_getNumResources(HandleRef jarg1);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getNumResources__SWIG_0")]
+  public static extern uint CVTerm_getNumResources__SWIG_0(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getResourceURI")]
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getResourceURI__SWIG_0")]
   [return: MarshalAs(UnmanagedType.LPWStr)]
-  public static extern string CVTerm_getResourceURI(HandleRef jarg1, long jarg2);
+  public static extern string CVTerm_getResourceURI__SWIG_0(HandleRef jarg1, long jarg2);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_setQualifierType")]
   public static extern int CVTerm_setQualifierType(HandleRef jarg1, int jarg2);
@@ -6600,8 +6615,8 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_removeResource")]
   public static extern int CVTerm_removeResource(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_hasRequiredAttributes")]
-  public static extern bool CVTerm_hasRequiredAttributes(HandleRef jarg1);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_hasRequiredAttributes__SWIG_0")]
+  public static extern bool CVTerm_hasRequiredAttributes__SWIG_0(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_hasBeenModified")]
   public static extern bool CVTerm_hasBeenModified(HandleRef jarg1);
@@ -7209,6 +7224,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLExtensionRegistry_isRegistered")]
   public static extern bool SBMLExtensionRegistry_isRegistered(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLExtensionRegistry_getAllRegisteredPackageNames")]
+  public static extern IntPtr SBMLExtensionRegistry_getAllRegisteredPackageNames();
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLExtensionRegistry_getNumRegisteredPackages")]
   public static extern uint SBMLExtensionRegistry_getNumRegisteredPackages();

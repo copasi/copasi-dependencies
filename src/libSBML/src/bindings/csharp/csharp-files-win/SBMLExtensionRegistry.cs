@@ -80,9 +80,9 @@ public class SBMLExtensionRegistry : IDisposable {
    *   
    * @return integer value indicating success/failure of the
    * function.  The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int addExtension(SBMLExtension ext) {
     int ret = libsbmlPINVOKE.SBMLExtensionRegistry_addExtension(swigCPtr, SBMLExtension.getCPtr(ext));
@@ -222,6 +222,18 @@ public class SBMLExtensionRegistry : IDisposable {
    */ public
  bool isRegistered(string uri) {
     bool ret = libsbmlPINVOKE.SBMLExtensionRegistry_isRegistered(swigCPtr, uri);
+    return ret;
+  }
+
+  
+/** 
+   * Returns a vector of registered packages (such as 'layout', 'fbc' or 'comp')
+   * the vector contains strings. 
+   * 
+   * @return the names of the registered packages in a list
+   */ public
+ static SWIGTYPE_p_std__vectorT_std__string_t getAllRegisteredPackageNames() {
+    SWIGTYPE_p_std__vectorT_std__string_t ret = new SWIGTYPE_p_std__vectorT_std__string_t(libsbmlPINVOKE.SBMLExtensionRegistry_getAllRegisteredPackageNames(), true);
     return ret;
   }
 

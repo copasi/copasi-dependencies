@@ -238,11 +238,11 @@ namespace libsbml {
  * that work @if clike a libSBML enumeration type, RuleType_t, whose values
  * are @else with the enumeration values @endif listed below.
  *
- * @li @link libsbmlcs#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
+ * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
  * the rule is a 'rate' rule.
- * @li @link libsbmlcs#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
+ * @li @link libsbml#RULE_TYPE_SCALAR RULE_TYPE_SCALAR@endlink:
  * Indicates the rule is a 'scalar' rule.
- * @li @link libsbmlcs#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
+ * @li @link libsbml#RULE_TYPE_INVALID RULE_TYPE_INVALID@endlink:
  * Indicates the rule type is unknown or not yet set.
  *
  *

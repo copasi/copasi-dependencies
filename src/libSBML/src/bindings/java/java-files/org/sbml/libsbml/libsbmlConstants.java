@@ -9,9 +9,9 @@
 package org.sbml.libsbml;
 
 public interface libsbmlConstants {
-  public final static String LIBSBML_DOTTED_VERSION = "5.10.2";
-  public final static int LIBSBML_VERSION = 51002;
-  public final static String LIBSBML_VERSION_STRING = "51002";
+  public final static String LIBSBML_DOTTED_VERSION = "5.10.3";
+  public final static int LIBSBML_VERSION = 51003;
+  public final static String LIBSBML_VERSION_STRING = "51003";
   // OperationReturnValues_t 
   public final static int LIBSBML_OPERATION_SUCCESS = 0;
   public final static int LIBSBML_INDEX_EXCEEDS_SIZE = -1;

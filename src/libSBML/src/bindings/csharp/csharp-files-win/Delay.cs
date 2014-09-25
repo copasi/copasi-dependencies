@@ -321,8 +321,8 @@ public class Delay : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t.  @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.Delay_setMath(swigCPtr, ASTNode.getCPtr(math));
@@ -451,7 +451,7 @@ public class Delay : SBase {
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_DELAY SBML_DELAY@endlink (default).
+   * @link libsbml#SBML_DELAY SBML_DELAY@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -511,8 +511,8 @@ public class Delay : SBase {
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int removeFromParentAndDelete() {
     int ret = libsbmlPINVOKE.Delay_removeFromParentAndDelete(swigCPtr);

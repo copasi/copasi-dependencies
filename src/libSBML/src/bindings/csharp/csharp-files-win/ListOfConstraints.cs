@@ -186,7 +186,7 @@ public class ListOfConstraints : ListOf {
  *
    * 
    * @return the SBML type code for the objects contained in this ListOf
-   * instance: @link libsbmlcs#SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
+   * instance: @link libsbml#SBML_CONSTRAINT SBML_CONSTRAINT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

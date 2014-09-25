@@ -242,11 +242,11 @@ SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
 if (doc.getNumErrors() > 0)
 {
-    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileUnreadable)
     {
         // Handle case of unreadable file here.
     }
-    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    else if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileOperationError)
     {
         // Handle case of other file operation error here.
     }
@@ -446,11 +446,11 @@ SBMLDocument doc  = reader.readSBMLFromFile(filename);
 
 if (doc.getNumErrors() > 0)
 {
-    if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileUnreadable)
+    if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileUnreadable)
     {
         // Handle case of unreadable file here.
     }
-    else if (doc.getError(0).getErrorId() == libsbmlcs.libsbml.XMLFileOperationError)
+    else if (doc.getError(0).getErrorId() == libsbml.libsbml.XMLFileOperationError)
     {
         // Handle case of other file operation error here.
     }

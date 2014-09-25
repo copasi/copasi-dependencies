@@ -269,9 +269,9 @@ public class CVTerm : IDisposable {
  * 
    *
    * This method creates an empty CVTerm object.  The possible qualifier
-   * types usable as values of @p type are @link libsbmlcs#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link libsbmlcs#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If
+   * types usable as values of @p type are @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If
    * an explicit value for @p type is not given, this method defaults to
-   * using @link libsbmlcs#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier type@endif 
+   * using @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier type@endif 
    * can be set later using the
    * CVTerm::setQualifierType(@if java int@endif) method.
    *
@@ -315,9 +315,9 @@ public class CVTerm : IDisposable {
  * 
    *
    * This method creates an empty CVTerm object.  The possible qualifier
-   * types usable as values of @p type are @link libsbmlcs#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link libsbmlcs#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If
+   * types usable as values of @p type are @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If
    * an explicit value for @p type is not given, this method defaults to
-   * using @link libsbmlcs#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier type@endif 
+   * using @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier type@endif 
    * can be set later using the
    * CVTerm::setQualifierType(@if java int@endif) method.
    *
@@ -447,9 +447,9 @@ public class CVTerm : IDisposable {
    * the CVTerm class is concerned).  Consequently, this method will return
    * one of the following values:
    * 
-   * @li @link libsbmlcs#MODEL_QUALIFIER MODEL_QUALIFIER@endlink
-   * @li @link libsbmlcs#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink
-   * @li @link libsbmlcs#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
+   * @li @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink
+   * @li @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink
+   * @li @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
    *
    * The specific relationship of this CVTerm to the enclosing SBML object
    * can be determined using the CVTerm methods such as
@@ -459,7 +459,7 @@ public class CVTerm : IDisposable {
    * relationship.
    *
    * @return the @if clike #QualifierType_t value@else qualifier type@endif
-   * of this object or @link libsbmlcs#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
+   * of this object or @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
    * (the default).
    *
    * @see getResources()
@@ -467,7 +467,7 @@ public class CVTerm : IDisposable {
    * @see getBiologicalQualifierType()
    */ public
  int getQualifierType() {
-    int ret = libsbmlPINVOKE.CVTerm_getQualifierType(swigCPtr);
+    int ret = libsbmlPINVOKE.CVTerm_getQualifierType__SWIG_0(swigCPtr);
     return ret;
   }
 
@@ -525,20 +525,20 @@ public class CVTerm : IDisposable {
    * <br> The set of known model qualifiers is, at the time of this libSBML
    * release, the following:
    *
-   * @li @link libsbmlcs#BQM_IS BQM_IS@endlink
-   * @li @link libsbmlcs#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY@endlink
-   * @li @link libsbmlcs#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM@endlink
+   * @li @link libsbml#BQM_IS BQM_IS@endlink
+   * @li @link libsbml#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY@endlink
+   * @li @link libsbml#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM@endlink
    *
    * Any other BioModels.net qualifier found in the model is considered
    * unknown by libSBML and reported as
-   * @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink.
+   * @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
    *
    * @return the @if clike #ModelQualifierType_t value@else model qualifier type@endif
-   * of this object or @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink
+   * of this object or @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink
    * (the default).
    */ public
  int getModelQualifierType() {
-    int ret = libsbmlPINVOKE.CVTerm_getModelQualifierType(swigCPtr);
+    int ret = libsbmlPINVOKE.CVTerm_getModelQualifierType__SWIG_0(swigCPtr);
     return ret;
   }
 
@@ -596,29 +596,29 @@ public class CVTerm : IDisposable {
    * <br> The set of known biological qualifiers is, at the time of this
    * libSBML release, the following:
    *
-   * @li @link libsbmlcs#BQB_IS BQB_IS@endlink
-   * @li @link libsbmlcs#BQB_HAS_PART BQB_HAS_PART@endlink
-   * @li @link libsbmlcs#BQB_IS_PART_OF BQB_IS_PART_OF@endlink
-   * @li @link libsbmlcs#BQB_IS_VERSION_OF BQB_IS_VERSION_OF@endlink
-   * @li @link libsbmlcs#BQB_HAS_VERSION BQB_HAS_VERSION@endlink
-   * @li @link libsbmlcs#BQB_IS_HOMOLOG_TO BQB_IS_HOMOLOG_TO@endlink
-   * @li @link libsbmlcs#BQB_IS_DESCRIBED_BY BQB_IS_DESCRIBED_BY@endlink
-   * @li @link libsbmlcs#BQB_IS_ENCODED_BY BQB_IS_ENCODED_BY@endlink
-   * @li @link libsbmlcs#BQB_ENCODES BQB_ENCODES@endlink
-   * @li @link libsbmlcs#BQB_OCCURS_IN BQB_OCCURS_IN@endlink
-   * @li @link libsbmlcs#BQB_HAS_PROPERTY BQB_HAS_PROPERTY@endlink
-   * @li @link libsbmlcs#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF@endlink
+   * @li @link libsbml#BQB_IS BQB_IS@endlink
+   * @li @link libsbml#BQB_HAS_PART BQB_HAS_PART@endlink
+   * @li @link libsbml#BQB_IS_PART_OF BQB_IS_PART_OF@endlink
+   * @li @link libsbml#BQB_IS_VERSION_OF BQB_IS_VERSION_OF@endlink
+   * @li @link libsbml#BQB_HAS_VERSION BQB_HAS_VERSION@endlink
+   * @li @link libsbml#BQB_IS_HOMOLOG_TO BQB_IS_HOMOLOG_TO@endlink
+   * @li @link libsbml#BQB_IS_DESCRIBED_BY BQB_IS_DESCRIBED_BY@endlink
+   * @li @link libsbml#BQB_IS_ENCODED_BY BQB_IS_ENCODED_BY@endlink
+   * @li @link libsbml#BQB_ENCODES BQB_ENCODES@endlink
+   * @li @link libsbml#BQB_OCCURS_IN BQB_OCCURS_IN@endlink
+   * @li @link libsbml#BQB_HAS_PROPERTY BQB_HAS_PROPERTY@endlink
+   * @li @link libsbml#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF@endlink
    *
    * Any other BioModels.net qualifier found in the model is considered
    * unknown by libSBML and reported as
-   * @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink.
+   * @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
    *
    * @return the @if clike #BiolQualifierType_t value@else biology qualifier type@endif
-   * of this object or @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink
+   * of this object or @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink
    * (the default).
    */ public
  int getBiologicalQualifierType() {
-    int ret = libsbmlPINVOKE.CVTerm_getBiologicalQualifierType(swigCPtr);
+    int ret = libsbmlPINVOKE.CVTerm_getBiologicalQualifierType__SWIG_0(swigCPtr);
     return ret;
   }
 
@@ -724,7 +724,7 @@ public class CVTerm : IDisposable {
    * @see getResources()
    * @see getResourceURI(long n)
    */ public
- long getNumResources() { return (long)libsbmlPINVOKE.CVTerm_getNumResources(swigCPtr); }
+ long getNumResources() { return (long)libsbmlPINVOKE.CVTerm_getNumResources__SWIG_0(swigCPtr); }
 
   
 /**
@@ -778,7 +778,7 @@ public class CVTerm : IDisposable {
    * @see getQualifierType()
    */ public
  string getResourceURI(long n) {
-    string ret = libsbmlPINVOKE.CVTerm_getResourceURI(swigCPtr, n);
+    string ret = libsbmlPINVOKE.CVTerm_getResourceURI__SWIG_0(swigCPtr, n);
     return ret;
   }
 
@@ -789,7 +789,7 @@ public class CVTerm : IDisposable {
    *
    * @param type the @if clike #QualifierType_t value@else qualifier type@endif.
    * The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getQualifierType()
    */ public
@@ -807,13 +807,13 @@ public class CVTerm : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function. The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
-   * @link libsbmlcs#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
+   * @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
    * then the ModelQualifierType_t value will default to
-   * @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink.
+   * @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
    *
    * @see getQualifierType()
    * @see setQualifierType(@if java int@endif)
@@ -832,13 +832,13 @@ public class CVTerm : IDisposable {
    *
    * @return integer value indicating success/failure of the
    * function. The possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
-   * @link libsbmlcs#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
+   * @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
    * then the @if clike #BiolQualifierType_t value@else biology qualifier type@endif will default
-   * to @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink.
+   * to @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
    *
    * @see getQualifierType()
    * @see setQualifierType(@if java int@endif)
@@ -857,13 +857,13 @@ public class CVTerm : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
-   * @link libsbmlcs#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
+   * @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
    * then the ModelQualifierType_t value will default to
-   * @link libsbmlcs#BQM_UNKNOWN BQM_UNKNOWN@endlink.
+   * @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
    *
    * @see getQualifierType()
    * @see setQualifierType(@if java int@endif)
@@ -883,13 +883,13 @@ public class CVTerm : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
-   * @link libsbmlcs#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
+   * @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
    * then the @if clike #BiolQualifierType_t@endif@if java biology qualifier type code@endif value will default
-   * to @link libsbmlcs#BQB_UNKNOWN BQB_UNKNOWN@endlink.
+   * to @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
    *
    * @see getQualifierType()
    * @see setQualifierType(@if java int@endif)
@@ -980,8 +980,8 @@ public class CVTerm : IDisposable {
    *
    * @return integer value indicating success/failure of the call. The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getResources()
    * @see removeResource(string resource)
@@ -1005,8 +1005,8 @@ public class CVTerm : IDisposable {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see addResource(string resource)
    */ public
@@ -1025,7 +1025,7 @@ public class CVTerm : IDisposable {
    * @li at least one resource
    */ public
  bool hasRequiredAttributes() {
-    bool ret = libsbmlPINVOKE.CVTerm_hasRequiredAttributes(swigCPtr);
+    bool ret = libsbmlPINVOKE.CVTerm_hasRequiredAttributes__SWIG_0(swigCPtr);
     return ret;
   }
 

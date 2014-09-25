@@ -186,7 +186,7 @@ public class ListOfLocalParameters : ListOfParameters {
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
+   * @link libsbml#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

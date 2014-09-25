@@ -89,7 +89,7 @@
 "
 
 
-%javamethodmodifiers IdList::append(const std::string id) "
+%javamethodmodifiers IdList::append(const std::string& id) "
 /**
    * Appends id to the list of ids.
    * @internal
@@ -97,7 +97,7 @@
 ";
 
 
-%javamethodmodifiers IdList::contains(const std::string id) const "
+%javamethodmodifiers IdList::contains(const std::string& id) const "
 /**
    * Returns true if id is already in this {@link IdList}, false otherwise.
    <p>
@@ -107,7 +107,7 @@
 ";
 
 
-%javamethodmodifiers IdList::removeIdsBefore(const std::string id) "
+%javamethodmodifiers IdList::removeIdsBefore(const std::string& id) "
 /**
    * Removes all ids in this {@link IdList} before the given <code>id</code>.
    * @internal
@@ -1230,7 +1230,7 @@ Similarly, the filename in the archive will be
 
 %typemap(javaimports) SBase "
 /** 
- *  SBML\'s <em>%SBase</em>, the base class of most SBML objects.
+ *  SBML\'s SBase class, the base class of most SBML objects.
  <p>
  * Most components in SBML are derived from a single abstract base type,
  * {@link SBase}.  In addition to serving as the parent class for most other
@@ -1396,7 +1396,8 @@ Similarly, the filename in the archive will be
    * Returns a List of all child {@link SBase} objects, including those nested to
    * an arbitrary depth.
    <p>
-   * @return a pointer to a List of pointers to all children objects.
+   * @return a pointer to a List of pointers to all objects that are children
+   * of this object.
    */ public
 ";
 
@@ -2040,7 +2041,7 @@ appears in the documentation.
  * SBML places a few restrictions on the organization of the content of
  * annotations; these are intended to help software tools read and write
  * the data as well as help reduce conflicts between annotations added by
- * different tools.  Please see the SBML specifications for more details. 
+ * different tools.  Please see the SBML specifications for more details.
    <p>
    * The annotations returned by this method will be in string form.  See the
    * method getAnnotation() for a version that returns annotations in XML form.
@@ -2060,7 +2061,8 @@ appears in the documentation.
 
 %javamethodmodifiers SBase::getNamespaces() const "
 /**
-   * Returns a list of the XML Namespaces declared on this SBML document.
+   * Returns a list of the XML Namespaces declared on the SBML document
+   * owning this object.
    <p>
    * The {@link SBMLNamespaces} object encapsulates SBML Level/Version/namespaces
    * information.  It is used to communicate the SBML Level, Version, and (in
@@ -2311,12 +2313,11 @@ appears in the documentation.
 
 %javamethodmodifiers SBase::getSBOTermAsURL() const "
 /**
-   * Returns the identifiers.org URL representation of the \'sboTerm\' attribute of
-   * this object.
+   * Returns the URL representation of the \'sboTerm\' attribute of this
+   * object.
    <p>
-   * This method returns the entire {@link SBO}
-   * identifier as a text string in the form 
-   * \'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'.
+   * This method returns the entire {@link SBO} identifier as a text string in the
+   * form <code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'</code>.
    <p>
    * {@link SBO} terms are a type of optional annotation, and each different class
    * of SBML object derived from {@link SBase} imposes its own requirements about
@@ -2324,10 +2325,8 @@ appears in the documentation.
    * Level&nbsp;2 Version&nbsp;4 specification for more information about
    * the use of {@link SBO} and the \'sboTerm\' attribute.
    <p>
-   * @return the value of the \'sboTerm\' attribute as an identifiers.org URL
-   * (its value will be of the form 
-   * \'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'), or an empty string if
-   * the value is not set.
+   * @return the value of the \'sboTerm\' attribute as an identifiers.org URL,
+   * or an empty string if the value is not set.
    */ public
 ";
 
@@ -3884,19 +3883,18 @@ void example (SBase sb)
 
 %javamethodmodifiers SBase::hasValidLevelVersionNamespaceCombination "
 /**
-   * Predicate returning <code>true</code> if this
-   * object\'s level/version and namespace values correspond to a valid
-   * SBML specification.
+   * Predicate returning <code>true</code> if this object\'s level/version and namespace
+   * values correspond to a valid SBML specification.
    <p>
    * The valid combinations of SBML Level, Version and Namespace as of this
    * release of libSBML are the following:
    * <ul>
-   * <li> Level&nbsp;1 Version&nbsp;2: <code>\'http://www.sbml.org/sbml/level1\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;1: <code>\'http://www.sbml.org/sbml/level2\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;2: <code>\'http://www.sbml.org/sbml/level2/version2\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;3: <code>\'http://www.sbml.org/sbml/level2/version3\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;4: <code>\'http://www.sbml.org/sbml/level2/version4\'</code>
-   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code>\'http://www.sbml.org/sbml/level3/version1/core\'</code>
+   * <li> Level&nbsp;1 Version&nbsp;2: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level1\'</code>
+   * <li> Level&nbsp;2 Version&nbsp;1: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2\'</code>
+   * <li> Level&nbsp;2 Version&nbsp;2: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version2\'</code>
+   * <li> Level&nbsp;2 Version&nbsp;3: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version3\'</code>
+   * <li> Level&nbsp;2 Version&nbsp;4: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version4\'</code>
+   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level3/version1/core\'</code>
    * </ul>
    <p>
    * @return <code>true</code> if the level, version and namespace values of this 
@@ -3987,6 +3985,8 @@ void example (SBase sb)
    <p>
    * @return the plug-in object (the libSBML extension interface) of
    * a package extension with the given package name or URI.
+   <p>
+   * @see #getPlugin(long n)
    */ public
 ";
 
@@ -4015,6 +4015,8 @@ void example (SBase sb)
    <p>
    * @return the plug-in object (the libSBML extension interface) of a
    * package extension with the given package name or URI.
+   <p>
+   * @see #getPlugin(long n)
    */ public
 ";
 
@@ -4041,8 +4043,11 @@ void example (SBase sb)
    <p>
    * @param n the index of the plug-in to return
    <p>
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
+   * @return the nth plug-in object (the libSBML extension interface) of a
+   * package extension.
+   <p>
+   * @see #getNumPlugins()
+   * @see #getPlugin(String)
    */ public
 ";
 
@@ -4069,8 +4074,73 @@ void example (SBase sb)
    <p>
    * @param n the index of the plug-in to return
    <p>
-   * @return the plug-in object (the libSBML extension interface) of a
-   * package extension with the given package name or URI.
+   * @return the nth plug-in object (the libSBML extension interface) of a
+   * package extension.
+   <p>
+   * @see #getNumPlugins()
+   * @see #getPlugin(String)
+   */ public
+";
+
+
+%javamethodmodifiers SBase::getDisabledPlugin(unsigned int n) "
+/**
+   * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension.
+   <p>
+   * <p>
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+   <p>
+   * @param n the index of the disabled plug-in to return
+   <p>
+   * @return the nth disabled plug-in object (the libSBML extension interface) of a
+   * package extension.
+   <p>
+   * @see #getNumDisabledPlugins()
+   * @see #getPlugin(String)
+   */ public
+";
+
+
+%javamethodmodifiers SBase::getDisabledPlugin "
+/**
+   * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension.
+   <p>
+   * <p>
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+   <p>
+   * @param n the index of the disabled plug-in to return
+   <p>
+   * @return the nth disabled plug-in object (the libSBML extension interface) of a
+   * package extension.
+   <p>
+   * @see #getNumDisabledPlugins()
+   * @see #getPlugin(String)
    */ public
 ";
 
@@ -4097,6 +4167,46 @@ void example (SBase sb)
    <p>
    * @return the number of plug-in objects (extension interfaces) of
    * package extensions known by this instance of libSBML.
+   <p>
+   * @see #getPlugin(long n)
+   */ public
+";
+
+
+%javamethodmodifiers SBase::getNumDisabledPlugins() const "
+/**
+   * Returns the number of disabled plug-in objects (extenstion interfaces) 
+   * for SBML Level&nbsp;3 package extensions known.
+   <p>
+   * <p>
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+   <p>
+   * @return the number of disabled plug-in objects (extension interfaces) 
+   * of package extensions known by this instance of libSBML.
+   */ public
+";
+
+
+%javamethodmodifiers SBase::deleteDisabledPlugins(bool recursive=true) "
+/** 
+   * Deletes all information stored in disabled plugins. 
+   <p>
+   * @param recursive if <code>true</code>, the disabled information will be deleted
+   * also from all child elements, otherwise only from this {@link SBase} element.
+   <p>
+   * @see #getNumDisabledPlugins()
    */ public
 ";
 
@@ -5655,7 +5765,7 @@ appears in the documentation.
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.10.2
+ * version 5.10.3
 
  * of libSBML:
  * <ul>
@@ -5765,7 +5875,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.10.2
+ * libSBML version 5.10.3
 
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
@@ -10135,7 +10245,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * <p>
  * This \'default Level\' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.10.2
+ * Level available at the time libSBML version 5.10.3
  was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
@@ -10156,7 +10266,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * <p>
  * This \'default Version\' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.10.2
+ * 5.10.3
  was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
@@ -10276,6 +10386,16 @@ appears in the documentation.
    <p>
    * @return the (deep) copy of this {@link SBMLDocument} object.
    */ public
+";
+
+
+%javamethodmodifiers SBMLDocument::isSetModel() const "
+/**
+  * Returns <code>true</code> if the {@link Model} object has been set, otherwise 
+  * returns <code>false.</code>
+  <p>
+  * @return <code>true</code> if the {@link Model} object has been set
+  */ public
 ";
 
 
@@ -23702,7 +23822,7 @@ attributes.</caption>
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.10.2
+   * is.  The rules as of libSBML version 5.10.3
 
    * are the following:
    * <ul>
@@ -35333,8 +35453,8 @@ defined in SBML.
 <a target=\"_blank\" href=\"http://www.w3.org/TR/REC-xml/#id\">ID</a>.  We
 express the syntax using an extended form of BNF notation:
 <p>
-<nobr><code style=\"margin-left: 2em\">NCNameChar ::= letter | digit | '.' | '-' | '_' | ':' | CombiningChar | Extender</code><br></nobr>
-<code style=\"margin-left: 2em\">ID ::= ( letter | '_' | ':' ) NCNameChar*</code><br>
+<nobr><code style=\"margin-left: 2em; letter-spacing: -1px\">NCNameChar ::= letter | digit | '.' | '-' | '_' | ':' | CombiningChar | Extender</code><br></nobr>
+<code style=\"margin-left: 2em; letter-spacing: -1px\">ID ::= ( letter | '_' | ':' ) NCNameChar*</code><br>
 <p>
 The characters <code>(</code> and <code>)</code> are used for grouping, the
 character <code>*</code> means \"zero or more times\", and the character
@@ -37950,7 +38070,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
@@ -38419,12 +38539,20 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
 "
+
+
+%javamethodmodifiers SBMLFunctionDefinitionConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
 
 
 %javamethodmodifiers SBMLFunctionDefinitionConverter::SBMLFunctionDefinitionConverter "
@@ -38644,12 +38772,20 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
 "
+
+
+%javamethodmodifiers SBMLIdConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
 
 
 %javamethodmodifiers SBMLIdConverter::SBMLIdConverter "
@@ -38842,7 +38978,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
@@ -38850,14 +38986,22 @@ if (config != None) {
 "
 
 
-%javamethodmodifiers SBMLInferUnitsConverter "
+%javamethodmodifiers SBMLInferUnitsConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
+
+
+%javamethodmodifiers SBMLInferUnitsConverter::SBMLInferUnitsConverter "
 /**
    * Creates a new {@link SBMLInferUnitsConverter} object.
    */ public
 ";
 
 
-%javamethodmodifiers SBMLInferUnitsConverter(const SBMLInferUnitsConverter& obj) "
+%javamethodmodifiers SBMLInferUnitsConverter::SBMLInferUnitsConverter(const SBMLInferUnitsConverter& obj) "
 /**
    * Copy constructor; creates a copy of an {@link SBMLInferUnitsConverter}
    * object.
@@ -38867,7 +39011,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers clone() const "
+%javamethodmodifiers SBMLInferUnitsConverter::clone() const "
 /**
    * Creates and returns a deep copy of this {@link SBMLInferUnitsConverter}
    * object.
@@ -38877,7 +39021,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers matchesProperties(const ConversionProperties &props) const "
+%javamethodmodifiers SBMLInferUnitsConverter::matchesProperties(const ConversionProperties &props) const "
 /**
    * Returns <code>true</code> if this converter object\'s properties match the given
    * properties.
@@ -38898,7 +39042,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers convert "
+%javamethodmodifiers SBMLInferUnitsConverter::convert "
 /**
    * Perform the conversion.
    <p>
@@ -38920,7 +39064,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers getDefaultProperties() const "
+%javamethodmodifiers SBMLInferUnitsConverter::getDefaultProperties() const "
 /**
    * Returns the default properties of this converter.
    <p>
@@ -39070,12 +39214,20 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
 "
+
+
+%javamethodmodifiers SBMLInitialAssignmentConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
 
 
 %javamethodmodifiers SBMLInitialAssignmentConverter::SBMLInitialAssignmentConverter "
@@ -39283,7 +39435,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
@@ -39291,14 +39443,22 @@ if (config != None) {
 "
 
 
-%javamethodmodifiers SBMLLevelVersionConverter "
+%javamethodmodifiers SBMLLevelVersionConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
+
+
+%javamethodmodifiers SBMLLevelVersionConverter::SBMLLevelVersionConverter "
 /**
    * Creates a new {@link SBMLLevelVersionConverter} object.
    */ public
 ";
 
 
-%javamethodmodifiers SBMLLevelVersionConverter(const SBMLLevelVersionConverter& obj) "
+%javamethodmodifiers SBMLLevelVersionConverter::SBMLLevelVersionConverter(const SBMLLevelVersionConverter& obj) "
 /**
    * Copy constructor; creates a copy of an {@link SBMLLevelVersionConverter}
    * object.
@@ -39308,7 +39468,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers clone() const "
+%javamethodmodifiers SBMLLevelVersionConverter::clone() const "
 /**
    * Creates and returns a deep copy of this {@link SBMLLevelVersionConverter}
    * object.
@@ -39318,7 +39478,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers matchesProperties(const ConversionProperties &props) const "
+%javamethodmodifiers SBMLLevelVersionConverter::matchesProperties(const ConversionProperties &props) const "
 /**
    * Returns <code>true</code> if this converter object\'s properties match the given
    * properties.
@@ -39339,7 +39499,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers convert "
+%javamethodmodifiers SBMLLevelVersionConverter::convert "
 /**
    * Perform the conversion.
    <p>
@@ -39362,7 +39522,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers getDefaultProperties() const "
+%javamethodmodifiers SBMLLevelVersionConverter::getDefaultProperties() const "
 /**
    * Returns the default properties of this converter.
    <p>
@@ -39378,7 +39538,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers getTargetLevel "
+%javamethodmodifiers SBMLLevelVersionConverter::getTargetLevel "
 /**
    * Returns the target SBML Level for the conversion.
    <p>
@@ -39387,7 +39547,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers getTargetVersion "
+%javamethodmodifiers SBMLLevelVersionConverter::getTargetVersion "
 /**
    * Returns the target SBML Version for the conversion.
    <p>
@@ -39396,7 +39556,7 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers getValidityFlag "
+%javamethodmodifiers SBMLLevelVersionConverter::getValidityFlag "
 /**
    * Returns the flag indicating whether the conversion has been set to \'strict\'.
    <p>
@@ -39516,12 +39676,20 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
 "
+
+
+%javamethodmodifiers SBMLLocalParameterConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
 
 
 %javamethodmodifiers SBMLLocalParameterConverter::SBMLLocalParameterConverter "
@@ -39714,12 +39882,20 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
 "
+
+
+%javamethodmodifiers SBMLReactionConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
 
 
 %javamethodmodifiers SBMLReactionConverter::SBMLReactionConverter "
@@ -40007,12 +40183,20 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
 "
+
+
+%javamethodmodifiers SBMLRuleConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
 
 
 %javamethodmodifiers SBMLRuleConverter::SBMLRuleConverter "
@@ -40209,12 +40393,20 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
 "
+
+
+%javamethodmodifiers SBMLStripPackageConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
 
 
 %javamethodmodifiers SBMLStripPackageConverter::SBMLStripPackageConverter "
@@ -40422,12 +40614,20 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
 "
+
+
+%javamethodmodifiers SBMLUnitsConverter::init "
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+";
 
 
 %javamethodmodifiers SBMLUnitsConverter::SBMLUnitsConverter "
@@ -43649,11 +43849,10 @@ appears in the documentation.
 /** 
  *  A node in libSBML\'s XML document tree.
  <p>
- * Beginning with version 3.0.0, libSBML implements an XML abstraction
- * layer.  This layer presents a uniform XML interface to calling programs
- * regardless of which underlying XML parser libSBML has actually been
- * configured to use.  The basic data object in the XML abstraction is a
- * <em>node</em>, represented by {@link XMLNode}.
+ * LibSBML implements an XML abstraction layer.  This layer presents a
+ * uniform XML interface to calling programs regardless of which underlying
+ * XML parser libSBML has actually been configured to use.  The basic data
+ * object in the XML abstraction is a <em>node</em>, represented by {@link XMLNode}.
  <p>
  * An {@link XMLNode} can contain any number of children.  Each child is another
  * {@link XMLNode}, thereby forming a tree.  The methods {@link XMLNode#getNumChildren()}
@@ -43670,26 +43869,27 @@ appears in the documentation.
  * LibSBML provides the following utility functions for converting an XML
  * string (e.g., <code>&lt;annotation&gt;...&lt;/annotation&gt;</code>)
  * to/from an {@link XMLNode} object.
+ <p>
  * <ul>
- * <li> {@link XMLNode#toXMLString()} returns a string representation of the {@link XMLNode} object. 
+ * <li> {@link XMLNode#toXMLString()} returns a string representation of the {@link XMLNode}
+ * object.
  <p>
- * <li> {@link XMLNode#convertXMLNodeToString(XMLNode)}
- * (static function) returns a string representation 
- * of the given {@link XMLNode} object.
+ * <li> {@link XMLNode#convertXMLNodeToString(XMLNode)} (static
+ * function) returns a string representation of the given {@link XMLNode} object.
  <p>
- * <li> {@link XMLNode#convertStringToXMLNode(String)}
- * (static function) returns an {@link XMLNode} object converted 
- * from the given XML string.
- * </ul>
- <p>
- * The returned {@link XMLNode} object by {@link XMLNode#convertStringToXMLNode(String)}
- * is a dummy root (container) {@link XMLNode} if the given XML string has two or
- * more top-level elements (e.g.,
- * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In the
- * dummy root node, each top-level element in the given XML string is
+ * <li> {@link XMLNode#convertStringToXMLNode(String)} (static
+ * function) returns an {@link XMLNode} object converted from the given XML string.
+ *
+ * </ul> <p>
+ * The returned {@link XMLNode} object by {@link XMLNode#convertStringToXMLNode(String)} is a dummy root (container) {@link XMLNode} if the given XML string
+ * has two or more top-level elements (e.g.,
+ * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In
+ * the dummy root node, each top-level element in the given XML string is
  * contained as a child {@link XMLNode}. {@link XMLToken#isEOF()} can be used to identify
  * if the returned {@link XMLNode} object is a dummy node or not.  Here is an
- * example: <pre class=\'fragment\'>
+ * example: 
+<p>
+<pre class=\'fragment\'>
 // Checks if the returned {@link XMLNode} object is a dummy root node:
 
 String str = \'...\';
@@ -43701,7 +43901,7 @@ if ( xn == null )
 }
 else if ( xn.isEOF() )
 {
-  // root node is a dummy node
+  // Root node is a dummy node.
   for ( int i = 0; i &lt; xn.getNumChildren(); i++ )
   {
     // access to each child node of the dummy node.
@@ -43711,11 +43911,11 @@ else if ( xn.isEOF() )
 }
 else
 {
-  // root node is NOT a dummy node
+  // Root node is NOT a dummy node.
   ...
 }
 </pre>
- */
+*/
 "
 
 
@@ -43845,7 +44045,7 @@ appears in the documentation.
 
 %javamethodmodifiers XMLNode::XMLNode(XMLInputStream& stream) "
 /**
-   * Creates a new {@link XMLNode} by reading XMLTokens from stream.  
+   * Creates a new {@link XMLNode} by reading XMLTokens from stream.
    <p>
    * The stream must be positioned on a start element
    * (<code>stream.peek().isStart() == true</code>) and will be read until
@@ -43982,7 +44182,7 @@ appears in the documentation.
 /**
    * Returns the first child of this {@link XMLNode} with the corresponding name.
    <p>
-   * If no child with corrsponding name can be found, 
+   * If no child with corrsponding name can be found,
    * this method returns an empty node.
    <p>
    * @param name the name of the node to return
@@ -43996,7 +44196,7 @@ appears in the documentation.
 /**
    * Returns the first child of this {@link XMLNode} with the corresponding name.
    <p>
-   * If no child with corrsponding name can be found, 
+   * If no child with corrsponding name can be found,
    * this method returns an empty node.
    <p>
    * @param name the name of the node to return
@@ -44010,7 +44210,7 @@ appears in the documentation.
 /**
    * Return the index of the first child of this {@link XMLNode} with the given name.
    <p>
-   * @param name a string, the name of the child for which the 
+   * @param name a string, the name of the child for which the
    * index is required.
    <p>
    * @return the index of the first child of this {@link XMLNode} with the given
@@ -44070,7 +44270,7 @@ appears in the documentation.
 
 %javamethodmodifiers XMLNode::toXMLString() const "
 /**
-   * Returns a string representation of this {@link XMLNode}. 
+   * Returns a string representation of this {@link XMLNode}.
    <p>
    * @return a string derived from this {@link XMLNode}.
    */ public
@@ -44079,7 +44279,7 @@ appears in the documentation.
 
 %javamethodmodifiers XMLNode::convertXMLNodeToString(const XMLNode* node) "
 /**
-   * Returns a string representation of a given {@link XMLNode}. 
+   * Returns a string representation of a given {@link XMLNode}.
    <p>
    * @param node the {@link XMLNode} to be represented as a string
    <p>
@@ -44316,22 +44516,58 @@ defined in SBML.
  * layer.  {@link XMLInputStream} and {@link XMLOutputStream} are two parts of that
  * abstraction layer.
  <p>
- * {@link XMLOutputStream} provides a wrapper above a standard ostream to facilitate
+ * {@link XMLOutputStream} provides a wrapper above output streams to facilitate
  * writing XML.  {@link XMLOutputStream} keeps track of start and end elements,
  * indentation, XML namespace prefixes, and more.  The interface provides
  * features for converting non-text data types into appropriate textual form;
- * this takes the form of overloaded <code>writeAttribute</code> methods that
- * allow users to simply use the same method with any data type.  For example,
- * <pre class=\'fragment\'>
+ * this takes the form of overloaded <code>writeAttribute(...)</code> methods
+ * that allow users to simply use the same method with any data type.  For
+ * example, suppose an element <code>testElement</code> has two attributes, <code>size</code> and
+ * <code>id</code>, and the attributes are variables in your code as follows:
+<p>
+<pre class=\'fragment\'>
 double size = 3.2;
 String id = \'id\';
 </pre>
-  * can be written out using
-  * <pre class=\'fragment\'>
-writeAttribute(\'size\', size);
-writeAttribute(\'id\', id);
+<p>
+  * Then, the element and the attributes can be written to the
+  * standard output stream (provided as <code>cout</code> in the libSBML
+  * language bindings) as follows:
+<p>
+<pre class=\'fragment\'>
+import org.sbml.libsbml.XMLOutputStream;
+import org.sbml.libsbml.libsbml;
+
+public class test
+{
+    public static void main (String[] args)
+    {
+        double size = 3.2;
+        String id = \'id\';
+
+        // Create an {@link XMLOutputStream} object that will write to the
+        // standard output stream, which is provide in libSBML\'s
+        // Java language interface as the object \'libsbml.cout\'.
+
+        {@link XMLOutputStream} xos = new {@link XMLOutputStream}(libsbml.cout);
+
+        // Create the start element, write the attributes, and close
+        // the element.  The output will be written immediately as
+        // each method is called.
+
+        xos.startElement(\'testElement\');
+        xos.writeAttribute(\'size\', size);
+        xos.writeAttribute(\'id\', id);
+        xos.endElement(\'testElement\');
+    }
+
+    static
+    {
+        System.loadLibrary(\'sbmlj\');
+    }
+}
 </pre>
- <p>
+<p>
  * Other classes in SBML take {@link XMLOutputStream} objects as arguments, and use
  * that to write elements and attributes seamlessly to the XML output stream.
  <p>
@@ -44841,6 +45077,16 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 %javamethodmodifiers XMLOutputStream::downIndent "
 /**
    * Decreases the indentation level for this {@link XMLOutputStream}.
+   <p>
+   * <p>
+ * LibSBML tries to produce human-readable XML output by automatically
+ * indenting the bodies of elements.  Callers can manually control
+ * indentation further by using the {@link XMLOutputStream#upIndent()}
+ * and {@link XMLOutputStream#downIndent()} methods to increase and
+ * decrease, respectively, the current level of indentation in the
+ * XML output.
+   <p>
+   * @see #upIndent()
    */ public
 ";
 
@@ -44848,6 +45094,16 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 %javamethodmodifiers XMLOutputStream::upIndent "
 /**
    * Increases the indentation level for this {@link XMLOutputStream}.
+   <p>
+   * <p>
+ * LibSBML tries to produce human-readable XML output by automatically
+ * indenting the bodies of elements.  Callers can manually control
+ * indentation further by using the {@link XMLOutputStream#upIndent()}
+ * and {@link XMLOutputStream#downIndent()} methods to increase and
+ * decrease, respectively, the current level of indentation in the
+ * XML output.
+   <p>
+   * @see #downIndent()
    */ public
 ";
 
@@ -44877,8 +45133,8 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 
 %javamethodmodifiers XMLOutputStream::XMLOutputStream(const XMLOutputStream& other) "
 /**
-   * Copy Constructor, made private so as to notify users, that copying an input stream is not supported. 
-   * @internal 
+   * Copy Constructor, made private so as to notify users, that copying an input stream is not supported.
+   * @internal
    */ public
 ";
 
@@ -55254,7 +55510,7 @@ defined in SBML.
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with {@link SBMLError}
  * objects</h3>
  <p>
- * In libSBML version 5.10.2
+ * In libSBML version 5.10.3
 
  * there are no additional severity codes beyond those defined by {@link XMLError}.  
  * They are implemented as static integer constants defined in the interface 
@@ -55700,6 +55956,11 @@ appears in the documentation.
 ";
 
 
+%javamethodmodifiers CVTerm::getQualifierType() const "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers CVTerm::getModelQualifierType "
 /**
    * Returns the model qualifier type of this {@link CVTerm} object.
@@ -55766,6 +56027,11 @@ appears in the documentation.
    * of this object or {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}
    * (the default).
    */ public
+";
+
+
+%javamethodmodifiers CVTerm::getModelQualifierType() const "
+/** * @internal */ public
 ";
 
 
@@ -55844,6 +56110,11 @@ appears in the documentation.
    * of this object or {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}
    * (the default).
    */ public
+";
+
+
+%javamethodmodifiers CVTerm::getBiologicalQualifierType() const "
+/** * @internal */ public
 ";
 
 
@@ -55996,7 +56267,106 @@ appears in the documentation.
 ";
 
 
+%javamethodmodifiers CVTerm::getNumResources() const "
+/**
+   * Returns the number of resources for this {@link CVTerm} object.
+   <p>
+   * <p>
+ * The RDF element used in the SBML format for referring to external entities
+ * is <code>&lt;rdf:Description&gt;</code>, with a
+ * <code>&lt;rdf:Bag&gt;</code> element inside of it containing one or more
+ * <code>&lt;rdf:li&gt;</code> elements.  The following template illustrates
+ * the structure:
+ * <pre class=\'fragment\'>
+ * &lt;rdf:Description rdf:about=&quot;#<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot;&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #ddd; border-bottom: 2px dotted #888\'>HISTORY</span>
+ * &nbsp;&nbsp;&lt;<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:Bag&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:li rdf:resource=&quot;<span style=\'background-color: #d0d0ee\'>resource URI</span>&quot; /&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/rdf:Bag&gt;
+ * &nbsp;&nbsp;&lt;/<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &lt;/rdf:Description&gt;
+ * </pre>
+ * In the template above, the placeholder <span class=\'code\'
+ * style=\'border-bottom: 1px solid black\'>meta id</span> stands for the
+ * element\'s meta identifier, which is a field available on all SBML
+ * components derived from the {@link SBase} base object class.  The <span
+ * style=\'border-bottom: 2px dotted #888\'>dotted</span> portions are
+ * optional, and the ellipses <span class=\'code\' style=\'background-color:
+ * #edd\'>...</span> are placeholders for zero or more elements of the same
+ * form as the immediately preceding element.
+   <p>
+   * The fragment above illustrates that there can be more than one
+   * resource referenced by a given relationship annotation (i.e., the
+   * <span class=\'code\' style=\'background-color: #d0d0ee\'>resource
+   * URI</span> values associated with a particular <span class=\'code\'
+   * style=\'background-color: #bbb\'>RELATION_ELEMENT</span>).  The present
+   * method returns a count of the resources stored in this {@link CVTerm} object.
+   <p>
+   * @return the number of resources in the set of {@link XMLAttributes}
+   * of this {@link CVTerm}.
+   <p>
+   * @see #getResources()
+   * @see #getResourceURI(long n)
+   */ public
+";
+
+
 %javamethodmodifiers CVTerm::getResourceURI(unsigned int n) "
+/**
+   * Returns the value of the <em>n</em>th resource for this {@link CVTerm} object.
+   <p>
+   * <p>
+ * The RDF element used in the SBML format for referring to external entities
+ * is <code>&lt;rdf:Description&gt;</code>, with a
+ * <code>&lt;rdf:Bag&gt;</code> element inside of it containing one or more
+ * <code>&lt;rdf:li&gt;</code> elements.  The following template illustrates
+ * the structure:
+ * <pre class=\'fragment\'>
+ * &lt;rdf:Description rdf:about=&quot;#<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot;&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #ddd; border-bottom: 2px dotted #888\'>HISTORY</span>
+ * &nbsp;&nbsp;&lt;<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:Bag&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:li rdf:resource=&quot;<span style=\'background-color: #d0d0ee\'>resource URI</span>&quot; /&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/rdf:Bag&gt;
+ * &nbsp;&nbsp;&lt;/<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &lt;/rdf:Description&gt;
+ * </pre>
+ * In the template above, the placeholder <span class=\'code\'
+ * style=\'border-bottom: 1px solid black\'>meta id</span> stands for the
+ * element\'s meta identifier, which is a field available on all SBML
+ * components derived from the {@link SBase} base object class.  The <span
+ * style=\'border-bottom: 2px dotted #888\'>dotted</span> portions are
+ * optional, and the ellipses <span class=\'code\' style=\'background-color:
+ * #edd\'>...</span> are placeholders for zero or more elements of the same
+ * form as the immediately preceding element.
+   <p>
+   * The fragment above illustrates that there can be more than one
+   * resource referenced by a given relationship annotation (i.e., the
+   * <span class=\'code\' style=\'background-color: #d0d0ee\'>resource
+   * URI</span> values associated with a particular <span class=\'code\'
+   * style=\'background-color: #bbb\'>RELATION_ELEMENT</span>).  LibSBML
+   * stores all resource URIs in a single {@link CVTerm} object for a given
+   * relationship.  Callers can use getNumResources() to find out how many
+   * resources are stored in this {@link CVTerm} object, then call this method to
+   * retrieve the <em>n</em>th resource URI.
+   <p>
+   * @param n the index of the resource to query
+   <p>
+   * @return string representing the value of the nth resource
+   * in the set of {@link XMLAttributes} of this {@link CVTerm}.
+   <p>
+   * @see #getNumResources()
+   * @see #getQualifierType()
+   */ public
+";
+
+
+%javamethodmodifiers CVTerm::getResourceURI "
 /**
    * Returns the value of the <em>n</em>th resource for this {@link CVTerm} object.
    <p>
@@ -56298,6 +56668,11 @@ appears in the documentation.
 
 
 %javamethodmodifiers CVTerm::resetModifiedFlags "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers CVTerm::hasRequiredAttributes() const "
 /** * @internal */ public
 ";
 
@@ -57725,7 +58100,7 @@ defined in SBML.
  * Format</a>).  The general scheme is as follows.  A set of RDF-based
  * annotations attached to a given SBML <code>&lt;annotation&gt;</code>
  * element are read by {@link RDFAnnotationParser} and converted into a list of
- * {@link CVTerm} objects.  There are different versions of the main method, {@link RDFAnnotationParser#parseRDFAnnotation(XMLNode annotation, CVTermList CVTerms)}  and
+ * {@link CVTerm} objects.  There are different versions of the main method, {@link RDFAnnotationParser#parseRDFAnnotation(XMLNode, CVTermList)}  and
  * {@link RDFAnnotationParser#parseRDFAnnotation(XMLNode annotation)}, used
  * depending on whether the annotation in question concerns the MIRIAM model
  * history or other MIRIAM resource annotations.  A special object class,
@@ -57788,18 +58163,18 @@ defined in SBML.
    * created, containing MIRIAM-style annotations, and that <code>sbmlObject</code>
    * is an SBML object derived from {@link SBase} (e.g., a {@link Model}, or a {@link Species}, or
    * a {@link Compartment}, etc.).  Then:<pre class=\'fragment\'>
-int success;                                   // Status code variable, used below.
+int success;                                   // Status code variable.
 
-{@link XMLNode} RDF = createRDFAnnotation();          // Create RDF annotation XML structure.
+{@link XMLNode} RDF = createRDFAnnotation();          // Create XML structure.
 success      = RDF.addChild(...content...);    // Put some content into it.
-...                                            // Check \'success\' return code value.
+...                                            // Check return code value.
 
-{@link XMLNode} ann = createAnnotation();             // Create &lt;annotation&gt; container.
-success      = ann.addChild(RDF);              // Put the RDF annotation into it.
-...                                            // Check \'success\' return code value.
+{@link XMLNode} ann = createAnnotation();             // Create &lt;annotation&gt;.
+success      = ann.addChild(RDF);              // Put the annotation into it.
+...                                            // Check return code value.
 
-success      = sbmlObject.setAnnotation(ann); // Set object\'s annotation to what we built.
-...                                            // Check \'success\' return code value.
+success      = sbmlObject.setAnnotation(ann); // Set object\'s annotation.
+...                                            // Check return code value.
 </pre>
    <p>
    * The SBML specification contains more information about the format of
@@ -59794,6 +60169,16 @@ void
 /** 
    * Returns a list of registered packages (such as \'layout\', \'fbc\' or \'comp\')
    * the list contains char* strings and has to be freed by the caller. 
+   <p>
+   * @return the names of the registered packages in a list
+   */ public
+";
+
+
+%javamethodmodifiers SBMLExtensionRegistry::getAllRegisteredPackageNames "
+/** 
+   * Returns a vector of registered packages (such as \'layout\', \'fbc\' or \'comp\')
+   * the vector contains Strings. 
    <p>
    * @return the names of the registered packages in a list
    */ public
@@ -62452,7 +62837,7 @@ setValue(value, 0);
    * previously stored in this node are reset to zero.
    <p>
    * @see #getType()
-   * @see #setType(ASTNodeType_t type)
+   * @see #setType(int)
    */ public
 ";
 

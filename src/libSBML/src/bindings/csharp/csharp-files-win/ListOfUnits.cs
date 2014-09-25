@@ -188,7 +188,7 @@ public class ListOfUnits : ListOf {
  *
    *
    * @return the SBML type code for objects contained in this list:
-   * @link libsbmlcs#SBML_UNIT SBML_UNIT@endlink (default).
+   * @link libsbml#SBML_UNIT SBML_UNIT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

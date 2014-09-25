@@ -186,7 +186,7 @@ public class ListOfParameters : ListOf {
  *
    *
    * @return the SBML type code for this objects contained in this list:
-   * @link libsbmlcs#SBML_PARAMETER SBML_PARAMETER@endlink (default).
+   * @link libsbml#SBML_PARAMETER SBML_PARAMETER@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

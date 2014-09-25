@@ -536,7 +536,7 @@ INSTALL(TARGETS ${LIBSBML_LIBRARY}-static
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  )
+)
 
 ##############################################################################
 #

@@ -57,23 +57,23 @@ namespace libsbml {
  *      <td><strong>Meaning</strong></td>
  *  </tr>
  * <tr>
- * <td><code>@link libsbmlcs#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink</code></td>
+ * <td><code>@link libsbml#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink</code></td>
  * <td>Indicates the value type is a Boolean.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink</code></td>
+ * <td><code>@link libsbml#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink</code></td>
  * <td>Indicates the value type is a double-sized float.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs#CNV_TYPE_INT CNV_TYPE_INT@endlink</code></td>
+ * <td><code>@link libsbml#CNV_TYPE_INT CNV_TYPE_INT@endlink</code></td>
  * <td>Indicates the value type is an integer.</td>
  * </tr>
  * <tr>
- * <td><code>@link libsbmlcs#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink</code></td>
+ * <td><code>@link libsbml#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink</code></td>
  * <td>Indicates the value type is a float.</td>
  * </tr>
  * <tr>
-  * <td><code>@link libsbmlcs#CNV_TYPE_STRING CNV_TYPE_STRING@endlink</code></td>
+  * <td><code>@link libsbml#CNV_TYPE_STRING CNV_TYPE_STRING@endlink</code></td>
  * <td>Indicates the value type is a string.</td>
  * </tr>
  * </table>
@@ -487,7 +487,7 @@ public class ConversionOption : IDisposable {
    * Set the value of this option to a given Boolean value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink.
+   * @link libsbml#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink.
    *
    * @param value the Boolean value to set
    */ public new
@@ -511,7 +511,7 @@ public class ConversionOption : IDisposable {
    * Set the value of this option to a given @c double value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink.
+   * @link libsbml#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink.
    *
    * @param value the value to set
    */ public new
@@ -535,7 +535,7 @@ public class ConversionOption : IDisposable {
    * Set the value of this option to a given @c float value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink.
+   * @link libsbml#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink.
    *
    * @param value the value to set
    */ public new
@@ -559,7 +559,7 @@ public class ConversionOption : IDisposable {
    * Set the value of this option to a given @c int value.
    *
    * Invoking this method will also set the type of the option to
-   * @link libsbmlcs#CNV_TYPE_INT CNV_TYPE_INT@endlink.
+   * @link libsbml#CNV_TYPE_INT CNV_TYPE_INT@endlink.
    *
    * @param value the value to set
    */ public new

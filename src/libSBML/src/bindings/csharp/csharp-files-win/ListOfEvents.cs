@@ -186,7 +186,7 @@ public class ListOfEvents : ListOf {
  *
    *
    * @return the SBML type code for the objects contained in this ListOf:
-   * @link libsbmlcs#SBML_EVENT SBML_EVENT@endlink (default).
+   * @link libsbml#SBML_EVENT SBML_EVENT@endlink (default).
    *
    * @see getElementName()
    * @see getPackageName()

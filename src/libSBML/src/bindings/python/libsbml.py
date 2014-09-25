@@ -197,8 +197,7 @@ SBaseList_swigregister(SBaseList)
 
 class AutoProperty(type):
     """
-    Metaclass for automatically detecting getX/setX methods and adding
-    properties to the class dictionary.
+    Auto-detect Python class getX/setX methods.
 
     This class is attached to SBase and automatically applies for all classes
     which inherit from it.  Its purpose is to make libSBML more convenient to
@@ -206,8 +205,8 @@ class AutoProperty(type):
     (not at instantiation) and adding corresponding properties (directly
     calling C methods where possible) to the class dictionary.
 
-    @note Currently this class only works for Python 2.x, but should not break
-    in Python 3.
+    @note The code should work for python 2.6 upwards, however for python 3 it 
+          needs to be attached via constructors.
     """
     def __new__(cls, classname, bases, classdict):
         """
@@ -217,6 +216,7 @@ class AutoProperty(type):
 
         import re
         import keyword
+        import inspect
 
         re_mangle = re.compile(r'[A-Za-z][a-z]+|[A-Z]+(?=$|[A-Z0-9])|\d+')
         re_id = re.compile(r'^[A-Za-z_][A-Za-z0-9_]*$')
@@ -229,6 +229,13 @@ class AutoProperty(type):
         get_methods = set()
         set_methods = set()
         swig_setter = classdict.get('__swig_setmethods__', {})
+
+        allowed_methods = [
+                           'Annotation', 
+                           'AnnotationString', 
+                           'Notes', 
+                           'NotesString', 
+                           ]
 
         #only search for get/set methods
         #we assume that any unset method also has either get or set
@@ -261,42 +268,65 @@ class AutoProperty(type):
                 #this is a very dirty way of checking if the get method
                 #requires extra arguments (and hence cannot be a property)
                 #it should be possible to do this properly in SWIG?
-                if getter.__doc__:
-                    if not re_getdoc.match(getter.__doc__):
-                        continue
+                try:
+                  argspec = inspect.getargspec(getter)
+                  numargs = len(argspec.args)
+                  if numargs > 1 or (numargs == 1 and argspec.args[0] != 'self')  \
+                    or (argspec.varargs!=None and name not in allowed_methods and not name.startswith('ListOf') ):
+                    continue
+                except:
+                  continue
 
                 #use the c-level get function if the python function
                 #only consists of a call to it
                 cname = classname + '_get' + name
                 #test if function is "return _libsbml.CLASS_getNAME(__args__)"
-                if getter.func_code.co_names == ('_libsbml', cname):
+                try:
+                  if getter.func_code.co_names == ('_libsbml', cname):
+                    getter = getattr(_libsbml, cname)
+                except:
+                  if getter.__code__.co_names == ('_libsbml', cname):
                     getter = getattr(_libsbml, cname)
     
             if name in set_methods:
                 setter = classdict['set'+name]
-                if setter.__doc__:
-                    if not re_setdoc.match(setter.__doc__):
-                        continue
-
-                cname = classname + '_set' + name
-                if setter.func_code.co_names == ('_libsbml', cname):
-                    setter = getattr(_libsbml, cname)
-                #property fget does not get intercepted by __getattr__
-                #but fset does, so we implement property setting via
-                #the __swig_setmethods__ dict
-                swig_setter[mangled] = setter
+                try:
+                 argspec = inspect.getargspec(getter)
+                 numargs = len(argspec.args)
+                 if numargs > 1 and argspec.args[0] == 'self':
+                   cname = classname + '_set' + name
+                   try:
+                     if setter.func_code.co_names == ('_libsbml', cname):
+                         setter = getattr(_libsbml, cname)
+                   except:
+                     if setter.__code__.co_names == ('_libsbml', cname):
+                         setter = getattr(_libsbml, cname)
+                   
+                   #property fget does not get intercepted by __getattr__
+                   #but fset does, so we implement property setting via
+                   #the __swig_setmethods__ dict
+                   swig_setter[mangled] = setter
+                   continue
+                except:
+                  pass
             
             if 'unset' + name in classdict:
                 deleter = classdict['unset'+name]
-                if deleter.__doc__:
-                    #like a get method, a delete method should
-                    #only require a self argument
-                    if not re_getdoc.match(deleter.__doc__):
-                        continue
-                
-                cname = classname + '_unset' + name
-                if deleter.func_code.co_names == ('_libsbml', cname):
-                    deleter = getattr(_libsbml, cname)
+
+                try:
+                  argspec = inspect.getargspec(getter)
+                  numargs = len(argspec.args)
+                  if numargs == 1 and argspec.args[0] == 'self' and \
+                    (argspec.varargs==None or name in allowed_methods):
+                    cname = classname + '_unset' + name
+                    try:
+                      if deleter.func_code.co_names == ('_libsbml', cname):
+                          deleter = getattr(_libsbml, cname)                    
+                    except:
+                      if deleter.__code__.co_names == ('_libsbml', cname):
+                          deleter = getattr(_libsbml, cname)                    
+                except:
+                  pass
 
             if getter or setter or deleter:
                 #fset is technically redundant since the method is dispatched
@@ -2064,7 +2094,7 @@ def SBMLTypeCode_toString(*args):
   return _libsbml.SBMLTypeCode_toString(*args)
 class SBase(_object):
     """
-    SBML's SBase, the base class of most SBML objects.
+    SBML's SBase class, the base class of most SBML objects.
 
     Most components in SBML are derived from a single abstract base type,
     SBase.  In addition to serving as the parent class for most other
@@ -2587,7 +2617,8 @@ class SBase(_object):
         """
         getNamespaces(self) -> XMLNamespaces
 
-        Returns a list of the XML Namespaces declared on this SBML document.
+        Returns a list of the XML Namespaces declared on the SBML document
+        owning this object.
 
         The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
         information.  It is used to communicate the SBML Level, Version, and
@@ -2759,11 +2790,11 @@ class SBase(_object):
         """
         getSBOTermAsURL(self) -> string
 
-        Returns the identifiers.org URL representation of the 'sboTerm'
-        attribute of this object.
+        Returns the URL representation of the 'sboTerm' attribute of this
+        object.
 
         This method returns the entire SBO identifier as a text string in the
-        form  'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'.
+        form http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'.
 
         SBO terms are a type of optional annotation, and each different class
         of SBML object derived from SBase imposes its own requirements about
@@ -2771,10 +2802,8 @@ class SBase(_object):
         Version 4 specification for more information about the use of SBO and
         the 'sboTerm' attribute.
 
-        Returns the value of the 'sboTerm' attribute as an identifiers.org URL
-        (its value will be of the form
-        'http://identifiers.org/biomodels.sbo/SBO:NNNNNNN'), or an empty
-        string if the value is not set.
+        Returns the value of the 'sboTerm' attribute as an identifiers.org
+        URL, or an empty string if the value is not set.
 
         """
         return _libsbml.SBase_getSBOTermAsURL(self)
@@ -4101,7 +4130,27 @@ class SBase(_object):
         return _libsbml.SBase_getTypeCode(self)
 
     def hasValidLevelVersionNamespaceCombination(self):
-        """hasValidLevelVersionNamespaceCombination(self) -> bool"""
+        """
+        hasValidLevelVersionNamespaceCombination(self) -> bool
+
+        Predicate returning @c true if this object's level/version and namespace
+        values correspond to a valid SBML specification.
+
+        The valid combinations of SBML Level, Version and Namespace as of this
+        release of libSBML are the following:
+        <ul>
+        <li> Level&nbsp;1 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level1</code>
+        <li> Level&nbsp;2 Version&nbsp;1: <code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2</code>
+        <li> Level&nbsp;2 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version2</code>
+        <li> Level&nbsp;2 Version&nbsp;3: <code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version3</code>
+        <li> Level&nbsp;2 Version&nbsp;4: <code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version4</code>
+        <li> Level&nbsp;3 Version&nbsp;1 Core: <code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level3/version1/core</code>
+        </ul>
+
+        @return @c true if the level, version and namespace values of this 
+        SBML object correspond to a valid set of values, @c false otherwise.
+
+        """
         return _libsbml.SBase_hasValidLevelVersionNamespaceCombination(self)
 
     def getElementName(self):
@@ -4186,16 +4235,21 @@ class SBase(_object):
 
         Parameter 'n' is the index of the plug-in to return
 
-        Returns the plug-in object (the libSBML extension interface) of a
-        package extension with the given package name or URI.
+        Returns the nth plug-in object (the libSBML extension interface) of a
+        package extension.
 
-        ______________________________________________________________________
-        Method variant with the following signature:
+        See also getNumPlugins(), getPlugin(), getPlugin().
 
-        getPlugin(string package)
+        """
+        return _libsbml.SBase_getPlugin(self, *args)
 
-        Returns a plug-in object (extension interface) for an SBML Level 3
-        package extension with the given package name or URI.
+    def getDisabledPlugin(self, *args):
+        """
+        getDisabledPlugin(self, unsigned int n) -> SBasePlugin
+        getDisabledPlugin(self, unsigned int n) -> SBasePlugin
+
+        Returns the nth disabled plug-in object (extension interface) for an
+        SBML Level 3 package extension.
 
         SBML Level 3 consists of a Core definition that can be extended via
         optional SBML Level 3 packages.  A given model may indicate that it
@@ -4211,13 +4265,15 @@ class SBase(_object):
         defined by SBML Level 3 Core, but also objects created by libSBML
         plug-ins supporting additional Level 3 packages.
 
-        Parameter 'package' is the name or URI of the package
+        Parameter 'n' is the index of the disabled plug-in to return
 
-        Returns the plug-in object (the libSBML extension interface) of a
-        package extension with the given package name or URI.
+        Returns the nth disabled plug-in object (the libSBML extension
+        interface) of a package extension.
+
+        See also getNumDisabledPlugins(), getPlugin().
 
         """
-        return _libsbml.SBase_getPlugin(self, *args)
+        return _libsbml.SBase_getDisabledPlugin(self, *args)
 
     def getNumPlugins(self):
         """
@@ -4243,8 +4299,53 @@ class SBase(_object):
         Returns the number of plug-in objects (extension interfaces) of
         package extensions known by this instance of libSBML.
 
+        See also getPlugin().
+
         """
         return _libsbml.SBase_getNumPlugins(self)
+
+    def getNumDisabledPlugins(self):
+        """
+        getNumDisabledPlugins(self) -> unsigned int
+
+        Returns the number of disabled plug-in objects (extenstion interfaces)
+        for SBML Level 3 package extensions known.
+
+        SBML Level 3 consists of a Core definition that can be extended via
+        optional SBML Level 3 packages.  A given model may indicate that it
+        uses one or more SBML packages, and likewise, a software tool may be
+        able to support one or more packages.  LibSBML does not come
+        preconfigured with all possible packages included and enabled, in part
+        because not all package specifications have been finalized.  To
+        support the ability for software systems to enable support for the
+        Level 3 packages they choose, libSBML features a plug-in mechanism.
+        Each SBML Level 3 package is implemented in a separate code plug-in
+        that can be enabled by the application to support working with that
+        SBML package.  A given SBML model may thus contain not only objects
+        defined by SBML Level 3 Core, but also objects created by libSBML
+        plug-ins supporting additional Level 3 packages.
+
+        Returns the number of disabled plug-in objects (extension interfaces)
+        of package extensions known by this instance of libSBML.
+
+        """
+        return _libsbml.SBase_getNumDisabledPlugins(self)
+
+    def deleteDisabledPlugins(self, recursive = True):
+        """
+        deleteDisabledPlugins(self, bool recursive = True)
+        deleteDisabledPlugins(self)
+
+        Deletes all information stored in disabled plugins.
+
+        Parameter 'recursive' is if True, the disabled information will be
+        deleted also from all child elements, otherwise only from this SBase
+        element.
+
+        See also getNumDisabledPlugins().
+
+        """
+        return _libsbml.SBase_deleteDisabledPlugins(self, recursive)
 
     def enablePackage(self, *args):
         """
@@ -4312,7 +4413,7 @@ class SBase(_object):
             doc.printErrors()
             sys.exit(1)
           
-          # We extract one of the species from the model we just read in.
+          # We extract one of the species from the model.
           
           model = doc.getModel()
           if model == None:
@@ -4672,10 +4773,10 @@ class SBase(_object):
         getListOfAllElements(self, ElementFilter filter = None) -> SBaseList
         getListOfAllElements(self) -> SBaseList
 
-        @return an SBaseList of all child SBase objects, including those
+        Returns an SBaseList of all child SBase objects, including those
         nested to an arbitrary depth.
 
-        @return a list of all child objects.
+        @return a list of all objects that are children of this object.
 
         """
         return _libsbml.SBase_getListOfAllElements(self, filter)
@@ -4685,13 +4786,18 @@ class SBase(_object):
         getListOfAllElementsFromPlugins(self, ElementFilter filter = None) -> SBaseList
         getListOfAllElementsFromPlugins(self) -> SBaseList
 
-        @return an SBaseList of all child SBase objects contained in SBML package
+        Returns a List of all child SBase objects contained in SBML package
         plug-ins.
 
-        This method walks down the list of all SBML Level 3 packages used by the
-        model, and returns all objects contained in them.
+        @copydetails doc_what_are_plugins
 
-        @return an SBaseList of all children objects from package plug-ins.
+        This method walks down the list of all SBML Level&nbsp;3 packages used
+        by this object and returns all child objects defined by those packages.
+
+        @return a pointer to a List of pointers to all children objects from
+        plug-ins.
+
+        @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
         """
         return _libsbml.SBase_getListOfAllElementsFromPlugins(self, filter)
@@ -5311,7 +5417,7 @@ class Model(SBase):
     All of the lists are optional, but if a given list container is
     present within the model, the list must not be empty; that is, it must
     have length one or more.  The following are the components and lists
-    permitted in different Levels and Versions of SBML in version 5.10.2
+    permitted in different Levels and Versions of SBML in version 5.10.3
     of libSBML:
 
     * In SBML Level 1, the components are: UnitDefinition, Compartment,
@@ -5430,7 +5536,7 @@ class Model(SBase):
     ======================================================================
 
     To make it easier for applications to do whatever they need, libSBML
-    version 5.10.2 is relatively lax when it comes to enforcing
+    version 5.10.3 is relatively lax when it comes to enforcing
     correctness and completeness of models during model construction and
     editing. Essentially, libSBML will not in most cases check
     automatically that a model's components have valid attribute values,
@@ -9319,6 +9425,8 @@ class Model(SBase):
         """
         renameIDs(self, SBaseList elements, IdentifierTransformer idTransformer)
 
+        Internal implementation method.
+
         """
         return _libsbml.Model_renameIDs(self, *args)
 
@@ -9535,7 +9643,7 @@ class SBMLDocument(SBase):
         The default SBML Level of new SBMLDocument objects.
 
         This 'default Level' corresponds to the most recent SBML
-        specification Level available at the time libSBML version 5.10.2 was
+        specification Level available at the time libSBML version 5.10.3 was
         released.  The default Level is used by SBMLDocument if no Level is
         explicitly specified at the time of the construction of an
         SBMLDocument instance.
@@ -9567,7 +9675,7 @@ class SBMLDocument(SBase):
 
         This 'default Version' corresponds to the most recent Version within
         the most recent Level of SBML available at the time libSBML version
-        5.10.2 was released.  The default Version is used by SBMLDocument if
+        5.10.3 was released.  The default Version is used by SBMLDocument if
         no Version is explicitly specified at the time of the construction of
         an SBMLDocument instance.
 
@@ -9699,6 +9807,18 @@ class SBMLDocument(SBase):
 
         """
         return _libsbml.SBMLDocument_clone(self)
+
+    def isSetModel(self):
+        """
+        isSetModel(self) -> bool
+
+        Returns True if the Model object has been set, otherwise  returns
+        False.
+
+        Returns True if the Model object has been set
+
+        """
+        return _libsbml.SBMLDocument_isSetModel(self)
 
     def getModel(self, *args):
         """
@@ -10827,7 +10947,7 @@ def SBMLDocument_getDefaultLevel():
     The default SBML Level of new SBMLDocument objects.
 
     This 'default Level' corresponds to the most recent SBML
-    specification Level available at the time libSBML version 5.10.2 was
+    specification Level available at the time libSBML version 5.10.3 was
     released.  The default Level is used by SBMLDocument if no Level is
     explicitly specified at the time of the construction of an
     SBMLDocument instance.
@@ -10857,7 +10977,7 @@ def SBMLDocument_getDefaultVersion():
 
     This 'default Version' corresponds to the most recent Version within
     the most recent Level of SBML available at the time libSBML version
-    5.10.2 was released.  The default Version is used by SBMLDocument if
+    5.10.3 was released.  The default Version is used by SBMLDocument if
     no Version is explicitly specified at the time of the construction of
     an SBMLDocument instance.
 
@@ -22445,160 +22565,7 @@ class Rule(SBase):
         """
         __init__(self, Rule orig) -> Rule
 
-        Parent class for SBML rules in libSBML.
-
-        In SBML, rules provide additional ways to define the values of
-        variables in a model, their relationships, and the dynamical behaviors
-        of those variables.  They enable encoding relationships that cannot be
-        expressed using Reaction nor InitialAssignment objects alone.
-
-        The libSBML implementation of rules mirrors the SBML Level 3 Version 1
-        Core definition (which is in turn is very similar to the Level 2
-        Version 4 definition), with Rule being the parent class of three
-        subclasses as explained below.  The Rule class itself cannot be
-        instantiated by user programs and has no constructor; only the
-        subclasses AssignmentRule, AlgebraicRule and RateRule can be
-        instantiated directly.
-
-        General summary of SBML rules
-        ======================================================================
-
-        In SBML Level 3 as well as Level 2, rules are separated into three
-        subclasses for the benefit of model analysis software.  The three
-        subclasses are based on the following three different possible
-        functional forms (where x is a variable, f is some arbitrary function
-        returning a numerical result, V is a vector of variables that does not
-        include x, and W is a vector of variables that may include x):
-
-          Algebraic:   left-hand side is zero               0 = f(W)      
-          Assignment:  left-hand side is a scalar:          x = f(V)      
-          Rate:        left-hand side is a rate-of-change:  dx/dt = f(W)
-
-        In their general form given above, there is little to distinguish
-        between assignment and algebraic rules.  They are treated as separate
-        cases for the following reasons:
-
-        * Assignment rules can simply be evaluated to calculate
-        intermediate values for use in numerical methods.  They are statements
-        of equality that hold at all times.  (For assignments that are only
-        performed once, see InitialAssignment.)
-
-        * SBML needs to place restrictions on assignment rules, for example
-        the restriction that assignment rules cannot contain algebraic loops.
-
-        * Some simulators do not contain numerical solvers capable of
-        solving unconstrained algebraic equations, and providing more direct
-        forms such as assignment rules may enable those simulators to process
-        models they could not process if the same assignments were put in the
-        form of general algebraic equations;
-
-        * Those simulators that can solve these algebraic equations make a
-        distinction between the different categories listed above; and
-
-        * Some specialized numerical analyses of models may only be
-        applicable to models that do not contain algebraic rules.
-
-        The approach taken to covering these cases in SBML is to define an
-        abstract Rule structure containing a subelement, 'math', to hold the
-        right-hand side expression, then to derive subtypes of Rule that add
-        attributes to distinguish the cases of algebraic, assignment and rate
-        rules.  The 'math' subelement must contain a MathML expression
-        defining the mathematical formula of the rule.  This MathML formula
-        must return a numerical value.  The formula can be an arbitrary
-        expression referencing the variables and other entities in an SBML
-        model.
-
-        Each of the three subclasses of Rule (AssignmentRule, AlgebraicRule,
-        RateRule) inherit the the 'math' subelement and other fields from
-        SBase. The AssignmentRule and RateRule classes add an additional
-        attribute, 'variable'.  See the definitions of AssignmentRule,
-        AlgebraicRule and RateRule for details about the structure and
-        interpretation of each one.
-
-        Additional restrictions on SBML rules
-        ======================================================================
-
-        An important design goal of SBML rule semantics is to ensure that a
-        model's simulation and analysis results will not be dependent on when
-        or how often rules are evaluated.  To achieve this, SBML needs to
-        place two restrictions on rule use.  The first concerns algebraic
-        loops in the system of assignments in a model, and the second concerns
-        overdetermined systems.
-
-        A model must not contain algebraic loops
-        ......................................................................
-
-        The combined set of InitialAssignment, AssignmentRule and KineticLaw
-        objects in a model constitute a set of assignment statements that
-        should be considered as a whole.  (A KineticLaw object is counted as
-        an assignment because it assigns a value to the symbol contained in
-        the 'id' attribute of the Reaction object in which it is defined.)
-        This combined set of assignment statements must not contain algebraic
-        loops---dependency chains between these statements must terminate.  To
-        put this more formally, consider a directed graph in which nodes are
-        assignment statements and directed arcs exist for each occurrence of
-        an SBML species, compartment or parameter symbol in an assignment
-        statement's 'math' subelement.  Let the directed arcs point from the
-        statement assigning the symbol to the statements that contain the
-        symbol in their 'math' subelement expressions. This graph must be
-        acyclic.
-
-        SBML does not specify when or how often rules should be evaluated.
-        Eliminating algebraic loops ensures that assignment statements can be
-        evaluated any number of times without the result of those evaluations
-        changing.  As an example, consider the set of equations x = x + 1, y =
-        z + 200 and z = y + 100.  If this set of equations were interpreted as
-        a set of assignment statements, it would be invalid because the rule
-        for x refers to x (exhibiting one type of loop), and the rule for y
-        refers to z while the rule for z refers back to y (exhibiting another
-        type of loop). Conversely, the following set of equations would
-        constitute a valid set of assignment statements: x = 10, y = z + 200,
-        and z = x + 100.
-
-        A model must not be overdetermined
-        ......................................................................
-
-        An SBML model must not be overdetermined; that is, a model must not
-        define more equations than there are unknowns in a model.  An SBML
-        model that does not contain AlgebraicRule structures cannot be
-        overdetermined.
-
-        LibSBML implements the static analysis procedure described in Appendix
-        B of the SBML Level 3 Version 1 Core specification for assessing
-        whether a model is overdetermined.
-
-        (In summary, assessing whether a given continuous, deterministic,
-        mathematical model is overdetermined does not require dynamic
-        analysis; it can be done by analyzing the system of equations created
-        from the model. One approach is to construct a bipartite graph in
-        which one set of vertices represents the variables and the other the
-        set of vertices represents the equations.  Place edges between
-        vertices such that variables in the system are linked to the equations
-        that determine them.  For algebraic equations, there will be edges
-        between the equation and each variable occurring in the equation.  For
-        ordinary differential equations (such as those defined by rate rules
-        or implied by the reaction rate definitions), there will be a single
-        edge between the equation and the variable determined by that
-        differential equation.  A mathematical model is overdetermined if the
-        maximal matchings of the bipartite graph contain disconnected vertexes
-        representing equations.  If one maximal matching has this property,
-        then all the maximal matchings will have this property; i.e., it is
-        only necessary to find one maximal matching.)
-
-        Rule types for SBML Level 1
-        ======================================================================
-
-        SBML Level 1 uses a different scheme than SBML Level 2 and Level 3 for
-        distinguishing rules; specifically, it uses an attribute whose value
-        is drawn from an enumeration of 3 values.  LibSBML supports this using
-        methods that work with the enumeration values  listed below.
-
-        * RULE_TYPE_RATE: Indicates the rule is a 'rate' rule.
-
-        * RULE_TYPE_SCALAR: Indicates the rule is a 'scalar' rule.
-
-        * RULE_TYPE_INVALID: Indicates the rule type is unknown or not yet
-        set.
+        @internal
 
         """
         this = _libsbml.new_Rule(*args)
@@ -23181,7 +23148,7 @@ class Rule(SBase):
 
         The returned value can be any of a number of different strings,
         depending on the SBML Level in use and the kind of Rule object this
-        is.  The rules as of libSBML version 5.10.2 are the following:
+        is.  The rules as of libSBML version 5.10.3 are the following:
 
         * (Level 2 and 3) RateRule: returns 'rateRule'
 
@@ -34256,7 +34223,12 @@ class SBO(_object):
     if _newclass:checkTerm = staticmethod(checkTerm)
     __swig_getmethods__["checkTerm"] = lambda x: checkTerm
     def __init__(self): 
-        """__init__(self) -> SBO"""
+        """
+        __init__(self) -> SBO
+
+        @internal
+
+        """
         this = _libsbml.new_SBO()
         try: self.this.append(this)
         except: self.this = this
@@ -35360,7 +35332,12 @@ class SyntaxChecker(_object):
     if _newclass:isValidInternalUnitSId = staticmethod(isValidInternalUnitSId)
     __swig_getmethods__["isValidInternalUnitSId"] = lambda x: isValidInternalUnitSId
     def __init__(self): 
-        """__init__(self) -> SyntaxChecker"""
+        """
+        __init__(self) -> SyntaxChecker
+
+        @internal
+
+        """
         this = _libsbml.new_SyntaxChecker()
         try: self.this.append(this)
         except: self.this = this
@@ -38129,7 +38106,7 @@ class SBMLConverter(_object):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.2:
+    provided by libSBML 5.10.3:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -38643,7 +38620,7 @@ class SBMLFunctionDefinitionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.2:
+    provided by libSBML 5.10.3:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -38656,7 +38633,12 @@ class SBMLFunctionDefinitionConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLFunctionDefinitionConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLFunctionDefinitionConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -38773,7 +38755,12 @@ SBMLFunctionDefinitionConverter_swigregister = _libsbml.SBMLFunctionDefinitionCo
 SBMLFunctionDefinitionConverter_swigregister(SBMLFunctionDefinitionConverter)
 
 def SBMLFunctionDefinitionConverter_init():
-  """SBMLFunctionDefinitionConverter_init()"""
+  """
+    SBMLFunctionDefinitionConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLFunctionDefinitionConverter_init()
 
 class SBMLIdConverter(SBMLConverter):
@@ -38889,7 +38876,7 @@ class SBMLIdConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.2:
+    provided by libSBML 5.10.3:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -38902,7 +38889,12 @@ class SBMLIdConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLIdConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLIdConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -39018,29 +39010,108 @@ SBMLIdConverter_swigregister = _libsbml.SBMLIdConverter_swigregister
 SBMLIdConverter_swigregister(SBMLIdConverter)
 
 def SBMLIdConverter_init():
-  """SBMLIdConverter_init()"""
+  """
+    SBMLIdConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLIdConverter_init()
 
 class SBMLInferUnitsConverter(SBMLConverter):
     """
-    This method has multiple variants; they differ in the arguments  they
-    accept.  Each variant is described separately below.
+    Converter for inferring and setting parameter units.
 
-    ______________________________________________________________________
-    Method variant with the following signature:
+    This class of objects is defined by libSBML only and has no direct
+    equivalent in terms of SBML components. It is a class used in the
+    implementation of extra functionality provided by libSBML.
 
-    SBMLInferUnitsConverter()
+    This SBML converter takes an SBML document and attempts to infer units
+    for any Parameter objects whose units are undeclared.  It then sets
+    the 'units' attribute of those parameters to the units inferred (if
+    necessary, creating new UnitDefinition objects on the model in the
+    process).
 
-    Creates a new SBMLInferUnitsConverter object.
+    Configuration and use of SBMLInferUnitsConverter
+    ======================================================================
 
-    ______________________________________________________________________
-    Method variant with the following signature:
+    SBMLInferUnitsConverter is enabled by creating a ConversionProperties
+    object with the option 'inferUnits', and passing this properties
+    object to SBMLDocument.convert(). The converter offers no other
+    options.
 
-    SBMLInferUnitsConverter(SBMLInferUnitsConverter obj)
+    General information about the use of SBML converters
+    ======================================================================
 
-    Copy constructor; creates a copy of an SBMLInferUnitsConverter object.
+    The use of all the converters follows a similar approach.  First, one
+    creates a ConversionProperties object and calls
+    ConversionProperties.addOption() on this object with one arguments: a
+    text string that identifies the desired converter.  (The text string
+    is specific to each converter; consult the documentation for a given
+    converter to find out how it should be enabled.)
 
-    Parameter 'obj' is the SBMLInferUnitsConverter object to copy.
+    Next, for some converters, the caller can optionally set some
+    converter-specific properties using additional calls to
+    ConversionProperties.addOption(). Many converters provide the ability
+    to configure their behavior to some extent; this is realized through
+    the use of properties that offer different options.  The default
+    property values for each converter can be interrogated using the
+    method SBMLConverter.getDefaultProperties() on the converter class in
+    question .
+
+    Finally, the caller should invoke the method SBMLDocument.convert()
+    with the ConversionProperties object as an argument.
+
+    Example of invoking an SBML converter
+    ......................................................................
+
+    The following code fragment illustrates an example using
+    SBMLReactionConverter, which is invoked using the option string
+    'replaceReactions':
+
+      config = ConversionProperties()
+      if config != None:
+        config.addOption('replaceReactions')
+
+    In the case of SBMLReactionConverter, there are no options to affect
+    its behavior, so the next step is simply to invoke the converter on an
+    SBMLDocument object.  Continuing the example code:
+
+        # Assume that the variable 'document' has been set to an SBMLDocument object.
+        status = document.convert(config)
+        if status != LIBSBML_OPERATION_SUCCESS:
+          # Handle error somehow.
+          print('Error: conversion failed due to the following:')
+          document.printErrors()
+
+    Here is an example of using a converter that offers an option. The
+    following code invokes SBMLStripPackageConverter to remove the SBML
+    Level 3 Layout package from a model.  It sets the name of the package
+    to be removed by adding a value for the option named 'package' defined
+    by that converter:
+
+      def strip_layout_example(document):
+        config = ConversionProperties()
+        if config != None:
+          config.addOption('stripPackage')
+          config.addOption('package', 'layout')
+          status = document.convert(config)
+          if status != LIBSBML_OPERATION_SUCCESS:
+            # Handle error somehow.
+            print('Error: unable to strip the Layout package.')
+            print('LibSBML returned error: ' + OperationReturnValue_toString(status).strip())
+        else:
+          # Handle error somehow.
+          print('Error: unable to create ConversionProperties object')
+
+    Available SBML converters in libSBML
+    ......................................................................
+
+    LibSBML provides a number of built-in converters; by convention, their
+    names end in Converter. The following are the built-in converters
+    provided by libSBML 5.10.3:
+
+    @copydetails doc_list_of_libsbml_converters
 
     """
     __swig_setmethods__ = {}
@@ -39051,7 +39122,12 @@ class SBMLInferUnitsConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLInferUnitsConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLInferUnitsConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -39090,9 +39166,10 @@ class SBMLInferUnitsConverter(SBMLConverter):
         """
         clone(self) -> SBMLInferUnitsConverter
 
-        Creates and returns a deep copy of this SBMLConverter object.
+        Creates and returns a deep copy of this SBMLInferUnitsConverter
+        object.
 
-        Returns the (deep) copy of this SBMLConverter object.
+        Returns a (deep) copy of this converter.
 
         """
         return _libsbml.SBMLInferUnitsConverter_clone(self)
@@ -39101,10 +39178,17 @@ class SBMLInferUnitsConverter(SBMLConverter):
         """
         matchesProperties(self, ConversionProperties props) -> bool
 
-        Predicate returning True if this converter's properties matches a
-        given set of configuration properties.
+        Returns True if this converter object's properties match the given
+        properties.
 
-        Parameter 'props' is the configuration properties to match.
+        A typical use of this method involves creating a ConversionProperties
+        object, setting the options desired, and then calling this method on
+        an SBMLInferUnitsConverter object to find out if the object's property
+        values match the given ones.  This method is also used by
+        SBMLConverterRegistry.getConverterFor() to search across all
+        registered converters for one matching particular properties.
+
+        Parameter 'props' is the properties to match.
 
         Returns True if this converter's properties match, False otherwise.
 
@@ -39123,9 +39207,15 @@ class SBMLInferUnitsConverter(SBMLConverter):
         SBMLConverter.setProperties().
 
         Returns integer value indicating the success/failure of the operation.
-        The set of possible values that may be returned depends on the
-        converter subclass; please consult the documentation for the relevant
-        class to find out what the possibilities are.
+        The possible values are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        * LIBSBML_INVALID_OBJECT
+
+        * LIBSBML_CONV_INVALID_SRC_DOCUMENT
 
         """
         return _libsbml.SBMLInferUnitsConverter_convert(self)
@@ -39140,12 +39230,10 @@ class SBMLInferUnitsConverter(SBMLConverter):
         in order to influence the behavior of the converter.  This method
         returns the default property settings for this converter.  It is meant
         to be called in order to discover all the settings for the converter
-        object.  The run-time properties of the converter object can be
-        adjusted by using the method SBMLConverter.setProperties().
+        object.
 
-        Returns the default properties for the converter.
-
-        See also setProperties(), matchesProperties().
+        Returns the ConversionProperties object describing the default
+        properties for this converter.
 
         """
         return _libsbml.SBMLInferUnitsConverter_getDefaultProperties(self)
@@ -39154,7 +39242,12 @@ SBMLInferUnitsConverter_swigregister = _libsbml.SBMLInferUnitsConverter_swigregi
 SBMLInferUnitsConverter_swigregister(SBMLInferUnitsConverter)
 
 def SBMLInferUnitsConverter_init():
-  """SBMLInferUnitsConverter_init()"""
+  """
+    SBMLInferUnitsConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLInferUnitsConverter_init()
 
 class SBMLInitialAssignmentConverter(SBMLConverter):
@@ -39264,7 +39357,7 @@ class SBMLInitialAssignmentConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.2:
+    provided by libSBML 5.10.3:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -39277,7 +39370,12 @@ class SBMLInitialAssignmentConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLInitialAssignmentConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLInitialAssignmentConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -39391,30 +39489,121 @@ SBMLInitialAssignmentConverter_swigregister = _libsbml.SBMLInitialAssignmentConv
 SBMLInitialAssignmentConverter_swigregister(SBMLInitialAssignmentConverter)
 
 def SBMLInitialAssignmentConverter_init():
-  """SBMLInitialAssignmentConverter_init()"""
+  """
+    SBMLInitialAssignmentConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLInitialAssignmentConverter_init()
 
 class SBMLLevelVersionConverter(SBMLConverter):
     """
-    This method has multiple variants; they differ in the arguments  they
-    accept.  Each variant is described separately below.
+    Whole-document SBML Level/Version converter.
 
-    ______________________________________________________________________
-    Method variant with the following signature:
+    This class of objects is defined by libSBML only and has no direct
+    equivalent in terms of SBML components. It is a class used in the
+    implementation of extra functionality provided by libSBML.
 
-    SBMLLevelVersionConverter()
+    This SBML converter takes an SBML document having one SBML
+    Level+Version combination, and attempts to convert it to an SBML
+    document having a different Level+Version combination.
 
-    Creates a new SBMLLevelVersionConverter object.
+    This class is also the basis for SBMLDocument.setLevelAndVersion().
 
-    ______________________________________________________________________
-    Method variant with the following signature:
+    Configuration and use of SBMLLevelVersionConverter
+    ======================================================================
 
-    SBMLLevelVersionConverter(SBMLLevelVersionConverter obj)
+    SBMLLevelVersionConverter is enabled by creating a
+    ConversionProperties object with the option 'setLevelAndVersion', and
+    passing this properties object to SBMLDocument.convert().  The target
+    SBML Level and Version combination are determined by the value of the
+    SBML namespace set on the ConversionProperties object (using
+    ConversionProperties.setTargetNamespaces()).
 
-    Copy constructor; creates a copy of an SBMLLevelVersionConverter
-    object.
+    In addition, this converter offers one option:
 
-    Parameter 'obj' is the SBMLLevelVersionConverter object to copy.
+    * 'strict': if this option has the value True, then the validity
+    of the SBML document will be strictly preserved.  This means that SBML
+    validation will be performed, and if the original model is not valid
+    or semantics cannot be preserved in the converted model, then
+    conversion will not be performed.  Conversely, if this option is set
+    to False, model conversion will always be performed; if any errors are
+    detected related to altered semantics, the errors will be logged in
+    the usual way (i.e., the error log on the SBMLDocument object).
+
+    General information about the use of SBML converters
+    ======================================================================
+
+    The use of all the converters follows a similar approach.  First, one
+    creates a ConversionProperties object and calls
+    ConversionProperties.addOption() on this object with one arguments: a
+    text string that identifies the desired converter.  (The text string
+    is specific to each converter; consult the documentation for a given
+    converter to find out how it should be enabled.)
+
+    Next, for some converters, the caller can optionally set some
+    converter-specific properties using additional calls to
+    ConversionProperties.addOption(). Many converters provide the ability
+    to configure their behavior to some extent; this is realized through
+    the use of properties that offer different options.  The default
+    property values for each converter can be interrogated using the
+    method SBMLConverter.getDefaultProperties() on the converter class in
+    question .
+
+    Finally, the caller should invoke the method SBMLDocument.convert()
+    with the ConversionProperties object as an argument.
+
+    Example of invoking an SBML converter
+    ......................................................................
+
+    The following code fragment illustrates an example using
+    SBMLReactionConverter, which is invoked using the option string
+    'replaceReactions':
+
+      config = ConversionProperties()
+      if config != None:
+        config.addOption('replaceReactions')
+
+    In the case of SBMLReactionConverter, there are no options to affect
+    its behavior, so the next step is simply to invoke the converter on an
+    SBMLDocument object.  Continuing the example code:
+
+        # Assume that the variable 'document' has been set to an SBMLDocument object.
+        status = document.convert(config)
+        if status != LIBSBML_OPERATION_SUCCESS:
+          # Handle error somehow.
+          print('Error: conversion failed due to the following:')
+          document.printErrors()
+
+    Here is an example of using a converter that offers an option. The
+    following code invokes SBMLStripPackageConverter to remove the SBML
+    Level 3 Layout package from a model.  It sets the name of the package
+    to be removed by adding a value for the option named 'package' defined
+    by that converter:
+
+      def strip_layout_example(document):
+        config = ConversionProperties()
+        if config != None:
+          config.addOption('stripPackage')
+          config.addOption('package', 'layout')
+          status = document.convert(config)
+          if status != LIBSBML_OPERATION_SUCCESS:
+            # Handle error somehow.
+            print('Error: unable to strip the Layout package.')
+            print('LibSBML returned error: ' + OperationReturnValue_toString(status).strip())
+        else:
+          # Handle error somehow.
+          print('Error: unable to create ConversionProperties object')
+
+    Available SBML converters in libSBML
+    ......................................................................
+
+    LibSBML provides a number of built-in converters; by convention, their
+    names end in Converter. The following are the built-in converters
+    provided by libSBML 5.10.3:
+
+    @copydetails doc_list_of_libsbml_converters
 
     """
     __swig_setmethods__ = {}
@@ -39425,7 +39614,12 @@ class SBMLLevelVersionConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLLevelVersionConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLLevelVersionConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -39465,9 +39659,10 @@ class SBMLLevelVersionConverter(SBMLConverter):
         """
         clone(self) -> SBMLLevelVersionConverter
 
-        Creates and returns a deep copy of this SBMLConverter object.
+        Creates and returns a deep copy of this SBMLLevelVersionConverter
+        object.
 
-        Returns the (deep) copy of this SBMLConverter object.
+        Returns a (deep) copy of this converter.
 
         """
         return _libsbml.SBMLLevelVersionConverter_clone(self)
@@ -39476,10 +39671,17 @@ class SBMLLevelVersionConverter(SBMLConverter):
         """
         matchesProperties(self, ConversionProperties props) -> bool
 
-        Predicate returning True if this converter's properties matches a
-        given set of configuration properties.
+        Returns True if this converter object's properties match the given
+        properties.
 
-        Parameter 'props' is the configuration properties to match.
+        A typical use of this method involves creating a ConversionProperties
+        object, setting the options desired, and then calling this method on
+        an SBMLLevelVersionConverter object to find out if the object's
+        property values match the given ones.  This method is also used by
+        SBMLConverterRegistry.getConverterFor() to search across all
+        registered converters for one matching particular properties.
+
+        Parameter 'props' is the properties to match.
 
         Returns True if this converter's properties match, False otherwise.
 
@@ -39498,9 +39700,17 @@ class SBMLLevelVersionConverter(SBMLConverter):
         SBMLConverter.setProperties().
 
         Returns integer value indicating the success/failure of the operation.
-        The set of possible values that may be returned depends on the
-        converter subclass; please consult the documentation for the relevant
-        class to find out what the possibilities are.
+        The possible values are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        * LIBSBML_CONV_INVALID_TARGET_NAMESPACE
+
+        * LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE
+
+        * LIBSBML_CONV_INVALID_SRC_DOCUMENT
 
         """
         return _libsbml.SBMLLevelVersionConverter_convert(self)
@@ -39515,12 +39725,10 @@ class SBMLLevelVersionConverter(SBMLConverter):
         in order to influence the behavior of the converter.  This method
         returns the default property settings for this converter.  It is meant
         to be called in order to discover all the settings for the converter
-        object.  The run-time properties of the converter object can be
-        adjusted by using the method SBMLConverter.setProperties().
+        object.
 
-        Returns the default properties for the converter.
-
-        See also setProperties(), matchesProperties().
+        Returns the ConversionProperties object describing the default
+        properties for this converter.
 
         """
         return _libsbml.SBMLLevelVersionConverter_getDefaultProperties(self)
@@ -39563,7 +39771,12 @@ SBMLLevelVersionConverter_swigregister = _libsbml.SBMLLevelVersionConverter_swig
 SBMLLevelVersionConverter_swigregister(SBMLLevelVersionConverter)
 
 def SBMLLevelVersionConverter_init():
-  """SBMLLevelVersionConverter_init()"""
+  """
+    SBMLLevelVersionConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLLevelVersionConverter_init()
 
 class SBMLLocalParameterConverter(SBMLConverter):
@@ -39665,7 +39878,7 @@ class SBMLLocalParameterConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.2:
+    provided by libSBML 5.10.3:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -39678,7 +39891,12 @@ class SBMLLocalParameterConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLLocalParameterConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLLocalParameterConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -39792,7 +40010,12 @@ SBMLLocalParameterConverter_swigregister = _libsbml.SBMLLocalParameterConverter_
 SBMLLocalParameterConverter_swigregister(SBMLLocalParameterConverter)
 
 def SBMLLocalParameterConverter_init():
-  """SBMLLocalParameterConverter_init()"""
+  """
+    SBMLLocalParameterConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLLocalParameterConverter_init()
 
 class SBMLReactionConverter(SBMLConverter):
@@ -39888,7 +40111,7 @@ class SBMLReactionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.2:
+    provided by libSBML 5.10.3:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -39901,7 +40124,12 @@ class SBMLReactionConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLReactionConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLReactionConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -40064,7 +40292,12 @@ SBMLReactionConverter_swigregister = _libsbml.SBMLReactionConverter_swigregister
 SBMLReactionConverter_swigregister(SBMLReactionConverter)
 
 def SBMLReactionConverter_init():
-  """SBMLReactionConverter_init()"""
+  """
+    SBMLReactionConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLReactionConverter_init()
 
 class SBMLRuleConverter(SBMLConverter):
@@ -40185,7 +40418,7 @@ class SBMLRuleConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.2:
+    provided by libSBML 5.10.3:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -40198,7 +40431,12 @@ class SBMLRuleConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLRuleConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLRuleConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -40312,7 +40550,12 @@ SBMLRuleConverter_swigregister = _libsbml.SBMLRuleConverter_swigregister
 SBMLRuleConverter_swigregister(SBMLRuleConverter)
 
 def SBMLRuleConverter_init():
-  """SBMLRuleConverter_init()"""
+  """
+    SBMLRuleConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLRuleConverter_init()
 
 class SBMLStripPackageConverter(SBMLConverter):
@@ -40409,7 +40652,7 @@ class SBMLStripPackageConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.2:
+    provided by libSBML 5.10.3:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -40422,7 +40665,12 @@ class SBMLStripPackageConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLStripPackageConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLStripPackageConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -40538,7 +40786,12 @@ SBMLStripPackageConverter_swigregister = _libsbml.SBMLStripPackageConverter_swig
 SBMLStripPackageConverter_swigregister(SBMLStripPackageConverter)
 
 def SBMLStripPackageConverter_init():
-  """SBMLStripPackageConverter_init()"""
+  """
+    SBMLStripPackageConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLStripPackageConverter_init()
 
 class SBMLUnitsConverter(SBMLConverter):
@@ -40644,7 +40897,7 @@ class SBMLUnitsConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.2:
+    provided by libSBML 5.10.3:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -40657,7 +40910,12 @@ class SBMLUnitsConverter(SBMLConverter):
     __getattr__ = lambda self, name: _swig_getattr(self, SBMLUnitsConverter, name)
     __repr__ = _swig_repr
     def init():
-        """init()"""
+        """
+        init()
+
+        Internal implementation method.
+
+        """
         return _libsbml.SBMLUnitsConverter_init()
 
     if _newclass:init = staticmethod(init)
@@ -40773,7 +41031,12 @@ SBMLUnitsConverter_swigregister = _libsbml.SBMLUnitsConverter_swigregister
 SBMLUnitsConverter_swigregister(SBMLUnitsConverter)
 
 def SBMLUnitsConverter_init():
-  """SBMLUnitsConverter_init()"""
+  """
+    SBMLUnitsConverter_init()
+
+    Internal implementation method.
+
+    """
   return _libsbml.SBMLUnitsConverter_init()
 
 class SBMLValidator(_object):
@@ -43487,11 +43750,11 @@ class XMLNode(XMLToken):
     """
     A node in libSBML's XML document tree.
 
-    Beginning with version 3.0.0, libSBML implements an XML abstraction
-    layer.  This layer presents a uniform XML interface to calling
-    programs regardless of which underlying XML parser libSBML has
-    actually been configured to use.  The basic data object in the XML
-    abstraction is a node, represented by XMLNode.
+    LibSBML implements an XML abstraction layer.  This layer presents a
+    uniform XML interface to calling programs regardless of which
+    underlying XML parser libSBML has actually been configured to use.
+    The basic data object in the XML abstraction is a node, represented by
+    XMLNode.
 
     An XMLNode can contain any number of children.  Each child is another
     XMLNode, thereby forming a tree.  The methods XMLNode.getNumChildren()
@@ -43509,20 +43772,21 @@ class XMLNode(XMLToken):
     LibSBML provides the following utility functions for converting an XML
     string (e.g., <annotation>...</annotation>) to/from an XMLNode object.
 
-    * XMLNode.toXMLString() returns a string representation of the XMLNode
-    object.
+    * XMLNode.toXMLString() returns a string representation of the
+    XMLNode object.
 
-    * XMLNode.convertXMLNodeToString() (static function) returns a string
-    representation  of the given XMLNode object.
+    * XMLNode.convertXMLNodeToString() (static function) returns a
+    string representation of the given XMLNode object.
 
     * XMLNode.convertStringToXMLNode() (static function) returns an
-    XMLNode object converted  from the given XML string. The returned
-    XMLNode object by XMLNode.convertStringToXMLNode() is a dummy root
-    (container) XMLNode if the given XML string has two or more top-level
-    elements (e.g., " ... ..."). In the dummy root node, each top-level
-    element in the given XML string is contained as a child XMLNode.
-    XMLToken.isEOF() can be used to identify if the returned XMLNode
-    object is a dummy node or not.  Here is an example:
+    XMLNode object converted from the given XML string.
+
+    The returned XMLNode object by XMLNode.convertStringToXMLNode() is a
+    dummy root (container) XMLNode if the given XML string has two or more
+    top-level elements (e.g., " ... ..."). In the dummy root node, each
+    top-level element in the given XML string is contained as a child
+    XMLNode. XMLToken.isEOF() can be used to identify if the returned
+    XMLNode object is a dummy node or not.  Here is an example:
 
       xn = XMLNode.convertStringToXMLNode('<p></p>')
       if xn == None:
@@ -43822,7 +44086,7 @@ class XMLNode(XMLToken):
 
         Returns the first child of this XMLNode with the corresponding name.
 
-        If no child with corrsponding name can be found,  this method returns
+        If no child with corrsponding name can be found, this method returns
         an empty node.
 
         Parameter 'name' is the name of the node to return
@@ -44243,21 +44507,41 @@ class XMLOutputStream(_object):
     an abstraction layer.  XMLInputStream and XMLOutputStream are two
     parts of that abstraction layer.
 
-    XMLOutputStream provides a wrapper above a standard ostream to
-    facilitate writing XML.  XMLOutputStream keeps track of start and end
-    elements, indentation, XML namespace prefixes, and more.  The
-    interface provides features for converting non-text data types into
-    appropriate textual form; this takes the form of overloaded
-    writeAttribute methods that allow users to simply use the same method
-    with any data type.  For example,
+    XMLOutputStream provides a wrapper above output streams to facilitate
+    writing XML.  XMLOutputStream keeps track of start and end elements,
+    indentation, XML namespace prefixes, and more.  The interface provides
+    features for converting non-text data types into appropriate textual
+    form; this takes the form of overloaded writeAttribute(...) methods
+    that allow users to simply use the same method with any data type.
+    For example, suppose an element testElement has two attributes, size
+    and id, and the attributes are variables in your code as follows:
 
-      double size = 3.2;
-      string id = 'id';
+      size = 3.2;
+      id = 'id';
 
-    can be written out using
+    Then, the element and the attributes can be written to the standard
+    output stream (provided as cout in the libSBML language bindings) as
+    follows:
 
-      writeAttribute('size', size);
-      writeAttribute('id', id);
+      from libsbml import *
+      
+      size = 3.2;
+      id = 'id';
+      
+      # Create an XMLOutputStream object that will write to the standard
+      # output stream, which is provide in libSBML's Python language
+      # interface as the object 'libsbml.cout'.  Since we imported * from
+      # the libsbml module, we can simply refer to it as 'cout' here:
+      
+      output_stream = XMLOutputStream(cout)
+      
+      # Create the start element, write the attributes, and close the
+      # element.  The output is written immediately by each method.
+      
+      output_stream.startElement('testElement')
+      output_stream.writeAttribute('size', size)
+      output_stream.writeAttribute('id', id)
+      output_stream.endElement('testElement')
 
     Other classes in SBML take XMLOutputStream objects as arguments, and
     use that to write elements and attributes seamlessly to the XML output
@@ -44293,53 +44577,29 @@ class XMLOutputStream(_object):
         __init__(self, ostream stream, string encoding = "UTF-8") -> XMLOutputStream
         __init__(self, ostream stream) -> XMLOutputStream
 
-        Interface to an XML output stream.
+        Creates a new XMLOutputStream that wraps the given @p stream.
 
-        This class of objects is defined by libSBML only and has no direct
-        equivalent in terms of SBML components. This class is not prescribed
-        by the SBML specifications, although it is used to implement features
-        defined in SBML.
+        @copydetails doc_programname_arguments
 
-        SBML content is serialized using XML; the resulting data can be stored
-        and read to/from a file or data stream.  Low-level XML parsers such as
-        Xerces provide facilities to read XML data.  To permit the use of
-        different XML parsers (Xerces, Expat or libxml2), libSBML implements
-        an abstraction layer.  XMLInputStream and XMLOutputStream are two
-        parts of that abstraction layer.
+        @copydetails doc_xml_declaration
 
-        XMLOutputStream provides a wrapper above a standard ostream to
-        facilitate writing XML.  XMLOutputStream keeps track of start and end
-        elements, indentation, XML namespace prefixes, and more.  The
-        interface provides features for converting non-text data types into
-        appropriate textual form; this takes the form of overloaded
-        writeAttribute methods that allow users to simply use the same method
-        with any data type.  For example,
+        @param stream the input stream to wrap.
 
-          double size = 3.2;
-          string id = 'id';
+        @param encoding the XML encoding to declare in the output. This value should
+        be <code>&quot;UTF-8&quot;</code> for SBML documents.  The default value is
+        <code>&quot;UTF-8&quot;</code> if no value is supplied for this parameter.
 
-        can be written out using
+        @param writeXMLDecl whether to write a standard XML declaration at
+        the beginning of the content written on @p stream.  The default is
+        @c true.
 
-          writeAttribute('size', size);
-          writeAttribute('id', id);
+        @param programName an optional program name to write as a comment
+        in the output stream.
 
-        Other classes in SBML take XMLOutputStream objects as arguments, and
-        use that to write elements and attributes seamlessly to the XML output
-        stream.
+        @param programVersion an optional version identification string to write
+        as a comment in the output stream.
 
-        It is also worth noting that unlike XMLInputStream, XMLOutputStream is
-        actually independent of the underlying XML parsers.  It does not use
-        the XML parser libraries at all.
-
-        Note:
-
-        The convenience of the XMLInputStream and XMLOutputStream abstraction
-        may be useful for developers interested in creating parsers for other
-        XML formats besides SBML.  It can provide developers with a layer
-        above more basic XML parsers, as well as some useful programmatic
-        elements such as XMLToken, XMLError, etc.
-
-        See also XMLInputStream.
+        @htmlinclude warn-default-args-in-docs.html
 
         """
         this = _libsbml.new_XMLOutputStream(*args)
@@ -44837,6 +45097,14 @@ class XMLOutputStream(_object):
 
         Decreases the indentation level for this XMLOutputStream.
 
+        LibSBML tries to produce human-readable XML output by automatically
+        indenting the bodies of elements.  Callers can manually control
+        indentation further by using the XMLOutputStream.upIndent() and
+        XMLOutputStream.downIndent() methods to increase and decrease,
+        respectively, the current level of indentation in the XML output.
+
+        See also upIndent().
+
         """
         return _libsbml.XMLOutputStream_downIndent(self)
 
@@ -44845,6 +45113,14 @@ class XMLOutputStream(_object):
         upIndent(self)
 
         Increases the indentation level for this XMLOutputStream.
+
+        LibSBML tries to produce human-readable XML output by automatically
+        indenting the bodies of elements.  Callers can manually control
+        indentation further by using the XMLOutputStream.upIndent() and
+        XMLOutputStream.downIndent() methods to increase and decrease,
+        respectively, the current level of indentation in the XML output.
+
+        See also downIndent().
 
         """
         return _libsbml.XMLOutputStream_upIndent(self)
@@ -44875,6 +45151,8 @@ class XMLOutputStream(_object):
         """
         writeAttributeBool(self, string name, bool value)
         writeAttributeBool(self, XMLTriple name, bool value)
+
+        @internal
         """
         return _libsbml.XMLOutputStream_writeAttributeBool(self, *args)
 
@@ -44953,47 +45231,20 @@ class XMLInputStream(_object):
         __init__(self, char content, bool isFile = True) -> XMLInputStream
         __init__(self, char content) -> XMLInputStream
 
-        An interface to an XML input stream.
+        Creates a new XMLInputStream.
 
-        This class of objects is defined by libSBML only and has no direct
-        equivalent in terms of SBML components. This class is not prescribed
-        by the SBML specifications, although it is used to implement features
-        defined in SBML.
+        @param content the source of the stream.
 
-        SBML content is serialized using XML; the resulting data can be stored
-        and read to/from a file or data stream.  Low-level XML parsers such as
-        Xerces provide facilities to read XML data.  To permit the use of
-        different XML parsers (Xerces, Expat or libxml2), libSBML implements
-        an abstraction layer.  XMLInputStream and XMLOutputStream are two
-        parts of that abstraction layer.
+        @param isFile a boolean flag to indicate whether @p content is a file
+        name.  If @c true, @p content is assumed to be the file from which the
+        XML content is to be read.  If @c false, @p content is taken to be a
+        string that @em is the content to be read.
 
-        XMLInputStream is an interface to a file or text string containing
-        XML. It wraps the content to be read, as well as the low-level XML
-        parser to be used and an XMLErrorLog to record errors and other issues
-        (if any arise). Internally, the content will be in the form of either
-        a pointer to a file name or a character string; XMLInputStream knows
-        the form of the content and acts appropriately.  Other libSBML object
-        classes use XMLInputStream as their interface for all read operations
-        on the XML data. XMLInputStream provides the functionality to extract
-        data in the form of XMLToken objects.  It logs any errors encountered
-        while reading.  It also keeps track of whether a read operation has
-        failed irrecoverably or determines whether it is safe to continue
-        reading.
+        @param library the name of the parser library to use.
 
-        SBMLNamespaces objects can be associated with an XMLInputStream; this
-        facilitates logging errors related to reading XML attributes and
-        elements that may only be relevant to particular Level and Version
-        combinations of SBML.
+        @param errorLog the XMLErrorLog object to use.
 
-        Note:
-
-        The convenience of the XMLInputStream and XMLOutputStream abstraction
-        may be useful for developers interested in creating parsers for other
-        XML formats besides SBML.  It can provide developers with a layer
-        above more basic XML parsers, as well as some useful programmatic
-        elements such as XMLToken, XMLError, etc.
-
-        See also XMLOutputStream.
+        @htmlinclude warn-default-args-in-docs.html
 
         """
         this = _libsbml.new_XMLInputStream(*args)
@@ -46164,31 +46415,7 @@ class XMLErrorLog(_object):
         __init__(self) -> XMLErrorLog
         __init__(self, XMLErrorLog other) -> XMLErrorLog
 
-        Log of diagnostics reported during XML processing.
-
-        This class of objects is defined by libSBML only and has no direct
-        equivalent in terms of SBML components. This class is not prescribed
-        by the SBML specifications, although it is used to implement features
-        defined in SBML.
-
-        The error log is a list.  The XML layer of libSBML maintains an error
-        log associated with a given XML document or data stream.  When an
-        operation results in an error, or when there is something wrong with
-        the XML content, the problem is reported as an XMLError object stored
-        in the XMLErrorLog list.  Potential problems range from low-level
-        issues (such as the inability to open a file) to XML syntax errors
-        (such as mismatched tags or other problems).
-
-        A typical approach for using this error log is to first use
-        getNumErrors() to inquire how many XMLError object instances it
-        contains, and then to iterate over the list of objects one at a time
-        using getError(long n) const.  Indexing in the list begins at 0.
-
-        In normal circumstances, programs using libSBML will actually obtain
-        an SBMLErrorLog rather than an XMLErrorLog.  The former is subclassed
-        from XMLErrorLog and simply wraps commands for working with SBMLError
-        objects rather than the low-level XMLError objects.  Classes such as
-        SBMLDocument use the higher-level SBMLErrorLog.
+        @internal
 
         """
         this = _libsbml.new_XMLErrorLog(*args)
@@ -46518,39 +46745,7 @@ class SBMLErrorLog(XMLErrorLog):
         __init__(self) -> SBMLErrorLog
         __init__(self, SBMLErrorLog other) -> SBMLErrorLog
 
-        Log of diagnostics reported during processing.
-
-        This class of objects is defined by libSBML only and has no direct
-        equivalent in terms of SBML components. This class is not prescribed
-        by the SBML specifications, although it is used to implement features
-        defined in SBML.
-
-        The error log is a list.  Each SBMLDocument maintains its own
-        SBMLErrorLog.  When a libSBML operation on SBML content results in an
-        error, or when there is something worth noting about the SBML content,
-        the issue is reported as an SBMLError object stored in the
-        SBMLErrorLog list.
-
-        SBMLErrorLog is derived from XMLErrorLog, an object class that serves
-        exactly the same purpose but for the XML parsing layer.  XMLErrorLog
-        provides crucial methods such as getNumErrors() for determining how
-        many SBMLError or XMLError objects are in the log. SBMLErrorLog
-        inherits these methods.
-
-        The general approach to working with SBMLErrorLog in user programs
-        involves first obtaining a pointer to a log from a libSBML object such
-        as SBMLDocument.  Callers should then use getNumErrors()  to inquire
-        how many objects there are in the list.  (The answer may be 0.)  If
-        there is at least one SBMLError object in the SBMLErrorLog instance,
-        callers can then iterate over the list using SBMLErrorLog.getError(),
-        using methods provided by the SBMLError class to find out the error
-        code and associated information such as the error severity, the
-        message, and the line number in the input.
-
-        If you wish to simply print the error strings for a human to read, an
-        easier and more direct way might be to use SBMLDocument.printErrors().
-
-        See also SBMLError, XMLErrorLog, XMLError.
+        @internal
 
         """
         this = _libsbml.new_SBMLErrorLog(*args)
@@ -48092,7 +48287,7 @@ class SBMLError(XMLError):
     with SBMLError objects
     ......................................................................
 
-    In libSBML version 5.10.2 there are no additional severity codes
+    In libSBML version 5.10.3 there are no additional severity codes
     beyond those defined by XMLError. They are implemented as static
     integer constants defined in the interface class libsbml, and have
     names beginning with LIBSBML_SEV_.
@@ -48534,8 +48729,9 @@ class CVTerm(_object):
         """
         return _libsbml.CVTerm_clone(self)
 
-    def getQualifierType(self):
+    def getQualifierType(self, *args):
         """
+        getQualifierType(self) -> QualifierType_t
         getQualifierType(self) -> QualifierType_t
 
         Returns the qualifier type of this CVTerm object.
@@ -48591,10 +48787,11 @@ class CVTerm(_object):
         getBiologicalQualifierType().
 
         """
-        return _libsbml.CVTerm_getQualifierType(self)
+        return _libsbml.CVTerm_getQualifierType(self, *args)
 
-    def getModelQualifierType(self):
+    def getModelQualifierType(self, *args):
         """
+        getModelQualifierType(self) -> ModelQualifierType_t
         getModelQualifierType(self) -> ModelQualifierType_t
 
         Returns the model qualifier type of this CVTerm object.
@@ -48662,10 +48859,11 @@ class CVTerm(_object):
         default).
 
         """
-        return _libsbml.CVTerm_getModelQualifierType(self)
+        return _libsbml.CVTerm_getModelQualifierType(self, *args)
 
-    def getBiologicalQualifierType(self):
+    def getBiologicalQualifierType(self, *args):
         """
+        getBiologicalQualifierType(self) -> BiolQualifierType_t
         getBiologicalQualifierType(self) -> BiolQualifierType_t
 
         Returns the biological qualifier type of this CVTerm object.
@@ -48751,7 +48949,7 @@ class CVTerm(_object):
         default).
 
         """
-        return _libsbml.CVTerm_getBiologicalQualifierType(self)
+        return _libsbml.CVTerm_getBiologicalQualifierType(self, *args)
 
     def getResources(self, *args):
         """
@@ -48799,8 +48997,9 @@ class CVTerm(_object):
         """
         return _libsbml.CVTerm_getResources(self, *args)
 
-    def getNumResources(self):
+    def getNumResources(self, *args):
         """
+        getNumResources(self) -> unsigned int
         getNumResources(self) -> unsigned int
 
         Returns the number of resources for this CVTerm object.
@@ -48840,10 +49039,11 @@ class CVTerm(_object):
         See also getResources(), getResourceURI().
 
         """
-        return _libsbml.CVTerm_getNumResources(self)
+        return _libsbml.CVTerm_getNumResources(self, *args)
 
     def getResourceURI(self, *args):
         """
+        getResourceURI(self, unsigned int n) -> string
         getResourceURI(self, unsigned int n) -> string
 
         Returns the value of the nth resource for this CVTerm object.
@@ -49076,25 +49276,6 @@ class CVTerm(_object):
         """
         return _libsbml.CVTerm_removeResource(self, *args)
 
-    def hasRequiredAttributes(self):
-        """
-        hasRequiredAttributes(self) -> bool
-
-        Predicate returning True if all the required elements for this CVTerm
-        object have been set.
-
-        Note:
-
-        The required attributes for a CVTerm are:
-
-        * a qualifier type, which can be either a model qualifier or a
-        biological qualifier
-
-        * at least one resource
-
-        """
-        return _libsbml.CVTerm_hasRequiredAttributes(self)
-
     def hasBeenModified(self):
         """
         hasBeenModified(self) -> bool
@@ -49112,6 +49293,26 @@ class CVTerm(_object):
 
         """
         return _libsbml.CVTerm_resetModifiedFlags(self)
+
+    def hasRequiredAttributes(self, *args):
+        """
+        hasRequiredAttributes(self) -> bool
+        hasRequiredAttributes(self) -> bool
+
+        Predicate returning True if all the required elements for this CVTerm
+        object have been set.
+
+        Note:
+
+        The required attributes for a CVTerm are:
+
+        * a qualifier type, which can be either a model qualifier or a
+        biological qualifier
+
+        * at least one resource
+
+        """
+        return _libsbml.CVTerm_hasRequiredAttributes(self, *args)
 
     def __eq__(self, rhs):
       if ((self is None) and (rhs is None)): return True
@@ -50769,16 +50970,16 @@ class RDFAnnotationParser(_object):
         derived from SBase (e.g., a Model, or a Species, or a Compartment,
         etc.).  Then:
 
-          RDF     = RDFAnnotationParser.createRDFAnnotation() # Create RDF annotation XML structure.
+          RDF     = RDFAnnotationParser.createRDFAnnotation() # Create XML structure.
           success = RDF.addChild(...content...)               # Put some content into it.
-          ...                                                 # Check 'success' return code value.
+          ...                                                 # Check return code value.
           
-          annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation> container.
-          success = annot.addChild(RDF)                       # Put the RDF annotation into it.
-          ...                                                 # Check 'success' return code value.
+          annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation>.
+          success = annot.addChild(RDF)                       # Put the annotation into it.
+          ...                                                 # Check return code value.
           
-          success = sbmlObject.setAnnotation(annot)           # Set object's annotation to what we built.
-          ...                                                 # Check 'success' return code value.
+          success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
+          ...                                                 # Check return code value.
 
         The SBML specification contains more information about the format of
         annotations.  We urge readers to consult Section 6 of the SBML Level 2
@@ -51081,66 +51282,21 @@ class RDFAnnotationParser(_object):
             XMLInputStream stream = None)
         parseRDFAnnotation(XMLNode annotation, CVTermList CVTerms, char metaId = None)
 
-        This method has multiple variants; they differ in the arguments  they
-        accept.  Each variant is described separately below.
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        parseRDFAnnotation(XMLNodeannotation, List *CVTerms, string metaId
-        = None, XMLInputStream stream = None)
-
-        Parses an annotation (given as an XMLNode tree) into a list of CVTerm
-        objects.
+        Parses an annotation (given as an XMLNode tree) into a list of
+        CVTerm objects.
 
         This is used to take an annotation that has been read into an SBML
         model, identify the RDF elements within it, and create a list of
         corresponding CVTerm (controlled vocabulary term) objects.
 
-        Parameter 'annotation' is XMLNode containing the annotation. Parameter
-        'CVTerms' is list of CVTerm objects to be created. Parameter 'metaId'
-        is optional metaId, if set only the RDF annotation for this metaId
-        will be returned. Parameter 'stream' is optional XMLInputStream that
-        facilitates error logging.
+        @param annotation XMLNode containing the annotation.
+        @param CVTerms list of CVTerm objects to be created.
+        @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
+        @param stream optional XMLInputStream that facilitates error logging.
 
-        Note:
+        @copydetails doc_note_static_methods
 
-        Because this is a static method on a class, the Python language
-        interface for libSBML will contain two variants.  One will be the
-        expected, normal static method on the class (i.e., a regular
-        methodName), and the other will be a standalone top-level function
-        with the name ClassName_methodName(). This is merely an artifact of
-        how the language interfaces are created in libSBML.  The methods are
-        functionally identical.
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        parseRDFAnnotation(XMLNodeannotation, string metaId = None,
-        XMLInputStream stream = None)
-
-        Parses an annotation into a ModelHistory class instance.
-
-        This is used to take an annotation that has been read into an SBML
-        model, identify the RDF elements representing model history
-        information, and create a list of corresponding CVTerm objects.
-
-        Parameter 'annotation' is XMLNode containing the annotation. Parameter
-        'stream' is optional XMLInputStream that facilitates error logging
-        Parameter 'metaId' is optional metaId, if set only the RDF annotation
-        for this metaId will be returned.
-
-        Note:
-
-        Because this is a static method on a class, the Python language
-        interface for libSBML will contain two variants.  One will be the
-        expected, normal static method on the class (i.e., a regular
-        methodName), and the other will be a standalone top-level function
-        with the name ClassName_methodName(). This is merely an artifact of
-        how the language interfaces are created in libSBML.  The methods are
-        functionally identical.
-
-        Returns a pointer to the ModelHistory created.
+        @htmlinclude warn-default-args-in-docs.html
 
         """
         return _libsbml.RDFAnnotationParser_parseRDFAnnotation(*args)
@@ -51148,7 +51304,12 @@ class RDFAnnotationParser(_object):
     if _newclass:parseRDFAnnotation = staticmethod(parseRDFAnnotation)
     __swig_getmethods__["parseRDFAnnotation"] = lambda x: parseRDFAnnotation
     def __init__(self): 
-        """__init__(self) -> RDFAnnotationParser"""
+        """
+        __init__(self) -> RDFAnnotationParser
+
+        @internal
+
+        """
         this = _libsbml.new_RDFAnnotationParser()
         try: self.this.append(this)
         except: self.this = this
@@ -51171,16 +51332,16 @@ def RDFAnnotationParser_createAnnotation():
     derived from SBase (e.g., a Model, or a Species, or a Compartment,
     etc.).  Then:
 
-      RDF     = RDFAnnotationParser.createRDFAnnotation() # Create RDF annotation XML structure.
+      RDF     = RDFAnnotationParser.createRDFAnnotation() # Create XML structure.
       success = RDF.addChild(...content...)               # Put some content into it.
-      ...                                                 # Check 'success' return code value.
+      ...                                                 # Check return code value.
       
-      annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation> container.
-      success = annot.addChild(RDF)                       # Put the RDF annotation into it.
-      ...                                                 # Check 'success' return code value.
+      annot   = RDFAnnotationParser.createAnnotation()    # Create <annotation>.
+      success = annot.addChild(RDF)                       # Put the annotation into it.
+      ...                                                 # Check return code value.
       
-      success = sbmlObject.setAnnotation(annot)           # Set object's annotation to what we built.
-      ...                                                 # Check 'success' return code value.
+      success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
+      ...                                                 # Check return code value.
 
     The SBML specification contains more information about the format of
     annotations.  We urge readers to consult Section 6 of the SBML Level 2
@@ -51465,66 +51626,21 @@ def RDFAnnotationParser_parseRDFAnnotation(*args):
         XMLInputStream stream = None)
     RDFAnnotationParser_parseRDFAnnotation(XMLNode annotation, CVTermList CVTerms, char metaId = None)
 
-    This method has multiple variants; they differ in the arguments  they
-    accept.  Each variant is described separately below.
-
-    ______________________________________________________________________
-    Method variant with the following signature:
-
-    parseRDFAnnotation(XMLNodeannotation, List *CVTerms, string metaId
-    = None, XMLInputStream stream = None)
-
-    Parses an annotation (given as an XMLNode tree) into a list of CVTerm
-    objects.
+    Parses an annotation (given as an XMLNode tree) into a list of
+    CVTerm objects.
 
     This is used to take an annotation that has been read into an SBML
     model, identify the RDF elements within it, and create a list of
     corresponding CVTerm (controlled vocabulary term) objects.
 
-    Parameter 'annotation' is XMLNode containing the annotation. Parameter
-    'CVTerms' is list of CVTerm objects to be created. Parameter 'metaId'
-    is optional metaId, if set only the RDF annotation for this metaId
-    will be returned. Parameter 'stream' is optional XMLInputStream that
-    facilitates error logging.
+    @param annotation XMLNode containing the annotation.
+    @param CVTerms list of CVTerm objects to be created.
+    @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
+    @param stream optional XMLInputStream that facilitates error logging.
 
-    Note:
+    @copydetails doc_note_static_methods
 
-    Because this is a static method on a class, the Python language
-    interface for libSBML will contain two variants.  One will be the
-    expected, normal static method on the class (i.e., a regular
-    methodName), and the other will be a standalone top-level function
-    with the name ClassName_methodName(). This is merely an artifact of
-    how the language interfaces are created in libSBML.  The methods are
-    functionally identical.
-
-    ______________________________________________________________________
-    Method variant with the following signature:
-
-    parseRDFAnnotation(XMLNodeannotation, string metaId = None,
-    XMLInputStream stream = None)
-
-    Parses an annotation into a ModelHistory class instance.
-
-    This is used to take an annotation that has been read into an SBML
-    model, identify the RDF elements representing model history
-    information, and create a list of corresponding CVTerm objects.
-
-    Parameter 'annotation' is XMLNode containing the annotation. Parameter
-    'stream' is optional XMLInputStream that facilitates error logging
-    Parameter 'metaId' is optional metaId, if set only the RDF annotation
-    for this metaId will be returned.
-
-    Note:
-
-    Because this is a static method on a class, the Python language
-    interface for libSBML will contain two variants.  One will be the
-    expected, normal static method on the class (i.e., a regular
-    methodName), and the other will be a standalone top-level function
-    with the name ClassName_methodName(). This is merely an artifact of
-    how the language interfaces are created in libSBML.  The methods are
-    functionally identical.
-
-    Returns a pointer to the ModelHistory created.
+    @htmlinclude warn-default-args-in-docs.html
 
     """
   return _libsbml.RDFAnnotationParser_parseRDFAnnotation(*args)
@@ -51733,7 +51849,7 @@ class SBasePlugin(_object):
 
     *  virtual void setSBMLDocument(SBMLDocument d)
 
-    *  virtual void connectToParent(SBasesbase)
+    *  virtual void connectToParent(SBase sbase)
 
     *  virtual void enablePackageInternal(string pkgURI, string
     pkgPrefix, bool flag)  These functions must be overridden by
@@ -52113,10 +52229,10 @@ class SBasePlugin(_object):
         getListOfAllElements(self, ElementFilter filter = None) -> SBaseList
         getListOfAllElements(self) -> SBaseList
 
-        @return an SBaseList of all child SBase objects, including those
+        Returns an SBaseList of all child SBase objects, including those
         nested to an arbitrary depth.
 
-        @return a list of all child objects.
+        @return a list of all objects that are children of this object.
 
         """
         return _libsbml.SBasePlugin_getListOfAllElements(self, filter)
@@ -52154,8 +52270,8 @@ class SBMLDocumentPlugin(SBasePlugin):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        SBMLDocumentPlugin(string &uri, string &prefix,
-        SBMLNamespacessbmlns)
+        SBMLDocumentPlugin(string &uri, string &prefix, SBMLNamespaces
+        sbmlns)
 
         Constructor
 
@@ -52816,6 +52932,20 @@ class SBMLExtensionRegistry(_object):
         """
         return _libsbml.SBMLExtensionRegistry_isRegistered(self, *args)
 
+    def getAllRegisteredPackageNames():
+        """
+        getAllRegisteredPackageNames() -> std::vector<(std::string)>
+
+        Returns a vector of registered packages (such as 'layout', 'fbc' or
+        'comp') the vector contains strings.
+
+        Returns the names of the registered packages in a list
+
+        """
+        return _libsbml.SBMLExtensionRegistry_getAllRegisteredPackageNames()
+
+    if _newclass:getAllRegisteredPackageNames = staticmethod(getAllRegisteredPackageNames)
+    __swig_getmethods__["getAllRegisteredPackageNames"] = lambda x: getAllRegisteredPackageNames
     def getNumRegisteredPackages():
         """
         getNumRegisteredPackages() -> unsigned int
@@ -52890,6 +53020,18 @@ def SBMLExtensionRegistry_enablePackage(*args):
 
     """
   return _libsbml.SBMLExtensionRegistry_enablePackage(*args)
+
+def SBMLExtensionRegistry_getAllRegisteredPackageNames():
+  """
+    SBMLExtensionRegistry_getAllRegisteredPackageNames() -> std::vector<(std::string)>
+
+    Returns a vector of registered packages (such as 'layout', 'fbc' or
+    'comp') the vector contains strings.
+
+    Returns the names of the registered packages in a list
+
+    """
+  return _libsbml.SBMLExtensionRegistry_getAllRegisteredPackageNames()
 
 def SBMLExtensionRegistry_getNumRegisteredPackages():
   """
@@ -56026,7 +56168,7 @@ class ASTNode(ASTBase):
         """
         getListOfNodes(self) -> ASTNodeList
 
-        @return an ASTNodeList of all ASTNode objects.
+        Returns a list of nodes.
 
         Unlike the equivalent method in the libSBML C/C++ interface, this method does
         not offer the ability to pass a predicate as an argument.  The method always

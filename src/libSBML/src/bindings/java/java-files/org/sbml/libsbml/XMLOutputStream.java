@@ -26,22 +26,58 @@ defined in SBML.
  * layer.  {@link XMLInputStream} and {@link XMLOutputStream} are two parts of that
  * abstraction layer.
  <p>
- * {@link XMLOutputStream} provides a wrapper above a standard ostream to facilitate
+ * {@link XMLOutputStream} provides a wrapper above output streams to facilitate
  * writing XML.  {@link XMLOutputStream} keeps track of start and end elements,
  * indentation, XML namespace prefixes, and more.  The interface provides
  * features for converting non-text data types into appropriate textual form;
- * this takes the form of overloaded <code>writeAttribute</code> methods that
- * allow users to simply use the same method with any data type.  For example,
- * <pre class='fragment'>
+ * this takes the form of overloaded <code>writeAttribute(...)</code> methods
+ * that allow users to simply use the same method with any data type.  For
+ * example, suppose an element <code>testElement</code> has two attributes, <code>size</code> and
+ * <code>id</code>, and the attributes are variables in your code as follows:
+<p>
+<pre class='fragment'>
 double size = 3.2;
 String id = 'id';
 </pre>
-  * can be written out using
-  * <pre class='fragment'>
-writeAttribute('size', size);
-writeAttribute('id', id);
+<p>
+  * Then, the element and the attributes can be written to the
+  * standard output stream (provided as <code>cout</code> in the libSBML
+  * language bindings) as follows:
+<p>
+<pre class='fragment'>
+import org.sbml.libsbml.XMLOutputStream;
+import org.sbml.libsbml.libsbml;
+
+public class test
+{
+    public static void main (String[] args)
+    {
+        double size = 3.2;
+        String id = 'id';
+
+        // Create an {@link XMLOutputStream} object that will write to the
+        // standard output stream, which is provide in libSBML's
+        // Java language interface as the object 'libsbml.cout'.
+
+        {@link XMLOutputStream} xos = new {@link XMLOutputStream}(libsbml.cout);
+
+        // Create the start element, write the attributes, and close
+        // the element.  The output will be written immediately as
+        // each method is called.
+
+        xos.startElement('testElement');
+        xos.writeAttribute('size', size);
+        xos.writeAttribute('id', id);
+        xos.endElement('testElement');
+    }
+
+    static
+    {
+        System.loadLibrary('sbmlj');
+    }
+}
 </pre>
- <p>
+<p>
  * Other classes in SBML take {@link XMLOutputStream} objects as arguments, and use
  * that to write elements and attributes seamlessly to the XML output stream.
  <p>
@@ -910,6 +946,16 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
   
 /**
    * Decreases the indentation level for this {@link XMLOutputStream}.
+   <p>
+   * <p>
+ * LibSBML tries to produce human-readable XML output by automatically
+ * indenting the bodies of elements.  Callers can manually control
+ * indentation further by using the {@link XMLOutputStream#upIndent()}
+ * and {@link XMLOutputStream#downIndent()} methods to increase and
+ * decrease, respectively, the current level of indentation in the
+ * XML output.
+   <p>
+   * @see #upIndent()
    */ public
  void downIndent() {
     libsbmlJNI.XMLOutputStream_downIndent(swigCPtr, this);
@@ -918,6 +964,16 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
   
 /**
    * Increases the indentation level for this {@link XMLOutputStream}.
+   <p>
+   * <p>
+ * LibSBML tries to produce human-readable XML output by automatically
+ * indenting the bodies of elements.  Callers can manually control
+ * indentation further by using the {@link XMLOutputStream#upIndent()}
+ * and {@link XMLOutputStream#downIndent()} methods to increase and
+ * decrease, respectively, the current level of indentation in the
+ * XML output.
+   <p>
+   * @see #downIndent()
    */ public
  void upIndent() {
     libsbmlJNI.XMLOutputStream_upIndent(swigCPtr, this);

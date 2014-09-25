@@ -106,7 +106,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters

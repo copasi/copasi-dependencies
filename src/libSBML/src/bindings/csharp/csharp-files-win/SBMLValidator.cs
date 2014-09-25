@@ -122,7 +122,7 @@ public class SBMLValidator : IDisposable {
    * Creates and returns a deep copy of this SBMLValidator object.
    *
    * @return the (deep) copy of this SBMLValidator object.
-   */ public new
+   */ public virtual
  SBMLValidator clone() {
     IntPtr cPtr = (SwigDerivedClassHasMethod("clone", swigMethodTypes0) ? libsbmlPINVOKE.SBMLValidator_cloneSwigExplicitSBMLValidator(swigCPtr) : libsbmlPINVOKE.SBMLValidator_clone(swigCPtr));
     SBMLValidator ret = (cPtr == IntPtr.Zero) ? null : new SBMLValidator(cPtr, true);
@@ -136,7 +136,7 @@ public class SBMLValidator : IDisposable {
    * @return the current SBML document
    *
    * @see setDocument(@if java SBMLDocument@endif)
-   */ public new
+   */ public virtual
  SBMLDocument getDocument() {
     IntPtr cPtr = (SwigDerivedClassHasMethod("getDocument", swigMethodTypes1) ? libsbmlPINVOKE.SBMLValidator_getDocumentSwigExplicitSBMLValidator__SWIG_0(swigCPtr) : libsbmlPINVOKE.SBMLValidator_getDocument__SWIG_0(swigCPtr));
     SBMLDocument ret = (cPtr == IntPtr.Zero) ? null : new SBMLDocument(cPtr, false);
@@ -153,10 +153,10 @@ public class SBMLValidator : IDisposable {
    * validation.  @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values returned by this
    * function are
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getDocument()
-   */ public new
+   */ public virtual
  int setDocument(SBMLDocument doc) {
     int ret = (SwigDerivedClassHasMethod("setDocument", swigMethodTypes3) ? libsbmlPINVOKE.SBMLValidator_setDocumentSwigExplicitSBMLValidator(swigCPtr, SBMLDocument.getCPtr(doc)) : libsbmlPINVOKE.SBMLValidator_setDocument(swigCPtr, SBMLDocument.getCPtr(doc)));
     return ret;
@@ -170,7 +170,7 @@ public class SBMLValidator : IDisposable {
    * validation.  @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values returned by this
    * function are determined by the specific subclasses of this class.
-   */ public new
+   */ public virtual
  long validate() { return (long)(SwigDerivedClassHasMethod("validate", swigMethodTypes4) ? libsbmlPINVOKE.SBMLValidator_validateSwigExplicitSBMLValidator__SWIG_0(swigCPtr) : libsbmlPINVOKE.SBMLValidator_validate__SWIG_0(swigCPtr)); }
 
   
@@ -182,7 +182,7 @@ public class SBMLValidator : IDisposable {
    * the last validation run and before validating the next document.
    *
    * @if clike @see getFailures() @endif
-   */ public new
+   */ public virtual
  void clearFailures() {
     if (SwigDerivedClassHasMethod("clearFailures", swigMethodTypes5)) libsbmlPINVOKE.SBMLValidator_clearFailuresSwigExplicitSBMLValidator(swigCPtr); else libsbmlPINVOKE.SBMLValidator_clearFailures(swigCPtr);
   }
@@ -211,7 +211,7 @@ public class SBMLValidator : IDisposable {
    *
    * @return the number of validation failures that occurred.  The objects
    * describing the actual failures can be retrieved using getFailures().
-   */ public
+   */ public virtual
  long validate(SBMLDocument d) { return (long)libsbmlPINVOKE.SBMLValidator_validate__SWIG_1(swigCPtr, SBMLDocument.getCPtr(d)); }
 
   
@@ -225,7 +225,7 @@ public class SBMLValidator : IDisposable {
    *
    * @return the number of validation failures that occurred.  The objects
    * describing the actual failures can be retrieved using getFailures().
-   */ public
+   */ public virtual
  long validate(string filename) { return (long)libsbmlPINVOKE.SBMLValidator_validate__SWIG_2(swigCPtr, filename); }
 
   

@@ -25,21 +25,113 @@ namespace libsbml {
  * layer.  XMLInputStream and XMLOutputStream are two parts of that
  * abstraction layer.
  *
- * XMLOutputStream provides a wrapper above a standard ostream to facilitate
+ * XMLOutputStream provides a wrapper above output streams to facilitate
  * writing XML.  XMLOutputStream keeps track of start and end elements,
  * indentation, XML namespace prefixes, and more.  The interface provides
  * features for converting non-text data types into appropriate textual form;
- * this takes the form of overloaded <code>writeAttribute</code> methods that
- * allow users to simply use the same method with any data type.  For example,
- * @verbatim
+ * this takes the form of overloaded <code>writeAttribute(...)</code> methods
+ * that allow users to simply use the same method with any data type.  For
+ * example, suppose an element @c testElement has two attributes, @c size and
+ * @c id, and the attributes are variables in your code as follows:
+@if cpp
+@code{.cpp}
 double size = 3.2;
 string id = 'id';
-@endverbatim
-  * can be written out using
-  * @verbatim
-writeAttribute('size', size);
-writeAttribute('id', id);
-@endverbatim
+@endcode
+@endif
+@if java
+@code
+double size = 3.2;
+String id = 'id';
+@endcode
+@endif
+@if python
+@code
+size = 3.2;
+id = 'id';
+@endcode
+@endif
+  * Then, the element and the attributes can be written to the
+  * standard output stream @ifnot cpp (provided as @c cout in the libSBML
+  * language bindings)@endif as follows:
+@if cpp
+@code{.cpp}
+double size = 3.2;
+string id = 'id';
+
+// Create an XMLOutputStream object that will write to the
+// standard output stream:
+
+XMLOutputStream xos = new XMLOutputStream(cout);
+
+// Create the start element, write the attributes, and close
+// the element.  The output will be written immediately as
+// each method is called.
+
+xos.startElement('testElement')
+xos.writeAttribute('size', size)
+xos.writeAttribute('id', id)
+xos.endElement('testElement')
+@endcode
+@endif
+@if java
+@code{.java}
+import org.sbml.libsbml.XMLOutputStream;
+import org.sbml.libsbml.libsbml;
+
+public class test
+{
+    public static void main (String[] args)
+    {
+        double size = 3.2;
+        String id = 'id';
+
+        // Create an XMLOutputStream object that will write to the
+        // standard output stream, which is provide in libSBML's
+        // Java language interface as the object 'libsbml.cout'.
+
+        XMLOutputStream xos = new XMLOutputStream(libsbml.cout);
+
+        // Create the start element, write the attributes, and close
+        // the element.  The output will be written immediately as
+        // each method is called.
+
+        xos.startElement('testElement');
+        xos.writeAttribute('size', size);
+        xos.writeAttribute('id', id);
+        xos.endElement('testElement');
+    }
+
+    static
+    {
+        System.loadLibrary('sbmlj');
+    }
+}
+@endcode
+@endif
+@if python
+@code{.py}
+from libsbml import *
+
+size = 3.2;
+id = 'id';
+
+# Create an XMLOutputStream object that will write to the standard
+# output stream, which is provide in libSBML's Python language
+# interface as the object 'libsbml.cout'.  Since we imported * from
+# the libsbml module, we can simply refer to it as 'cout' here:
+
+output_stream = XMLOutputStream(cout)
+
+# Create the start element, write the attributes, and close the
+# element.  The output is written immediately by each method.
+
+output_stream.startElement('testElement')
+output_stream.writeAttribute('size', size)
+output_stream.writeAttribute('id', id)
+output_stream.endElement('testElement')
+@endcode
+@endif
  *
  * Other classes in SBML take XMLOutputStream objects as arguments, and use
  * that to write elements and attributes seamlessly to the XML output stream.
@@ -157,6 +249,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * comment is also not mandated by any SBML specification.  This libSBML
  * functionality is provided for the convenience of calling programs, and to
  * help humans trace the origin of SBML files.
+ *
+ *
    *
    * *
  * 
@@ -212,6 +306,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * comment is also not mandated by any SBML specification.  This libSBML
  * functionality is provided for the convenience of calling programs, and to
  * help humans trace the origin of SBML files.
+ *
+ *
    *
    * *
  * 
@@ -267,6 +363,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * comment is also not mandated by any SBML specification.  This libSBML
  * functionality is provided for the convenience of calling programs, and to
  * help humans trace the origin of SBML files.
+ *
+ *
    *
    * *
  * 
@@ -322,6 +420,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * comment is also not mandated by any SBML specification.  This libSBML
  * functionality is provided for the convenience of calling programs, and to
  * help humans trace the origin of SBML files.
+ *
+ *
    *
    * *
  * 
@@ -377,6 +477,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * comment is also not mandated by any SBML specification.  This libSBML
  * functionality is provided for the convenience of calling programs, and to
  * help humans trace the origin of SBML files.
+ *
+ *
    *
    * *
  * 
@@ -783,6 +885,16 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
   
 /**
    * Decreases the indentation level for this XMLOutputStream.
+   *
+   * *
+ * LibSBML tries to produce human-readable XML output by automatically
+ * indenting the bodies of elements.  Callers can manually control
+ * indentation further by using the XMLOutputStream::upIndent()
+ * and XMLOutputStream::downIndent() methods to increase and
+ * decrease, respectively, the current level of indentation in the
+ * XML output.
+   *
+   * @see upIndent()
    */ public
  void downIndent() {
     libsbmlPINVOKE.XMLOutputStream_downIndent(swigCPtr);
@@ -791,6 +903,16 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
   
 /**
    * Increases the indentation level for this XMLOutputStream.
+   *
+   * *
+ * LibSBML tries to produce human-readable XML output by automatically
+ * indenting the bodies of elements.  Callers can manually control
+ * indentation further by using the XMLOutputStream::upIndent()
+ * and XMLOutputStream::downIndent() methods to increase and
+ * decrease, respectively, the current level of indentation in the
+ * XML output.
+   *
+   * @see downIndent()
    */ public
  void upIndent() {
     libsbmlPINVOKE.XMLOutputStream_upIndent(swigCPtr);

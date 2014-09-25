@@ -66,7 +66,7 @@ namespace libsbml {
  * &quot;<code>- -3</code>&quot;) from the input and incorporate single unary
  * minuses into the number node, or (2) preserve all minuses in the AST node
  * structure, turning them into ASTNode objects of type
- * @link libsbmlcs#AST_MINUS AST_MINUS@endlink.
+ * @link libsbml#AST_MINUS AST_MINUS@endlink.
  * @li The character sequence &quot;<code>number id</code>&quot; can be
  * interpreted as a numerical value @c number followed by units of measurement
  * indicated by @c id, or it can be treated as a syntax error.  (In
@@ -79,8 +79,8 @@ namespace libsbml {
  * @li The symbol @c avogadro can be parsed either as a MathML @em csymbol or
  * as a identifier.  More specifically, &quot;<code>avogadro</code>&quot; can
  * be treated as an ASTNode of type
- * @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or of type
- * @link libsbmlcs#AST_NAME AST_NAME@endlink.
+ * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink or of type
+ * @link libsbml#AST_NAME AST_NAME@endlink.
  * @li Strings that match built-in functions and constants can either be parsed
  * as a match regardless of capitalization, or may be required to be
  * all-lower-case to be considered a match.  
@@ -163,16 +163,16 @@ public class L3ParserSettings : IDisposable {
    * field values in the L3ParserSettings object:
    *
    * @li <em>parseunits</em> ('parse units') is set to
-   * @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink.
+   * @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink.
    *
    * @li <em>collapseminus</em> ('collapse minus') is set to
-   * @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink.
+   * @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink.
    *
    * @li <em>parselog</em> ('parse log') is set to
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink.
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink.
    *
    * @li <em>avocsymbol</em> ('Avogadro csymbol') is set to
-   * @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink.
+   * @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink.
    *
    * @li <em>sbmlns</em> ('SBML namespaces') is set to @c null (which
    * indicates that no syntax extensions due to SBML Level&nbsp;3 packages
@@ -197,9 +197,9 @@ public class L3ParserSettings : IDisposable {
    * with a single argument (&quot;<code>log(x)</code>&quot;) can be parsed
    * as <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
    * desired, by using the parameter values
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink, respectively.
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+   * @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
+   * @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink, respectively.
    *
    * @param collapseminus ('collapse minus') a flag that controls how the
    * parser will handle minus signs in formulas.  Unary minus signs can be
@@ -208,27 +208,27 @@ public class L3ParserSettings : IDisposable {
    * entirely and single unary minuses can be incorporated into the number
    * node, or all minuses can be preserved in the AST node structure.
    * The possible values of this field are
-   * @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (to collapse unary minuses) and
-   * @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (to expand unary minuses).
+   * @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (to collapse unary minuses) and
+   * @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (to expand unary minuses).
    *
    * @param parseunits ('parse units') a flag that controls how the parser
    * will handle apparent references to units of measurement associated with
    * raw numbers in a formula.  If set to the value
-   * @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink, units are parsed; if set to the value
-   * @link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink, units are not parsed.
+   * @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink, units are parsed; if set to the value
+   * @link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink, units are not parsed.
    *
    * @param avocsymbol ('Avogadro csymbol') a flag that controls how the
    * parser will handle the appearance of the symbol @c avogadro in a
-   * formula.  If set to the value @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink,
+   * formula.  If set to the value @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink,
    * the symbol is interpreted as the SBML/MathML @em csymbol @c avogadro; if
-   * set to the value @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
+   * set to the value @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
    * interpreted as a plain symbol name.
    *
    * @param caseSensitive a flag that controls how the
    * parser will handle case sensitivity of any function name.
-   * If set to the value @link libsbmlcs#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
+   * If set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
    * the name is interpreted as teh relevant math function regardless of case; if
-   * set to the value @link libsbmlcs#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
+   * set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
    * interpreted as a user defined function unless it is all lower case.
    *
    * @param sbmlns ('SBML namespaces') an SBML namespaces object.  The
@@ -269,9 +269,9 @@ public class L3ParserSettings : IDisposable {
    * with a single argument (&quot;<code>log(x)</code>&quot;) can be parsed
    * as <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
    * desired, by using the parameter values
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink, respectively.
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+   * @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
+   * @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink, respectively.
    *
    * @param collapseminus ('collapse minus') a flag that controls how the
    * parser will handle minus signs in formulas.  Unary minus signs can be
@@ -280,27 +280,27 @@ public class L3ParserSettings : IDisposable {
    * entirely and single unary minuses can be incorporated into the number
    * node, or all minuses can be preserved in the AST node structure.
    * The possible values of this field are
-   * @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (to collapse unary minuses) and
-   * @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (to expand unary minuses).
+   * @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (to collapse unary minuses) and
+   * @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (to expand unary minuses).
    *
    * @param parseunits ('parse units') a flag that controls how the parser
    * will handle apparent references to units of measurement associated with
    * raw numbers in a formula.  If set to the value
-   * @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink, units are parsed; if set to the value
-   * @link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink, units are not parsed.
+   * @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink, units are parsed; if set to the value
+   * @link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink, units are not parsed.
    *
    * @param avocsymbol ('Avogadro csymbol') a flag that controls how the
    * parser will handle the appearance of the symbol @c avogadro in a
-   * formula.  If set to the value @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink,
+   * formula.  If set to the value @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink,
    * the symbol is interpreted as the SBML/MathML @em csymbol @c avogadro; if
-   * set to the value @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
+   * set to the value @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
    * interpreted as a plain symbol name.
    *
    * @param caseSensitive a flag that controls how the
    * parser will handle case sensitivity of any function name.
-   * If set to the value @link libsbmlcs#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
+   * If set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
    * the name is interpreted as teh relevant math function regardless of case; if
-   * set to the value @link libsbmlcs#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
+   * set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
    * interpreted as a user defined function unless it is all lower case.
    *
    * @param sbmlns ('SBML namespaces') an SBML namespaces object.  The
@@ -341,9 +341,9 @@ public class L3ParserSettings : IDisposable {
    * with a single argument (&quot;<code>log(x)</code>&quot;) can be parsed
    * as <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
    * desired, by using the parameter values
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink, respectively.
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+   * @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
+   * @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink, respectively.
    *
    * @param collapseminus ('collapse minus') a flag that controls how the
    * parser will handle minus signs in formulas.  Unary minus signs can be
@@ -352,27 +352,27 @@ public class L3ParserSettings : IDisposable {
    * entirely and single unary minuses can be incorporated into the number
    * node, or all minuses can be preserved in the AST node structure.
    * The possible values of this field are
-   * @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (to collapse unary minuses) and
-   * @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (to expand unary minuses).
+   * @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (to collapse unary minuses) and
+   * @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (to expand unary minuses).
    *
    * @param parseunits ('parse units') a flag that controls how the parser
    * will handle apparent references to units of measurement associated with
    * raw numbers in a formula.  If set to the value
-   * @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink, units are parsed; if set to the value
-   * @link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink, units are not parsed.
+   * @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink, units are parsed; if set to the value
+   * @link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink, units are not parsed.
    *
    * @param avocsymbol ('Avogadro csymbol') a flag that controls how the
    * parser will handle the appearance of the symbol @c avogadro in a
-   * formula.  If set to the value @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink,
+   * formula.  If set to the value @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink,
    * the symbol is interpreted as the SBML/MathML @em csymbol @c avogadro; if
-   * set to the value @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
+   * set to the value @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
    * interpreted as a plain symbol name.
    *
    * @param caseSensitive a flag that controls how the
    * parser will handle case sensitivity of any function name.
-   * If set to the value @link libsbmlcs#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
+   * If set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
    * the name is interpreted as teh relevant math function regardless of case; if
-   * set to the value @link libsbmlcs#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
+   * set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
    * interpreted as a user defined function unless it is all lower case.
    *
    * @param sbmlns ('SBML namespaces') an SBML namespaces object.  The
@@ -490,15 +490,15 @@ public class L3ParserSettings : IDisposable {
    * (&quot;<code>log(x)</code>&quot;) can be parsed as
    * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error.
    * These three behaviors are set, respectively, by using the value
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+   * @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, or
+   * @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
    * for the @p type parameter.
    *
    * @param type a constant, one of following three possibilities:
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
    *
    * @see getParseLog()
    */ public
@@ -516,14 +516,14 @@ public class L3ParserSettings : IDisposable {
    * <code>log10(x)</code>, <code>ln(x)</code>, or treated as an error, as
    * desired.  These three possible behaviors are indicated, respectively, by
    * the values
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, and
-   * @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink.
+   * @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink,
+   * @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink, and
+   * @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink.
    *
    * @return One of following three constants:
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
-   * @li @link libsbmlcs#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_LOG10 L3P_PARSE_LOG_AS_LOG10@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_LN L3P_PARSE_LOG_AS_LN@endlink
+   * @li @link libsbml#L3P_PARSE_LOG_AS_ERROR L3P_PARSE_LOG_AS_ERROR@endlink
    *
    * @see setParseLog(@if java int@endif)
    */ public
@@ -545,10 +545,10 @@ public class L3ParserSettings : IDisposable {
  * AST node tree that is generated by the parser.  Second, minus signs in
  * front of numbers can be collapsed into the number node itself; for
  * example, a &quot;<code>- 4.1</code>&quot; can be turned into a single
- * ASTNode of type @link libsbmlcs#AST_REAL AST_REAL@endlink with a value of
+ * ASTNode of type @link libsbml#AST_REAL AST_REAL@endlink with a value of
  * <code>-4.1</code>, or it can be turned into a node of type
- * @link libsbmlcs#AST_MINUS AST_MINUS@endlink having a child node of type
- * @link libsbmlcs#AST_REAL AST_REAL@endlink.
+ * @link libsbml#AST_MINUS AST_MINUS@endlink having a child node of type
+ * @link libsbml#AST_REAL AST_REAL@endlink.
  *
    *
    * This method lets you tell the parser which behavior to use---either
@@ -557,17 +557,17 @@ public class L3ParserSettings : IDisposable {
    *
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
+ * <li> @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
  * unary minuses where possible.
- * <li> @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (value = @c false): do not
+ * <li> @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (value = @c false): do not
  * collapse unary minuses, and instead translate each one into an AST node of
- * type @link libsbmlcs#AST_MINUS AST_MINUS@endlink.
+ * type @link libsbml#AST_MINUS AST_MINUS@endlink.
  * </ul>
  *
    *
    * @param collapseminus a bool value (one of the constants
-   * @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink or
-   * @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink)
+   * @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink or
+   * @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink)
    * indicating how unary minus signs in the input should be handled.
    *
    * @see getParseCollapseMinus()
@@ -589,21 +589,21 @@ public class L3ParserSettings : IDisposable {
  * AST node tree that is generated by the parser.  Second, minus signs in
  * front of numbers can be collapsed into the number node itself; for
  * example, a &quot;<code>- 4.1</code>&quot; can be turned into a single
- * ASTNode of type @link libsbmlcs#AST_REAL AST_REAL@endlink with a value of
+ * ASTNode of type @link libsbml#AST_REAL AST_REAL@endlink with a value of
  * <code>-4.1</code>, or it can be turned into a node of type
- * @link libsbmlcs#AST_MINUS AST_MINUS@endlink having a child node of type
- * @link libsbmlcs#AST_REAL AST_REAL@endlink.
+ * @link libsbml#AST_MINUS AST_MINUS@endlink having a child node of type
+ * @link libsbml#AST_REAL AST_REAL@endlink.
  *
    *
    * @return A bool indicating the behavior currently set.  The possible
    * values are as follows:
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
+ * <li> @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
  * unary minuses where possible.
- * <li> @link libsbmlcs#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (value = @c false): do not
+ * <li> @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink (value = @c false): do not
  * collapse unary minuses, and instead translate each one into an AST node of
- * type @link libsbmlcs#AST_MINUS AST_MINUS@endlink.
+ * type @link libsbml#AST_MINUS AST_MINUS@endlink.
  * </ul>
  *
    *
@@ -642,9 +642,9 @@ public class L3ParserSettings : IDisposable {
    * possible values are as follows:
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
+ * <li> @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
  * text-string formula.
- * <li> @link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c false): treat units in the
+ * <li> @link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c false): treat units in the
  * text-string formula as errors.
  * </ul>
  *
@@ -679,16 +679,16 @@ public class L3ParserSettings : IDisposable {
    *
    * Since SBML Level&nbsp;2 does not have the ability to associate units
    * with pure numbers, the value should be expected to be @c false
-   * (@link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink) when parsing text-string
+   * (@link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink) when parsing text-string
    * formulas intended for use in SBML Level&nbsp;2 documents.
    *
    * @return A bool indicating whether to parse units.  The
    * possible values are as follows:
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
+ * <li> @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
  * text-string formula.
- * <li> @link libsbmlcs#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c false): treat units in the
+ * <li> @link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink (value = @c false): treat units in the
  * text-string formula as errors.
  * </ul>
  *
@@ -723,24 +723,24 @@ public class L3ParserSettings : IDisposable {
    *
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
+ * <li> @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
  * parser to translate the string @c avogadro (in any capitalization) into an
- * AST node of type @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
- * <li> @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink (value = @c false): tells the
+ * AST node of type @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
+ * <li> @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink (value = @c false): tells the
  * parser to translate the string @c avogadro into an AST of type
- * @link libsbmlcs#AST_NAME AST_NAME@endlink.
+ * @link libsbml#AST_NAME AST_NAME@endlink.
  * </ul>
  *
    *
    * Since SBML Level&nbsp;2 does not define a symbol for Avogadro's
    * constant, the value should be set to
-   * @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink when parsing text-string formulas
+   * @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink when parsing text-string formulas
    * intended for use in SBML Level&nbsp;2 documents.
    *
    * @param l2only a bool value indicating how the string @c avogadro
    * should be treated when encountered in a formula.  This will be one of
-   * the values @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink or
-   * @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
+   * the values @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink or
+   * @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
    *
    * @see getParseAvogadroCsymbol()
    */ public
@@ -771,19 +771,19 @@ public class L3ParserSettings : IDisposable {
    *
    * *
  * <ul>
- * <li> @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
+ * <li> @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
  * parser to translate the string @c avogadro (in any capitalization) into an
- * AST node of type @link libsbmlcs#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
- * <li> @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink (value = @c false): tells the
+ * AST node of type @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink.
+ * <li> @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink (value = @c false): tells the
  * parser to translate the string @c avogadro into an AST of type
- * @link libsbmlcs#AST_NAME AST_NAME@endlink.
+ * @link libsbml#AST_NAME AST_NAME@endlink.
  * </ul>
  *
    *
    * @return A bool indicating which mode is currently set; one of
-   * @link libsbmlcs#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink
+   * @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink
    * or
-   * @link libsbmlcs#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
+   * @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
    *
    * @see setParseAvogadroCsymbol(@if java bool@endif)
    */ public

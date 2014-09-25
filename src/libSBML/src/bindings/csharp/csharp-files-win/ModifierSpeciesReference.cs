@@ -187,7 +187,7 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_MODIFIER_SPECIES_REFERENCE SBML_MODIFIER_SPECIES_REFERENCE@endlink (default).
+   * @link libsbml#SBML_MODIFIER_SPECIES_REFERENCE SBML_MODIFIER_SPECIES_REFERENCE@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible

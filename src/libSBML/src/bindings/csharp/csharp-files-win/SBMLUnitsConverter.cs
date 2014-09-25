@@ -247,7 +247,11 @@ public class SBMLUnitsConverter : SBMLConverter {
     }
   }
 
-  public static void init() {
+  
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+ static void init() {
     libsbmlPINVOKE.SBMLUnitsConverter_init();
   }
 
@@ -319,11 +323,11 @@ public class SBMLUnitsConverter : SBMLConverter {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
    */ public new
  int convert() {
     int ret = libsbmlPINVOKE.SBMLUnitsConverter_convert(swigCPtr);

@@ -15,12 +15,11 @@ namespace libsbml {
  * @sbmlpackage{core}
  *
 @htmlinclude pkg-marker-core.html A node in libSBML's XML document tree.
- * 
- * Beginning with version 3.0.0, libSBML implements an XML abstraction
- * layer.  This layer presents a uniform XML interface to calling programs
- * regardless of which underlying XML parser libSBML has actually been
- * configured to use.  The basic data object in the XML abstraction is a
- * @em node, represented by XMLNode.
+ *
+ * LibSBML implements an XML abstraction layer.  This layer presents a
+ * uniform XML interface to calling programs regardless of which underlying
+ * XML parser libSBML has actually been configured to use.  The basic data
+ * object in the XML abstraction is a @em node, represented by XMLNode.
  *
  * An XMLNode can contain any number of children.  Each child is another
  * XMLNode, thereby forming a tree.  The methods XMLNode::getNumChildren()
@@ -37,54 +36,55 @@ namespace libsbml {
  * LibSBML provides the following utility functions for converting an XML
  * string (e.g., <code>&lt;annotation&gt;...&lt;/annotation&gt;</code>)
  * to/from an XMLNode object.
- * <ul>
- * <li> XMLNode::toXMLString() returns a string representation of the XMLNode object. 
  *
- * <li> XMLNode::convertXMLNodeToString(@if java XMLNode@endif)
- * (static function) returns a string representation 
- * of the given XMLNode object.
+ * @li XMLNode::toXMLString() returns a string representation of the XMLNode
+ * object.
  *
- * <li> XMLNode::convertStringToXMLNode(@if java String@endif)
- * (static function) returns an XMLNode object converted 
- * from the given XML string.
- * </ul>
+ * @li XMLNode::convertXMLNodeToString(@if java XMLNode@endif) (static
+ * function) returns a string representation of the given XMLNode object.
  *
- * The returned XMLNode object by XMLNode::convertStringToXMLNode(@if java String@endif)
- * is a dummy root (container) XMLNode if the given XML string has two or
- * more top-level elements (e.g.,
- * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In the
- * dummy root node, each top-level element in the given XML string is
+ * @li XMLNode::convertStringToXMLNode(@if java String@endif) (static
+ * function) returns an XMLNode object converted from the given XML string.
+ *
+ * The returned XMLNode object by XMLNode::convertStringToXMLNode(@if java
+ * String@endif) is a dummy root (container) XMLNode if the given XML string
+ * has two or more top-level elements (e.g.,
+ * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In
+ * the dummy root node, each top-level element in the given XML string is
  * contained as a child XMLNode. XMLToken::isEOF() can be used to identify
  * if the returned XMLNode object is a dummy node or not.  Here is an
- * example: @if clike
- * @verbatim
-// Checks if the XMLNode object returned by XMLNode::convertStringToXMLNode() is a dummy root node:
-                                                                                         
-string str = '...'; 
-XMLNode xn = XMLNode::convertStringToXMLNode(str);                                      
+ * example: 
+@if cpp
+@code{.cpp}
+// Checks if the XMLNode object returned by XMLNode::convertStringToXMLNode()
+// is a dummy root node:
+
+string str = '...';
+XMLNode xn = XMLNode::convertStringToXMLNode(str);
 if ( xn == null )
-{                                                                                      
-  // returned value is null (error)                                                    
+{
+  // returned value is null (error)
   ...
-}                                                                                      
-else if ( xn->isEOF() )                                                                 
-{                                                                                      
-  // root node is a dummy node                                                         
-  for ( int i = 0; i < xn->getNumChildren(); i++ )                                          
-  {                                                                                    
-    // access to each child node of the dummy node.                                    
-    XMLNode xnChild = xn->getChild(i);                                                  
-    ...                                                                                
-  }                                                                                    
-}                                                                                      
-else                                                                                   
-{                                                                                      
-  // root node is NOT a dummy node                                                     
-  ...                                                                                  
 }
-@endverbatim
-  *  @endif@if java
-@verbatim
+else if ( xn->isEOF() )
+{
+  // Root node is a dummy node.
+  for ( int i = 0; i < xn->getNumChildren(); i++ )
+  {
+    // access to each child node of the dummy node.
+    XMLNode xnChild = xn->getChild(i);
+    ...
+  }
+}
+else
+{
+  // Root node is NOT a dummy node.
+  ...
+}
+@endcode
+@endif
+@if java
+@code{.java}
 // Checks if the returned XMLNode object is a dummy root node:
 
 String str = '...';
@@ -96,7 +96,7 @@ if ( xn == null )
 }
 else if ( xn.isEOF() )
 {
-  // root node is a dummy node
+  // Root node is a dummy node.
   for ( int i = 0; i < xn.getNumChildren(); i++ )
   {
     // access to each child node of the dummy node.
@@ -106,12 +106,13 @@ else if ( xn.isEOF() )
 }
 else
 {
-  // root node is NOT a dummy node
+  // Root node is NOT a dummy node.
   ...
 }
-@endverbatim
- * @endif@if python
-@verbatim
+@endcode
+@endif
+@if python
+@code{.py}
 xn = XMLNode.convertStringToXMLNode('<p></p>')
 if xn == None:
   # Do something to handle exceptional situation.
@@ -121,8 +122,9 @@ elif xn.isEOF():
 
 else:
   # None is not a dummy node.
-@endverbatim
- * @endif
+@endcode
+@endif
+ *
  */
 
 public class XMLNode : XMLToken {
@@ -405,7 +407,7 @@ public class XMLNode : XMLToken {
 
   
 /**
-   * Creates a new XMLNode by reading XMLTokens from stream.  
+   * Creates a new XMLNode by reading XMLTokens from stream.
    *
    * The stream must be positioned on a start element
    * (<code>stream.peek().isStart() == true</code>) and will be read until
@@ -420,7 +422,7 @@ public class XMLNode : XMLToken {
   
 /**
    * Copy constructor; creates a copy of this XMLNode.
-   * 
+   *
    * @param orig the XMLNode instance to copy.
    *
    * @throws XMLConstructorException
@@ -453,8 +455,8 @@ public class XMLNode : XMLToken {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @note The given node is added at the end of the children list.
    */ public
@@ -514,7 +516,7 @@ public class XMLNode : XMLToken {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int removeChildren() {
     int ret = libsbmlPINVOKE.XMLNode_removeChildren(swigCPtr);
@@ -529,7 +531,7 @@ public class XMLNode : XMLToken {
    * this method returns an empty node.
    *
    * @param n a long integereger, the index of the node to return
-   * 
+   *
    * @return the <code>n</code>th child of this XMLNode.
    */ public
  XMLNode getChild(long n) {
@@ -541,11 +543,11 @@ public class XMLNode : XMLToken {
 /**
    * Returns the first child of this XMLNode with the corresponding name.
    *
-   * If no child with corrsponding name can be found, 
+   * If no child with corrsponding name can be found,
    * this method returns an empty node.
    *
    * @param name the name of the node to return
-   * 
+   *
    * @return the first child of this XMLNode with given name.
    */ public
  XMLNode getChild(string name) {
@@ -557,7 +559,7 @@ public class XMLNode : XMLToken {
 /**
    * Return the index of the first child of this XMLNode with the given name.
    *
-   * @param name a string, the name of the child for which the 
+   * @param name a string, the name of the child for which the
    * index is required.
    *
    * @return the index of the first child of this XMLNode with the given
@@ -631,7 +633,7 @@ public class XMLNode : XMLToken {
 
   
 /**
-   * Returns a string representation of this XMLNode. 
+   * Returns a string representation of this XMLNode.
    *
    * @return a string derived from this XMLNode.
    */ public
@@ -642,7 +644,7 @@ public class XMLNode : XMLToken {
 
   
 /**
-   * Returns a string representation of a given XMLNode. 
+   * Returns a string representation of a given XMLNode.
    *
    * @param node the XMLNode to be represented as a string
    *

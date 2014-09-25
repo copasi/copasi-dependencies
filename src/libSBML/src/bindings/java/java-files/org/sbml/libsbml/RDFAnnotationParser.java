@@ -31,7 +31,7 @@ defined in SBML.
  * Format</a>).  The general scheme is as follows.  A set of RDF-based
  * annotations attached to a given SBML <code>&lt;annotation&gt;</code>
  * element are read by {@link RDFAnnotationParser} and converted into a list of
- * {@link CVTerm} objects.  There are different versions of the main method, {@link RDFAnnotationParser#parseRDFAnnotation(XMLNode annotation, CVTermList CVTerms)}  and
+ * {@link CVTerm} objects.  There are different versions of the main method, {@link RDFAnnotationParser#parseRDFAnnotation(XMLNode, CVTermList)}  and
  * {@link RDFAnnotationParser#parseRDFAnnotation(XMLNode annotation)}, used
  * depending on whether the annotation in question concerns the MIRIAM model
  * history or other MIRIAM resource annotations.  A special object class,
@@ -159,18 +159,18 @@ public class RDFAnnotationParser {
    * created, containing MIRIAM-style annotations, and that <code>sbmlObject</code>
    * is an SBML object derived from {@link SBase} (e.g., a {@link Model}, or a {@link Species}, or
    * a {@link Compartment}, etc.).  Then:<pre class='fragment'>
-int success;                                   // Status code variable, used below.
+int success;                                   // Status code variable.
 
-{@link XMLNode} RDF = createRDFAnnotation();          // Create RDF annotation XML structure.
+{@link XMLNode} RDF = createRDFAnnotation();          // Create XML structure.
 success      = RDF.addChild(...content...);    // Put some content into it.
-...                                            // Check 'success' return code value.
+...                                            // Check return code value.
 
-{@link XMLNode} ann = createAnnotation();             // Create &lt;annotation&gt; container.
-success      = ann.addChild(RDF);              // Put the RDF annotation into it.
-...                                            // Check 'success' return code value.
+{@link XMLNode} ann = createAnnotation();             // Create &lt;annotation&gt;.
+success      = ann.addChild(RDF);              // Put the annotation into it.
+...                                            // Check return code value.
 
-success      = sbmlObject.setAnnotation(ann); // Set object's annotation to what we built.
-...                                            // Check 'success' return code value.
+success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
+...                                            // Check return code value.
 </pre>
    <p>
    * The SBML specification contains more information about the format of

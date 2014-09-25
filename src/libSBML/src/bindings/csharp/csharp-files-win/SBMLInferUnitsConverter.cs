@@ -233,7 +233,11 @@ public class SBMLInferUnitsConverter : SBMLConverter {
     }
   }
 
-  public static void init() {
+  
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+ static void init() {
     libsbmlPINVOKE.SBMLInferUnitsConverter_init();
   }
 
@@ -257,9 +261,10 @@ public class SBMLInferUnitsConverter : SBMLConverter {
 
   
 /**
-   * Creates and returns a deep copy of this SBMLConverter object.
+   * Creates and returns a deep copy of this SBMLInferUnitsConverter
+   * object.
    *
-   * @return the (deep) copy of this SBMLConverter object.
+   * @return a (deep) copy of this converter.
    */ public new
  SBMLConverter clone() {
     IntPtr cPtr = libsbmlPINVOKE.SBMLInferUnitsConverter_clone(swigCPtr);
@@ -269,10 +274,18 @@ public class SBMLInferUnitsConverter : SBMLConverter {
 
   
 /**
-   * Predicate returning @c true if this converter's properties matches a
-   * given set of configuration properties.
+   * Returns @c true if this converter object's properties match the given
+   * properties.
    *
-   * @param props the configuration properties to match.
+   * A typical use of this method involves creating a ConversionProperties
+   * object, setting the options desired, and then calling this method on
+   * an SBMLInferUnitsConverter object to find out if the object's
+   * property values match the given ones.  This method is also used by
+   * SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
+   * to search across all registered converters for one matching particular
+   * properties.
+   *
+   * @param props the properties to match.
    *
    * @return @c true if this converter's properties match, @c false
    * otherwise.
@@ -295,10 +308,11 @@ public class SBMLInferUnitsConverter : SBMLConverter {
    *
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The set of possible values that may
-   * be returned depends on the converter subclass; please consult
-   * the documentation for the relevant class to find out what the
-   * possibilities are.
+   * #OperationReturnValues_t. @endif The possible values are:
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
    */ public new
  int convert() {
     int ret = libsbmlPINVOKE.SBMLInferUnitsConverter_convert(swigCPtr);
@@ -313,14 +327,10 @@ public class SBMLInferUnitsConverter : SBMLConverter {
    * in order to influence the behavior of the converter.  This method
    * returns the @em default property settings for this converter.  It is
    * meant to be called in order to discover all the settings for the
-   * converter object.  The run-time properties of the converter object can
-   * be adjusted by using the method
-   * SBMLConverter::setProperties(ConversionProperties props).
+   * converter object.
    *
-   * @return the default properties for the converter.
-   *
-   * @see setProperties(@if java ConversionProperties@endif)
-   * @see matchesProperties(@if java ConversionProperties@endif)
+   * @return the ConversionProperties object describing the default properties
+   * for this converter.
    */ public new
  ConversionProperties getDefaultProperties() {
     ConversionProperties ret = new ConversionProperties(libsbmlPINVOKE.SBMLInferUnitsConverter_getDefaultProperties(swigCPtr), true);

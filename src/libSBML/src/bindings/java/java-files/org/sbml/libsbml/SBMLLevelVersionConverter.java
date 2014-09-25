@@ -127,7 +127,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.2
+ * provided by libSBML 5.10.3
 :
  <p>
  * @copydetails doc_list_of_libsbml_converters
@@ -175,7 +175,12 @@ public class SBMLLevelVersionConverter extends SBMLConverter {
     super.delete();
   }
 
-  public static void init() {
+  
+/**
+   * Register with the ConversionRegistry.
+   * @internal
+   */ public
+ static void init() {
     libsbmlJNI.SBMLLevelVersionConverter_init();
   }
 
@@ -200,9 +205,10 @@ public class SBMLLevelVersionConverter extends SBMLConverter {
 
   
 /**
-   * Creates and returns a deep copy of this {@link SBMLConverter} object.
+   * Creates and returns a deep copy of this {@link SBMLLevelVersionConverter}
+   * object.
    <p>
-   * @return the (deep) copy of this {@link SBMLConverter} object.
+   * @return a (deep) copy of this converter.
    */ public
  SBMLConverter cloneObject() {
     long cPtr = libsbmlJNI.SBMLLevelVersionConverter_cloneObject(swigCPtr, this);
@@ -211,10 +217,18 @@ public class SBMLLevelVersionConverter extends SBMLConverter {
 
   
 /**
-   * Predicate returning <code>true</code> if this converter's properties matches a
-   * given set of configuration properties.
+   * Returns <code>true</code> if this converter object's properties match the given
+   * properties.
    <p>
-   * @param props the configuration properties to match.
+   * A typical use of this method involves creating a {@link ConversionProperties}
+   * object, setting the options desired, and then calling this method on
+   * an {@link SBMLLevelVersionConverter} object to find out if the object's
+   * property values match the given ones.  This method is also used by
+   * {@link SBMLConverterRegistry#getConverterFor(ConversionProperties)}
+   * to search across all registered converters for one matching particular
+   * properties.
+   <p>
+   * @param props the properties to match.
    <p>
    * @return <code>true</code> if this converter's properties match, <code>false</code>
    * otherwise.
@@ -234,10 +248,14 @@ public class SBMLLevelVersionConverter extends SBMLConverter {
    * {@link SBMLConverter#setProperties(ConversionProperties)}.
    <p>
    * @return  integer value indicating the success/failure of the operation.
-   *  The set of possible values that may
-   * be returned depends on the converter subclass; please consult
-   * the documentation for the relevant class to find out what the
-   * possibilities are.
+   *  The possible values are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_CONV_INVALID_TARGET_NAMESPACE LIBSBML_CONV_INVALID_TARGET_NAMESPACE}
+   * <li> {@link libsbmlConstants#LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE}
+   * <li> {@link libsbmlConstants#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT}
+   * </ul>
    */ public
  int convert() {
     return libsbmlJNI.SBMLLevelVersionConverter_convert(swigCPtr, this);
@@ -251,14 +269,10 @@ public class SBMLLevelVersionConverter extends SBMLConverter {
    * in order to influence the behavior of the converter.  This method
    * returns the <em>default</em> property settings for this converter.  It is
    * meant to be called in order to discover all the settings for the
-   * converter object.  The run-time properties of the converter object can
-   * be adjusted by using the method
-   * {@link SBMLConverter#setProperties(ConversionProperties props)}.
+   * converter object.
    <p>
-   * @return the default properties for the converter.
-   <p>
-   * @see #setProperties(ConversionProperties)
-   * @see #matchesProperties(ConversionProperties)
+   * @return the {@link ConversionProperties} object describing the default properties
+   * for this converter.
    */ public
  ConversionProperties getDefaultProperties() {
     return new ConversionProperties(libsbmlJNI.SBMLLevelVersionConverter_getDefaultProperties(swigCPtr, this), true);

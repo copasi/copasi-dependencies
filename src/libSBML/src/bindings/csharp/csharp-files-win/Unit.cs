@@ -124,7 +124,7 @@ namespace libsbml {
  * However, libSBML maintains UnitKind in the form of of a set of static
  * integer constants whose names begin with the characters
  * <code>UNIT_KIND_</code>.  These constants are defined in the class
- * <code><a href='libsbmlcs.libsbml.html'>libsbmlConstants</a></code>.
+ * <code><a href='libsbml.libsbml.html'>libsbmlConstants</a></code>.
  * @endif@if python In SBML Level&nbsp;2 Versions before
  * Version&nbsp;3, there existed an enumeration of units called @c
  * UnitKind.  In Version&nbsp;3, this enumeration was removed and the
@@ -355,7 +355,7 @@ public class Unit : SBase {
    * @return the value of the 'kind' attribute of this Unit as a
    * value from the set of constants whose names begin
    * with <code>UNIT_KIND_</code> defined in the class
-   * <code><a href='libsbmlcs.libsbml.html'>libsbmlConstants</a></code>.
+   * <code><a href='libsbml.libsbml.html'>libsbmlConstants</a></code>.
    * @endif@if python
    * @return the value of the 'kind' attribute of this Unit as a
    * value from the set of constants whose names begin
@@ -918,7 +918,7 @@ public class Unit : SBase {
    * @endif@if java
    * @param kind a unit identifier chosen from the set of constants whose
    * names begin with <code>UNIT_KIND_</code> in <code><a
-   * href='libsbmlcs.libsbml.html'>libsbmlConstants</a></code>.
+   * href='libsbml.libsbml.html'>libsbmlConstants</a></code>.
    * @endif@if python
    * @param kind a unit identifier chosen from the set of constants whose
    * names begin with <code>UNIT_KIND_</code> in @link libsbml libsbml@endlink.
@@ -927,8 +927,8 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setKind(int kind) {
     int ret = libsbmlPINVOKE.Unit_setKind(swigCPtr, kind);
@@ -944,8 +944,8 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setExponent(int value) {
     int ret = libsbmlPINVOKE.Unit_setExponent__SWIG_0(swigCPtr, value);
@@ -961,7 +961,7 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setExponent(double value) {
     int ret = libsbmlPINVOKE.Unit_setExponent__SWIG_1(swigCPtr, value);
@@ -977,7 +977,7 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setScale(int value) {
     int ret = libsbmlPINVOKE.Unit_setScale(swigCPtr, value);
@@ -994,8 +994,8 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int setMultiplier(double value) {
     int ret = libsbmlPINVOKE.Unit_setMultiplier(swigCPtr, value);
@@ -1012,8 +1012,8 @@ public class Unit : SBase {
    * @return integer value indicating success/failure of the
    * function. The possible values
    * returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * * 
  * @warning <span class='warning'>The 'offset' attribute is only available in
@@ -1060,7 +1060,7 @@ public class Unit : SBase {
  *
    *
    * @return the SBML type code for this object:
-   * @link libsbmlcs#SBML_UNIT SBML_UNIT@endlink (default).
+   * @link libsbml#SBML_UNIT SBML_UNIT@endlink (default).
    *
    * *
  * @warning <span class='warning'>The specific integer values of the possible
@@ -1253,7 +1253,7 @@ public class Unit : SBase {
    *
    * @return integer value indicating success/failure of the function.  The
    * possible values returned by this function are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * *
  * @if python @note Because this is a static method on a class, the Python

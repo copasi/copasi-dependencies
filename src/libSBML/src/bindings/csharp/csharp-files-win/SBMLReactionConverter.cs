@@ -235,7 +235,11 @@ public class SBMLReactionConverter : SBMLConverter {
     }
   }
 
-  public static void init() {
+  
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+ static void init() {
     libsbmlPINVOKE.SBMLReactionConverter_init();
   }
 
@@ -307,10 +311,10 @@ public class SBMLReactionConverter : SBMLConverter {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   * @li @link libsbmlcs#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
    */ public new
  int convert() {
     int ret = libsbmlPINVOKE.SBMLReactionConverter_convert(swigCPtr);
@@ -347,7 +351,7 @@ public class SBMLReactionConverter : SBMLConverter {
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
  int setDocument(SBMLDocument doc) {
     int ret = libsbmlPINVOKE.SBMLReactionConverter_setDocument(swigCPtr, SBMLDocument.getCPtr(doc));

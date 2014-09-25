@@ -495,7 +495,7 @@ appears in the documentation.
    * @see #getBiologicalQualifierType()
    */ public
  int getQualifierType() {
-    return libsbmlJNI.CVTerm_getQualifierType(swigCPtr, this);
+    return libsbmlJNI.CVTerm_getQualifierType__SWIG_0(swigCPtr, this);
   }
 
   
@@ -565,7 +565,7 @@ appears in the documentation.
    * (the default).
    */ public
  int getModelQualifierType() {
-    return libsbmlJNI.CVTerm_getModelQualifierType(swigCPtr, this);
+    return libsbmlJNI.CVTerm_getModelQualifierType__SWIG_0(swigCPtr, this);
   }
 
   
@@ -644,7 +644,7 @@ appears in the documentation.
    * (the default).
    */ public
  int getBiologicalQualifierType() {
-    return libsbmlJNI.CVTerm_getBiologicalQualifierType(swigCPtr, this);
+    return libsbmlJNI.CVTerm_getBiologicalQualifierType__SWIG_0(swigCPtr, this);
   }
 
   
@@ -745,7 +745,7 @@ appears in the documentation.
    * @see #getResourceURI(long n)
    */ public
  long getNumResources() {
-    return libsbmlJNI.CVTerm_getNumResources(swigCPtr, this);
+    return libsbmlJNI.CVTerm_getNumResources__SWIG_0(swigCPtr, this);
   }
 
   
@@ -798,7 +798,7 @@ appears in the documentation.
    * @see #getQualifierType()
    */ public
  String getResourceURI(long n) {
-    return libsbmlJNI.CVTerm_getResourceURI(swigCPtr, this, n);
+    return libsbmlJNI.CVTerm_getResourceURI__SWIG_0(swigCPtr, this, n);
   }
 
   
@@ -1050,7 +1050,7 @@ appears in the documentation.
    * </ul>
    */ public
  boolean hasRequiredAttributes() {
-    return libsbmlJNI.CVTerm_hasRequiredAttributes(swigCPtr, this);
+    return libsbmlJNI.CVTerm_hasRequiredAttributes__SWIG_0(swigCPtr, this);
   }
 
   

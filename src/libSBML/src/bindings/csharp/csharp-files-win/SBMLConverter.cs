@@ -301,7 +301,7 @@ public class SBMLConverter : IDisposable {
    *
    * @see setProperties(@if java ConversionProperties@endif)
    * @see matchesProperties(@if java ConversionProperties@endif)
-   */ public new
+   */ public virtual
  ConversionProperties getDefaultProperties() {
     ConversionProperties ret = new ConversionProperties((SwigDerivedClassHasMethod("getDefaultProperties", swigMethodTypes3) ? libsbmlPINVOKE.SBMLConverter_getDefaultPropertiesSwigExplicitSBMLConverter(swigCPtr) : libsbmlPINVOKE.SBMLConverter_getDefaultProperties(swigCPtr)), true);
     return ret;
@@ -321,7 +321,7 @@ public class SBMLConverter : IDisposable {
    *
    * @return the SBMLNamespaces object that describes the SBML namespaces
    * in effect.
-   */ public new
+   */ public virtual
  SBMLNamespaces getTargetNamespaces() {
 	SBMLNamespaces ret
 	    = (SBMLNamespaces) libsbml.DowncastSBMLNamespaces((SwigDerivedClassHasMethod("getTargetNamespaces", swigMethodTypes4) ? libsbmlPINVOKE.SBMLConverter_getTargetNamespacesSwigExplicitSBMLConverter(swigCPtr) : libsbmlPINVOKE.SBMLConverter_getTargetNamespaces(swigCPtr)), false);
@@ -337,7 +337,7 @@ public class SBMLConverter : IDisposable {
    *
    * @return @c true if this converter's properties match, @c false
    * otherwise.
-   */ public new
+   */ public virtual
  bool matchesProperties(ConversionProperties props) {
     bool ret = (SwigDerivedClassHasMethod("matchesProperties", swigMethodTypes5) ? libsbmlPINVOKE.SBMLConverter_matchesPropertiesSwigExplicitSBMLConverter(swigCPtr, ConversionProperties.getCPtr(props)) : libsbmlPINVOKE.SBMLConverter_matchesProperties(swigCPtr, ConversionProperties.getCPtr(props)));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -356,8 +356,8 @@ public class SBMLConverter : IDisposable {
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   */ public new
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   */ public virtual
  int setDocument(SBMLDocument doc) {
     int ret = (SwigDerivedClassHasMethod("setDocument", swigMethodTypes6) ? libsbmlPINVOKE.SBMLConverter_setDocumentSwigExplicitSBMLConverter(swigCPtr, SBMLDocument.getCPtr(doc)) : libsbmlPINVOKE.SBMLConverter_setDocument(swigCPtr, SBMLDocument.getCPtr(doc)));
     return ret;
@@ -376,12 +376,12 @@ public class SBMLConverter : IDisposable {
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
    * following values:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getProperties()
    * @see matchesProperties(@if java ConversionProperties@endif)
-   */ public new
+   */ public virtual
  int setProperties(ConversionProperties props) {
     int ret = (SwigDerivedClassHasMethod("setProperties", swigMethodTypes7) ? libsbmlPINVOKE.SBMLConverter_setPropertiesSwigExplicitSBMLConverter(swigCPtr, ConversionProperties.getCPtr(props)) : libsbmlPINVOKE.SBMLConverter_setProperties(swigCPtr, ConversionProperties.getCPtr(props)));
     return ret;
@@ -401,7 +401,7 @@ public class SBMLConverter : IDisposable {
    *
    * @see setProperties(@if java ConversionProperties@endif)
    * @see matchesProperties(@if java ConversionProperties@endif)
-   */ public new
+   */ public virtual
  ConversionProperties getProperties() {
     IntPtr cPtr = (SwigDerivedClassHasMethod("getProperties", swigMethodTypes8) ? libsbmlPINVOKE.SBMLConverter_getPropertiesSwigExplicitSBMLConverter(swigCPtr) : libsbmlPINVOKE.SBMLConverter_getProperties(swigCPtr));
     ConversionProperties ret = (cPtr == IntPtr.Zero) ? null : new ConversionProperties(cPtr, false);
@@ -424,7 +424,7 @@ public class SBMLConverter : IDisposable {
    * be returned depends on the converter subclass; please consult
    * the documentation for the relevant class to find out what the
    * possibilities are.
-   */ public new
+   */ public virtual
  int convert() {
     int ret = (SwigDerivedClassHasMethod("convert", swigMethodTypes9) ? libsbmlPINVOKE.SBMLConverter_convertSwigExplicitSBMLConverter(swigCPtr) : libsbmlPINVOKE.SBMLConverter_convert(swigCPtr));
     return ret;

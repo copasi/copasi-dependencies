@@ -11,11 +11,10 @@ package org.sbml.libsbml;
 /** 
  *  A node in libSBML's XML document tree.
  <p>
- * Beginning with version 3.0.0, libSBML implements an XML abstraction
- * layer.  This layer presents a uniform XML interface to calling programs
- * regardless of which underlying XML parser libSBML has actually been
- * configured to use.  The basic data object in the XML abstraction is a
- * <em>node</em>, represented by {@link XMLNode}.
+ * LibSBML implements an XML abstraction layer.  This layer presents a
+ * uniform XML interface to calling programs regardless of which underlying
+ * XML parser libSBML has actually been configured to use.  The basic data
+ * object in the XML abstraction is a <em>node</em>, represented by {@link XMLNode}.
  <p>
  * An {@link XMLNode} can contain any number of children.  Each child is another
  * {@link XMLNode}, thereby forming a tree.  The methods {@link XMLNode#getNumChildren()}
@@ -32,26 +31,27 @@ package org.sbml.libsbml;
  * LibSBML provides the following utility functions for converting an XML
  * string (e.g., <code>&lt;annotation&gt;...&lt;/annotation&gt;</code>)
  * to/from an {@link XMLNode} object.
+ <p>
  * <ul>
- * <li> {@link XMLNode#toXMLString()} returns a string representation of the {@link XMLNode} object. 
+ * <li> {@link XMLNode#toXMLString()} returns a string representation of the {@link XMLNode}
+ * object.
  <p>
- * <li> {@link XMLNode#convertXMLNodeToString(XMLNode)}
- * (static function) returns a string representation 
- * of the given {@link XMLNode} object.
+ * <li> {@link XMLNode#convertXMLNodeToString(XMLNode)} (static
+ * function) returns a string representation of the given {@link XMLNode} object.
  <p>
- * <li> {@link XMLNode#convertStringToXMLNode(String)}
- * (static function) returns an {@link XMLNode} object converted 
- * from the given XML string.
- * </ul>
- <p>
- * The returned {@link XMLNode} object by {@link XMLNode#convertStringToXMLNode(String)}
- * is a dummy root (container) {@link XMLNode} if the given XML string has two or
- * more top-level elements (e.g.,
- * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In the
- * dummy root node, each top-level element in the given XML string is
+ * <li> {@link XMLNode#convertStringToXMLNode(String)} (static
+ * function) returns an {@link XMLNode} object converted from the given XML string.
+ *
+ * </ul> <p>
+ * The returned {@link XMLNode} object by {@link XMLNode#convertStringToXMLNode(String)} is a dummy root (container) {@link XMLNode} if the given XML string
+ * has two or more top-level elements (e.g.,
+ * &quot;<code>&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;</code>&quot;). In
+ * the dummy root node, each top-level element in the given XML string is
  * contained as a child {@link XMLNode}. {@link XMLToken#isEOF()} can be used to identify
  * if the returned {@link XMLNode} object is a dummy node or not.  Here is an
- * example: <pre class='fragment'>
+ * example: 
+<p>
+<pre class='fragment'>
 // Checks if the returned {@link XMLNode} object is a dummy root node:
 
 String str = '...';
@@ -63,7 +63,7 @@ if ( xn == null )
 }
 else if ( xn.isEOF() )
 {
-  // root node is a dummy node
+  // Root node is a dummy node.
   for ( int i = 0; i &lt; xn.getNumChildren(); i++ )
   {
     // access to each child node of the dummy node.
@@ -73,11 +73,11 @@ else if ( xn.isEOF() )
 }
 else
 {
-  // root node is NOT a dummy node
+  // Root node is NOT a dummy node.
   ...
 }
 </pre>
- */
+*/
 
 public class XMLNode extends XMLToken {
    private long swigCPtr;
@@ -528,7 +528,7 @@ appears in the documentation.
 
   
 /**
-   * Creates a new {@link XMLNode} by reading XMLTokens from stream.  
+   * Creates a new {@link XMLNode} by reading XMLTokens from stream.
    <p>
    * The stream must be positioned on a start element
    * (<code>stream.peek().isStart() == true</code>) and will be read until
@@ -661,7 +661,7 @@ appears in the documentation.
 /**
    * Returns the first child of this {@link XMLNode} with the corresponding name.
    <p>
-   * If no child with corrsponding name can be found, 
+   * If no child with corrsponding name can be found,
    * this method returns an empty node.
    <p>
    * @param name the name of the node to return
@@ -676,7 +676,7 @@ appears in the documentation.
 /**
    * Return the index of the first child of this {@link XMLNode} with the given name.
    <p>
-   * @param name a string, the name of the child for which the 
+   * @param name a string, the name of the child for which the
    * index is required.
    <p>
    * @return the index of the first child of this {@link XMLNode} with the given
@@ -746,7 +746,7 @@ appears in the documentation.
 
   
 /**
-   * Returns a string representation of this {@link XMLNode}. 
+   * Returns a string representation of this {@link XMLNode}.
    <p>
    * @return a string derived from this {@link XMLNode}.
    */ public
@@ -756,7 +756,7 @@ appears in the documentation.
 
   
 /**
-   * Returns a string representation of a given {@link XMLNode}. 
+   * Returns a string representation of a given {@link XMLNode}.
    <p>
    * @param node the {@link XMLNode} to be represented as a string
    <p>

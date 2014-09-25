@@ -241,7 +241,11 @@ public class SBMLLocalParameterConverter : SBMLConverter {
     }
   }
 
-  public static void init() {
+  
+/**
+   * Register with the ConversionRegistry.
+   */ /* libsbml-internal */ public
+ static void init() {
     libsbmlPINVOKE.SBMLLocalParameterConverter_init();
   }
 
@@ -313,9 +317,9 @@ public class SBMLLocalParameterConverter : SBMLConverter {
    * @return  integer value indicating the success/failure of the operation.
    * @if clike The value is drawn from the enumeration
    * #OperationReturnValues_t. @endif The possible values are:
-   * @li @link libsbmlcs#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbmlcs#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   * @li @link libsbmlcs#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public new
  int convert() {
     int ret = libsbmlPINVOKE.SBMLLocalParameterConverter_convert(swigCPtr);
