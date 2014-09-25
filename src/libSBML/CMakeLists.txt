@@ -159,7 +159,7 @@ option(WITH_RUBY     "Generate the Ruby language interface for libSBML"    OFF)
 option(WITH_R        "Generate the R language interface for libSBML"       OFF)
 option(WITH_OCTAVE   "Generate the Octave language interface for libSBML." OFF)
 option(WITH_MATLAB   "Generate the MATLAB language interface for libSBML." OFF)
-option(WITH_JAVASCRIPT   "Generate the Javascript language interface for libSBML." ON)
+option(WITH_JAVASCRIPT   "Generate the Javascript language interface for libSBML." OFF)
 
 if (SWIG_VERSION)
 if (${SWIG_VERSION} VERSION_GREATER 3.0.1)
