@@ -47,9 +47,11 @@ class LIBSBML_EXTERN CobraToFbcConverter : public SBMLConverter
 public:
 
   /** @cond doxygenLibsbmlInternal */
-  
-  /* register with the ConversionRegistry */
-  static void init();  
+
+  /**
+   * Register with the ConversionRegistry.
+   */
+  static void init();
 
   /** @endcond */
 
@@ -115,6 +117,11 @@ public:
    */
   virtual ConversionProperties getDefaultProperties() const;
 
+  /** 
+   * Returns a flag whether the level and version of the source document
+   * should be checked for compatibility before converting to SBML Level 3
+   */ 
+  bool checkCompatibility() const;
 
 };
 

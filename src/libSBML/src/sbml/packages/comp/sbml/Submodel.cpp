@@ -576,7 +576,7 @@ Submodel::readAttributes (const XMLAttributes& attributes,
         const std::string details = 
           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("fbc", CompSubmodelAllowedAttributes,
+        getErrorLog()->logPackageError("comp", CompSubmodelAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
       } 
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
@@ -584,7 +584,7 @@ Submodel::readAttributes (const XMLAttributes& attributes,
         const std::string details = 
           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("fbc", CompSubmodelAllowedCoreAttributes,
+        getErrorLog()->logPackageError("comp", CompSubmodelAllowedCoreAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
       } 
     }
@@ -932,8 +932,23 @@ Submodel::instantiate()
   //                                    plugin->getPrefix(), true);
   //}
   
+  CompModelPlugin* origmodplug = 
+    static_cast<CompModelPlugin*>(rootdoc->getModel()->getPlugin(getPrefix()));
+
   CompModelPlugin* instmodplug = 
     static_cast<CompModelPlugin*>(mInstantiatedModel->getPlugin(getPrefix()));
+  
+  if (instmodplug == NULL)
+    return LIBSBML_OPERATION_SUCCESS;
+
+  // if we have a transformer specified, then we need to propagate it, so it can
+  // be used
+  if (origmodplug->isSetTransformer())
+  {
+    if (instmodplug != NULL)
+      instmodplug->setTransformer(origmodplug->getTransformer());
+  }
+
   
   for (unsigned int sub=0; sub<instmodplug->getNumSubmodels(); sub++) 
   {
@@ -1093,20 +1108,17 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
     //getInstantiation sets its own error messages.
     return LIBSBML_OPERATION_FAILED;
   }
-  ASTNode* tcftimes = NULL;
-  ASTNode* tcfdiv = NULL;
+  ASTNode tcftimes(AST_TIMES);
+  ASTNode tcfdiv(AST_DIVIDE);
   if (tcf != NULL) {
-    tcftimes = new ASTNode(AST_TIMES);
-    tcftimes->addChild(tcf->deepCopy());
-    tcfdiv = new ASTNode(AST_DIVIDE);
-    tcfdiv->addChild(tcf->deepCopy());
+    tcftimes.addChild(tcf->deepCopy());
+    tcfdiv.addChild(tcf->deepCopy());
   }
-  ASTNode* rxndivide = NULL;
+  ASTNode rxndivide(AST_DIVIDE);
   if (klmod != NULL) {
-    rxndivide = new ASTNode(AST_DIVIDE);
     ASTNode rxnref(AST_NAME);
-    rxndivide->addChild(rxnref.deepCopy());
-    rxndivide->addChild(klmod->deepCopy());
+    rxndivide.addChild(rxnref.deepCopy());
+    rxndivide.addChild(klmod->deepCopy());
   }
   List* allelements = model->getAllElements();
   for (unsigned int el=0; el<allelements->getSize(); el++) {
@@ -1126,11 +1138,11 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
     Trigger* trigger = NULL;
     string cf = "";
     //Reaction math will be converted below, in the bits with the kinetic law.  But because of that, we need to handle references *to* the reaction:  even if it has no kinetic law, the units have changed, and this needs to be reflected by the flattening routine.
-    if (rxndivide != NULL && element->getTypeCode()==SBML_REACTION && element->isSetId()) {
-      rxndivide->getChild(0)->setName(element->getId().c_str());
+    if (rxndivide.getNumChildren() != 0 && element->getTypeCode()==SBML_REACTION && element->isSetId()) {
+      rxndivide.getChild(0)->setName(element->getId().c_str());
       for (unsigned int sube=0; sube<allelements->getSize(); sube++) {
         SBase* subelement = static_cast<SBase*>(allelements->get(sube));
-        subelement->replaceSIDWithFunction(element->getId(), rxndivide);
+        subelement->replaceSIDWithFunction(element->getId(), &rxndivide);
       }
     }
 
@@ -1178,7 +1190,7 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
         //Kinetic laws are multiplied by 'klmod'.
         kl = static_cast<KineticLaw*>(element);
         ast1 = kl->getMath()->deepCopy();
-        convertCSymbols(ast1, tcfdiv, tcftimes);
+        convertCSymbols(ast1, &tcfdiv, &tcftimes);
         if (klmod !=NULL) {
           kl = static_cast<KineticLaw*>(element);
           if (kl->isSetMath()) {
@@ -1199,10 +1211,10 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
         delay = static_cast<Delay*>(element);
         if (delay->isSetMath()) {
           ast1 = delay->getMath()->deepCopy();
-          convertCSymbols(ast1, tcfdiv, tcftimes);
-          tcftimes->addChild(ast1);
-          delay->setMath(tcftimes);
-          tcftimes->removeChild(1);
+          convertCSymbols(ast1, &tcfdiv, &tcftimes);
+          tcftimes.addChild(ast1);
+          delay->setMath(&tcftimes);
+          tcftimes.removeChild(1);
         }
         break;
       case SBML_RATE_RULE:
@@ -1210,9 +1222,9 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
         rrule = static_cast<RateRule*>(element);
         if (rrule->isSetMath()) {
           //ast1 = rrule->getMath()->deepCopy();
-          tcfdiv->insertChild(0, rrule->getMath()->deepCopy());
-          rrule->setMath(tcfdiv);
-          tcfdiv->removeChild(0);
+          tcfdiv.insertChild(0, rrule->getMath()->deepCopy());
+          rrule->setMath(&tcfdiv);
+          tcfdiv.removeChild(0);
         }
         //Fall through to:
       case SBML_ASSIGNMENT_RULE:
@@ -1221,7 +1233,7 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
         rule = static_cast<Rule*>(element);
         if (rule->isSetMath()) {
           ast1 = rule->getMath()->deepCopy();
-          convertCSymbols(ast1, tcfdiv, tcftimes);
+          convertCSymbols(ast1, &tcfdiv, &tcftimes);
           rule->setMath(ast1);
           delete ast1;
         }
@@ -1231,7 +1243,7 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
         ea = static_cast<EventAssignment*>(element);
         if (ea->isSetMath()) {
           ast1 = ea->getMath()->deepCopy();
-          convertCSymbols(ast1, tcfdiv, tcftimes);
+          convertCSymbols(ast1, &tcfdiv, &tcftimes);
           ea->setMath(ast1);
           delete ast1;
         }
@@ -1241,7 +1253,7 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
         ia = static_cast<InitialAssignment*>(element);
         if (ia->isSetMath()) {
           ast1 = ia->getMath()->deepCopy();
-          convertCSymbols(ast1, tcfdiv, tcftimes);
+          convertCSymbols(ast1, &tcfdiv, &tcftimes);
           ia->setMath(ast1);
           delete ast1;
         }
@@ -1251,7 +1263,7 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
         constraint = static_cast<Constraint*>(element);
         if (constraint->isSetMath()) {
           ast1 = constraint->getMath()->deepCopy();
-          convertCSymbols(ast1, tcfdiv, tcftimes);
+          convertCSymbols(ast1, &tcfdiv, &tcftimes);
           constraint->setMath(ast1);
           delete ast1;
         }
@@ -1261,7 +1273,7 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
         priority = static_cast<Priority*>(element);
         if (priority->isSetMath()) {
           ast1 = priority->getMath()->deepCopy();
-          convertCSymbols(ast1, tcfdiv, tcftimes);
+          convertCSymbols(ast1, &tcfdiv, &tcftimes);
           priority->setMath(ast1);
           delete ast1;
         }
@@ -1271,7 +1283,7 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
         trigger = static_cast<Trigger*>(element);
         if (trigger->isSetMath()) {
           ast1 = trigger->getMath()->deepCopy();
-          convertCSymbols(ast1, tcfdiv, tcftimes);
+          convertCSymbols(ast1, &tcfdiv, &tcftimes);
           trigger->setMath(ast1);
           delete ast1;
         }

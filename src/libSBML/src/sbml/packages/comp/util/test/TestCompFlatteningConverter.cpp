@@ -39,6 +39,14 @@ using namespace std;
 
 LIBSBML_CPP_NAMESPACE_USE
 
+string writeSBMLToStringSafe(const SBMLDocument* doc)
+{
+  char* modelC = writeSBMLToString(doc);
+  string model(modelC);
+  free(modelC);
+  return model;
+}
+
 BEGIN_C_DECLS
 
 
@@ -46,11 +54,11 @@ extern char *TestDataDirectory;
 
 START_TEST (test_comp_get_flattening_converter)
 {
-  ConversionProperties* props = new ConversionProperties();
-  props->addOption("flatten comp");
-  props->addOption("performValidation", true);
+  ConversionProperties props;
+  props.addOption("flatten comp");
+  props.addOption("performValidation", true);
   
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // ensure we have a converter
   fail_unless(converter!= NULL);  
@@ -58,7 +66,8 @@ START_TEST (test_comp_get_flattening_converter)
   // ensure that conversion without document does not work
   fail_unless(converter->convert() == LIBSBML_INVALID_OBJECT);
 
-  SBMLDocument doc(new CompPkgNamespaces());
+  CompPkgNamespaces cpn;
+  SBMLDocument doc(&cpn);
   converter->setDocument(&doc);
 
   // ensure that conversion without model does not work
@@ -80,13 +89,13 @@ START_TEST (test_comp_flatten_aggregate)
   string filename(TestDataDirectory);
   //string filename("C:\\Development\\libsbml\\src\\sbml\\packages\\comp\\util\\test\\test-data\\");
 
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("performValidation", true);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("performValidation", true);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // ensure we have a converter
   fail_unless(converter!= NULL);
@@ -100,7 +109,7 @@ START_TEST (test_comp_flatten_aggregate)
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToString(doc);
+  string oldModel = writeSBMLToStringSafe(doc);
 
   // fail unless this model does use comp
   fail_unless(oldModel .find("comp:") != string::npos);
@@ -111,7 +120,7 @@ START_TEST (test_comp_flatten_aggregate)
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   //writeSBMLToFile(doc, "aggregate_flat.xml");
   
   // fail unless this model does not use comp
@@ -120,7 +129,7 @@ START_TEST (test_comp_flatten_aggregate)
   string ffile = TestDataDirectory;
   ffile += "aggregate_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
 
@@ -138,13 +147,13 @@ void TestFlattenedPair(string file1, string file2)
   //string filename("C:\\Development\\libsbml\\src\\sbml\\packages\\comp\\util\\test\\test-data\\");
   
 
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("performValidation", true);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("performValidation", true);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + file1;  
@@ -178,12 +187,12 @@ void TestFlattenedPair(string file1, string file2)
   }
   */
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   //string ofile = filename + "test_flat.xml";
   //writeSBMLToFile(doc, ofile.c_str());
   string ffile = filename + file2;
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
 /*
   if (flatModel != newModel)
   {
@@ -229,13 +238,13 @@ START_TEST (test_comp_flatten_qtpop)
   //string filename("C:\\Development\\libsbml\\src\\sbml\\packages\\comp\\util\\test\\test-data\\");
   
 
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("performValidation", true);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("performValidation", true);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // ensure we have a converter
   fail_unless(converter!= NULL);
@@ -249,7 +258,7 @@ START_TEST (test_comp_flatten_qtpop)
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToString(doc);
+  string oldModel = writeSBMLToStringSafe(doc);
 
   // fail unless this model does use comp
   fail_unless(oldModel .find("comp:") != string::npos);
@@ -259,7 +268,7 @@ START_TEST (test_comp_flatten_qtpop)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
 
   // fail unless this model does not use comp
   fail_unless(newModel.find("comp:") == string::npos);
@@ -276,7 +285,7 @@ START_TEST (test_comp_flatten_qtpop)
   //  ffile += "QTPop_flat_withlayout.xml";
   //}
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -305,26 +314,26 @@ START_TEST (test_comp_flatten_double_ext1)
   Submodel* submod = modplug->createSubmodel();
   submod->setModelRef("EM1");
   submod->setId("A");
-  string origmodel = writeSBMLToString(doc);
+  string origmodel = writeSBMLToStringSafe(doc);
   string ffile = TestDataDirectory;
   ffile += "doubleext.xml";
   SBMLDocument* origdoc = readSBMLFromFile(ffile.c_str());
-  string origstored = writeSBMLToString(origdoc);
+  string origstored = writeSBMLToStringSafe(origdoc);
   fail_unless(origmodel == origstored);
 
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // ensure we have a converter
   fail_unless(converter!= NULL);
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToString(doc);
+  string oldModel = writeSBMLToStringSafe(doc);
 
   // fail unless this model does use comp
   fail_unless(oldModel .find("comp:") != string::npos);
@@ -333,7 +342,7 @@ START_TEST (test_comp_flatten_double_ext1)
 
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   //writeSBMLToFile(doc, "doubleext_flat.xml");
 
   // fail unless this model does not use comp
@@ -342,7 +351,7 @@ START_TEST (test_comp_flatten_double_ext1)
   ffile = TestDataDirectory;
   ffile += "doubleext_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -369,24 +378,24 @@ START_TEST (test_comp_flatten_double_ext2)
   Submodel* submod = modplug->createSubmodel();
   submod->setModelRef("EM1");
   submod->setId("A");
-  string origmodel = writeSBMLToString(doc);
+  string origmodel = writeSBMLToStringSafe(doc);
   string ffile = TestDataDirectory;
   ffile += "doubleext2.xml";
   SBMLDocument* origdoc = readSBMLFromFile(ffile.c_str());
-  string origstored = writeSBMLToString(origdoc);
+  string origstored = writeSBMLToStringSafe(origdoc);
   fail_unless(origmodel == origstored);
 
-  ConversionProperties* props = new ConversionProperties();
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
+  ConversionProperties props;
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   // ensure we have a converter
   fail_unless(converter!= NULL);
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToString(doc);
+  string oldModel = writeSBMLToStringSafe(doc);
 
   // fail unless this model does use comp
   fail_unless(oldModel .find("comp:") != string::npos);
@@ -397,7 +406,7 @@ START_TEST (test_comp_flatten_double_ext2)
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   //writeSBMLToFile(doc, "doubleext2_flat.xml");
 
   // fail unless this model does not use comp
@@ -406,7 +415,7 @@ START_TEST (test_comp_flatten_double_ext2)
   ffile = TestDataDirectory;
   ffile += "doubleext2_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
 
@@ -457,18 +466,18 @@ START_TEST (test_comp_flatten_dropports)
   port->setIdRef("p1");
   //writeSBMLToFile(doc, "dropports.xml");
 
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
+  props.addOption("flatten comp");
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // ensure we have a converter
   fail_unless(converter!= NULL);
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToString(doc);
+  string oldModel = writeSBMLToStringSafe(doc);
 
   // fail unless this model does use comp, and has a port.
   fail_unless(oldModel.find("comp:") != string::npos);
@@ -478,7 +487,7 @@ START_TEST (test_comp_flatten_dropports)
 
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   //writeSBMLToFile(doc, "dropports_flat.xml");
 
   // fail unless this model does not use comp, and doesn't have any ports in it.
@@ -488,7 +497,7 @@ START_TEST (test_comp_flatten_dropports)
   string ffile = TestDataDirectory;
   ffile += "dropports_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -616,23 +625,23 @@ START_TEST (test_comp_flatten_test14_ports)
   Model* model = doc->getModel();
   fail_unless(model != NULL);
 
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("leavePorts", true);
+  props.addOption("flatten comp");
+  props.addOption("leavePorts", true);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   converter->setDocument(doc);
   int result = converter->convert();
 
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
 
   string ffile = filename + "test14_flat_ports.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -953,12 +962,12 @@ START_TEST (test_comp_flatten_converter_properties1)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "test14.xml";  
@@ -977,10 +986,10 @@ START_TEST (test_comp_flatten_converter_properties1)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "test14_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -994,13 +1003,13 @@ START_TEST (test_comp_flatten_converter_properties2)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("leavePorts", true);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("leavePorts", true);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "test14.xml";  
@@ -1019,10 +1028,10 @@ START_TEST (test_comp_flatten_converter_properties2)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "test14_flat_ports.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1036,13 +1045,13 @@ START_TEST (test_comp_flatten_converter_properties3)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("listModelDefinitions", true);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("listModelDefinitions", true);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "test14.xml";  
@@ -1061,10 +1070,10 @@ START_TEST (test_comp_flatten_converter_properties3)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "test14_flat_definitions.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1078,13 +1087,13 @@ START_TEST (test_comp_flatten_converter_properties4)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("listModelDefinitions", false);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("listModelDefinitions", false);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "test14.xml";  
@@ -1103,10 +1112,10 @@ START_TEST (test_comp_flatten_converter_properties4)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "test14_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1120,13 +1129,13 @@ START_TEST (test_comp_flatten_converter_properties5)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("leavePorts", false);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("leavePorts", false);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "test14.xml";  
@@ -1145,10 +1154,10 @@ START_TEST (test_comp_flatten_converter_properties5)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "test14_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1162,14 +1171,14 @@ START_TEST (test_comp_flatten_converter_properties6)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("leavePorts", true);
-  props->addOption("listModelDefinitions", true);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("leavePorts", true);
+  props.addOption("listModelDefinitions", true);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "test14.xml";  
@@ -1188,10 +1197,10 @@ START_TEST (test_comp_flatten_converter_properties6)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "test14_flat_portsAndDefinitions.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1205,14 +1214,14 @@ START_TEST (test_comp_flatten_converter_properties7)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("leavePorts", true);
-  props->addOption("listModelDefinitions", false);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("leavePorts", true);
+  props.addOption("listModelDefinitions", false);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "test14.xml";  
@@ -1231,10 +1240,10 @@ START_TEST (test_comp_flatten_converter_properties7)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "test14_flat_ports.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1248,14 +1257,14 @@ START_TEST (test_comp_flatten_converter_properties8)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("leavePorts", false);
-  props->addOption("listModelDefinitions", true);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("leavePorts", false);
+  props.addOption("listModelDefinitions", true);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "test14.xml";  
@@ -1274,10 +1283,10 @@ START_TEST (test_comp_flatten_converter_properties8)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "test14_flat_definitions.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1291,14 +1300,14 @@ START_TEST (test_comp_flatten_converter_properties9)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", filename);
-  props->addOption("leavePorts", false);
-  props->addOption("listModelDefinitions", false);
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("leavePorts", false);
+  props.addOption("listModelDefinitions", false);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "test14.xml";  
@@ -1317,10 +1326,10 @@ START_TEST (test_comp_flatten_converter_properties9)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "test14_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1336,12 +1345,12 @@ START_TEST (test_comp_flatten_converter_properties10)
   string filename(TestDataDirectory);
   string subdirname = filename + "subdir/";
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("basePath", subdirname);
+  props.addOption("flatten comp");
+  props.addOption("basePath", subdirname);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + "ext_in_subdir.xml";  
@@ -1359,10 +1368,10 @@ START_TEST (test_comp_flatten_converter_properties10)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile = filename + "ext_in_subdir_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1376,12 +1385,12 @@ SBMLDocument* test_flatten_layout(string orig, string flat, string nolayout)
 { 
   string filename(TestDataDirectory);
   
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("performValidation", false);
+  props.addOption("flatten comp");
+  props.addOption("performValidation", false);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + orig;  
@@ -1400,7 +1409,7 @@ SBMLDocument* test_flatten_layout(string orig, string flat, string nolayout)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile;
 
   // NOTE: layout flattening is now implemented!
@@ -1417,7 +1426,7 @@ SBMLDocument* test_flatten_layout(string orig, string flat, string nolayout)
   }
 
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete fdoc;
@@ -1429,16 +1438,16 @@ SBMLDocument* test_flatten_fbc(string orig, string flat, string nofbc)
 { 
   string filename(TestDataDirectory);
  
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
+  props.addOption("flatten comp");
   // took this out as this test actual tests that the default values of
   // the converter are used - otherwise it is identical to the
   // next test
-//  props->addOption("ignorePackages", true);
-  props->addOption("performValidation", false);
+//  props.addOption("ignorePackages", true);
+  props.addOption("performValidation", false);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + orig;  
@@ -1459,7 +1468,7 @@ SBMLDocument* test_flatten_fbc(string orig, string flat, string nofbc)
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile;
 
   // NOTE: fbc flattening is now implemented
@@ -1473,7 +1482,7 @@ SBMLDocument* test_flatten_fbc(string orig, string flat, string nofbc)
   }
 
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete fdoc;
@@ -1487,12 +1496,12 @@ SBMLDocument* test_flatten_qual(string orig, string flat, string noqual)
 { 
   string filename(TestDataDirectory);
  
-  ConversionProperties* props = new ConversionProperties();
+  ConversionProperties props;
   
-  props->addOption("flatten comp");
-  props->addOption("performValidation", false);
+  props.addOption("flatten comp");
+  props.addOption("performValidation", false);
 
-  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(*props);
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
   
   // load document
   string cfile = filename + orig;  
@@ -1513,7 +1522,7 @@ SBMLDocument* test_flatten_qual(string orig, string flat, string noqual)
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
 
-  string newModel = writeSBMLToString(doc);
+  string newModel = writeSBMLToStringSafe(doc);
   string ffile;
 
   // NOTE: fbc flattening is now implemented
@@ -1527,7 +1536,7 @@ SBMLDocument* test_flatten_qual(string orig, string flat, string noqual)
   }
 
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToString(fdoc);
+  string flatModel = writeSBMLToStringSafe(fdoc);
   fail_unless(flatModel == newModel);
 
   delete fdoc;
@@ -1964,13 +1973,65 @@ START_TEST(test_comp_validator_44781839)
 }
 END_TEST
 
+START_TEST(test_invalid_layout_disabled)
+{ 
+  string filename(TestDataDirectory);
+  
+  ConversionProperties props;
+  
+  props.addOption("flatten comp");
+  props.addOption("performValidation", false);
+
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
+  
+  // load document
+  string cfile = filename + "layout_invalid.xml";  
+  SBMLDocument* doc = readSBMLFromFile(cfile.c_str());
+
+  // fail if there is no model (readSBMLFromFile always returns a valid document)
+  fail_unless(doc->getModel() != NULL);
+
+  doc->enablePackage("http://www.sbml.org/sbml/level3/version1/layout/version1", "layout", false);
+
+  //Fail if we claim there are errors in the document (there shouldn't be)
+
+  fail_unless(doc->getErrorLog()->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) == 0);
+
+  converter->setDocument(doc);
+  int result = converter->convert();
+
+  // fail if conversion was not valid
+  fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+
+  string newModel = writeSBMLToStringSafe(doc);
+
+  string ffile;
+
+  ffile = filename + "layout_invalid_removed_flat.xml";
+  fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+
+  if (SBMLExtensionRegistry::isPackageEnabled("layout") == true)
+    fail_unless(doc->getNumErrors() == 0);
+
+
+  SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
+  string flatModel = writeSBMLToStringSafe(fdoc);
+  fail_unless(flatModel == newModel);
+
+  delete fdoc;
+  delete converter;
+  delete doc;
+}
+END_TEST
+
+
 Suite *
 create_suite_TestFlatteningConverter (void)
 { 
   TCase *tcase = tcase_create("SBMLCompFlatteningConverter");
   Suite *suite = suite_create("SBMLCompFlatteningConverter");
   
-  //tcase_add_test(tcase, test_comp_flatten_converter_layout_submodel);
+  tcase_add_test(tcase, test_invalid_layout_disabled);
   
   tcase_add_test(tcase, test_comp_flatten_double_ext2);
   tcase_add_test(tcase, test_comp_get_flattening_converter);
