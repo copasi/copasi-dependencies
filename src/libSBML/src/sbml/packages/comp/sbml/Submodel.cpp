@@ -922,20 +922,26 @@ Submodel::instantiate()
   mInstantiatedModel->connectToParent(this);
   mInstantiatedModel->setSBMLDocument(origdoc);
   mInstantiatedModel->enablePackage(getPackageURI(), getPrefix(), true);
+  CompModelPlugin* instmodplug = 
+    static_cast<CompModelPlugin*>(mInstantiatedModel->getPlugin(getPrefix()));
+  if (instmodplug == NULL)
+  {
+    mInstantiatedModel->enablePackageInternal(getPackageURI(), getPrefix(), true);
+  }
 
-  // enable any packages that were enabled on the doc
-  //for (unsigned int n = 0; n < origdoc->getNumPlugins(); n++)
-  //{
-  //  SBasePlugin * plugin = origdoc->getPlugin(n);
-  //  
-  //  mInstantiatedModel->enablePackage(plugin->getURI(),
-  //                                    plugin->getPrefix(), true);
-  //}
+  // disable any packages that were disabled on the rootdoc
+  for (unsigned int n = 0; n < rootdoc->getNumDisabledPlugins(); n++)
+  {
+    SBasePlugin * plugin = rootdoc->getDisabledPlugin(n);
+    
+    mInstantiatedModel->enablePackageInternal(plugin->getURI(),
+                                      plugin->getPrefix(), false);
+  }
   
   CompModelPlugin* origmodplug = 
     static_cast<CompModelPlugin*>(rootdoc->getModel()->getPlugin(getPrefix()));
 
-  CompModelPlugin* instmodplug = 
+  instmodplug = 
     static_cast<CompModelPlugin*>(mInstantiatedModel->getPlugin(getPrefix()));
   
   if (instmodplug == NULL)
