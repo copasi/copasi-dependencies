@@ -200,6 +200,15 @@ LIBSBML_EXTERN
 char*
 SBML_getLastParseL3Error();
 
+
+/** @cond doxygenLibsbmlInternal */
+
+LIBSBML_EXTERN
+void
+SBML_freeL3Parser();
+
+/** @endcond */
+
 END_C_DECLS
 LIBSBML_CPP_NAMESPACE_END
 #endif /* L3Parser_h */

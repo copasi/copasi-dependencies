@@ -34,22 +34,22 @@ both Doxygen and Javadoc.
 beginning with two asterisks (@c *) characters, as in the following example:
 @verbatim
 /**
- * Comments that start with two asterisks within which commands understood by
- * Doxygen will begin with the character @.
+ * Comments that start with two asterisks within which commands
+ * understood by Doxygen will begin with the character @.
  */ 
 @endverbatim
 Another type of Doxygen comment, used to document enumeration members, begins
 with @htmlonly <code>/*!&lt;</code> @endhtmlonly.  If your code documentation 
 does @em not appear inside a comment block that begins with
-@htmlonly <code>/**</code> @endhtmlonly (or the more
-rarely-needed @htmlonly <code>/*!&lt;</code> @endhtmlonly), then it will be
+@htmlonly <code>/**</code> @endhtmlonly or the more
+rarely-needed @htmlonly <code>/*!&lt;</code> @endhtmlonly, then it will be
 ignored by Doxygen.  This may or may not be what you want, depending on the
 intention behind the comment.
 @li Comments that begin with one asterisk (i.e.,
 @htmlonly <code>/* ...</code> @endhtmlonly, or two
-forward slashes (i.e., <code>// ...</code>) are not processed by Doxygen and
-not entered in the formatted user guide.  You can use such comments normally
-to comment the code for other developers.
+forward slashes (i.e., <code>// ...</code>) are @em not processed by Doxygen
+and not entered in the formatted user guide.  You can use such comments
+normally to comment the code for other developers.
 @li Doxygen comment blocks can appear at the beginning of a file, in front of
 a class declaration, in front of method declarations, in front of function
 declarations, and in front of data structure definitions.
@@ -418,6 +418,25 @@ arguments in alias/macro definitions.  Rather than define two separate forms,
 it seems simpler to have only one---i.e., <code>@@sbmlconstant</code>---and
 simply remember to leave the second argument empty if necessary.)
 
+Finally, sometimes you will want to refer the enumeration type itself rather
+than a specific value, for example to say something along the lines of "the
+values are drawn from the enumeration X".  Unfortunately, this poses a
+portability problem, because the enumerations do not explicitly exist outside
+of C and C++.  The simplest way around this problem is to conditionalize the
+text such that in the case of <code>clike</code>, the text mentions the
+enumeration name, and otherwise, the text describes integer constants more
+generally.  The following is an example:
+@htmlinclude libsbml-coding-enum-text-example.html
+
+In the example above, when the condition is not satisfied (meaning,
+<code>@@if clike</code> is false and thus C/C++ documentation is not being
+generated), the text above will result in the output "This uses integer type
+codes, which may come from the of static integer constants whose names begin
+with the prefix <code>AST_</code>".  Such a description works for Java,
+Python and other languages equally, and while it is not as specific as
+possible, it is better than attempting to a list all the alternatives
+explicitly.
+
 
 @subsubsection coding-function-refs 4.1.2 Referring to libSBML pure functions
 
@@ -494,14 +513,14 @@ One often encounters the need to repeat the same text in different places in
 the documentation, such as to add a detail to each method where the detail
 may be relevant.  In software documentation, unlike in non-technical prose or
 creative writing, it is often @em better to repeat text---or refer to a
-common section---everywhere that it might be relevant, because a reader
-does not normally read class and method documentation linearly: they jump to
-a method description from elsewhere.  This means that the descriptions need
-to be reasonably self-contained.  However, repeating information by
-copy-pasting text leads to an obvious maintenance nightmare, requiring any
-updates or changes to be made in multiple places.  We avoid this in libSBML
-by writing common text as reusable blocks, then using text inclusion
-mechanisms to insert the common text where it is needed.
+common section---everywhere that it might be relevant, because a reader does
+not normally read class and method documentation linearly: they jump to a
+method description from elsewhere.  This means that the descriptions need to
+be reasonably self-contained.  However, repeating information by copy-pasting
+text leads to a maintenance nightmare, requiring any updates or changes to be
+made in multiple places.  We avoid this in libSBML by writing common text as
+reusable blocks, then using text inclusion mechanisms to insert the common
+text where it is needed.
 
 A surprising limitation of Doxygen is that it only provides two mechanisms
 for copying repeated text: <code>@@htmlinclude</code>, and the
@@ -521,7 +540,7 @@ libSBML, but do so with conventions to work around the behaviors of the
 latter set of commands.
 
 
-@subsubsection coding-copydetails 4.2.1 Using "copydetails"
+@subsubsection coding-copydetails 4.2.1 Using "@@copydetails"
 
 Experienced Doxygen users may be initially confused by our use of
 <code>@@copydetails</code>, because strictly speaking, we are not using it
@@ -600,9 +619,10 @@ In general, the use of <code>@@copydetails</code> is preferable to the use of
 resort to the latter command.  In some other situations, you may want to copy
 the entire method documentation for methods that are repeated on every class;
 for this, you can use <code>@@copydoc</code>, described next.
+@htmlinclude libsbml-coding-copydetails-example.html
 
 
-@subsubsection coding-copydoc 4.2.2 Using "copydoc"
+@subsubsection coding-copydoc 4.2.2 Using "@@copydoc"
 
 As mentioned above, the Doxygen <code>@@copydetails</code> command is
 actually intended for reusing the "details" portion of a method or other
@@ -644,7 +664,7 @@ exactly, right down to the use of the same parameter names
 values, the purpose of the method, and so on.
 
 
-@subsubsection coding-htmlinclude 4.2.3 Using "htmlinclude"
+@subsubsection coding-htmlinclude 4.2.3 Using "@@htmlinclude"
 
 The <code>@@copydetails</code> and <code>@@copydoc</code> methods described
 above works well for most situations, except when you need to use significant
@@ -799,13 +819,6 @@ situations were it's better to put warnings higher in the documentation of a
 class or method, but in most cases, the sequence should be: @c @@note, @c
 @@warning, and @c @@see.
 
-Note that <strong>it is essential to put @c @@see last</strong> elements
-because of some unresolved quirks in Javadoc's behavior with respect to the
-rest of our documentation processing pipeline.  If you do not put it last,
-the tail end of a method or class documentation block is likely to be
-formatted with broken links, or else the last @c @@see entry will go
-missing.
-
 
 @subsection coding-figures 4.6 Figures
 
@@ -824,6 +837,66 @@ Since we may at some point generate latex output, always use two @c @@image
 commands when you use it: once with @c html and once with @c latex.
 
 
+@subsection coding-verbatim 4.7 Code and verbatim text
+
+Putting fragments of sample code in the documentation is always helpful for
+readers.  Doing it in a way that produces text with syntactic elements
+highlighted makes the text more readable.  Doxygen can perform syntax
+coloring on code fragments written in C++, C#, C, Java, and Python, but not
+other languages, and (particularly unfortunate for libSBML), not for XML
+either.  Here is the approach used in the libSBML documentation for the
+different cases in order to cope with this limitation.
+
+@li For code written in C++, C#, C, Java, and Python, enclose the code in
+   Doxygen's <code>@@code</code>/<code>@@endcode</code> construct.  Indicate
+   the language as an option to <code>@@code</code> in curly braces, using
+   standard filename extensions.  For example: <code>@@code{.py}</code> for
+   Python, <code>@@code{.java}</code> for Java, etc.
+
+@li Provide different versions of the code for different languages.
+   Conditionalize them using the standard <code>@@if</code> construct.  Here
+   is an example:
+@verbatim
+@if cpp
+@code{.cpp}
+... C++ version ...
+@endcode
+@endif
+@if java
+@code{.java}
+... Java version ...
+@endcode
+@endif
+@if python
+@code{.py}
+... Python version ...
+@endcode
+@endif
+... etc. ...
+@endverbatim
+
+@li For XML (which is not one of types recognized by Doxygen natively), we
+   have to use an entirely different approach: store the content in a file
+   that is processed by a syntax coloring tool, and then use @c @@htmlinclude
+   to incorporate the result in the libSBML documentation.  Here is a
+   step-by-step procedure:
+-# Save the XML content in a file with a <code>.xml</code> extension in the
+   directory <code>docs/src/common-text/</code>.
+
+-# Obtain the Python-based syntax highlighting application <a target="_blank"
+   href="http://pygments.org">Pygments</a> and use it to perform syntax
+   coloring on the <code>.xml</code> file.  Save the result to another file
+   with the same basename but the extension <code>.html</code> in the
+   directory <code>docs/src/common-text/</code>.  Here is a general command
+   line for using the program @c pygmentize provided by the <a
+   target="_blank" href="http://pygments.org">Pygments</a> distribution:
+   <div style="margin-top: 1em; margin-bottom: 1em">@code{.sh}
+pygmentize -f html -o outputfile.html intputfile.xml
+@endcode</div>
+
+-# Finally, use the Doxygen command @c @@htmlinclude to include the
+   <code>.html</code> file produced by the previous step.  See section @ref
+   coding-htmlinclude for more information about using @c @@htmlinclude.
 
 @section coding-doxygen-summary 5. Commonly-used commands
 
@@ -833,7 +906,8 @@ they are illustrated in the other sections above, and the complete details
 of their definitions and use can be found online at the <a
 href="http://www.doxygen.org">Doxygen</a> website.
 
-<table border="0" class="centered text-table width80 normal-font alt-row-colors">
+<table border="0" class="centered text-table normal-font alt-row-colors"
+       style="margin-left: 1em; margin-right: 1em">
 <tr>
     <th align="left">Command</th>
     <th>Meaning</th>
@@ -861,6 +935,13 @@ put something that contains HTML tags in typewriter font, use the
 <code>&lt;code&gt;the words&lt;/code&gt;</code> form, and use the HTML
 character codes <code>\&lt;</code> and<code>\&gt;</code> to embed the
 opening '@c &lt;' and '@c &gt;' characters inside <code>the words</code>.
+</td></tr>
+<tr><td><code>@@code{.x}</code> ... @c @@endcode</td>
+<td>
+Formats the text as code in the programming language indicated by a filename
+extension <code>.x</code>.  For example, <code>@@code{.py}</code> interprets
+the contents as Python code.  See section @ref coding-verbatim above for more
+information about how to use this.
 </td></tr>
 <tr><td>@c @@class</td>
 <td>

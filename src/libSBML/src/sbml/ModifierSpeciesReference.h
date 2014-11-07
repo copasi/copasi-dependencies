@@ -284,7 +284,7 @@ ModifierSpeciesReference_clone(ModifierSpeciesReference_t * msr);
  *
  * @return the id of this structure.
  *
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 const char *
@@ -299,7 +299,7 @@ ModifierSpeciesReference_getId(const ModifierSpeciesReference_t * msr);
  *
  * @return the name of this structure.
  *
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 const char *
@@ -314,7 +314,7 @@ ModifierSpeciesReference_getName(const ModifierSpeciesReference_t * msr);
  *
  * @return the species of this structure.
  *
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 const char *
@@ -330,7 +330,7 @@ ModifierSpeciesReference_getSpecies(const ModifierSpeciesReference_t * msr);
  * @return @c 1 if the "id" of this ModifierSpeciesReference_t structure is
  * set, @c 0 otherwise.
  *
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 int
@@ -346,7 +346,7 @@ ModifierSpeciesReference_isSetId(const ModifierSpeciesReference_t * msr);
  * @return @c 1 if the "name" of this ModifierSpeciesReference_t structure is
  * set, @c 0 otherwise.
  *
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 int
@@ -362,7 +362,7 @@ ModifierSpeciesReference_isSetName(const ModifierSpeciesReference_t * msr);
  * @return @c 1 if the "species" of this ModifierSpeciesReference_t structure is
  * set, @c 0 otherwise.
  *
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 int
@@ -380,10 +380,7 @@ ModifierSpeciesReference_isSetSpecies(const ModifierSpeciesReference_t * msr);
  * @param id the string to which the structures "id" attribute should be
  * set.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
@@ -391,7 +388,7 @@ ModifierSpeciesReference_isSetSpecies(const ModifierSpeciesReference_t * msr);
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 int
@@ -409,10 +406,7 @@ ModifierSpeciesReference_setId(ModifierSpeciesReference_t * msr, const char * id
  * @param name the string to which the structures "name" attribute should be
  * set.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
@@ -420,7 +414,7 @@ ModifierSpeciesReference_setId(ModifierSpeciesReference_t * msr, const char * id
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 int
@@ -438,10 +432,7 @@ ModifierSpeciesReference_setName(ModifierSpeciesReference_t * msr, const char * 
  * @param species the string to which the structures "species" attribute should be
  * set.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
@@ -449,7 +440,7 @@ ModifierSpeciesReference_setName(ModifierSpeciesReference_t * msr, const char * 
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 int
@@ -462,15 +453,12 @@ ModifierSpeciesReference_setSpecies(ModifierSpeciesReference_t * msr, const char
  *
  * @param msr the ModifierSpeciesReference_t structure.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 int
@@ -483,15 +471,12 @@ ModifierSpeciesReference_unsetId(ModifierSpeciesReference_t * msr);
  *
  * @param msr the ModifierSpeciesReference_t structure.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 int
@@ -507,7 +492,7 @@ ModifierSpeciesReference_unsetName(ModifierSpeciesReference_t * msr);
  * @return @c 1 if all the required attributes for this
  * structure have been defined, @c 0 otherwise.
  *
- * @member of ModifierSpeciesReference_t
+ * @memberof ModifierSpeciesReference_t
  */
 LIBSBML_EXTERN
 int

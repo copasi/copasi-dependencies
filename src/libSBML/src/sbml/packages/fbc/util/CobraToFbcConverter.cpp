@@ -302,8 +302,7 @@ int
   // remove objective if we never had an active one
   if (objective->getNumFluxObjectives() == 0)
   {
-    objective = fbcPlugin->removeObjective("obj");
-    delete objective;
+    delete fbcPlugin->removeObjective("obj");
     fbcPlugin->unsetActiveObjectiveId();
   }
   
@@ -312,7 +311,7 @@ int
 
   while (model->getNumUnitDefinitions() > 0)
   {
-    model->removeUnitDefinition(0);
+    delete model->removeUnitDefinition(0);
   }
 
   for (unsigned int i = 0; i < model->getNumCompartments(); ++i)

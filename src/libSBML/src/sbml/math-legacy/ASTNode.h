@@ -291,8 +291,7 @@ public:
    * node type to something else as soon as possible using @if clike
    * setType()@else ASTNode::setType(int)@endif.
    *
-   * @param type an optional
-   * @if clike @link #ASTNodeType_t ASTNodeType_t@endlink@else type@endif@~
+   * @param type an optional @if clike #ASTNodeType_t@else type@endif@~
    * code indicating the type of node to create.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
@@ -341,8 +340,7 @@ public:
    * operators, numbers, or @sbmlconstant{AST_UNKNOWN, ASTNodeType_t}.  This method has no effect on other types of
    * nodes.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
    */
@@ -393,8 +391,7 @@ public:
    *
    * @param child the ASTNode instance to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
@@ -407,7 +404,7 @@ public:
    * @see isWellFormedASTNode()
    */
   LIBSBML_EXTERN
-  int addChild (ASTNode* child);
+  int addChild (ASTNode* child, bool inRead = false);
 
 
   /**
@@ -416,8 +413,7 @@ public:
    *
    * @param child the ASTNode instance to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
@@ -437,8 +433,7 @@ public:
    *
    * @param n unsigned int the index of the child to remove
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INDEX_EXCEEDS_SIZE, OperationReturnValues_t}
    *
@@ -454,13 +449,13 @@ public:
 
 
   /**
-   * Replaces the nth child of this ASTNode with the given ASTNode.
+   * Replaces and optionally deletes the nth child of this ASTNode with the given ASTNode.
    *
    * @param n unsigned int the index of the child to replace
    * @param newChild ASTNode to replace the nth child
+   * @param delreplaced boolean indicating whether to delete the replaced child.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INDEX_EXCEEDS_SIZE, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
@@ -473,7 +468,7 @@ public:
    * @see removeChild(unsigned int n)
    */
   LIBSBML_EXTERN
-  int replaceChild(unsigned int n, ASTNode *newChild);
+  int replaceChild(unsigned int n, ASTNode *newChild, bool delreplaced=false);
 
 
   /**
@@ -483,8 +478,7 @@ public:
    * @param n unsigned int the index of the ASTNode being added
    * @param newChild ASTNode to insert as the nth child
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INDEX_EXCEEDS_SIZE, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
@@ -579,8 +573,7 @@ getChild( getNumChildren() - 1 );
    *
    * @param sAnnotation the annotation to add.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    *
@@ -1266,8 +1259,7 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
    * @param value the character value to which the node's value should be
    * set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1279,8 +1271,7 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
    *
    * @param id @c string representing the identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1292,8 +1283,7 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
    *
    * @param className @c string representing the MathML class for this node.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1305,8 +1295,7 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
    *
    * @param style @c string representing the identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1328,8 +1317,7 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
    * @param name the string containing the name to which this node's value
    * should be set
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1342,8 +1330,7 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
    *
    * @param value the integer to which this node's value should be set
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1356,8 +1343,7 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
    *
    * @param value the integer to which this node's value should be set
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1371,8 +1357,7 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
    * @param numerator the numerator value of the rational
    * @param denominator the denominator value of the rational
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1391,8 +1376,8 @@ setValue(value, 0);
    * @param value the @c double format number to which this node's value
    * should be set
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are: @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
   int setValue (double value);
@@ -1406,8 +1391,7 @@ setValue(value, 0);
    * @param mantissa the mantissa of this node's real-numbered value
    * @param exponent the exponent of this node's real-numbered value
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1419,8 +1403,7 @@ setValue(value, 0);
    *
    * @param type the type to which this node should be set
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    *
@@ -1444,8 +1427,7 @@ setValue(value, 0);
    *
    * @param units @c string representing the unit identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
@@ -1464,8 +1446,7 @@ setValue(value, 0);
    * @param that the other node whose children should be used to replace
    * <em>this</em> node's children
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -1511,8 +1492,7 @@ setValue(value, 0);
   /**
    * Unsets the units of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
@@ -1523,8 +1503,7 @@ setValue(value, 0);
   /**
    * Unsets the MathML id of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -1535,8 +1514,7 @@ setValue(value, 0);
   /**
    * Unsets the MathML class of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -1547,8 +1525,7 @@ setValue(value, 0);
   /**
    * Unsets the MathML style of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -1563,8 +1540,7 @@ setValue(value, 0);
    *
    * @htmlinclude about-semantic-annotations.html
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1576,8 +1552,7 @@ setValue(value, 0);
    *
    * @htmlinclude about-semantic-annotations.html
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
@@ -1598,12 +1573,29 @@ setValue(value, 0);
   /**
    * Sets the attribute "definitionURL".
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   LIBSBML_EXTERN
   int setDefinitionURL(XMLAttributes url);
+
+
+  /**
+   * Sets the MathML attribute @c definitionURL.
+   *
+   * @param url the URL value for the @c definitionURL attribute.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+   *
+   * @see setDefinitionURL(XMLAttributes url)
+   * @see getDefinitionURL()
+   * @see getDefinitionURLString()
+   */
+  LIBSBML_EXTERN
+  int setDefinitionURL(const std::string& url);
+
 
   /** @endcond */
 
@@ -1657,6 +1649,33 @@ setValue(value, 0);
 
 
   /**
+   * Unsets the parent SBML object.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   *
+   * @see isSetParentSBMLObject()
+   * @see getParentSBMLObject()
+   */
+  LIBSBML_EXTERN
+  int unsetParentSBMLObject();
+
+
+  /**
+   * Returns @c true if this node has a value for the parent SBML
+   * object.
+   *
+   * @return true if this ASTNode has an parent SBML object set, @c false otherwise.
+   *
+   * @see getParentSBMLObject()
+   * @if clike @see setParentSBMLObject()@endif@~
+   */
+  LIBSBML_EXTERN
+  bool isSetParentSBMLObject() const;
+
+
+  /**
    * Reduces this ASTNode to a binary tree.
    * 
    * Example: if this ASTNode is <code>and(x, y, z)</code>, then the 
@@ -1676,8 +1695,7 @@ setValue(value, 0);
   * 
   * @param userData specifies the new user data. 
   *
-  * @return integer value indicating success/failure of the
-  * function.  The possible values returned by this function are:
+  * @copydetails doc_returns_success_code
   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
   */
@@ -1696,6 +1714,43 @@ setValue(value, 0);
   */
   LIBSBML_EXTERN
   void *getUserData() const;
+
+
+ /**
+  * Unsets the user data of this node.
+  *
+  * The user data can be used by the application developer to attach custom
+  * information to the node.  In case of a deep copy, this attribute will
+  * passed as it is. The attribute will be never interpreted by this class.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+  *
+  * @if clike
+  * @see ASTNode::setUserData()
+  * @see ASTNode::getUserData()
+  * @see ASTNode::isSetUserData()
+  * @endif@~
+  */
+  LIBSBML_EXTERN
+  int unsetUserData();
+
+
+ /**
+  * Returns @c true if this node has a user data object.
+  *
+  * @return true if this ASTNode has a user data object set, @c false
+  * otherwise.
+  *
+  * @if clike
+  * @see ASTNode::setUserData()
+  * @see ASTNode::getUserData()
+  * @see ASTNode::unsetUserData()
+  * @endif@~
+  */
+  LIBSBML_EXTERN
+  bool isSetUserData() const;
 
 
  /**
@@ -1730,6 +1785,28 @@ setValue(value, 0);
   */
   LIBSBML_EXTERN
   bool hasCorrectNumberArguments() const;
+
+  /**
+   * Returns the MathML @c definitionURL attribute value as a string.
+   *
+   * @return the value of the @c definitionURL attribute, as a string.
+   *
+   * @see getDefinitionURL()
+   * @see setDefinitionURL(const std::string& url)
+   * @see setDefinitionURL(XMLAttributes url)
+   */
+  LIBSBML_EXTERN
+  std::string getDefinitionURLString() const;
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  LIBSBML_EXTERN
+  bool representsBvar() const;
+
+
+  /** @endcond */
+
 
   /** @cond doxygenLibsbmlInternal */
     
@@ -1909,8 +1986,7 @@ ASTNode_free (ASTNode_t *node);
  *
  * @param node the node whose name field should be freed.
  *
- * @return integer value indicating success/failure of the
- * function.  The possible values returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
@@ -1969,10 +2045,9 @@ ASTNode_canonicalize (ASTNode_t *node);
  * @param node the node which will get the new child node
  * @param child the ASTNode_t instance to add
  *
- * @return integer value indicating success/failure of the
- * function.  The possible values returned by this function are:
- * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
  * @copydetails doc_warning_modifying_structure
@@ -1998,11 +2073,10 @@ ASTNode_addChild (ASTNode_t *node, ASTNode_t *child);
  * @param node the node that will receive the given child node.
  * @param child the ASTNode_t instance to add.
  *
- * @return integer value indicating success/failure of the
- * function.  The possible values returned by this function are:
- * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @copydetails doc_warning_modifying_structure
  *
@@ -2063,12 +2137,41 @@ ASTNode_removeChild(ASTNode_t* node, unsigned int n);
  * @see ASTNode_prependChild()
  * @see ASTNode_insertChild()
  * @see ASTNode_removeChild()
+ * @see ASTNode_replaceAndDeleteChild()
  *
  * @memberof ASTNode_t
  */
 LIBSBML_EXTERN
 int
 ASTNode_replaceChild(ASTNode_t* node, unsigned int n, ASTNode_t * newChild);
+
+
+/**
+ * Replaces and deletes the nth child of a given node.
+ *
+ * @param node the ASTNode_t node to modify
+ * @param n unsigned int the index of the child to replace
+ * @param newChild ASTNode_t structure to replace the nth child
+ *
+ * @return integer value indicating success/failure of the
+ * function.  The possible values returned by this function are:
+ * @li @sbmlconstant{LIBSBML_INDEX_EXCEEDS_SIZE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ *
+ * @copydetails doc_warning_modifying_structure
+ *
+ * @see ASTNode_addChild()
+ * @see ASTNode_prependChild()
+ * @see ASTNode_insertChild()
+ * @see ASTNode_removeChild()
+ * @see ASTNode_replaceChild()
+ *
+ * @memberof ASTNode_t
+ */
+LIBSBML_EXTERN
+int
+ASTNode_replaceAndDeleteChild(ASTNode_t* node, unsigned int n, ASTNode_t * newChild);
 
 
 /**
@@ -2457,7 +2560,7 @@ ASTNode_getType (const ASTNode_t *node);
  * @memberof ASTNode_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 ASTNode_getId(const ASTNode_t * node);
 
 
@@ -2471,7 +2574,7 @@ ASTNode_getId(const ASTNode_t * node);
  * @memberof ASTNode_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 ASTNode_getClass(const ASTNode_t * node);
 
 
@@ -2486,7 +2589,7 @@ ASTNode_getClass(const ASTNode_t * node);
  * @memberof ASTNode_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 ASTNode_getStyle(const ASTNode_t * node);
 
 
@@ -2508,7 +2611,7 @@ ASTNode_getStyle(const ASTNode_t * node);
  * @memberof ASTNode_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 ASTNode_getUnits(const ASTNode_t * node);
 
 
@@ -3414,6 +3517,20 @@ SBase_t *
 ASTNode_getParentSBMLObject(ASTNode_t* node);
 
 
+/**
+ * Returns true if the given node's parent SBML object is set.
+ *
+ * @param node the node to query
+ *
+ * @return @c 1 if the parent SBML object is set, @c 0 otherwise.
+ *
+ * @memberof ASTNode_t
+ */
+LIBSBML_EXTERN
+int
+ASTNode_isSetParentSBMLObject(ASTNode_t* node);
+
+
 /** @cond doxygenLibsbmlInternal */
 /**
  * @param node the node to modify
@@ -3423,6 +3540,24 @@ ASTNode_getParentSBMLObject(ASTNode_t* node);
 LIBSBML_EXTERN
 void 
 ASTNode_setParentSBMLObject(ASTNode_t* node, SBase_t * sb);
+/**
+ * Unsets the parent SBase_t structure.
+ *
+ * @param node the node to modify
+ *
+ * @return integer value indicating success/failure of the
+ * function.  The possible values returned by this function are:
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof ASTNode_t
+ */
+LIBSBML_EXTERN
+int
+ASTNode_unsetParentSBMLObject(ASTNode_t* node);
+
+
 /** @endcond */
 
 
@@ -3541,6 +3676,47 @@ ASTNode_getUserData(ASTNode_t* node);
 
 
 /**
+ * Unsets the user data of the given node.
+ *
+ * The user data can be used by the application developer to attach custom
+ * information to the node. In case of a deep copy, this attribute will
+ * passed as it is. The attribute will be never interpreted by this class.
+ *
+ * @param node the node to modify
+ *
+ * @return integer value indicating success/failure of the
+ * function.  The possible values returned by this function are:
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ *
+ * @see ASTNode_getUserData()
+ * @see ASTNode_setUserData()
+ *
+ * @memberof ASTNode_t
+ */
+LIBSBML_EXTERN
+int
+ASTNode_unsetUserData(ASTNode_t* node);
+
+
+/**
+ * Returns true if the given node's user data object is set.
+ *
+ * @param node the node to query
+ *
+ * @return @c 1 if the user data object is set, @c 0 otherwise.
+ *
+ * @see ASTNode_setUserData()
+ *
+ * @memberof ASTNode_t
+ */
+LIBSBML_EXTERN
+int
+ASTNode_isSetUserData(ASTNode_t* node);
+
+
+/**
  * Returns true if the given node has the correct number of children for its
  * type.
  *
@@ -3614,7 +3790,7 @@ ASTNode_getDefinitionURL(ASTNode_t* node);
  * @memberof ASTNode_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 ASTNode_getDefinitionURLString(ASTNode_t* node);
 
 

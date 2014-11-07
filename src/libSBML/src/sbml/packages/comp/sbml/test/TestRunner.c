@@ -30,6 +30,10 @@
 #include <sbml/util/memory.h>
 #include <sbml/common/extern.h>
 
+#ifdef LIBSBML_USE_VLD
+  #include <vld.h>
+#endif
+
 
 /**
  * Test suite creation function prototypes.
@@ -116,6 +120,7 @@ main (void)
 
   srunner_free(runner);
 
+  safe_free(TestDataDirectory);
   return num_failed;
 }
 

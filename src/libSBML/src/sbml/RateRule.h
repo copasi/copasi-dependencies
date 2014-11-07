@@ -319,7 +319,7 @@ RateRule_clone(RateRule_t * rr);
  *
  * @return the variable of this structure.
  *
- * @member of RateRule_t
+ * @memberof RateRule_t
  */
 LIBSBML_EXTERN
 const char *
@@ -334,7 +334,7 @@ RateRule_getVariable(const RateRule_t * rr);
  *
  * @return the math for this RateRule_t, as an ASTNode_t.
  *
- * @member of RateRule_t
+ * @memberof RateRule_t
  */
 LIBSBML_EXTERN
 const ASTNode_t*
@@ -370,7 +370,7 @@ RateRule_getFormula (const RateRule_t *r);
  * @return @c 1 if the "variable" of this RateRule_t structure is
  * set, @c 0 otherwise.
  *
- * @member of RateRule_t
+ * @memberof RateRule_t
  */
 LIBSBML_EXTERN
 int
@@ -386,7 +386,7 @@ RateRule_isSetVariable(const RateRule_t * rr);
  * @return @c 1 if the "math" of this RateRule_t structure is
  * set, @c 0 otherwise.
  *
- * @member of RateRule_t
+ * @memberof RateRule_t
  */
 LIBSBML_EXTERN
 int
@@ -415,10 +415,7 @@ RateRule_isSetFormula (const RateRule_t *r);
  * @param variable the string to which the structures "variable" attribute should be
  * set.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
@@ -426,7 +423,7 @@ RateRule_isSetFormula (const RateRule_t *r);
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of RateRule_t
+ * @memberof RateRule_t
  */
 LIBSBML_EXTERN
 int
@@ -441,14 +438,11 @@ RateRule_setVariable(RateRule_t * rr, const char * variable);
  * @param math an ASTNode_t structure to be assigned as the "math"
  * subelement of this RateRule_t.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of RateRule_t
+ * @memberof RateRule_t
  */
 LIBSBML_EXTERN
 int
@@ -458,10 +452,7 @@ RateRule_setMath(RateRule_t * rr, const ASTNode_t* math);
 /**
  * Sets the formula of this RateRule_t to a copy of string.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
@@ -491,7 +482,7 @@ RateRule_setFormula (RateRule_t *r, const char *formula);
  * @return @c 1 if all the required attributes for this
  * structure have been defined, @c 0 otherwise.
  *
- * @member of RateRule_t
+ * @memberof RateRule_t
  */
 LIBSBML_EXTERN
 int
@@ -507,7 +498,7 @@ RateRule_hasRequiredAttributes(const RateRule_t * rr);
  * @return @c 1 if all the required sub-elements for this
  * structure have been defined, @c 0 otherwise.
  *
- * @member of RateRule_t
+ * @memberof RateRule_t
  */
 LIBSBML_EXTERN
 int

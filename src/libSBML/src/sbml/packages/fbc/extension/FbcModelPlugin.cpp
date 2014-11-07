@@ -271,9 +271,7 @@ XMLNode* deleteFbcAnnotation(XMLNode* pAnnotation)
         pAnnotation->getChild(n).getNamespaces().getIndex(FbcExtension::getXmlnsL3V1V1()) !=-1)
     {
       // delete the anotation
-      XMLNode* temp = pAnnotation->removeChild(n);
-      if (temp != NULL)
-        delete temp;
+      delete pAnnotation->removeChild(n);
 
       continue;
     }
@@ -321,8 +319,8 @@ FbcModelPlugin::writeAttributes (XMLOutputStream& stream) const
   if (annt && annt->getNumChildren() > 0)
   {
     parent->appendAnnotation(annt);
-    delete annt;
   }
+  delete annt;
 }
 /** @endcond */
 
@@ -540,9 +538,10 @@ FbcModelPlugin::appendFrom(const Model* model)
   const FbcModelPlugin* modplug = 
     static_cast<const FbcModelPlugin*>(model->getPlugin(getPrefix()));
   
+  // absence of a plugin is not an error
   if (modplug==NULL)
   {
-    return LIBSBML_INVALID_OBJECT;
+    return LIBSBML_OPERATION_SUCCESS;
   }
 
   Model* parent = static_cast<Model*>(getParentSBMLObject());
@@ -1382,7 +1381,7 @@ FbcModelPlugin::getFluxBoundsForReaction(const std::string& reaction) const
   {
     if (getFluxBound(i)->getReaction() == reaction)
     {
-      loFB->append(getFluxBound(i)->clone());
+      loFB->append(getFluxBound(i));
     }
   }
 

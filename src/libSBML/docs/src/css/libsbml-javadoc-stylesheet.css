@@ -17,7 +17,13 @@ pre
     margin-bottom: 1em;
 }
 
-a code, code a 
+a
+{
+    font-weight: bold;
+}
+
+a code, 
+code a 
 {
     color: #1133a9;
     text-decoration: none;
@@ -337,3 +343,13 @@ div.fragment
     background-color: white;
 }
 
+.deprecated
+{
+    color: #C35817;
+}
+
+img.big-icon {
+    vertical-align: -40%;
+    margin-right: 5px;
+    border: none;
+}

@@ -127,6 +127,7 @@ START_TEST (test_AlgebraicRule_createWithMath)
   fail_unless( AlgebraicRule_getMath(ar) != math );
 
   AlgebraicRule_free(ar);
+  ASTNode_free(math);
 }
 END_TEST
 
@@ -162,6 +163,8 @@ START_TEST (test_AlgebraicRule_createWithNS )
 
 
   Rule_free((Rule_t*)(r));
+  XMLNamespaces_free(xmlns);
+  SBMLNamespaces_free(sbmlns);
 }
 END_TEST
 

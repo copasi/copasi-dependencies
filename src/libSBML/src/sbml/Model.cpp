@@ -5732,6 +5732,8 @@ Model::createReactionUnitsData(UnitFormulaFormatter * unitFormatter)
       }
 
       fud->setUnitDefinition(ud);
+
+      createLocalParameterUnitsData(react->getKineticLaw(), unitFormatter);
     }
 
     ///* get units returned by any stoichiometryMath set */
@@ -5748,6 +5750,78 @@ Model::createReactionUnitsData(UnitFormulaFormatter * unitFormatter)
     }
   }
 
+}
+
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+
+void
+Model::createLocalParameterUnitsData(KineticLaw * kl,
+                                     UnitFormulaFormatter * unitFormatter)
+{
+  UnitDefinition *ud = NULL;
+  FormulaUnitsData *fud = NULL;
+  
+  for (unsigned int n=0; n < kl->getNumParameters(); n++)
+  {
+    Parameter * lp = kl->getParameter(n);
+
+    fud = createFormulaUnitsData();
+  
+    std::string lpId = lp->getId() + '_' + kl->getInternalId();
+
+    fud->setUnitReferenceId(lpId);
+
+    fud->setComponentTypecode(SBML_LOCAL_PARAMETER);
+
+    std::string units = lp->getUnits();
+    if (units.empty() == false)
+    {
+      fud->setContainsParametersWithUndeclaredUnits(false);
+
+      if (UnitKind_isValidUnitKindString(units.c_str(), 
+                            getLevel(), getVersion()))
+      {
+        Unit * unit = new Unit(getSBMLNamespaces());
+        unit->setKind(UnitKind_forName(units.c_str()));
+        unit->initDefaults();
+        ud   = new UnitDefinition(getSBMLNamespaces());
+
+        ud->addUnit(unit);
+
+        delete unit;
+      }
+      else
+      {
+        /* must be a unit definition */
+        UnitDefinition * existingUD = getUnitDefinition(units);
+        if (existingUD != NULL)
+        {
+          ud = new UnitDefinition(*(getUnitDefinition(units)));
+          ud->setId("");
+        }
+        else
+        {
+          ud = new UnitDefinition(getSBMLNamespaces());
+          fud->setContainsParametersWithUndeclaredUnits(true);
+        }
+      }
+
+      fud->setUnitDefinition(ud);
+      fud->setCanIgnoreUndeclaredUnits(false);
+    }
+    else
+    {
+      // here we have none but for consistency return a unitDefinition
+      // with no units
+      ud = new UnitDefinition(getSBMLNamespaces());
+      fud->setUnitDefinition(ud);
+      fud->setContainsParametersWithUndeclaredUnits(true);
+      fud->setCanIgnoreUndeclaredUnits(false);
+    }
+  }
 }
 
 /** @endcond */

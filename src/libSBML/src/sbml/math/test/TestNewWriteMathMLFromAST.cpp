@@ -892,7 +892,7 @@ START_TEST (test_MathMLFromAST_log)
 }
 END_TEST
 
-
+#if(0)
 START_TEST (test_MathMLFromAST_log_1)
 {
   const char* expected = wrapMathML
@@ -920,7 +920,7 @@ START_TEST (test_MathMLFromAST_log_1)
   fail_unless( equals(expected, S) );
 }
 END_TEST
-
+#endif
 
 START_TEST (test_MathMLFromAST_log_2)
 {
@@ -1107,6 +1107,7 @@ START_TEST (test_MathMLFromAST_root1)
   fail_unless (N->addChild(c3) == LIBSBML_OPERATION_SUCCESS);
 
   // ast with three children but none declared as degree
+  safe_free(S);
   S = writeMathMLToString(N);
 
   fail_unless( equals(expected1, S) );
@@ -1185,13 +1186,17 @@ START_TEST (test_MathMLFromAST_root3)
   fail_unless( c1_2->setValue(4) == LIBSBML_OPERATION_SUCCESS);
 
   fail_unless (c1->addChild(c1_2) == LIBSBML_OPERATION_SUCCESS);
-  
+
+  c1 = c1->deepCopy();
+  c3 = c3->deepCopy();
+  delete N;
   N = new ASTNode(AST_FUNCTION_ROOT);
 
   fail_unless (N->addChild(c1) == LIBSBML_OPERATION_SUCCESS);
   fail_unless (N->addChild(c3) == LIBSBML_OPERATION_SUCCESS);
   
   // ast with degree that has two children
+  safe_free(S);
   S = writeMathMLToString(N);
 
   fail_unless( equals(expected, S) );
@@ -1688,6 +1693,7 @@ START_TEST (test_MathMLFromAST_semantics_url)
   S = writeMathMLToString(N);
 
   fail_unless( equals(expected, S) );
+  delete xa;
 }
 END_TEST
 
@@ -1960,7 +1966,7 @@ START_TEST (test_MathMLFromAST_nested_funcs)
 }
 END_TEST
 
-
+#if(0)
 START_TEST (test_MathMLFromAST_replaceIDWithFunction_1)
 {
   const char* expected = wrapMathML
@@ -1996,7 +2002,7 @@ START_TEST (test_MathMLFromAST_replaceIDWithFunction_1)
 
 }
 END_TEST
-
+#endif
 
 START_TEST (test_MathMLFromAST_replaceIDWithFunction_2)
 {
@@ -2040,10 +2046,12 @@ START_TEST (test_MathMLFromAST_replaceIDWithFunction_2)
 
   N->replaceIDWithFunction("x", replaced);
 
+  safe_free(S);
   S = writeMathMLToString(N);
 
   fail_unless( equals(expected, S) );
 
+  delete replaced;
 }
 END_TEST
 

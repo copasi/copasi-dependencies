@@ -240,10 +240,13 @@ int endsWith(const wchar_t* fileName, const char* ext)
 {
   size_t len = wcslen(fileName), i;
   size_t targetLen = strlen(ext);
-  wchar_t* temp1 =  (wchar_t*)mxCalloc(targetLen, sizeof(wchar_t));
-  char* temp2 =  (char*)mxCalloc(targetLen, sizeof(char));
+  wchar_t* temp1 =  (wchar_t*)malloc((targetLen + 1) * sizeof(wchar_t));
+  char* temp2 =  (char*)malloc((targetLen+1)*sizeof(char));
   int result = 0;
   
+  memset(temp1, 0, targetLen*sizeof(wchar_t));
+  memset(temp2, 0, targetLen*sizeof(char));
+
   for (i = 0; i < targetLen; ++i)
   {
     temp1[i] = fileName[len - targetLen + i];
@@ -254,6 +257,8 @@ int endsWith(const wchar_t* fileName, const char* ext)
 
   /*mxFree(temp1);*/
   /*mxFree(temp2);*/
+  free(temp1);
+  free(temp2);
   return result;
 }
 
@@ -719,27 +724,30 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 #if USE_FILE_WCHAR
   if (endsWith(pacFilename, ".xml") == 0)
   {
-
-    char *file_contents = NULL;
-    long input_file_size = 0;
+    StringBuffer_t *sb = NULL;
+    unsigned long count = 0;
+    char buffer[1024];
 
     fp = FILE_FOPEN(pacFilename);
 
-    fseek(fp, 0, SEEK_END);
-    input_file_size = ftell(fp);
-    rewind(fp);
+    sb = StringBuffer_create(1);
 
-    file_contents = (char*) mxCalloc(input_file_size, sizeof(char));
-    fread(file_contents, sizeof(char), input_file_size, fp);
+    while ((count = (unsigned long)fread(&buffer, sizeof(char), 1024, fp)) > 0)
+    {
+      StringBuffer_appendWithLength(sb,buffer, (unsigned long)count); 
+      memset(&buffer, 0, 1024*sizeof(char));
+    }	
+    StringBuffer_appendChar(sb, 0);
 
     fclose(fp);
-    sbmlDocument = readSBMLFromString(file_contents);
+    sbmlDocument = readSBMLFromString(StringBuffer_getBuffer(sb));
+    StringBuffer_free(sb);
     /*mxFree(file_contents);*/
   }
   else
   {
     size_t len = wcslen(pacFilename);
-    char* file = (char*) mxCalloc(len, sizeof(char));
+    char* file = (char*) mxCalloc(len+1, sizeof(char));
     wcstombs(file, pacFilename, len);
     sbmlDocument = readSBML(file);
     /*mxFree(file);*/

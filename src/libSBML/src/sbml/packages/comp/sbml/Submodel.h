@@ -103,6 +103,7 @@
 #ifdef __cplusplus
 
 #include <string>
+#include <vector>
 
 #include <sbml/SBase.h>
 #include <sbml/packages/comp/extension/CompExtension.h>
@@ -112,6 +113,37 @@
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 class ReplacedElement;
+
+/** @cond doxygenLibsbmlInternal */
+
+/**
+ * ModelProcessingCallback defines a processing callback that changes submodel instantiations
+ * 
+ * When submodels are instantiated, they might need to be modified in various 
+ * ways so that they can be integrated with the target document. So as to not 
+ * hard code any of the customizations needed, the callback concept is used. 
+ * 
+ * A ModelProcessingCallback takes two parameters: 
+ * 
+ * @param m the newly instantiated Model to be processed
+ * @param log an error log to log potential issues to
+ * @param userdata any needed userdata that helps processing the document.
+ *
+ */
+typedef int LIBSBML_EXTERN (*ModelProcessingCallback)(Model* m, SBMLErrorLog* log, void* userdata);  
+
+#ifndef SWIG
+/** 
+ * ModelProcessingCallbackData is an internal structure storing callback and userdata
+ */
+struct ModelProcessingCallbackData
+{
+  ModelProcessingCallback cb;
+  void* data;
+};
+
+#endif
+/** @endcond */
 
 class LIBSBML_EXTERN Submodel : public CompBase
 {
@@ -126,6 +158,11 @@ protected:
   ListOfDeletions  mListOfDeletions;
   Model*        mInstantiatedModel;
   std::string   mInstantiationOriginalURI;
+
+#ifndef SWIG
+  static std::vector<ModelProcessingCallbackData*> mProcessingCBs;
+#endif
+
   /** @endcond */
 
 public:
@@ -230,8 +267,7 @@ public:
    * Sets the value of the "id" attribute of this Submodel.  Fails if the id
    * is not a valid syntax for an SId.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
@@ -241,8 +277,7 @@ public:
   /**
    * Unsets the value of the "id" attribute of this Submodel.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -271,8 +306,7 @@ public:
    * Sets the value of the "name" attribute of this Submodel.  Fails if the
    * name is empty.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
@@ -282,8 +316,7 @@ public:
   /**
    * Unsets the value of the "name" attribute of this Submodel.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -312,8 +345,7 @@ public:
    * Sets the value of the "modelRef" attribute of this Submodel.  Fails if
    * the modelRef is not a valid syntax for an SIdRef.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
@@ -323,8 +355,7 @@ public:
   /**
    * Unsets the value of the "modelRef" attribute of this Submodel.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -389,8 +420,7 @@ public:
    * Sets the value of the "timeConversionFactor" attribute of this Submodel.
    * Fails if the id is not a valid syntax for an SIdRef.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
@@ -400,8 +430,7 @@ public:
   /**
    * Unsets the value of the "timeConversionFactor" attribute of this Submodel.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -430,8 +459,7 @@ public:
    * Sets the value of the "extentConversionFactor" attribute of this
    * Submodel.  Fails if the id is not a valid syntax for an SIdRef.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
@@ -442,8 +470,7 @@ public:
    * Unsets the value of the "extentConversionFactor" attribute of this
    * Submodel.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -518,8 +545,7 @@ public:
    * level/version/package of the parent object, or cannot be added to the
    * list of deletions.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
@@ -691,8 +717,7 @@ public:
    * created.  For this reason, call this function only once, or 
    * call Submodel::getInstantiation().
    *
-   * @return an integer value indicating success/failure of the operation.
-   * Possible return values from this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
@@ -705,8 +730,7 @@ public:
    * Delete elements in the instantiated submodel, based on any Deletions
    * from this Submodel's listOfDeletions.
    *
-   * @return an integer value indicating success/failure of the operation.
-   * Possible return values from this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
@@ -723,8 +747,7 @@ public:
    * @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    * means that the routine failed for some othe reason.
    *
-   * @return an integer value indicating success/failure of the operation.
-   * Possible return values from this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
@@ -779,6 +802,45 @@ public:
    * timeConversionFactor and extentConversionFactor attributes.
    */
   virtual int convertTimeAndExtent();
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /** 
+   * Clears all registered processing callbacks
+   */
+  static void clearProcessingCallbacks();
+
+  /** 
+   * Registers a new processing callback that will be called with a newly instantiated
+   * ModelDefinition object. This allows for all post processing on it that needs to 
+   * happen before integrating it with the target document. 
+   *
+   * @param cb the callback
+   * @param userdata an optional parameter containing userdata that the callback needs
+   */
+  static void addProcessingCallback(ModelProcessingCallback cb, void* userdata = NULL);
+
+  /** 
+   * @return the number of registered callbacks
+   */
+  static int getNumProcessingCallbacks();
+
+  /**
+   * Removes the callback with given index. 
+   * 
+   * @param index the index of the callback to be removed from the list
+   *
+   */
+  static void removeProcessingCallback(int index);
+
+  /**
+   * Removes the specified callback from the list of registered callbacks
+   *
+   * @param cb the callback to be removed
+   */ 
+  static void removeProcessingCallback(ModelProcessingCallback cb);
+  /** @endcond */
 
 protected:
 
@@ -1078,10 +1140,7 @@ Submodel_isSetExtentConversionFactor(Submodel_t * s);
  * @param s the Submodel_t structure to set.
  * @param sid the string to use as the identifier.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
@@ -1101,10 +1160,7 @@ Submodel_setId(Submodel_t * s, const char * sid);
  * @param s the Submodel_t structure to set
  * @param name the name to assign to the given Submodel_t's "name" attribute.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
@@ -1124,10 +1180,7 @@ Submodel_setName(Submodel_t * s, const char * name);
  * @param s the Submodel_t structure to set
  * @param modelRef the modelRef to assign to the given Submodel_t's "modelRef" attribute.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
@@ -1166,10 +1219,7 @@ Submodel_setSubstanceConversionFactor(Submodel_t * s, const char * substanceConv
  * @param s the Submodel_t structure to set
  * @param timeConversionFactor the timeConversionFactor to assign to the given Submodel_t's "timeConversionFactor" attribute.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
@@ -1189,10 +1239,7 @@ Submodel_setTimeConversionFactor(Submodel_t * s, const char * timeConversionFact
  * @param s the Submodel_t structure to set
  * @param extentConversionFactor the extentConversionFactor to assign to the given Submodel_t's "extentConversionFactor" attribute.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
@@ -1211,10 +1258,7 @@ Submodel_setExtentConversionFactor(Submodel_t * s, const char * extentConversion
  *
  * @param s the Submodel_t structure to unset
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
@@ -1230,10 +1274,7 @@ Submodel_unsetId(Submodel_t * s);
  *
  * @param s the Submodel_t structure to unset
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
@@ -1249,10 +1290,7 @@ Submodel_unsetName(Submodel_t * s);
  *
  * @param s the Submodel_t structure to unset
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
@@ -1286,10 +1324,7 @@ Submodel_unsetSubstanceConversionFactor(Submodel_t * s);
  *
  * @param s the Submodel_t structure to unset
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
@@ -1305,10 +1340,7 @@ Submodel_unsetTimeConversionFactor(Submodel_t * s);
  *
  * @param s the Submodel_t structure to unset
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
@@ -1328,10 +1360,7 @@ Submodel_unsetExtentConversionFactor(Submodel_t * s);
  *
  * @param d a Deletion_t structure to add
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}

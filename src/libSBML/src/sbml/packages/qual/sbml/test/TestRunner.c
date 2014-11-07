@@ -42,6 +42,10 @@
 
 #include <check.h>
 
+#ifdef LIBSBML_USE_VLD
+  #include <vld.h>
+#endif
+
 LIBSBML_CPP_NAMESPACE_USE
 
 BEGIN_C_DECLS
@@ -111,6 +115,7 @@ main (int argc, char* argv[])
   num_failed = srunner_ntests_failed(runner);
 
   srunner_free(runner);
+  safe_free(TestDataDirectory);
 
   return num_failed;
 }

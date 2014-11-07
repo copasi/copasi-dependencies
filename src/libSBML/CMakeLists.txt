@@ -104,7 +104,7 @@ include(InstallRequiredSystemLibraries)
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An API library for reading/writing/manipulating SBML.")
 set(CPACK_PACKAGE_NAME "${PACKAGE_NAME}")
-set(CPACK_PACKAGE_VENDOR "The SBML Team")
+set(CPACK_PACKAGE_VENDOR "The libSBML Team")
 set(CPACK_PACKAGE_CONTACT "LibSBML Team <libsbml-team@caltech.edu>")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.txt")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING.txt")
@@ -139,8 +139,8 @@ include(CPack)
 #
 
 option(LIBSBML_USE_LEGACY_MATH
-"Use libSBML's legacy math implementation of ASTs instead of the one
-introduced in libSBML 5.10 to better support SBML Level 3 packages." OFF)
+"Use libSBML's legacy math implementation of ASTs, instead of the one
+introduced in libSBML 5.10 for better support of SBML Level 3 packages." OFF)
 mark_as_advanced(LIBSBML_USE_LEGACY_MATH)
 
 
@@ -159,10 +159,9 @@ option(WITH_RUBY     "Generate the Ruby language interface for libSBML"    OFF)
 option(WITH_R        "Generate the R language interface for libSBML"       OFF)
 option(WITH_OCTAVE   "Generate the Octave language interface for libSBML." OFF)
 option(WITH_MATLAB   "Generate the MATLAB language interface for libSBML." OFF)
-option(WITH_JAVASCRIPT   "Generate the Javascript language interface for libSBML." OFF)
+option(WITH_JAVASCRIPT   "Generate the experimental Node.js language interface for libSBML." OFF)
 
-if (SWIG_VERSION)
-if (${SWIG_VERSION} VERSION_GREATER 3.0.1)
+if (WITH_JAVASCRIPT)
 
   find_program(NODE_GYP_EXECUTABLE
         NAMES node-gyp node-gyp.cmd
@@ -170,13 +169,35 @@ if (${SWIG_VERSION} VERSION_GREATER 3.0.1)
               /usr/local/bin
               /opt/local/bin
               /usr/bin
-			  $ENV{PROGRAMFILES}/nodejs/
+			  "$ENV{ProgramFiles}/nodejs/"
+			  "$ENV{ProgramFiles(x86)}/nodejs/"
         DOC "The file name of the node-gyp executable."
         )
-if (NODE_GYP_EXECUTABLE AND EXISTS ${NODE_GYP_EXECUTABLE})
-option(WITH_JAVASCRIPT   "Generate the experimental NodeJS language interface for libSBML." OFF)
-endif()
-endif()
+		
+  find_program(NODEJS_EXECUTABLE
+        NAMES node nodeexe
+        PATHS
+              /usr/local/bin
+              /opt/local/bin
+              /usr/bin
+			  "$ENV{ProgramFiles}/nodejs/"
+			  "$ENV{ProgramFiles(x86)}/nodejs/"
+        DOC "The file name of the nodejs executable."
+        )
+  # check that we found node-gyp
+  if (NOT NODE_GYP_EXECUTABLE)
+        message(FATAL_ERROR
+"In oder to build the JavaScript language interface, libSBML needs the
+node-gyp executable. Please set the variable named NODE_GYP_EXECUTABLE.")
+  endif()
+  
+  # ensure that the swig version is high enough for javascript
+  if (SWIG_VERSION AND NOT SWIG_VERSION VERSION_GREATER 3.0.1)
+        message(FATAL_ERROR
+"SWIG version 3.0.2 or greater is needed in order to build the JavaScript
+language interface for libSBML, but only version ${SWIG_VERSION} was found.")
+  endif()
+  
 endif()
 
 # Add an option to compile with all warnings shown
@@ -220,8 +241,7 @@ mark_as_advanced(EXIT_ON_ERROR)
 # Use the version number in the shared library.
 #
 option (LIBSBML_SHARED_VERSION
-"Include version information into the libSBML shared library
-that will be compiled." ON)
+"Include version information into the compiled libSBML shared library." ON)
 mark_as_advanced(LIBSBML_SHARED_VERSION)
 
 # Enable the generation of unit tests. If enabled, all test runners
@@ -230,8 +250,8 @@ mark_as_advanced(LIBSBML_SHARED_VERSION)
 #
 if(NOT ${CMAKE_GENERATOR} MATCHES "Visual Studio 6" AND NOT ${CMAKE_GENERATOR} MATCHES "Visual Studio 7")
     option(WITH_CHECK
-"Compile the libSBML unit tests. (You can then run them with the
-commands 'make test' or 'ctest'.)" OFF)
+"Compile the libSBML unit tests. (You can then run the tests with the
+command 'make test' or 'ctest'.)" OFF)
 endif()
 
 # Choose the xml parsing library to be used.
@@ -311,7 +331,8 @@ if(WITH_SWIG)
     if (SWIG_FOUND AND SWIG_VERSION VERSION_LESS "2.0.4")
     	message(WARNING
 "You are using SWIG version ${SWIG_VERSION}.  We strongly recommend
-using at least version 2.0.4, for Javascript support you will need SWIG > 3.0.1.")
+using version 2.0.4 or greater. For libSBML JavaScript support, you
+will need version 3.0.1 at minimum.")
     endif()
     set(SWIG_EXTRA_ARGS -DLIBSBML_COMPILED_IN_SRC)
     add_definitions(-DLIBSBML_COMPILED_IN_SRC)
@@ -669,6 +690,18 @@ invalid. It should contain the file check.h, but it does not.")
         message(WARNING "Libcheck is not compatible with Visual Studio 2003 (or earlier versions).")
     endif()
 
+	if (UNIX)
+      # setup valgrind
+      set(CMAKE_MEMORYCHECK_COMMAND valgrind)
+      set(CMAKE_MEMORYCHECK_COMMAND_OPTIONS
+         "--error-exitcode=1 --trace-children=yes --leak-check=full --show-reachable=yes --leak-resolution=high --track-origins=yes --error-limit=no ")
+
+      set(MEMCHECK_COMMAND
+         "${CMAKE_MEMORYCHECK_COMMAND} ${CMAKE_MEMORYCHECK_COMMAND_OPTIONS}")
+      separate_arguments(MEMCHECK_COMMAND)
+	endif()
+
+    include(CTest)
 
 endif(WITH_CHECK)
 
@@ -730,6 +763,15 @@ if(UNIX)
         add_definitions(-DMACOSX)
         set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DMACOSX")
 
+        # Since we are encountering errors with the use of libc++ on OSX
+        # this option allows to override which stdlib to use
+        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+          option(CLANG_USE_STDLIB "Use libstdc++ rather than libc++" ON)
+          if (CLANG_USE_STDLIB)
+            SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++" )
+          endif()
+        endif()
+        
         # On OSX it is common to build universal binaries to support multiple
         # processor architectures. The default behavior is not to build
         # multiple architectures, as most users might not need that.
@@ -811,6 +853,26 @@ else(UNIX)
         add_definitions( -D_MT)
         endif(WITH_STATIC_RUNTIME)
 
+        # Provide an easy way to use Visual Leak Detector (https://vld.codeplex.com)
+		option(WITH_LIBSBML_USE_VLD "When running debug builds with MSVC use Visual Leak Detector." OFF)
+		if (WITH_LIBSBML_USE_VLD)
+          find_path(VLD_INCLUDE_DIR
+            NAMES vld.h
+            PATHS ${LIBSBML_DEPENDENCY_DIR}/include
+			      "$ENV{PROGRAMFILES}/Visual Leak Detector/include"
+				  "$ENV{PROGRAMFILES(X86)}/Visual Leak Detector/include"
+            DOC "Directory containing VLD files."
+          )
+          if (NOT VLD_INCLUDE_DIR)
+            message(WARNING "VLD is not found on your system, please ensure you installed it correctly.")
+		  else()
+		    include_directories(${VLD_INCLUDE_DIR})
+		  endif()
+		  
+		  add_definitions( -DLIBSBML_USE_VLD)
+		  
+		endif (WITH_LIBSBML_USE_VLD)
+
 		# CMake no longer creates PDB files for static libraries after 2.8.11
 		# so we store debug information in the object files instead
 		if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
@@ -871,7 +933,8 @@ endif(UNIX)
 #
 
 if("${LIBSBML_ROOT_SOURCE_DIR}" STREQUAL "${LIBSBML_ROOT_BINARY_DIR}" )
-    message(FATAL_ERROR "In-source builds of libSBML are disabled. Please create a separate build directory.")
+    message(FATAL_ERROR "In-source builds of libSBML are disabled. 
+Please create a separate build directory.")
 endif()
 
 
@@ -1016,7 +1079,7 @@ if(UNIX)
 endif()
 
 if(WITH_SWIG)
-    message(STATUS "     Using SWIG                      = ${SWIG_EXECUTABLE}")
+    message(STATUS "     Using SWIG                      = ${SWIG_EXECUTABLE} (Version ${SWIG_VERSION})")
     
     if (SWIG_FOUND AND SWIG_VERSION VERSION_LESS "2.0.4")
     	message(WARNING "   You are using SWIG version ${SWIG_VERSION}. We strongly recommend at least version 2.0.4.")
@@ -1031,6 +1094,10 @@ endif()
 
 if(WITH_JAVA)
     message(STATUS "     Using Java                      = ${Java_JAVA_EXECUTABLE}")
+endif()
+
+if(WITH_JAVASCRIPT)
+    message(STATUS "     Using Node.js                   = ${NODE_GYP_EXECUTABLE}")
 endif()
 
 if(WITH_PYTHON)

@@ -604,11 +604,9 @@ ASTNode::getDefinitionURL() const
 }
 
 
-const std::string& 
+std::string 
 ASTNode::getDefinitionURLString() const
 {
-  static std::string emptyString = "";
-  
   if (mNumber != NULL)
   {
     return mNumber->getDefinitionURL();
@@ -619,7 +617,7 @@ ASTNode::getDefinitionURLString() const
   }
   else
   {
-    return emptyString;
+    return "";
   }
 }
 
@@ -2610,7 +2608,7 @@ ASTNode::prependChild(ASTNode* child)
 
 
 int
-ASTNode::replaceChild(unsigned int n, ASTNode* newChild)
+ASTNode::replaceChild(unsigned int n, ASTNode* newChild, bool delreplaced)
 {
   int replaced = LIBSBML_INDEX_EXCEEDS_SIZE;
   
@@ -2623,7 +2621,7 @@ ASTNode::replaceChild(unsigned int n, ASTNode* newChild)
     unsigned int size = mFunction->getNumChildren();
     if (n < size)
     {
-      replaced = mFunction->replaceChild(n, newChild);
+      replaced = mFunction->replaceChild(n, newChild, delreplaced);
     }
   }
 
@@ -2937,7 +2935,7 @@ ASTNode::replaceArgument(const std::string& bvar, ASTNode *arg)
               syncMembersAndTypeFrom(arg->getFunction(), arg->getType());
           }
 
-          this->replaceChild(i, newChild->deepCopy());
+          this->replaceChild(i, newChild->deepCopy(), true);
 
           delete newChild;
         }
@@ -3022,7 +3020,7 @@ ASTNode::replaceIDWithFunction(const std::string& id, const ASTNode* function)
     if (child->getType() == AST_NAME &&
         child->getName() == id) 
     {
-      replaceChild(i, function->deepCopy());
+      replaceChild(i, function->deepCopy(), true);
     }
     else 
     {
@@ -3058,6 +3056,11 @@ ASTNode::reduceToBinary()
   swapChildren(op2);
 
   reduceToBinary();
+  //op2 is unneeded at this point, but we need to make sure we don't delete our own children:
+  while (op2->getNumChildren() > 0) {
+    op2->removeChild(0);
+  }
+  delete op2;
 }
 
 
@@ -3230,7 +3233,7 @@ ASTNode::getNumVariablesWithUndeclaredUnits(Model * m) const
         {
           number++;
         }
-        delete ud;
+        //delete ud;
       }
       else if (allowReactionId == true 
          && m->getReaction(id) != NULL 
@@ -3250,6 +3253,10 @@ ASTNode::getNumVariablesWithUndeclaredUnits(Model * m) const
       //}
     }
   }
+
+
+  variables->clear();
+  delete variables;
 
   return number;
 }
@@ -3868,38 +3875,38 @@ ASTNode_getType (const ASTNode_t *node)
 }
 
 LIBSBML_EXTERN
-const char *
+char *
 ASTNode_getId(const ASTNode_t * node)
 {
   if (node == NULL)
     return NULL;
 
-  return node->getId().empty() ? "" : safe_strdup(node->getId().c_str());
+  return safe_strdup(node->getId().c_str());
 }
 
 LIBSBML_EXTERN
-const char *
+char *
 ASTNode_getClass(const ASTNode_t * node)
 {
   if (node == NULL)
     return NULL;
 
-  return node->getClass().empty() ? "" : safe_strdup(node->getClass().c_str());
+  return safe_strdup(node->getClass().c_str());
 }
 
 LIBSBML_EXTERN
-const char *
+char *
 ASTNode_getStyle(const ASTNode_t * node)
 {
   if (node == NULL)
     return NULL;
 
-  return node->getStyle().empty() ? "" : safe_strdup(node->getStyle().c_str());
+  return safe_strdup(node->getStyle().c_str());
 }
 
 
 LIBSBML_EXTERN
-const char *
+char *
 ASTNode_getUnits(const ASTNode_t * node)
 {
   if (node == NULL) return NULL;
@@ -4400,7 +4407,16 @@ int
 ASTNode_replaceChild(ASTNode_t* node, unsigned int n, ASTNode_t * newChild)
 {
   if (node == NULL) return LIBSBML_INVALID_OBJECT;
-  return node->replaceChild(n, newChild);
+  return node->replaceChild(n, newChild, false);
+}
+
+
+LIBSBML_EXTERN
+int
+ASTNode_replaceAndDeleteChild(ASTNode_t* node, unsigned int n, ASTNode_t * newChild)
+{
+  if (node == NULL) return LIBSBML_INVALID_OBJECT;
+  return node->replaceChild(n, newChild, true);
 }
 
 
@@ -4511,12 +4527,11 @@ ASTNode_setDefinitionURL(ASTNode_t* node, XMLAttributes_t defnURL)
 
 
 LIBSBML_EXTERN
-const char * 
+char * 
 ASTNode_getDefinitionURLString(ASTNode_t* node)
 {
-  if (node == NULL) return "";
-  XMLAttributes *att = node->getDefinitionURL();
-  return (att != NULL) ? safe_strdup(att->getValue("definitionURL").c_str()) : "";
+  if (node == NULL) return safe_strdup("");
+  return safe_strdup(node->getDefinitionURLString().c_str());
 }
 
 
@@ -4528,7 +4543,9 @@ ASTNode_setDefinitionURLString(ASTNode_t* node, const char * defnURL)
   if (node == NULL) return LIBSBML_INVALID_OBJECT;
   XMLAttributes_t *att = XMLAttributes_create();
   XMLAttributes_add(att, "definitionURL", defnURL);
-  return node->setDefinitionURL(*(att));
+  int ret = node->setDefinitionURL(*(att));
+  XMLAttributes_free(att);
+  return ret;
 }
 
 

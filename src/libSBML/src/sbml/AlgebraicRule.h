@@ -302,7 +302,7 @@ AlgebraicRule_clone(AlgebraicRule_t * ar);
  *
  * @return the math for this AlgebraicRule_t, as an ASTNode_t.
  *
- * @member of AlgebraicRule_t
+ * @memberof AlgebraicRule_t
  */
 LIBSBML_EXTERN
 const ASTNode_t*
@@ -338,7 +338,7 @@ AlgebraicRule_getFormula (const AlgebraicRule_t *r);
  * @return @c 1 if the "math" of this AlgebraicRule_t structure is
  * set, @c 0 otherwise.
  *
- * @member of AlgebraicRule_t
+ * @memberof AlgebraicRule_t
  */
 LIBSBML_EXTERN
 int
@@ -364,14 +364,11 @@ AlgebraicRule_isSetFormula (const AlgebraicRule_t *r);
  * @param math an ASTNode_t structure to be assigned as the "math"
  * subelement of this AlgebraicRule_t.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of AlgebraicRule_t
+ * @memberof AlgebraicRule_t
  */
 LIBSBML_EXTERN
 int
@@ -381,10 +378,7 @@ AlgebraicRule_setMath(AlgebraicRule_t * ar, const ASTNode_t* math);
 /**
  * Sets the formula of this AlgebraicRule_t to a copy of string.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
@@ -414,7 +408,7 @@ AlgebraicRule_setFormula (AlgebraicRule_t *r, const char *formula);
  * @return @c 1 if all the required attributes for this
  * structure have been defined, @c 0 otherwise.
  *
- * @member of AlgebraicRule_t
+ * @memberof AlgebraicRule_t
  */
 LIBSBML_EXTERN
 int
@@ -430,7 +424,7 @@ AlgebraicRule_hasRequiredAttributes(const AlgebraicRule_t * ar);
  * @return @c 1 if all the required sub-elements for this
  * structure have been defined, @c 0 otherwise.
  *
- * @member of AlgebraicRule_t
+ * @memberof AlgebraicRule_t
  */
 LIBSBML_EXTERN
 int

@@ -35,7 +35,7 @@
 # and also available online as http://sbml.org/software/libsbml/license.html
 #----------------------------------------------------------------------- -->*/
 
-import sys, string, os.path, re, argparse, libsbmlutils
+import sys, string, os.path, re, argparse, libsbmlutils, pdb
 
 #
 # Hardwired values.  These need to be updated manually.
@@ -43,34 +43,6 @@ import sys, string, os.path, re, argparse, libsbmlutils
 
 ignored_hfiles   = ['ListWrapper.h']
 ignored_ifiles   = ['std_string.i', 'javadoc.i', 'spatial-package.i']
-libsbml_types    = ['ASTNodeType_t',
-                    'ASTNode_t',
-                    'BiolQualifierType_t',
-                    'ConversionOptionType_t',
-                    'ModelQualifierType_t',
-                    'OperationReturnValues_t',
-                    'ParseLogType_t',
-                    'QualifierType_t',
-                    'RuleType_t',
-                    'SBMLCompTypeCode_t',
-                    'SBMLErrorCategory_t',
-                    'SBMLErrorSeverity_t',
-                    'SBMLFbcTypeCode_t',
-                    'SBMLLayoutTypeCode_t',
-                    'SBMLQualTypeCode_t',
-                    'SBMLTypeCode_t',
-                    'UnitKind_t',
-                    'XMLErrorCategory_t',
-                    'XMLErrorCode_t',
-                    'XMLErrorSeverityOverride_t',
-                    'XMLErrorSeverity_t',
-                    'CompSBMLErrorCode_t',
-                    'QualSBMLErrorCode_t',
-                    'FbcSBMLErrorCode_t',
-                    'LayoutSBMLErrorCode_t',
-                    # Keep this one last, so that in regexp searches, it
-                    # doesn't match the XXXXSBMLErrorCode_t ones above.
-                    'SBMLErrorCode_t']
 
 # In some languages like C#, we have to be careful about the method declaration
 # that we put on the swig %{java|cs}methodmodifiers.  In particular, in C#, if
@@ -157,7 +129,6 @@ language         = ''
 doc_include_path = ''
 libsbml_classes  = []
 
-
 #
 # Global variable for tracking all class docs, so that we can handle
 # cross-references like @copydetails that may refer to files other
@@ -195,6 +166,8 @@ class CHeader:
     self.inClass     = False
     self.inClassDocs = False
     self.inDocs      = False
+    self.inComment   = False
+    self.inPrivate   = False
     self.isInternal  = False
     self.ignoreThis  = False
 
@@ -210,11 +183,22 @@ class CHeader:
   def header_line_parser(self, line):
     stripped = line.strip()
 
-    # Track things that we flag as internal, so that we can
-    # remove them from the documentation.
+    # Track things that we flag as internal, so that we can remove them from
+    # the documentation. The test for @endcond is later below, after some
+    # other tests are done, to get actions to take place in the right order.
 
-    if (stripped.find('@cond doxygenLibsbmlInternal') >= 0): self.isInternal = True
-    if (stripped.find('@endcond') >= 0):                     self.isInternal = False
+    # Things that are marked internal still get emitted in the output, but
+    # are flagged with @internal so that downstream tools do the right thing.
+
+    if '@cond doxygenLibsbmlInternal' in stripped: self.isInternal = True
+
+    # We track private/protected separately because we have to watch for
+    # different things in the input.  (E.g., for internal, we have a start and
+    # stop markers, but for private/protected, there's only a start marker.)
+
+    if stripped.startswith('private:'):   self.inPrivate = True
+    if stripped.startswith('protected:'): self.inPrivate = True
+    if stripped.startswith('public:'):    self.inPrivate = False
 
     # Watch for class description, usually at top of file.
 
@@ -252,7 +236,8 @@ class CHeader:
         if not self.classname.startswith("doc_"):
           self.docstring = '/**\n' + self.docstring + ' */'
         self.docstring = removeHTMLcomments(self.docstring)
-        doc = CClassDoc(self.docstring, self.classname, self.isInternal)
+        private = (self.isInternal or self.inPrivate)
+        doc = CClassDoc(self.docstring, self.classname, private)
         self.classDocs.append(doc)
 
       # There may be more class docs in the same comment.
@@ -279,42 +264,52 @@ class CHeader:
 
     if stripped == '};':
       self.inClass = False
+      self.inPrivate = False
       return
 
-    if stripped == '/**':
+    if stripped.startswith('/*'):       # Also catches /** comment start.
+      self.inComment  = True
+
+    if stripped.startswith('/**'):      # We're only interested in /** ones.
       self.docstring  = ''
       self.lines      = ''
       self.ignoreThis = False
-      self.inDocs     = True
+      self.inDocs     = not self.isInternal
+
+    if '@endcond' in stripped: self.isInternal = False
+
+    if self.inComment and stripped.endswith('*/'):
+      self.inComment  = False
 
     if self.inDocs:
+      # When inside a doc and we're not still inside an internal section,
+      # start saving lines.
       self.docstring += line
-      self.inDocs     = (stripped != '*/')
+      self.inDocs = self.inComment      # Only in docs if we're in a comment.
       return
 
-    # If we get here, we're no longer inside a comment block.
-    # Start saving lines, but skip embedded comments.
-
-    if stripped.startswith('#') or (stripped.find('typedef') >= 0):
+    if stripped.startswith('#') or 'typedef' in stripped:
       self.ignoreThis = True
       return
 
     if not self.ignoreThis:
-      cppcomment = stripped.find('//')
-      if cppcomment != -1:
-        stripped = stripped[:cppcomment]
+      cppcomment = -1
+      if not stripped.startswith('*'):     # If not inside a block comment.
+        cppcomment = stripped.find('//')   # Look for a inline comment.
+      if cppcomment != -1:                 # If there is one, ignore what ...
+        stripped = stripped[:cppcomment]   # ... comes after the comment start.
       self.lines += stripped + ' '         # Space avoids jamming code together.
 
       # Keep an eye out for the end of the declaration.
-      if not stripped.startswith('*') and \
-         (stripped.endswith(';') or stripped.endswith(')') or stripped.endswith('}')):
+      if not self.inComment and \
+         (stripped.endswith(';') or stripped.endswith('}')):
 
         # It might be a forward declaration.  Skip it.
         if self.lines.startswith('class'):
           return
 
         # It might be a C++ operator redefinition.  Skip it.
-        if self.lines.find('operator') >= 0:
+        if 'operator' in self.lines:
           return
 
         # It might be an enum.  Skip it.
@@ -349,8 +344,9 @@ class CHeader:
 
             # Swig doesn't seem to mind C++ argument lists, even though they
             # have "const", "&", etc. So I'm leaving the arg list unmodified.
-            func = Method(self.isInternal, self.docstring, name, args,
-                          (isConst > 0), (isVirtual != -1))
+            private = (self.isInternal or self.inPrivate)
+            func = Method(private, self.docstring, name, args, (isConst > 0),
+                          (isVirtual != -1))
 
             # Reset buffer for the next iteration, to skip the part seen.
             self.lines = self.lines[endparen + 2:]
@@ -447,7 +443,7 @@ class Method:
     # this fixes a real problem in the Java documentation for libSBML.
 
     if language == 'java' or language == 'csharp':
-      if isConst and (args.find('unsigned int') >= 0):
+      if isConst and 'unsigned int' in args >= 0:
         self.args = ''
       elif not args.strip() == '()':
         if isConst:
@@ -808,7 +804,7 @@ def translateCrossRefs (str):
     p = re.compile('@sbmlfunction{([^}]+?)}')
     str = p.sub(translateSBMLFunctionRef, str)
   else:
-    p = re.compile(r'([^\w.%">])(' + '|'.join(libsbml_classes) + r')\b([^:])')
+    p = re.compile(r'([^\w."#])(' + '|'.join(libsbml_classes) + r')\b([^:])')
     str = p.sub(translateClassRef, str)
     p = re.compile('(\W+)(\w+?)::(\w+\s*\([^)]*?\))')
     str = p.sub(translateMethodRef, str)
@@ -875,7 +871,11 @@ def translateClassRef (match):
   leading      = match.group(1)
   classname    = match.group(2)
   trailing     = match.group(3)
-  if leading == '%' or leading == '(':
+  # Don't create a link if
+  # - it's a quoted reference (using doxygen's % quote char)
+  # - it's an argument to a function call
+  # - it appears to be inside an HTML command (hence the test for '>'):
+  if leading == '%' or leading == '(' or leading == '>':
     return match.group(0)
   elif language == 'java':
     return leading + '{@link ' + classname + '}' + trailing
@@ -940,7 +940,8 @@ def rewriteCommonReferences (docstring):
   # For some languages, we don't have separate types like ASTNode_t.
   # They're just values on a single global class.  So, remove the type names.
 
-  docstring = re.sub('(' + '|'.join(libsbml_types) + ')#', '#', docstring)
+  enums = [item for item in libsbml_classes if item.endswith('_t')]
+  docstring = re.sub(r'(\b' + r'\b|\b'.join(enums) + r'\b)#', '#', docstring)
 
   # Handle references to enumerations and #define constants.  (Make sure to
   # run rewriteConstantLink before rewriteEnumLink, because the former relies
@@ -1048,7 +1049,7 @@ def sanitizeForHTML (docstring):
 
   # Wrap @deprecated content with a class so that we can style it.
 
-  p = re.compile('^(\s+\*\s+)(@deprecated\s)((\S|\s)+)(<p>|\*/)', re.MULTILINE|re.DOTALL)
+  p = re.compile('^(\s+\*\s+)(@deprecated\s)((\S|\s)+?)(<p>|\*/)', re.MULTILINE|re.DOTALL)
   docstring = p.sub(rewriteDeprecated, docstring)
 
   # Handle cross references for languages where it's not done.  Doxygen
@@ -1082,7 +1083,7 @@ def sanitizeForHTML (docstring):
 
   # Merge separated @see's, or else the first gets lost in the javadoc output.
 
-  p = re.compile(r'(@see.+?)<p>.+?@see', re.DOTALL)
+  p = re.compile(r'(@see.+?)(\s*\*)?<p>\s*@see', re.DOTALL)
   docstring = p.sub(r'\1@see', docstring)
 
   # If the doc string ends with <p> followed by */, then javadoc parses it
@@ -1101,7 +1102,7 @@ def sanitizeForHTML (docstring):
   # Take out any left-over Doxygen-style quotes, because Javadoc doesn't have
   # the %foo quoting mechanism.
 
-  docstring = re.sub(r'(\s)%(\w)', r'\1\2', docstring)
+  docstring = re.sub(r'([\s(>."])%(\w)', r'\1\2', docstring)
 
   # Currently, we don't handle @ingroup or our pseudo-tag, @sbmlpackage.
 
@@ -1147,15 +1148,23 @@ def rewriteDocstringForJava (docstring):
 
   docstring = translateAllowingBreaks(breakable_translations, docstring)
 
-  docstring = re.sub(r'std::string',            'String',  docstring)
-  docstring = re.sub(r'NULL',                   'null',    docstring)
-  docstring = re.sub(r'\bbool\b',               'boolean', docstring)
-  docstring = re.sub(r'const ',                 '',        docstring)
+  docstring = re.sub(r'std::string', 'String',  docstring)
+  docstring = re.sub(r'NULL',        'null',    docstring)
+  docstring = re.sub(r'\bbool\b',    'boolean', docstring)
 
   # Also use Java syntax instead of "const XMLNode*" etc.
 
   p = re.compile(r'(const )?(|%)?(' + '|'.join(libsbml_classes) + r')( ?)(\*|&)', re.DOTALL)
   docstring = p.sub(rewriteClassRef, docstring)
+
+  # Remove other cases of "const", with special attention to trailing "const"
+  # in method references.  We sometimes have to write "blah blah blah foo(x)
+  # const blah blah" (i.e., include the trailing const when referring to a
+  # function) because otherwise Doxygen won't match up the method.  We don't
+  # want to over-match the string "const", and we don't want to eat the
+  # following character either.  Thus:
+
+  docstring = re.sub(r'const(\W)', r'\1', docstring)
 
   # Do the big work.
 
@@ -1187,8 +1196,15 @@ def rewriteDocstringForJava (docstring):
   # text of the reference.)  At this point, we expect to see only single
   # types like "long" and not "unsigned int", because we translated them above.
 
-  p = re.compile(r'(@see\s+#?\w+)\((\w+)+\s+\w+(\s*,\s*(\w+)\s+\w+)?\)')
+  p = re.compile(r'(@see\s+#?\w+)\((\w+)\s+\w+(\s*,\s*(\w+)\s+\w+)?\)')
   docstring = p.sub(translateJavaSeeArgs, docstring)
+
+  # For reasons I haven't been able to figure out, @see has to be the last
+  # thing in the doc comments, or Javadoc outputs empty "See ... ".  So, here
+  # we move any @see's to the end of the doc string.
+
+  p = re.compile(r'(@see.+?)<p>(.+?)(\*/|\Z)', re.DOTALL)
+  docstring = p.sub(r'\2<p>\n   * \1\3', docstring)
 
   # The syntax for @link is vastly different.
 
@@ -1333,6 +1349,15 @@ def rewriteDocstringForPython (docstring):
   p = re.compile(r'(const )?(|%)?(' + '|'.join(libsbml_classes) + r')( ?)(\*|&)', re.DOTALL)
   docstring = p.sub(rewriteClassRef, docstring)
 
+  # Remove other cases of "const", with special attention to trailing "const"
+  # in method references.  We sometimes have to write "blah blah blah foo(x)
+  # const blah blah" (i.e., include the trailing const when referring to a
+  # function) because otherwise Doxygen won't match up the method.  We don't
+  # want to over-match the string "const", and we don't want to eat the
+  # following character either.  Thus:
+
+  docstring = re.sub(r'const(\W)', r'\1', docstring)
+
   # Need to escape the quotation marks:
 
   docstring = docstring.replace('"', "'")
@@ -1375,7 +1400,7 @@ def rewriteDocstringForPerl (docstring):
   docstring = p.sub(r'', docstring)
 
   # Get rid of the %foo quoting.
-  docstring = re.sub('(\s)%(\w)', r'\1\2', docstring)
+  docstring = re.sub(r'([\s(>."])%(\w)', r'\1\2', docstring)
 
   # The following are done in pairs because I couldn't come up with a
   # better way to catch the case where @c and @em end up alone at the end
@@ -1738,17 +1763,18 @@ def main (args):
   tmpfilename = output_swig_file + ".tmp"
   stream      = open(tmpfilename, 'w')
 
-  # Find all class names, by searching header files for @class declarations
-  # and SWIG .i files for %template declarations.  We need this list to
-  # recognize when class names are mentioned inside documentation text.
+  # Find all class and enum names, by searching header files for @class and
+  # @enum declarations, and SWIG .i files for %template declarations.  We
+  # need this list to recognize when class and enum names are mentioned
+  # inside documentation text.
 
   swig_files       = get_swig_files(main_swig_file)
   header_files     = get_header_files(swig_files, h_include_path)
   libsbml_classes  = libsbmlutils.find_classes(header_files)
-  libsbml_classes += libsbmlutils.find_classes(swig_files)
+  libsbml_classes.extend(libsbmlutils.find_classes(swig_files, swig_too=True))
 
   try:
-    libsbml_classes  = sorted(list(set(libsbml_classes)))
+    libsbml_classes = sorted(list(set(libsbml_classes)))
   except (NameError,):
     libsbml_classes.sort()
   except (Exception,):
@@ -1795,7 +1821,9 @@ def main (args):
     #FB: not printing the warning below, as after all the documentation file
     #    has been correctly created. 
     pass
-    # print "\tWarning, error flushing stream \n\t\t'%s'. \n\tThis is not a serious error, but an issue with the python interpreter known to occur in python 2.7." % e
+    # print "\tWarning, error flushing stream \n\t\t'%s'. \n\tThis is not a
+    # serious error, but an issue with the python interpreter known to occur
+    # in python 2.7." % e
   finalstream.flush()
   finalstream.close()
 

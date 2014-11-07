@@ -49,6 +49,8 @@
  * SBML document; consequently, the packages in use are also communicated by
  * the values of the SBML namespaces set on a ConversionProperties object.
  *
+ * @copydetails doc_section_using_sbml_converters
+ *
  * @see ConversionOption
  * @see SBMLNamespaces
  */
@@ -719,10 +721,13 @@ ConversionProperties_addOptionWithKey(ConversionProperties_t* cp, const char* ke
  * @param cp the conversion properties
  * @param key the key for the option to remove
  *
+ * @return the removed conversion option (needs to be freed by the caller), 
+ * or NULL, if no option with the given key exists
+ * 
  * @memberof ConversionProperties_t
  */
 LIBSBML_EXTERN
-void
+ConversionOption_t*
 ConversionProperties_removeOption(ConversionProperties_t* cp, const char* key);
 
 

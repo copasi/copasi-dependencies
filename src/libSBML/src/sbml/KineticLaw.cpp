@@ -366,7 +366,6 @@ KineticLaw::setFormula (const std::string& formula)
   }
   else
   {
-    ASTNode * math = SBML_parseFormula(formula.c_str());
     if (formula == "")
     {
       mFormula.erase();
@@ -374,8 +373,10 @@ KineticLaw::setFormula (const std::string& formula)
       mMath = NULL;
       return LIBSBML_OPERATION_SUCCESS;
     }
-    else if (math == NULL || !(math->isWellFormedASTNode()))
+    ASTNode * math = SBML_parseFormula(formula.c_str());
+    if (math == NULL || !(math->isWellFormedASTNode()))
     {
+      delete math;
       return LIBSBML_INVALID_OBJECT;
     }
     else
@@ -387,6 +388,7 @@ KineticLaw::setFormula (const std::string& formula)
         delete mMath;
         mMath = NULL;
       }
+      delete math;
       return LIBSBML_OPERATION_SUCCESS;
     }
   }
@@ -557,22 +559,20 @@ KineticLaw::addParameter (const Parameter* p)
     else
     {
       /* hack so this will deal with local parameters */
-      LocalParameter *lp = new LocalParameter(*p);//->getSBMLNamespaces());
+      LocalParameter lp(*p);
 
-      if (!(lp->hasRequiredAttributes()) || !(lp->hasRequiredElements()))
+      if (!(lp.hasRequiredAttributes()) || !(lp.hasRequiredElements()))
       {
         return LIBSBML_INVALID_OBJECT;
       }
-      else if (getLocalParameter(lp->getId()) != NULL)
+      else if (getLocalParameter(lp.getId()) != NULL)
       {
         // an parameter with this id already exists
         return LIBSBML_DUPLICATE_OBJECT_ID;
       }
       else
       {
-
-        mLocalParameters.append(lp);
-
+        mLocalParameters.append(&lp);
         return LIBSBML_OPERATION_SUCCESS;
       }
     }
@@ -1339,7 +1339,8 @@ KineticLaw::readOtherXML (XMLInputStream& stream)
       }
       else
       {
-        logError(OneMathPerKineticLaw, getLevel(), getVersion());
+        logError(OneMathPerKineticLaw, getLevel(), getVersion(),
+          "The <kineticLaw> contains more than one <math> element.");
       }
     }
 

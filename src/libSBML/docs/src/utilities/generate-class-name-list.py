@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 #
 # @file   generate-class-name-list.py
-# @brief  Generate a list of class names defined in libSBML
+# @brief  Generate a list of class & enum names defined in libSBML
 # @author Michael Hucka
 # @date   Created 2013-12-19
 #
 # This program takes one argument, the root of the libSBML src/sbml
-# directory.  It walks down the directory tree recursively, looking in .h
-# files, and in every file it finds, it looks for the string "@class"
-# followed by a word.  It extracts the word.  In the end, it prints to
-# standard output all the words it found.
+# directory.  It walks down the directory tree recursively, looking in .h and
+# .i files, and in every file it finds, it looks for the strings "@class" and
+# "@enum" followed by a word (and for .i files, it also looks for %template).
+# It extracts the word.  In the end, it prints to standard output all the
+# words it found.
 #
 #<!---------------------------------------------------------------------------
 # This file is part of libSBML.  Please visit http://sbml.org for more
@@ -46,18 +47,20 @@ from libsbmlutils import find_classes
 
 
 def main(args):
-  if len(args) != 2:
-      print ("Must be given one argument: the path to the libSBML src/sbml dir")
-      sys.exit(1)
+    if len(args) != 2:
+        print ("Must be given one argument: the path to the libSBML src/sbml dir")
+        sys.exit(1)
 
-  classes = [re.sub('_t', '', c) for c in find_classes(args[1], True)]
-  try:
-    for c in sorted(set(classes)):
-        print (c)
-  except (NameError,):
-    classes.sort()
-    for c in classes:
-        print (c)
+    classes = []
+    try:
+        classes = find_classes(args[1], swig_too=True)
+        for c in sorted(set(classes)):
+            print (c)
+    except (NameError,):
+        if classes:
+            classes.sort()
+            for c in classes:
+                print (c)
 
 if __name__ == '__main__':
-  main(sys.argv)
+    main(sys.argv)

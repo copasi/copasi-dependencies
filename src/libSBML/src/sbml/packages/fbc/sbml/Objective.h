@@ -6,13 +6,13 @@
  *<!---------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
- * 
+ *
  * Copyright (C) 2013-2014 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
- * 
- * Copyright (C) 2009-2013 jointly by the following organizations: 
+ *
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *
@@ -44,15 +44,17 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-/** 
+/**
  * @enum ObjectiveType_t
- * @brief Enumeration of possible values for the 'type' attribute of an Objective.
+
+ * @brief Enumeration of possible values for the 'type' attribute of an
+ * Objective object.
  */
 typedef enum
 {
-    OBJECTIVE_TYPE_MAXIMIZE /*!< 'maximize' */
-  , OBJECTIVE_TYPE_MINIMIZE /*!< 'minimize' */
-  , OBJECTIVE_TYPE_UNKNOWN /*!< Unset or illegal value: anything other than 'maximize' or 'minimize'. */
+    OBJECTIVE_TYPE_MAXIMIZE /*!< Signifies the objective is to maximize. */
+  , OBJECTIVE_TYPE_MINIMIZE /*!< Signifies the objective is to minimize. */
+  , OBJECTIVE_TYPE_UNKNOWN  /*!< Unset or illegal value: anything other than 'maximize' or 'minimize'. */
 } ObjectiveType_t;
 
 LIBSBML_CPP_NAMESPACE_END
@@ -113,46 +115,49 @@ public:
 
   /**
    * Destructor.
-   */ 
+   */
   virtual ~Objective ();
 
-  
-  
+
+
   /**
-   * Returns the first child element found that has the given @p id in the model-wide SId namespace, or @c NULL if no such object is found.
+   * Returns the first child element found that has the given @p id in the
+   * model-wide SId namespace, or @c NULL if no such object is found.
    *
    * @param id string representing the id of objects to find
    *
    * @return a pointer to the SBase element with the given @p id.
    */
   virtual SBase* getElementBySId(const std::string& id);
-  
-  
+
+
   /**
-   * Returns the first child element it can find with the given @p metaid, or itself if it has the given @p metaid, or @c NULL if no such object is found.
+   * Returns the first child element it can find with the given @p metaid, or
+   * itself if it has the given @p metaid, or @c NULL if no such object is
+   * found.
    *
    * @param metaid string representing the metaid of objects to find
    *
    * @return a pointer to the SBase element with the given @p metaid.
    */
   virtual SBase* getElementByMetaId(const std::string& metaid);
-  
+
   /**
    * Returns a List of all child SBase* objects, including those nested to an arbitrary depth
    *
    * @return a List* of pointers to all children objects.
    */
   virtual List* getAllElements(ElementFilter* filter=NULL);
-  
-  
+
+
   /**
    * Returns the value of the "name" attribute of this Objective.
    *
    * @return the value of the "name" attribute of this Objective.
    */
   virtual const std::string& getName () const;
-  
-  
+
+
   /**
    * Predicate returning @c true or @c false depending on whether this
    * Objective's "name" attribute has been set.
@@ -161,24 +166,22 @@ public:
    * otherwise @c false is returned.
    */
   virtual bool isSetName () const;
-  
-  
+
+
   /**
    * Sets the value of the "name" attribute of this Objective.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
   virtual int setName (const std::string& name);
-  
-  
+
+
   /**
    * Unsets the value of the "name" attribute of this Objective.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -194,9 +197,9 @@ public:
 
 
   /**
-   * Returns the ObjectiveType_t of the "type" attribute of this Objective.
+   * Returns the enumeration value of the "type" attribute of this Objective.
    *
-   * @return the ObjectiveType_t of the "type" attribute of this Objective.
+   * @return the enumeration value of the "type" attribute of this Objective.
    */
   ObjectiveType_t getObjectiveType () const;
 
@@ -205,19 +208,18 @@ public:
    * Predicate returning @c true or @c false depending on whether this
    * Objective's "type" attribute has been set.
    *
-   * @return @c true if this Objective's "type" attribute has been set, 
+   * @return @c true if this Objective's "type" attribute has been set,
    * otherwise @c false is returned.
    */
   virtual bool isSetType () const;
 
-  
+
   /**
    * Sets the SIdRef string of the "type" attribute of this Objective.
    *
    * @param type a SIdRef string to be set.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
@@ -229,8 +231,7 @@ public:
    *
    * @param type a SIdRef string to be set.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
@@ -240,14 +241,13 @@ public:
   /**
    * Unsets the value of the "id" attribute of this Objective.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int unsetType ();
 
-  
+
   /**
    * Returns the string of the "id" attribute of this Objective.
    *
@@ -260,19 +260,18 @@ public:
    * Predicate returning @c true or @c false depending on whether this
    * Objective's "id" attribute has been set.
    *
-   * @return @c true if this Objective's "id" attribute has been set, 
+   * @return @c true if this Objective's "id" attribute has been set,
    * otherwise @c false is returned.
    */
   virtual bool isSetId () const;
 
-  
+
   /**
    * Sets the SIdRef string of the "id" attribute of this Objective.
    *
    * @param id a SIdRef string to be set.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
@@ -282,19 +281,18 @@ public:
   /**
    * Unsets the value of the "id" attribute of this Objective.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int unsetId ();
 
-  
+
   /**
    * Returns the ListOf object that holds all members.
    *
    * @return the ListOf object that holds all members.
-   */ 
+   */
   const ListOfFluxObjectives* getListOfFluxObjectives () const;
 
   /**
@@ -304,7 +302,7 @@ public:
    * @param n the index number of the FluxObjective to get.
    *
    * @return the nth FluxObjective in the ListOfFluxObjectives.
-   */ 
+   */
   FluxObjective* getFluxObjective (unsigned int n);
 
   /**
@@ -314,7 +312,7 @@ public:
    * @param n the index number of the FluxObjective to get.
    *
    * @return the nth FluxObjective in the ListOfFluxObjectives.
-   */ 
+   */
   const FluxObjective* getFluxObjective (unsigned int n) const;
 
   /**
@@ -323,7 +321,7 @@ public:
    *
    * @param symbol a string representing the symbol attribute
    * of the FluxObjective to get.
-   * 
+   *
    * @return FluxObjective in the ListOfFluxObjectives with the given symbol
    * or NULL if no such FluxObjective exists.
    */
@@ -336,7 +334,7 @@ public:
    *
    * @param symbol a string representing the symbol attribute
    * of the FluxObjective to get.
-   * 
+   *
    * @return FluxObjective in the ListOfFluxObjectives with the given symbol
    * or NULL if no such FluxObjective exists.
    */
@@ -346,11 +344,10 @@ public:
   /**
    * Adds a copy of the given FluxObjective object to the list of members.
    *
-   * @param member the FluxObjective object to be added to the list of 
+   * @param member the FluxObjective object to be added to the list of
    * members.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}
@@ -386,8 +383,8 @@ public:
    *
    * @param index the index of the FluxObjective object to remove
    *
-   * @return the FluxObjective object removed.  As mentioned above, 
-   * the caller owns the returned object. @c NULL is returned if 
+   * @return the FluxObjective object removed.  As mentioned above,
+   * the caller owns the returned object. @c NULL is returned if
    * the given index is out of range.
    */
   FluxObjective* removeFluxObjective(unsigned int index);
@@ -400,8 +397,8 @@ public:
    *
    * @param symbol the symbol attribute of the FluxObjective object to remove
    *
-   * @return the FluxObjective object removed.  As mentioned above, 
-   * the caller owns the returned object. @c NULL is returned if 
+   * @return the FluxObjective object removed.  As mentioned above,
+   * the caller owns the returned object. @c NULL is returned if
    * the given index is out of range.
    */
   FluxObjective* removeFluxObjective(const std::string& symbol);
@@ -463,7 +460,7 @@ public:
    */
   virtual bool accept (SBMLVisitor& v) const;
 
-  
+
   /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBMLDocument of this SBML object.
@@ -517,7 +514,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
   bool getIsSetListOfFluxObjectives() const;
   /** @endcond */
-    
+
 protected:
   /** @cond doxygenLibsbmlInternal */
   /**
@@ -548,7 +545,7 @@ protected:
    * XMLAttributes set into their specific fields.  Be sure to call your
    * parents implementation of this method as well.
    */
-  virtual void readAttributes (const XMLAttributes& attributes, 
+  virtual void readAttributes (const XMLAttributes& attributes,
                                const ExpectedAttributes& expectedAttributes);
   /** @endcond */
 
@@ -572,9 +569,9 @@ protected:
 /**
  * @class ListOfObjectives
  * @sbmlbrief{fbc} A list of Objective objects.
- * 
+ *
  * The ListOfObjectives is a container for the Objective elements of Model.
- * 
+ *
  * @copydetails doc_what_is_listof
  *
  * @see Objective
@@ -594,8 +591,8 @@ public:
   /**
    * Creates a new ListOfObjectives with the given level, version, and package version.
    */
-   ListOfObjectives(unsigned int level      = FbcExtension::getDefaultLevel(), 
-                 unsigned int version    = FbcExtension::getDefaultVersion(), 
+   ListOfObjectives(unsigned int level      = FbcExtension::getDefaultLevel(),
+                 unsigned int version    = FbcExtension::getDefaultVersion(),
                  unsigned int pkgVersion = FbcExtension::getDefaultPackageVersion());
 
 
@@ -609,32 +606,32 @@ public:
    * Get a Objective from the ListOfObjectives.
    *
    * @param n the index number of the Objective to get.
-   * 
+   *
    * @return the nth Objective in this ListOfObjectives.
    *
    * @see size()
    */
-  virtual Objective * get(unsigned int n); 
+  virtual Objective * get(unsigned int n);
 
 
   /**
    * Get a Objective from the ListOfObjectives.
    *
    * @param n the index number of the Objective to get.
-   * 
+   *
    * @return the nth Objective in this ListOfObjectives.
    *
    * @see size()
    */
-  virtual const Objective * get(unsigned int n) const; 
+  virtual const Objective * get(unsigned int n) const;
 
   /**
    * Get a Objective from the ListOfObjectives
    * based on its identifier.
    *
-   * @param sid a string representing the identifier 
+   * @param sid a string representing the identifier
    * of the Objective to get.
-   * 
+   *
    * @return Objective in this ListOfObjectives
    * with the given @p sid or @c NULL if no such
    * Objective exists.
@@ -649,9 +646,9 @@ public:
    * Get a Objective from the ListOfObjectives
    * based on its identifier.
    *
-   * @param sid a string representing the identifier 
+   * @param sid a string representing the identifier
    * of the Objective to get.
-   * 
+   *
    * @return Objective in this ListOfObjectives
    * with the given @p sid or @c NULL if no such
    * Objective exists.
@@ -695,7 +692,7 @@ public:
   /**
    * Returns the libSBML type code for the objects contained in this ListOf
    * (i.e., @sbmlconstant{SBML_FBC_OBJECTIVE, SBMLFbcTypeCode_t}).
-   * 
+   *
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for objects contained in this list:
@@ -719,7 +716,7 @@ public:
    * Predicate returning @c true or @c false depending on whether this
    * ListOfObjective's "activeObjective" attribute has been set.
    *
-   * @return @c true if this ListOfObjective's "activeObjective" attribute has been set, 
+   * @return @c true if this ListOfObjective's "activeObjective" attribute has been set,
    * otherwise @c false is returned.
    */
   virtual bool isSetActiveObjective() const;
@@ -728,8 +725,7 @@ public:
   /**
    * Sets the value of the "activeObjective" attribute of this ListOfObjectives.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
@@ -747,8 +743,7 @@ public:
   /**
    * Unsets the value of the "activeObjective" attribute of this ListOfObjectives.
    *
-   * @return integer value indicating success/failure of the
-   * operation. The possible return values are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -759,7 +754,7 @@ public:
   virtual bool accept (SBMLVisitor& v) const;
 
   /** @endcond */
-    
+
   /**
    * Adds a clone of all items in the provided ListOf to this object.  This means that when this ListOf is destroyed, the original items will not be destroyed.  In addition, copy over the input ListOfObjectives' 'activeObjective' attribute, if none is set for this element.
    *
@@ -768,7 +763,7 @@ public:
    * @see append(const SBase* item)
    */
   virtual int appendFrom(const ListOf* list);
-  
+
 
   /**
    * @copydoc doc_renamesidref_common
@@ -813,8 +808,8 @@ protected:
   /**
    * Writes the attributes of corresponding package in SBMLDocument element.
    */
-  virtual void writeAttributes (XMLOutputStream& stream) const;  
-  
+  virtual void writeAttributes (XMLOutputStream& stream) const;
+
   std::string mActiveObjective;
   /** @endcond */
 
@@ -822,7 +817,7 @@ protected:
 
 /** @cond doxygenLibsbmlInternal */
 /**
- * Used by ListOfObjectives::get() to lookup an SBase based by its 
+ * Used by ListOfObjectives::get() to lookup an SBase based by its
  * symbol
  */
 #ifndef SWIG
@@ -832,7 +827,7 @@ struct IdEq<Objective> : public std::unary_function<SBase*, bool>
   const std::string& id;
 
   IdEq (const std::string& id) : id(id) { }
-  bool operator() (SBase* sb) 
+  bool operator() (SBase* sb)
        { return static_cast <Objective*> (sb)->getId() == id; }
 };
 #endif
@@ -872,7 +867,7 @@ Objective_create(unsigned int level, unsigned int version, unsigned int pkgVersi
  * Takes an Objective_t structure and returns its identifier.
  *
  * @param obj the Objective_t structure whose identifier is sought
- * 
+ *
  * @return the identifier of the given Objective_t, as a pointer to a string.
  *
  * @memberof Objective_t
@@ -887,7 +882,7 @@ Objective_getId(Objective_t * obj);
  * Objective_t structure's identifier is set.
  *
  * @param obj the Objective_t structure to query
- * 
+ *
  * @return @c non-zero (true) if the "id" attribute of the given
  * Objective_t structure is set, zero (false) otherwise.
  *
@@ -906,10 +901,7 @@ Objective_isSetId(Objective_t * obj);
  * @param obj the Objective_t structure to set.
  * @param sid the string to use as the identifier.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
@@ -928,10 +920,7 @@ Objective_setId(Objective_t * obj, const char * sid);
  *
  * @param obj the Objective_t structure to unset
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
@@ -960,7 +949,7 @@ Objective_getName(Objective_t * obj);
  * Objective_t structure's name is set.
  *
  * @param obj the Objective_t structure to query
- * 
+ *
  * @return @c non-zero (true) if the "name" attribute of the given
  * Objective_t structure is set, zero (false) otherwise.
  *
@@ -977,10 +966,7 @@ Objective_isSetName(Objective_t * obj);
  * @param obj the Objective_t structure to set
  * @param name the name to assign to the given Objective_t's "name" attribute.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
@@ -999,10 +985,7 @@ Objective_setName(Objective_t * obj, const char * name);
  *
  * @param obj the Objective_t structure to unset
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
@@ -1032,7 +1015,7 @@ Objective_getType(Objective_t * obj);
  * Objective_t structure's type is set.
  *
  * @param obj the Objective_t structure to query
- * 
+ *
  * @return @c non-zero (true) if the "type" attribute of the given
  * Objective_t structure is set, zero (false) otherwise.
  *
@@ -1049,10 +1032,7 @@ Objective_isSetType(Objective_t * obj);
  * @param obj the Objective_t structure to set
  * @param type the type to assign to the given Objective_t's "type" attribute.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
@@ -1071,10 +1051,7 @@ Objective_setType(Objective_t * obj, const char * type);
  *
  * @param obj the Objective_t structure to unset
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
@@ -1095,10 +1072,7 @@ Objective_unsetType(Objective_t * obj);
  *
  * @param fo a FluxObjective_t structure to add
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}
@@ -1119,7 +1093,7 @@ Objective_addFluxObjective(Objective_t * obj, FluxObjective_t * fo);
  * @param obj the Objective_t structure to use
  *
  * @param n an integer, the index of the FluxObjective_t structure to return
- * 
+ *
  * @return the nth FluxObjective_t of the given Objective_t, or @c NULL if no such FluxObjective_t exists.
  *
  * @memberof Objective_t
@@ -1134,7 +1108,7 @@ Objective_getFluxObjective(Objective_t * obj, unsigned int n);
  * Objective_t.
  *
  * @param obj the Objective_t structure to use
- * 
+ *
  * @return the number of FluxObjective_t structures in the given Objective_t.
  *
  * @memberof Objective_t
@@ -1163,7 +1137,7 @@ ListOfObjectives_getActiveObjective(ListOf_t * lo);
  * Objective_t structure's activeObjective is set.
  *
  * @param lo the ListOf_t structure to query
- * 
+ *
  * @return @c non-zero (true) if the "activeObjective" attribute of the given
  * Objective_t structure is set, zero (false) otherwise.
  *
@@ -1180,10 +1154,7 @@ ListOfObjectives_isSetActiveObjective(ListOf_t * lo);
  * @param lo the ListOf_t structure to set
  * @param activeObjective the activeObjective to assign to the given Objective_t's "activeObjective" attribute.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
@@ -1202,10 +1173,7 @@ ListOfObjectives_setActiveObjective(ListOf_t * lo, const char * activeObjective)
  *
  * @param lo the ListOf_t structure to unset
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  *
@@ -1220,33 +1188,33 @@ ListOfObjectives_unsetActiveObjective(ListOf_t * lo);
  *
  * @param type The ObjectiveType_t enumeration to convert
  *
- * @return A string corresponding to the given effect:  "maximize", 
- * "minimize", or NULL if the value is OBJECTIVE_TYPE_UNKNOWN 
+ * @return A string corresponding to the given effect:  "maximize",
+ * "minimize", or NULL if the value is OBJECTIVE_TYPE_UNKNOWN
  * or another invalid enumeration value.
  *
  * @memberof Objective_t
  */
 LIBSBML_EXTERN
-const char* 
+const char*
 ObjectiveType_toString(ObjectiveType_t type);
 
 
 /**
- * Returns the ObjectiveType_t enumeration corresponding to 
- * the given string, or OBJECTIVE_TYPE_UNKNOWN if there is 
- * no such match.  The matching is case-sensitive:  "maximize" will 
- * return OBJECTIVE_TYPE_MAXIMIZE, but "Maximize" will return 
+ * Returns the ObjectiveType_t enumeration corresponding to
+ * the given string, or OBJECTIVE_TYPE_UNKNOWN if there is
+ * no such match.  The matching is case-sensitive:  "maximize" will
+ * return OBJECTIVE_TYPE_MAXIMIZE, but "Maximize" will return
  * OBJECTIVE_TYPE_UNKNOWN.
  *
  * @param s The string to convert to an ObjectiveType_t
  *
- * @return The corresponding ObjectiveType_t, or 
+ * @return The corresponding ObjectiveType_t, or
  * OBJECTIVE_TYPE_UNKNOWN if no match found.
  *
  * @memberof Objective_t
  */
 LIBSBML_EXTERN
-ObjectiveType_t 
+ObjectiveType_t
 ObjectiveType_fromString(const char* s);
 
 
@@ -1255,7 +1223,7 @@ ObjectiveType_fromString(const char* s);
  * ObjectiveType_t is valid.
  *
  * @param type the ObjectiveType_t enumeration to query
- * 
+ *
  * @return @c non-zero (true) if the ObjectiveType_t is
  * OBJECTIVE_TYPE_MAXIMIZE or OBJECTIVE_TYPE_MINIMIZE;
  * zero (false) otherwise (including OBJECTIVE_TYPE_UNKNOWN).
@@ -1263,25 +1231,25 @@ ObjectiveType_fromString(const char* s);
  * @memberof Objective_t
  */
 LIBSBML_EXTERN
-int 
+int
 ObjectiveType_isValidObjectiveType(ObjectiveType_t type);
 
 
 /**
- * Predicate returning @c true (non-zero) or @c false (zero) depending 
- * on whether the given string is a valid ObjectiveType_t.  
- * The matching is case-sensitive:  "maximize" will return @c true, but 
+ * Predicate returning @c true (non-zero) or @c false (zero) depending
+ * on whether the given string is a valid ObjectiveType_t.
+ * The matching is case-sensitive:  "maximize" will return @c true, but
  * "Maximize" will return @c false.
  *
  * @param s The string to query
- * 
+ *
  * @return @c non-zero (true) if the string is
  * "maximize" or "minimize"; zero (false) otherwise.
  *
  * @memberof Objective_t
  */
 LIBSBML_EXTERN
-int 
+int
 ObjectiveType_isValidObjectiveTypeString(const char* s);
 
 

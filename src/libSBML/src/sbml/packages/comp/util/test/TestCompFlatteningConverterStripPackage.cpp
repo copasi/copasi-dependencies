@@ -40,20 +40,11 @@ using namespace std;
 LIBSBML_CPP_NAMESPACE_USE
 
 
-std::string writeSBMLToStringSafe1(const SBMLDocument* doc)
-{
-  char* modelC = writeSBMLToString(doc);
-  std::string model(modelC);
-  free(modelC);
-  return model;
-}
-
-
 BEGIN_C_DECLS
 
 extern char *TestDataDirectory;
 
-void TestPair(std::string file1, std::string file2, std::string pkgToStrip,
+void TestPair(const std::string& file1, const std::string& file2, const std::string& pkgToStrip,
               unsigned int numErrors = 0)
 {
   std::string filename(TestDataDirectory);
@@ -63,7 +54,7 @@ void TestPair(std::string file1, std::string file2, std::string pkgToStrip,
   
   props.addOption("flatten comp");
   props.addOption("basePath", filename);
-  props.addOption("performValidation", true);
+  props.addOption("performValidation", true); 
   props.addOption("stripPackages", pkgToStrip);
   props.addOption("abortIfUnflattenable", "none");
 
@@ -86,11 +77,11 @@ void TestPair(std::string file1, std::string file2, std::string pkgToStrip,
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  std::string newModel = writeSBMLToStringSafe1(doc);
+  std::string newModel = writeSBMLToStdString(doc);
   
   std::string ffile = filename + dir + file2;
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  std::string flatModel = writeSBMLToStringSafe1(fdoc);
+  std::string flatModel = writeSBMLToStdString(fdoc);
 
   fail_unless(flatModel == newModel);
 
@@ -133,11 +124,59 @@ void TestPairDiffDir(std::string file1, std::string file2,
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  std::string newModel = writeSBMLToStringSafe1(doc);
+  std::string newModel = writeSBMLToStdString(doc);
   
   std::string ffile = filename + file2;
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  std::string flatModel = writeSBMLToStringSafe1(fdoc);
+  std::string flatModel = writeSBMLToStdString(fdoc);
+
+  fail_unless(flatModel == newModel);
+
+  delete doc;
+  delete fdoc;
+  delete converter;
+}
+
+
+void TestPairNoStrip(std::string file1, std::string file2, std::string pkgToStrip,
+              unsigned int numErrors = 0)
+{
+  std::string filename(TestDataDirectory);
+  std::string dir("test_external_flat_strip/");
+
+  ConversionProperties props;
+  
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("performValidation", true);
+  props.addOption("stripPackages", pkgToStrip);
+  props.addOption("abortIfUnflattenable", "none");
+  props.addOption("stripUnflattenablePackages", false);
+
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().
+                                                    getConverterFor(props);
+  
+  // load document
+  std::string cfile = filename + dir + file1;  
+  SBMLDocument* doc = readSBMLFromFile(cfile.c_str());
+
+  // fail if there is no model (readSBMLFromFile always returns a valid doc)
+  fail_unless(doc->getModel() != NULL);
+
+  fail_unless(doc->getErrorLog()->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) 
+                                                          == numErrors);
+
+  converter->setDocument(doc);
+  int result = converter->convert();
+
+  // fail if conversion was not valid
+  fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+
+  std::string newModel = writeSBMLToStdString(doc);
+  
+  std::string ffile = filename + dir + file2;
+  SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
+  std::string flatModel = writeSBMLToStdString(fdoc);
 
   fail_unless(flatModel == newModel);
 
@@ -184,7 +223,7 @@ END_TEST
 
 START_TEST (test_comp_flatten_strip_fbc_external_1)
 { 
-  // fbc in main doc and external doc
+  // fbc in main doc and external doc - dont strip
   if (SBMLExtensionRegistry::isPackageEnabled("fbc") == true)
   {
     TestPair("fbc_in_external.xml", "fbc_in_external_flat.xml", "");
@@ -195,7 +234,7 @@ END_TEST
 
 START_TEST (test_comp_flatten_strip_fbc_external_2)
 { 
-  // fbc not in main doc but only in external doc
+  // fbc not in main doc but only in external doc - strip 
   if (SBMLExtensionRegistry::isPackageEnabled("fbc") == true)
   {
     TestPair("fbc_in_external_only.xml", 
@@ -338,6 +377,14 @@ START_TEST (test_comp_flatten_strip_unreq_unknown_external_1)
 END_TEST
 
 
+START_TEST (test_comp_flatten_strip_unreq_unknown_external_1b)
+{ 
+  // unknown unrequired in main doc and external doc
+  TestPairNoStrip("unreq_unknown_in_external.xml", "unreq_unknown_in_external_flat_unknown_remains.xml", "");
+}
+END_TEST
+
+
 START_TEST (test_comp_flatten_strip_unreq_unknown_external_2)
 { 
   // unknown unrequired not in main doc but only in external doc
@@ -350,6 +397,30 @@ START_TEST (test_comp_flatten_strip_unreq_unknown_external_3)
 { 
   // unknown unrequired not in main doc but only in external doc
   TestPair("unreq_unknown_in_external_only.xml", "unreq_unknown_in_external_flat_unknown_removed.xml", "");
+}
+END_TEST
+
+
+START_TEST (test_comp_flatten_strip_unreq_unknown_external_3_nostrip)
+{ 
+  // unknown unrequired not in main doc but only in external doc
+  TestPairNoStrip("unreq_unknown_in_external_only.xml", "unreq_unknown_in_external_flat_unknown_remains.xml", "");
+}
+END_TEST
+
+
+START_TEST (test_comp_flatten_strip_unreq_unknown_external_3_paramchild)
+{ 
+  // unknown unrequired not in main doc but only in external doc
+  TestPairNoStrip("unreq_unknown_in_external_only_paramchild.xml", "unreq_unknown_in_external_flat_unknown_remains_paramchild.xml", "");
+}
+END_TEST
+
+
+START_TEST (test_comp_flatten_strip_unreq_unknown_external_3_paramchild_no_comp)
+{ 
+  // unknown unrequired not in main doc but only in external doc
+  TestPairNoStrip("unreq_unknown_in_external_only_paramchild_no_comp.xml", "unreq_unknown_in_external_flat_unknown_remains_paramchild.xml", "");
 }
 END_TEST
 
@@ -386,6 +457,14 @@ START_TEST (test_comp_flatten_strip_req_unknown_external_1)
 END_TEST
 
 
+START_TEST (test_comp_flatten_strip_req_unknown_external_1b)
+{ 
+  // unknown required in main doc and external doc
+  TestPairNoStrip("req_unknown_in_external.xml", "req_unknown_in_external_flat_unknown_remains.xml", "", 1);
+}
+END_TEST
+
+
 START_TEST (test_comp_flatten_strip_req_unknown_external_2)
 { 
   // unknown required not in main doc but only in external doc
@@ -398,6 +477,38 @@ START_TEST (test_comp_flatten_strip_req_unknown_external_3)
 { 
   // unknown required not in main doc but only in external doc
   TestPair("req_unknown_in_external_only.xml", "req_unknown_in_external_flat_unknown_removed.xml", "");
+}
+END_TEST
+
+
+START_TEST (test_comp_flatten_strip_req_unknown_external_3_nostrip)
+{ 
+  // unknown required not in main doc but only in external doc
+  TestPairNoStrip("req_unknown_in_external_only.xml", "req_unknown_in_external_flat_unknown_remains.xml", "");
+}
+END_TEST
+
+
+START_TEST (test_comp_flatten_strip_req_unknown_external_3_paramchild)
+{ 
+  // unknown required not in main doc but only in external doc
+  TestPairNoStrip("req_unknown_in_external_only_paramchild.xml", "req_unknown_in_external_flat_unknown_remains_paramchild.xml", "");
+}
+END_TEST
+
+
+START_TEST (test_comp_flatten_strip_req_unknown_external_3_paramchild_no_comp)
+{ 
+  // unknown required not in main doc but only in external doc
+  TestPairNoStrip("req_unknown_in_external_only_paramchild_no_comp.xml", "req_unknown_in_external_flat_unknown_remains_paramchild.xml", "");
+}
+END_TEST
+
+
+START_TEST (test_comp_flatten_strip_req_unknown_external_external)
+{ 
+  // unknown required not in main doc but only in external doc
+  TestPairNoStrip("req_unknown_in_external_external_only.xml", "req_unknown_in_external_flat_unknown_remains.xml", "");
 }
 END_TEST
 
@@ -489,14 +600,12 @@ create_suite_TestFlatteningConverterStripPackage (void)
   tcase_add_test(tcase, test_comp_flatten_strip_fbc_external);
   tcase_add_test(tcase, test_comp_flatten_strip_fbc_external_1);
   
-  // fbc not in main doc but only in external doc
-  // FAILS - fbc not removed from external references
-  //tcase_add_test(tcase, test_comp_flatten_strip_fbc_external_2);
+  // fbc not in main doc but only in external doc - strip fbc
+  tcase_add_test(tcase, test_comp_flatten_strip_fbc_external_2);
 
   // fbc not in main doc but only in external doc
   // flat doc should declare fbc
-  // FAILS - fbc not declared on flat doc
-  //tcase_add_test(tcase, test_comp_flatten_strip_fbc_external_3);
+  tcase_add_test(tcase, test_comp_flatten_strip_fbc_external_3);
 
   // comp in main doc not in external; fbc in both
   tcase_add_test(tcase, test_comp_flatten_strip_fbc_external_4);
@@ -514,8 +623,7 @@ create_suite_TestFlatteningConverterStripPackage (void)
 
   // layout not in main doc but only in external doc
   // flat doc should declare layout
-  // FAILS - layout not declared on flat doc
-  //tcase_add_test(tcase, test_comp_flatten_strip_layout_external_3);
+  tcase_add_test(tcase, test_comp_flatten_strip_layout_external_3);
 
   // comp in main doc not in external; layout in both
   tcase_add_test(tcase, test_comp_flatten_strip_layout_external_4);
@@ -526,12 +634,16 @@ create_suite_TestFlatteningConverterStripPackage (void)
   // unknown unrequired in main doc and external doc
   tcase_add_test(tcase, test_comp_flatten_strip_unreq_unknown_external);
   tcase_add_test(tcase, test_comp_flatten_strip_unreq_unknown_external_1);
+  tcase_add_test(tcase, test_comp_flatten_strip_unreq_unknown_external_1b);
   
   // unknown unrequired not in main doc but only in external doc
   tcase_add_test(tcase, test_comp_flatten_strip_unreq_unknown_external_2);
 
   // unknown unrequired not in main doc but only in external doc
   tcase_add_test(tcase, test_comp_flatten_strip_unreq_unknown_external_3);
+  tcase_add_test(tcase, test_comp_flatten_strip_unreq_unknown_external_3_nostrip);
+  tcase_add_test(tcase, test_comp_flatten_strip_unreq_unknown_external_3_paramchild);
+  tcase_add_test(tcase, test_comp_flatten_strip_unreq_unknown_external_3_paramchild_no_comp);
 
   // comp in main doc not in external; unknown unrequired in both
   tcase_add_test(tcase, test_comp_flatten_strip_unreq_unknown_external_4);
@@ -542,14 +654,19 @@ create_suite_TestFlatteningConverterStripPackage (void)
   // unknown required in main doc and external doc
   tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external);
   tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_1);
+  tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_1b);
  
   // unknown required not in main doc but only in external doc
-  // FAILS conversion
-  //tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_2);
+  tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_2);
 
   // unknown required not in main doc but only in external doc
-  // FAILS conversion
-  //tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_3);
+  tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_3);
+  tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_3_nostrip);
+  tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_3_paramchild);
+  tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_3_paramchild_no_comp);
+
+  // unknown required not in main doc nor in first external doc, but in referenced external doc.
+  tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_external);
 
   // comp in main doc not in external; unknown required in both
   tcase_add_test(tcase, test_comp_flatten_strip_req_unknown_external_4);

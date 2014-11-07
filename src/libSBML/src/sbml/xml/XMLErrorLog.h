@@ -213,8 +213,7 @@ public:
    *
    * @param p XMLParser, the parser to use
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
@@ -258,6 +257,26 @@ public:
    */
   void printErrors (std::ostream& stream = std::cerr) const;
 
+  /**
+   * Prints the errors or warnings with given severity stored in this error log.
+   *
+   * This method prints the text to the stream given by the optional
+   * parameter @p stream.  If no stream is given, the method prints the
+   * output to the standard error stream.
+   *
+   * The format of the output is:
+   * @verbatim
+   N error(s):
+     line NNN: (id) message
+@endverbatim
+   * If no errors with that severity was found, then no output will be produced.
+   *
+   * @param stream the ostream or ostringstream object indicating where
+   * the output should be printed.
+   * @param severity the severity of the errors sought.
+   *
+   */
+  void printErrors(std::ostream& stream, unsigned int severity) const;
 
   /**
    * Returns a boolean indicating whether or not the severity has been
@@ -294,8 +313,10 @@ public:
    *
    * @copydetails doc_what_are_severity_overrides
    *
-   * @return a severity override code.  The possible values are @if clike drawn
-   * from the enumeration #XMLErrorSeverityOverride_t@endif:
+   * @return a severity override code.  The possible values are drawn
+   * from @if clike the enumeration #XMLErrorSeverityOverride_t@else the
+   * set of integer constants whose names begin with the prefix
+   * <code>LIBSBML_OVERRIDE_</code>@endif:
    * @li @sbmlconstant{LIBSBML_OVERRIDE_DISABLED, XMLErrorSeverityOverride_t}
    * @li @sbmlconstant{LIBSBML_OVERRIDE_DONT_LOG, XMLErrorSeverityOverride_t}
    * @li @sbmlconstant{LIBSBML_OVERRIDE_WARNING, XMLErrorSeverityOverride_t}

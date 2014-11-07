@@ -410,8 +410,49 @@ ASTPiecewiseFunctionNode::removeChild(unsigned int n)
   {
     if (getHasOtherwise() == true && childNo == numChildren - 1)
     {
-      removed = ASTFunctionBase::removeChild(childNo);
-      mHasOtherwise = false;
+     /* HACK TO REPLICATE OLD AST */
+     /* Hack to remove memory since the overall
+       * remove does not remove memory
+       * but the  old api does not give access to the new
+       * intermediate parents so these can never
+       * be explicitly deleted by the user
+       *
+       * this one is especially nasty as we could remove the
+       * parent and child but then the user freeing the memory
+       * would crash - so we need to remove the whole thing
+       * BUT only free the memory of the parent after the child has
+       * been removed
+       */
+      
+	  //ASTBase * base = this->ASTFunctionBase::getChild(childNo);
+      if (ASTFunctionBase::getChild(childNo)->getType() 
+                                                 == AST_CONSTRUCTOR_OTHERWISE)
+      {
+        ASTBase * base = ASTFunctionBase::getChild(childNo);
+        ASTNode * otherwise = dynamic_cast<ASTNode*>(base);
+
+        if (otherwise != NULL && otherwise->getNumChildren() == 1)
+        {
+          removed = otherwise->removeChild(0);
+          if (removed == LIBSBML_OPERATION_SUCCESS)
+          {    
+            ASTBase * removedAST = NULL;
+            removedAST = this->ASTFunctionBase::getChild(childNo);
+            removed = ASTFunctionBase::removeChild(childNo);
+            mHasOtherwise = false;
+            if (removedAST != NULL) delete removedAST;
+          }
+        }
+        else
+        {
+          removed = LIBSBML_OPERATION_FAILED;
+        }
+      }
+      else
+      {
+        removed = ASTFunctionBase::removeChild(childNo);
+        mHasOtherwise = false;      
+      }
     }
     else if (ASTFunctionBase::getChild(childNo)->getType() 
                                                  == AST_CONSTRUCTOR_PIECE)
@@ -423,12 +464,24 @@ ASTPiecewiseFunctionNode::removeChild(unsigned int n)
       {
         if (piece->getNumChildren() > pieceIndex)
         {
+         /* HACK TO REPLICATE OLD AST */
+         /* Hack to remove memory since the overall
+           * remove does not remove memory
+           * but the  old api does not give access to the new
+           * intermediate parents so these can never
+           * be explicilty deleted by the user
+           *
+           * in this case the first remove is accessible
+           */
           removed = piece->removeChild(pieceIndex);
           if (removed == LIBSBML_OPERATION_SUCCESS &&
             piece->getNumChildren() == 0)
           {
+            ASTBase * removedAST = NULL;
+            removedAST = this->ASTFunctionBase::getChild(childNo);
             removed = this->ASTFunctionBase::removeChild(childNo);
             mNumPiece = mNumPiece - 1;
+            if (removedAST != NULL) delete removedAST;
           }
         }
         else
@@ -448,6 +501,39 @@ ASTPiecewiseFunctionNode::removeChild(unsigned int n)
     else
     {
       removed = LIBSBML_OPERATION_FAILED;
+    }
+  }
+
+  /* HACK TO REPLICATE OLD AST */
+  // if we now have an odd number of children the last one
+  // should be otherwise NOT a piece with one child
+  if (removed == LIBSBML_OPERATION_SUCCESS)
+  {
+    size = getNumChildren();
+    numChildren = ASTFunctionBase::getNumChildren();
+    if ((unsigned int)(size%2) == 1)
+    {
+      ASTBase * child = ASTFunctionBase::getChild(numChildren-1);
+      if (child->getType() == AST_CONSTRUCTOR_PIECE)
+      {
+        ASTNode * piece = dynamic_cast<ASTNode *>(child);
+        if (piece != NULL && piece->getNumChildren() == 1)
+        {
+          ASTNode *pChild = piece->getChild(0);
+          piece->removeChild(0);
+          
+          ASTBase * temp = this->ASTFunctionBase::getChild(numChildren-1);
+          this->ASTFunctionBase::removeChild(numChildren-1);
+          delete temp;
+          mNumPiece = mNumPiece - 1;
+
+          ASTNode * otherwise = new ASTNode(AST_CONSTRUCTOR_OTHERWISE);
+          otherwise->addChild(pChild);
+
+          this->addChild(otherwise);
+
+        }
+      }
     }
   }
 
@@ -508,7 +594,7 @@ ASTPiecewiseFunctionNode::insertChild(unsigned int n, ASTBase* newChild)
 
 
 int 
-ASTPiecewiseFunctionNode::replaceChild(unsigned int n, ASTBase* newChild)
+ASTPiecewiseFunctionNode::replaceChild(unsigned int n, ASTBase* newChild, bool delreplaced)
 {
   int replaced = LIBSBML_INDEX_EXCEEDS_SIZE;
   
@@ -574,7 +660,7 @@ ASTPiecewiseFunctionNode::insertChildForReplace(unsigned int n, ASTBase* newChil
       if (otherwise != NULL)
       {
         inserted = otherwise->replaceChild(0, 
-                                            static_cast<ASTNode*>(newChild));
+                                            static_cast<ASTNode*>(newChild), true);
       }
       else
       {
@@ -583,7 +669,7 @@ ASTPiecewiseFunctionNode::insertChildForReplace(unsigned int n, ASTBase* newChil
     }
     else
     {
-      inserted = ASTFunctionBase::replaceChild(childNo, newChild);
+      inserted = ASTFunctionBase::replaceChild(childNo, newChild, true);
     }
   }
   else if (base != NULL && base->getType() == AST_CONSTRUCTOR_PIECE)
@@ -594,7 +680,7 @@ ASTPiecewiseFunctionNode::insertChildForReplace(unsigned int n, ASTBase* newChil
     {
       if (piece->getNumChildren() > pieceIndex)
       {
-        inserted = piece->replaceChild(pieceIndex, static_cast<ASTNode*>(newChild));
+        inserted = piece->replaceChild(pieceIndex, static_cast<ASTNode*>(newChild), true);
       }
       else
       {
@@ -608,7 +694,7 @@ ASTPiecewiseFunctionNode::insertChildForReplace(unsigned int n, ASTBase* newChil
   }
   else if (n < numChildren)
   {
-    return ASTFunctionBase::replaceChild(n, newChild);
+    return ASTFunctionBase::replaceChild(n, newChild, true);
   }
   else
   {
@@ -788,6 +874,8 @@ ASTPiecewiseFunctionNode::read(XMLInputStream& stream, const std::string& reqd_p
     }
     else
     {
+      delete child;
+      child = NULL;
       read = false;
       break;
     }
@@ -811,6 +899,8 @@ ASTPiecewiseFunctionNode::read(XMLInputStream& stream, const std::string& reqd_p
     }
     else
     {
+      delete child;
+      child = NULL;
       read = false;
     }
   }

@@ -194,35 +194,35 @@ UnitReplacementCheck::checkReferencedElement(ReplacedBy& repBy)
 
   SBase * parent = repBy.getParentSBMLObject();
   UnitDefinition *parentUnits = parent->getDerivedUnitDefinition();
-  bool delparunit = parent->getTypeCode()==SBML_PARAMETER;
+  //bool delparunit = parent->getTypeCode()==SBML_PARAMETER;
   
   UnitDefinition *refElemUnits = refElem->getDerivedUnitDefinition();
-  bool delrefunit = refElem->getTypeCode()==SBML_PARAMETER;
+  //bool delrefunit = refElem->getTypeCode()==SBML_PARAMETER;
 
   if (parentUnits == NULL || refElemUnits == NULL)
   {
-    if (delparunit)
-    {
-      delete parentUnits;
-    }
-    if (delrefunit)
-    {
-      delete refElemUnits;
-    }
+    //if (delparunit)
+    //{
+    //  delete parentUnits;
+    //}
+    //if (delrefunit)
+    //{
+    //  delete refElemUnits;
+    //}
     return;
   }
 
   if (parent->containsUndeclaredUnits() == true ||
     refElem->containsUndeclaredUnits() == true)
   {
-    if (delparunit)
-    {
-      delete parentUnits;
-    }
-    if (delrefunit)
-    {
-      delete refElemUnits;
-    }
+    //if (delparunit)
+    //{
+    //  delete parentUnits;
+    //}
+    //if (delrefunit)
+    //{
+    //  delete refElemUnits;
+    //}
     return;
   }
 
@@ -252,14 +252,14 @@ UnitReplacementCheck::checkReferencedElement(ReplacedBy& repBy)
       }
     }
   }
-  if (delparunit)
-  {
-    delete parentUnits;
-  }
-  if (delrefunit)
-  {
-    delete refElemUnits;
-  }
+  //if (delparunit)
+  //{
+  //  delete parentUnits;
+  //}
+  //if (delrefunit)
+  //{
+  //  delete refElemUnits;
+  //}
 
 }
 
@@ -292,7 +292,7 @@ UnitReplacementCheck::checkReferencedElement(ReplacedElement& repE,
   UnitDefinition *parentUnits = parent->getDerivedUnitDefinition();
   
   UnitDefinition *refElemUnits = refElem->getDerivedUnitDefinition();
-  bool deleteRefElemUnits = refElem->getTypeCode() == SBML_PARAMETER;
+  bool delrefelem = false;
 
   bool cfPresent = false;
   /* adjust the refElement units for conversion factor */
@@ -302,34 +302,22 @@ UnitReplacementCheck::checkReferencedElement(ReplacedElement& repE,
                                    ->getParameter(repE.getConversionFactor());
     UnitDefinition *ud = p->getDerivedUnitDefinition();
     UnitDefinition *newRefElemUnits = UnitDefinition::combine(refElemUnits, ud);
-    delete ud;
-    if (deleteRefElemUnits) {
-      delete refElemUnits;
-    }
     refElemUnits = newRefElemUnits;
-    deleteRefElemUnits = true;
+    delrefelem = true;
     cfPresent = true;
   }
 
   if (parentUnits == NULL)
   {
-    if  (refElemUnits != NULL && deleteRefElemUnits)
+    if (delrefelem)
     {
       delete refElemUnits;
-      refElemUnits = NULL;
     }
-
     return;
   }
 
   if (refElemUnits == NULL)
   {
-    if  (parentUnits != NULL  && parent->getTypeCode() == SBML_PARAMETER)
-    {
-      delete parentUnits;
-      parentUnits = NULL;
-    }
-
     return;
   }
 
@@ -337,11 +325,7 @@ UnitReplacementCheck::checkReferencedElement(ReplacedElement& repE,
   if (parent->containsUndeclaredUnits() == true ||
     refElem->containsUndeclaredUnits() == true)
   {
-    if (parent->getTypeCode() == SBML_PARAMETER)
-    {
-      delete parentUnits;
-    }
-    if (deleteRefElemUnits)
+    if (delrefelem)
     {
       delete refElemUnits;
     }
@@ -374,12 +358,7 @@ UnitReplacementCheck::checkReferencedElement(ReplacedElement& repE,
       }
     }
   }
-
-  if (parent->getTypeCode() == SBML_PARAMETER)
-  {
-    delete parentUnits;
-  }
-  if (deleteRefElemUnits)
+  if (delrefelem)
   {
     delete refElemUnits;
   }
@@ -401,20 +380,10 @@ UnitReplacementCheck::logMismatchUnits (ReplacedBy& repBy,
                                refElem->getPackageName().c_str());
   msg += " object with units ";
 
-  if (parent->getTypeCode()==SBML_PARAMETER)
-  {
-    delete ud;
-  }
-
   ud = refElem->getDerivedUnitDefinition();
 
   msg += UnitDefinition::printUnits(ud, true);
   msg += ".";
-
-  if (refElem->getTypeCode()==SBML_PARAMETER)
-  {
-    delete ud;
-  }
 
   logFailure(repBy);
 }
@@ -443,14 +412,6 @@ UnitReplacementCheck::logMismatchUnits (ReplacedElement& repE,
   else
   {
     msg += " with an inaccuracte conversionFactor declared.";
-  }
-  if (parent->getTypeCode() == SBML_PARAMETER) 
-  {
-    delete parentud;
-  }
-  if (refElem->getTypeCode() == SBML_PARAMETER)
-  {
-    delete refElemud;
   }
 
   logFailure(repE);

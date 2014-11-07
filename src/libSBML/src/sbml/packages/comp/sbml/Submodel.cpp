@@ -929,14 +929,17 @@ Submodel::instantiate()
     mInstantiatedModel->enablePackageInternal(getPackageURI(), getPrefix(), true);
   }
 
-  // disable any packages that were disabled on the rootdoc
-  for (unsigned int n = 0; n < rootdoc->getNumDisabledPlugins(); n++)
+  // call all registered callbacks
+  std::vector<ModelProcessingCallbackData*>::iterator it = mProcessingCBs.begin();
+  while(it != mProcessingCBs.end())
   {
-    SBasePlugin * plugin = rootdoc->getDisabledPlugin(n);
-    
-    mInstantiatedModel->enablePackageInternal(plugin->getURI(),
-                                      plugin->getPrefix(), false);
+    ModelProcessingCallbackData* current = *it;
+    int result = current->cb(mInstantiatedModel, rootdoc->getErrorLog(), current->data);
+    if (result != LIBSBML_OPERATION_SUCCESS)
+      return result;
+    ++it;
   }
+
   
   CompModelPlugin* origmodplug = 
     static_cast<CompModelPlugin*>(rootdoc->getModel()->getPlugin(getPrefix()));
@@ -1221,16 +1224,18 @@ int Submodel::convertTimeAndExtentWith(const ASTNode* tcf, const ASTNode* xcf, c
           tcftimes.addChild(ast1);
           delay->setMath(&tcftimes);
           tcftimes.removeChild(1);
+          delete ast1;
         }
         break;
       case SBML_RATE_RULE:
         //Rate rules are divided by the time conversion factor.
         rrule = static_cast<RateRule*>(element);
         if (rrule->isSetMath()) {
-          //ast1 = rrule->getMath()->deepCopy();
-          tcfdiv.insertChild(0, rrule->getMath()->deepCopy());
+          ast1 = rrule->getMath()->deepCopy();
+          tcfdiv.insertChild(0, ast1);
           rrule->setMath(&tcfdiv);
           tcfdiv.removeChild(0);
+          delete ast1;
         }
         //Fall through to:
       case SBML_ASSIGNMENT_RULE:
@@ -1352,9 +1357,69 @@ void Submodel::createNewConversionFactor(string& cf, const ASTNode* newcf, strin
   InitialAssignment* ia = model->createInitialAssignment();
   ia->setSymbol(cf);
   string math = oldcf + " * " + newcf->getName();
-  ia->setMath(SBML_parseL3Formula(math.c_str()));
+  ASTNode* mathnode = SBML_parseL3Formula(math.c_str());
+  ia->setMath(mathnode);
+  delete mathnode;
 }
 
+/** @cond doxygenLibsbmlInternal */
+std::vector<ModelProcessingCallbackData*> Submodel::mProcessingCBs = std::vector<ModelProcessingCallbackData*>();
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+void 
+Submodel::clearProcessingCallbacks()
+{
+  mProcessingCBs.clear();
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+void 
+Submodel::addProcessingCallback(ModelProcessingCallback cb, void* userdata /* = NULL */)
+{
+  ModelProcessingCallbackData* cbdata = new ModelProcessingCallbackData();
+  cbdata->cb = cb;
+  cbdata->data = userdata;
+  mProcessingCBs.push_back(cbdata);
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+int 
+Submodel::getNumProcessingCallbacks()
+{
+  return (int) mProcessingCBs.size();
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+void 
+Submodel::removeProcessingCallback(int index)
+{
+  if (index < 0 || index >= getNumProcessingCallbacks()) return;
+
+  ModelProcessingCallbackData* cbdata = mProcessingCBs[index];
+  mProcessingCBs.erase(mProcessingCBs.begin() + index, mProcessingCBs.begin() + 1 + index);
+  delete cbdata;
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+void
+Submodel::removeProcessingCallback(ModelProcessingCallback cb)
+{
+  for(int i = getNumProcessingCallbacks() -1; i >= 0; --i)
+  {
+    ModelProcessingCallbackData* cbdata = mProcessingCBs[i];
+    if (cbdata->cb == cb)
+    {
+      removeProcessingCallback(i);
+      break;
+    }
+  }
+}
+/** @endcond */
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */

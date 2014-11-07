@@ -200,7 +200,7 @@ END_TEST
 
 START_TEST (test_SpeciesReference_setStoichiometryMath)
 {
-  const ASTNode_t *math = SBML_parseFormula("k3 / k2");
+  ASTNode_t *math = SBML_parseFormula("k3 / k2");
 
   StoichiometryMath_t *stoich = StoichiometryMath_create(2, 4);
   StoichiometryMath_setMath(stoich, math);
@@ -220,7 +220,8 @@ START_TEST (test_SpeciesReference_setStoichiometryMath)
   fail_unless( SpeciesReference_isSetStoichiometryMath(SR) );
 
   safe_free(formula);
-
+  ASTNode_free(math);
+  StoichiometryMath_free(stoich);
 }
 END_TEST
 
@@ -249,6 +250,8 @@ START_TEST (test_SpeciesReference_createWithNS )
                       SpeciesReference_getNamespaces(object)) == 2 );
 
   SpeciesReference_free(object);
+  XMLNamespaces_free(xmlns);
+  SBMLNamespaces_free(sbmlns);
 }
 END_TEST
 

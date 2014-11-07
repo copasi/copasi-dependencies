@@ -61,14 +61,12 @@ static SBMLDocument* d;
 void
 DerivedUnitDefinition_setup (void)
 {
-  d = new SBMLDocument();
- 
   char *filename = safe_strcat(TestDataDirectory, "formula.xml");
-
 
   d = readSBML(filename);
   m = d->getModel();
 
+  safe_free(filename);
 }
 
 
@@ -346,18 +344,29 @@ END_TEST
 
 START_TEST (test_DerivedUnitDefinition_localParameter1)
 {
-  //UnitDefinition *fud = m->getReaction(0)->getKineticLaw()->getParameter(0)->getDerivedUnitDefinition();
+  UnitDefinition *fud = m->getReaction(0)->getKineticLaw()->getParameter(1)->getDerivedUnitDefinition();
 
-  //fail_unless(fud->getNumUnits() == 1);
+  fail_unless(fud->getNumUnits() == 1);
 
-  //fail_unless(!strcmp(fud->getId().c_str(), ""), NULL);
+ // fail_unless(!strcmp(fud->getId().c_str(), ""), NULL);
 
-  //fail_unless(fud->getUnit(0)->getMultiplier() == 1);
-  //fail_unless(fud->getUnit(0)->getScale() == 0);
-  //fail_unless(fud->getUnit(0)->getExponent() == 1);
-  //fail_unless(fud->getUnit(0)->getOffset() == 0.0);
-  //fail_unless(fud->getUnit(0)->getKind() == UNIT_KIND_SECOND);
+  fail_unless(fud->getUnit(0)->getMultiplier() == 1);
+  fail_unless(fud->getUnit(0)->getScale() == -2);
+  fail_unless(fud->getUnit(0)->getExponent() == 1);
+  fail_unless(fud->getUnit(0)->getOffset() == 0.0);
+  fail_unless(fud->getUnit(0)->getKind() == UNIT_KIND_METRE);
 
+}
+END_TEST
+
+
+START_TEST (test_DerivedUnitDefinition_localParameter2)
+{
+  UnitDefinition *fud = m->getReaction(0)->getKineticLaw()->getParameter(2)->getDerivedUnitDefinition();
+
+  fail_unless(fud->getNumUnits() == 0);
+
+  fail_unless(!strcmp(fud->getId().c_str(), ""), NULL);
 }
 END_TEST
 
@@ -394,6 +403,7 @@ create_suite_DerivedUnitDefinition (void)
   tcase_add_test(tcase, test_DerivedUnitDefinition_event );
   tcase_add_test(tcase, test_DerivedUnitDefinition_localParameter );
   tcase_add_test(tcase, test_DerivedUnitDefinition_localParameter1 );
+  tcase_add_test(tcase, test_DerivedUnitDefinition_localParameter2 );
   tcase_add_test(tcase, test_DerivedUnitDefinition_noModel );
   suite_add_tcase(suite, tcase);
 

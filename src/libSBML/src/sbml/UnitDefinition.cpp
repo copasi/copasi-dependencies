@@ -1346,7 +1346,7 @@ UnitDefinition::divide(UnitDefinition *ud1, UnitDefinition *ud2)
   bool A = (ud1 == NULL);
   bool B = (ud2 == NULL);
 
-  UnitDefinition * ud;
+  UnitDefinition * ud = NULL;
 
   if (A && B)
   {
@@ -1378,6 +1378,7 @@ UnitDefinition::divide(UnitDefinition *ud1, UnitDefinition *ud2)
       Unit * u = new Unit(*(ud2->getUnit(n)));
       u->setExponent(u->getExponent() * -1);
       ud->addUnit(u);
+      delete u;
     }
 
     UnitDefinition::simplify(ud);
@@ -2210,7 +2211,7 @@ UnitDefinition_divide(UnitDefinition_t * ud1, UnitDefinition_t * ud2)
 
 
 LIBSBML_EXTERN
-const char *
+char *
 UnitDefinition_printUnits(UnitDefinition_t * ud, int compact)
 {
   return (ud != NULL) ? 

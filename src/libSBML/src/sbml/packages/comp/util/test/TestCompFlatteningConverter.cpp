@@ -39,14 +39,6 @@ using namespace std;
 
 LIBSBML_CPP_NAMESPACE_USE
 
-string writeSBMLToStringSafe(const SBMLDocument* doc)
-{
-  char* modelC = writeSBMLToString(doc);
-  string model(modelC);
-  free(modelC);
-  return model;
-}
-
 BEGIN_C_DECLS
 
 
@@ -68,6 +60,7 @@ START_TEST (test_comp_get_flattening_converter)
 
   CompPkgNamespaces cpn;
   SBMLDocument doc(&cpn);
+  static_cast<CompSBMLDocumentPlugin*>(doc.getPlugin("comp"))->setRequired(true);
   converter->setDocument(&doc);
 
   // ensure that conversion without model does not work
@@ -109,7 +102,7 @@ START_TEST (test_comp_flatten_aggregate)
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToStringSafe(doc);
+  string oldModel = writeSBMLToStdString(doc);
 
   // fail unless this model does use comp
   fail_unless(oldModel .find("comp:") != string::npos);
@@ -120,7 +113,7 @@ START_TEST (test_comp_flatten_aggregate)
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   //writeSBMLToFile(doc, "aggregate_flat.xml");
   
   // fail unless this model does not use comp
@@ -129,15 +122,12 @@ START_TEST (test_comp_flatten_aggregate)
   string ffile = TestDataDirectory;
   ffile += "aggregate_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
-
   delete doc;
+  delete fdoc;
   delete converter;
-  
-
-
 }
 END_TEST
 
@@ -187,12 +177,12 @@ void TestFlattenedPair(string file1, string file2)
   }
   */
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   //string ofile = filename + "test_flat.xml";
   //writeSBMLToFile(doc, ofile.c_str());
   string ffile = filename + file2;
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
 /*
   if (flatModel != newModel)
   {
@@ -258,7 +248,7 @@ START_TEST (test_comp_flatten_qtpop)
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToStringSafe(doc);
+  string oldModel = writeSBMLToStdString(doc);
 
   // fail unless this model does use comp
   fail_unless(oldModel .find("comp:") != string::npos);
@@ -268,7 +258,7 @@ START_TEST (test_comp_flatten_qtpop)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
 
   // fail unless this model does not use comp
   fail_unless(newModel.find("comp:") == string::npos);
@@ -285,10 +275,11 @@ START_TEST (test_comp_flatten_qtpop)
   //  ffile += "QTPop_flat_withlayout.xml";
   //}
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
+  delete fdoc;
   delete converter;
 }
 END_TEST
@@ -314,11 +305,11 @@ START_TEST (test_comp_flatten_double_ext1)
   Submodel* submod = modplug->createSubmodel();
   submod->setModelRef("EM1");
   submod->setId("A");
-  string origmodel = writeSBMLToStringSafe(doc);
+  string origmodel = writeSBMLToStdString(doc);
   string ffile = TestDataDirectory;
   ffile += "doubleext.xml";
   SBMLDocument* origdoc = readSBMLFromFile(ffile.c_str());
-  string origstored = writeSBMLToStringSafe(origdoc);
+  string origstored = writeSBMLToStdString(origdoc);
   fail_unless(origmodel == origstored);
 
   ConversionProperties props;
@@ -333,7 +324,7 @@ START_TEST (test_comp_flatten_double_ext1)
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToStringSafe(doc);
+  string oldModel = writeSBMLToStdString(doc);
 
   // fail unless this model does use comp
   fail_unless(oldModel .find("comp:") != string::npos);
@@ -342,7 +333,7 @@ START_TEST (test_comp_flatten_double_ext1)
 
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   //writeSBMLToFile(doc, "doubleext_flat.xml");
 
   // fail unless this model does not use comp
@@ -351,10 +342,12 @@ START_TEST (test_comp_flatten_double_ext1)
   ffile = TestDataDirectory;
   ffile += "doubleext_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
+  delete origdoc;
+  delete fdoc;
   delete converter;
 }
 END_TEST
@@ -378,11 +371,11 @@ START_TEST (test_comp_flatten_double_ext2)
   Submodel* submod = modplug->createSubmodel();
   submod->setModelRef("EM1");
   submod->setId("A");
-  string origmodel = writeSBMLToStringSafe(doc);
+  string origmodel = writeSBMLToStdString(doc);
   string ffile = TestDataDirectory;
   ffile += "doubleext2.xml";
   SBMLDocument* origdoc = readSBMLFromFile(ffile.c_str());
-  string origstored = writeSBMLToStringSafe(origdoc);
+  string origstored = writeSBMLToStdString(origdoc);
   fail_unless(origmodel == origstored);
 
   ConversionProperties props;
@@ -395,7 +388,7 @@ START_TEST (test_comp_flatten_double_ext2)
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToStringSafe(doc);
+  string oldModel = writeSBMLToStdString(doc);
 
   // fail unless this model does use comp
   fail_unless(oldModel .find("comp:") != string::npos);
@@ -406,7 +399,7 @@ START_TEST (test_comp_flatten_double_ext2)
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   //writeSBMLToFile(doc, "doubleext2_flat.xml");
 
   // fail unless this model does not use comp
@@ -415,11 +408,13 @@ START_TEST (test_comp_flatten_double_ext2)
   ffile = TestDataDirectory;
   ffile += "doubleext2_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
 
   delete doc;
+  delete origdoc;
+  delete fdoc;
   delete converter;
 }
 END_TEST
@@ -477,7 +472,7 @@ START_TEST (test_comp_flatten_dropports)
 
   converter->setDocument(doc);
   
-  string oldModel = writeSBMLToStringSafe(doc);
+  string oldModel = writeSBMLToStdString(doc);
 
   // fail unless this model does use comp, and has a port.
   fail_unless(oldModel.find("comp:") != string::npos);
@@ -487,7 +482,7 @@ START_TEST (test_comp_flatten_dropports)
 
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   //writeSBMLToFile(doc, "dropports_flat.xml");
 
   // fail unless this model does not use comp, and doesn't have any ports in it.
@@ -497,9 +492,10 @@ START_TEST (test_comp_flatten_dropports)
   string ffile = TestDataDirectory;
   ffile += "dropports_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
+  delete fdoc;
   delete doc;
   delete converter;
 }
@@ -637,13 +633,14 @@ START_TEST (test_comp_flatten_test14_ports)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
 
   string ffile = filename + "test14_flat_ports.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
+  delete converter;
   delete doc;
   delete fdoc;
 }
@@ -986,10 +983,10 @@ START_TEST (test_comp_flatten_converter_properties1)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "test14_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1028,10 +1025,10 @@ START_TEST (test_comp_flatten_converter_properties2)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "test14_flat_ports.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1070,10 +1067,10 @@ START_TEST (test_comp_flatten_converter_properties3)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "test14_flat_definitions.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1112,10 +1109,10 @@ START_TEST (test_comp_flatten_converter_properties4)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "test14_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1154,10 +1151,10 @@ START_TEST (test_comp_flatten_converter_properties5)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "test14_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1197,10 +1194,10 @@ START_TEST (test_comp_flatten_converter_properties6)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "test14_flat_portsAndDefinitions.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1240,10 +1237,10 @@ START_TEST (test_comp_flatten_converter_properties7)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "test14_flat_ports.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1283,10 +1280,10 @@ START_TEST (test_comp_flatten_converter_properties8)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "test14_flat_definitions.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1326,10 +1323,10 @@ START_TEST (test_comp_flatten_converter_properties9)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "test14_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1368,10 +1365,10 @@ START_TEST (test_comp_flatten_converter_properties10)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile = filename + "ext_in_subdir_flat.xml";
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete doc;
@@ -1409,7 +1406,7 @@ SBMLDocument* test_flatten_layout(string orig, string flat, string nolayout)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile;
 
   // NOTE: layout flattening is now implemented!
@@ -1426,7 +1423,7 @@ SBMLDocument* test_flatten_layout(string orig, string flat, string nolayout)
   }
 
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete fdoc;
@@ -1468,7 +1465,7 @@ SBMLDocument* test_flatten_fbc(string orig, string flat, string nofbc)
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile;
 
   // NOTE: fbc flattening is now implemented
@@ -1482,7 +1479,7 @@ SBMLDocument* test_flatten_fbc(string orig, string flat, string nofbc)
   }
 
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete fdoc;
@@ -1522,7 +1519,7 @@ SBMLDocument* test_flatten_qual(string orig, string flat, string noqual)
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
   string ffile;
 
   // NOTE: fbc flattening is now implemented
@@ -1536,7 +1533,7 @@ SBMLDocument* test_flatten_qual(string orig, string flat, string noqual)
   }
 
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete fdoc;
@@ -2003,7 +2000,7 @@ START_TEST(test_invalid_layout_disabled)
   // fail if conversion was not valid
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
 
-  string newModel = writeSBMLToStringSafe(doc);
+  string newModel = writeSBMLToStdString(doc);
 
   string ffile;
 
@@ -2015,7 +2012,7 @@ START_TEST(test_invalid_layout_disabled)
 
 
   SBMLDocument* fdoc = readSBMLFromFile(ffile.c_str());
-  string flatModel = writeSBMLToStringSafe(fdoc);
+  string flatModel = writeSBMLToStdString(fdoc);
   fail_unless(flatModel == newModel);
 
   delete fdoc;
@@ -2024,6 +2021,35 @@ START_TEST(test_invalid_layout_disabled)
 }
 END_TEST
 
+int processingCb(Model* m, SBMLErrorLog*, void* userdata)
+{
+  return 0;
+}
+
+START_TEST(test_submodel_callbacks)
+{
+  Submodel::clearProcessingCallbacks();
+
+  fail_unless(Submodel::getNumProcessingCallbacks() == 0);
+
+  Submodel::addProcessingCallback(&processingCb);
+
+  fail_unless(Submodel::getNumProcessingCallbacks() == 1);
+
+  Submodel::removeProcessingCallback(&processingCb);
+
+  fail_unless(Submodel::getNumProcessingCallbacks() == 0);
+
+  Submodel::addProcessingCallback(&processingCb);
+
+  fail_unless(Submodel::getNumProcessingCallbacks() == 1);
+
+  Submodel::removeProcessingCallback(0);
+
+  fail_unless(Submodel::getNumProcessingCallbacks() == 0);
+
+}
+END_TEST
 
 Suite *
 create_suite_TestFlatteningConverter (void)
@@ -2032,6 +2058,8 @@ create_suite_TestFlatteningConverter (void)
   Suite *suite = suite_create("SBMLCompFlatteningConverter");
   
   tcase_add_test(tcase, test_invalid_layout_disabled);
+  
+  tcase_add_test(tcase, test_submodel_callbacks);
   
   tcase_add_test(tcase, test_comp_flatten_double_ext2);
   tcase_add_test(tcase, test_comp_get_flattening_converter);

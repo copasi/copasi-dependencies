@@ -225,6 +225,8 @@ Model::convertL3ToL1 ()
         Parameter *lp = new Parameter(getLevel(), getVersion());
         (*lp) = *(kl->getLocalParameter(j));
         kl->addParameter(lp);
+        delete kl->removeLocalParameter(j);
+        delete lp;
       }
     }
   }
@@ -252,6 +254,8 @@ Model::convertL3ToL2 (bool strict)
         Parameter *lp = new Parameter(getLevel(), getVersion());
         (*lp) = *(kl->getLocalParameter(j));
         kl->addParameter(lp);
+        delete kl->removeLocalParameter(j);
+        delete lp;
       }
     }
   }
@@ -1211,6 +1215,7 @@ Model::dealWithModelUnits()
           obj->renameUnitSIdRefs("volume", newSubsName);
         }
         addUnitDefinition(existingUD);
+        delete existingUD;
       }
     }
     UnitDefinition * ud = getUnitDefinition(volume) != NULL ? 
@@ -1221,14 +1226,14 @@ Model::dealWithModelUnits()
     }
     else
     {
-      Unit *u = new Unit(getSBMLNamespaces());
-      u->initDefaults();
-      u->setKind(UnitKind_forName(volume.c_str()));
       ud = new UnitDefinition(getSBMLNamespaces());
       ud->setId("volume");
-      ud->addUnit(u);
+      Unit *u = ud->createUnit();
+      u->initDefaults();
+      u->setKind(UnitKind_forName(volume.c_str()));
     }
     addUnitDefinition(ud);
+    delete ud;
   }
   if (isSetAreaUnits())
   {
@@ -1252,6 +1257,7 @@ Model::dealWithModelUnits()
           obj->renameUnitSIdRefs("area", newSubsName);
         }
         addUnitDefinition(existingUD);
+        delete existingUD;
       }
     }
     UnitDefinition * ud = getUnitDefinition(area) != NULL ? 
@@ -1262,14 +1268,14 @@ Model::dealWithModelUnits()
     }
     else
     {
-      Unit *u = new Unit(getSBMLNamespaces());
-      u->initDefaults();
-      u->setKind(UnitKind_forName(area.c_str()));
       ud = new UnitDefinition(getSBMLNamespaces());
       ud->setId("area");
-      ud->addUnit(u);
+      Unit *u = ud->createUnit();
+      u->initDefaults();
+      u->setKind(UnitKind_forName(area.c_str()));
     }
     addUnitDefinition(ud);
+    delete ud;
   }
   if (isSetLengthUnits())
   {
@@ -1293,6 +1299,7 @@ Model::dealWithModelUnits()
           obj->renameUnitSIdRefs("length", newSubsName);
         }
         addUnitDefinition(existingUD);
+        delete existingUD;
       }
     }
     UnitDefinition * ud = getUnitDefinition(length) != NULL ? 
@@ -1303,14 +1310,14 @@ Model::dealWithModelUnits()
     }
     else
     {
-      Unit *u = new Unit(getSBMLNamespaces());
-      u->initDefaults();
-      u->setKind(UnitKind_forName(length.c_str()));
       ud = new UnitDefinition(getSBMLNamespaces());
       ud->setId("length");
-      ud->addUnit(u);
+      Unit *u = ud->createUnit();
+      u->initDefaults();
+      u->setKind(UnitKind_forName(length.c_str()));
     }
     addUnitDefinition(ud);
+    delete ud;
   }
   if (isSetSubstanceUnits())
   {
@@ -1334,6 +1341,7 @@ Model::dealWithModelUnits()
           obj->renameUnitSIdRefs("substance", newSubsName);
         }
         addUnitDefinition(existingUD);
+        delete existingUD;
       }
     }
     UnitDefinition * ud = getUnitDefinition(substance) != NULL ? 
@@ -1344,14 +1352,14 @@ Model::dealWithModelUnits()
     }
     else
     {
-      Unit *u = new Unit(getSBMLNamespaces());
-      u->initDefaults();
-      u->setKind(UnitKind_forName(substance.c_str()));
       ud = new UnitDefinition(getSBMLNamespaces());
       ud->setId("substance");
-      ud->addUnit(u);
+      Unit *u = ud->createUnit();
+      u->initDefaults();
+      u->setKind(UnitKind_forName(substance.c_str()));
     }
     addUnitDefinition(ud);
+    delete ud;
   }
   if (isSetTimeUnits())
   {
@@ -1375,23 +1383,21 @@ Model::dealWithModelUnits()
           obj->renameUnitSIdRefs("time", newSubsName);
         }
         addUnitDefinition(existingUD);
+        delete existingUD;
       }
     }
     UnitDefinition * ud = getUnitDefinition(time) != NULL ? 
                           getUnitDefinition(time)->clone() : NULL;
-    if (ud != NULL)
-    {
-      ud->setId("time");
-    }
-    else
+    if (ud == NULL)
     {
       ud = new UnitDefinition(getSBMLNamespaces());
-      ud->setId("time");
       Unit *u = ud->createUnit();
       u->initDefaults();
       u->setKind(UnitKind_forName(time.c_str()));
     }
+    ud->setId("time");
     addUnitDefinition(ud);
+    delete ud;
   }
 
   delete elements;
@@ -1566,6 +1572,7 @@ createNoValueStoichMath(Model & m, SpeciesReference & sr, unsigned int idCount)
   {
     ASTNode *ast = SBML_parseFormula(id.c_str());
     sm->setMath(ast);
+    delete ast;
   }
 }
 
@@ -1593,6 +1600,7 @@ createParameterAsRateRule(Model &m, SpeciesReference &sr, Rule &rr,
   {
     ASTNode *ast = SBML_parseFormula(id.c_str());
     sm->setMath(ast);
+    delete ast;
   }
 }
 
@@ -1606,12 +1614,12 @@ useStoichMath(Model & m, SpeciesReference &sr, bool isRule)
     if (isRule == true)
     {
       sm->setMath(m.getRule(sr.getId())->getMath());
-      m.removeRule(sr.getId());
+      delete m.removeRule(sr.getId());
     }
     else
     {
       sm->setMath(m.getInitialAssignment(sr.getId())->getMath());
-      m.removeInitialAssignment(sr.getId());
+      delete m.removeInitialAssignment(sr.getId());
     }
   }
 }
@@ -1634,12 +1642,12 @@ void dealWithL1Stoichiometry(Model & m, bool l2)
       {
         long stoich = static_cast<long>(sr->getStoichiometry());
         int denom = sr->getDenominator();
-        ASTNode *node = new ASTNode();
-        node->setValue(stoich, denom);   
+        ASTNode node;
+        node.setValue(stoich, denom);   
         if (l2 == true)
         {
           StoichiometryMath * sm = sr->createStoichiometryMath();
-          sm->setMath(node);
+          sm->setMath(&node);
         }
         else
         {
@@ -1649,7 +1657,7 @@ void dealWithL1Stoichiometry(Model & m, bool l2)
           sr->setId(id);
           InitialAssignment * ar = m.createInitialAssignment();
           ar->setSymbol(id);
-          ar->setMath(node);
+          ar->setMath(&node);
           sr->unsetStoichiometry();
         }
       }
@@ -1661,12 +1669,12 @@ void dealWithL1Stoichiometry(Model & m, bool l2)
       {
         long stoich = static_cast<long>(sr->getStoichiometry());
         int denom = sr->getDenominator();
-        ASTNode *node = new ASTNode();
-        node->setValue(stoich, denom);   
+        ASTNode node;
+        node.setValue(stoich, denom);   
         if (l2 == true)
         {
           StoichiometryMath * sm = sr->createStoichiometryMath();
-          sm->setMath(node);
+          sm->setMath(&node);
         }
         else
         {
@@ -1676,7 +1684,7 @@ void dealWithL1Stoichiometry(Model & m, bool l2)
           sr->setId(id);
           InitialAssignment * ar = m.createInitialAssignment();
           ar->setSymbol(id);
-          ar->setMath(node);
+          ar->setMath(&node);
           sr->unsetStoichiometry();
         }
       }

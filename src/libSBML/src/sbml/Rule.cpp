@@ -329,16 +329,15 @@ Rule::setFormula (const std::string& formula)
   }
   else 
   {
-    ASTNode * math = SBML_parseFormula(formula.c_str());
     if (formula == "")
     {
-      delete math;
       mFormula.erase();
       delete mMath;
       mMath = NULL;
       return LIBSBML_OPERATION_SUCCESS;
     }
-    else if (math == NULL || !(math->isWellFormedASTNode()))
+    ASTNode * math = SBML_parseFormula(formula.c_str());
+    if (math == NULL || !(math->isWellFormedASTNode()))
     {
       delete math;
       return LIBSBML_INVALID_OBJECT;
@@ -985,7 +984,23 @@ Rule::readOtherXML (XMLInputStream& stream)
       }
       else
       {
-        logError(OneMathElementPerRule, getLevel(), getVersion());
+        std::string details;
+        if (isAssignment() == true)
+        {
+          details = "The <assignmentRule> with variable '" + getVariable() +"'";
+        }
+        else if (isRate() == true)
+        {
+          details = "The <rateRule> with variable '" + getVariable() +"'";
+        }
+        else
+        {
+          details = "The <algebraicRule>";
+        }
+
+        details += " contains more than one <math> element.";
+
+        logError(OneMathElementPerRule, getLevel(), getVersion(), details);
       }
     }
     delete mMath;

@@ -139,9 +139,6 @@ START_TEST (test_ChildFunctions_addToPiecewise_1)
   ASTNode * newChild = new ASTNode(AST_NAME);
   newChild->setName("newChild");
   
-  ASTNode * newChild1 = new ASTNode(AST_NAME);
-  newChild1->setName("newChild1");
-
   int i = N->addChild(newChild);
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
@@ -948,6 +945,8 @@ START_TEST (test_ChildFunctions_remove)
 
   fail_unless( child->getType() == AST_NAME);
   fail_unless( strcmp(child->getName(), "c2") == 0); 
+
+  ASTNode_free(c1);
 }
 END_TEST
 
@@ -999,7 +998,9 @@ START_TEST (test_ChildFunctions_removeFromPiecewise_1)
   /* old behaviour - we should have 6 children */
   fail_unless(N->getNumChildren() == 6);
 
+  ASTNode* removed = N->getChild(0);
   int i = N->removeChild(0);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
 
@@ -1008,7 +1009,9 @@ START_TEST (test_ChildFunctions_removeFromPiecewise_1)
    */
   fail_unless(N->getNumChildren() == 5);
   
+  removed = N->getChild(0);
   i = N->removeChild(0);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
 
@@ -1059,7 +1062,9 @@ START_TEST (test_ChildFunctions_removeFromPiecewise_2)
   /* old behaviour - we should have 3 children */
   fail_unless(N->getNumChildren() == 3);
 
+  ASTNode* removed = N->getChild(2);
   int i = N->removeChild(2);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
 
@@ -1080,9 +1085,9 @@ START_TEST (test_ChildFunctions_removeFromPiecewise_3)
   const char* expected = wrapMathML
   (
     "  <piecewise>\n"
-    "    <piece>\n"
+    "    <otherwise>\n"
     "      <cn> 0 </cn>\n"
-    "    </piece>\n"
+    "    </otherwise>\n"
     "  </piecewise>\n"
   );
 
@@ -1101,7 +1106,9 @@ START_TEST (test_ChildFunctions_removeFromPiecewise_3)
   /* old behaviour - we should have 2 children */
   fail_unless(N->getNumChildren() == 2);
 
+  ASTNode* removed = N->getChild(1);
   int i = N->removeChild(1);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
 
@@ -1159,7 +1166,9 @@ START_TEST (test_ChildFunctions_removeFromLambda_1)
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   
+  ASTNode* removed = N->getChild(0);
   i = N->removeChild(0);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 2);
@@ -1209,7 +1218,9 @@ START_TEST (test_ChildFunctions_removeFromLambda_2)
   fail_unless(N->getChild(1)->representsBvar() == true);
   fail_unless(N->getChild(2)->representsBvar() == false);
 
+  ASTNode* removed = N->getChild(1);
   int i = N->removeChild(1);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 2);
@@ -1257,7 +1268,9 @@ START_TEST (test_ChildFunctions_removeFromLambda_3)
   fail_unless(N->getChild(1)->representsBvar() == true);
   fail_unless(N->getChild(2)->representsBvar() == false);
 
+  ASTNode* removed = N->getChild(2);
   int i = N->removeChild(2);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 2);
@@ -1298,7 +1311,9 @@ START_TEST (test_ChildFunctions_removeFromLog_1)
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   
+  ASTNode* removed = N->getChild(1);
   i = N->removeChild(1);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 1);
@@ -1339,7 +1354,9 @@ START_TEST (test_ChildFunctions_removeFromLog_2)
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   
+  ASTNode* removed = N->getChild(1);
   i = N->removeChild(1);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 1);
@@ -1375,7 +1392,9 @@ START_TEST (test_ChildFunctions_removeFromLog_3)
 
   fail_unless(N->getNumChildren() == 2);
 
+  ASTNode* removed = N->getChild(0);
   int i = N->removeChild(0);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 1);
@@ -1411,7 +1430,9 @@ START_TEST (test_ChildFunctions_removeFromLog_4)
 
   fail_unless(N->getNumChildren() == 2);
 
+  ASTNode* removed = N->getChild(0);
   int i = N->removeChild(0);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 1);
@@ -1433,9 +1454,7 @@ START_TEST (test_ChildFunctions_removeFromRoot_1)
   (
     "  <apply>\n"
     "    <root/>\n"
-    "    <degree>\n"
-    "      <cn type=\"integer\"> 3 </cn>\n"
-    "    </degree>\n"
+    "    <cn type=\"integer\"> 3 </cn>\n"
     "  </apply>\n"
   );
 
@@ -1455,7 +1474,9 @@ START_TEST (test_ChildFunctions_removeFromRoot_1)
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   
+  ASTNode* removed = N->getChild(1);
   i = N->removeChild(1);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 1);
@@ -1477,9 +1498,7 @@ START_TEST (test_ChildFunctions_removeFromRoot_2)
   (
     "  <apply>\n"
     "    <root/>\n"
-    "    <degree>\n"
-    "      <cn type=\"integer\"> 2 </cn>\n"
-    "    </degree>\n"
+    "    <cn type=\"integer\"> 2 </cn>\n"
     "  </apply>\n"
   );
 
@@ -1499,7 +1518,9 @@ START_TEST (test_ChildFunctions_removeFromRoot_2)
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   
+  ASTNode* removed = N->getChild(1);
   i = N->removeChild(1);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 1);
@@ -1536,7 +1557,9 @@ START_TEST (test_ChildFunctions_removeFromRoot_3)
 
   fail_unless(N->getNumChildren() == 2);
 
+  ASTNode* removed = N->getChild(0);
   int i = N->removeChild(0);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 1);
@@ -1573,7 +1596,9 @@ START_TEST (test_ChildFunctions_removeFromRoot_4)
 
   fail_unless(N->getNumChildren() == 2);
 
+  ASTNode* removed = N->getChild(0);
   int i = N->removeChild(0);
+  delete removed;
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 1);
@@ -1608,17 +1633,17 @@ START_TEST (test_ChildFunctions_replace)
   fail_unless(N->getNumChildren() == 2);
 
   /* check we fail nicely if we try to access more children */
-  int i = N->replaceChild(3, newChild);
+  int i = N->replaceChild(3, newChild, true);
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   fail_unless(N->getNumChildren() == 2);
 
-  i = N->replaceChild(2, newChild);
+  i = N->replaceChild(2, newChild, true);
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   fail_unless(N->getNumChildren() == 2);
 
-  i = N->replaceChild(1, newChild);
+  i = N->replaceChild(1, newChild, true);
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 2);
@@ -1666,17 +1691,17 @@ START_TEST (test_ChildFunctions_replaceInPiecewise_1)
   newChild->setName("newChild");
 
   /* check we fail nicely if we try to access more children */
-  int i = N->replaceChild(3, newChild);
+  int i = N->replaceChild(3, newChild, true);
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   fail_unless(N->getNumChildren() == 2);
 
-  i = N->replaceChild(2, newChild);
+  i = N->replaceChild(2, newChild, true);
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   fail_unless(N->getNumChildren() == 2);
 
-  i = N->replaceChild(0, newChild);
+  i = N->replaceChild(0, newChild, true);
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 2);
@@ -1733,17 +1758,17 @@ START_TEST (test_ChildFunctions_replaceInPiecewise_2)
   newChild->setName("newChild");
 
   /* check we fail nicely if we try to access more children */
-  int i = N->replaceChild(4, newChild);
+  int i = N->replaceChild(4, newChild, true);
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   fail_unless(N->getNumChildren() == 3);
 
-  i = N->replaceChild(3, newChild);
+  i = N->replaceChild(3, newChild, true);
 
   fail_unless ( i == LIBSBML_INDEX_EXCEEDS_SIZE);
   fail_unless(N->getNumChildren() == 3);
 
-  i = N->replaceChild(2, newChild);
+  i = N->replaceChild(2, newChild, true);
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 3);
@@ -1798,7 +1823,7 @@ START_TEST (test_ChildFunctions_replaceInPiecewise_3)
 
   ASTNode * newChild = SBML_parseFormula("a + b");
 
-  int i = N->replaceChild(1, newChild);
+  int i = N->replaceChild(1, newChild, true);
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 3);
@@ -1876,7 +1901,7 @@ START_TEST (test_ChildFunctions_replaceInPiecewise_4)
 
   ASTNode * newChild = SBML_parseFormula("3");
 
-  int i = N->replaceChild(4, newChild);
+  int i = N->replaceChild(4, newChild, true);
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
 
@@ -1922,13 +1947,17 @@ START_TEST (test_ChildFunctions_insert)
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 3);
-  fail_unless(strcmp(SBML_formulaToString(N), "c1 * c2 * newChild") == 0);
+  char* math = SBML_formulaToString(N);
+  fail_unless(strcmp(math, "c1 * c2 * newChild") == 0);
+  safe_free(math);
 
   i = N->insertChild(1, newChild1);
 
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(N->getNumChildren() == 4);
-  fail_unless(strcmp(SBML_formulaToString(N), "c1 * newChild1 * c2 * newChild") == 0);
+  math = SBML_formulaToString(N);
+  fail_unless(strcmp(math, "c1 * newChild1 * c2 * newChild") == 0);
+  safe_free(math);
 
   ASTNode *child = N->getChild(1);
 

@@ -234,6 +234,8 @@ START_TEST (test_Reaction_addModifier)
   fail_unless( Reaction_getNumReactants(R) == 0 );
   fail_unless( Reaction_getNumProducts (R) == 0 );
   fail_unless( Reaction_getNumModifiers(R) == 1 );
+
+  SpeciesReference_free(msr);
 }
 END_TEST
 
@@ -425,6 +427,8 @@ START_TEST (test_Reaction_createWithNS )
   fail_unless( XMLNamespaces_getLength(Reaction_getNamespaces(object)) == 2 );
 
   Reaction_free(object);
+  XMLNamespaces_free(xmlns);
+  SBMLNamespaces_free(sbmlns);
 }
 END_TEST
 

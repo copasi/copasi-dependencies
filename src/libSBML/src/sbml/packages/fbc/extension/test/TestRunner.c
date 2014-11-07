@@ -15,6 +15,10 @@
 #include <sbml/common/extern.h>
 #include <sbml/util/memory.h>
 
+#ifdef LIBSBML_USE_VLD
+  #include <vld.h>
+#endif
+
 #if defined(__cplusplus)
 LIBSBML_CPP_NAMESPACE_USE
 CK_CPPSTART
@@ -79,6 +83,7 @@ main (int argc, char* argv[])
 
   srunner_free(runner);
 
+  safe_free(TestDataDirectory);
   return num_failed;
 }
 

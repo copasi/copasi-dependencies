@@ -135,6 +135,7 @@ START_TEST (test_Trigger_setMath)
   fail_unless( !strcmp(formula, "lambda(x, x^3)") );
   fail_unless( Trigger_getMath(D) != math );
   fail_unless( Trigger_isSetMath(D) );
+  safe_free(formula);
 
   /* Reflexive case (pathological) */
   Trigger_setMath(D, (ASTNode_t *) Trigger_getMath(D));
@@ -144,6 +145,7 @@ START_TEST (test_Trigger_setMath)
   formula = SBML_formulaToString(math1);
   fail_unless( formula != NULL );
   fail_unless( !strcmp(formula, "lambda(x, x^3)") );
+  safe_free(formula);
 
   Trigger_setMath(D, NULL);
   fail_unless( !Trigger_isSetMath(D) );
@@ -152,6 +154,7 @@ START_TEST (test_Trigger_setMath)
   {
     fail("Trigger_setMath(D, NULL) did not clear ASTNode.");
   }
+  ASTNode_free(math);
 }
 END_TEST
 
@@ -214,6 +217,8 @@ START_TEST (test_Trigger_createWithNS )
   fail_unless( XMLNamespaces_getLength(Trigger_getNamespaces(object)) == 2 );
 
   Trigger_free(object);
+  XMLNamespaces_free(xmlns);
+  SBMLNamespaces_free(sbmlns);
 }
 END_TEST
 

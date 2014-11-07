@@ -37,6 +37,10 @@
 #include <sbml/common/extern.h>
 #include <sbml/util/memory.h>
 
+#ifdef LIBSBML_USE_VLD
+  #include <vld.h>
+#endif
+
 LIBSBML_CPP_NAMESPACE_USE
 
 /**
@@ -77,7 +81,7 @@ void
 setTestDataDirectory (void)
 {
   char *srcdir = getenv("srcdir");
-  int  length  = (srcdir == NULL) ? 0 : strlen(srcdir);
+  size_t  length  = (srcdir == NULL) ? 0 : strlen(srcdir);
 
 
   /**
@@ -134,6 +138,8 @@ main (void)
 #endif
 
   srunner_free(runner);
+
+  safe_free(TestDataDirectory);
 
   return num_failed;
 }

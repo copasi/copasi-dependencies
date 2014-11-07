@@ -61,14 +61,12 @@ static SBMLDocument* d;
 void
 CalcUnitDefinition_setup (void)
 {
-  d = new SBMLDocument();
- 
   char *filename = safe_strcat(TestDataDirectory, "calculateUnits.xml");
-
 
   d = readSBML(filename);
   m = d->getModel();
 
+  safe_free(filename);
 }
 
 
@@ -81,7 +79,9 @@ CK_CPPSTART
 
 START_TEST (test_CalcUnitDefinition_parameter)
 {
-  UnitDefinition *fud = m->getParameter("k1")->getDerivedUnitDefinition();
+  UnitDefinition *fud = NULL;
+  
+  fud = m->getParameter("k1")->getDerivedUnitDefinition();
 
   fail_unless(fud->getNumUnits() == 0);
 
@@ -514,8 +514,6 @@ START_TEST (test_CalcUnitDefinition_global_with_local_unknown)
   m->getParameter("r")->setCalculatingUnits(false);
 
   fail_unless(fud == NULL);
-
-  delete fud;
 }
 END_TEST
 
@@ -589,8 +587,6 @@ START_TEST (test_CalcUnitDefinition_unknownReaction)
   m->getParameter("o")->setCalculatingUnits(false);
 
   fail_unless(fud == NULL);
-
-  delete fud;
 }
 END_TEST
 
@@ -608,8 +604,6 @@ START_TEST (test_CalcUnitDefinition_rateRule_timeUnknown)
   m->getParameter("h")->setCalculatingUnits(false);
 
   fail_unless(fud == NULL);
-
-  delete fud;
 }
 END_TEST
 
@@ -642,7 +636,6 @@ START_TEST (test_CalcUnitDefinition_noModel)
   fail_unless(fud == NULL);
 
   delete p;
-  delete fud;
 }
 END_TEST
 

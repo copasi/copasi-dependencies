@@ -686,10 +686,7 @@ public:
    *
    * @param m the new Model to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif@~ The possible values
-   * returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}
@@ -1107,6 +1104,20 @@ public:
    */
   const SBMLError* getError (unsigned int n) const;
 
+  /**
+   * Returns the nth error or warning with the given severity 
+   * encountered during parsing, consistency checking, or attempted 
+   * translation of this model.
+   *
+   * @return the error or warning indexed by integer @p n, or return @c
+   * NULL if <code>n &gt; (getNumErrors(severity) - 1)</code>.
+   *
+   * @param n the integer index of the error sought.
+   * @param severity the severity of the error sought.
+   *
+   * @see SBMLDocument::getNumErrors()
+   */
+  const SBMLError* getErrorWithSeverity(unsigned int n, unsigned int severity) const;
 
   /**
    * Returns the number of errors or warnings encountered during parsing,
@@ -1161,6 +1172,31 @@ public:
    */
   void printErrors (std::ostream& stream = std::cerr) const;
 
+  /**
+    * Prints all the errors or warnings with the given severity encountered 
+    * trying to parse, check, or translate this SBML document.
+    *
+    * It prints the text to the stream given by the parameter @p
+    * stream.  
+    *
+    * If no errors have occurred, i.e., <code>getNumErrors(severity) == 0</code>, no
+    * output will be sent to the stream.
+    *
+    * The format of the output is:
+    * @verbatim
+    N error(s):
+      line NNN: (id) message
+@endverbatim
+    *
+    * @param stream the ostream or ostringstream object indicating where
+    * the output should be printed.
+    * @param severity of the errors sought.
+    *
+    * @see getNumErrors(unsigned int severity)
+    * @see getErrorLog()
+    * @see SBMLDocument::getErrorWithSeverity(unsigned int n, unsigned int severity)
+    */
+  void printErrors(std::ostream& stream, unsigned int severity) const;
 
   /** @cond doxygenLibsbmlInternal */
   /**
@@ -1194,10 +1230,7 @@ public:
    * 
    * @param props the conversion properties to use
    * 
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif@~ The possible values
-   * returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_CONV_CONVERSION_NOT_AVAILABLE, OperationReturnValues_t}
@@ -1287,10 +1320,7 @@ public:
    * @param flag boolean value to indicate whether to write a namespace
    * prefix.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif@~ The possible values
-   * returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_PKG_UNKNOWN_VERSION, OperationReturnValues_t}
    */
@@ -1322,10 +1352,7 @@ public:
    * @param package the name or URI of the package extension.
    * @param flag Boolean value indicating whether the package is required.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif@~ The possible values
-   * returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_PKG_UNKNOWN_VERSION, OperationReturnValues_t}
    */
@@ -1403,10 +1430,7 @@ public:
    * @param package the name or URI of the package extension.
    * @param flag a Boolean value.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif@~ The possible values
-   * returned by this function are:
+   * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_PKG_UNKNOWN_VERSION, OperationReturnValues_t}
    *
@@ -1537,6 +1561,14 @@ public:
 
   /** @endcond */
 
+  /** @cond doxygenLibsbmlInternal */
+
+  int addUnknownPackageRequired(const std::string& pkgURI,
+                                const std::string& prefix, bool flag);
+
+  bool hasUnknownPackage(const std::string& pkgURI);
+
+  /** @endcond */
 
 protected:
   /** @cond doxygenLibsbmlInternal */
@@ -1995,10 +2027,7 @@ SBMLDocument_setLevelAndVersionNonStrict (  SBMLDocument_t *d
  *
  * @param m the new Model_t structure to use.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}
@@ -2383,6 +2412,31 @@ SBMLDocument_getError (SBMLDocument_t *d, unsigned int n);
 
 
 /**
+ * Returns the nth error or warning with the given severity 
+ * encountered during parsing, consistency checking, or attempted 
+ * translation of this model.
+ *
+ * @return the error or warning indexed by integer @p n, or return @c NULL
+ * if n > (SBMLDocument_getNumErrorsWithSeverity() - 1).
+ *
+ * @param d the SBMLDocument_t structure
+ *
+ * @param n the index of the error sought.
+ * @param severity the severity of the error sought.
+ *
+ * @see SBMLDocument_getNumErrorsWithSeverity(), SBMLDocument_setLevelAndVersion(),
+ * SBMLDocument_checkConsistency(), SBMLDocument_checkL1Compatibility(),
+ * SBMLDocument_checkL2v1Compatibility()
+ * SBMLDocument_checkL2v2Compatibility(), SBMLReader_readSBML(),
+ * SBMLReader_readSBMLFromString().
+ *
+ * @memberof SBMLDocument_t
+ */
+LIBSBML_EXTERN
+const SBMLError_t *
+SBMLDocument_getErrorWithSeverity(SBMLDocument_t *d, unsigned int n, unsigned int severity);
+
+/**
  * Returns the number of errors or warnings encountered during parsing,
  * consistency checking, or attempted translation of this model.
  *
@@ -2491,10 +2545,7 @@ SBMLDocument_getNamespaces(SBMLDocument_t *d);
  * @param d the SBMLDocument_t structure to change
  * @param sbmlns The SBMLNamespaces_t structure to set
  * 
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
@@ -2558,10 +2609,7 @@ SBMLDocument_getPackageRequired (SBMLDocument_t *d, const char * package);
  * @param package the name or URI of the package extension.
  * @param flag a Boolean value.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_PKG_UNKNOWN_VERSION, OperationReturnValues_t}
  *
@@ -2585,10 +2633,7 @@ SBMLDocument_setPkgRequired (SBMLDocument_t *d, const char * package, int flag);
  * @param package the name or URI of the package extension.
  * @param flag a Boolean value.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_PKG_UNKNOWN_VERSION, OperationReturnValues_t}
  *
@@ -2647,10 +2692,7 @@ SBMLDocument_isSetPackageRequired (SBMLDocument_t *d, const char * package);
  * @param d the SBMLDocument_t structure
  * @param props the conversion properties to use
  * 
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_CONV_CONVERSION_NOT_AVAILABLE, OperationReturnValues_t}

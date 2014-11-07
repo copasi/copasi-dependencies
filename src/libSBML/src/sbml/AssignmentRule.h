@@ -351,7 +351,7 @@ AssignmentRule_clone(AssignmentRule_t * ar);
  *
  * @return the variable of this structure.
  *
- * @member of AssignmentRule_t
+ * @memberof AssignmentRule_t
  */
 LIBSBML_EXTERN
 const char *
@@ -366,7 +366,7 @@ AssignmentRule_getVariable(const AssignmentRule_t * ar);
  *
  * @return the math for this AssignmentRule_t, as an ASTNode_t.
  *
- * @member of AssignmentRule_t
+ * @memberof AssignmentRule_t
  */
 LIBSBML_EXTERN
 const ASTNode_t*
@@ -402,7 +402,7 @@ AssignmentRule_getFormula (const AssignmentRule_t *r);
  * @return @c 1 if the "variable" of this AssignmentRule_t structure is
  * set, @c 0 otherwise.
  *
- * @member of AssignmentRule_t
+ * @memberof AssignmentRule_t
  */
 LIBSBML_EXTERN
 int
@@ -418,7 +418,7 @@ AssignmentRule_isSetVariable(const AssignmentRule_t * ar);
  * @return @c 1 if the "math" of this AssignmentRule_t structure is
  * set, @c 0 otherwise.
  *
- * @member of AssignmentRule_t
+ * @memberof AssignmentRule_t
  */
 LIBSBML_EXTERN
 int
@@ -447,10 +447,7 @@ AssignmentRule_isSetFormula (const AssignmentRule_t *r);
  * @param variable the string to which the structures "variable" attribute should be
  * set.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
@@ -458,7 +455,7 @@ AssignmentRule_isSetFormula (const AssignmentRule_t *r);
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of AssignmentRule_t
+ * @memberof AssignmentRule_t
  */
 LIBSBML_EXTERN
 int
@@ -473,14 +470,11 @@ AssignmentRule_setVariable(AssignmentRule_t * ar, const char * variable);
  * @param math an ASTNode_t structure to be assigned as the "math"
  * subelement of this AssignmentRule_t.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of AssignmentRule_t
+ * @memberof AssignmentRule_t
  */
 LIBSBML_EXTERN
 int
@@ -490,10 +484,7 @@ AssignmentRule_setMath(AssignmentRule_t * ar, const ASTNode_t* math);
 /**
  * Sets the formula of this AssignmentRule_t to a copy of string.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif@~ The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
@@ -523,7 +514,7 @@ AssignmentRule_setFormula (AssignmentRule_t *r, const char *formula);
  * @return @c 1 if all the required attributes for this
  * structure have been defined, @c 0 otherwise.
  *
- * @member of AssignmentRule_t
+ * @memberof AssignmentRule_t
  */
 LIBSBML_EXTERN
 int
@@ -539,7 +530,7 @@ AssignmentRule_hasRequiredAttributes(const AssignmentRule_t * ar);
  * @return @c 1 if all the required sub-elements for this
  * structure have been defined, @c 0 otherwise.
  *
- * @member of AssignmentRule_t
+ * @memberof AssignmentRule_t
  */
 LIBSBML_EXTERN
 int

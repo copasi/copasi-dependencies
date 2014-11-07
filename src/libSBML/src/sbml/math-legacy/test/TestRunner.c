@@ -37,6 +37,10 @@
 #include <sbml/util/memory.h>
 #include <sbml/common/extern.h>
 
+#ifdef LIBSBML_USE_VLD
+  #include <vld.h>
+#endif
+
 /**
  * Test suite creation function prototypes.
  *
@@ -65,6 +69,7 @@ Suite *create_suite_TestReadFromFile2      (void);
 
 Suite *create_suite_TestValidASTNode  (void);
 
+Suite *create_suite_TestChildFunctions(void);
 
 /**
  * Global.
@@ -84,7 +89,7 @@ void
 setTestDataDirectory (void)
 {
   char *srcdir = getenv("srcdir");
-  int  length  = (srcdir == NULL) ? 0 : strlen(srcdir);
+  size_t  length  = (srcdir == NULL) ? 0 : strlen(srcdir);
 
 
   /**
@@ -110,7 +115,6 @@ main (void)
   setTestDataDirectory();
 
   SRunner *runner = srunner_create( create_suite_ASTNode() );
-
   srunner_add_suite( runner, create_suite_FormulaFormatter () );
   srunner_add_suite( runner, create_suite_FormulaParser    () );
   srunner_add_suite( runner, create_suite_L3FormulaFormatter () );
@@ -126,7 +130,7 @@ main (void)
  
   srunner_add_suite( runner, create_suite_TestValidASTNode() );
 
-
+  srunner_add_suite( runner, create_suite_TestChildFunctions() );
 
   /* srunner_set_fork_status(runner, CK_NOFORK); */
 
@@ -134,6 +138,8 @@ main (void)
   num_failed = srunner_ntests_failed(runner);
 
   srunner_free(runner);
+
+  safe_free(TestDataDirectory);
 
   return num_failed;
 }

@@ -168,8 +168,6 @@ int main(int argc,char** argv)
 
   SBMLDocument* document = readSBML(inputFile);
 
-  document->checkConsistency();
-  
   if (document->getNumErrors(LIBSBML_SEV_ERROR) > 0)
   {
     cerr << "Encountered the following SBML errors:" << endl;
@@ -190,14 +188,20 @@ int main(int argc,char** argv)
     mPlug->setTransformer(&trans);
   }
 
-  ConversionProperties props;
+  ConversionProperties* props = new ConversionProperties();
 
-  props.addOption("flatten comp");
-  props.addOption("leavePorts", leavePorts);  
+  props->addOption("flatten comp");
+  props->addOption("leavePorts", leavePorts);
+
+  SBMLConverter* converter = 
+  SBMLConverterRegistry::getInstance().getConverterFor(*props);
+
+
+  converter->setDocument(document);
 
   // NOTE: after a call to convert, the comp model plugin pointer 
   // is no longer valid and has to be retrieved again. 
-  int result = document->convert(props);
+  int result = converter->convert();
 
   if (result != LIBSBML_OPERATION_SUCCESS)
   {
@@ -207,6 +211,7 @@ int main(int argc,char** argv)
   
   writeSBML(document, outputFile);
 
+  delete converter;
   delete document;
 
 }

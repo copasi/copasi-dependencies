@@ -76,14 +76,12 @@ CK_CPPSTART
 
 
 static SBMLDocument* D;
-static char*         S;
 
 
 static void
 WriteSBML_setup ()
 {
   D = new SBMLDocument;
-  S = NULL;
 }
 
 
@@ -91,7 +89,6 @@ static void
 WriteSBML_teardown ()
 {
   delete D;
-  free(S);
 }
 
 
@@ -183,9 +180,9 @@ START_TEST (test_WriteSBML_SBMLDocument_L1v1)
   );
 
 
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -201,9 +198,9 @@ START_TEST (test_WriteSBML_SBMLDocument_L1v2)
   );
 
 
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -219,9 +216,9 @@ START_TEST (test_WriteSBML_SBMLDocument_L2v1)
   );
 
 
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -237,9 +234,9 @@ START_TEST (test_WriteSBML_SBMLDocument_L2v2)
   );
 
 
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -263,9 +260,9 @@ START_TEST (test_WriteSBML_SBMLDocument_updateNamespace_1)
   );
 
 
-  S = writeSBMLToString(d);
+  string S = writeSBMLToStdString(d);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 
   delete d;
 }
@@ -292,9 +289,9 @@ START_TEST (test_WriteSBML_SBMLDocument_updateNamespace_2)
   );
 
 
-  S = writeSBMLToString(d);
+  string S = writeSBMLToStdString(d);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 
   delete d;
 }
@@ -320,9 +317,9 @@ START_TEST (test_WriteSBML_SBMLDocument_updateNamespace_3)
   );
 
 
-  S = writeSBMLToString(d);
+  string S = writeSBMLToStdString(d);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 
   delete d;
 }
@@ -350,9 +347,9 @@ START_TEST (test_WriteSBML_SBMLDocument_updateNamespace_4)
   );
 
 
-  S = writeSBMLToString(d);
+  string S = writeSBMLToStdString(d);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 
   delete d;
 }
@@ -380,9 +377,9 @@ START_TEST (test_WriteSBML_SBMLDocument_updateNamespace_5)
   );
 
 
-  S = writeSBMLToString(d);
+  string S = writeSBMLToStdString(d);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 
   delete d;
 }
@@ -397,9 +394,9 @@ START_TEST (test_WriteSBML_Model)
 
 
   D->createModel("Branch");
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -412,9 +409,9 @@ START_TEST (test_WriteSBML_Model_skipOptional)
 
 
   D->createModel();
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -427,9 +424,9 @@ START_TEST (test_WriteSBML_Model_L2v1)
 
 
   D->createModel("Branch");
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -442,9 +439,9 @@ START_TEST (test_WriteSBML_Model_L2v1_skipOptional)
 
 
   D->createModel();
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -458,9 +455,9 @@ START_TEST (test_WriteSBML_Model_L2v2)
   Model * m = D->createModel("Branch");
   m->setSBOTerm(4);
 
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -485,9 +482,13 @@ START_TEST (test_WriteSBML_FunctionDefinition)
 
   FunctionDefinition fd(2, 4);
   fd.setId("pow3");
-  fd.setMath(SBML_parseFormula("lambda(x, x^3)"));
+  ASTNode_t* math = SBML_parseFormula("lambda(x, x^3)");
+  fd.setMath(math);
+  delete math;
 
-  fail_unless( equals(expected,fd.toSBML()) );
+  char* sbml = fd.toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -512,10 +513,14 @@ START_TEST (test_WriteSBML_FunctionDefinition_withSBO)
 
   FunctionDefinition fd(2, 4);
   fd.setId("pow3");
-  fd.setMath(SBML_parseFormula("lambda(x, x^3)"));
+  ASTNode_t* math = SBML_parseFormula("lambda(x, x^3)");
+  fd.setMath(math);
+  delete math;
   fd.setSBOTerm(64);
 
-  fail_unless( equals(expected,fd.toSBML()) );
+  char* sbml = fd.toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -532,7 +537,9 @@ START_TEST (test_WriteSBML_Unit)
   u->setExponent(2);
   u->setScale(-3);
 
-  fail_unless( equals(expected, u->toSBML()) );
+  char* sbml = u->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -550,7 +557,9 @@ START_TEST (test_WriteSBML_Unit_l2v3)
   u->setScale(-3);
   u->setOffset(32);
 
-  fail_unless( equals(expected,u->toSBML()) );
+  char* sbml = u->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -565,7 +574,9 @@ START_TEST (test_WriteSBML_Unit_defaults)
   Unit* u = D->createModel()->createUnitDefinition()->createUnit();
   u->setKind(UNIT_KIND_KILOGRAM);
 
-  fail_unless( equals(expected,u->toSBML()) );
+  char* sbml = u->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -582,7 +593,9 @@ START_TEST (test_WriteSBML_Unit_L1_explicit_defaults)
   u->setExponent(1);
   u->setScale(0);
 
-  fail_unless( equals(expected,u->toSBML()) );
+  char* sbml = u->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -601,7 +614,9 @@ START_TEST (test_WriteSBML_Unit_L2v1_explicit_defaults)
   u->setMultiplier(1.0);
   u->setOffset(0);
 
-  fail_unless( equals(expected,u->toSBML()) );
+  char* sbml = u->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -619,7 +634,9 @@ START_TEST (test_WriteSBML_Unit_L2_explicit_defaults)
   u->setScale(0);
   u->setMultiplier(1.0);
 
-  fail_unless( equals(expected,u->toSBML()) );
+  char* sbml = u->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -635,7 +652,9 @@ START_TEST (test_WriteSBML_Unit_L2v1)
   u->setMultiplier(1.8);
   u->setOffset(32);
 
-  fail_unless( equals(expected,u->toSBML()) );
+  char* sbml = u->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -650,7 +669,9 @@ START_TEST (test_WriteSBML_UnitDefinition)
   UnitDefinition* ud = D->createModel()->createUnitDefinition();
   ud->setId("mmls");
 
-  fail_unless( equals(expected,ud->toSBML()) );
+  char* sbml = ud->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -682,7 +703,9 @@ START_TEST (test_WriteSBML_UnitDefinition_full)
   u3->setKind(UNIT_KIND_SECOND);
   u3->setExponent(-1);
 
-  fail_unless( equals(expected,ud->toSBML()) );
+  char* sbml = ud->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -696,7 +719,9 @@ START_TEST (test_WriteSBML_UnitDefinition_L2v1)
   UnitDefinition* ud = D->createModel()->createUnitDefinition();
   ud->setId("mmls");
 
-  fail_unless( equals(expected, ud->toSBML()) );
+  char* sbml = ud->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -721,7 +746,9 @@ START_TEST (test_WriteSBML_UnitDefinition_L2v1_full)
   u1->setMultiplier(1.8);
   u1->setOffset(32);
 
-  fail_unless( equals(expected,ud->toSBML()) );
+  char* sbml = ud->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -738,7 +765,9 @@ START_TEST (test_WriteSBML_Compartment)
   c->setSize(2.1);
   c->setOutside("B");
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -752,13 +781,16 @@ START_TEST (test_WriteSBML_Compartment_L1_explicit_defaults)
   Compartment *c = D->createModel()->createCompartment();
   c->setId("A");
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 
   const char* expected1 = "<compartment name=\"A\" volume=\"1\"/>";
   c->setVolume(1);
 
-  fail_unless( equals(expected1,c->toSBML()) );
-
+  sbml = c->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -772,14 +804,17 @@ START_TEST (test_WriteSBML_Compartment_L2_explicit_defaults)
   Compartment *c = D->createModel()->createCompartment();
   c->setId("A");
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 
   const char* expected1 = "<compartment id=\"A\" spatialDimensions=\"3\" constant=\"true\"/>";
   c->setSpatialDimensions((unsigned int)(3));
   c->setConstant(true);
 
-  fail_unless( equals(expected1,c->toSBML()) );
-
+  sbml = c->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -795,7 +830,9 @@ START_TEST (test_WriteSBML_Compartment_unsetVolume)
   c->setId("A");
   c->unsetVolume();
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -813,7 +850,9 @@ START_TEST (test_WriteSBML_Compartment_L2v1)
   unsigned int dim = 2;
   c->setSpatialDimensions(dim);
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -829,7 +868,9 @@ START_TEST (test_WriteSBML_Compartment_L2v1_constant)
   c->setSize(1.2);
   c->setConstant(false);
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -845,7 +886,9 @@ START_TEST (test_WriteSBML_Compartment_L2v1_unsetSize)
   c->setId("A");
   c->unsetSize();
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -860,7 +903,9 @@ START_TEST (test_WriteSBML_Compartment_L2v2_compartmentType)
   c->setId("cell");
   c->setCompartmentType("ct");
 
-  fail_unless( equals(expected, c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -875,7 +920,9 @@ START_TEST (test_WriteSBML_Compartment_L2v3_SBO)
   c->setId("cell");
   c->setSBOTerm(5);
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -897,7 +944,9 @@ START_TEST (test_WriteSBML_Species)
   s->setBoundaryCondition(true);
   s->setCharge(2);
 
-  fail_unless( equals(expected, s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -915,13 +964,17 @@ START_TEST (test_WriteSBML_Species_L1_explicit_defaults)
   s->setCompartment("cell");
   s->setInitialAmount(0.7);
   
-  fail_unless( equals(expected, s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 
   const char* expected1 = 
     "<species name=\"Ca2\" compartment=\"cell\" initialAmount=\"0.7\" boundaryCondition=\"false\"/>";
   s->setBoundaryCondition(false);
 
-  fail_unless( equals(expected1, s->toSBML()) );
+  sbml = s->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -938,7 +991,9 @@ START_TEST (test_WriteSBML_Species_L2_explicit_defaults)
   s->setId("Ca2");
   s->setCompartment("cell");
   
-  fail_unless( equals(expected, s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 
   const char* expected1 = 
     "<species id=\"Ca2\" compartment=\"cell\" "
@@ -947,7 +1002,9 @@ START_TEST (test_WriteSBML_Species_L2_explicit_defaults)
   s->setHasOnlySubstanceUnits(false);
   s->setConstant(false);
 
-  fail_unless( equals(expected1, s->toSBML()) );
+  sbml = s->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -970,7 +1027,9 @@ START_TEST (test_WriteSBML_Species_L1v1)
   s->setBoundaryCondition(true);
   s->setCharge(2);
 
-  fail_unless( equals(expected,s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -993,7 +1052,9 @@ START_TEST (test_WriteSBML_Species_defaults)
   s->setUnits("mole");
   s->setCharge(2);
 
-  fail_unless( equals(expected,s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1011,7 +1072,9 @@ START_TEST (test_WriteSBML_Species_skipOptional)
   s->setCompartment("cell");
   s->setInitialAmount(0.7);
 
-  fail_unless( equals(expected,s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1032,7 +1095,9 @@ START_TEST (test_WriteSBML_Species_L2v1)
   s->setSubstanceUnits("mole");
   s->setConstant(true);
 
-  fail_unless( equals(expected,s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1047,7 +1112,9 @@ START_TEST (test_WriteSBML_Species_L2v1_skipOptional)
   s->setId("Ca2");
   s->setCompartment("cell");
 
-  fail_unless( equals(expected,s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1069,7 +1136,9 @@ START_TEST (test_WriteSBML_Species_L2v2)
   s->setConstant(true);
   s->setSpeciesType("st");
 
-  fail_unless( equals(expected,s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1086,7 +1155,9 @@ START_TEST (test_WriteSBML_Species_L2v3)
   s->setCompartment("cell");
   s->setSBOTerm(7);
 
-  fail_unless( equals(expected,s->toSBML()) );
+  char* sbml = s->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1103,7 +1174,9 @@ START_TEST (test_WriteSBML_Parameter)
   p->setValue(2.3);
   p->setUnits("second");
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1118,13 +1191,17 @@ START_TEST (test_WriteSBML_Parameter_L2_explicit_defaults)
   Parameter *p = D->createModel()->createParameter();
   p->setId("Km1");
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 
   const char* expected1 = "<parameter id=\"Km1\" constant=\"false\"/>";
 
   p->setConstant(false);
 
-  fail_unless( equals(expected1,p->toSBML()) );
+  sbml = p->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1140,7 +1217,9 @@ START_TEST (test_WriteSBML_Parameter_L1v1_required)
   p->setId("Km1");
   p->unsetValue();
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1157,7 +1236,9 @@ START_TEST (test_WriteSBML_Parameter_L1v2_skipOptional)
   p->setId("Km1");
   p->unsetValue();
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1174,7 +1255,9 @@ START_TEST (test_WriteSBML_Parameter_L2v1)
   p->setValue(2.3);
   p->setUnits("second");
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1189,7 +1272,9 @@ START_TEST (test_WriteSBML_Parameter_L2v1_skipOptional)
   Parameter *p = D->createModel()->createParameter();
   p->setId("Km1");
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1206,7 +1291,9 @@ START_TEST (test_WriteSBML_Parameter_L2v1_constant)
 
   p->setConstant(false);
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1224,7 +1311,9 @@ START_TEST (test_WriteSBML_Parameter_L2v2)
   p->setUnits("second");
   p->setSBOTerm(2);
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1239,7 +1328,9 @@ START_TEST (test_WriteSBML_AlgebraicRule)
   AlgebraicRule *r = D->createModel()->createAlgebraicRule();
   r->setFormula("x + 1");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1263,7 +1354,9 @@ START_TEST (test_WriteSBML_AlgebraicRule_L2v1)
   AlgebraicRule *r = D->createModel()->createAlgebraicRule();
   r->setFormula("x + 1");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1288,7 +1381,9 @@ START_TEST (test_WriteSBML_AlgebraicRule_L2v2)
   r->setFormula("x + 1");
   r->setSBOTerm(4);
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1310,7 +1405,9 @@ START_TEST (test_WriteSBML_SpeciesConcentrationRule)
   r->setVariable("s");
   r->setFormula("t * s");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1329,7 +1426,9 @@ START_TEST (test_WriteSBML_SpeciesConcentrationRule_defaults)
   r->setVariable("s");
   r->setFormula("t * s");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1349,7 +1448,9 @@ START_TEST (test_WriteSBML_SpeciesConcentrationRule_L1v1)
   r->setVariable("s");
   r->setFormula("t * s");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1378,7 +1479,9 @@ START_TEST (test_WriteSBML_SpeciesConcentrationRule_L2v1)
   r->setVariable("s");
   r->setFormula("t * s");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1408,7 +1511,9 @@ START_TEST (test_WriteSBML_SpeciesConcentrationRule_L2v2)
   r->setFormula("t * s");
   r->setSBOTerm(6);
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1430,7 +1535,9 @@ START_TEST (test_WriteSBML_CompartmentVolumeRule)
   r->setVariable("c");
   r->setFormula("v + c");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1450,7 +1557,9 @@ START_TEST (test_WriteSBML_CompartmentVolumeRule_defaults)
   r->setVariable("c");
   r->setFormula("v + c");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1479,7 +1588,9 @@ START_TEST (test_WriteSBML_CompartmentVolumeRule_L2v1)
   r->setVariable("c");
   r->setFormula("v + c");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1509,7 +1620,9 @@ START_TEST (test_WriteSBML_CompartmentVolumeRule_L2v2)
   r->setFormula("v + c");
   r->setSBOTerm(5);
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1531,7 +1644,9 @@ START_TEST (test_WriteSBML_ParameterRule)
   r->setVariable("p");
   r->setFormula("p * t");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1551,7 +1666,9 @@ START_TEST (test_WriteSBML_ParameterRule_defaults)
   r->setVariable("p");
   r->setFormula("p * t");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1580,7 +1697,9 @@ START_TEST (test_WriteSBML_ParameterRule_L2v1)
   r->setVariable("p");
   r->setFormula("p * t");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1610,7 +1729,9 @@ START_TEST (test_WriteSBML_ParameterRule_L2v2)
   r->setFormula("p * t");
   r->setSBOTerm(7);
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1627,7 +1748,9 @@ START_TEST (test_WriteSBML_Reaction)
   r->setReversible(false);
   r->setFast(true);
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1642,7 +1765,9 @@ START_TEST (test_WriteSBML_Reaction_defaults)
   Reaction *r = D->createModel()->createReaction();
   r->setId("r");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1657,13 +1782,17 @@ START_TEST (test_WriteSBML_Reaction_L1_explicit_defaults)
   Reaction *r = D->createModel()->createReaction();
   r->setId("r");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
   
   const char* expected1 = "<reaction name=\"r\" reversible=\"true\" fast=\"false\"/>";
   r->setFast(false);
   r->setReversible(true);
   
-  fail_unless( equals(expected1,r->toSBML()) );
+  sbml = r->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1678,13 +1807,17 @@ START_TEST (test_WriteSBML_Reaction_L2_explicit_defaults)
   Reaction *r = D->createModel()->createReaction();
   r->setId("r");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
   
   const char* expected1 = "<reaction id=\"r\" reversible=\"true\" fast=\"false\"/>";
   r->setFast(false);
   r->setReversible(true);
   
-  fail_unless( equals(expected1,r->toSBML()) );
+  sbml = r->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1716,7 +1849,9 @@ START_TEST (test_WriteSBML_Reaction_full)
 
   r->createKineticLaw()->setFormula("(vm * s1)/(km + s1)");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1732,7 +1867,9 @@ START_TEST (test_WriteSBML_Reaction_L2v1)
   r->setId("r");
   r->setReversible(false);
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1784,7 +1921,9 @@ START_TEST (test_WriteSBML_Reaction_L2v1_full)
 
   r->createKineticLaw()->setFormula("(vm * s1)/(km + s1)");
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1803,7 +1942,9 @@ START_TEST (test_WriteSBML_Reaction_L2v2)
   r->setFast(true);
   r->setSBOTerm(64);
 
-  fail_unless( equals(expected,r->toSBML()) );
+  char* sbml = r->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1820,7 +1961,9 @@ START_TEST (test_WriteSBML_SpeciesReference)
   sr->setStoichiometry(3);
   sr->setDenominator(2);
 
-  fail_unless( equals(expected,sr->toSBML()) );
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1837,7 +1980,9 @@ START_TEST (test_WriteSBML_SpeciesReference_L1v1)
   sr->setStoichiometry(3);
   sr->setDenominator(2);
 
-  fail_unless( equals(expected,sr->toSBML()) );
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1852,7 +1997,9 @@ START_TEST (test_WriteSBML_SpeciesReference_defaults)
   SpeciesReference *sr = D->createModel()->createReaction()->createReactant();
   sr->setSpecies("s");
 
-  fail_unless( equals(expected,sr->toSBML()) );
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1867,14 +2014,18 @@ START_TEST (test_WriteSBML_SpeciesReference_L1_explicit_defaults)
   SpeciesReference *sr = D->createModel()->createReaction()->createReactant();
   sr->setSpecies("s");
 
-  fail_unless( equals(expected,sr->toSBML()) );
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
   
   const char* expected1 = "<speciesReference species=\"s\" stoichiometry=\"1\" denominator=\"1\"/>";
   
   sr->setStoichiometry(1);
   sr->setDenominator(1);
 
-  fail_unless( equals(expected1,sr->toSBML()) );
+  sbml = sr->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1889,13 +2040,17 @@ START_TEST (test_WriteSBML_SpeciesReference_L2_explicit_defaults)
   SpeciesReference *sr = D->createModel()->createReaction()->createReactant();
   sr->setSpecies("s");
 
-  fail_unless( equals(expected,sr->toSBML()) );
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
   
   const char* expected1 = "<speciesReference species=\"s\" stoichiometry=\"1\"/>";
   
   sr->setStoichiometry(1);
 
-  fail_unless( equals(expected1,sr->toSBML()) );
+  sbml = sr->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1919,8 +2074,9 @@ START_TEST (test_WriteSBML_SpeciesReference_L2v1_1)
   sr->setStoichiometry(3);
   sr->setDenominator(2);
 
-  fail_unless( equals(expected,sr->toSBML()) );
-
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1936,8 +2092,9 @@ START_TEST (test_WriteSBML_SpeciesReference_L2v1_2)
   sr->setSpecies("s");
   sr->setStoichiometry(3.2);
 
-  fail_unless( equals(expected,sr->toSBML()) );
-
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -1967,7 +2124,10 @@ START_TEST (test_WriteSBML_SpeciesReference_L2v1_3)
   stoich->setMath(math);
   sr->setStoichiometryMath(stoich);
 
-  fail_unless( equals(expected,sr->toSBML()) );
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete math;
 }
 END_TEST
 
@@ -1997,8 +2157,9 @@ START_TEST (test_WriteSBML_SpeciesReference_L2v2_1)
   sr->setId("ss");
   sr->setName("odd");
   sr->setSBOTerm(9);
-  fail_unless( equals(expected,sr->toSBML()) );
-
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2017,8 +2178,9 @@ START_TEST (test_WriteSBML_SpeciesReference_L2v3_1)
   sr->setName("odd");
   sr->setSBOTerm(9);
 
-  fail_unless( equals(expected,sr->toSBML()) );
-
+  char* sbml = sr->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2042,7 +2204,10 @@ START_TEST (test_WriteSBML_StoichiometryMath)
   StoichiometryMath* stoich = D->createModel()->createReaction()->createReactant()->createStoichiometryMath();
   stoich->setMath(math);
 
-  fail_unless( equals(expected,stoich->toSBML()) );
+  char* sbml = stoich->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete math;
 }
 END_TEST
 
@@ -2067,7 +2232,10 @@ START_TEST (test_WriteSBML_StoichiometryMath_withSBO)
   stoich->setMath(math);
   stoich->setSBOTerm(333);
 
-  fail_unless( equals(expected,stoich->toSBML()) );
+  char* sbml = stoich->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete math;
 }
 END_TEST
 
@@ -2086,7 +2254,9 @@ START_TEST (test_WriteSBML_KineticLaw)
   kl->setTimeUnits("second");
   kl->setSubstanceUnits("item");
 
-  fail_unless( equals(expected,kl->toSBML()) );
+  char* sbml = kl->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2101,7 +2271,9 @@ START_TEST (test_WriteSBML_KineticLaw_skipOptional)
   KineticLaw *kl = D->createModel()->createReaction()->createKineticLaw();
   kl->setFormula("k * e");
 
-  fail_unless( equals(expected,kl->toSBML()) );
+  char* sbml = kl->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2127,7 +2299,9 @@ START_TEST (test_WriteSBML_KineticLaw_ListOfParameters)
   p->setName("n");
   p->setValue(1.2);
 
-  fail_unless( equals(expected,kl->toSBML()) );
+  char* sbml = kl->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2161,7 +2335,9 @@ START_TEST (test_WriteSBML_KineticLaw_l2v1)
   kl->setSubstanceUnits("item");
   kl->setFormula("(vm * s1)/(km + s1)");
 
-  fail_unless( equals(expected,kl->toSBML()) );
+  char* sbml = kl->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2194,7 +2370,9 @@ START_TEST (test_WriteSBML_KineticLaw_withSBO)
   kl->setFormula("(vm * s1)/(km + s1)");
   kl->setSBOTerm(1);
 
-  fail_unless( equals(expected,kl->toSBML()) );
+  char* sbml = kl->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2207,7 +2385,9 @@ START_TEST (test_WriteSBML_Event)
   Event *e = D->createModel()->createEvent();
   e->setId("e");
   
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2220,13 +2400,17 @@ START_TEST (test_WriteSBML_Event_L2v4_explicit_defaults)
   Event *e = D->createModel()->createEvent();
   e->setId("e");
   
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
   
   const char* expected1 = "<event id=\"e\"/>";
 
   e->setUseValuesFromTriggerTime(true);
 
-  fail_unless( equals(expected1,e->toSBML()) );
+  sbml = e->toSBML();
+  fail_unless( equals(expected1, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2241,7 +2425,9 @@ START_TEST (test_WriteSBML_Event_WithSBO)
   e->setId("e");
   e->setSBOTerm(76);
   
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2256,7 +2442,9 @@ START_TEST (test_WriteSBML_Event_WithUseValuesFromTriggerTime)
   e->setId("e");
   e->setUseValuesFromTriggerTime(false);
   
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2284,7 +2472,10 @@ START_TEST (test_WriteSBML_Event_trigger)
   t.setMath(node);
   e->setTrigger(&t);
 
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete node;
 }
 END_TEST
 
@@ -2308,7 +2499,10 @@ START_TEST (test_WriteSBML_Event_delay)
   d.setMath(node);
   e->setDelay(&d);
 
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete node;
 }
 END_TEST
 
@@ -2333,7 +2527,10 @@ START_TEST (test_WriteSBML_Event_delayWithSBO)
   d.setSBOTerm(64);
   e->setDelay(&d);
 
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete node;
 }
 END_TEST
 
@@ -2362,7 +2559,10 @@ START_TEST (test_WriteSBML_Event_trigger_withSBO)
   t.setSBOTerm(64);
 
   e->setTrigger(&t);
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete node;
 }
 END_TEST
 
@@ -2399,7 +2599,11 @@ START_TEST (test_WriteSBML_Event_both)
   e->setDelay(&d);
   e->setTrigger(&t);
 
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete node;
+  delete node1;
 }
 END_TEST
 
@@ -2441,7 +2645,11 @@ START_TEST (test_WriteSBML_Event_full)
   e->setTrigger(&t);
   e->addEventAssignment( &ea );
 
-  fail_unless( equals(expected,e->toSBML()) );
+  char* sbml = e->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete node;
+  delete math;
 }
 END_TEST
 
@@ -2457,7 +2665,9 @@ START_TEST (test_WriteSBML_CompartmentType)
   ct->setId("ct");
   ct->setSBOTerm(4);
   
-  fail_unless( equals(expected,ct->toSBML()) );
+  char* sbml = ct->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2473,7 +2683,9 @@ START_TEST (test_WriteSBML_CompartmentType_withSBO)
   ct->setId("ct");
   ct->setSBOTerm(4);
   
-  fail_unless( equals(expected,ct->toSBML()) );
+  char* sbml = ct->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2491,7 +2703,9 @@ START_TEST (test_WriteSBML_SpeciesType)
   st->setId("st");
   st->setSBOTerm(4);
   
-  fail_unless( equals(expected,st->toSBML()) );
+  char* sbml = st->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2507,7 +2721,9 @@ START_TEST (test_WriteSBML_SpeciesType_withSBO)
   st->setId("st");
   st->setSBOTerm(4);
   
-  fail_unless( equals(expected,st->toSBML()) );
+  char* sbml = st->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2518,11 +2734,12 @@ START_TEST (test_WriteSBML_Constraint)
 
   const char* expected = "<constraint sboTerm=\"SBO:0000064\"/>";
 
-
   Constraint *ct = D->createModel()->createConstraint();
   ct->setSBOTerm(64);
   
-  fail_unless( equals(expected,ct->toSBML()) );
+  char* sbml = ct->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2546,7 +2763,10 @@ START_TEST (test_WriteSBML_Constraint_math)
   ASTNode *node = SBML_parseFormula("leq(P1,t)");
   c->setMath(node);
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete node;
 }
 END_TEST
 
@@ -2574,7 +2794,7 @@ START_TEST (test_WriteSBML_Constraint_full)
   c->setMath(node);
   c->setSBOTerm(64);
 
-  const XMLNode *text = XMLNode::convertStringToXMLNode(" Species P1 is out of range ");
+  XMLNode *text = XMLNode::convertStringToXMLNode(" Species P1 is out of range ");
   XMLTriple triple = XMLTriple("p", "http://www.w3.org/1999/xhtml", "");
   XMLAttributes att = XMLAttributes();
   XMLNamespaces xmlns = XMLNamespaces();
@@ -2591,7 +2811,13 @@ START_TEST (test_WriteSBML_Constraint_full)
 
   c->setMessage(message);
 
-  fail_unless( equals(expected,c->toSBML()) );
+  char* sbml = c->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete node;
+  delete text;
+  delete message;
+  delete p;
 }
 END_TEST
 
@@ -2602,12 +2828,13 @@ START_TEST (test_WriteSBML_InitialAssignment)
 
   const char* expected = "<initialAssignment sboTerm=\"SBO:0000064\" symbol=\"c\"/>";
 
-
   InitialAssignment *ia = D->createModel()->createInitialAssignment();
   ia->setSBOTerm(64);
   ia->setSymbol("c");
   
-  fail_unless( equals(expected,ia->toSBML()) );
+  char* sbml = ia->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2630,7 +2857,10 @@ START_TEST (test_WriteSBML_InitialAssignment_math)
   ia->setMath(node);
   ia->setSymbol("c");
 
-  fail_unless( equals(expected,ia->toSBML()) );
+  char* sbml = ia->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
+  delete node;
 }
 END_TEST
 
@@ -2643,8 +2873,9 @@ START_TEST (test_WriteSBML_NaN)
   p->setId("p");
   p->setValue(util_NaN());
 
-
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2657,8 +2888,9 @@ START_TEST (test_WriteSBML_INF)
   p->setId("p");
   p->setValue(util_PosInf());
 
-  fail_unless( equals(expected,p->toSBML()) );
-
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2667,12 +2899,13 @@ START_TEST (test_WriteSBML_NegINF)
 {
   const char* expected = "<parameter id=\"p\" value=\"-INF\"/>";
 
-
   Parameter *p = D->createModel()->createParameter();
   p->setId("p");
   p->setValue(util_NegInf());
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 }
 END_TEST
 
@@ -2686,10 +2919,11 @@ START_TEST (test_WriteSBML_locale)
   p->setValue(3.31);
   p->setConstant(true);
 
-
   setlocale(LC_NUMERIC, "de_DE");
 
-  fail_unless( equals(expected,p->toSBML()) );
+  char* sbml = p->toSBML();
+  fail_unless( equals(expected, sbml) );
+  safe_free(sbml);
 
   setlocale(LC_NUMERIC, "C");
 }
@@ -2734,7 +2968,11 @@ START_TEST (test_WriteSBML_gzip)
     SBMLDocument* dg = readSBML(gzfile);
     fail_unless( dg != NULL);
 
-    fail_unless( strcmp(d->toSBML(), dg->toSBML()) == 0 );
+    char* dtos = d->toSBML();
+    char* dgtos = dg->toSBML();
+    fail_unless( strcmp(dtos, dgtos) == 0 );
+    safe_free(dtos);
+    safe_free(dgtos);
 
     delete d;
     delete dg;
@@ -2783,7 +3021,11 @@ START_TEST (test_WriteSBML_bzip2)
     SBMLDocument* dg = readSBML(bz2file);
     fail_unless( dg != NULL);
 
-    fail_unless( strcmp(d->toSBML(), dg->toSBML()) == 0 );
+    char* dtos = d->toSBML();
+    char* dgtos = dg->toSBML();
+    fail_unless( strcmp(dtos, dgtos) == 0 );
+    safe_free(dtos);
+    safe_free(dgtos);
 
     delete d;
     delete dg;
@@ -2831,7 +3073,11 @@ START_TEST (test_WriteSBML_zip)
     SBMLDocument* dg = readSBML(zipfile);
     fail_unless( dg != NULL);
 
-    fail_unless( strcmp(d->toSBML(), dg->toSBML()) == 0 );
+    char* dtos = d->toSBML();
+    char* dgtos = dg->toSBML();
+    fail_unless( strcmp(dtos, dgtos) == 0 );
+    safe_free(dtos);
+    safe_free(dgtos);
 
     delete d;
     delete dg;
@@ -2874,9 +3120,9 @@ START_TEST (test_WriteSBML_elements_L1v2)
   m->createReaction();
   m->createSpecies();
 
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -2925,9 +3171,9 @@ START_TEST (test_WriteSBML_elements_L2v1)
   m->createReaction();
   m->createSpecies();
 
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 
@@ -2990,9 +3236,9 @@ START_TEST (test_WriteSBML_elements_L2v2)
   m->createReaction();
   m->createSpecies();
 
-  S = writeSBMLToString(D);
+  string S = writeSBMLToStdString(D);
 
-  fail_unless( equals(expected, S) );
+  fail_unless( equals(expected, S.c_str()) );
 }
 END_TEST
 

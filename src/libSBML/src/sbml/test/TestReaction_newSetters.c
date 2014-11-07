@@ -180,6 +180,8 @@ START_TEST (test_Reaction_setFast2)
   fail_unless( i == LIBSBML_OPERATION_SUCCESS );
   fail_unless( Reaction_getFast(R1) == 0 );
   fail_unless( !Reaction_isSetFast(R1));
+
+  Reaction_free(R1);
 }
 END_TEST
 
@@ -203,7 +205,9 @@ START_TEST (test_Reaction_setKineticLaw1)
 {
   KineticLaw_t *kl = 
     KineticLaw_create(2, 1);
-  KineticLaw_setMath(kl, SBML_parseFormula("1"));
+  ASTNode_t* math = SBML_parseFormula("1");
+  KineticLaw_setMath(kl, math);
+  ASTNode_free(math);
 
   int i = Reaction_setKineticLaw(R, kl);
 
@@ -219,7 +223,9 @@ START_TEST (test_Reaction_setKineticLaw2)
 {
   KineticLaw_t *kl = 
     KineticLaw_create(1, 1);
-  KineticLaw_setMath(kl, SBML_parseFormula("1"));
+  ASTNode_t* math = SBML_parseFormula("1");
+  KineticLaw_setMath(kl, math);
+  ASTNode_free(math);
 
   int i = Reaction_setKineticLaw(R, kl);
 
@@ -235,7 +241,9 @@ START_TEST (test_Reaction_setKineticLaw3)
 {
   KineticLaw_t *kl = 
     KineticLaw_create(1, 2);
-  KineticLaw_setMath(kl, SBML_parseFormula("1"));
+  ASTNode_t* math = SBML_parseFormula("1");
+  KineticLaw_setMath(kl, math);
+  ASTNode_free(math);
 
   int i = Reaction_setKineticLaw(R, kl);
 

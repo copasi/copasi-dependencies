@@ -118,6 +118,7 @@ CVTerm::CVTerm(const XMLNode node) :
 CVTerm::~CVTerm()
 {
   delete mResources;
+  mResources = NULL;
 }
 
 /*
@@ -690,6 +691,8 @@ const char* MODEL_QUALIFIER_STRINGS[] =
     "is"
   , "isDescribedBy"
   , "isDerivedFrom"
+  , "isInstanceOf"
+  , "hasInstance"
 };
 
 static
@@ -707,6 +710,7 @@ const char* BIOL_QUALIFIER_STRINGS[] =
   , "occursIn"
   , "hasProperty"
   , "isPropertyOf"    
+  , "hasTaxon"
 };
 
 

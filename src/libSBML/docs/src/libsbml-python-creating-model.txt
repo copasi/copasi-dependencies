@@ -36,18 +36,15 @@ def check(value, message):
   libSBML explaining the meaning of the code, and exits with status code 1.
   """
   if value == None:
-    print('LibSBML returned a null value trying to ' + message + '.')
-    print('Exiting.')
-    sys.exit(1)
+    raise SystemExit('LibSBML returned a null value trying to ' + message + '.')
   elif type(value) is int:
     if value == LIBSBML_OPERATION_SUCCESS:
       return
     else:
-      print('Error encountered trying to ' + message + '.')
-      print('LibSBML returned error code ' + str(value) + ': "' \
-            + OperationReturnValue_toString(value).strip() + '"')
-      print('Exiting.')
-      sys.exit(1)
+      err_msg = 'Error encountered trying to ' + message + '.' \
+                + 'LibSBML returned error code ' + str(value) + ': "' \
+                + OperationReturnValue_toString(value).strip() + '"'
+      raise SystemExit(err_msg)
   else:
     return
 @endcode
@@ -72,8 +69,7 @@ def create_model():
   try:
     document = SBMLDocument(3, 1)
   except ValueError:
-    print('Could not create SBMLDocumention object')
-    sys.exit(1)
+    raise SystemExit('Could not create SBMLDocumention object')
 
   # Create the basic Model object inside the SBMLDocument object.  To
   # produce a model with complete units for the reaction rates, we need

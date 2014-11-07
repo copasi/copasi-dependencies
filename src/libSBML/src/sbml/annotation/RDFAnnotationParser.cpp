@@ -216,7 +216,10 @@ RDFAnnotationParser::deriveCVTermsFromAnnotation(
       {
         term = new CVTerm(RDFDesc->getChild(n));
         if (term->getResources()->getLength() > 0)
-          CVTerms->add((void *)term);
+        {
+          CVTerms->add((void *)term->clone());
+        }
+        delete term;
       }
       n++;
     }
@@ -569,7 +572,10 @@ RDFAnnotationParser::createRDFDescriptionWithCVTerms(const SBase * object)
         const char* term = ModelQualifierType_toString(
           current->getModelQualifierType());
         if (term == NULL) 
+        {
+          delete description;
           return NULL;
+        }
 
         name = term;
         
@@ -627,6 +633,7 @@ RDFAnnotationParser::createRDFDescriptionWithCVTerms(const SBase * object)
   // if all cvterms were bad then the description will contain nothing
   if (description->getNumChildren() == 0)
   {
+    delete description;
     return NULL;
   }
 
@@ -971,6 +978,7 @@ RDFAnnotationParser::deleteRDFAnnotation(const XMLNode * annotation)
   XMLNode * halfAnnotation = deleteRDFHistoryAnnotation(annotation);
   XMLNode * newAnnotation = deleteRDFCVTermAnnotation(halfAnnotation);
 
+  delete halfAnnotation;
 
   return newAnnotation;
 }
@@ -1035,9 +1043,9 @@ RDFAnnotationParser::deleteRDFHistoryAnnotation(const XMLNode * annotation)
     rdfAnnotation = annotation->getChild(rdfPosition);
 
 
-    // remove the first description element keeping a copy
+    // remove and keep the first description element
     // assume that the annotation is proper sbml-miriam
-    XMLNode descr = *(rdfAnnotation).removeChild(
+    XMLNode* descr = rdfAnnotation.removeChild(
                       rdfAnnotation.getIndex("Description"));
     if (hasCVTermRDF == false)
     {
@@ -1066,25 +1074,25 @@ RDFAnnotationParser::deleteRDFHistoryAnnotation(const XMLNode * annotation)
     {
       // we have history and cvterms with possible other rdf
       // so remove history elements from the description element
-      unsigned int nn = descr.getNumChildren();
+      unsigned int nn = descr->getNumChildren();
       for (unsigned int i = nn; i > 0; i--)
       {
-        XMLNode child = descr.getChild(i-1);
+        XMLNode child = descr->getChild(i-1);
         if ((child.getName() == "creator") ||
           (child.getName() == "created") ||
           (child.getName() == "modified"))
         {
-          descr.removeChild(i-1);
+          delete descr->removeChild(i-1);
         }
       }
-      rdfAnnotation.insertChild(0, descr);
+      rdfAnnotation.insertChild(0, *descr);
       if (newAnnotation == NULL)
       {
         newAnnotation = new XMLNode(ann_token);
       }
       newAnnotation->insertChild(rdfPosition, rdfAnnotation);
     }
-
+    delete descr;
   }
   return newAnnotation;
 }
@@ -1151,7 +1159,7 @@ RDFAnnotationParser::deleteRDFCVTermAnnotation(const XMLNode * annotation)
 
     // remove the first description element keeping a copy
     // assume that the annotation is proper sbml-miriam
-    XMLNode descr = *(rdfAnnotation).removeChild(
+    XMLNode* descr = rdfAnnotation.removeChild(
                       rdfAnnotation.getIndex("Description"));
     if (hasHistoryRDF == false)
     {
@@ -1180,25 +1188,25 @@ RDFAnnotationParser::deleteRDFCVTermAnnotation(const XMLNode * annotation)
     {
       // we have history and cvterms with possible other rdf
       // so remove cvterms elements from the description element
-      unsigned int nn = descr.getNumChildren();
+      unsigned int nn = descr->getNumChildren();
       for (unsigned int i = nn; i > 0; i--)
       {
-        XMLNode child = descr.getChild(i-1);
+        XMLNode child = descr->getChild(i-1);
         if ((child.getName() != "creator") &&
           (child.getName() != "created") &&
           (child.getName() != "modified"))
         {
-          descr.removeChild(i-1);
+          delete descr->removeChild(i-1);
         }
       }
-      rdfAnnotation.insertChild(0, descr);
+      rdfAnnotation.insertChild(0, *descr);
       if (newAnnotation == NULL)
       {
         newAnnotation = new XMLNode(ann_token);
       }
       newAnnotation->insertChild(rdfPosition, rdfAnnotation);
     }
-
+    delete descr;
   }
   return newAnnotation;
 }
@@ -1326,7 +1334,11 @@ RDFAnnotationParser::hasCVTermRDFAnnotation(const XMLNode *annotation)
   if (tempCVTerms)
   {
     unsigned int size = tempCVTerms->getSize();
-    while (size--) delete static_cast<CVTerm*>( tempCVTerms->remove(0) );
+    for (unsigned int i = size; i > 0; i--)
+    {
+      delete static_cast<CVTerm*>( tempCVTerms->remove(0) );
+    }
+    //while (size--) delete static_cast<CVTerm*>( tempCVTerms->remove(0) );
   }
   delete tempCVTerms;
 

@@ -1586,8 +1586,7 @@ SBase::removeTopLevelAnnotationElement(const std::string elementName,
     }
 
     // remove the annotation at the index corresponding to the name
-    XMLNode* removed = mAnnotation->removeChild(index);
-    delete removed;
+    delete mAnnotation->removeChild(index);
     if (removeEmpty && mAnnotation->getNumChildren() == 0)
     {
       delete mAnnotation;
@@ -3079,6 +3078,7 @@ SBase::deleteDisabledPlugins(bool recursive /*= true*/)
     List* list = getAllElements();
     for (unsigned int i = 0; i < list->getSize(); ++i)
       ((SBase*)list->get(i))->deleteDisabledPlugins();
+    delete list;
   }
 
 }
@@ -6379,13 +6379,17 @@ SBase::removeDuplicateAnnotations()
             // need to  create the new node
             newNode = new XMLNode(token);
           }
-          newNode->addChild(static_cast <XMLNode>
-                            (*(newAnnotation->removeChild(j))));
+          XMLNode* transfer = newAnnotation->removeChild(j);
+          newNode->addChild(*transfer);
+          delete transfer;
         }
       }
       if (duplicate)
-        newNode->addChild(static_cast <XMLNode>
-                          (*(newAnnotation->removeChild(i))));
+      {
+        XMLNode* transfer = newAnnotation->removeChild(i);
+        newNode->addChild(*transfer);
+        delete transfer;
+      }
       numChildren = newAnnotation->getNumChildren();
     }
     if (resetNecessary)
@@ -6393,6 +6397,8 @@ SBase::removeDuplicateAnnotations()
       newAnnotation->addChild(*(newNode));
       setAnnotation(newAnnotation);
     }
+    delete newNode;
+    delete newAnnotation;
   }
 
 

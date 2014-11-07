@@ -175,6 +175,23 @@ SBasePlugin_t*
 SBasePluginCreator_createPlugin(SBasePluginCreatorBase_t* creator, 
   const char* uri, const char* prefix, const XMLNamespaces_t* xmlns);
 
+
+/**
+ * Frees the given SBasePluginCreatorBase_t structure
+ * 
+ * @param plugin the SBasePluginCreatorBase_t structure to be freed
+ * 
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof SBasePlugin_t
+ */
+LIBSBML_EXTERN
+int
+SBasePluginCreator_free(SBasePluginCreatorBase_t* creator);
+
+
 /**
  * Creates a deep copy of the given SBasePluginCreatorBase_t structure
  * 

@@ -66,6 +66,8 @@ START_TEST (test_SBMLDocument_create)
 
   fail_unless( SBMLDocument_getNumErrors  (d) == 0 );
 
+  fail_unless( SBMLDocument_isSetModel(d) == 0 );
+
   SBMLDocument_free(d);
 }
 END_TEST
@@ -84,6 +86,8 @@ START_TEST (test_SBMLDocument_createWith)
   fail_unless( SBMLDocument_getVersion(d) == 2);
 
   fail_unless( SBMLDocument_getNumErrors  (d) == 0 );
+
+  fail_unless( SBMLDocument_isSetModel(d) == 0 );
 
   SBMLDocument_free(d);
 }
@@ -105,12 +109,14 @@ START_TEST (test_SBMLDocument_setModel)
   Model_t        *mout;
 
   fail_unless(SBMLDocument_getModel(d) == NULL);
+  fail_unless( SBMLDocument_isSetModel(d) == 0 );
 
   int i = SBMLDocument_setModel(d, m1);
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS );
   mout = SBMLDocument_getModel(d);
   fail_unless(mout != NULL);
   fail_unless(mout != m1);
+  fail_unless( SBMLDocument_isSetModel(d) == 1 );
 
   /* Reflexive case (pathological) */
   i = SBMLDocument_setModel(d, SBMLDocument_getModel(d));
@@ -126,7 +132,8 @@ START_TEST (test_SBMLDocument_setModel)
   fail_unless(mout != m2);
 
   SBMLDocument_free(d);
-  /* m1 is freed by SBMLDocument_setModel(d, m2); */
+  Model_free(m1);
+  Model_free(m2);
 }
 END_TEST
 
@@ -145,6 +152,7 @@ START_TEST (test_SBMLDocument_setLevelAndVersion)
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d,1,1) == 0);
 
   SBMLDocument_free(d);
+  Model_free(m1);
 }
 END_TEST
 
@@ -164,6 +172,7 @@ START_TEST (test_SBMLDocument_setLevelAndVersion_Warning)
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d,1,1) == 0);
 
   SBMLDocument_free(d);
+  Model_free(m1);
 }
 END_TEST
 
@@ -194,6 +203,9 @@ START_TEST (test_SBMLDocument_setLevelAndVersion_Error)
   fail_unless(SBMLDocument_setLevelAndVersionStrict(d,1,1) == 0);
 
   SBMLDocument_free(d);
+  Model_free(m1);
+  Unit_free(u);
+  UnitDefinition_free(ud);
 }
 END_TEST
 
@@ -210,6 +222,7 @@ START_TEST (test_SBMLDocument_setModel1)
   fail_unless (SBMLDocument_getModel(d) == 0);
 
   SBMLDocument_free(d);
+  Model_free(m1);
 }
 END_TEST
 
@@ -227,6 +240,7 @@ START_TEST (test_SBMLDocument_setModel2)
   fail_unless (SBMLDocument_getModel(d) == 0);
 
   SBMLDocument_free(d);
+  Model_free(m1);
 }
 END_TEST
 
@@ -243,6 +257,7 @@ START_TEST (test_SBMLDocument_setModel3)
   fail_unless (SBMLDocument_getModel(d) != 0);
 
   SBMLDocument_free(d);
+  Model_free(m1);
 }
 END_TEST
 

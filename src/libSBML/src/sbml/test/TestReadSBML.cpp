@@ -209,6 +209,7 @@ START_TEST (test_ReadSBML_Model_withoutEncoding)
     "</sbml>";
   */
 
+  delete D;
   D = readSBMLFromString(s);
   M = SBMLDocument_getModel(D);
 
@@ -1408,6 +1409,7 @@ START_TEST (test_ReadSBML_KineticLaw_L2)
 
   fail_unless( KineticLaw_isSetMath(kl) );
   math = KineticLaw_getMath(kl);
+  fail_unless( math != NULL );
 
   formula = KineticLaw_getFormula(kl);
   fail_unless( formula != NULL );
@@ -1488,6 +1490,7 @@ START_TEST (test_ReadSBML_AssignmentRule)
 
   fail_unless( Rule_isSetMath(ar) );
   math = Rule_getMath(ar);
+  fail_unless( math != NULL );
 
   formula = Rule_getFormula(ar);
   fail_unless( formula != NULL );
@@ -1536,6 +1539,7 @@ START_TEST (test_ReadSBML_RateRule)
 
   fail_unless( Rule_isSetMath(rr) );
   math = Rule_getMath(rr);
+  fail_unless( math != NULL );
 
   formula = Rule_getFormula(rr);
   fail_unless( formula != NULL );
@@ -1608,6 +1612,7 @@ START_TEST (test_ReadSBML_AlgebraicRule_L2)
 
   fail_unless( Rule_isSetMath(ar) );
   math = Rule_getMath(ar);
+  fail_unless( math != NULL );
 
   formula = Rule_getFormula(ar);
   fail_unless( formula != NULL );
@@ -2312,7 +2317,9 @@ START_TEST (test_ReadSBML_notes_xmlns)
   const XMLNamespaces_t * ns = XMLNode_getNamespaces(XMLNode_getChild(SBase_getNotes(M), 0));
 
   fail_unless(XMLNamespaces_getLength(ns) == 1);
-  fail_unless(!strcmp(XMLNamespaces_getURI(ns, 0), "http://www.w3.org/1999/xhtml"));
+  char* uri = XMLNamespaces_getURI(ns, 0);
+  fail_unless(!strcmp(uri, "http://www.w3.org/1999/xhtml"));
+  safe_free(uri);
 
   const char * notes = XMLNode_getCharacters(XMLNode_getChild(XMLNode_getChild(SBase_getNotes(M), 0), 0));
   fail_unless( strcmp(notes, "Some text.") == 0 );

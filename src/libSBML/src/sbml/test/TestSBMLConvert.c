@@ -63,6 +63,7 @@ START_TEST (test_SBMLConvert_invalidLevelVersion)
   fail_unless(SBMLDocument_setLevelAndVersion(d, 3, 2) == 0);
   fail_unless(SBMLDocument_setLevelAndVersion(d, 4, 1) == 0);
 
+  SBMLDocument_free(d);
 }
 END_TEST
 
@@ -175,18 +176,21 @@ START_TEST (test_SBMLConvert_convertToL2_SBMLDocument)
   fail_unless( SBMLDocument_getLevel  (d) == 2, NULL );
   fail_unless( SBMLDocument_getVersion(d) == 1, NULL );
 
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(1, 2);
   fail_unless( SBMLDocument_setLevelAndVersionNonStrict(d, 2, 2) == 1, NULL );
 
   fail_unless( SBMLDocument_getLevel  (d) == 2, NULL );
   fail_unless( SBMLDocument_getVersion(d) == 2, NULL );
 
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(1, 2);
   fail_unless( SBMLDocument_setLevelAndVersionNonStrict(d, 2, 3) == 1, NULL );
 
   fail_unless( SBMLDocument_getLevel  (d) == 2, NULL );
   fail_unless( SBMLDocument_getVersion(d) == 3, NULL );
 
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(1, 2);
   fail_unless( SBMLDocument_setLevelAndVersionNonStrict(d, 2, 4) == 1, NULL );
 
@@ -253,6 +257,8 @@ START_TEST (test_SBMLConvert_convertToL1_Species_Amount)
   fail_unless( Species_getInitialAmount(s) == 2.34, NULL );
 
   SBMLDocument_free(d);
+  Compartment_free(c);
+  Species_free(s);
 }
 END_TEST
 
@@ -293,6 +299,8 @@ START_TEST (test_SBMLConvert_convertToL1_Species_Concentration)
   fail_unless(Species_isSetInitialConcentration(s1) == 1);
 
   SBMLDocument_free(d);
+  Compartment_free(c);
+  Species_free(s);
 }
 END_TEST
 
@@ -522,6 +530,7 @@ START_TEST (test_SBMLConvert_convertFromL3_Comp)
   fail_unless(SBMLDocument_setLevelAndVersion(d, 2, 4) == 0);
   fail_unless(SBMLDocument_setLevelAndVersion(d, 3, 1) == 1);
 
+  SBMLDocument_free(d);
 }
 END_TEST
 
@@ -586,6 +595,7 @@ START_TEST (test_SBMLConvert_convertToL3_stoichiometryMath)
 
   ASTNode_t * ast = SBML_parseFormula("c*2");
   StoichiometryMath_setMath(sm, ast);
+  ASTNode_free(ast);
 
   fail_unless(Model_getNumRules(m) == 0);
   fail_unless(SpeciesReference_isSetId(sr) == 0);
@@ -1026,7 +1036,9 @@ START_TEST (test_SBMLConvert_convertFromL3_stoichMath1)
   SpeciesReference_setSpecies(sr, "s");
   Rule_t *rule = Rule_createRate(3,1);
   Rule_setVariable(rule, "XREF");
-  Rule_setMath(rule, SBML_parseFormula("0.001"));
+  ASTNode_t* math = SBML_parseFormula("0.001");
+  Rule_setMath(rule, math);
+  ASTNode_free(math);
   Model_addRule(m, rule);
 
   
@@ -1048,6 +1060,7 @@ START_TEST (test_SBMLConvert_convertFromL3_stoichMath1)
   fail_unless(SpeciesReference_isSetStoichiometryMath(Reaction_getReactant(r, 0)) == 1);
 
   SBMLDocument_free(d);
+  Rule_free(rule);
 }
 END_TEST
 
@@ -1067,7 +1080,9 @@ START_TEST (test_SBMLConvert_convertFromL3_stoichMath2)
   SpeciesReference_setSpecies(sr, "s");
   Rule_t *rule = Rule_createRate(3,1);
   Rule_setVariable(rule, "XREF");
-  Rule_setMath(rule, SBML_parseFormula("0.001"));
+  ASTNode_t* math = SBML_parseFormula("0.001");
+  Rule_setMath(rule, math);
+  ASTNode_free(math);
   Model_addRule(m, rule);
 
   
@@ -1084,6 +1099,7 @@ START_TEST (test_SBMLConvert_convertFromL3_stoichMath2)
   fail_unless(SpeciesReference_isSetStoichiometryMath(Reaction_getReactant(r, 0)) == 1);
 
   SBMLDocument_free(d);
+  Rule_free(rule);
 }
 END_TEST
 
@@ -1103,7 +1119,9 @@ START_TEST (test_SBMLConvert_convertFromL3_stoichMath3)
   SpeciesReference_setSpecies(sr, "s");
   Rule_t *rule = Rule_createRate(3,1);
   Rule_setVariable(rule, "XREF");
-  Rule_setMath(rule, SBML_parseFormula("0.001"));
+  ASTNode_t* math = SBML_parseFormula("0.001");
+  Rule_setMath(rule, math);
+  ASTNode_free(math);
   Model_addRule(m, rule);
 
   
@@ -1120,6 +1138,7 @@ START_TEST (test_SBMLConvert_convertFromL3_stoichMath3)
   fail_unless(SpeciesReference_isSetStoichiometryMath(Reaction_getReactant(r, 0)) == 1);
 
   SBMLDocument_free(d);
+  Rule_free(rule);
 }
 END_TEST
 
@@ -1139,7 +1158,9 @@ START_TEST (test_SBMLConvert_convertFromL3_stoichMath4)
   SpeciesReference_setSpecies(sr, "s");
   Rule_t *rule = Rule_createRate(3,1);
   Rule_setVariable(rule, "XREF");
-  Rule_setMath(rule, SBML_parseFormula("0.001"));
+  ASTNode_t* math = SBML_parseFormula("0.001");
+  Rule_setMath(rule, math);
+  ASTNode_free(math);
   Model_addRule(m, rule);
 
   
@@ -1156,6 +1177,7 @@ START_TEST (test_SBMLConvert_convertFromL3_stoichMath4)
   fail_unless(SpeciesReference_isSetStoichiometryMath(Reaction_getReactant(r, 0)) == 1);
 
   SBMLDocument_free(d);
+  Rule_free(rule);
 }
 END_TEST
 
@@ -1175,12 +1197,70 @@ START_TEST (test_SBMLConvert_convertFromL3_stoichMath5)
   SpeciesReference_setSpecies(sr, "s");
   Rule_t *rule = Rule_createRate(3,1);
   Rule_setVariable(rule, "XREF");
-  Rule_setMath(rule, SBML_parseFormula("0.001"));
+  ASTNode_t* math = SBML_parseFormula("0.001");
+  Rule_setMath(rule, math);
+  ASTNode_free(math);
   Model_addRule(m, rule);
 
   
 
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 3, 1) == 1);
+
+  SBMLDocument_free(d);
+  Rule_free(rule);
+}
+END_TEST
+
+
+START_TEST (test_SBMLConvert_convertFromL3_localParameters)
+{
+  SBMLDocument_t *d = SBMLDocument_createWithLevelAndVersion(3, 1);
+  Model_t        *m = SBMLDocument_createModel(d);
+  Compartment_t  *c = Model_createCompartment(m);
+  Compartment_setId(c, "c");
+  Compartment_setSpatialDimensions(c, 3);
+  Species_t      *s = Model_createSpecies(m);
+  Species_setId(s, "s");
+  Reaction_t *r = Model_createReaction(m);
+  SpeciesReference_t *sr = Reaction_createReactant(r);
+  SpeciesReference_setSpecies(sr, "s");
+  KineticLaw_t * kl = Reaction_createKineticLaw(r);
+  ASTNode_t * math = SBML_parseFormula("k");
+  KineticLaw_setMath(kl, math);
+  ASTNode_free(math);
+  LocalParameter_t * lp = KineticLaw_createLocalParameter(kl);
+  LocalParameter_setId(lp, "k");
+  fail_unless(KineticLaw_getNumLocalParameters(kl) == 1);
+  fail_unless(KineticLaw_getNumParameters(kl) == 1);
+
+  
+
+  fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 1, 1) == 0);
+
+  // convert to L1
+  SBMLDocument_t *d2 = SBMLDocument_clone(d);
+  fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d2, 1, 2) == 1);
+  m = SBMLDocument_getModel(d2);
+
+  kl = Reaction_getKineticLaw(Model_getReaction(m, 0));
+
+  // here we should have only parameter and not local parameter as the L2 model
+  // should not have any LocalParameter objects
+  fail_unless(KineticLaw_getNumLocalParameters(kl) == 0);
+  fail_unless(KineticLaw_getNumParameters(kl) == 1);
+  SBMLDocument_free(d2);
+
+  // convert to L2
+  fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 2, 1) == 1);
+
+  m = SBMLDocument_getModel(d);
+
+  kl = Reaction_getKineticLaw(Model_getReaction(m, 0));
+
+  // here we should have only parameter and not local parameter as the L2 model
+  // should not have any LocalParameter objects
+  fail_unless(KineticLaw_getNumLocalParameters(kl) == 0);
+  fail_unless(KineticLaw_getNumParameters(kl) == 1);
 
   SBMLDocument_free(d);
 }
@@ -1190,35 +1270,38 @@ END_TEST
 START_TEST (test_SBMLConvert_convertFromL1V1)
 {
   SBMLDocument_t *d = SBMLDocument_createWithLevelAndVersion(1, 1);
-  Model_t        *m = SBMLDocument_createModel(d);
-
-  (void) m;
+  SBMLDocument_createModel(d);
 
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 1, 1) == 1);
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 1, 2) == 1);
  
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(1, 1);
-  m = SBMLDocument_createModel(d);
+  SBMLDocument_createModel(d);
 
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 2, 1) == 1);
  
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(1, 1);
-  m = SBMLDocument_createModel(d);
+  SBMLDocument_createModel(d);
 
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 2, 2) == 1);
  
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(1, 1);
-  m = SBMLDocument_createModel(d);
+  SBMLDocument_createModel(d);
 
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 2, 3) == 1);
  
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(1, 1);
-  m = SBMLDocument_createModel(d);
+  SBMLDocument_createModel(d);
 
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 2, 4) == 1);
  
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(1, 1);
-  m = SBMLDocument_createModel(d);
+  SBMLDocument_createModel(d);
 
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 3, 1) == 1);
 
@@ -1362,22 +1445,27 @@ START_TEST (test_SBMLConvert_convertFromL3V1)
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 1, 1) == 0);
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 1, 2) == 1);
 
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(3, 1);
   m = SBMLDocument_createModel(d);
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 2, 1) == 1);
   
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(3, 1);
   m = SBMLDocument_createModel(d);
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 2, 2) == 1);
 
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(3, 1);
   m = SBMLDocument_createModel(d);
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 2, 3) == 1);
   
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(3, 1);
   m = SBMLDocument_createModel(d);
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 2, 4) == 1);
   
+  SBMLDocument_free(d);
   d = SBMLDocument_createWithLevelAndVersion(3, 1);
   m = SBMLDocument_createModel(d);
   fail_unless(SBMLDocument_setLevelAndVersionNonStrict(d, 3, 1) == 1);
@@ -1430,6 +1518,7 @@ create_suite_SBMLConvert (void)
   tcase_add_test( tcase, test_SBMLConvert_convertFromL3_stoichMath3 );
   tcase_add_test( tcase, test_SBMLConvert_convertFromL3_stoichMath4 );
   tcase_add_test( tcase, test_SBMLConvert_convertFromL3_stoichMath5 );
+  tcase_add_test( tcase, test_SBMLConvert_convertFromL3_localParameters );
   tcase_add_test( tcase, test_SBMLConvert_convertFromL1V1 );
   tcase_add_test( tcase, test_SBMLConvert_convertFromL1V2 );
   tcase_add_test( tcase, test_SBMLConvert_convertFromL2V1 );

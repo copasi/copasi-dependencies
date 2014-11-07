@@ -158,13 +158,16 @@ START_TEST (test_Event_setTrigger1)
 {
   Trigger_t   *trigger 
     = Trigger_create(2, 1);
-  Trigger_setMath(trigger, SBML_parseFormula("true"));
+  ASTNode_t* math = SBML_parseFormula("true");
+  Trigger_setMath(trigger, math);
+  ASTNode_free(math);
  
   int i = Event_setTrigger(E, trigger);
 
   fail_unless( i == LIBSBML_VERSION_MISMATCH );
   fail_unless( !Event_isSetTrigger(E) );
-
+  
+  Trigger_free(trigger);
 }
 END_TEST
 
@@ -181,7 +184,9 @@ START_TEST (test_Event_setTrigger2)
   fail_unless( i == LIBSBML_OPERATION_SUCCESS );
   fail_unless( Event_getTrigger(E) != NULL );
   fail_unless( Event_isSetTrigger(E) );
-
+  
+  ASTNode_free(math1);
+  Trigger_free(trigger);
 }
 END_TEST
 
@@ -203,6 +208,9 @@ START_TEST (test_Event_setDelay1)
 
   fail_unless( i == LIBSBML_OPERATION_SUCCESS) ;
   fail_unless( !Event_isSetDelay(E) );
+
+  ASTNode_free(math1);
+  Delay_free(Delay);
 }
 END_TEST
 
@@ -223,6 +231,8 @@ START_TEST (test_Event_setDelay2)
   
   fail_unless( i == LIBSBML_OPERATION_SUCCESS);
 
+  ASTNode_free(math1);
+  Delay_free(Delay);
 }
 END_TEST
 
@@ -339,7 +349,9 @@ START_TEST (test_Event_addEventAssignment1)
 
   fail_unless( i == LIBSBML_INVALID_OBJECT);
   
-  EventAssignment_setMath(ea, SBML_parseFormula("a-n"));
+  ASTNode_t* math = SBML_parseFormula("a-n");
+  EventAssignment_setMath(ea, math);
+  ASTNode_free(math);
   i = Event_addEventAssignment(e, ea);
 
   fail_unless( i == LIBSBML_OPERATION_SUCCESS);
@@ -357,7 +369,9 @@ START_TEST (test_Event_addEventAssignment2)
   EventAssignment_t *ea 
     = EventAssignment_create(2, 3);
   EventAssignment_setVariable(ea, "f");
-  EventAssignment_setMath(ea, SBML_parseFormula("a-n"));
+  ASTNode_t* math = SBML_parseFormula("a-n");
+  EventAssignment_setMath(ea, math);
+  ASTNode_free(math);
 
   int i = Event_addEventAssignment(e, ea);
 
@@ -390,11 +404,15 @@ START_TEST (test_Event_addEventAssignment4)
   EventAssignment_t *ea 
     = EventAssignment_create(2, 2);
   EventAssignment_setVariable(ea, "c");
-  EventAssignment_setMath(ea, SBML_parseFormula("a-n"));
+  ASTNode_t* math = SBML_parseFormula("a-n");
+  EventAssignment_setMath(ea, math);
+  ASTNode_free(math);
   EventAssignment_t *ea1 
     = EventAssignment_create(2, 2);
   EventAssignment_setVariable(ea1, "c");
-  EventAssignment_setMath(ea1, SBML_parseFormula("a-n"));
+  math = SBML_parseFormula("a-n");
+  EventAssignment_setMath(ea1, math);
+  ASTNode_free(math);
 
   int i = Event_addEventAssignment(e, ea);
 

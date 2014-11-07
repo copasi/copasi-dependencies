@@ -30,6 +30,9 @@
 #include <sbml/util/memory.h>
 #include <sbml/common/extern.h>
 
+#ifdef LIBSBML_USE_VLD
+  #include <vld.h>
+#endif
 
 /* START: workaround for VS2013 bug */
 /* from https://connect.microsoft.com/VisualStudio/feedback/details/806362/ */
@@ -167,11 +170,11 @@ main (void)
   setTestDataDirectory();
 
   SRunner *runner = srunner_create( create_suite_TestURIResolvers() );
-  srunner_add_suite( runner, create_suite_TestFlatteningUnknownPackageRefs() );
-  srunner_add_suite( runner, create_suite_TestFlatteningErrorMessages() );
-  srunner_add_suite( runner, create_suite_TestFlatteningConverter() );
-  srunner_add_suite( runner, create_suite_TestExternalModelResolving() );
-  srunner_add_suite( runner, create_suite_TestCompFlatteningNewFlags() );
+  //srunner_add_suite( runner, create_suite_TestFlatteningUnknownPackageRefs() );
+  //srunner_add_suite( runner, create_suite_TestFlatteningErrorMessages() );
+  //srunner_add_suite( runner, create_suite_TestFlatteningConverter() );
+  //srunner_add_suite( runner, create_suite_TestExternalModelResolving() );
+  //srunner_add_suite( runner, create_suite_TestCompFlatteningNewFlags() );
   srunner_add_suite( runner, create_suite_TestFlatteningConverterStripPackage() );
 
   /* srunner_set_fork_status(runner, CK_NOFORK); */
@@ -180,6 +183,8 @@ main (void)
   num_failed = srunner_ntests_failed(runner);
 
   srunner_free(runner);
+  
+  safe_free(TestDataDirectory);
 
   return num_failed;
 }

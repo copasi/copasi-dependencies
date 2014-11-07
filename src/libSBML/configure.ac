@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 20535 $)
+AC_REVISION($Revision: 21501 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -306,7 +306,7 @@ CONFIG_PROG_SWIG(2.0.0)
 dnl Make sure to test doxygen *after* java, because there's a dependency
 dnl in CONFIG_PROG_DOXYGEN on whether --with-java was also given.
 
-CONFIG_PROG_DOXYGEN(1.7.0,1.8.7)
+CONFIG_PROG_DOXYGEN(1.7.0,1.8.8)
 
 dnl Do this one last, because some earlier config options may end up changing
 dnl things like CFLAGS, which in turn affects the libtool script that the
@@ -537,6 +537,7 @@ fi
 
 AC_CONFIG_FILES([docs/Makefile])
 AC_CONFIG_FILES([docs/index.html])
+AC_CONFIG_FILES([docs/src/Makefile])
 AC_CONFIG_FILES([docs/src/doxygen-config-c.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-cpp.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-csharp.txt])
@@ -544,18 +545,18 @@ AC_CONFIG_FILES([docs/src/doxygen-config-octave.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-python.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-perl.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-matlab.txt])
-AC_CONFIG_FILES([docs/src/java-substitutions/libsbmlConstants.java])
-AC_CONFIG_FILES([docs/src/libsbml-accessing.html])
-AC_CONFIG_FILES([docs/src/libsbml-installation.html])
-AC_CONFIG_FILES([docs/src/libsbml-group-core-intro.html])
-AC_CONFIG_FILES([docs/src/libsbml-group-comp-intro.html])
-AC_CONFIG_FILES([docs/src/libsbml-group-fbc-intro.html])
-AC_CONFIG_FILES([docs/src/libsbml-group-layout-intro.html])
-AC_CONFIG_FILES([docs/src/libsbml-group-qual-intro.html])
+AC_CONFIG_FILES([docs/src/common-text/libsbml-accessing.html])
+AC_CONFIG_FILES([docs/src/common-text/libsbml-downloading.html])
+AC_CONFIG_FILES([docs/src/common-text/libsbml-group-comp-intro.html])
+AC_CONFIG_FILES([docs/src/common-text/libsbml-group-fbc-intro.html])
+AC_CONFIG_FILES([docs/src/common-text/libsbml-group-layout-intro.html])
+AC_CONFIG_FILES([docs/src/common-text/libsbml-group-qual-intro.html])
+AC_CONFIG_FILES([docs/src/common-text/libsbml-installation.html])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-version.html],
                 [tr -d '\n' < docs/src/common-text/libsbml-version.html > libsbmlversiontmp;
 		 mv libsbmlversiontmp docs/src/common-text/libsbml-version.html])
-AC_CONFIG_FILES([docs/src/Makefile])
+AC_CONFIG_FILES([docs/src/common-text/sbml-specifications-table.html])
+AC_CONFIG_FILES([docs/src/java-substitutions/libsbmlConstants.java])
 
 AC_CONFIG_FILES([examples/c/Makefile])
 AC_CONFIG_FILES([examples/c++/Makefile])

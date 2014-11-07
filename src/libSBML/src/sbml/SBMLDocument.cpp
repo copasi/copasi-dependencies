@@ -139,14 +139,6 @@ SBMLDocument::SBMLDocument (unsigned int level, unsigned int version) :
  , mRequiredAttrOfUnknownPkg()
  , mRequiredAttrOfUnknownDisabledPkg()
 {
-
-  mInternalValidator = new SBMLInternalValidator();
-  mInternalValidator->setDocument(this);
-  mInternalValidator->setApplicableValidators(AllChecksON);
-  mInternalValidator->setConversionValidators(AllChecksON);
-
-  mSBML = this;
-
   if (mLevel   == 0 && mVersion == 0)  
   {
     mLevel   = getDefaultLevel  ();
@@ -163,6 +155,13 @@ SBMLDocument::SBMLDocument (unsigned int level, unsigned int version) :
   if (!hasValidLevelVersionNamespaceCombination())
     throw SBMLConstructorException();
 
+  mInternalValidator = new SBMLInternalValidator();
+  mInternalValidator->setDocument(this);
+  mInternalValidator->setApplicableValidators(AllChecksON);
+  mInternalValidator->setConversionValidators(AllChecksON);
+
+  mSBML = this;
+
   setElementNamespace(mSBMLNamespaces->getURI());
 }
 
@@ -174,6 +173,10 @@ SBMLDocument::SBMLDocument (SBMLNamespaces* sbmlns) :
  , mRequiredAttrOfUnknownPkg()
  , mRequiredAttrOfUnknownDisabledPkg()
 {
+  if (!hasValidLevelVersionNamespaceCombination())
+  {
+    throw SBMLConstructorException(getElementName(), sbmlns);
+  }
 
   mInternalValidator = new SBMLInternalValidator();
   mInternalValidator->setDocument(this);
@@ -188,11 +191,6 @@ SBMLDocument::SBMLDocument (SBMLNamespaces* sbmlns) :
   // (TODO) Namespace check for extension packages 
   //        would need to be improved
   //
-  if (!hasValidLevelVersionNamespaceCombination())
-  {
-    throw SBMLConstructorException(getElementName(), sbmlns);
-  }
-
   //
   // (EXTENSION)
   //
@@ -264,10 +262,10 @@ SBMLDocument::SBMLDocument (const SBMLDocument& orig) :
   }
   else
   {
-    setSBMLDocument(this);
-
     mLevel                             = orig.mLevel;
     mVersion                           = orig.mVersion;
+
+    setSBMLDocument(this);
 
     mInternalValidator = new SBMLInternalValidator();
     mInternalValidator->setDocument(this);
@@ -921,6 +919,12 @@ SBMLDocument::getError (unsigned int n) const
   return mErrorLog.getError(n);
 }
 
+const SBMLError*
+SBMLDocument::getErrorWithSeverity(unsigned int n, unsigned int severity) const
+{
+  return mErrorLog.getErrorWithSeverity(n, severity);
+}
+
 
 /*
  * @return the number of errors encountered during the parse of this
@@ -953,6 +957,13 @@ SBMLDocument::printErrors (std::ostream& stream) const
 {
   getErrorLog()->printErrors(stream);
 }
+
+void
+SBMLDocument::printErrors(std::ostream& stream, unsigned int severity) const
+{
+  getErrorLog()->printErrors(stream, severity);
+}
+
 
 /** @cond doxygenLibsbmlInternal */
 
@@ -1049,6 +1060,13 @@ SBMLDocument::createObject (XMLInputStream& stream)
 
   if (name == "model")
   {
+    // check that we do not already have a model
+    if (isSetModel() == true)
+    {
+      logError(NotSchemaConformant, getLevel(), getVersion(), 
+        "Only one <model> element is allowed within an SBMLDocument.");
+    }
+
     delete mModel;
 
     try
@@ -1198,6 +1216,21 @@ SBMLDocument::setPackageRequired(const std::string& package, bool flag)
   return LIBSBML_PKG_UNKNOWN_VERSION;
 }
 
+
+/** @cond doxygenLibsbmlInternal */
+int
+SBMLDocument::addUnknownPackageRequired(const std::string& pkgURI,
+                                const std::string& prefix, bool flag)
+{
+  std::string value = (flag) ? "true" : "false";
+
+  mRequiredAttrOfUnknownPkg.add("required", value, pkgURI, prefix);
+
+  return LIBSBML_OPERATION_SUCCESS;
+}
+/** @endcond */
+
+
 int
 SBMLDocument::setPkgRequired(const std::string& package, bool flag)
 {
@@ -1306,6 +1339,20 @@ SBMLDocument::isDisabledIgnoredPackage(const std::string& pkgURI)
 
   return false;
 }
+
+
+/** @cond doxygenLibsbmlInternal */
+bool
+SBMLDocument::hasUnknownPackage(const std::string& pkgURI)
+{
+  // has this package been added to teh list of unknown required attributes
+  std::string req = mRequiredAttrOfUnknownPkg.getValue("required", pkgURI);
+  if (!req.empty()) return true;
+
+  return false;
+}
+/** @endcond */
+
 
 bool 
 SBMLDocument::isIgnoredPkg(const std::string& pkgURI)
@@ -2135,6 +2182,13 @@ const SBMLError_t *
 SBMLDocument_getError (SBMLDocument_t *d, unsigned int n)
 {
   return (d != NULL) ? d->getError(n) : NULL;
+}
+
+LIBSBML_EXTERN
+const SBMLError_t *
+SBMLDocument_getErrorWithSeverity(SBMLDocument_t *d, unsigned int n, unsigned int severity)
+{
+  return (d != NULL) ? d->getErrorWithSeverity(n, severity) : NULL;
 }
 
 
