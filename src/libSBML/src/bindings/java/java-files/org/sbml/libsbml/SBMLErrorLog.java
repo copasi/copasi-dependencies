@@ -39,7 +39,7 @@ defined in SBML.
  * many objects there are in the list.  (The answer may be 0.)  If there is
  * at least one {@link SBMLError} object in the {@link SBMLErrorLog} instance, callers can
  * then iterate over the list using
- * {@link SBMLErrorLog#getError(long n)},
+ * {@link SBMLErrorLog#getError(long n)}@if clike @endif,
  * using methods provided by the {@link SBMLError} class to find out the error code
  * and associated information such as the error severity, the message, and
  * the line number in the input.
@@ -120,6 +120,31 @@ public class SBMLErrorLog extends XMLErrorLog {
 
   
 /**
+   * Returns the <i>n</i>th {@link SBMLError} object with given severity in this log.
+   <p>
+   * Index <code>n</code> is counted from 0.  Callers should first inquire about the
+   * number of items in the log by using the
+   * {@link SBMLErrorLog#getNumFailsWithSeverity(long severity)} method.
+   * Attempts to use an error index number that exceeds the actual number
+   * of errors in the log will result in a <code>null</code> being returned.
+   <p>
+   * @param n the index number of the error to retrieve (with 0 being the
+   * first error).
+   * @param severity the severity of the error to retrieve 
+   <p>
+   * @return the <i>n</i>th {@link SBMLError} in this log, or <code>null</code> if <code>n</code> is
+   * greater than or equal to
+   * {@link SBMLErrorLog#getNumFailsWithSeverity(long severity)}.
+   <p>
+   * @see #getNumFailsWithSeverity(long severity)
+   */ public
+ SBMLError getErrorWithSeverity(long n, long severity) {
+    long cPtr = libsbmlJNI.SBMLErrorLog_getErrorWithSeverity(swigCPtr, this, n, severity);
+    return (cPtr == 0) ? null : new SBMLError(cPtr, false);
+  }
+
+  
+/**
    * Returns the number of errors that have been logged with the given
    * severity code.
    <p>
@@ -148,433 +173,67 @@ public class SBMLErrorLog extends XMLErrorLog {
   }
 
   
-/**
-   * Creates a new, empty {@link SBMLErrorLog}.
-   * @internal
-   */ public
+/** * @internal */ public
  SBMLErrorLog() {
     this(libsbmlJNI.new_SBMLErrorLog__SWIG_0(), true);
   }
 
   
-/**
-   * Copy Constructor
-   * @internal
-   */ public
+/** * @internal */ public
  SBMLErrorLog(SBMLErrorLog other) {
     this(libsbmlJNI.new_SBMLErrorLog__SWIG_1(SBMLErrorLog.getCPtr(other), other), true);
   }
 
   
-/**
-   * Convenience function that combines creating an {@link SBMLError} object and
-   * adding it to the log.
-   <p>
-   * @param errorId a long integer, the identification number of the error.
-   <p>
-   * @param level a long integer, the SBML Level
-   <p>
-   * @param version a long integer, the SBML Level's Version
-   <p>
-   * @param details a string containing additional details about the error.
-   * If the error code in <code>errorId</code> is one that is recognized by {@link SBMLError},
-   * the given message is <em>appended</em> to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   <p>
-   * @param line a long integer, the line number at which the error occured.
-   <p>
-   * @param column a long integer, the column number at which the error occured.
-   <p>
-   * @param severity an integer indicating severity of the error.
-   <p>
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   * @internal
-   */ public
+/** * @internal */ public
  void logError(long errorId, long level, long version, String details, long line, long column, long severity, long category) {
     libsbmlJNI.SBMLErrorLog_logError__SWIG_0(swigCPtr, this, errorId, level, version, details, line, column, severity, category);
   }
 
   
-/**
-   * Convenience function that combines creating an {@link SBMLError} object and
-   * adding it to the log.
-   <p>
-   * @param errorId a long integer, the identification number of the error.
-   <p>
-   * @param level a long integer, the SBML Level
-   <p>
-   * @param version a long integer, the SBML Level's Version
-   <p>
-   * @param details a string containing additional details about the error.
-   * If the error code in <code>errorId</code> is one that is recognized by {@link SBMLError},
-   * the given message is <em>appended</em> to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   <p>
-   * @param line a long integer, the line number at which the error occured.
-   <p>
-   * @param column a long integer, the column number at which the error occured.
-   <p>
-   * @param severity an integer indicating severity of the error.
-   <p>
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   * @internal
-   */ public
+/** * @internal */ public
  void logError(long errorId, long level, long version, String details, long line, long column, long severity) {
     libsbmlJNI.SBMLErrorLog_logError__SWIG_1(swigCPtr, this, errorId, level, version, details, line, column, severity);
   }
 
   
-/**
-   * Convenience function that combines creating an {@link SBMLError} object and
-   * adding it to the log.
-   <p>
-   * @param errorId a long integer, the identification number of the error.
-   <p>
-   * @param level a long integer, the SBML Level
-   <p>
-   * @param version a long integer, the SBML Level's Version
-   <p>
-   * @param details a string containing additional details about the error.
-   * If the error code in <code>errorId</code> is one that is recognized by {@link SBMLError},
-   * the given message is <em>appended</em> to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   <p>
-   * @param line a long integer, the line number at which the error occured.
-   <p>
-   * @param column a long integer, the column number at which the error occured.
-   <p>
-   * @param severity an integer indicating severity of the error.
-   <p>
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   * @internal
-   */ public
+/** * @internal */ public
  void logError(long errorId, long level, long version, String details, long line, long column) {
     libsbmlJNI.SBMLErrorLog_logError__SWIG_2(swigCPtr, this, errorId, level, version, details, line, column);
   }
 
   
-/**
-   * Convenience function that combines creating an {@link SBMLError} object and
-   * adding it to the log.
-   <p>
-   * @param errorId a long integer, the identification number of the error.
-   <p>
-   * @param level a long integer, the SBML Level
-   <p>
-   * @param version a long integer, the SBML Level's Version
-   <p>
-   * @param details a string containing additional details about the error.
-   * If the error code in <code>errorId</code> is one that is recognized by {@link SBMLError},
-   * the given message is <em>appended</em> to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   <p>
-   * @param line a long integer, the line number at which the error occured.
-   <p>
-   * @param column a long integer, the column number at which the error occured.
-   <p>
-   * @param severity an integer indicating severity of the error.
-   <p>
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   * @internal
-   */ public
+/** * @internal */ public
  void logError(long errorId, long level, long version, String details, long line) {
     libsbmlJNI.SBMLErrorLog_logError__SWIG_3(swigCPtr, this, errorId, level, version, details, line);
   }
 
   
-/**
-   * Convenience function that combines creating an {@link SBMLError} object and
-   * adding it to the log.
-   <p>
-   * @param errorId a long integer, the identification number of the error.
-   <p>
-   * @param level a long integer, the SBML Level
-   <p>
-   * @param version a long integer, the SBML Level's Version
-   <p>
-   * @param details a string containing additional details about the error.
-   * If the error code in <code>errorId</code> is one that is recognized by {@link SBMLError},
-   * the given message is <em>appended</em> to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   <p>
-   * @param line a long integer, the line number at which the error occured.
-   <p>
-   * @param column a long integer, the column number at which the error occured.
-   <p>
-   * @param severity an integer indicating severity of the error.
-   <p>
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   * @internal
-   */ public
+/** * @internal */ public
  void logError(long errorId, long level, long version, String details) {
     libsbmlJNI.SBMLErrorLog_logError__SWIG_4(swigCPtr, this, errorId, level, version, details);
   }
 
   
-/**
-   * Convenience function that combines creating an {@link SBMLError} object and
-   * adding it to the log.
-   <p>
-   * @param errorId a long integer, the identification number of the error.
-   <p>
-   * @param level a long integer, the SBML Level
-   <p>
-   * @param version a long integer, the SBML Level's Version
-   <p>
-   * @param details a string containing additional details about the error.
-   * If the error code in <code>errorId</code> is one that is recognized by {@link SBMLError},
-   * the given message is <em>appended</em> to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   <p>
-   * @param line a long integer, the line number at which the error occured.
-   <p>
-   * @param column a long integer, the column number at which the error occured.
-   <p>
-   * @param severity an integer indicating severity of the error.
-   <p>
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   * @internal
-   */ public
+/** * @internal */ public
  void logError(long errorId, long level, long version) {
     libsbmlJNI.SBMLErrorLog_logError__SWIG_5(swigCPtr, this, errorId, level, version);
   }
 
   
-/**
-   * Convenience function that combines creating an {@link SBMLError} object and
-   * adding it to the log.
-   <p>
-   * @param errorId a long integer, the identification number of the error.
-   <p>
-   * @param level a long integer, the SBML Level
-   <p>
-   * @param version a long integer, the SBML Level's Version
-   <p>
-   * @param details a string containing additional details about the error.
-   * If the error code in <code>errorId</code> is one that is recognized by {@link SBMLError},
-   * the given message is <em>appended</em> to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   <p>
-   * @param line a long integer, the line number at which the error occured.
-   <p>
-   * @param column a long integer, the column number at which the error occured.
-   <p>
-   * @param severity an integer indicating severity of the error.
-   <p>
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   * @internal
-   */ public
+/** * @internal */ public
  void logError(long errorId, long level) {
     libsbmlJNI.SBMLErrorLog_logError__SWIG_6(swigCPtr, this, errorId, level);
   }
 
   
-/**
-   * Convenience function that combines creating an {@link SBMLError} object and
-   * adding it to the log.
-   <p>
-   * @param errorId a long integer, the identification number of the error.
-   <p>
-   * @param level a long integer, the SBML Level
-   <p>
-   * @param version a long integer, the SBML Level's Version
-   <p>
-   * @param details a string containing additional details about the error.
-   * If the error code in <code>errorId</code> is one that is recognized by {@link SBMLError},
-   * the given message is <em>appended</em> to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   <p>
-   * @param line a long integer, the line number at which the error occured.
-   <p>
-   * @param column a long integer, the column number at which the error occured.
-   <p>
-   * @param severity an integer indicating severity of the error.
-   <p>
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   * @internal
-   */ public
+/** * @internal */ public
  void logError(long errorId) {
     libsbmlJNI.SBMLErrorLog_logError__SWIG_7(swigCPtr, this, errorId);
   }
 
   
-/**
-   * Convenience function that combines creating an {@link SBMLError} object and
-   * adding it to the log.
-   <p>
-   * @param errorId a long integer, the identification number of the error.
-   <p>
-   * @param level a long integer, the SBML Level
-   <p>
-   * @param version a long integer, the SBML Level's Version
-   <p>
-   * @param details a string containing additional details about the error.
-   * If the error code in <code>errorId</code> is one that is recognized by {@link SBMLError},
-   * the given message is <em>appended</em> to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   <p>
-   * @param line a long integer, the line number at which the error occured.
-   <p>
-   * @param column a long integer, the column number at which the error occured.
-   <p>
-   * @param severity an integer indicating severity of the error.
-   <p>
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   <p>
-   * 
-</dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
-The native C++ implementation of this method defines a default argument
-value. In the documentation generated for different libSBML language
-bindings, you may or may not see corresponding arguments in the method
-declarations. For example, in Java and C#, a default argument is handled by
-declaring two separate methods, with one of them having the argument and
-the other one lacking the argument. However, the libSBML documentation will
-be <em>identical</em> for both methods. Consequently, if you are reading
-this and do not see an argument even though one is described, please look
-for descriptions of other variants of this method near where this one
-appears in the documentation.
-</dd></dl>
- 
-   * @internal
-   */ public
+/** * @internal */ public
  void logError() {
     libsbmlJNI.SBMLErrorLog_logError__SWIG_8(swigCPtr, this);
   }
@@ -646,12 +305,7 @@ appears in the documentation.
   }
 
   
-/**
-   * Adds the given {@link SBMLError} to the log.
-   <p>
-   * @param error {@link SBMLError}, the error to be logged.
-   * @internal
-   */ public
+/** * @internal */ public
  void add(SBMLError error) {
     libsbmlJNI.SBMLErrorLog_add(swigCPtr, this, SBMLError.getCPtr(error), error);
   }

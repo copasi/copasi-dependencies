@@ -61,13 +61,13 @@ START_TEST ( test_RenderExtension_writeL3Render )
   fail_unless(lPlugin != NULL);
 
   Layout* layout = lPlugin->createLayout();
-  Dimensions *dim = new Dimensions(&layoutns, 100,100 );
-  layout->setDimensions(dim);
+  Dimensions dim(&layoutns, 100,100 );
+  layout->setDimensions(&dim);
 
   GraphicalObject* additional = layout->createAdditionalGraphicalObject();
   additional->setId("go1");
-  BoundingBox *bb = new BoundingBox(&layoutns, "bb1", 10, 10, 90, 90);
-  additional->setBoundingBox(bb);
+  BoundingBox bb(&layoutns, "bb1", 10, 10, 90, 90);
+  additional->setBoundingBox(&bb);
 
   RenderLayoutPlugin *rPlugin = (RenderLayoutPlugin*)layout->getPlugin("render");
   fail_unless(rPlugin != NULL);  
@@ -84,7 +84,7 @@ START_TEST ( test_RenderExtension_writeL3Render )
   group->setStroke("black");
 
 
-  std::string sbml = writeSBMLToString(&doc);
+  std::string sbml = writeSBMLToStdString(&doc);
 
   fail_unless (sbml.length() != 0);
 
@@ -108,13 +108,13 @@ START_TEST ( test_RenderExtension_graphicalObject )
   fail_unless(lPlugin != NULL);
 
   Layout* layout = lPlugin->createLayout();
-  Dimensions *dim = new Dimensions(&layoutns, 100,100 );
-  layout->setDimensions(dim);
+  Dimensions dim(&layoutns, 100,100 );
+  layout->setDimensions(&dim);
 
   GraphicalObject* additional = layout->createAdditionalGraphicalObject();
   additional->setId("go1");
-  BoundingBox *bb = new BoundingBox(&layoutns, "bb1", 10, 10, 90, 90);
-  additional->setBoundingBox(bb);
+  BoundingBox bb(&layoutns, "bb1", 10, 10, 90, 90);
+  additional->setBoundingBox(&bb);
   RenderGraphicalObjectPlugin* goPlugin = (RenderGraphicalObjectPlugin*)additional->getPlugin("render");
   fail_unless(goPlugin != NULL);
   goPlugin->setObjectRole("myRole");
@@ -135,7 +135,7 @@ START_TEST ( test_RenderExtension_graphicalObject )
   group->setStroke("black");
 
 
-  std::string sbml = writeSBMLToString(&doc);
+  std::string sbml = writeSBMLToStdString(&doc);
 
   fail_unless (sbml.length() != 0);
 
@@ -150,6 +150,7 @@ START_TEST ( test_RenderExtension_graphicalObject )
   fail_unless(goPlugin2 != NULL);
   fail_unless(goPlugin2->getObjectRole() == "myRole");
 
+  delete doc2;
 }
 END_TEST
 
@@ -170,13 +171,13 @@ START_TEST ( test_RenderExtension_gradient )
   fail_unless(lPlugin != NULL);
 
   Layout* layout = lPlugin->createLayout();
-  Dimensions *dim = new Dimensions(&layoutns, 100,100 );
-  layout->setDimensions(dim);
+  Dimensions dim(&layoutns, 100,100 );
+  layout->setDimensions(&dim);
 
   GraphicalObject* additional = layout->createAdditionalGraphicalObject();
   additional->setId("go1");
-  BoundingBox *bb = new BoundingBox(&layoutns, "bb1", 10, 10, 90, 90);
-  additional->setBoundingBox(bb);
+  BoundingBox bb(&layoutns, "bb1", 10, 10, 90, 90);
+  additional->setBoundingBox(&bb);
   RenderGraphicalObjectPlugin* goPlugin = (RenderGraphicalObjectPlugin*)additional->getPlugin("render");
   fail_unless(goPlugin != NULL);
   goPlugin->setObjectRole("myRole");
@@ -208,7 +209,7 @@ START_TEST ( test_RenderExtension_gradient )
   stop->setOffset(RelAbsVector(0, 100));
   stop->setStopColor("silver");
 
-  std::string smodel = writeSBMLToString(&doc);
+  std::string smodel = writeSBMLToStdString(&doc);
 
   fail_unless( stop->getStopColor() == "silver" );
 }
@@ -231,7 +232,7 @@ START_TEST ( test_RenderExtension_convertLevel )
   fail_unless(result == true);
 
   // write to string  
-  std::string l3SBML = writeSBMLToString(doc);
+  std::string l3SBML = writeSBMLToStdString(doc);
 
   delete doc;
 
@@ -250,7 +251,8 @@ START_TEST ( test_RenderExtension_convertLevel )
   // read document
   doc = readSBMLFromFile(filename.c_str());
 
-  ConversionProperties prop(new SBMLNamespaces(3, 1));
+  SBMLNamespaces nsl3v1(3, 1);
+  ConversionProperties prop(&nsl3v1);
   prop.addOption("strict", false);
   prop.addOption("setLevelAndVersion", true);
   prop.addOption("ignorePackages", true);

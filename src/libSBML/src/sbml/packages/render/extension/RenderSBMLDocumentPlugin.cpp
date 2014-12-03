@@ -96,14 +96,14 @@ RenderSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
     if (getErrorLog()->getNumErrors() == numErrs + 1 && 
         getErrorLog()->contains(XMLAttributeTypeMismatch))
     {
-			getErrorLog()->remove(XMLAttributeTypeMismatch);
-      getErrorLog()->logPackageError("render", UnknownError,
-        getPackageVersion(), getLevel(), getVersion());
+      getErrorLog()->remove(XMLAttributeTypeMismatch);
+      getErrorLog()->logPackageError("render", UnknownPackageAttribute,
+        getPackageVersion(), getLevel(), getVersion(), "required attribute for render must be a boolean", getLine(), getColumn());
     }
     else
     {
-      getErrorLog()->logPackageError("render", UnknownError,
-        getPackageVersion(), getLevel(), getVersion());
+      getErrorLog()->logPackageError("render", UnknownPackageAttribute,
+        getPackageVersion(), getLevel(), getVersion(), "Render Namespace given, but the required attribute is not present", getLine(), getColumn(), LIBSBML_SEV_WARNING);
     }
   }
   else

@@ -68,6 +68,8 @@ PREDEFINED             = __cplusplus  \
 #   csharp:   only C#
 #   conly:    only C
 #   clike:    C, C++
+#   matlab:   only MATLAB
+#   octave:   only Octave
 
 ENABLED_SECTIONS       = python doxygenPythonOnly hasDefaultArgs
 
@@ -92,12 +94,9 @@ INPUT = \
   libsbml-communications.txt            \
   libsbml-converters.txt                \
   libsbml-downloading.txt               \
-  libsbml-extending.txt                 \
-  libsbml-extension-support-classes.txt \
   libsbml-features.txt                  \
   libsbml-groups.txt                    \
   libsbml-help.txt                      \
-  libsbml-howto-implement-extension.txt \
   libsbml-installation-guide.txt        \
   libsbml-installation.txt              \
   libsbml-issues.txt                    \

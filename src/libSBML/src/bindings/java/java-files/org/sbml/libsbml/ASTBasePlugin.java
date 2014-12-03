@@ -10,6 +10,14 @@ package org.sbml.libsbml;
 
 /** 
  *  Base class for extensions that plug into AST classes.
+ <p>
+ * <p style='color: #777; font-style: italic'>
+This class of objects is defined by libSBML only and has no direct
+equivalent in terms of SBML components.  This class is not prescribed by
+the SBML specifications, although it is used to implement features
+defined in SBML.
+</p>
+
  * @internal
  */
 
@@ -56,47 +64,26 @@ public class ASTBasePlugin {
   }
 
   
-/**
-   * Creates and returns a deep copy of this {@link ASTBasePlugin} object.
-   <p>
-   * @return the (deep) copy of this {@link ASTBasePlugin} object.
-   * @internal
-   */ public
+/** * @internal */ public
  ASTBasePlugin cloneObject() {
     long cPtr = libsbmlJNI.ASTBasePlugin_cloneObject(swigCPtr, this);
     return (cPtr == 0) ? null : new ASTBasePlugin(cPtr, true);
   }
 
   
-/**
-   * Returns the XML namespace (URI) of the package extension
-   * of this plugin object.
-   <p>
-   * @return the URI of the package extension of this plugin object.
-   * @internal
-   */ public
+/** * @internal */ public
  String getElementNamespace() {
     return libsbmlJNI.ASTBasePlugin_getElementNamespace(swigCPtr, this);
   }
 
   
-/**
-   * Returns the prefix of the package extension of this plugin object.
-   <p>
-   * @return the prefix of the package extension of this plugin object.
-   * @internal
-   */ public
+/** * @internal */ public
  String getPrefix() {
     return libsbmlJNI.ASTBasePlugin_getPrefix(swigCPtr, this);
   }
 
   
-/**
-   * Returns the package name of this plugin object.
-   <p>
-   * @return the package name of this plugin object.
-   * @internal
-   */ public
+/** * @internal */ public
  String getPackageName() {
     return libsbmlJNI.ASTBasePlugin_getPackageName(swigCPtr, this);
   }
@@ -114,42 +101,13 @@ public class ASTBasePlugin {
   }
 
   
-/**
-   * Sets the parent SBML object of this plugin object to
-   * this object and child elements (if any).
-   * (Creates a child-parent relationship by this plugin object)
-   <p>
-   * This function is called when this object is created by
-   * the parent element.
-   * Subclasses must override this this function if they have one
-   * or more child elements. Also, {@link ASTBasePlugin#connectToParent(SBase)}
-   * must be called in the overridden function.
-   <p>
-   * @param sbase the {@link SBase} object to use
-   <p>
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   * @internal
-   */ public
+/** * @internal */ public
  void connectToParent(ASTBase astbase) {
     libsbmlJNI.ASTBasePlugin_connectToParent(swigCPtr, this, ASTBase.getCPtr(astbase), astbase);
   }
 
   
-/**
-   * Enables/Disables the given package with child elements in this plugin 
-   * object (if any).
-   * (This is an internal implementation invoked from 
-   *  {@link SBase#enablePackageInternal()} function)
-   <p>
-   * Subclasses which contain one or more {@link SBase} derived elements should 
-   * override this function if elements defined in them can be extended by
-   * some other package extension.
-   <p>
-   * @see setSBMLDocument
-   * @see connectToParent
-   * @internal
-   */ public
+/** * @internal */ public
  void enablePackageInternal(String pkgURI, String pkgPrefix, boolean flag) {
     libsbmlJNI.ASTBasePlugin_enablePackageInternal(swigCPtr, this, pkgURI, pkgPrefix, flag);
   }
@@ -161,101 +119,37 @@ public class ASTBasePlugin {
   }
 
   
-/**
-   * Gets the URI to which this element belongs to.
-   * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must would have the URI 'http://www.sbml.org/sbml/level3/version1/core'; 
-   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-   * Version 1 Core must would have the URI
-   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
-   <p>
-   * Unlike getElementNamespace, this function first returns the URI for this 
-   * element by looking into the {@link SBMLNamespaces} object of the document with 
-   * the its package name. if not found it will return the result of 
-   * getElementNamespace
-   <p>
-   * @return the URI this elements  
-   <p>
-   * @see getPackageName
-   * @see getElementNamespace
-   * @see SBMLDocument#getSBMLNamespaces
-   * @see getSBMLDocument
-   * @internal
-   */ public
+/** * @internal */ public
  String getURI() {
     return libsbmlJNI.ASTBasePlugin_getURI(swigCPtr, this);
   }
 
   
-/**
-   * Returns the parent {@link ASTNode} object to which this plugin 
-   * object connected.
-   <p>
-   * @return the parent {@link ASTNode} object to which this plugin 
-   * object connected.
-   * @internal
-   */ public
+/** * @internal */ public
  ASTBase getParentASTObject() {
   return libsbml.DowncastASTBase(libsbmlJNI.ASTBasePlugin_getParentASTObject__SWIG_0(swigCPtr, this), false);
 }
 
   
-/**
-   * Sets the XML namespace to which this element belongs to.
-   * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must set the namespace to 'http://www.sbml.org/sbml/level3/version1/core'; 
-   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-   * Version 1 Core must set the namespace to 
-   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
-   <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
-   * @internal
-   * </ul>
-   */ public
+/** * @internal */ public
  int setElementNamespace(String uri) {
     return libsbmlJNI.ASTBasePlugin_setElementNamespace(swigCPtr, this, uri);
   }
 
   
-/**
-   * Returns the SBML level of the package extension of 
-   * this plugin object.
-   <p>
-   * @return the SBML level of the package extension of
-   * this plugin object.
-   * @internal
-   */ public
+/** * @internal */ public
  long getLevel() {
     return libsbmlJNI.ASTBasePlugin_getLevel(swigCPtr, this);
   }
 
   
-/**
-   * Returns the SBML version of the package extension of
-   * this plugin object.
-   <p>
-   * @return the SBML version of the package extension of
-   * this plugin object.
-   * @internal
-   */ public
+/** * @internal */ public
  long getVersion() {
     return libsbmlJNI.ASTBasePlugin_getVersion(swigCPtr, this);
   }
 
   
-/**
-   * Returns the package version of the package extension of
-   * this plugin object.
-   <p>
-   * @return the package version of the package extension of
-   * this plugin object.
-   * @internal
-   */ public
+/** * @internal */ public
  long getPackageVersion() {
     return libsbmlJNI.ASTBasePlugin_getPackageVersion(swigCPtr, this);
   }
@@ -322,8 +216,8 @@ public class ASTBasePlugin {
 
   
 /** * @internal */ public
- int replaceChild(long n, ASTBase newChild) {
-    return libsbmlJNI.ASTBasePlugin_replaceChild(swigCPtr, this, n, ASTBase.getCPtr(newChild), newChild);
+ int replaceChild(long n, ASTBase newChild, boolean delreplaced) {
+    return libsbmlJNI.ASTBasePlugin_replaceChild(swigCPtr, this, n, ASTBase.getCPtr(newChild), newChild, delreplaced);
   }
 
   

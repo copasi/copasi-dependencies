@@ -154,7 +154,8 @@ namespace libsbml {
  * SBML Level 1 uses a different scheme than SBML Level 2 and Level 3 for
  * distinguishing rules; specifically, it uses an attribute whose value is
  * drawn from an enumeration of 3 values.  LibSBML supports this using methods
- * that work @if clike a libSBML enumeration type, RuleType_t, whose values
+ * that work @if clike a libSBML enumeration type,
+ * @link Rule::RuleType_t RuleType_t@endlink, whose values
  * are @else with the enumeration values @endif listed below.
  *
  * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
@@ -426,9 +427,13 @@ public class Rule : SBase {
    *
    * @param formula a mathematical formula in text-string form.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -450,11 +455,15 @@ public class Rule : SBase {
    * Sets the 'math' subelement of this Rule to a copy of the given
    * ASTNode.
    *
-   * @param math the ASTNode_t structure of the mathematical formula.
+   * @param math the AST structure of the mathematical formula.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -493,9 +502,13 @@ public class Rule : SBase {
    * @param sid the identifier of a Compartment, Species or Parameter
    * elsewhere in the enclosing Model object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -511,9 +524,13 @@ public class Rule : SBase {
    *
    * @param sname the identifier of the units
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -530,9 +547,13 @@ public class Rule : SBase {
 /**
    * Unsets the 'units' for this Rule.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -746,7 +767,7 @@ public class Rule : SBase {
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -844,8 +865,13 @@ public class Rule : SBase {
    * @link libsbml#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
    * @link libsbml#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * if given @p type value is not one of the above.
@@ -968,26 +994,19 @@ public class Rule : SBase {
   }
 
   
-/**
-   * Replace all nodes with the name 'id' from the child 'math' object with the provided function. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  void replaceSIDWithFunction(string id, ASTNode function) {
     libsbmlPINVOKE.Rule_replaceSIDWithFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
 
   
-/**
-   * If this rule assigns a value or a change to the 'id' element, replace the 'math' object with the function (existing/function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  void divideAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.Rule_divideAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }
 
   
-/**
-   * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing*function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  void multiplyAssignmentsToSIdByFunction(string id, ASTNode function) {
     libsbmlPINVOKE.Rule_multiplyAssignmentsToSIdByFunction(swigCPtr, id, ASTNode.getCPtr(function));
   }

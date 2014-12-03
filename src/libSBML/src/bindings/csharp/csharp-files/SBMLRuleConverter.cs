@@ -51,11 +51,11 @@ namespace libsbmlcs {
  * can be used to reorder the SBML objects regardless of whether the
  * input file contained them in the desired order.
  *
- * @note The two sets of assignments (list of assignment rules on the one
- * hand, and list of initial assignments on the other hand) are handled @em
- * independently.  In an SBML model, these entities are treated differently
- * and no amount of sorting can deal with inter-dependencies between
- * assignments of the two kinds.
+ * Note that the two sets of SBML assignments (list of assignment rules on
+ * the one hand, and list of initial assignments on the other hand) are
+ * handled @em independently.  In an SBML model, these entities are treated
+ * differently and no amount of sorting can deal with inter-dependencies
+ * between assignments of the two kinds.
 
  * @section SBMLRuleConverter-usage Configuration and use of SBMLRuleConverter
  *
@@ -268,9 +268,7 @@ public class SBMLRuleConverter : SBMLConverter {
   }
 
   
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  static void init() {
     libsbmlPINVOKE.SBMLRuleConverter_init();
   }
@@ -340,9 +338,13 @@ public class SBMLRuleConverter : SBMLConverter {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink

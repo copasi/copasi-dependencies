@@ -244,7 +244,7 @@ public class SBMLConverter : IDisposable {
   
 /**
    * Creates a new SBMLConverter object with a given name.
-   * 
+   *
    * @param name the name for the converter to create
    */ public
  SBMLConverter(string name) : this(libsbmlPINVOKE.new_SBMLConverter__SWIG_1(name), true) {
@@ -254,14 +254,16 @@ public class SBMLConverter : IDisposable {
 
   
 /**
-   * Copy constructor; creates a copy of an SBMLConverter object.
+   * Copy constructor.
    *
-   * @param c the SBMLConverter object to copy.
+   * This creates a copy of an SBMLConverter object.
+   *
+   * @param orig the SBMLConverter object to copy.
    *
    * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
    */ public
- SBMLConverter(SBMLConverter c) : this(libsbmlPINVOKE.new_SBMLConverter__SWIG_2(SBMLConverter.getCPtr(c)), true) {
+ SBMLConverter(SBMLConverter orig) : this(libsbmlPINVOKE.new_SBMLConverter__SWIG_2(SBMLConverter.getCPtr(orig)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
     SwigDirectorConnect();
   }
@@ -316,16 +318,16 @@ public class SBMLConverter : IDisposable {
 /**
    * Returns the target SBML namespaces of the currently set properties.
    *
-   * SBML namespaces are used by libSBML to express the Level+Version of
-   * the SBML document (and, possibly, any SBML Level&nbsp;3 packages in
+   * SBML namespaces are used by libSBML to express the Level+Version of the
+   * SBML document (and, possibly, any SBML Level&nbsp;3 packages in
    * use). Some converters' behavior is affected by the SBML namespace
-   * configured in the converter.  For example, the actions of
-   * SBMLLevelVersionConverter, the converter for converting SBML documents
-   * from one Level+Version combination to another, are fundamentally
-   * dependent on the SBML namespaces being targeted.
+   * configured in the converter.  For example, in SBMLLevelVersionConverter
+   * (the converter for converting SBML documents from one Level+Version
+   * combination to another), the actions are fundamentally dependent on the
+   * SBML namespaces targeted.
    *
    * @return the SBMLNamespaces object that describes the SBML namespaces
-   * in effect.
+   * in effect, or @c null if none are set.
    */ public virtual
  SBMLNamespaces getTargetNamespaces() {
 	SBMLNamespaces ret
@@ -335,13 +337,16 @@ public class SBMLConverter : IDisposable {
 
   
 /**
-   * Predicate returning @c true if this converter's properties matches a
-   * given set of configuration properties.
+   * Returns @c true if this converter matches the given properties.
    *
-   * @param props the configuration properties to match.
+   * Given a ConversionProperties object @p props, this method checks that @p
+   * props possesses an option value to enable this converter.  If it does,
+   * this method returns @c true.
    *
-   * @return @c true if this converter's properties match, @c false
-   * otherwise.
+   * @param props the properties to match.
+   *
+   * @return @c true if the properties @p props would match the necessary
+   * properties for this type of converter, @c false otherwise.
    */ public virtual
  bool matchesProperties(ConversionProperties props) {
     bool ret = (SwigDerivedClassHasMethod("matchesProperties", swigMethodTypes5) ? libsbmlPINVOKE.SBMLConverter_matchesPropertiesSwigExplicitSBMLConverter(swigCPtr, ConversionProperties.getCPtr(props)) : libsbmlPINVOKE.SBMLConverter_matchesProperties(swigCPtr, ConversionProperties.getCPtr(props)));
@@ -351,7 +356,7 @@ public class SBMLConverter : IDisposable {
 
   
 /**
-   * Sets the current SBML document to the given SBMLDocument object.
+   * Sets the SBML document to be converted.
    *
    * @param doc the document to use for this conversion.
    *
@@ -360,7 +365,7 @@ public class SBMLConverter : IDisposable {
    * #OperationReturnValues_t. @endif The set of possible values that may
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
-   * following values:
+   * following:
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public virtual
  int setDocument(SBMLDocument doc) {
@@ -436,10 +441,10 @@ public class SBMLConverter : IDisposable {
   }
 
   
-/**  
-   * Returns the name of this converter. 
+/**
+   * Returns the name of this converter.
    *
-   * @return a name for this converter
+   * @return a string, the name of this converter.
    */ public
  string getName() {
     string ret = libsbmlPINVOKE.SBMLConverter_getName(swigCPtr);

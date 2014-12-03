@@ -240,9 +240,7 @@ public class SBMLReactionConverter : SBMLConverter {
   }
 
   
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  static void init() {
     libsbmlPINVOKE.SBMLReactionConverter_init();
   }
@@ -312,9 +310,13 @@ public class SBMLReactionConverter : SBMLConverter {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -349,12 +351,13 @@ public class SBMLReactionConverter : SBMLConverter {
    *
    * @param doc the document to use for this conversion.
    *
-   * @return integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The set of possible values that may
-   * be returned ultimately depends on the specific subclass of
-   * SBMLConverter being used, but the default method can return the
-   * following values:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
  int setDocument(SBMLDocument doc) {

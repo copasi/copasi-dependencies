@@ -464,7 +464,9 @@ public class Compartment extends SBase {
 
   
 /**
-   * Copy constructor; creates a copy of a {@link Compartment}.
+   * Copy constructor.
+   <p>
+   * This creates a copy of a {@link Compartment} object.
    <p>
    * @param orig the {@link Compartment} instance to copy.
    <p>
@@ -944,9 +946,10 @@ public class Compartment extends SBase {
    * the string is <code>null</code>, this method will return
    * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -970,9 +973,10 @@ public class Compartment extends SBase {
    * <code>null</code>, this method will return
    * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -994,9 +998,10 @@ public class Compartment extends SBase {
    * in this {@link Model}. If the string is <code>null</code>, this method will return
    * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -1021,9 +1026,10 @@ public class Compartment extends SBase {
    * @param value a long integereger indicating the number of dimensions
    * of this compartment.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -1045,9 +1051,10 @@ public class Compartment extends SBase {
    * @param value a double indicating the number of dimensions
    * of this compartment.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -1070,9 +1077,10 @@ public class Compartment extends SBase {
    * @param value a <code>double</code> representing the size of this compartment
    * instance in whatever units are in effect for the compartment.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -1102,9 +1110,10 @@ public class Compartment extends SBase {
    * @param value a <code>double</code> representing the volume of this compartment
    * instance in whatever units are in effect for the compartment.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -1136,9 +1145,10 @@ public class Compartment extends SBase {
    * <code>null</code>, then this method will return
    * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -1160,9 +1170,10 @@ public class Compartment extends SBase {
    * <code>sid</code> is <code>null</code>, then this method will return
    * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -1188,9 +1199,10 @@ public class Compartment extends SBase {
    * compartment should be considered constant (<code>true</code>) or variable
    * (<code>false</code>).
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -1267,9 +1279,10 @@ public class Compartment extends SBase {
 /**
    * Unsets the value of the 'name' attribute of this {@link Compartment} object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1287,9 +1300,10 @@ public class Compartment extends SBase {
 /**
    * Unsets the value of the 'compartmentType' attribute of this {@link Compartment} object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1318,9 +1332,10 @@ public class Compartment extends SBase {
    * no default value, and unsetting it will result in the compartment having
    * no defined size.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1346,9 +1361,10 @@ public class Compartment extends SBase {
    * {@link Compartment#unsetSize()}.  Please refer
    * to that method's documentation for more information about its behavior.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1377,9 +1393,10 @@ public class Compartment extends SBase {
 /**
    * Unsets the value of the 'units' attribute of this {@link Compartment} object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1397,9 +1414,10 @@ public class Compartment extends SBase {
 /**
    * Unsets the value of the 'outside' attribute of this {@link Compartment} object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1427,9 +1445,10 @@ public class Compartment extends SBase {
    * on a model of SBML Level 1&ndash;2 will result in a return value of
    * {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1501,7 +1520,7 @@ public class Compartment extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3

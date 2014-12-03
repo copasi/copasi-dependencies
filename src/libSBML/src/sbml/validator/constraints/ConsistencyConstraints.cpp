@@ -1852,7 +1852,7 @@ START_CONSTRAINT (21113, SpeciesReference, sr)
   pre( sr.isSetStoichiometryMath()  );
 
   std::string rnId = (sr.getAncestorOfType(SBML_REACTION) != NULL) ?
-    sr.getAncestorOfType(SBML_REACTION)->getId() : "";
+    sr.getAncestorOfType(SBML_REACTION)->getId() : std::string("");
 
   msg = "In <reaction> with id '" + rnId + "' the <speciesReference> "
     "with species '" + sr.getSpecies() + "' cannot have both "
@@ -1934,7 +1934,7 @@ START_CONSTRAINT (21130, KineticLaw, kl)
   pre( kl.getLevel() > 1        );
 
   std::string rnId = (kl.getAncestorOfType(SBML_REACTION) != NULL) ?
-    kl.getAncestorOfType(SBML_REACTION)->getId() : "";
+    kl.getAncestorOfType(SBML_REACTION)->getId() : std::string("");
 
   msg = "In <reaction> with id '" + rnId + "' the <kineticLaw> "
     "contains no <math> element. ";
@@ -2096,11 +2096,6 @@ START_CONSTRAINT (99129, AssignmentRule, ar)
   pre (m.getLevel() == 1);
   pre (ar.isSetFormula() == 1);
 
-  //msg =
-  //  "In a Level 1 model only predefined functions are permitted "
-  //   "within the KineticLaw formula. (L1V2 Appendix C)";
-
-
   FormulaTokenizer_t * ft = 
     FormulaTokenizer_createFromFormula (ar.getFormula().c_str());
   Token_t * t = FormulaTokenizer_nextToken (ft);
@@ -2115,6 +2110,7 @@ START_CONSTRAINT (99129, AssignmentRule, ar)
    * need to check whether it is defined
    */
   bool fail = false;
+  bool logFailure = false;
   while (t->type != TT_END)
   {
     if (t->type == TT_NAME)
@@ -2182,12 +2178,16 @@ START_CONSTRAINT (99129, AssignmentRule, ar)
       }
     }
 
-    inv (fail == false);
+    if (fail == true)
+    {
+      logFailure = true;
+    }
     Token_free(t);
     t = FormulaTokenizer_nextToken(ft);
   }
-  FormulaTokenizer_free(ft);
   Token_free(t);
+  FormulaTokenizer_free(ft);
+  inv (logFailure == false);
 }
 END_CONSTRAINT
 
@@ -2196,11 +2196,6 @@ START_CONSTRAINT (99129, RateRule, rr)
 {
   pre (m.getLevel() == 1);
   pre (rr.isSetFormula() == 1);
-
-  //msg =
-  //  "In a Level 1 model only predefined functions are permitted "
-  //   "within the KineticLaw formula. (L1V2 Appendix C)";
-
 
   FormulaTokenizer_t * ft = 
     FormulaTokenizer_createFromFormula (rr.getFormula().c_str());
@@ -2216,6 +2211,7 @@ START_CONSTRAINT (99129, RateRule, rr)
    * need to check whether it is defined
    */
   bool fail = false;
+  bool logFailure = false;
   while (t->type != TT_END)
   {
     if (t->type == TT_NAME)
@@ -2283,9 +2279,16 @@ START_CONSTRAINT (99129, RateRule, rr)
       }
     }
 
-    inv (fail == false);
+    if (fail == true)
+    {
+      logFailure = true;
+    }
+    Token_free(t);
     t = FormulaTokenizer_nextToken(ft);
   }
+  Token_free(t);
+  FormulaTokenizer_free(ft);
+  inv (logFailure == false);
 }
 END_CONSTRAINT
 
@@ -2313,7 +2316,7 @@ START_CONSTRAINT (21202, Trigger, t)
   pre( t.isSetMath() );
 
   std::string id = (t.getAncestorOfType(SBML_EVENT) != NULL) ?
-    t.getAncestorOfType(SBML_EVENT)->getId() : "";
+    t.getAncestorOfType(SBML_EVENT)->getId() : std::string("");
 
   msg = "The <trigger> element of the <event> with id '" + id + "' "
     "returns a value that is not boolean. ";
@@ -2432,7 +2435,7 @@ START_CONSTRAINT (21209, Trigger, t)
   pre( t.getLevel() > 2        );
 
   std::string id = (t.getAncestorOfType(SBML_EVENT) != NULL) ?
-    t.getAncestorOfType(SBML_EVENT)->getId() : "";
+    t.getAncestorOfType(SBML_EVENT)->getId() : std::string("");
 
   msg = "The <trigger> element of the <event> with id '" + id + "' "
     "does not contain a <math> element. ";
@@ -2449,7 +2452,7 @@ START_CONSTRAINT (21210, Delay, d)
   pre( d.getLevel() > 2        );
 
   std::string id = (d.getAncestorOfType(SBML_EVENT) != NULL) ?
-    d.getAncestorOfType(SBML_EVENT)->getId() : "";
+    d.getAncestorOfType(SBML_EVENT)->getId() : std::string("");
 
   msg = "The <delay> element of the <event> with id '" + id + "' "
     "does not contain a <math> element. ";
@@ -2470,7 +2473,7 @@ START_CONSTRAINT (21211, EventAssignment, ea)
   const string& id = ea.getVariable();
 
   std::string eId = (ea.getAncestorOfType(SBML_EVENT) != NULL) ?
-    ea.getAncestorOfType(SBML_EVENT)->getId() : "";
+    ea.getAncestorOfType(SBML_EVENT)->getId() : std::string("");
 
   msg = "In the <event> with id '" + eId + "' the <eventAssignment> "
     "with variable '" + id + "' does not refer "
@@ -2524,7 +2527,7 @@ START_CONSTRAINT (21213, EventAssignment, ea)
   pre( ea.getLevel() > 2        );
 
   std::string id = (ea.getAncestorOfType(SBML_EVENT) != NULL) ?
-    ea.getAncestorOfType(SBML_EVENT)->getId() : "";
+    ea.getAncestorOfType(SBML_EVENT)->getId() : std::string("");
 
   msg = "The <eventAssignment> with variable '" + ea.getVariable() + "' "
     "of the <event> with id '" + id + "' "
@@ -2541,7 +2544,7 @@ START_CONSTRAINT (21231, Priority, p)
   pre( p.getLevel() > 2        );
 
   std::string id = (p.getAncestorOfType(SBML_EVENT) != NULL) ?
-    p.getAncestorOfType(SBML_EVENT)->getId() : "";
+    p.getAncestorOfType(SBML_EVENT)->getId() : std::string("");
 
   msg = "The <priority> element of the <event> with id '" + id + "' "
     "does not contain a <math> element. ";

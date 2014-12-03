@@ -68,9 +68,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/**
-   * Creates a copy (clone).
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  ASTBase deepCopy() {
 	ASTBase ret = (ASTBase) libsbml.DowncastASTBase(libsbmlPINVOKE.ASTBase_deepCopy(swigCPtr), false);
 	return ret;
@@ -83,13 +81,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/**
-   * Get the type of this ASTNode.  The value returned is one of the
-   * enumeration values such as @link libsbml#AST_LAMBDA AST_LAMBDA@endlink, @link libsbml#AST_PLUS AST_PLUS@endlink,
-   * etc.
-   * 
-   * @return the type of this ASTNode.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  int getType() {
     int ret = libsbmlPINVOKE.ASTBase_getType(swigCPtr);
     return ret;
@@ -110,18 +102,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/**
-   * Sets the type of this ASTNode to the given type code.  A side-effect
-   * of doing this is that any numerical values previously stored in this
-   * node are reset to zero.
-   *
-   * @param type the type to which this node should be set
-   *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  int setType(int type) {
     int ret = libsbmlPINVOKE.ASTBase_setType__SWIG_0(swigCPtr, type);
     return ret;
@@ -540,15 +521,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/**
-   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension with the given package name or URI.
-   *
-   * @param package the name or URI of the package
-   *
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  ASTBasePlugin getPlugin(string package) {
     IntPtr cPtr = libsbmlPINVOKE.ASTBase_getPlugin__SWIG_0(swigCPtr, package);
     ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, false);
@@ -557,15 +530,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/**
-   * Returns the nth plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension.
-   *
-   * @param n the index of the plug-in to return
-   *
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  ASTBasePlugin getPlugin(long n) {
     IntPtr cPtr = libsbmlPINVOKE.ASTBase_getPlugin__SWIG_2(swigCPtr, n);
     ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, false);
@@ -573,13 +538,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/**
-   * Returns the number of plug-in objects (extenstion interfaces) for SBML
-   * Level&nbsp;3 package extensions known.
-   *
-   * @return the number of plug-in objects (extension interfaces) of
-   * package extensions known by this instance of libSBML.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  long getNumPlugins() { return (long)libsbmlPINVOKE.ASTBase_getNumPlugins(swigCPtr); }
 
   
@@ -676,39 +635,28 @@ public class ASTBase : IDisposable {
   }
 
   
-/**
-   * Returns true if this is a package function which should be written as
-   * 'functionname(argumentlist)', false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  bool isPackageInfixFunction() {
     bool ret = libsbmlPINVOKE.ASTBase_isPackageInfixFunction(swigCPtr);
     return ret;
   }
 
   
-/**
-   * Returns true if this is a package function which should be written
-   * special syntax that the package knows about, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  bool hasPackageOnlyInfixSyntax() {
     bool ret = libsbmlPINVOKE.ASTBase_hasPackageOnlyInfixSyntax(swigCPtr);
     return ret;
   }
 
   
-/**
-   * Returns the precedence of the functions within the package
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  int getL3PackageInfixPrecedence() {
     int ret = libsbmlPINVOKE.ASTBase_getL3PackageInfixPrecedence(swigCPtr);
     return ret;
   }
 
   
-/**
-   * Returns true if this is a package function which needs no special
-   * consideration when writng as infix, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  bool hasUnambiguousPackageInfixGrammar(ASTNode child) {
     bool ret = libsbmlPINVOKE.ASTBase_hasUnambiguousPackageInfixGrammar(swigCPtr, ASTNode.getCPtr(child));
     return ret;

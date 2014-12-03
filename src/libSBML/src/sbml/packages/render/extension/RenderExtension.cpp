@@ -450,8 +450,8 @@ RenderExtension::init()
   }
 
   // add converter to registry;
-  SBMLConverterRegistry::getInstance().addConverter(new RenderLayoutConverter());
-
+  RenderLayoutConverter rlc;
+  SBMLConverterRegistry::getInstance().addConverter(&rlc);
 }
 
 

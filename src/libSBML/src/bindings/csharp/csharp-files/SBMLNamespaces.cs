@@ -587,10 +587,13 @@ else
    *
    * @param xmlns the XML namespaces to be added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -608,10 +611,13 @@ else
    * @param uri    the XML namespace to be added.
    * @param prefix the prefix of the namespace to be added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -629,10 +635,13 @@ else
    * 
    * @param uri    the XML namespace to be added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
@@ -654,10 +663,13 @@ else
    * @param prefix the prefix of the package namespace to be added.
    *        The package's name will be used if the given string is empty (default).
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -685,10 +697,13 @@ else
    * @param prefix the prefix of the package namespace to be added.
    *        The package's name will be used if the given string is empty (default).
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -712,10 +727,13 @@ else
    * 
    * @param xmlns the XML namespaces to be added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -738,10 +756,13 @@ else
    * @param pkgName the string of package name (e.g. 'layout', 'multi')
    * @param pkgVersion the package version
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
@@ -753,30 +774,7 @@ else
   }
 
   
-/**
-   * Add an XML namespace (a pair of URI and prefix) of a package extension
-   * to the set of namespaces within this SBMLNamespaces object.
-   * 
-   * The SBML Level and SBML Version of this object is used.
-   * 
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
-   * @param prefix the prefix of the package namespace to be added.
-   *        The package's name will be used if the given string is empty (default).
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   *
-   * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
-   * will be returned).
-   *
-   * @see addNamespace(@if java String, String@endif)
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  int addPkgNamespace(string pkgName, long pkgVersion, string prefix) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_addPkgNamespace__SWIG_0(swigCPtr, pkgName, pkgVersion, prefix);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -784,30 +782,7 @@ else
   }
 
   
-/**
-   * Add an XML namespace (a pair of URI and prefix) of a package extension
-   * to the set of namespaces within this SBMLNamespaces object.
-   * 
-   * The SBML Level and SBML Version of this object is used.
-   * 
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
-   * @param prefix the prefix of the package namespace to be added.
-   *        The package's name will be used if the given string is empty (default).
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   *
-   * @note An XML namespace of a non-registered package extension can't be
-   * added by this function (@link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
-   * will be returned).
-   *
-   * @see addNamespace(@if java String, String@endif)
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  int addPkgNamespace(string pkgName, long pkgVersion) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_addPkgNamespace__SWIG_1(swigCPtr, pkgName, pkgVersion);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -815,48 +790,14 @@ else
   }
 
   
-/**
-   * Add the XML namespaces of package extensions in the given XMLNamespace
-   * object to the set of namespaces within this SBMLNamespaces object.
-   * 
-   * Non-package XML namespaces are not added by this function.
-   * 
-   * @param xmlns the XML namespaces to be added.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   *
-   * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
-   * xmlns is null.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  int addPkgNamespaces(XMLNamespaces xmlns) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_addPkgNamespaces(swigCPtr, XMLNamespaces.getCPtr(xmlns));
     return ret;
   }
 
   
-/**
-   * Removes an XML namespace of a package extension from the set of
-   * namespaces within this SBMLNamespaces object.
-   *
-   * @param level   the SBML level
-   * @param version the SBML version
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  int removePkgNamespace(long level, long version, string pkgName, long pkgVersion) {
     int ret = libsbmlPINVOKE.SBMLNamespaces_removePkgNamespace(swigCPtr, level, version, pkgName, pkgVersion);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();

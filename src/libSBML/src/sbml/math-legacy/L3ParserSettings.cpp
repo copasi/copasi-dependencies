@@ -32,8 +32,17 @@
  * ---------------------------------------------------------------------- -->*/
 
 #include <sbml/math/L3ParserSettings.h>
+#include <sbml/extension/SBMLExtensionRegistry.h>
+#include <sbml/util/StringBuffer.h>
+#include <sbml/math/L3FormulaFormatter.h>
 #include <cstddef>
+#include <string>
 #include <new>
+
+#ifndef LIBSBML_USE_LEGACY_MATH
+#include <sbml/extension/ASTBasePlugin.h>
+#endif
+
 
 /** @cond doxygenIgnored */
 
@@ -49,28 +58,148 @@ L3ParserSettings::L3ParserSettings()
   , mCollapseminus(L3P_EXPAND_UNARY_MINUS)
   , mParseunits(L3P_PARSE_UNITS)
   , mAvoCsymbol(L3P_AVOGADRO_IS_CSYMBOL)
+  , mStrCmpIsCaseSensitive(L3P_COMPARE_BUILTINS_CASE_INSENSITIVE)
+#ifndef LIBSBML_USE_LEGACY_MATH
+  , mPlugins()
+#endif
 {
+  setPlugins(NULL);
 }
 
-L3ParserSettings::L3ParserSettings(Model* model, ParseLogType_t parselog, bool collapseminus, bool parseunits, bool avocsymbol)
+L3ParserSettings::L3ParserSettings(Model* model, ParseLogType_t parselog, bool collapseminus, bool parseunits, bool avocsymbol, bool caseSensitive, SBMLNamespaces* sbmlns)
   : mModel (model)
   , mParselog(parselog)
   , mCollapseminus(collapseminus)
   , mParseunits(parseunits)
   , mAvoCsymbol(avocsymbol)
+  , mStrCmpIsCaseSensitive(caseSensitive)
+#ifndef LIBSBML_USE_LEGACY_MATH
+  , mPlugins()
+#endif
 {
+  setPlugins(sbmlns);
 }
+
+L3ParserSettings::L3ParserSettings(const L3ParserSettings& source)
+{
+  mModel = source.mModel;
+  mParselog = source.mParselog;
+  mCollapseminus = source.mCollapseminus;
+  mParseunits = source.mParseunits;
+  mAvoCsymbol = source.mAvoCsymbol;
+  mStrCmpIsCaseSensitive = source.mStrCmpIsCaseSensitive;
+
+#ifndef LIBSBML_USE_LEGACY_MATH
+  for (size_t mp=0; mp<source.mPlugins.size(); mp++) 
+  {
+    mPlugins.push_back(source.mPlugins[mp]->clone());
+  }
+#endif
+}
+
+L3ParserSettings& L3ParserSettings::operator=(const L3ParserSettings& source)
+{
+  mModel = source.mModel;
+  mParselog = source.mParselog;
+  mCollapseminus = source.mCollapseminus;
+  mParseunits = source.mParseunits;
+  mAvoCsymbol = source.mAvoCsymbol;
+  mStrCmpIsCaseSensitive = source.mStrCmpIsCaseSensitive;
+
+#ifndef LIBSBML_USE_LEGACY_MATH
+  deletePlugins();
+  for (size_t mp=0; mp<source.mPlugins.size(); mp++) 
+  {
+    mPlugins.push_back(source.mPlugins[mp]->clone());
+  }
+#endif 
+  return *this;
+}
+
 
 L3ParserSettings::~L3ParserSettings()
 {
+  deletePlugins();
 }
 
+void
+L3ParserSettings::setPlugins(const SBMLNamespaces * sbmlns)
+{
+#ifndef LIBSBML_USE_LEGACY_MATH
+  deletePlugins();
+  if (sbmlns == NULL)
+  {
+    unsigned int numPkgs = SBMLExtensionRegistry::getNumRegisteredPackages();
+
+    for (unsigned int i=0; i < numPkgs; i++)
+    {
+      const std::string &uri = SBMLExtensionRegistry::getRegisteredPackageName(i);
+      const SBMLExtension* sbmlext = SBMLExtensionRegistry::getInstance().getExtensionInternal(uri);
+
+      if (sbmlext && sbmlext->isEnabled())
+      {
+
+        //const std::string &prefix = xmlns->getPrefix(i);
+        const ASTBasePlugin* l3psPlugin = sbmlext->getASTBasePlugin();
+        if (l3psPlugin != NULL)
+        {
+          //// need to give the plugin information about itself
+          //l3psPlugin->setSBMLExtension(sbmlext);
+          //l3psPlugin->connectToParent(this);
+          mPlugins.push_back(l3psPlugin->clone());
+        }
+
+      }
+    }
+  }
+  else
+  {
+    const XMLNamespaces *xmlns = sbmlns->getNamespaces();
+
+    if (xmlns)
+    {
+      int numxmlns= xmlns->getLength();
+      for (int i=0; i < numxmlns; i++)
+      {
+        const std::string &uri = xmlns->getURI(i);
+        const SBMLExtension* sbmlext = SBMLExtensionRegistry::getInstance().getExtensionInternal(uri);
+
+        if (sbmlext && sbmlext->isEnabled())
+        {
+          const ASTBasePlugin* l3psPlugin = sbmlext->getASTBasePlugin();
+          if (l3psPlugin != NULL)
+          {
+            //ASTBasePlugin* myl3psPlugin = l3psPlugin->clone();
+            //myl3psPlugin->setSBMLExtension(sbmlext);
+            //myl3psPlugin->setPrefix(xmlns->getPrefix(i));
+            mPlugins.push_back(l3psPlugin->clone());
+          }
+        }
+      }
+    }
+  }
+#endif
+}
+
+
+/** @cond doxygenLibsbmlInternal */
+void L3ParserSettings::deletePlugins()
+{
+#ifndef LIBSBML_USE_LEGACY_MATH
+  for (size_t p=0; p<mPlugins.size(); p++) {
+    delete mPlugins[p];
+  }
+  mPlugins.clear();
+#endif
+}
+/** @endcond */
 
 
 void L3ParserSettings::setModel(const Model* model)
 {
   mModel = model;
 }
+
 
 const Model* L3ParserSettings::getModel() const
 {
@@ -81,7 +210,6 @@ void L3ParserSettings::unsetModel()
 {
   mModel = NULL;
 }
-
 
 void L3ParserSettings::setParseLog(ParseLogType_t type)
 {
@@ -123,6 +251,85 @@ void L3ParserSettings::setParseAvogadroCsymbol(bool avo)
 bool L3ParserSettings::getParseAvogadroCsymbol() const
 {
   return mAvoCsymbol;
+}
+
+/** @cond doxygenLibsbmlInternal */
+bool L3ParserSettings::checkNumArgumentsForPackage(const ASTNode* function, stringstream& error) const
+{
+#ifndef LIBSBML_USE_LEGACY_MATH
+  for (size_t p=0; p<mPlugins.size(); p++) {
+    switch(mPlugins[p]->checkNumArguments(function, error)) {
+    case -1:
+      //The plugin knows that the function has the wrong number of arguments.
+      return true;
+    case 1:
+      //The plugin knows that the function has the correct number of arguments.
+      return false;
+    case 0:
+    default:
+      //The plugin knows nothing about the function.
+      break;
+    }
+  }
+
+  //None of the plugins knew about the function!  This should never happen!
+  assert(false);
+#endif
+  //However, we might as well assume that it got it right...
+  return false;
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+ASTNode* L3ParserSettings::parsePackageInfix(L3ParserGrammarLineType_t type, 
+    vector<ASTNode*> *nodeList, vector<std::string*> *stringList,
+    vector<double> *doubleList) const
+{
+#ifndef LIBSBML_USE_LEGACY_MATH
+  for (size_t p=0; p<mPlugins.size(); p++) {
+    ASTNode* ret = mPlugins[p]->parsePackageInfix(
+                         type, nodeList, stringList, doubleList);
+    if (ret != NULL) return ret;
+  }
+#endif
+  return NULL;
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+int L3ParserSettings::getPackageFunctionFor(const std::string& name) const
+{
+#ifndef LIBSBML_USE_LEGACY_MATH
+  for (size_t p=0; p<mPlugins.size(); p++) {
+    int ret = mPlugins[p]->getPackageFunctionFor(name);
+    if (ret != AST_UNKNOWN) return ret;
+  }
+#endif
+  return AST_UNKNOWN;
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+void L3ParserSettings::visitPackageInfixSyntax(const ASTNode_t *parent,
+                                          const ASTNode_t *node,
+                                          StringBuffer_t  *sb) const
+{
+#ifndef LIBSBML_USE_LEGACY_MATH
+  for (size_t p=0; p<mPlugins.size(); p++) {
+    mPlugins[p]->visitPackageInfixSyntax(parent, node, sb, this);
+  }
+#endif
+}
+/** @endcond */
+
+void L3ParserSettings::setComparisonCaseSensitivity(bool strcmp)
+{
+  mStrCmpIsCaseSensitive = strcmp;
+}
+
+bool L3ParserSettings::getComparisonCaseSensitivity() const
+{
+  return mStrCmpIsCaseSensitive;
 }
 
 
@@ -267,6 +474,18 @@ L3ParserSettings_getParseAvogadroCsymbol (const L3ParserSettings_t * settings)
   return (static_cast<int>(settings->getParseAvogadroCsymbol()));
 }
 
+/**
+ * Visits the given ASTNode and continues the inorder traversal.
+ */
+void
+L3ParserSettings_visitPackageInfixSyntax( const ASTNode_t *parent,
+                                     const ASTNode_t *node,
+                                     StringBuffer_t  *sb, 
+                                     const L3ParserSettings_t *settings )
+{
+  if (settings == NULL) return;
+  settings->visitPackageInfixSyntax(parent, node, sb);
+}
 
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END

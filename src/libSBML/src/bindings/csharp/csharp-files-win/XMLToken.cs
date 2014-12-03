@@ -14,10 +14,51 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html A token in libSBML's XML stream.
+@htmlinclude pkg-marker-core.html A token in an XML stream.
  *
  * @htmlinclude not-sbml-warning.html
  *
+ * The libSBML XML parser interface can read an XML file or data stream and
+ * convert the contents into tokens.  The tokens represent items in the XML
+ * stream, either XML elements (start or end tags) or text that appears as
+ * content inside an element.  The XMLToken class is libSBML's low-level
+ * representation of these entities.
+ *
+ * Each XMLToken has the following information associated with it:
+ * <ol>
+ * <li> <em>Qualified name</em>: every XML element or XML attribute has a
+ * name (e.g., for the element <code>&lt;mytag&gt;</code>, the name is
+ * <code>'mytag'</code>), but this name may be qualified with a namespace
+ * (e.g., it may appear as <code>&lt;someNamespace:mytag&gt;</code> in the
+ * input).  An XMLToken stores the name of a token, along with any namespace
+ * qualification present, through the use of an XMLTriple object.  This
+ * object stores the bare name of the element, its XML namespace prefix (if
+ * any), and the XML namespace with which that prefix is associated.
+ * <li> @em Namespaces: An XML token can have one or more XML namespaces
+ * associated with it.  These namespaces may be specified explicitly on the
+ * element or inherited from parent elements.  In libSBML, a list of
+ * namespaces is stored in an XMLNamespaces object.  An XMLToken possesses a
+ * field for storing an XMLNamespaces object.
+ * <li> @em Attributes: XML elements can have attributes associated with
+ * them, and these attributes can have values assigned to them.  The set of
+ * attribute-value pairs is stored in an XMLAttributes object stored in an
+ * XMLToken object.  (Note: only elements can have attributes&mdash;text
+ * blocks cannot have them in XML.)
+ * <li> @em Line number: the line number in the input where the token appears.
+ * <li> @em Column number: the column number in the input where the token appears.
+ * </ol>
+ *
+ * The XMLToken class serves as base class for XMLNode.  XML lends itself to
+ * a tree-structured representation, and in libSBML, the nodes in an XML
+ * document tree are XMLNode objects.  Most higher-level libSBML classes and
+ * methods that offer XML-level functionality (such as the methods on SBase
+ * for interacting with annotations) work with XMLNode objects rather than
+ * XMLToken objects directly.
+ *
+ * @see XMLNode
+ * @see XMLTriple
+ * @see XMLAttributes
+ * @see XMLNamespaces
  */
 
 public class XMLToken : IDisposable {
@@ -102,7 +143,7 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a new empty XMLToken.
+   * Creates a new empty XMLToken object.
    */ public
  XMLToken() : this(libsbmlPINVOKE.new_XMLToken__SWIG_0(), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -110,14 +151,21 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a start element XMLToken with the given set of attributes and
-   * namespace declarations.
+   * Creates an XML start element with attributes and namespace declarations.
    *
-   * @param triple XMLTriple.
-   * @param attributes XMLAttributes, the attributes to set.
-   * @param namespaces XMLNamespaces, the namespaces to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the start tag.
+   *
+   * @param attributes XMLAttributes, the attributes to set on the element to
+   * be created.
+   *
+   * @param namespaces XMLNamespaces, the namespaces to set on the element to
+   * be created.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -127,14 +175,21 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a start element XMLToken with the given set of attributes and
-   * namespace declarations.
+   * Creates an XML start element with attributes and namespace declarations.
    *
-   * @param triple XMLTriple.
-   * @param attributes XMLAttributes, the attributes to set.
-   * @param namespaces XMLNamespaces, the namespaces to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the start tag.
+   *
+   * @param attributes XMLAttributes, the attributes to set on the element to
+   * be created.
+   *
+   * @param namespaces XMLNamespaces, the namespaces to set on the element to
+   * be created.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -144,14 +199,21 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a start element XMLToken with the given set of attributes and
-   * namespace declarations.
+   * Creates an XML start element with attributes and namespace declarations.
    *
-   * @param triple XMLTriple.
-   * @param attributes XMLAttributes, the attributes to set.
-   * @param namespaces XMLNamespaces, the namespaces to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the start tag.
+   *
+   * @param attributes XMLAttributes, the attributes to set on the element to
+   * be created.
+   *
+   * @param namespaces XMLNamespaces, the namespaces to set on the element to
+   * be created.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -161,12 +223,22 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a start element XMLToken with the given set of attributes.
+   * Creates an XML start element with attributes.
    *
-   * @param triple XMLTriple.
-   * @param attributes XMLAttributes, the attributes to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the start tag.
+   *
+   * @param attributes XMLAttributes, the attributes to set on the element to
+   * be created.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
+   *
+   * The XML namespace component of this XMLToken object will be left empty.
+   * See the other variants of the XMLToken constructors for versions that
+   * take namespace arguments.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -176,12 +248,22 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a start element XMLToken with the given set of attributes.
+   * Creates an XML start element with attributes.
    *
-   * @param triple XMLTriple.
-   * @param attributes XMLAttributes, the attributes to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the start tag.
+   *
+   * @param attributes XMLAttributes, the attributes to set on the element to
+   * be created.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
+   *
+   * The XML namespace component of this XMLToken object will be left empty.
+   * See the other variants of the XMLToken constructors for versions that
+   * take namespace arguments.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -191,12 +273,22 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a start element XMLToken with the given set of attributes.
+   * Creates an XML start element with attributes.
    *
-   * @param triple XMLTriple.
-   * @param attributes XMLAttributes, the attributes to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the start tag.
+   *
+   * @param attributes XMLAttributes, the attributes to set on the element to
+   * be created.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
+   *
+   * The XML namespace component of this XMLToken object will be left empty.
+   * See the other variants of the XMLToken constructors for versions that
+   * take namespace arguments.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -206,11 +298,15 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates an end element XMLToken.
+   * Creates an XML end element.
    *
-   * @param triple XMLTriple.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the end tag.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -220,11 +316,15 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates an end element XMLToken.
+   * Creates an XML end element.
    *
-   * @param triple XMLTriple.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the end tag.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -234,11 +334,15 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates an end element XMLToken.
+   * Creates an XML end element.
    *
-   * @param triple XMLTriple.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the end tag.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -248,14 +352,18 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a text XMLToken.
+   * Creates a text object.
    *
-   * @param chars a string, the text to be added to the XMLToken
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param chars a string, the text to be added to the XMLToken object.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @throws XMLConstructorException
-   * Thrown if the argument @p orig is @c null.
+   * Thrown if the argument @p chars is @c null.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -265,14 +373,18 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a text XMLToken.
+   * Creates a text object.
    *
-   * @param chars a string, the text to be added to the XMLToken
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param chars a string, the text to be added to the XMLToken object.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @throws XMLConstructorException
-   * Thrown if the argument @p orig is @c null.
+   * Thrown if the argument @p chars is @c null.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -282,14 +394,18 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Creates a text XMLToken.
+   * Creates a text object.
    *
-   * @param chars a string, the text to be added to the XMLToken
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param chars a string, the text to be added to the XMLToken object.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @throws XMLConstructorException
-   * Thrown if the argument @p orig is @c null.
+   * Thrown if the argument @p chars is @c null.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -299,7 +415,7 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Copy constructor; creates a copy of this XMLToken.
+   * Copy constructor; creates a copy of this XMLToken object.
    *
    * @param orig the XMLToken object to copy.
    *
@@ -324,9 +440,10 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Returns the attributes of this element.
+   * Returns the attributes of the XML element represented by this token.
    *
-   * @return the XMLAttributes of this XML element.
+   * @return the attributes of this XML element, stored in an XMLAttributes
+   * object.
    */ public
  XMLAttributes getAttributes() {
     XMLAttributes ret = new XMLAttributes(libsbmlPINVOKE.XMLToken_getAttributes(swigCPtr), false);
@@ -335,20 +452,34 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Sets an XMLAttributes to this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Sets the attributes on the XML element represented by this token.
    *
-   * @param attributes XMLAttributes to be set to this XMLToken.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param attributes an XMLAttributes object to be assigned to this
+   * XMLToken object, thereby setting the XML attributes associated with this
+   * token.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * @note This function replaces the existing XMLAttributes with the new one.
+   * @note This function replaces any existing XMLAttributes object
+   * on this XMLToken object with the one given by @p attributes.
    */ public
  int setAttributes(XMLAttributes attributes) {
     int ret = libsbmlPINVOKE.XMLToken_setAttributes(swigCPtr, XMLAttributes.getCPtr(attributes));
@@ -358,23 +489,53 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Adds an attribute to the attribute set in this XMLToken optionally 
-   * with a prefix and URI defining a namespace.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    *
-   * @param name a string, the local name of the attribute.
-   * @param value a string, the value of the attribute.
-   * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name a string, the so-called 'local part' of the attribute name;
+   * that is, the attribute name without any namespace qualifier or prefix.
+   *
+   * @param value a string, the value assigned to the attribute.
+   *
+   * @param namespaceURI a string, the XML namespace URI of the attribute.
+   *
+   * @param prefix a string, the prefix for the XML namespace.
+   *
+   * Recall that in XML, the complete form of an attribute on an XML element
+   * is the following:
+   * <center>
+   * <code>prefix:name='value'</code>
+   * </center>
+   * The <code>name</code> part is the name of the attribute, the
+   * <code>'value'</code> part is the value assigned to the attribute (and
+   * it is always a quoted string), and the <code>prefix</code> part is
+   * an optional XML namespace prefix.  Internally in libSBML, this data
+   * is stored in an XMLAttributes object associated with this XMLToken.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * @note if local name with the same namespace URI already exists in the
-   * attribute set, its value and prefix will be replaced.
+   * *
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this XMLToken object, then the previous value will be replaced
+ * with the new value provided to this method.
+ *
+ *
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -385,23 +546,53 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Adds an attribute to the attribute set in this XMLToken optionally 
-   * with a prefix and URI defining a namespace.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    *
-   * @param name a string, the local name of the attribute.
-   * @param value a string, the value of the attribute.
-   * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name a string, the so-called 'local part' of the attribute name;
+   * that is, the attribute name without any namespace qualifier or prefix.
+   *
+   * @param value a string, the value assigned to the attribute.
+   *
+   * @param namespaceURI a string, the XML namespace URI of the attribute.
+   *
+   * @param prefix a string, the prefix for the XML namespace.
+   *
+   * Recall that in XML, the complete form of an attribute on an XML element
+   * is the following:
+   * <center>
+   * <code>prefix:name='value'</code>
+   * </center>
+   * The <code>name</code> part is the name of the attribute, the
+   * <code>'value'</code> part is the value assigned to the attribute (and
+   * it is always a quoted string), and the <code>prefix</code> part is
+   * an optional XML namespace prefix.  Internally in libSBML, this data
+   * is stored in an XMLAttributes object associated with this XMLToken.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * @note if local name with the same namespace URI already exists in the
-   * attribute set, its value and prefix will be replaced.
+   * *
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this XMLToken object, then the previous value will be replaced
+ * with the new value provided to this method.
+ *
+ *
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -412,23 +603,53 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Adds an attribute to the attribute set in this XMLToken optionally 
-   * with a prefix and URI defining a namespace.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    *
-   * @param name a string, the local name of the attribute.
-   * @param value a string, the value of the attribute.
-   * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name a string, the so-called 'local part' of the attribute name;
+   * that is, the attribute name without any namespace qualifier or prefix.
+   *
+   * @param value a string, the value assigned to the attribute.
+   *
+   * @param namespaceURI a string, the XML namespace URI of the attribute.
+   *
+   * @param prefix a string, the prefix for the XML namespace.
+   *
+   * Recall that in XML, the complete form of an attribute on an XML element
+   * is the following:
+   * <center>
+   * <code>prefix:name='value'</code>
+   * </center>
+   * The <code>name</code> part is the name of the attribute, the
+   * <code>'value'</code> part is the value assigned to the attribute (and
+   * it is always a quoted string), and the <code>prefix</code> part is
+   * an optional XML namespace prefix.  Internally in libSBML, this data
+   * is stored in an XMLAttributes object associated with this XMLToken.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * @note if local name with the same namespace URI already exists in the
-   * attribute set, its value and prefix will be replaced.
+   * *
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this XMLToken object, then the previous value will be replaced
+ * with the new value provided to this method.
+ *
+ *
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -439,21 +660,38 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Adds an attribute with the given XMLTriple/value pair to the attribute set
-   * in this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    *
-   * @note if local name with the same namespace URI already exists in the 
-   * attribute set, its value and prefix will be replaced.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
-   * @param value a string, the value of the attribute.
+   * @param triple an XMLTriple object defining the attribute, its value,
+   * and optionally its XML namespace (if any is provided).
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param value a string, the value assigned to the attribute.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   *
+   * *
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this XMLToken object, then the previous value will be replaced
+ * with the new value provided to this method.
+ *
+ *
    */ public
  int addAttr(XMLTriple triple, string value) {
     int ret = libsbmlPINVOKE.XMLToken_addAttr__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple), value);
@@ -463,18 +701,36 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Removes an attribute with the given index from the attribute set in
-   * this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes the <em>n</em>th attribute from the XML element represented by
+   * this token.
+   *
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
    * @param n an integer the index of the resource to be deleted
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
+   * element at the given index @p n.
+   *
+   * @see getAttrIndex(XMLTriple triple) const
+   * @see getAttrIndex(string name, string uri) const
+   * @see getAttributesLength()
    */ public
  int removeAttr(int n) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_0(swigCPtr, n);
@@ -483,19 +739,34 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Removes an attribute with the given local name and namespace URI from 
-   * the attribute set in this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes an attribute from the XML element represented by this token.
    *
-   * @param name   a string, the local name of the attribute.
-   * @param uri    a string, the namespace URI of the attribute.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name   a string, the name of the attribute to be removed.
+   * @param uri    a string, the XML namespace URI of the attribute to be removed.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
+   * element with the given @p name (and @p uri if specified).
+   *
+   * @see hasAttr(string name, string uri) const
    */ public
  int removeAttr(string name, string uri) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_1(swigCPtr, name, uri);
@@ -504,19 +775,34 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Removes an attribute with the given local name and namespace URI from 
-   * the attribute set in this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes an attribute from the XML element represented by this token.
    *
-   * @param name   a string, the local name of the attribute.
-   * @param uri    a string, the namespace URI of the attribute.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name   a string, the name of the attribute to be removed.
+   * @param uri    a string, the XML namespace URI of the attribute to be removed.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
+   * element with the given @p name (and @p uri if specified).
+   *
+   * @see hasAttr(string name, string uri) const
    */ public
  int removeAttr(string name) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_2(swigCPtr, name);
@@ -525,18 +811,33 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Removes an attribute with the given XMLTriple from the attribute set 
-   * in this XMLToken.  
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes an attribute from the XML element represented by this token.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param triple an XMLTriple describing the attribute to be removed.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
+   * element matching the properties of the given @p triple.
+   *
+   * @see hasAttr(XMLTriple triple) const
    */ public
  int removeAttr(XMLTriple triple) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple));
@@ -546,12 +847,23 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Clears (deletes) all attributes in this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes all attributes of this XMLToken object.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    */ public
@@ -562,13 +874,14 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return the index of an attribute with the given local name and namespace URI.
+   * Returns the index of the attribute with the given name and namespace
+   * URI.
    *
-   * @param name a string, the local name of the attribute.
+   * @param name a string, the name of the attribute.
    * @param uri  a string, the namespace URI of the attribute.
    *
-   * @return the index of an attribute with the given local name and namespace URI, 
-   * or <code>-1</code> if not present.
+   * @return the index of an attribute with the given local name and
+   * namespace URI, or <code>-1</code> if it is not present on this token.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -579,13 +892,14 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return the index of an attribute with the given local name and namespace URI.
+   * Returns the index of the attribute with the given name and namespace
+   * URI.
    *
-   * @param name a string, the local name of the attribute.
+   * @param name a string, the name of the attribute.
    * @param uri  a string, the namespace URI of the attribute.
    *
-   * @return the index of an attribute with the given local name and namespace URI, 
-   * or <code>-1</code> if not present.
+   * @return the index of an attribute with the given local name and
+   * namespace URI, or <code>-1</code> if it is not present on this token.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -596,12 +910,14 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return the index of an attribute with the given XMLTriple.
+   * Returns the index of the attribute defined by the given XMLTriple
+   * object.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute for which 
-   *        the index is required.
+   * @param triple the XMLTriple object that defines the attribute whose
+   * index is being sought.
    *
-   * @return the index of an attribute with the given XMLTriple, or <code>-1</code> if not present.
+   * @return the index of an attribute with the given XMLTriple object, or
+   * <code>-1</code> if no such attribute is present on this token.
    */ public
  int getAttrIndex(XMLTriple triple) {
     int ret = libsbmlPINVOKE.XMLToken_getAttrIndex__SWIG_2(swigCPtr, XMLTriple.getCPtr(triple));
@@ -611,9 +927,11 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return the number of attributes in the attributes set.
+   * Returns the number of attributes on this XMLToken object.
    *
-   * @return the number of attributes in the attributes set in this XMLToken.
+   * @return the number of attributes possessed by this token.
+   *
+   * @see hasAttr(@if java int@endif)
    */ public
  int getAttributesLength() {
     int ret = libsbmlPINVOKE.XMLToken_getAttributesLength(swigCPtr);
@@ -622,18 +940,23 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return the local name of an attribute in the attributes set in this 
-   * XMLToken (by position).
+   * Returns the name of the <em>n</em>th attribute in this token's list of
+   * attributes.
    *
-   * @param index an integer, the position of the attribute whose local name 
-   * is required.
+   * @param index an integer, the position of the attribute whose name
+   * is being sought.
    *
-   * @return the local name of an attribute in this list (by position).  
+   * @return the name of the attribute located at position @p n in the list
+   * of attributes possessed by this XMLToken object.
    *
-   * @note If index
-   * is out of range, an empty string will be returned.  Use
-   * XMLToken::hasAttr(@if java int@endif)
-   * to test for the attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute's existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token. 
+   *
+   * @see hasAttr(@if java int@endif)
+   * @see getAttributesLength()
    */ public
  string getAttrName(int index) {
     string ret = libsbmlPINVOKE.XMLToken_getAttrName(swigCPtr, index);
@@ -642,18 +965,23 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return the prefix of an attribute in the attribute set in this 
-   * XMLToken (by position).
+   * Returns the prefix of the <em>n</em>th attribute in this token's list of
+   * attributes.
    *
-   * @param index an integer, the position of the attribute whose prefix is 
-   * required.
+   * @param index an integer, the position of the attribute whose prefix is
+   * being sought.
    *
-   * @return the namespace prefix of an attribute in the attribute set
-   * (by position).  
+   * @return the XML namespace prefix of the attribute located at position @p
+   * n in the list of attributes possessed by this XMLToken object.
    *
-   * @note If index is out of range, an empty string will be returned. Use
-   * XMLToken::hasAttr(@if java int@endif) to test
-   * for the attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute's existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token.
+   *
+   * @see hasAttr(@if java int@endif)
+   * @see getAttributesLength()
    */ public
  string getAttrPrefix(int index) {
     string ret = libsbmlPINVOKE.XMLToken_getAttrPrefix(swigCPtr, index);
@@ -662,18 +990,24 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return the prefixed name of an attribute in the attribute set in this 
-   * XMLToken (by position).
+   * Returns the prefixed name of the <em>n</em>th attribute in this token's
+   * list of attributes.
    *
-   * @param index an integer, the position of the attribute whose prefixed 
-   * name is required.
+   * In this context, <em>prefixed name</em> means the name of the attribute
+   * prefixed with the XML namespace prefix assigned to the attribute.  This
+   * will be a string of the form <code>prefix:name</code>.
    *
-   * @return the prefixed name of an attribute in the attribute set 
-   * (by position).  
+   * @param index an integer, the position of the attribute whose prefixed
+   * name is being sought.
    *
-   * @note If index is out of range, an empty string will be returned.  Use
-   * XMLToken::hasAttr(@if java int@endif) to test
-   * for attribute existence.
+   * @return the prefixed name of the attribute located at position @p
+   * n in the list of attributes possessed by this XMLToken object.
+   *
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute's existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token.
    */ public
  string getAttrPrefixedName(int index) {
     string ret = libsbmlPINVOKE.XMLToken_getAttrPrefixedName(swigCPtr, index);
@@ -682,17 +1016,20 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return the namespace URI of an attribute in the attribute set in this 
-   * XMLToken (by position).
+   * Returns the XML namespace URI of the <em>n</em>th attribute in this
+   * token's list of attributes.
    *
-   * @param index an integer, the position of the attribute whose namespace 
-   * URI is required.
+   * @param index an integer, the position of the attribute whose namespace
+   * URI is being sought.
    *
-   * @return the namespace URI of an attribute in the attribute set (by position).
+   * @return the XML namespace URI of the attribute located at position @p n
+   * in the list of attributes possessed by this XMLToken object.
    *
-   * @note If index is out of range, an empty string will be returned.  Use
-   * XMLToken::hasAttr(@if java int@endif) to test
-   * for attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute's existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token.
    */ public
  string getAttrURI(int index) {
     string ret = libsbmlPINVOKE.XMLToken_getAttrURI(swigCPtr, index);
@@ -701,17 +1038,20 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return the value of an attribute in the attribute set in this XMLToken  
-   * (by position).
+   * Returns the value of the <em>n</em>th attribute in this token's list of
+   * attributes.
    *
-   * @param index an integer, the position of the attribute whose value is 
+   * @param index an integer, the position of the attribute whose value is
    * required.
    *
-   * @return the value of an attribute in the attribute set (by position).  
+   * @return the value of the attribute located at position @p n in the list
+   * of attributes possessed by this XMLToken object.
    *
-   * @note If index is out of range, an empty string will be returned. Use
-   * XMLToken::hasAttr(@if java int@endif) to test
-   * for attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute's existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token.
    */ public
  string getAttrValue(int index) {
     string ret = libsbmlPINVOKE.XMLToken_getAttrValue__SWIG_0(swigCPtr, index);
@@ -720,18 +1060,20 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return a value of an attribute with the given local name and namespace URI.
+   * Returns the value of the attribute with a given name and XML namespace URI.
    *
-   * @param name a string, the local name of the attribute whose value is required.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute whose value is being
+   * sought.
    *
-   * @return The attribute value as a string.  
+   * @param uri a string, the XML namespace URI of the attribute.
    *
-   * @note If an attribute with the 
-   * given local name and namespace URI does not exist, an empty string will be 
-   * returned.  
-   * Use XMLToken::hasAttr(@if java String, String@endif)
-   * to test for attribute existence.
+   * @return The value of the attribute, as a string.
+   *
+   * @note If an attribute with the given @p name and @p uri does not exist
+   * on this token object, this method will return an empty string.
+   * XMLToken::hasAttr(@if java String, String@endif) can be used to test
+   * explicitly for the presence of an attribute with a given name and
+   * namespace.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -742,18 +1084,20 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return a value of an attribute with the given local name and namespace URI.
+   * Returns the value of the attribute with a given name and XML namespace URI.
    *
-   * @param name a string, the local name of the attribute whose value is required.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute whose value is being
+   * sought.
    *
-   * @return The attribute value as a string.  
+   * @param uri a string, the XML namespace URI of the attribute.
    *
-   * @note If an attribute with the 
-   * given local name and namespace URI does not exist, an empty string will be 
-   * returned.  
-   * Use XMLToken::hasAttr(@if java String, String@endif)
-   * to test for attribute existence.
+   * @return The value of the attribute, as a string.
+   *
+   * @note If an attribute with the given @p name and @p uri does not exist
+   * on this token object, this method will return an empty string.
+   * XMLToken::hasAttr(@if java String, String@endif) can be used to test
+   * explicitly for the presence of an attribute with a given name and
+   * namespace.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -764,17 +1108,18 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Return a value of an attribute with the given XMLTriple.
+   * Returns the value of the attribute specified by a given XMLTriple object.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute whose 
-   *        value is required.
+   * @param triple an XMLTriple describing the attribute whose value is being
+   * sought.
    *
-   * @return The attribute value as a string.  
+   * @return The value of the attribute, as a string.
    *
-   * @note If an attribute with the
-   * given XMLTriple does not exist, an empty string will be returned.  
-   * Use XMLToken::hasAttr(@if java XMLTriple@endif)
-   * to test for attribute existence.
+   * @note If an attribute defined by the given @p triple does not exist on
+   * this token object, this method will return an empty string.
+   * XMLToken::hasAttr(@if java XMLTriple@endif) can be used to test
+   * explicitly for the existence of an attribute with the properties of
+   * a given triple.
    */ public
  string getAttrValue(XMLTriple triple) {
     string ret = libsbmlPINVOKE.XMLToken_getAttrValue__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple));
@@ -784,14 +1129,12 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given index exists in the attribute set in this 
-   * XMLToken.
+   * Returns @c true if an attribute with the given index exists.
    *
    * @param index an integer, the position of the attribute.
    *
-   * @return @c true if an attribute with the given index exists in the attribute 
-   * set in this XMLToken, @c false otherwise.
+   * @return @c true if this token object possesses an attribute with the
+   * given index, @c false otherwise.
    */ public
  bool hasAttr(int index) {
     bool ret = libsbmlPINVOKE.XMLToken_hasAttr__SWIG_0(swigCPtr, index);
@@ -800,15 +1143,17 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given local name and namespace URI exists 
-   * in the attribute set in this XMLToken.
+   * Returns @c true if an attribute with a given name and namespace URI
+   * exists.
    *
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute being sought.
    *
-   * @return @c true if an attribute with the given local name and namespace 
-   * URI exists in the attribute set in this XMLToken, @c false otherwise.
+   * @param uri a string, the XML namespace URI of the attribute being
+   * sought.
+   *
+   * @return @c true if an attribute with the given local name and namespace
+   * URI exists in the list of attributes on this token object, @c false
+   * otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -819,15 +1164,17 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given local name and namespace URI exists 
-   * in the attribute set in this XMLToken.
+   * Returns @c true if an attribute with a given name and namespace URI
+   * exists.
    *
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute being sought.
    *
-   * @return @c true if an attribute with the given local name and namespace 
-   * URI exists in the attribute set in this XMLToken, @c false otherwise.
+   * @param uri a string, the XML namespace URI of the attribute being
+   * sought.
+   *
+   * @return @c true if an attribute with the given local name and namespace
+   * URI exists in the list of attributes on this token object, @c false
+   * otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -838,15 +1185,14 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given XML triple exists in the attribute set in 
-   * this XMLToken 
+   * Returns @c true if an attribute defined by a given XMLTriple object
+   * exists.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute 
+   * @param triple an XMLTriple object describing the attribute being sought.
    *
-   * @return @c true if an attribute with the given XML triple exists
-   * in the attribute set in this XMLToken, @c false otherwise.
-   *
+   * @return @c true if an attribute matching the properties of the given
+   * XMLTriple object exists in the list of attributes on this token, @c
+   * false otherwise.
    */ public
  bool hasAttr(XMLTriple triple) {
     bool ret = libsbmlPINVOKE.XMLToken_hasAttr__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple));
@@ -856,10 +1202,9 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * the attribute set in this XMLToken set is empty.
-   * 
-   * @return @c true if the attribute set in this XMLToken is empty, 
+   * Returns @c true if this token has no attributes.
+   *
+   * @return @c true if the list of attributes on XMLToken object is empty,
    * @c false otherwise.
    */ public
  bool isAttributesEmpty() {
@@ -869,7 +1214,7 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Returns the XML namespace declarations for this XML element.
+   * Returns the XML namespaces declared for this token.
    *
    * @return the XML namespace declarations for this XML element.
    */ public
@@ -880,20 +1225,32 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Sets an XMLnamespaces to this XML element.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Sets the XML namespaces on this XML element.
    *
-   * @param namespaces XMLNamespaces to be set to this XMLToken.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param namespaces the XMLNamespaces object to be assigned to this XMLToken object.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * @note This function replaces the existing XMLNamespaces with the new one.
+   * @note This function replaces any existing XMLNamespaces object on this
+   * XMLToken object with the new one given by @p namespaces.
    */ public
  int setNamespaces(XMLNamespaces namespaces) {
     int ret = libsbmlPINVOKE.XMLToken_setNamespaces(swigCPtr, XMLNamespaces.getCPtr(namespaces));
@@ -903,18 +1260,32 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Appends an XML namespace prefix and URI pair to this XMLToken.
-   * If there is an XML namespace with the given prefix in this XMLToken, 
-   * then the existing XML namespace will be overwritten by the new one.
+   * Appends an XML namespace declaration to this token.
    *
-   * Nothing will be done if this XMLToken is not a start element.
+   * The namespace added will be defined by the given XML namespace URI and
+   * an optional prefix.  If this XMLToken object already possesses an XML
+   * namespace declaration with the given @p prefix, then the existing XML
+   * namespace URI will be overwritten by the new one given by @p uri.
    *
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param uri a string, the XML namespace URI for the namespace.
+   * 
+   * @param prefix a string, the namespace prefix to use.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
@@ -927,18 +1298,32 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Appends an XML namespace prefix and URI pair to this XMLToken.
-   * If there is an XML namespace with the given prefix in this XMLToken, 
-   * then the existing XML namespace will be overwritten by the new one.
+   * Appends an XML namespace declaration to this token.
    *
-   * Nothing will be done if this XMLToken is not a start element.
+   * The namespace added will be defined by the given XML namespace URI and
+   * an optional prefix.  If this XMLToken object already possesses an XML
+   * namespace declaration with the given @p prefix, then the existing XML
+   * namespace URI will be overwritten by the new one given by @p uri.
    *
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param uri a string, the XML namespace URI for the namespace.
+   * 
+   * @param prefix a string, the namespace prefix to use.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
@@ -951,18 +1336,36 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Removes an XML Namespace stored in the given position of the XMLNamespaces
-   * of this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes the <em>n</em>th XML namespace declaration.
    *
-   * @param index an integer, position of the removed namespace.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param index an integer, the position of the namespace to be removed.
+   * The position in this context refers to the position of the namespace in
+   * the XMLNamespaces object stored in this XMLToken object.  Callers can
+   * use one of the <code>getNamespace___()</code> methods to find the index
+   * number of a given namespace.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * @see getNamespaceIndex(@if java String uri@endif)
+   * @see getNamespaceIndexByPrefix(@if java String prefix@endif)
+   * @see getNamespacesLength()
    */ public
  int removeNamespace(int index) {
     int ret = libsbmlPINVOKE.XMLToken_removeNamespace__SWIG_0(swigCPtr, index);
@@ -971,17 +1374,34 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Removes an XML Namespace with the given prefix.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes an XML namespace declaration having a given prefix.
    *
-   * @param prefix a string, prefix of the required namespace.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param prefix a string, the prefix of the namespace to be removed.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * is returned if there is no namespace with the given @p prefix on this
+   * element.
+   *
+   * @see getNamespaceIndexByPrefix(@if java String prefix@endif)
    */ public
  int removeNamespace(string prefix) {
     int ret = libsbmlPINVOKE.XMLToken_removeNamespace__SWIG_1(swigCPtr, prefix);
@@ -990,15 +1410,26 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Clears (deletes) all XML namespace declarations in the XMLNamespaces of
-   * this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes all XML namespace declarations from this token.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ * 
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int clearNamespaces() {
     int ret = libsbmlPINVOKE.XMLToken_clearNamespaces(swigCPtr);
@@ -1007,11 +1438,12 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Look up the index of an XML namespace declaration by URI.
+   * Returns the index of an XML namespace declaration based on its URI.
    *
-   * @param uri a string, uri of the required namespace.
+   * @param uri a string, the XML namespace URI of the sought-after namespace.
    *
-   * @return the index of the given declaration, or <code>-1</code> if not present.
+   * @return the index of the given declaration, or <code>-1</code> if
+   * no such namespace URI is present on this XMLToken object.
    */ public
  int getNamespaceIndex(string uri) {
     int ret = libsbmlPINVOKE.XMLToken_getNamespaceIndex(swigCPtr, uri);
@@ -1020,11 +1452,12 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Look up the index of an XML namespace declaration by prefix.
+   * Returns the index of an XML namespace declaration based on its prefix.
    *
-   * @param prefix a string, prefix of the required namespace.
+   * @param prefix a string, the prefix of the sought-after XML namespace.
    *
-   * @return the index of the given declaration, or <code>-1</code> if not present.
+   * @return the index of the given declaration, or <code>-1</code> if
+   * no such namespace URI is present on this XMLToken object.
    */ public
  int getNamespaceIndexByPrefix(string prefix) {
     int ret = libsbmlPINVOKE.XMLToken_getNamespaceIndexByPrefix(swigCPtr, prefix);
@@ -1033,10 +1466,10 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Returns the number of XML namespaces stored in the XMLNamespaces 
-   * of this XMLToken.
+   * Returns the number of XML namespaces declared on this token.
    *
-   * @return the number of namespaces in this list.
+   * @return the number of XML namespaces stored in the XMLNamespaces
+   * object of this XMLToken object.
    */ public
  int getNamespacesLength() {
     int ret = libsbmlPINVOKE.XMLToken_getNamespacesLength(swigCPtr);
@@ -1045,18 +1478,16 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Look up the prefix of an XML namespace declaration by position.
-   *
-   * Callers should use getNamespacesLength() to find out how many 
-   * namespaces are stored in the XMLNamespaces.
+   * Returns the prefix of the <em>n</em>th XML namespace declaration.
    *
    * @param index an integer, position of the required prefix.
    *
-   * @return the prefix of an XML namespace declaration in the XMLNamespaces 
-   * (by position).  
+   * @return the prefix of an XML namespace declaration in the XMLNamespaces
+   * (by position).
    *
-   * @note If index is out of range, an empty string will be
-   * returned.
+   * @note If @p index is out of range, this method will return an empty
+   * string.  XMLToken::getNamespacesLength() can be used to find out how
+   * many namespaces are defined on this XMLToken object.
    *
    * @see getNamespacesLength()
    */ public
@@ -1067,13 +1498,16 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Look up the prefix of an XML namespace declaration by its URI.
+   * Returns the prefix associated with a given XML namespace URI on this
+   * token.
    *
-   * @param uri a string, the URI of the prefix being sought
+   * @param uri a string, the URI of the namespace whose prefix is being
+   * sought.
    *
-   * @return the prefix of an XML namespace declaration given its URI.  
+   * @return the prefix of an XML namespace declaration on this XMLToken object.
    *
-   * @note If @p uri does not exist, an empty string will be returned.
+   * @note If there is no XML namespace with the given @p uri declared on
+   * this XMLToken object, this method will return an empty string.
    */ public
  string getNamespacePrefix(string uri) {
     string ret = libsbmlPINVOKE.XMLToken_getNamespacePrefix__SWIG_1(swigCPtr, uri);
@@ -1082,15 +1516,14 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Look up the URI of an XML namespace declaration by its position.
+   * Returns the URI of the <em>n</em>th XML namespace declared on this token. 
    *
-   * @param index an integer, position of the required URI.
+   * @param index an integer, the position of the sought-after XML namespace URI.
    *
-   * @return the URI of an XML namespace declaration in the XMLNamespaces
-   * (by position).  
+   * @return the URI of the <em>n</em>th XML namespace stored in the
+   * XMLNamespaces object in this XMLToken object.
    *
-   * @note If @p index is out of range, an empty string will be
-   * returned.
+   * @note If @p index is out of range, this method will return an empty string.
    *
    * @see getNamespacesLength()
    */ public
@@ -1101,13 +1534,15 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Look up the URI of an XML namespace declaration by its prefix.
+   * Returns the URI of an XML namespace with a given prefix.
    *
-   * @param prefix a string, the prefix of the required URI
+   * @param prefix a string, the prefix of the sought-after XML namespace URI.
    *
-   * @return the URI of an XML namespace declaration given its prefix.  
+   * @return the URI of an XML namespace declaration given its prefix.
    *
-   * @note If @p prefix does not exist, an empty string will be returned.
+   * @note If there is no XML namespace with the given @p prefix stored in
+   * the XMLNamespaces object of this XMLToken object, this method will
+   * return an empty string.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -1118,13 +1553,15 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Look up the URI of an XML namespace declaration by its prefix.
+   * Returns the URI of an XML namespace with a given prefix.
    *
-   * @param prefix a string, the prefix of the required URI
+   * @param prefix a string, the prefix of the sought-after XML namespace URI.
    *
-   * @return the URI of an XML namespace declaration given its prefix.  
+   * @return the URI of an XML namespace declaration given its prefix.
    *
-   * @note If @p prefix does not exist, an empty string will be returned.
+   * @note If there is no XML namespace with the given @p prefix stored in
+   * the XMLNamespaces object of this XMLToken object, this method will
+   * return an empty string.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -1135,11 +1572,10 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * the XMLNamespaces of this XMLToken is empty.
-   * 
-   * @return @c true if the XMLNamespaces of this XMLToken is empty, 
-   * @c false otherwise.
+   * Returns @c true if there are no namespaces declared on this token.
+   *
+   * @return @c true if the XMLNamespaces object stored in this XMLToken
+   * token is empty, @c false otherwise.
    */ public
  bool isNamespacesEmpty() {
     bool ret = libsbmlPINVOKE.XMLToken_isNamespacesEmpty(swigCPtr);
@@ -1148,14 +1584,12 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * an XML Namespace with the given URI is contained in the XMLNamespaces of
-   * this XMLToken.
-   * 
-   * @param uri a string, the uri for the namespace
+   * Returns @c true if this token has an XML namespace with a given URI.
    *
-   * @return @c true if an XML Namespace with the given URI is contained in the
-   * XMLNamespaces of this XMLToken,  @c false otherwise.
+   * @param uri a string, the URI of the XML namespace.
+   *
+   * @return @c true if an XML namespace with the given URI is contained in
+   * the XMLNamespaces object of this XMLToken object, @c false otherwise.
    */ public
  bool hasNamespaceURI(string uri) {
     bool ret = libsbmlPINVOKE.XMLToken_hasNamespaceURI(swigCPtr, uri);
@@ -1164,12 +1598,10 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * an XML Namespace with the given prefix is contained in the XMLNamespaces of
-   * this XMLToken.
+   * Returns @c true if this token has an XML namespace with a given prefix.
    *
-   * @param prefix a string, the prefix for the namespace
-   * 
+   * @param prefix a string, the prefix for the XML namespace.
+   *
    * @return @c true if an XML Namespace with the given URI is contained in the
    * XMLNamespaces of this XMLToken, @c false otherwise.
    */ public
@@ -1180,15 +1612,15 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * an XML Namespace with the given uri/prefix pair is contained in the 
-   * XMLNamespaces ofthis XMLToken.
+   * Returns @c true if this token has an XML namespace with a given prefix
+   * and URI combination.
    *
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
-   * 
-   * @return @c true if an XML Namespace with the given uri/prefix pair is 
-   * contained in the XMLNamespaces of this XMLToken,  @c false otherwise.
+   * @param uri a string, the URI for the namespace.
+   * @param prefix a string, the prefix for the namespace.
+   *
+   * @return @c true if an XML namespace with the given URI/prefix pair is
+   * contained in the XMLNamespaces object of this XMLToken object, @c false
+   * otherwise.
    */ public
  bool hasNamespaceNS(string uri, string prefix) {
     bool ret = libsbmlPINVOKE.XMLToken_hasNamespaceNS(swigCPtr, uri, prefix);
@@ -1197,14 +1629,27 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Sets the XMLTripe (name, uri and prefix) of this XML element.
-   * Nothing will be done if this XML element is a text node.
+   * Sets the name, namespace prefix and namespace URI of this token.
    *
-   * @param triple XMLTriple to be added to this XML element.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param triple the new XMLTriple to use for this XMLToken object.  If
+   * this XMLToken already had an XMLTriple object stored within it, that
+   * object will be replaced.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
@@ -1218,9 +1663,9 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Returns the (unqualified) name of this XML element.
+   * Returns the (unqualified) name of token.
    *
-   * @return the (unqualified) name of this XML element.
+   * @return the (unqualified) name of token.
    */ public
  string getName() {
     string ret = libsbmlPINVOKE.XMLToken_getName(swigCPtr);
@@ -1229,12 +1674,12 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Returns the namespace prefix of this XML element.
+   * Returns the XML namespace prefix of token.
    *
-   * @return the namespace prefix of this XML element.  
+   * @return the XML namespace prefix of token.
    *
-   * @note If no prefix
-   * exists, an empty string will be return.
+   * @note If no XML namespace prefix has been assigned to this token, this
+   * method will return an empty string.
    */ public
  string getPrefix() {
     string ret = libsbmlPINVOKE.XMLToken_getPrefix(swigCPtr);
@@ -1243,9 +1688,9 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Returns the namespace URI of this XML element.
+   * Returns the XML namespace URI of token.
    *
-   * @return the namespace URI of this XML element.
+   * @return the XML namespace URI of token.
    */ public
  string getURI() {
     string ret = libsbmlPINVOKE.XMLToken_getURI(swigCPtr);
@@ -1254,9 +1699,14 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Returns the text of this element.
+   * Returns the character text of token.
    *
-   * @return the characters of this XML text.
+   * @return the characters of this XML token.  If this token is not a
+   * text token (i.e., it's an XML element and not character content),
+   * then this will return an empty string.
+   *
+   * @see isText()
+   * @see isElement()
    */ public
  string getCharacters() {
     string ret = libsbmlPINVOKE.XMLToken_getCharacters(swigCPtr);
@@ -1265,15 +1715,26 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Appends characters to this XML text content.
+   * Appends characters to the text content of token.
    *
-   * @param chars string, characters to append
+   * This method only makes sense for XMLToken objects that contains text.
+   * If this method is called on a token that represents an XML start or end
+   * tag, it will return the code @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param chars string, characters to append to the text of this token.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isText()
+   * @see isElement()
    */ public
  int append(string chars) {
     int ret = libsbmlPINVOKE.XMLToken_append(swigCPtr, chars);
@@ -1282,8 +1743,7 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Returns the column at which this XMLToken occurred in the input
-   * document or data stream.
+   * Returns the column number at which this token occurs in the input.
    *
    * @return the column at which this XMLToken occurred.
    */ public
@@ -1291,8 +1751,7 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Returns the line at which this XMLToken occurred in the input document
-   * or data stream.
+   * Returns the line number at which this token occurs in the input.
    *
    * @return the line at which this XMLToken occurred.
    */ public
@@ -1300,10 +1759,19 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML element.
-   * 
-   * @return @c true if this XMLToken is an XML element, @c false otherwise.
+   * Returns @c true if this token represents an XML element.
+   *
+   * This generic predicate returns @c true if the element is either a start
+   * or end tag, and @c false if it's a text object.  The related methods
+   * XMLToken:isStart(), XMLToken::isEnd() and XMLToken::isText() are more
+   * specific predicates.
+   *
+   * @return @c true if this XMLToken object represents an XML element, @c
+   * false otherwise.
+   *
+   * @see isStart()
+   * @see isEnd()
+   * @see isText()
    */ public
  bool isElement() {
     bool ret = libsbmlPINVOKE.XMLToken_isElement(swigCPtr);
@@ -1312,10 +1780,14 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML end element.
-   * 
-   * @return @c true if this XMLToken is an XML end element, @c false otherwise.
+   * Returns @c true if this token represents an XML end element.
+   *
+   * @return @c true if this XMLToken object represents an XML end element,
+   * @c false otherwise.
+   *
+   * @see isStart()
+   * @see isElement()
+   * @see isText()
    */ public
  bool isEnd() {
     bool ret = libsbmlPINVOKE.XMLToken_isEnd(swigCPtr);
@@ -1324,13 +1796,20 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML end element for the given start element.
-   * 
-   * @param element XMLToken, element for which query is made.
+   * Returns @c true if this token represents an XML end element for a
+   * particular start element.
    *
-   * @return @c true if this XMLToken is an XML end element for the given
-   * XMLToken start element, @c false otherwise.
+   * @param element XMLToken, the element with which the current object
+   * should be compared to determined whether the current object is a
+   * start element for the given one.
+   *
+   * @return @c true if this XMLToken object represents an XML end tag for
+   * the start tag given by @p element, @c false otherwise.
+   *
+   * @see isElement()
+   * @see isStart()
+   * @see isEnd()
+   * @see isText()
    */ public
  bool isEndFor(XMLToken element) {
     bool ret = libsbmlPINVOKE.XMLToken_isEndFor(swigCPtr, XMLToken.getCPtr(element));
@@ -1340,11 +1819,12 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an end of file marker.
-   * 
-   * @return @c true if this XMLToken is an end of file (input) marker, @c false
-   * otherwise.
+   * Returns @c true if this token is an end of file marker.
+   *
+   * @return @c true if this XMLToken object represents the end of the input,
+   * @c false otherwise.
+   *
+   * @see setEOF()
    */ public
  bool isEOF() {
     bool ret = libsbmlPINVOKE.XMLToken_isEOF(swigCPtr);
@@ -1353,10 +1833,13 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML start element.
-   * 
+   * Returns @c true if this token represents an XML start element.
+   *
    * @return @c true if this XMLToken is an XML start element, @c false otherwise.
+   *
+   * @see isElement()
+   * @see isEnd()
+   * @see isText()
    */ public
  bool isStart() {
     bool ret = libsbmlPINVOKE.XMLToken_isStart(swigCPtr);
@@ -1365,10 +1848,13 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML text element.
-   * 
+   * Returns @c true if this token represents an XML text element.
+   *
    * @return @c true if this XMLToken is an XML text element, @c false otherwise.
+   *
+   * @see isElement()
+   * @see isStart()
+   * @see isEnd()
    */ public
  bool isText() {
     bool ret = libsbmlPINVOKE.XMLToken_isText(swigCPtr);
@@ -1377,13 +1863,20 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Declares this XML start element is also an end element.
+   * Declares that this token represents an XML element end tag.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isStart()
+   * @see isEnd()
    */ public
  int setEnd() {
     int ret = libsbmlPINVOKE.XMLToken_setEnd(swigCPtr);
@@ -1392,13 +1885,19 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Declares this XMLToken is an end-of-file (input) marker.
+   * Declares that this token is an end-of-file/input marker.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isEOF()
    */ public
  int setEOF() {
     int ret = libsbmlPINVOKE.XMLToken_setEOF(swigCPtr);
@@ -1407,11 +1906,15 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Declares this XML start/end element is no longer an end element.
+   * Declares that this token no longer represents an XML start/end element.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -1422,8 +1925,11 @@ public class XMLToken : IDisposable {
 
   
 /**
-   * Prints a string representation of the underlying token stream, for
-   * debugging purposes.
+   * Prints a string representation of the underlying token stream.
+   *
+   * This method is intended for debugging purposes.
+   *
+   * @return a text string representing this XMLToken object.
    */ public
  string toString() {
     string ret = libsbmlPINVOKE.XMLToken_toString(swigCPtr);

@@ -9,51 +9,67 @@
 package org.sbml.libsbml;
 
 /** 
- *  Extension of an element by an SBML Level 3 package.
+ *  Base class for extending SBML components
+ <p>
+ * <p style='color: #777; font-style: italic'>
+This class of objects is defined by libSBML only and has no direct
+equivalent in terms of SBML components.  This class is not prescribed by
+the SBML specifications, although it is used to implement features
+defined in SBML.
+</p>
+
  <p>
  * @internal 
  <p>
- * {@link SBaseExtensionPoint} represents an element to be extended (extension point) and the
- * extension point is identified by a combination of a package name and a typecode of the 
- * element.
+ * <p>
+ * This class is used as part of the mechanism that connects plugin objects
+ * (implemented using {@link SBasePlugin} or {@link SBMLDocumentPlugin}) to a given package
+ * extension.  For instance, an implementation of an extended version of
+ * {@link Model} (e.g., LayoutModelPlugin in the Layout package) would involve the
+ * creation of an extension point using {@link SBaseExtensionPoint} and a mediator
+ * object created using SBasePluginCreator, to 'plug' the extended {@link Model}
+ * object (LayoutModelPlugin) into the overall LayoutExtension object.
  <p>
- * For example, an {@link SBaseExtensionPoint} object which represents an extension point of the model
- * element defined in the <em>core</em> package can be created as follows:
+ * The use of {@link SBaseExtensionPoint} is relatively straightforward.  The
+ * class needs to be used for each extended SBML object implemented using
+ * {@link SBMLDocumentPlugin} or {@link SBasePlugin}.  Doing so requires knowing just two
+ * things:
  <p>
-<pre class='fragment'>
-      {@link SBaseExtensionPoint}  modelextp('core', SBML_MODEL);
-</pre>
+ * <ul>
+ * <li> The short-form name of the <em>parent</em> package being extended.  The
+ * parent package is often simply core SBML, identified in libSBML by the
+ * nickname <code>'core'</code>, but a SBML Level&nbsp;3 package could
+ * conceivably extend another Level&nbsp;3 package.
  <p>
- * Similarly, an {@link SBaseExtensionPoint} object which represents an extension point of
- * the layout element defined in the layout extension can be created as follows:
+ * <li> The libSBML type code assigned to the object being extended.  For
+ * example, if an extension of {@link Model} is implemented, the relevant type code
+ * is #SBML_MODEL, found in #SBMLTypeCode_t.
+ *
+ * </ul> <p>
+ * The typical use of {@link SBaseExtensionPoint} is illustrated by the following
+ * code fragment:
  <p>
-<pre class='fragment'>
-      {@link SBaseExtensionPoint}  layoutextp('layout', SBML_LAYOUT_LAYOUT);
-</pre>
+ * <pre class='fragment'>{.cpp}
+ * {@link SBaseExtensionPoint} docExtPoint('core', SBML_DOCUMENT);
+ * {@link SBaseExtensionPoint} modelExtPoint('core', SBML_MODEL);
+ * 
+ * SBasePluginCreator&lt;GroupsSBMLDocumentPlugin, GroupsExtension&gt; docPluginCreator(docExtPoint, pkgURIs);
+ * SBasePluginCreator&lt;GroupsModelPlugin, GroupsExtension&gt; modelPluginCreator(modelExtPoint, pkgURIs);</pre>
  <p>
- * {@link SBaseExtensionPoint} object is required as one of arguments of the constructor 
- * of SBasePluginCreator&lt;class SBasePluginType, class SBMLExtensionType&gt;
- * template class to identify an extension poitnt to which the plugin object created
- * by the creator class is plugged in.
- * For example, the SBasePluginCreator class which creates a LayoutModelPlugin object
- * of the layout extension which is plugged in to the model element of the <em>core</em>
- * package can be created with the corresponding {@link SBaseExtensionPoint} object as follows:
+ * The code above shows two core SBML components being extended: the
+ * document object, and the {@link Model} object.  These extended objects are
+ * created elsewhere (not shown) as the
+ * <code>GroupsSBMLDocumentPlugin</code> and <code>GroupsModelPlugin</code>
+ * objects.  The corresponding {@link SBaseExtensionPoint} objects are handed as
+ * arguments to the constructor for SBasePluginCreator to create the
+ * connection between the extended core components and the overall package
+ * extension (here, for the Groups package, with the
+ * <code>GroupsExtension</code> object).
  <p>
-<pre class='fragment'>
-  // std.vector object that contains a list of URI (package versions) supported 
-  // by the plugin object.
-  std.vector&lt;String&gt; packageURIs;
-  packageURIs.push_back(getXmlnsL3V1V1());
-  packageURIs.push_back(getXmlnsL2());  
-
-  // creates an extension point (model element of the 'core' package)
-  {@link SBaseExtensionPoint}  modelExtPoint('core',SBML_MODEL);
-   
-  // creates an SBasePluginCreator object 
-  SBasePluginCreator&lt;LayoutModelPlugin, LayoutExtension&gt;  modelPluginCreator(modelExtPoint,packageURIs);
-</pre>
- <p>
- * This kind of code is implemented in init() function of each {@link SBMLExtension} derived classes.
+ * The code above is typically placed in the implementation of the
+ * <code>init()</code> method of the package class derived from
+ * {@link SBMLExtension}.  (For the example above, it would be in the
+ * <code>GroupsExtension.cpp</code> file.)
  */
 
 public class SBaseExtensionPoint {
@@ -100,7 +116,29 @@ public class SBaseExtensionPoint {
 
   
 /**
-   * constructor
+   * Constructor for {@link SBaseExtensionPoint}.
+   <p>
+   * The use of {@link SBaseExtensionPoint} is relatively straightforward.  The
+   * class needs to be used for each extended SBML object implemented
+   * using {@link SBMLDocumentPlugin} or {@link SBasePlugin}.  Doing so requires knowing
+   * just two things:
+   <p>
+   * <ul>
+   * <li> The short-form name of the <em>parent</em> package being extended.
+   * The parent package is often simply core SBML, identified in libSBML
+   * by the nickname <code>'core'</code>, but a SBML Level&nbsp;3
+   * package could conceivably extend another Level&nbsp;3 package and
+   * the mechanism supports this.
+   <p>
+   * <li> The libSBML type code assigned to the object being extended.
+   * For example, if an extension of {@link Model} is implemented, the relevant
+   * type code is SBML_MODEL, found in #SBMLTypeCode_t.
+   *
+   * </ul> <p>
+   * @param pkgName the short-form name of the parent package where
+   * that this package extension is extending.
+   <p>
+   * @param typeCode the type code of the object being extended.
    */ public
  SBaseExtensionPoint(String pkgName, int typeCode) {
     this(libsbmlJNI.new_SBaseExtensionPoint__SWIG_0(pkgName, typeCode), true);
@@ -108,7 +146,11 @@ public class SBaseExtensionPoint {
 
   
 /**
-   * copy constructor
+   * Copy constructor.
+   <p>
+   * This creates a copy of an {@link SBaseExtensionPoint} instance.
+   <p>
+   * @param rhs the object to copy.
    */ public
  SBaseExtensionPoint(SBaseExtensionPoint rhs) {
     this(libsbmlJNI.new_SBaseExtensionPoint__SWIG_1(SBaseExtensionPoint.getCPtr(rhs), rhs), true);
@@ -135,7 +177,7 @@ public class SBaseExtensionPoint {
 
   
 /**
-   * Returns the typecode of this extension point.
+   * Returns the libSBML type code of this extension point.
    */ public
  int getTypeCode() {
     return libsbmlJNI.SBaseExtensionPoint_getTypeCode(swigCPtr, this);

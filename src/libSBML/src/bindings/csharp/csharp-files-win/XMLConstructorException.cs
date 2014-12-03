@@ -89,7 +89,9 @@ public class XMLConstructorException : System.ArgumentException, IDisposable {
    this(libsbmlPINVOKE.new_XMLConstructorException(), true, v) 
   {}
 
-  public XMLConstructorException() : this(libsbmlPINVOKE.new_XMLConstructorException(), true) {
+  
+/** */ /* libsbml-internal */ public
+ XMLConstructorException() : this(libsbmlPINVOKE.new_XMLConstructorException(), true) {
   }
 
 }

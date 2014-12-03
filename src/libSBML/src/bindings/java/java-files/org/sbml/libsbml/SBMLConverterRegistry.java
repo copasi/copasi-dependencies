@@ -85,20 +85,22 @@ public class SBMLConverterRegistry {
    * Prior to using the registry, callers have to obtain a copy of the
    * registry.  This static method provides the means for doing that.
    <p>
-   * @return the singleton for the converter registry. 
+   * @return the singleton for the converter registry.
    */ public
  static SBMLConverterRegistry getInstance() {
     return new SBMLConverterRegistry(libsbmlJNI.SBMLConverterRegistry_getInstance(), false);
   }
 
   
-/** 
+/**
    * Adds the given converter to the registry of SBML converters.
    <p>
    * @param converter the converter to add to the registry.
    <p>
-   * @return integer value indicating the success/failure of the operation.
-   *  The possible values are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -109,7 +111,7 @@ public class SBMLConverterRegistry {
   }
 
   
-/** 
+/**
    * Returns the converter with the given index number.
    <p>
    * Converters are given arbitrary index numbers by the registry.  Callers
@@ -128,7 +130,7 @@ public class SBMLConverterRegistry {
 }
 
   
-/** 
+/**
    * Returns the converter that best matches the given configuration
    * properties.
    <p>

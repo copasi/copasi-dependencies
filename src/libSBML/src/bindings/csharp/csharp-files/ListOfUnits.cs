@@ -172,7 +172,7 @@ public class ListOfUnits : ListOf {
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type

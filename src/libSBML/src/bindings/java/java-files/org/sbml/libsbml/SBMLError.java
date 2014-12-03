@@ -71,14 +71,14 @@ defined in SBML.
  <p>
  * In addition, {@link SBMLError} also has a severity code.  Its value may be
  * retrieved using the method {@link SBMLError#getSeverity()}.  The possible
- * severity values are the same as those reported by <code><a href='XMLError.html'>XMLError</a></code>. 
+ * severity values are the same as those reported by <code><a href='XMLError.html'>XMLError</a></code>.
  * Severity levels currently range from informational
  * ({@link libsbmlConstants#LIBSBML_SEV_INFO LIBSBML_SEV_INFO})
  * to fatal errors
  * ({@link libsbmlConstants#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL}).
  * They can be
  * used by an application to evaluate how serious a given problem
- * is. 
+ * is.
  <p>
  * {@link SBMLError} also tracks the Level&nbsp;3 package extension, if any, was
  * responsible for a given warning or error.  Each diagnostic code logged by
@@ -109,7 +109,7 @@ defined in SBML.
  * encounters these values in an {@link XMLError} object, it can assume no valid
  * line/column number could be provided by libSBML in that situation.
  <p>
- * <h3><a class='anchor' 
+ * <h3><a class='anchor'
  * name='SBMLErrorCode_t'>Error codes associated with {@link SBMLError} objects</a></h3>
  <p>
  * The error and warning codes returned by libSBML are listed in the table
@@ -150,7 +150,7 @@ defined in SBML.
  * begin with the package's nickname, such as <code>Qual</code> for
  * the Qualitative Models package, <code>Layout</code> for the Layout
  * package, and so on.  If the name of a code does not begin with one of
- * the package nicknames (<code>%Layout</code>, <code>Fbc</code>,
+ * the package nicknames (<code>Layout</code>, <code>Fbc</code>,
  * <code>Comp</code>, <code>Qual</code>, etc.), then it is a code
  * from libSBML core.
  <p>
@@ -8405,22 +8405,22 @@ defined in SBML.
  *      <th>Meaning</td>
  *  </tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_SBML LIBSBML_CAT_SBML}</td><td>General error not falling into
- * another category below.</td></tr> 
+ * another category below.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_SBML_L1_COMPAT LIBSBML_CAT_SBML_L1_COMPAT}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model from SBML Level&nbsp;2 to SBML
- * Level&nbsp;1.</td></tr> 
+ * Level&nbsp;1.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_SBML_L2V1_COMPAT LIBSBML_CAT_SBML_L2V1_COMPAT}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;1.</td></tr> 
+ * Version&nbsp;1.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_SBML_L2V2_COMPAT LIBSBML_CAT_SBML_L2V2_COMPAT}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;2.</td></tr> 
+ * Version&nbsp;2.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY}</td><td>Category of
  * errors that can occur while validating general SBML constructs.  With
  * respect to the SBML specification, these concern failures in applying
@@ -8430,51 +8430,51 @@ defined in SBML.
  * errors that can occur while validating symbol identifiers in a model.
  * With respect to the SBML specification, these concern failures in
  * applying the validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>  
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY}</td><td>Category of
  * errors that can occur while validating the units of measurement on
  * quantities in a model.  With respect to the SBML specification, these
  * concern failures in applying the validation rules numbered 105xx in the
  * Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY}</td><td>Category of
  * errors that can occur while validating MathML formulas in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 102xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY}</td><td>Category of errors
  * that can occur while validating {@link SBO} identifiers in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL}</td><td>Error in the
  * system of equations in the model: the system is overdetermined,
  * therefore violating a tenet of proper SBML.  With respect to the SBML
  * specification, this is validation rule #10601 in the SBML Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_SBML_L2V3_COMPAT LIBSBML_CAT_SBML_L2V3_COMPAT}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;3.</td></tr> 
+ * Version&nbsp;3.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE}</td><td>Category of
  * warnings about recommended good practices involving SBML and
  * computational modeling.  (These are tests performed by libSBML and do
- * not have equivalent SBML validation rules.)</td></tr> 
+ * not have equivalent SBML validation rules.)</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_INTERNAL_CONSISTENCY LIBSBML_CAT_INTERNAL_CONSISTENCY}</td><td>Category of
  * errors that can occur while validating libSBML's internal representation
  * of SBML constructs. (These are tests performed by libSBML and do
- * not have equivalent SBML validation rules.)</td></tr> 
+ * not have equivalent SBML validation rules.)</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_SBML_L2V4_COMPAT LIBSBML_CAT_SBML_L2V4_COMPAT}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;4.</td></tr> 
+ * Version&nbsp;4.</td></tr>
  * <tr><td>{@link libsbmlConstants#LIBSBML_CAT_SBML_L3V1_COMPAT LIBSBML_CAT_SBML_L3V1_COMPAT}</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;3
- * Version&nbsp;1.</td></tr> 
+ * Version&nbsp;1.</td></tr>
  <p>
  * </table>
  * </center>
@@ -8483,11 +8483,10 @@ defined in SBML.
  * name='SBMLErrorSeverity_t'>Severity codes associated with {@link SBMLError}
  * objects</h3>
  <p>
- * In libSBML version 5.10.3
-
- * there are no additional severity codes beyond those defined by {@link XMLError}.  
- * They are implemented as static integer constants defined in the interface 
- * class <code><a href='libsbmlConstants.html'>libsbmlConstants</a></code>, 
+ * In libSBML version 5.11.0
+ * there are no additional severity codes beyond those defined by {@link XMLError}.
+ * They are implemented as static integer constants defined in the interface
+ * class <code><a href='libsbmlConstants.html'>libsbmlConstants</a></code>,
  * and have names beginning with <code>LIBSBML_SEV_</code>.
  */
 
@@ -8545,14 +8544,14 @@ public class SBMLError extends XMLError {
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -8565,10 +8564,10 @@ public class SBMLError extends XMLError {
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -8638,14 +8637,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -8658,10 +8657,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -8731,14 +8730,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -8751,10 +8750,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -8824,14 +8823,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -8844,10 +8843,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -8917,14 +8916,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -8937,10 +8936,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9010,14 +9009,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -9030,10 +9029,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9103,14 +9102,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -9123,10 +9122,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9196,14 +9195,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -9216,10 +9215,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9289,14 +9288,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -9309,10 +9308,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9382,14 +9381,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -9402,10 +9401,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9475,14 +9474,14 @@ appears in the documentation.
    * defined as longeger constants in the file
    * 'libsbmlConstants.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings.  The argument 
+   * listing the possible values and their meanings.  The argument
    * <code>errorId</code> to this constructor <em>can</em> be (but does not have to be) a
    * value from this set of constants.  If it 
    * <em>is</em> one of the predefined error identifiers, the {@link SBMLError} class
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument <code>details</code> to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * <code>severity</code> and <code>category</code> codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. 
    <p>
@@ -9495,10 +9494,10 @@ appears in the documentation.
    * suitable values if generating errors with codes greater than 99999 to
    * make maximum use of the {@link SBMLError} facilities.
    <p>
-   * As mentioned above, 
+   * As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,

@@ -607,9 +607,10 @@ public class Event extends SBase {
    <p>
    * @param sid the string to use as the identifier of this {@link Event}
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -627,9 +628,10 @@ public class Event extends SBase {
    <p>
    * @param name the new name for the {@link Event}
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -646,9 +648,10 @@ public class Event extends SBase {
    <p>
    * @param trigger the {@link Trigger} object instance to use.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
@@ -666,9 +669,10 @@ public class Event extends SBase {
    <p>
    * @param delay the {@link Delay} object instance to use
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
@@ -686,9 +690,10 @@ public class Event extends SBase {
    <p>
    * @param priority the {@link Priority} object instance to use
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
@@ -709,9 +714,10 @@ public class Event extends SBase {
    <p>
    * @param sid the identifier of the time units to use.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -769,9 +775,10 @@ public class Event extends SBase {
    <p>
    * @param value the value of useValuesFromTriggerTime to use.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -793,9 +800,10 @@ public class Event extends SBase {
 /**
    * Unsets the value of the 'id' attribute of this {@link Event}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -809,9 +817,10 @@ public class Event extends SBase {
 /**
    * Unsets the value of the 'name' attribute of this {@link Event}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -825,9 +834,10 @@ public class Event extends SBase {
 /**
    * Unsets the {@link Delay} of this {@link Event}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -841,9 +851,10 @@ public class Event extends SBase {
 /**
    * (SBML Level&nbsp;3 only) Unsets the {@link Priority} of this {@link Event}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -860,9 +871,10 @@ public class Event extends SBase {
 /**
    * Unsets the {@link Trigger} of this {@link Event}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -879,9 +891,10 @@ public class Event extends SBase {
 /**
    * Unsets the 'timeUnits' attribute of this {@link Event}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -909,9 +922,10 @@ public class Event extends SBase {
    <p>
    * @param ea the {@link EventAssignment} object to add.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
@@ -1080,34 +1094,12 @@ public class Event extends SBase {
     return (cPtr == 0) ? null : new EventAssignment(cPtr, true);
   }
 
-  
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   <p>
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor and assignment operator.
-   <p>
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   * @internal
-   */ public
- void connectToChild() {
+  public void connectToChild() {
     libsbmlJNI.Event_connectToChild(swigCPtr, this);
   }
 
   
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   <p>
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   * @internal
-   */ public
+/** * @internal */ public
  void enablePackageInternal(String pkgURI, String pkgPrefix, boolean flag) {
     libsbmlJNI.Event_enablePackageInternal(swigCPtr, this, pkgURI, pkgPrefix, flag);
   }
@@ -1119,7 +1111,7 @@ public class Event extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
@@ -1173,9 +1165,8 @@ public class Event extends SBase {
 
   
 /**
-   * Predicate returning <code>true</code> if
-   * all the required elements for the given Event_t structure
-   * have been set.
+   * Predicate returning <code>true</code> if all the required elements for this {@link Event}
+   * object have been set.
    <p>
    * @note The required elements for an {@link Event} object are:
    * <ul>

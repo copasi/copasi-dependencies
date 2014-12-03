@@ -37,10 +37,14 @@ defined in SBML.
  <p>
  * <h2>Components of an SBML annotation</h2>
  <p>
- * The SBML annotation format consists of RDF-based content placed inside
- * an <code>&lt;annotation&gt;</code> element attached to an SBML component
- * such as {@link Species}, {@link Compartment}, etc.  The following template illustrates
- * the different parts of SBML annotations in XML form:
+ * The SBML annotation format consists of RDF-based content placed inside an
+ * <code>&lt;annotation&gt;</code> element attached to an SBML component such
+ * as {@link Species}, {@link Compartment}, etc.  A small change was introduced in SBML
+ * Level&nbsp;2 Version&nbsp;5 and SBML Level&nbsp;3 Version&nbsp;2 to permit
+ * nested annotations: lower Versions of the SBML specifications did not
+ * explicitly allow this.  We first describe the different parts of SBML
+ * annotations in XML form for SBML Level&nbsp;2 below Version&nbsp;5 and
+ * SBML Level&nbsp;3 below Version&nbsp;2:
  <p>
  <pre class='fragment'>
  &lt;<span style='background-color: #bbb'>SBML_ELEMENT</span> <span style='background-color: #d0eed0'>+++</span> metaid=&quot;<span style='border-bottom: 1px solid black'>meta id</span>&quot; <span style='background-color: #d0eed0'>+++</span>&gt;
@@ -48,7 +52,6 @@ defined in SBML.
    &lt;annotation&gt;
      <span style='background-color: #d0eed0'>+++</span>
      &lt;rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
-              xmlns:dc='http://purl.org/dc/elements/1.1/'
               xmlns:dcterm='http://purl.org/dc/terms/'
               xmlns:vcard='http://www.w3.org/2001/vcard-rdf/3.0#'
               xmlns:bqbiol='http://biomodels.net/biology-qualifiers/'
@@ -114,18 +117,66 @@ defined in SBML.
  * resolve robust cross-references in Systems Biology'</a>, <i>BMC Systems
  * Biology</i>, 58(1), 2007.
  <p>
- * The relation-resource pairs above are the 'controlled vocabulary' terms
- * that which {@link CVTerm} is designed to store and manipulate.  The next section
- * describes these parts in more detail.  For more information about
- * SBML annotations in general, please refer to Section&nbsp;6 in the
- * SBML Level&nbsp;2 (Versions 2&ndash;4) or Level&nbsp;3 specification
- * documents.
+ * Finally, the following is the same template as above, but this time
+ * showing the nested content permitted by the most recent SBML
+ * specifications (SBML Level&nbsp;2 Version&nbsp;5 and Level&nbsp;3
+ * Version&nbsp;2):
+ <pre class='fragment'>
+ &lt;<span style='background-color: #bbb'>SBML_ELEMENT</span> <span style='background-color: #d0eed0'>+++</span> metaid=&quot;<span style='border-bottom: 1px solid black'>meta id</span>&quot; <span style='background-color: #d0eed0'>+++</span>&gt;
+   <span style='background-color: #d0eed0'>+++</span>
+   &lt;annotation&gt;
+     <span style='background-color: #d0eed0'>+++</span>
+     &lt;rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+              xmlns:dcterm='http://purl.org/dc/terms/'
+              xmlns:vcard='http://www.w3.org/2001/vcard-rdf/3.0#'
+              xmlns:bqbiol='http://biomodels.net/biology-qualifiers/'
+              xmlns:bqmodel='http://biomodels.net/model-qualifiers/' &gt;
+       &lt;rdf:Description rdf:about=&quot;#<span style='border-bottom: 1px solid black'>meta id</span>&quot;&gt;
+         <span style='background-color: #e0e0e0; border-bottom: 2px dotted #888'>HISTORY</span>
+         &lt;<span style='background-color: #bbb'>RELATION_ELEMENT</span>&gt;
+           &lt;rdf:Bag&gt;
+             &lt;rdf:li rdf:resource=&quot;<span style='background-color: #d0d0ee'>URI</span>&quot; /&gt;
+             <span style='background-color: #fef'>NESTED_CONTENT</span>
+             <span style='background-color: #edd'>...</span>
+           &lt;/rdf:Bag&gt;
+         &lt;/<span style='background-color: #bbb'>RELATION_ELEMENT</span>&gt;
+         <span style='background-color: #edd'>...</span>
+       &lt;/rdf:Description&gt;
+       <span style='background-color: #d0eed0'>+++</span>
+     &lt;/rdf:RDF&gt;
+     <span style='background-color: #d0eed0'>+++</span>
+   &lt;/annotation&gt;
+   <span style='background-color: #d0eed0'>+++</span>
+ &lt;/<span style='background-color: #bbb'>SBML_ELEMENT</span>&gt;
+ </pre>
+ <p>
+ * The placeholder
+ * <span class='code' style='background-color: #fef'>NESTED_CONTENT</span>
+ * refers to other optional RDF elements such as
+ * <code>'bqbiol:isDescribedBy'</code> that describe a clarification or
+ * another annotation about the
+ * <span class='code' style='background-color: #bbb'>RELATION_ELEMENT</span>
+ * in which it appears.  Nested content allows one to, for example, describe
+ * protein modifications on species, or to add evidence codes for an
+ * annotation.  Nested content relates to its containing
+ * <span class='code' style='background-color: #bbb'>RELATION_ELEMENT</span>,
+ * not the other way around.  It qualifies it, but does not change its
+ * meaning.  As such, ignoring a
+ * <span class='code' style='background-color: #fef'>NESTED_CONTENT</span>
+ * does not affect the information provided by the containing
+ * <span class='code' style='background-color: #bbb'>RELATION_ELEMENT</span>.
+ <p>
+ * For more information about SBML annotations in general, please refer to
+ * Section&nbsp;6 in the SBML Level&nbsp;2 (Versions 2&ndash;4) or
+ * Level&nbsp;3 specification documents.
  <p>
  * <h2>The parts of a {@link CVTerm}</h2>
  <p>
  * Annotations that refer to controlled vocabularies are managed in libSBML
- * using {@link CVTerm} objects.  A set of RDF-based annotations attached to a
- * given SBML <code>&lt;annotation&gt;</code> element are read by
+ * using {@link CVTerm} objects.  The relation-resource pairs discussed in the
+ * previous section are the 'controlled vocabulary' terms that {@link CVTerm} is
+ * designed to store and manipulate.  A set of RDF-based annotations attached
+ * to a given SBML <code>&lt;annotation&gt;</code> element are read by
  * {@link RDFAnnotationParser} and converted into a list of these {@link CVTerm} objects.
  * Each {@link CVTerm} object instance stores the following components of an
  * annotation:
@@ -156,7 +207,7 @@ defined in SBML.
  <p>
  * Detailed explanations of the qualifiers defined by BioModels.net can be
  * found at <a target='_blank'
- * href='http://biomodels.net/qualifiers'>http://biomodels.net/qualifiers</a>.
+ * href='http://co.mbine.org/standards/qualifiers'>http://co.mbine.org/standards/qualifiers</a>.
  */
 
 public class CVTerm {
@@ -276,15 +327,14 @@ public class CVTerm {
  * appropriate SBML <code>&lt;annotation&gt;</code> structure. 
    <p>
    * This method creates an empty {@link CVTerm} object.  The possible qualifier
-   * types usable as values of <code>type</code> are {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER} and {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}.  If
-   * an explicit value for <code>type</code> is not given, this method defaults to
-   * using {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}.  The qualifier type 
-   * can be set later using the
+   * types usable as values of <code>type</code> are {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER} and {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}.  If an explicit value for <code>type</code> is not given, this
+   * method defaults to using {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}.  The qualifier
+   * type can be set later using the
    * {@link CVTerm#setQualifierType(int)} method.
    <p>
    * Different BioModels.net qualifier elements encode different types of
    * relationships.  Please refer to the SBML specification or the <a
-   * target='_blank' href='http://biomodels.net/qualifiers/'>BioModels.net
+   * target='_blank' href='http://co.mbine.org/standards/qualifiers/'>BioModels.net
    * qualifiers web page</a> for an explanation of the meaning of these
    * different qualifiers.
    <p>
@@ -333,15 +383,14 @@ appears in the documentation.
  * appropriate SBML <code>&lt;annotation&gt;</code> structure. 
    <p>
    * This method creates an empty {@link CVTerm} object.  The possible qualifier
-   * types usable as values of <code>type</code> are {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER} and {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}.  If
-   * an explicit value for <code>type</code> is not given, this method defaults to
-   * using {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}.  The qualifier type 
-   * can be set later using the
+   * types usable as values of <code>type</code> are {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER} and {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}.  If an explicit value for <code>type</code> is not given, this
+   * method defaults to using {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}.  The qualifier
+   * type can be set later using the
    * {@link CVTerm#setQualifierType(int)} method.
    <p>
    * Different BioModels.net qualifier elements encode different types of
    * relationships.  Please refer to the SBML specification or the <a
-   * target='_blank' href='http://biomodels.net/qualifiers/'>BioModels.net
+   * target='_blank' href='http://co.mbine.org/standards/qualifiers/'>BioModels.net
    * qualifiers web page</a> for an explanation of the meaning of these
    * different qualifiers.
    <p>
@@ -386,7 +435,7 @@ appears in the documentation.
  * When libSBML reads in an SBML model containing RDF annotations, it
  * parses those annotations into a list of {@link CVTerm} objects, and when
  * writing a model, it parses the {@link CVTerm} objects back into the
- * appropriate SBML <code>&lt;annotation&gt;</code> structure. 
+ * appropriate SBML <code>&lt;annotation&gt;</code> structure.
    <p>
    * This method creates a {@link CVTerm} object from the given {@link XMLNode} object 
    * <code>node</code>.  {@link XMLNode} is libSBML's representation of a node in an XML tree of
@@ -481,18 +530,18 @@ appears in the documentation.
    * </ul> <p>
    * The specific relationship of this {@link CVTerm} to the enclosing SBML object
    * can be determined using the {@link CVTerm} methods such as
-   * getModelQualifierType() and getBiologicalQualifierType().  Callers
-   * will typically want to use the present method to find out which one of
-   * the <em>other</em> two methods to call to find out the specific
-   * relationship.
+   * {@link CVTerm#getModelQualifierType()} and
+   * {@link CVTerm#getBiologicalQualifierType()}.  Callers will typically want to
+   * use the present method to find out which one of the <em>other</em> two
+   * methods to call to find out the specific relationship.
    <p>
    * @return the qualifier type
    * of this object or {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}
    * (the default).
    <p>
-   * @see #getResources()
-   * @see #getModelQualifierType()
-   * @see #getBiologicalQualifierType()
+   * @see CVTerm#getResources()
+   * @see CVTerm#getModelQualifierType()
+   * @see CVTerm#getBiologicalQualifierType()
    */ public
  int getQualifierType() {
     return libsbmlJNI.CVTerm_getQualifierType__SWIG_0(swigCPtr, this);
@@ -535,7 +584,7 @@ appears in the documentation.
    * <code>'http://biomodels.net/model-qualifiers'</code> (for model
    * qualifiers) or <code>'http://biomodels.net/biology-qualifiers'</code>
    * (for biological qualifier).  Callers will typically use
-   * getQualifierType() to find out the type of qualifier relevant to this
+   * {@link CVTerm#getQualifierType()} to find out the type of qualifier relevant to this
    * particular {@link CVTerm} object, then if it is a <em>model</em> qualifier, use the
    * present method to determine the specific qualifier.
    <p>
@@ -554,6 +603,8 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#BQM_IS BQM_IS}
    * <li> {@link libsbmlConstants#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY}
    * <li> {@link libsbmlConstants#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM}
+   * <li> {@link libsbmlConstants#BQM_IS_INSTANCE_OF BQM_IS_INSTANCE_OF}
+   * <li> {@link libsbmlConstants#BQM_HAS_INSTANCE BQM_HAS_INSTANCE}
    *
    * </ul> <p>
    * Any other BioModels.net qualifier found in the model is considered
@@ -600,13 +651,13 @@ appears in the documentation.
  * form as the immediately preceding element.
    <p>
    * The placeholder <span class='code' style='background-color: #bbb'>
-   * RELATION_ELEMENT</span> refers to a BioModels.net qualifier
-   * element name.  This is an element in either the XML namespace
+   * RELATION_ELEMENT</span> refers to a BioModels.net qualifier element
+   * name.  This is an element in either the XML namespace
    * <code>'http://biomodels.net/model-qualifiers'</code> (for model
    * qualifiers) or <code>'http://biomodels.net/biology-qualifiers'</code>
    * (for biological qualifier).  Callers will typically use
-   * getQualifierType() to find out the type of qualifier relevant to this
-   * particular {@link CVTerm} object, then if it is a <em>biological</em> qualifier,
+   * {@link CVTerm#getQualifierType()} to find out the type of qualifier relevant to
+   * this particular {@link CVTerm} object, then if it is a <em>biological</em> qualifier,
    * use the present method to determine the specific qualifier.
    <p>
    * Annotations with biological qualifiers express a relationship between an
@@ -633,6 +684,7 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#BQB_OCCURS_IN BQB_OCCURS_IN}
    * <li> {@link libsbmlConstants#BQB_HAS_PROPERTY BQB_HAS_PROPERTY}
    * <li> {@link libsbmlConstants#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF}
+   * <li> {@link libsbmlConstants#BQB_HAS_TAXON BQB_HAS_TAXON}
    *
    * </ul> <p>
    * Any other BioModels.net qualifier found in the model is considered
@@ -691,9 +743,9 @@ appears in the documentation.
    <p>
    * @return the {@link XMLAttributes} that store the resources of this {@link CVTerm}.
    <p>
-   * @see #getQualifierType()
-   * @see #addResource(String resource)
-   * @see #getResourceURI(long n)
+   * @see CVTerm#getQualifierType()
+   * @see CVTerm#addResource(String resource)
+   * @see CVTerm#getResourceURI(long n)
    */ public
  XMLAttributes getResources() {
     long cPtr = libsbmlJNI.CVTerm_getResources__SWIG_0(swigCPtr, this);
@@ -741,8 +793,8 @@ appears in the documentation.
    * @return the number of resources in the set of {@link XMLAttributes}
    * of this {@link CVTerm}.
    <p>
-   * @see #getResources()
-   * @see #getResourceURI(long n)
+   * @see CVTerm#getResources()
+   * @see CVTerm#getResourceURI(long n)
    */ public
  long getNumResources() {
     return libsbmlJNI.CVTerm_getNumResources__SWIG_0(swigCPtr, this);
@@ -779,23 +831,23 @@ appears in the documentation.
  * #edd'>...</span> are placeholders for zero or more elements of the same
  * form as the immediately preceding element.
    <p>
-   * The fragment above illustrates that there can be more than one
-   * resource referenced by a given relationship annotation (i.e., the
-   * <span class='code' style='background-color: #d0d0ee'>resource
-   * URI</span> values associated with a particular <span class='code'
-   * style='background-color: #bbb'>RELATION_ELEMENT</span>).  LibSBML
-   * stores all resource URIs in a single {@link CVTerm} object for a given
-   * relationship.  Callers can use getNumResources() to find out how many
-   * resources are stored in this {@link CVTerm} object, then call this method to
-   * retrieve the <em>n</em>th resource URI.
+   * The fragment above illustrates that there can be more than one resource
+   * referenced by a given relationship annotation (i.e., the <span
+   * class='code' style='background-color: #d0d0ee'>resource URI</span>
+   * values associated with a particular <span class='code'
+   * style='background-color: #bbb'>RELATION_ELEMENT</span>).  LibSBML stores
+   * all resource URIs in a single {@link CVTerm} object for a given relationship.
+   * Callers can use {@link CVTerm#getNumResources()} to find out how many resources
+   * are stored in this {@link CVTerm} object, then call this method to retrieve the
+   * <em>n</em>th resource URI.
    <p>
    * @param n the index of the resource to query
    <p>
    * @return string representing the value of the nth resource
    * in the set of {@link XMLAttributes} of this {@link CVTerm}.
    <p>
-   * @see #getNumResources()
-   * @see #getQualifierType()
+   * @see CVTerm#getNumResources()
+   * @see CVTerm#getQualifierType()
    */ public
  String getResourceURI(long n) {
     return libsbmlJNI.CVTerm_getResourceURI__SWIG_0(swigCPtr, this, n);
@@ -807,12 +859,16 @@ appears in the documentation.
    * {@link CVTerm} object.
    <p>
    * @param type the qualifier type.
-   * The possible values returned by this function are:
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
-   * @see #getQualifierType()
+   * @see CVTerm#getQualifierType()
    */ public
  int setQualifierType(int type) {
     return libsbmlJNI.CVTerm_setQualifierType(swigCPtr, this, type);
@@ -825,20 +881,22 @@ appears in the documentation.
    <p>
    * @param type the model qualifier type
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
    * @note If the Qualifier Type of this object is not
-   * {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}, 
-   * then the ModelQualifierType_t value will default to
-   * {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
+   * {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}, then the
+   * then the model qualifier type
+   * will default to {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
    <p>
-   * @see #getQualifierType()
-   * @see #setQualifierType(int)
+   * @see CVTerm#getQualifierType()
+   * @see CVTerm#setQualifierType(int)
    */ public
  int setModelQualifierType(int type) {
     return libsbmlJNI.CVTerm_setModelQualifierType__SWIG_0(swigCPtr, this, type);
@@ -846,13 +904,16 @@ appears in the documentation.
 
   
 /**
-   * Sets the biology qualifier type
-   * of this {@link CVTerm} object.
+   * Sets the biology qualifier
+   * type of this {@link CVTerm} object.
    <p>
-   * @param type the biology qualifier type.
+   * @param type the biology
+   * qualifier type.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -860,11 +921,11 @@ appears in the documentation.
    * </ul> <p>
    * @note If the Qualifier Type of this object is not
    * {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER},
-   * then the biology qualifier type will default
-   * to {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
+   * then the biology qualifier type
+   * will default to {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
    <p>
-   * @see #getQualifierType()
-   * @see #setQualifierType(int)
+   * @see CVTerm#getQualifierType()
+   * @see CVTerm#setQualifierType(int)
    */ public
  int setBiologicalQualifierType(int type) {
     return libsbmlJNI.CVTerm_setBiologicalQualifierType__SWIG_0(swigCPtr, this, type);
@@ -872,13 +933,15 @@ appears in the documentation.
 
   
 /**
-   * Sets the model qualifier type code value of this {@link CVTerm} object.
+   * Sets the model qualifier
+   * type value of this {@link CVTerm} object.
    <p>
    * @param qualifier the string representing a model qualifier
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -886,11 +949,11 @@ appears in the documentation.
    * </ul> <p>
    * @note If the Qualifier Type of this object is not
    * {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}, 
-   * then the ModelQualifierType_t value will default to
-   * {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
+   * then the model qualifier type
+   * will default to {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
    <p>
-   * @see #getQualifierType()
-   * @see #setQualifierType(int)
+   * @see CVTerm#getQualifierType()
+   * @see CVTerm#setQualifierType(int)
    */ public
  int setModelQualifierType(String qualifier) {
     return libsbmlJNI.CVTerm_setModelQualifierType__SWIG_1(swigCPtr, this, qualifier);
@@ -903,9 +966,10 @@ appears in the documentation.
    <p>
    * @param qualifier the string representing a biology qualifier
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -913,11 +977,11 @@ appears in the documentation.
    * </ul> <p>
    * @note If the Qualifier Type of this object is not
    * {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER},
-   * then the biology qualifier type code value will default
-   * to {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
+   * then the biology qualifier type code
+   * will default to {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
    <p>
-   * @see #getQualifierType()
-   * @see #setQualifierType(int)
+   * @see CVTerm#getQualifierType()
+   * @see CVTerm#setQualifierType(int)
    */ public
  int setBiologicalQualifierType(String qualifier) {
     return libsbmlJNI.CVTerm_setBiologicalQualifierType__SWIG_1(swigCPtr, this, qualifier);
@@ -992,25 +1056,27 @@ appears in the documentation.
    * within an {@link XMLAttributes} object.
    <p>
    * The relationship of this {@link CVTerm} to the enclosing SBML object can be
-   * determined using the {@link CVTerm} methods such as getModelQualifierType()
-   * and getBiologicalQualifierType().
+   * determined using the {@link CVTerm} methods such as
+   * {@link CVTerm#getModelQualifierType()} and {@link CVTerm#getBiologicalQualifierType()}.
    <p>
    * @param resource a string representing the URI of the resource and data
    * item being referenced; e.g.,
    * <code>'http://www.geneontology.org/#GO:0005892'</code>.
    <p>
-   * @return integer value indicating success/failure of the call. The
-   * possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
-   * @see #getResources()
-   * @see #removeResource(String resource)
-   * @see #getQualifierType()
-   * @see #getModelQualifierType()
-   * @see #getBiologicalQualifierType()
+   * @see CVTerm#getResources()
+   * @see CVTerm#removeResource(String resource)
+   * @see CVTerm#getQualifierType()
+   * @see CVTerm#getModelQualifierType()
+   * @see CVTerm#getBiologicalQualifierType()
    */ public
  int addResource(String resource) {
     return libsbmlJNI.CVTerm_addResource(swigCPtr, this, resource);
@@ -1024,15 +1090,17 @@ appears in the documentation.
    * @param resource a string representing the resource URI to remove;
    * e.g., <code>'http://www.geneontology.org/#GO:0005892'</code>.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
-   * @see #addResource(String resource)
+   * @see CVTerm#addResource(String resource)
    */ public
  int removeResource(String resource) {
     return libsbmlJNI.CVTerm_removeResource(swigCPtr, this, resource);

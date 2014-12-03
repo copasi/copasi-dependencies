@@ -87,8 +87,8 @@ public class SBMLConverterRegistry : IDisposable {
    *
    * Prior to using the registry, callers have to obtain a copy of the
    * registry.  This static method provides the means for doing that.
-   * 
-   * @return the singleton for the converter registry. 
+   *
+   * @return the singleton for the converter registry.
    */ public
  static SBMLConverterRegistry getInstance() {
     SBMLConverterRegistry ret = new SBMLConverterRegistry(libsbmlPINVOKE.SBMLConverterRegistry_getInstance(), false);
@@ -96,14 +96,18 @@ public class SBMLConverterRegistry : IDisposable {
   }
 
   
-/** 
+/**
    * Adds the given converter to the registry of SBML converters.
-   * 
+   *
    * @param converter the converter to add to the registry.
-   * 
-   * @return integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -113,16 +117,16 @@ public class SBMLConverterRegistry : IDisposable {
   }
 
   
-/** 
+/**
    * Returns the converter with the given index number.
    *
    * Converters are given arbitrary index numbers by the registry.  Callers
    * can use the method SBMLConverterRegistry::getNumConverters() to find
    * out how many converters are registered, then use this method to
    * iterate over the list and obtain each one in turn.
-   * 
+   *
    * @param index the zero-based index of the converter to fetch.
-   * 
+   *
    * @return the converter with the given index number, or @c null if the
    * number is less than @c 0 or there is no converter at the given index
    * position.
@@ -134,20 +138,20 @@ public class SBMLConverterRegistry : IDisposable {
 }
 
   
-/** 
+/**
    * Returns the converter that best matches the given configuration
    * properties.
-   * 
+   *
    * Many converters provide the ability to configure their behavior.  This
    * is realized through the use of @em properties that offer different @em
    * options.  The present method allows callers to search for converters
    * that have specific property values.  Callers can do this by creating a
    * ConversionProperties object, adding the desired option(s) to the
    * object, then passing the object to this method.
-   * 
+   *
    * @param props a ConversionProperties object defining the properties
    * to match against.
-   * 
+   *
    * @return the converter matching the properties, or @c null if no
    * suitable converter is found.
    *
@@ -163,7 +167,7 @@ public class SBMLConverterRegistry : IDisposable {
   
 /**
    * Returns the number of converters known by the registry.
-   * 
+   *
    * @return the number of registered converters.
    *
    * @see getConverterByIndex(@if java int@endif)

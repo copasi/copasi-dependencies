@@ -60,7 +60,7 @@ LIBSBML_CPP_NAMESPACE_USE
 BEGIN_C_DECLS
 
 static RelAbsVector *V;
-static RenderPkgNamespaces *renderns;
+//static RenderPkgNamespaces *renderns;
  
 void
 RelAbsVectorTest_setup (void)

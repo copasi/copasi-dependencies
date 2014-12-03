@@ -181,9 +181,10 @@ public class SBMLWriter {
    * @param name the name of this program (where 'this program' refers to
    * program in which libSBML is embedded, not libSBML itself!)
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -214,9 +215,10 @@ public class SBMLWriter {
    * @param version the version of this program (where 'this program'
    * refers to program in which libSBML is embedded, not libSBML itself!)
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -293,22 +295,7 @@ unreadable files will be logged and this method will return
   }
 
   
-/**
-   * Writes the given SBML document to an in-memory string and returns a
-   * pointer to it.
-   <p>
-   * The string is owned by the caller and should be freed (with <code>free</code>())
-   * when no longer needed.
-   <p>
-   * @param d the SBML document to be written
-   <p>
-   * @return the string on success and <code>0</code> if one of the underlying parser
-   * components fail.
-   <p>
-   * @see #setProgramVersion(String version)
-   * @see #setProgramName(String name)
-   * @internal
-   */ public
+/** * @internal */ public
  String writeToString(SBMLDocument d) {
     return libsbmlJNI.SBMLWriter_writeToString(swigCPtr, this, SBMLDocument.getCPtr(d), d);
   }

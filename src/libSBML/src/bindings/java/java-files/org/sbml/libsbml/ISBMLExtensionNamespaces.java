@@ -11,6 +11,13 @@ package org.sbml.libsbml;
 /** 
  *  
  <p>
+ * <p style='color: #777; font-style: italic'>
+This class of objects is defined by libSBML only and has no direct
+equivalent in terms of SBML components.  This class is not prescribed by
+the SBML specifications, although it is used to implement features
+defined in SBML.
+</p>
+
  * @internal
  */
 

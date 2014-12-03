@@ -343,9 +343,10 @@ public class InitialAssignment extends SBase {
    * @param sid the identifier of a {@link Species}, {@link Compartment} or {@link Parameter}
    * object defined elsewhere in this {@link Model}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -364,9 +365,10 @@ public class InitialAssignment extends SBase {
    * @param math an AST containing the mathematical expression to
    * be used as the formula for this {@link InitialAssignment}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -446,7 +448,7 @@ public class InitialAssignment extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
@@ -582,29 +584,19 @@ public class InitialAssignment extends SBase {
   }
 
   
-/**
-   * Replace all nodes with the name 'id' from the child 'math' object with the provided function. 
-   <p>
-   * @internal
-   */ public
+/** * @internal */ public
  void replaceSIDWithFunction(String id, ASTNode function) {
     libsbmlJNI.InitialAssignment_replaceSIDWithFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }
 
   
-/**
-   * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing/function). 
-   * @internal 
-   */ public
+/** * @internal */ public
  void divideAssignmentsToSIdByFunction(String id, ASTNode function) {
     libsbmlJNI.InitialAssignment_divideAssignmentsToSIdByFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }
 
   
-/**
-   * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing*function). 
-   * @internal 
-   */ public
+/** * @internal */ public
  void multiplyAssignmentsToSIdByFunction(String id, ASTNode function) {
     libsbmlJNI.InitialAssignment_multiplyAssignmentsToSIdByFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }

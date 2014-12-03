@@ -123,6 +123,32 @@ public class SBMLErrorLog : XMLErrorLog {
 
   
 /**
+   * Returns the <i>n</i>th SBMLError object with given severity in this log.
+   *
+   * Index @p n is counted from 0.  Callers should first inquire about the
+   * number of items in the log by using the
+   * @if java SBMLErrorLog::getNumFailsWithSeverity(long severity)@else getNumFailsWithSeverity()@endif method.
+   * Attempts to use an error index number that exceeds the actual number
+   * of errors in the log will result in a @c null being returned.
+   *
+   * @param n the index number of the error to retrieve (with 0 being the
+   * first error).
+   * @param severity the severity of the error to retrieve 
+   *
+   * @return the <i>n</i>th SBMLError in this log, or @c null if @p n is
+   * greater than or equal to
+   * @if java SBMLErrorLog::getNumFailsWithSeverity(long severity)@else getNumFailsWithSeverity()@endif.
+   *
+   * @see getNumFailsWithSeverity(long severity)
+   */ public
+ SBMLError getErrorWithSeverity(long n, long severity) {
+    IntPtr cPtr = libsbmlPINVOKE.SBMLErrorLog_getErrorWithSeverity(swigCPtr, n, severity);
+    SBMLError ret = (cPtr == IntPtr.Zero) ? null : new SBMLError(cPtr, false);
+    return ret;
+  }
+
+  
+/**
    * Returns the number of errors that have been logged with the given
    * severity code.
    *
@@ -154,304 +180,66 @@ public class SBMLErrorLog : XMLErrorLog {
  long getNumFailsWithSeverity(long severity) { return (long)libsbmlPINVOKE.SBMLErrorLog_getNumFailsWithSeverity__SWIG_0(swigCPtr, severity); }
 
   
-/**
-   * Creates a new, empty SBMLErrorLog.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  SBMLErrorLog() : this(libsbmlPINVOKE.new_SBMLErrorLog__SWIG_0(), true) {
   }
 
   
-/**
-   * Copy Constructor
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  SBMLErrorLog(SBMLErrorLog other) : this(libsbmlPINVOKE.new_SBMLErrorLog__SWIG_1(SBMLErrorLog.getCPtr(other)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level's Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details, long line, long column, long severity, long category) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_0(swigCPtr, errorId, level, version, details, line, column, severity, category);
   }
 
   
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level's Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details, long line, long column, long severity) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_1(swigCPtr, errorId, level, version, details, line, column, severity);
   }
 
   
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level's Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details, long line, long column) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_2(swigCPtr, errorId, level, version, details, line, column);
   }
 
   
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level's Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details, long line) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_3(swigCPtr, errorId, level, version, details, line);
   }
 
   
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level's Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version, string details) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_4(swigCPtr, errorId, level, version, details);
   }
 
   
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level's Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void logError(long errorId, long level, long version) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_5(swigCPtr, errorId, level, version);
   }
 
   
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level's Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void logError(long errorId, long level) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_6(swigCPtr, errorId, level);
   }
 
   
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level's Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void logError(long errorId) {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_7(swigCPtr, errorId);
   }
 
   
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level's Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void logError() {
     libsbmlPINVOKE.SBMLErrorLog_logError__SWIG_8(swigCPtr);
   }
@@ -523,11 +311,7 @@ public class SBMLErrorLog : XMLErrorLog {
   }
 
   
-/**
-   * Adds the given SBMLError to the log.
-   *
-   * @param error SBMLError, the error to be logged.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void add(SBMLError error) {
     libsbmlPINVOKE.SBMLErrorLog_add(swigCPtr, SBMLError.getCPtr(error));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();

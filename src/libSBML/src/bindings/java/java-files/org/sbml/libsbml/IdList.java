@@ -64,41 +64,25 @@ public class IdList {
   }
 
   
-/**
-   * Appends id to the list of ids.
-   * @internal
-   */ public
+/** * @internal */ public
  void append(String id) {
     libsbmlJNI.IdList_append(swigCPtr, this, id);
   }
 
   
-/**
-   * Returns true if id is already in this {@link IdList}, false otherwise.
-   <p>
-   * @return true if id is already in this {@link IdList}, false otherwise.
-   * @internal
-   */ public
+/** * @internal */ public
  boolean contains(String id) {
     return libsbmlJNI.IdList_contains(swigCPtr, this, id);
   }
 
   
-/**
-   * Removes all ids in this {@link IdList} before the given <code>id</code>.
-   * @internal
-   */ public
+/** * @internal */ public
  void removeIdsBefore(String id) {
     libsbmlJNI.IdList_removeIdsBefore(swigCPtr, this, id);
   }
 
   
-/**
-   * Returns the number of ids in this {@link IdList}.
-   <p>
-   * @return the number of ids in this {@link IdList}.
-   * @internal
-   */ public
+/** * @internal */ public
  long size() {
     return libsbmlJNI.IdList_size(swigCPtr, this);
   }

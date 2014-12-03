@@ -184,7 +184,8 @@ namespace libsbmlcs {
  * SBML Level 1 uses a different scheme than SBML Level 2 and Level 3 for
  * distinguishing rules; specifically, it uses an attribute whose value is
  * drawn from an enumeration of 3 values.  LibSBML supports this using methods
- * that work @if clike a libSBML enumeration type, RuleType_t, whose values
+ * that work @if clike a libSBML enumeration type,
+ * @link Rule::RuleType_t RuleType_t@endlink, whose values
  * are @else with the enumeration values @endif listed below.
  *
  * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates

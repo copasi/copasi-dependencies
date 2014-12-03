@@ -9,9 +9,9 @@
 package org.sbml.libsbml;
 
 public interface libsbmlConstants {
-  public final static String LIBSBML_DOTTED_VERSION = "5.10.3";
-  public final static int LIBSBML_VERSION = 51003;
-  public final static String LIBSBML_VERSION_STRING = "51003";
+  public final static String LIBSBML_DOTTED_VERSION = "5.11.0";
+  public final static int LIBSBML_VERSION = 51100;
+  public final static String LIBSBML_VERSION_STRING = "51100";
   // OperationReturnValues_t 
   public final static int LIBSBML_OPERATION_SUCCESS = 0;
   public final static int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -648,7 +648,9 @@ public interface libsbmlConstants {
   public final static int BQM_IS = 0;
   public final static int BQM_IS_DESCRIBED_BY = BQM_IS + 1;
   public final static int BQM_IS_DERIVED_FROM = BQM_IS_DESCRIBED_BY + 1;
-  public final static int BQM_UNKNOWN = BQM_IS_DERIVED_FROM + 1;
+  public final static int BQM_IS_INSTANCE_OF = BQM_IS_DERIVED_FROM + 1;
+  public final static int BQM_HAS_INSTANCE = BQM_IS_INSTANCE_OF + 1;
+  public final static int BQM_UNKNOWN = BQM_HAS_INSTANCE + 1;
 
   // BiolQualifierType_t 
   public final static int BQB_IS = 0;
@@ -663,7 +665,8 @@ public interface libsbmlConstants {
   public final static int BQB_OCCURS_IN = BQB_ENCODES + 1;
   public final static int BQB_HAS_PROPERTY = BQB_OCCURS_IN + 1;
   public final static int BQB_IS_PROPERTY_OF = BQB_HAS_PROPERTY + 1;
-  public final static int BQB_UNKNOWN = BQB_IS_PROPERTY_OF + 1;
+  public final static int BQB_HAS_TAXON = BQB_IS_PROPERTY_OF + 1;
+  public final static int BQB_UNKNOWN = BQB_HAS_TAXON + 1;
 
   // ASTNodeType_t 
   public final static int AST_PLUS = '+';

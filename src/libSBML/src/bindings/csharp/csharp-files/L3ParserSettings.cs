@@ -178,6 +178,9 @@ public class L3ParserSettings : IDisposable {
    * @li <em>avocsymbol</em> ('Avogadro csymbol') is set to
    * @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink.
    *
+   * @li <em>caseSensitive</em> ('case sensitive') is set to
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink.
+   *
    * @li <em>sbmlns</em> ('SBML namespaces') is set to @c null (which
    * indicates that no syntax extensions due to SBML Level&nbsp;3 packages
    * will be assumed---the formula parser will only understand the
@@ -228,12 +231,15 @@ public class L3ParserSettings : IDisposable {
    * set to the value @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
    * interpreted as a plain symbol name.
    *
-   * @param caseSensitive a flag that controls how the
-   * parser will handle case sensitivity of any function name.
-   * If set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
-   * the name is interpreted as teh relevant math function regardless of case; if
-   * set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
-   * interpreted as a user defined function unless it is all lower case.
+   * @param caseSensitive ('case sensitive') a flag that controls how the
+   * cases of alphabetical characters are treated when symbols are compared.
+   * If the flag is set to the value
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink, symbols are
+   * compared in a case-insensitive manner, which means that mathematical
+   * functions such as @c 'sin' will be matched no matter what their case is:
+   * @c 'Sin', @c 'SIN', etc.  If the flag is set to the value
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, symbols are
+   * interpreted in a case-sensitive manner.
    *
    * @param sbmlns ('SBML namespaces') an SBML namespaces object.  The
    * namespaces identify the SBML Level&nbsp;3 packages that can extend the
@@ -300,12 +306,15 @@ public class L3ParserSettings : IDisposable {
    * set to the value @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
    * interpreted as a plain symbol name.
    *
-   * @param caseSensitive a flag that controls how the
-   * parser will handle case sensitivity of any function name.
-   * If set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
-   * the name is interpreted as teh relevant math function regardless of case; if
-   * set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
-   * interpreted as a user defined function unless it is all lower case.
+   * @param caseSensitive ('case sensitive') a flag that controls how the
+   * cases of alphabetical characters are treated when symbols are compared.
+   * If the flag is set to the value
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink, symbols are
+   * compared in a case-insensitive manner, which means that mathematical
+   * functions such as @c 'sin' will be matched no matter what their case is:
+   * @c 'Sin', @c 'SIN', etc.  If the flag is set to the value
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, symbols are
+   * interpreted in a case-sensitive manner.
    *
    * @param sbmlns ('SBML namespaces') an SBML namespaces object.  The
    * namespaces identify the SBML Level&nbsp;3 packages that can extend the
@@ -372,12 +381,15 @@ public class L3ParserSettings : IDisposable {
    * set to the value @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
    * interpreted as a plain symbol name.
    *
-   * @param caseSensitive a flag that controls how the
-   * parser will handle case sensitivity of any function name.
-   * If set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
-   * the name is interpreted as teh relevant math function regardless of case; if
-   * set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
-   * interpreted as a user defined function unless it is all lower case.
+   * @param caseSensitive ('case sensitive') a flag that controls how the
+   * cases of alphabetical characters are treated when symbols are compared.
+   * If the flag is set to the value
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink, symbols are
+   * compared in a case-insensitive manner, which means that mathematical
+   * functions such as @c 'sin' will be matched no matter what their case is:
+   * @c 'Sin', @c 'SIN', etc.  If the flag is set to the value
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, symbols are
+   * interpreted in a case-sensitive manner.
    *
    * @param sbmlns ('SBML namespaces') an SBML namespaces object.  The
    * namespaces identify the SBML Level&nbsp;3 packages that can extend the
@@ -401,6 +413,14 @@ public class L3ParserSettings : IDisposable {
    * @see setParseAvogadroCsymbol(@if java bool@endif)
    */ public
  L3ParserSettings(Model model, int parselog, bool collapseminus, bool parseunits, bool avocsymbol) : this(libsbmlPINVOKE.new_L3ParserSettings__SWIG_3(Model.getCPtr(model), parselog, collapseminus, parseunits, avocsymbol), true) {
+  }
+
+  
+/**
+   * Copy constructor.
+   */ public
+ L3ParserSettings(L3ParserSettings source) : this(libsbmlPINVOKE.new_L3ParserSettings__SWIG_4(L3ParserSettings.getCPtr(source)), true) {
+    if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
@@ -803,12 +823,15 @@ public class L3ParserSettings : IDisposable {
    *
    * *
  * 
- * By default, the parser compares symbols in a case insensitive manner for
- * built-in functions such as @c 'sin' and @c 'piecewise', and for constants
- * such as @c 'true' and @c 'avogadro'.  Setting this option to @c false, you
- * can force the string comparison to @em only match lower-case strings.
- * Thus, for example, @c 'sin' and @c 'true' will match the built-in values, but
- * @c 'SIN' and @c 'TRUE' will not.
+ * By default (which is the value
+ * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink), the parser
+ * compares symbols in a case @em insensitive manner for built-in functions
+ * such as @c 'sin' and @c 'piecewise', and for constants such as @c 'true'
+ * and @c 'avogadro'.  Setting this option to
+ * @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink causes the parser to
+ * become case sensitive.  In that mode, for example, the symbols @c 'sin'
+ * and @c 'true' will match the built-in values, but the symbols @c 'SIN',
+ * @c 'Sin', @c 'True', @c 'TRUE', and so on, will not.
    *
    * @param strcmp a bool indicating whether to be case sensitive (if @c
    * true) or be case insensitive (if @c false).
@@ -826,12 +849,15 @@ public class L3ParserSettings : IDisposable {
    *
    * *
  * 
- * By default, the parser compares symbols in a case insensitive manner for
- * built-in functions such as @c 'sin' and @c 'piecewise', and for constants
- * such as @c 'true' and @c 'avogadro'.  Setting this option to @c false, you
- * can force the string comparison to @em only match lower-case strings.
- * Thus, for example, @c 'sin' and @c 'true' will match the built-in values, but
- * @c 'SIN' and @c 'TRUE' will not.
+ * By default (which is the value
+ * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink), the parser
+ * compares symbols in a case @em insensitive manner for built-in functions
+ * such as @c 'sin' and @c 'piecewise', and for constants such as @c 'true'
+ * and @c 'avogadro'.  Setting this option to
+ * @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink causes the parser to
+ * become case sensitive.  In that mode, for example, the symbols @c 'sin'
+ * and @c 'true' will match the built-in values, but the symbols @c 'SIN',
+ * @c 'Sin', @c 'True', @c 'TRUE', and so on, will not.
    *
    * @return @c true if matches are done in a case-sensitive manner, and 
    * @c false if the parser will recognize built-in functions and
@@ -868,10 +894,7 @@ public class L3ParserSettings : IDisposable {
   }
 
   
-/**
-   * Visits the given ASTNode_t and continues the inorder traversal for nodes
-   * whose syntax are determined by packages.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void visitPackageInfixSyntax(ASTNode parent, ASTNode node, SWIGTYPE_p_StringBuffer_t sb) {
     libsbmlPINVOKE.L3ParserSettings_visitPackageInfixSyntax(swigCPtr, ASTNode.getCPtr(parent), ASTNode.getCPtr(node), SWIGTYPE_p_StringBuffer_t.getCPtr(sb));
   }

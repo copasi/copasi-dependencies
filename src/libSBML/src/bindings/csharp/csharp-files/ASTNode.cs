@@ -83,7 +83,7 @@ namespace libsbmlcs {
  * Every ASTNode has an associated type code to indicate whether, for
  * example, it holds a number or stands for an arithmetic operator.
  * @if clike The type is recorded as a value drawn from the enumeration
- * @link ASTNode.h::ASTNodeType_t <code>ASTNodeType_t</code>@endlink.@endif
+ * #ASTNodeType_t.@endif
  * @if java The type is recorded as a value drawn from a
  * set of static integer constants defined in the class @link
  * libsbml.libsbml@endlink. Their names begin with the characters @c AST_.@endif
@@ -309,8 +309,13 @@ public class ASTNode : ASTBase {
    * operators, numbers, or @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink.  This
    * method has no effect on other types of nodes.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
@@ -366,8 +371,13 @@ public class ASTNode : ASTBase {
    *
    * @param child the ASTNode instance to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -402,8 +412,13 @@ public class ASTNode : ASTBase {
    *
    * @param child the ASTNode instance to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -435,8 +450,13 @@ public class ASTNode : ASTBase {
    *
    * @param n long the index of the child to remove
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
@@ -468,9 +488,56 @@ public class ASTNode : ASTBase {
    *
    * @param n long the index of the child to replace
    * @param newChild ASTNode to replace the nth child
+   * @param delreplaced bool indicating whether to delete the replaced child.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
+   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   *
+   * *
+ * @warning Explicitly adding, removing or replacing children of an
+ * @if conly ASTNode_t structure@else ASTNode object@endif may change the
+ * structure of the mathematical formula it represents, and may even render
+ * the representation invalid.  Callers need to be careful to use this method
+ * in the context of other operations to create complete and correct
+ * formulas.  The method
+ * @if conly ASTNode_isWellFormedASTNode()@else ASTNode::isWellFormedASTNode()@endif
+ * may also be useful for checking the results of node modifications.
+ *
+ *
+   *
+   * @see addChild(ASTNode child)
+   * @see prependChild(ASTNode child)
+   * @see insertChild(long n, ASTNode child)
+   * @see removeChild(long n)
+   */ public
+ int replaceChild(long n, ASTNode newChild, bool delreplaced) {
+    int ret = libsbmlPINVOKE.ASTNode_replaceChild__SWIG_0(swigCPtr, n, ASTNode.getCPtrAndDisown(newChild), delreplaced);
+    return ret;
+  }
+
+  
+/**
+   * Replaces the nth child of this ASTNode with the given ASTNode.
+   *
+   * @param n long the index of the child to replace
+   * @param newChild ASTNode to replace the nth child
+   * @param delreplaced bool indicating whether to delete the replaced child.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -493,7 +560,7 @@ public class ASTNode : ASTBase {
    * @see removeChild(long n)
    */ public
  int replaceChild(long n, ASTNode newChild) {
-    int ret = libsbmlPINVOKE.ASTNode_replaceChild(swigCPtr, n, ASTNode.getCPtrAndDisown(newChild));
+    int ret = libsbmlPINVOKE.ASTNode_replaceChild__SWIG_1(swigCPtr, n, ASTNode.getCPtrAndDisown(newChild));
     return ret;
   }
 
@@ -505,8 +572,13 @@ public class ASTNode : ASTBase {
    * @param n long the index of the ASTNode being added
    * @param newChild ASTNode to insert as the nth child
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -637,8 +709,13 @@ getChild( getNumChildren() - 1 );
    *
    * @param sAnnotation the annotation to add.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -1013,7 +1090,7 @@ getChild( getNumChildren() - 1 );
    * Returns the extended type of this ASTNode.
    *
    * The type may be either a core
-   * @ifnot clike integer type code@else ASTNodeType_t value@endif
+   * @ifnot clike integer type code@else #ASTNodeType_t value@endif
    * or a value of a type code defined by an SBML Level&nbsp;3 package.
    *
    * @return the type of this ASTNode.
@@ -1591,8 +1668,13 @@ getChild( getNumChildren() - 1 );
    * @param value the character value to which the node's value should be
    * set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setCharacter(char value) {
@@ -1606,8 +1688,13 @@ getChild( getNumChildren() - 1 );
    *
    * @param id @c string representing the identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see isSetId()
@@ -1626,8 +1713,13 @@ getChild( getNumChildren() - 1 );
    *
    * @param className @c string representing the MathML class for this node.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @if java
@@ -1653,8 +1745,13 @@ getChild( getNumChildren() - 1 );
    *
    * @param style @c string representing the identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see isSetStyle()
@@ -1681,8 +1778,13 @@ getChild( getNumChildren() - 1 );
    * @param name the string containing the name to which this node's value
    * should be set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setName(string name) {
@@ -1699,8 +1801,13 @@ getChild( getNumChildren() - 1 );
    *
    * @param value the integer to which this node's value should be set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(int value) {
@@ -1718,8 +1825,13 @@ getChild( getNumChildren() - 1 );
    * @param numerator the numerator value of the rational.
    * @param denominator the denominator value of the rational.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(int numerator, int denominator) {
@@ -1742,8 +1854,13 @@ setValue(value, 0);
    * @param value the @c double format number to which this node's value
    * should be set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(double value) {
@@ -1761,8 +1878,13 @@ setValue(value, 0);
    * @param mantissa the mantissa of this node's real-numbered value.
    * @param exponent the exponent of this node's real-numbered value.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(double mantissa, int exponent) {
@@ -1774,14 +1896,25 @@ setValue(value, 0);
 /**
    * Sets the type of this ASTNode.
    *
-   * This uses integer type codes, which may come from ASTNodeType_t or an
-   * enumeration of AST types in an SBML Level&nbsp;3 package.
+   * This uses integer type codes, which may come from @if clike the
+   * enumeration #ASTNodeType_t@else the set
+   * of static integer constants whose names begin with the prefix
+   * <code>AST_</code> @endif @if java defined in the interface class
+   * <code><a href='libsbml.libsbml.html'>libsbmlConstants</a></code>
+   * @endif@if python defined in the interface class @link libsbml
+   * libsbml@endlink@endif or an enumeration of AST types in an SBML
+   * Level&nbsp;3 package.
    *
    * @param type the integer representing the type to which this node should
    * be set.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -1810,8 +1943,13 @@ setValue(value, 0);
    *
    * @param units @c string representing the unit identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -1835,8 +1973,13 @@ setValue(value, 0);
    * @param that the other node whose children should be used to replace
    * <em>this</em> node's children.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -1873,22 +2016,14 @@ setValue(value, 0);
   }
 
   
-/**
-   * Replace any nodes of type AST_NAME with the name 'id' from the child
-   * 'math' object with the provided ASTNode.
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  void replaceIDWithFunction(string id, ASTNode function) {
     libsbmlPINVOKE.ASTNode_replaceIDWithFunction(swigCPtr, id, ASTNode.getCPtr(function));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/**
-   * Replaces any 'AST_NAME_TIME' nodes with a node that multiplies time by
-   * the given function.
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  void setIsChildFlag(bool flag) {
     libsbmlPINVOKE.ASTNode_setIsChildFlag(swigCPtr, flag);
   }
@@ -1897,8 +2032,13 @@ setValue(value, 0);
 /**
    * Unsets the units of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -1912,8 +2052,13 @@ setValue(value, 0);
 /**
    * Unsets the MathML @c id attribute of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -1926,8 +2071,13 @@ setValue(value, 0);
 /**
    * Unsets the MathML @c class attribute of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -1940,8 +2090,13 @@ setValue(value, 0);
 /**
    * Unsets the MathML @c style attribute of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -1956,8 +2111,13 @@ setValue(value, 0);
    *
    * @param url the URL value for the @c definitionURL attribute.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -1977,8 +2137,13 @@ setValue(value, 0);
    *
    * @param url the URL value for the @c definitionURL attribute.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -2046,8 +2211,13 @@ setValue(value, 0);
 /**
    * Unsets the parent SBML object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -2094,8 +2264,13 @@ setValue(value, 0);
   * information to the node.  In case of a deep copy, this attribute will
   * passed as it is. The attribute will be never interpreted by this class.
   *
-  * @return integer value indicating success/failure of the
-  * function.  The possible values returned by this function are:
+  * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
   *

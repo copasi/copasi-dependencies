@@ -56,10 +56,7 @@ public class ASTBase {
   }
 
   
-/**
-   * Creates a copy (clone).
-   * @internal
-   */ public
+/** * @internal */ public
  ASTBase deepCopy() {
   return libsbml.DowncastASTBase(libsbmlJNI.ASTBase_deepCopy(swigCPtr, this), false);
 }
@@ -71,14 +68,7 @@ public class ASTBase {
   }
 
   
-/**
-   * Get the type of this {@link ASTNode}.  The value returned is one of the
-   * enumeration values such as {@link libsbmlConstants#AST_LAMBDA AST_LAMBDA}, {@link libsbmlConstants#AST_PLUS AST_PLUS},
-   * etc.
-   <p>
-   * @return the type of this {@link ASTNode}.
-   * @internal
-   */ public
+/** * @internal */ public
  int getType() {
     return libsbmlJNI.ASTBase_getType(swigCPtr, this);
   }
@@ -96,21 +86,7 @@ public class ASTBase {
   }
 
   
-/**
-   * Sets the type of this {@link ASTNode} to the given type code.  A side-effect
-   * of doing this is that any numerical values previously stored in this
-   * node are reset to zero.
-   <p>
-   * @param type the type to which this node should be set
-   <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
-   * @internal
-   * </ul>
-   */ public
+/** * @internal */ public
  int setType(int type) {
     return libsbmlJNI.ASTBase_setType__SWIG_0(swigCPtr, this, type);
   }
@@ -464,46 +440,21 @@ public class ASTBase {
   }
 
   
-/**
-   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension with the given package name or URI.
-   <p>
-   * @param package the name or URI of the package
-   <p>
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
-   * @internal
-   */ public
+/** * @internal */ public
  ASTBasePlugin getPlugin(String arg0) {
     long cPtr = libsbmlJNI.ASTBase_getPlugin__SWIG_0(swigCPtr, this, arg0);
     return (cPtr == 0) ? null : new ASTBasePlugin(cPtr, false);
   }
 
   
-/**
-   * Returns the nth plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension.
-   <p>
-   * @param n the index of the plug-in to return
-   <p>
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
-   * @internal
-   */ public
+/** * @internal */ public
  ASTBasePlugin getPlugin(long n) {
     long cPtr = libsbmlJNI.ASTBase_getPlugin__SWIG_2(swigCPtr, this, n);
     return (cPtr == 0) ? null : new ASTBasePlugin(cPtr, false);
   }
 
   
-/**
-   * Returns the number of plug-in objects (extenstion interfaces) for SBML
-   * Level&nbsp;3 package extensions known.
-   <p>
-   * @return the number of plug-in objects (extension interfaces) of
-   * package extensions known by this instance of libSBML.
-   * @internal
-   */ public
+/** * @internal */ public
  long getNumPlugins() {
     return libsbmlJNI.ASTBase_getNumPlugins(swigCPtr, this);
   }
@@ -587,40 +538,25 @@ public class ASTBase {
   }
 
   
-/**
-   * Returns true if this is a package function which should be written as
-   * 'functionname(argumentlist)', false otherwise.
-   * @internal
-   */ public
+/** * @internal */ public
  boolean isPackageInfixFunction() {
     return libsbmlJNI.ASTBase_isPackageInfixFunction(swigCPtr, this);
   }
 
   
-/**
-   * Returns true if this is a package function which should be written
-   * special syntax that the package knows about, false otherwise.
-   * @internal
-   */ public
+/** * @internal */ public
  boolean hasPackageOnlyInfixSyntax() {
     return libsbmlJNI.ASTBase_hasPackageOnlyInfixSyntax(swigCPtr, this);
   }
 
   
-/**
-   * Returns the precedence of the functions within the package
-   * @internal
-   */ public
+/** * @internal */ public
  int getL3PackageInfixPrecedence() {
     return libsbmlJNI.ASTBase_getL3PackageInfixPrecedence(swigCPtr, this);
   }
 
   
-/**
-   * Returns true if this is a package function which needs no special
-   * consideration when writng as infix, false otherwise.
-   * @internal
-   */ public
+/** * @internal */ public
  boolean hasUnambiguousPackageInfixGrammar(ASTNode child) {
     return libsbmlJNI.ASTBase_hasUnambiguousPackageInfixGrammar(swigCPtr, this, ASTNode.getCPtr(child), child);
   }

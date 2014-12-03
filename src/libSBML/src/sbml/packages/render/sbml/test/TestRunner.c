@@ -50,6 +50,12 @@
 
 #include <check.h>
 
+#ifdef LIBSBML_USE_VLD
+  #include <vld.h>
+#endif
+
+
+
 /*
  * Test suite creation function prototypes.
  *
@@ -184,6 +190,8 @@ main (void)
 #endif
 
   srunner_free(runner);
+
+  free(TestDataDirectory);
 
   return num_failed;
 }

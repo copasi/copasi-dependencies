@@ -72,7 +72,7 @@ namespace libsbmlcs {
  * of the SBML specification documents, as well as some additional
  * libSBML-specific error codes.
  * @endif
- * 
+ *
  * Error codes are useful mainly for software.  For human readers,
  * SBMLError also includes text messages that describe the nature of a
  * given problem.  The messages can be accessed using
@@ -90,7 +90,7 @@ namespace libsbmlcs {
  * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a> described below.
  * Categories are used to partition errors into distinct conceptual groups.
  * This is principally used by the libSBML validation system to group
- * classes of validation checks.  For example, 
+ * classes of validation checks.  For example,
  * @link libsbml#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
  * is the category for tests that check identifier consistency;
  * @link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
@@ -129,14 +129,14 @@ namespace libsbmlcs {
  *
  * In addition, SBMLError also has a severity code.  Its value may be
  * retrieved using the method SBMLError::getSeverity().  The possible
- * severity values are the same as those reported by @if clike XMLError.@endif@if python XMLError.@endif@if java <code><a href='XMLError.html'>XMLError</a></code>.@endif 
+ * severity values are the same as those reported by @if clike XMLError.@endif@if python XMLError.@endif@if java <code><a href='XMLError.html'>XMLError</a></code>.@endif
  * Severity levels currently range from informational
  * (@link libsbml#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink)
  * to fatal errors
  * (@link libsbml#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
  * They can be
  * used by an application to evaluate how serious a given problem
- * is. 
+ * is.
  *
  * SBMLError also tracks the Level&nbsp;3 package extension, if any, was
  * responsible for a given warning or error.  Each diagnostic code logged by
@@ -170,26 +170,26 @@ namespace libsbmlcs {
  * @if clike
  * <h3><a class='anchor' name='SBMLErrorCode_t'>SBMLErrorCode_t</a></h3>
  *
- * SBMLErrorCode_t is an enumeration of all SBML-level error, warning and
+ * #SBMLErrorCode_t is an enumeration of all SBML-level error, warning and
  * informational diagnostic codes.  Every SBMLError object has an error
  * code value that can be either a value from this enumeration, or a value
- * from the @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink
+ * from the #XMLErrorCode_t
  * enumeration (see the documentation for XMLError).  The latter values
  * apply when the error or warning signifies a basic XML issue rather than
- * an SBML issue per se.  The values of SBMLErrorCode_t are distinguished
- * from those of @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink by
+ * an SBML issue per se.  The values of #SBMLErrorCode_t are distinguished
+ * from those of #XMLErrorCode_t by
  * being numbered 10000 and higher, while the XML layer's codes are 9999 and
  * lower.  The method SBMLError::getErrorId() returns the error code of a
  * given SBMLError object instance.
- * 
- * The following is a table of the symbolic names of SBMLErrorCode_t values
+ *
+ * The following is a table of the symbolic names of #SBMLErrorCode_t values
  * and the meaning of each code.  In this table, the right-hand columns
  * titled 'L1V1', 'L1V2', etc. refer to Levels and Versions of the SBML
  * specifications, and the entries in each column refer to whether the
  * severity of the condition in that particular Level+Version of SBML.
  * The codes stand for the following:
- * 
- * @endif@if java <h3><a class='anchor' 
+ *
+ * @endif@if java <h3><a class='anchor'
  * name='SBMLErrorCode_t'>Error codes associated with SBMLError objects</a></h3>
  *
  * The error and warning codes returned by libSBML are listed in the table
@@ -202,13 +202,13 @@ namespace libsbmlcs {
  * programming, but it was necessary to work around the lack of
  * enumerations in Java prior to JDK 1.5.  Future versions of libSBML may
  * use a proper Java enumeration type to define the error identifiers.
- * 
+ *
  * In this table, the right-hand columns titled 'L1V1', 'L1V2', etc. refer
  * to Levels and Versions of the SBML specifications, and the entries in
  * each column refer to whether the severity of the condition in that
  * particular Level+Version of SBML.  The codes stand for the following:
  *
- * @endif@if python <h3><a class='anchor' 
+ * @endif@if python <h3><a class='anchor'
  * name='SBMLErrorCode_t'>Error codes associated with SBMLError objects</a></h3>
  *
  * The error and warning codes returned by libSBML are listed in the table
@@ -216,8 +216,8 @@ namespace libsbmlcs {
  * given SBMLError object instance.  In the libSBML Python language
  * interface, these error identifiers are currently
  * implemented as static integer constants defined in the interface class
- * @link libsbml libsbml@endlink. 
- * 
+ * @link libsbml libsbml@endlink.
+ *
  * In this table, the right-hand columns titled 'L1V1', 'L1V2', etc. refer
  * to Levels and Versions of the SBML specifications, and the entries in
  * each column refer to whether the severity of the condition in that
@@ -8480,21 +8480,21 @@ namespace libsbmlcs {
 <td class='s-error'></td>
 </tr>
 </table>
- * 
+ *
  * @if clike <h3><a class='anchor' name='SBMLErrorCategory_t'>SBMLErrorCategory_t</a></h3>
  *
- * SBMLErrorCategory_t is an enumeration of category codes for SBMLError
+ * #SBMLErrorCategory_t is an enumeration of category codes for SBMLError
  * diagnostics.  The category can be retrieved from an SBMLError object
  * using the method SBMLError::getCategory().  These enumeration values are
- * distinct from (and in addition to) the @link
- * XMLError::XMLErrorCategory_t XMLErrorCategory_t@endlink codes used by
+ * distinct from (and in addition to) the
+ * #XMLErrorCategory_t codes used by
  * the parent XMLError object.  User programs receiving an SBMLError object
  * can use this distinction to check whether the error represents a
  * low-level XML problem or an SBML problem.
  *
  * The following table lists each possible value and a brief description of
  * its meaning.
- * 
+ *
  * @endif@if python <h3><a class='anchor' name='SBMLErrorCategory_t'>Category codes associated with SBMLError objects</a></h3>
  *
  * As discussed above, each SBMLError object contains a value for a
@@ -8506,20 +8506,20 @@ namespace libsbmlcs {
  * As is the case with the error codes, in the libSBML Python language
  * interface, the category identifiers are currently implemented as static
  * integer constants defined in the interface class
- * @link libsbml libsbml@endlink. 
+ * @link libsbml libsbml@endlink.
  *
  * The following table lists each possible value and a brief description of
  * its meaning.
- * 
+ *
  * @endif@if java <h3><a class='anchor'
  * name='SBMLErrorCategory_t'>Category codes associated with SBMLError objects</a></h3>
- * 
+ *
  * As discussed above, each SBMLError object contains a value for a
  * category identifier, describing the type of issue that the SBMLError
  * object represents.  The category can be retrieved from an SBMLError
  * object using the method SBMLError::getCategory().  The following table
  * lists each possible value and a brief description of its meaning.
- * 
+ *
  * As is the case with the error codes, in the libSBML Java language
  * interface, the category identifiers are currently implemented as static
  * integer constants defined in the interface class
@@ -8527,16 +8527,16 @@ namespace libsbmlcs {
  *
  * The following table lists each possible value and a brief description of
  * its meaning.
- * 
+ *
  * @endif@if csharp <h3><a class='anchor'
  * name='SBMLErrorCategory_t'>Category codes associated with SBMLError objects</a></h3>
- * 
+ *
  * As discussed above, each SBMLError object contains a value for a
  * category identifier, describing the type of issue that the SBMLError
  * object represents.  The category can be retrieved from an SBMLError
  * object using the method SBMLError::getCategory().  The following table
  * lists each possible value and a brief description of its meaning.
- * 
+ *
  * As is the case with the error codes, in the libSBML C# language
  * interface, the category identifiers are currently implemented as static
  * integer constants defined in the interface class
@@ -8544,9 +8544,9 @@ namespace libsbmlcs {
  *
  * The following table lists each possible value and a brief description of
  * its meaning.
- * 
+ *
  * @endif
- * 
+ *
  * <center>
  * <table width='90%' cellspacing='1' cellpadding='4' border='0'  class='text-table normal-font alt-row-colors'>
  *  <tr style='background: lightgray' class='normal-font'>
@@ -8554,22 +8554,22 @@ namespace libsbmlcs {
  *      <th>Meaning</td>
  *  </tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML LIBSBML_CAT_SBML@endlink</td><td>General error not falling into
- * another category below.</td></tr> 
+ * another category below.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L1_COMPAT LIBSBML_CAT_SBML_L1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model from SBML Level&nbsp;2 to SBML
- * Level&nbsp;1.</td></tr> 
+ * Level&nbsp;1.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V1_COMPAT LIBSBML_CAT_SBML_L2V1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;1.</td></tr> 
+ * Version&nbsp;1.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V2_COMPAT LIBSBML_CAT_SBML_L2V2_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;2.</td></tr> 
+ * Version&nbsp;2.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating general SBML constructs.  With
  * respect to the SBML specification, these concern failures in applying
@@ -8579,55 +8579,55 @@ namespace libsbmlcs {
  * errors that can occur while validating symbol identifiers in a model.
  * With respect to the SBML specification, these concern failures in
  * applying the validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>  
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating the units of measurement on
  * quantities in a model.  With respect to the SBML specification, these
  * concern failures in applying the validation rules numbered 105xx in the
  * Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating MathML formulas in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 102xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink</td><td>Category of errors
  * that can occur while validating SBO identifiers in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink</td><td>Error in the
  * system of equations in the model: the system is overdetermined,
  * therefore violating a tenet of proper SBML.  With respect to the SBML
  * specification, this is validation rule #10601 in the SBML Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V3_COMPAT LIBSBML_CAT_SBML_L2V3_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;3.</td></tr> 
+ * Version&nbsp;3.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink</td><td>Category of
  * warnings about recommended good practices involving SBML and
  * computational modeling.  (These are tests performed by libSBML and do
- * not have equivalent SBML validation rules.)</td></tr> 
+ * not have equivalent SBML validation rules.)</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_INTERNAL_CONSISTENCY LIBSBML_CAT_INTERNAL_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating libSBML's internal representation
  * of SBML constructs. (These are tests performed by libSBML and do
- * not have equivalent SBML validation rules.)</td></tr> 
+ * not have equivalent SBML validation rules.)</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V4_COMPAT LIBSBML_CAT_SBML_L2V4_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;4.</td></tr> 
+ * Version&nbsp;4.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L3V1_COMPAT LIBSBML_CAT_SBML_L3V1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;3
- * Version&nbsp;1.</td></tr> 
+ * Version&nbsp;1.</td></tr>
  *
  * </table>
  * </center>
- * 
+ *
  * @if clike
  * <h3><a class='anchor' name='SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a></h3>
  *
@@ -8635,20 +8635,20 @@ namespace libsbmlcs {
  * User programs receiving an SBMLError object can use this distinction to
  * check whether the error represents a low-level XML problem or an SBML
  * problem.
- * 
+ *
  * In libSBML version @htmlinclude libsbml-version.html
- * there are no additional severity codes in SBMLErrorSeverity_t beyond
- * those defined in @link XMLError::XMLErrorSeverity_t XMLErrorSeverity_t@endlink.
- * 
+ * there are no additional severity codes in
+ * #SBMLErrorSeverity_t beyond those defined in #XMLErrorSeverity_t.
+ *
  * <hr>
  * @endif@if java <h3><a class='anchor'
  * name='SBMLErrorSeverity_t'>Severity codes associated with SBMLError
  * objects</h3>
  *
  * In libSBML version @htmlinclude libsbml-version.html
- * there are no additional severity codes beyond those defined by XMLError.  
- * They are implemented as static integer constants defined in the interface 
- * class <code><a href='libsbml.libsbml.html'>libsbmlConstants</a></code>, 
+ * there are no additional severity codes beyond those defined by XMLError.
+ * They are implemented as static integer constants defined in the interface
+ * class <code><a href='libsbml.libsbml.html'>libsbmlConstants</a></code>,
  * and have names beginning with <code>LIBSBML_SEV_</code>.
  * @endif@if python <h3><a class='anchor'
  * name='SBMLErrorSeverity_t'>Severity codes associated with SBMLError
@@ -8726,7 +8726,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -8744,7 +8744,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -8771,11 +8771,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -8794,19 +8794,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -8839,7 +8839,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -8857,7 +8857,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -8884,11 +8884,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -8907,19 +8907,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -8952,7 +8952,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -8970,7 +8970,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -8997,11 +8997,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9020,19 +9020,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -9065,7 +9065,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -9083,7 +9083,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -9110,11 +9110,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9133,19 +9133,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -9178,7 +9178,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -9196,7 +9196,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -9223,11 +9223,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9246,19 +9246,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -9291,7 +9291,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -9309,7 +9309,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -9336,11 +9336,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9359,19 +9359,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -9404,7 +9404,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -9422,7 +9422,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -9449,11 +9449,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9472,19 +9472,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -9517,7 +9517,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -9535,7 +9535,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -9562,11 +9562,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9585,19 +9585,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -9629,7 +9629,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -9647,7 +9647,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -9674,11 +9674,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9697,19 +9697,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -9741,7 +9741,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -9759,7 +9759,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -9786,11 +9786,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9809,19 +9809,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -9853,7 +9853,7 @@ public class SBMLError : XMLError {
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class='el' href='#SBMLErrorCode_t'>SBMLErrorCode_t</a>, the
@@ -9871,7 +9871,7 @@ public class SBMLError : XMLError {
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -9898,11 +9898,11 @@ public class SBMLError : XMLError {
    * values (not just those from <a class='el'
    * href='#SBMLErrorSeverity_t'>SBMLErrorSeverity_t</a> and <a class='el'
    * href='#SBMLErrorCategory_t'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class='el'
    * href='#SBMLErrorSeverity_t'>standard severity</a> and <a class='el'
-   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined 
+   * href='#SBMLErrorCategory_t'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -9921,19 +9921,19 @@ public class SBMLError : XMLError {
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *

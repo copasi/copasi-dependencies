@@ -15,6 +15,8 @@ namespace libsbml {
  * @sbmlpackage{core}
  *
 @htmlinclude pkg-marker-core.html Base class for extensions that plug into AST classes.
+ *
+ * @htmlinclude not-sbml-warning.html
  * @internal
  */
 
@@ -64,11 +66,7 @@ public class ASTBasePlugin : IDisposable {
   }
 
   
-/**
-   * Creates and returns a deep copy of this ASTBasePlugin object.
-   *
-   * @return the (deep) copy of this ASTBasePlugin object.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  ASTBasePlugin clone() {
     IntPtr cPtr = libsbmlPINVOKE.ASTBasePlugin_clone(swigCPtr);
     ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, true);
@@ -76,34 +74,21 @@ public class ASTBasePlugin : IDisposable {
   }
 
   
-/**
-   * Returns the XML namespace (URI) of the package extension
-   * of this plugin object.
-   *
-   * @return the URI of the package extension of this plugin object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  string getElementNamespace() {
     string ret = libsbmlPINVOKE.ASTBasePlugin_getElementNamespace(swigCPtr);
     return ret;
   }
 
   
-/**
-   * Returns the prefix of the package extension of this plugin object.
-   *
-   * @return the prefix of the package extension of this plugin object.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  string getPrefix() {
     string ret = libsbmlPINVOKE.ASTBasePlugin_getPrefix(swigCPtr);
     return ret;
   }
 
   
-/**
-   * Returns the package name of this plugin object.
-   *
-   * @return the package name of this plugin object.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  string getPackageName() {
     string ret = libsbmlPINVOKE.ASTBasePlugin_getPackageName(swigCPtr);
     return ret;
@@ -124,40 +109,13 @@ public class ASTBasePlugin : IDisposable {
   }
 
   
-/**
-   * Sets the parent SBML object of this plugin object to
-   * this object and child elements (if any).
-   * (Creates a child-parent relationship by this plugin object)
-   *
-   * This function is called when this object is created by
-   * the parent element.
-   * Subclasses must override this this function if they have one
-   * or more child elements. Also, ASTBasePlugin::connectToParent(@if java SBase@endif)
-   * must be called in the overridden function.
-   *
-   * @param sbase the SBase object to use
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  void connectToParent(ASTBase astbase) {
     libsbmlPINVOKE.ASTBasePlugin_connectToParent(swigCPtr, ASTBase.getCPtr(astbase));
   }
 
   
-/**
-   * Enables/Disables the given package with child elements in this plugin 
-   * object (if any).
-   * (This is an internal implementation invoked from 
-   *  SBase::enablePackageInternal() function)
-   *
-   * Subclasses which contain one or more SBase derived elements should 
-   * override this function if elements defined in them can be extended by
-   * some other package extension.
-   *
-   * @see setSBMLDocument
-   * @see connectToParent
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  void enablePackageInternal(string pkgURI, string pkgPrefix, bool flag) {
     libsbmlPINVOKE.ASTBasePlugin_enablePackageInternal(swigCPtr, pkgURI, pkgPrefix, flag);
   }
@@ -170,93 +128,36 @@ public class ASTBasePlugin : IDisposable {
   }
 
   
-/**
-   * Gets the URI to which this element belongs to.
-   * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must would have the URI 'http://www.sbml.org/sbml/level3/version1/core'; 
-   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-   * Version 1 Core must would have the URI
-   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
-   *
-   * Unlike getElementNamespace, this function first returns the URI for this 
-   * element by looking into the SBMLNamespaces object of the document with 
-   * the its package name. if not found it will return the result of 
-   * getElementNamespace
-   *
-   * @return the URI this elements  
-   *
-   * @see getPackageName
-   * @see getElementNamespace
-   * @see SBMLDocument::getSBMLNamespaces
-   * @see getSBMLDocument
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  string getURI() {
     string ret = libsbmlPINVOKE.ASTBasePlugin_getURI(swigCPtr);
     return ret;
   }
 
   
-/**
-   * Returns the parent ASTNode object to which this plugin 
-   * object connected.
-   *
-   * @return the parent ASTNode object to which this plugin 
-   * object connected.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  ASTBase getParentASTObject() {
 	ASTBase ret = (ASTBase) libsbml.DowncastASTBase(libsbmlPINVOKE.ASTBasePlugin_getParentASTObject__SWIG_0(swigCPtr), false);
 	return ret;
 }
 
   
-/**
-   * Sets the XML namespace to which this element belongs to.
-   * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must set the namespace to 'http://www.sbml.org/sbml/level3/version1/core'; 
-   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-   * Version 1 Core must set the namespace to 
-   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  int setElementNamespace(string uri) {
     int ret = libsbmlPINVOKE.ASTBasePlugin_setElementNamespace(swigCPtr, uri);
     return ret;
   }
 
   
-/**
-   * Returns the SBML level of the package extension of 
-   * this plugin object.
-   *
-   * @return the SBML level of the package extension of
-   * this plugin object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  long getLevel() { return (long)libsbmlPINVOKE.ASTBasePlugin_getLevel(swigCPtr); }
 
   
-/**
-   * Returns the SBML version of the package extension of
-   * this plugin object.
-   *
-   * @return the SBML version of the package extension of
-   * this plugin object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  long getVersion() { return (long)libsbmlPINVOKE.ASTBasePlugin_getVersion(swigCPtr); }
 
   
-/**
-   * Returns the package version of the package extension of
-   * this plugin object.
-   *
-   * @return the package version of the package extension of
-   * this plugin object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  long getPackageVersion() { return (long)libsbmlPINVOKE.ASTBasePlugin_getPackageVersion(swigCPtr); }
 
   
@@ -328,8 +229,8 @@ public class ASTBasePlugin : IDisposable {
 
   
 /** */ /* libsbml-internal */ public new
- int replaceChild(long n, ASTBase newChild) {
-    int ret = libsbmlPINVOKE.ASTBasePlugin_replaceChild(swigCPtr, n, ASTBase.getCPtr(newChild));
+ int replaceChild(long n, ASTBase newChild, bool delreplaced) {
+    int ret = libsbmlPINVOKE.ASTBasePlugin_replaceChild(swigCPtr, n, ASTBase.getCPtr(newChild), delreplaced);
     return ret;
   }
 

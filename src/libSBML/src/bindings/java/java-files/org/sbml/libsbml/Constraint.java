@@ -289,9 +289,10 @@ public class Constraint extends SBase {
    <p>
    * @param xhtml an XML tree containing XHTML content.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -309,9 +310,10 @@ public class Constraint extends SBase {
    * @param math an {@link ASTNode} expression to be assigned as the 'math'
    * subelement of this {@link Constraint}
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -325,9 +327,10 @@ public class Constraint extends SBase {
 /**
    * Unsets the 'message' subelement of this {@link Constraint}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -398,11 +401,7 @@ public class Constraint extends SBase {
   }
 
   
-/**
-   * Replace all nodes with the name 'id' from the child 'math' object with the provided function. 
-   <p>
-   * @internal
-   */ public
+/** * @internal */ public
  void replaceSIDWithFunction(String id, ASTNode function) {
     libsbmlJNI.Constraint_replaceSIDWithFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }
@@ -414,7 +413,7 @@ public class Constraint extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3

@@ -47,11 +47,11 @@ the implementation of extra functionality provided by libSBML.
  * can be used to reorder the SBML objects regardless of whether the
  * input file contained them in the desired order.
  <p>
- * @note The two sets of assignments (list of assignment rules on the one
- * hand, and list of initial assignments on the other hand) are handled 
- * <em>independently</em>.  In an SBML model, these entities are treated differently
- * and no amount of sorting can deal with inter-dependencies between
- * assignments of the two kinds.
+ * Note that the two sets of SBML assignments (list of assignment rules on
+ * the one hand, and list of initial assignments on the other hand) are
+ * handled <em>independently</em>.  In an SBML model, these entities are treated
+ * differently and no amount of sorting can deal with inter-dependencies
+ * between assignments of the two kinds.
 <p>
  * <h2>Configuration and use of {@link SBMLRuleConverter}</h2>
  <p>
@@ -115,7 +115,7 @@ if (props != null) {
 <p>
  * Here is an example of using a converter that offers an option. The
  * following code invokes {@link SBMLStripPackageConverter} to remove the
- * SBML Level&nbsp;3 <em>%Layout</em> package from a model.  It sets the name
+ * SBML Level&nbsp;3 <em>Layout</em> package from a model.  It sets the name
  * of the package to be removed by adding a value for the option named
  * <code>'package'</code> defined by that converter:
  <p>
@@ -140,10 +140,25 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.10.3
-:
+ * provided by libSBML 5.11.0:
  <p>
- * @copydetails doc_list_of_libsbml_converters
+ * <p>
+ * <ul>
+ * <li> CobraToFbcConverter
+ * <li> CompFlatteningConverter
+ * <li> FbcToCobraConverter
+ * <li> {@link SBMLFunctionDefinitionConverter}
+ * <li> {@link SBMLIdConverter}
+ * <li> {@link SBMLInferUnitsConverter}
+ * <li> {@link SBMLInitialAssignmentConverter}
+ * <li> {@link SBMLLevelVersionConverter}
+ * <li> {@link SBMLLocalParameterConverter}
+ * <li> {@link SBMLReactionConverter}
+ * <li> {@link SBMLRuleConverter}
+ * <li> {@link SBMLStripPackageConverter}
+ * <li> {@link SBMLUnitsConverter}
+ *
+ * </ul>
  */
 
 public class SBMLRuleConverter extends SBMLConverter {
@@ -189,10 +204,7 @@ public class SBMLRuleConverter extends SBMLConverter {
   }
 
   
-/**
-   * Register with the ConversionRegistry.
-   * @internal
-   */ public
+/** * @internal */ public
  static void init() {
     libsbmlJNI.SBMLRuleConverter_init();
   }
@@ -260,8 +272,10 @@ public class SBMLRuleConverter extends SBMLConverter {
    * with the configuration options set by
    * {@link SBMLConverter#setProperties(ConversionProperties)}.
    <p>
-   * @return  integer value indicating the success/failure of the operation.
-   *  The possible values are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}

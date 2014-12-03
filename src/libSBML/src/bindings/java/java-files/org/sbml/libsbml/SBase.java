@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  SBML's SBase class, the base class of most SBML objects.
+ *  SBML's <em>SBase</em> class, base class of most SBML objects.
  <p>
  * Most components in SBML are derived from a single abstract base type,
  * {@link SBase}.  In addition to serving as the parent class for most other
@@ -340,91 +340,43 @@ public class SBase {
   }
 
   
-/**
-   * If this object has a child 'math' object (or anything with ASTNodes in
-   * general), replace all nodes with the name 'id' with the provided
-   * function.
-   <p>
-   * @note This function does nothing itself&mdash;subclasses with {@link ASTNode}
-   * subelements must override this function.
-   * @internal
-   */ public
+/** * @internal */ public
  void replaceSIDWithFunction(String id, ASTNode function) {
     libsbmlJNI.SBase_replaceSIDWithFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }
 
   
-/**
-   * If the function of this object is to assign a value has a child 'math'
-   * object (or anything with ASTNodes in general), replace the 'math'
-   * object with the function (existing/function).
-   <p>
-   * @note This function does nothing itself&mdash;subclasses with {@link ASTNode}
-   * subelements must override this function.
-   * @internal
-   */ public
+/** * @internal */ public
  void divideAssignmentsToSIdByFunction(String id, ASTNode function) {
     libsbmlJNI.SBase_divideAssignmentsToSIdByFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }
 
   
-/**
-   * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing*function). 
-   * @internal 
-   */ public
+/** * @internal */ public
  void multiplyAssignmentsToSIdByFunction(String id, ASTNode function) {
     libsbmlJNI.SBase_multiplyAssignmentsToSIdByFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }
 
   
-/**
-   * Returns the first child element found that has the given <code>id</code> in the
-   * model-wide SId namespace from all plug-ins associated with this
-   * element, or <code>null</code> if no such object is found.
-   <p>
-   * @param id string representing the id of objects to find
-   <p>
-   * @return pointer to the first element found with the given <code>id</code>.
-   * @internal
-   */ public
+/** * @internal */ public
  SBase getElementFromPluginsBySId(String id) {
   return libsbml.DowncastSBase(libsbmlJNI.SBase_getElementFromPluginsBySId(swigCPtr, this, id), false);
 }
 
   
-/**
-   * Returns the first child element it can find with the given <code>metaid</code> from
-   * all plug-ins associated with this element, or <code>null</code> if no such object
-   * is found.
-   <p>
-   * @param metaid string representing the metaid of objects to find
-   <p>
-   * @return pointer to the first element found with the given <code>metaid</code>.
-   * @internal
-   */ public
+/** * @internal */ public
  SBase getElementFromPluginsByMetaId(String metaid) {
   return libsbml.DowncastSBase(libsbmlJNI.SBase_getElementFromPluginsByMetaId(swigCPtr, this, metaid), false);
 }
 
   
-/**
-   * Check to see if the given prefix is used by any of the IDs defined by
-   * extension elements *excluding* 'id' and 'metaid' attributes (as, for
-   * example, the spatial id attributes 'spid').
-   * @internal
-   */ public
+/** * @internal */ public
  boolean hasNonstandardIdentifierBeginningWith(String prefix) {
     return libsbmlJNI.SBase_hasNonstandardIdentifierBeginningWith(swigCPtr, this, prefix);
   }
 
   
-/**
-   * Add the given string to all identifiers in the object.  If the string
-   * is added to anything other than an id or a metaid, this code is
-   * responsible for tracking down and renaming all *idRefs in the package
-   * extention that identifier comes from.
-   * @internal
-   */ public
+/** * @internal */ public
  int prependStringToAllIdentifiers(String prefix) {
     return libsbmlJNI.SBase_prependStringToAllIdentifiers(swigCPtr, this, prefix);
   }
@@ -1146,8 +1098,10 @@ appears in the documentation.
    * @param metaid the identifier string to use as the value of the
    * 'metaid' attribute
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -1222,8 +1176,10 @@ appears in the documentation.
    * @param annotation an XML structure that is to be used as the new content
    * of the 'annotation' subelement of this object
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -1272,8 +1228,10 @@ appears in the documentation.
    * @param annotation an XML string that is to be used as the content
    * of the 'annotation' subelement of this object
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1317,11 +1275,18 @@ appears in the documentation.
    * @param annotation an XML structure that is to be copied and appended
    * to the content of the 'annotation' subelement of this object
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS}
+   * With 'unexpected attribute' returned if the parent element does not have 
+   * the 'metaid' attribute set, and 'duplicate annotation' set if the parent 
+   * was already annotated with the annotation in question.
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -1362,11 +1327,18 @@ appears in the documentation.
    * @param annotation an XML string that is to be copied and appended
    * to the content of the 'annotation' subelement of this object
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS}
+   * With 'unexpected attribute' returned if the parent element does not have 
+   * the 'metaid' attribute set, and 'duplicate annotation' set if the parent 
+   * was already annotated with the annotation in question.
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -1401,8 +1373,10 @@ appears in the documentation.
    * empty, and the removeEmpty argument is true, the annotation node will be 
    * deleted (default). 
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1438,8 +1412,10 @@ appears in the documentation.
    * empty, and the removeEmpty argument is true, the annotation node will be 
    * deleted (default). 
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1475,8 +1451,10 @@ appears in the documentation.
    * empty, and the removeEmpty argument is true, the annotation node will be 
    * deleted (default). 
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1509,8 +1487,10 @@ appears in the documentation.
    <p>
    * @param annotation {@link XMLNode} representing the replacement top level annotation 
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1542,8 +1522,10 @@ appears in the documentation.
    <p>
    * @param annotation string representing the replacement top level annotation 
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1587,8 +1569,10 @@ appears in the documentation.
    * @param notes an XML structure that is to be used as the content of the
    * 'notes' subelement of this object
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -1652,8 +1636,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * tags.  This is appropriate when the string in <code>notes</code> does not already
    * containg the appropriate XHTML markup.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -1718,8 +1704,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * tags.  This is appropriate when the string in <code>notes</code> does not already
    * containg the appropriate XHTML markup.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -1767,8 +1755,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @param notes an XML node structure that is to appended to the content
    * of the 'notes' subelement of this object
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -1816,8 +1806,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * @param notes an XML string that is to appended to the content of
    * the 'notes' subelement of this object
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -1845,8 +1837,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    <p>
    * @param history {@link ModelHistory} of this object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -1862,34 +1856,12 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
   }
 
   
-/**
-   * Sets the parent SBML object of this SBML object.
-   * (Creates a child-parent relationship by the child)
-   * This function is called when a child element is
-   * set/added/created by its parent element (e.g. by setXXX,
-   * addXXX, createXXX, and connectToChild functions of the
-   * parent element).
-   <p>
-   * @param parent the SBML object to use
-   * @internal
-   */ public
+/** * @internal */ public
  void connectToParent(SBase parent) {
     libsbmlJNI.SBase_connectToParent(swigCPtr, this, SBase.getCPtr(parent), parent);
   }
 
-  
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   <p>
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor, assignment operator.
-   <p>
-   * @internal
-   */ public
- void connectToChild() {
+  public void connectToChild() {
     libsbmlJNI.SBase_connectToChild(swigCPtr, this);
   }
 
@@ -1914,8 +1886,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    <p>
    * @param value the NNNNNNN integer portion of the {@link SBO} identifier
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -1951,8 +1925,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    <p>
    * @param sboid the {@link SBO} identifier string of the form 'SBO:NNNNNNN'
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -1978,8 +1954,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    <p>
    * @param xmlns the namespaces to set
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -2013,8 +1991,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
  * explicit XML <code>ID</code> data type; it uses ordinary character
  * strings, which is easier for applications to support. 
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -2034,8 +2014,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * is used to identify the object within the SBML model definition.
    * Other objects can refer to the component using this identifier.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -2082,8 +2064,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * restrictions on the uniqueness of 'name' values in a model.  This
    * allows software applications leeway in assigning component identifiers.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -2117,8 +2101,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * specifications have considerable detail about how 'notes' element
    * content must be structured.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -2153,8 +2139,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * the data as well as help reduce conflicts between annotations added by
    * different tools.  Please see the SBML specifications for more details.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -2175,8 +2163,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
 /**
    * Unsets the value of the 'sboTerm' attribute of this SBML object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -2196,8 +2186,10 @@ s.setNotes('&lt;body xmlns='http://www.w3.org/1999/xhtml'&gt;here is my note&lt;
    * as a previous bag, and if <code>false</code>, adds the term to an existing
    * RDF bag with the same type of qualifier as the term being added.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -2251,8 +2243,10 @@ appears in the documentation.
    * as a previous bag, and if <code>false</code>, adds the term to an existing
    * RDF bag with the same type of qualifier as the term being added.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -2337,8 +2331,10 @@ appears in the documentation.
 /**
    * Clears the list of {@link CVTerm} objects attached to this SBML object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -2352,8 +2348,10 @@ appears in the documentation.
 /**
    * Unsets the {@link ModelHistory} object attached to this object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -2569,7 +2567,7 @@ appears in the documentation.
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
@@ -2923,9 +2921,10 @@ void example (SBase sb)
    <p>
    * @param flag whether to enable (<code>true</code>) or disable (<code>false</code>) the package
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN}
@@ -2987,9 +2986,10 @@ newModel.addSpecies(s1);
    <p>
    * @param pkgPrefix the XML prefix of the package
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN}
@@ -3004,17 +3004,7 @@ newModel.addSpecies(s1);
   }
 
   
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   <p>
-   * @note Subclasses in which one or more child elements are defined 
-   * must override this function.
-   <p>
-   * @see #connectToChild()
-   * @internal
-   */ public
+/** * @internal */ public
  void enablePackageInternal(String pkgURI, String pkgPrefix, boolean flag) {
     libsbmlJNI.SBase_enablePackageInternal(swigCPtr, this, pkgURI, pkgPrefix, flag);
   }
@@ -3063,12 +3053,12 @@ newModel.addSpecies(s1);
    * @return <code>true</code> if the given package is enabled within this object, @c 
    * false otherwise.
    <p>
-   * @see #isPkgEnabled(String)
-   <p>
    * @deprecated <div class='deprecated'>Replaced in libSBML 5.2.0 by
-   * isPackageURIEnabled(String)
-   </div>
-   * */ public
+   * {@link SBase#isPackageURIEnabled(String)}.
+   * </div>
+   <p>
+   * @see #isPkgEnabled(String)
+   */ public
  boolean isPkgURIEnabled(String pkgURI) {
     return libsbmlJNI.SBase_isPkgURIEnabled(swigCPtr, this, pkgURI);
   }
@@ -3085,23 +3075,18 @@ newModel.addSpecies(s1);
    * @return <code>true</code> if the given package is enabled within this object, 
    * <code>false</code> otherwise.
    <p>
-   * @see #isPkgURIEnabled(String)
-   <p>
    * @deprecated <div class='deprecated'>Replaced in libSBML 5.2.0 by
-   * isPackageEnabled(String)
-   </div>
-   * */ public
+   * {@link SBase#isPackageEnabled(String)}.
+   * </div>
+   <p>
+   * @see #isPkgURIEnabled(String)
+   */ public
  boolean isPkgEnabled(String pkgName) {
     return libsbmlJNI.SBase_isPkgEnabled(swigCPtr, this, pkgName);
   }
 
   
-/**
-   * Writes out contained SBML objects of package extensions (if any)
-   * as XML elements.
-   <p>
-   * @internal
-   */ public
+/** * @internal */ public
  void writeExtensionElements(XMLOutputStream stream) {
     libsbmlJNI.SBase_writeExtensionElements(swigCPtr, this, XMLOutputStream.getCPtr(stream), stream);
   }
@@ -3167,9 +3152,10 @@ newModel.addSpecies(s1);
    * be overridden, but for all objects whose parent is of the class {@link ListOf},
    * the default implementation will work.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -3228,10 +3214,10 @@ newModel.addSpecies(s1);
    * Gets the namespace URI to which this element belongs to.
    <p>
    * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must would have the URI 'http://www.sbml.org/sbml/level3/version1/core';
+   * must would have the URI <code>'http://www.sbml.org/sbml/level3/version1/core'</code>;
    * all elements that belong to Layout Extension Version 1 for SBML Level 3
    * Version 1 Core must would have the URI
-   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
+   * <code>'http://www.sbml.org/sbml/level3/version1/layout/version1'</code>.
    <p>
    * This function first returns the URI for this element by looking into the
    * {@link SBMLNamespaces} object of the document with the its package name.  If not

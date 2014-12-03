@@ -268,9 +268,10 @@ public class ModelHistory {
    * @param date a {@link Date} object representing the date to which the 'created
    * date' portion of this {@link ModelHistory} should be set.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -287,9 +288,10 @@ public class ModelHistory {
    * @param date a {@link Date} object representing the date to which the 'modified
    * date' portion of this {@link ModelHistory} should be set.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -312,9 +314,10 @@ public class ModelHistory {
    * @param date a {@link Date} object representing the 'modified date' that should
    * be added to this {@link ModelHistory} object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -384,9 +387,10 @@ public class ModelHistory {
    <p>
    * @param mc the {@link ModelCreator} to add
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}

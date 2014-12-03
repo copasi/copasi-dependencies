@@ -377,9 +377,10 @@ appears in the documentation.
 /**
    * Sets the {@link XMLErrorLog} this stream will use to log errors.
    <p>
-   * @return integer value indicating success/failure of the
-   * operation.   The possible values
-   * returned by this method are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}

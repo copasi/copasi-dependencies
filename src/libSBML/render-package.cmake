@@ -44,6 +44,15 @@ if(ENABLE_RENDER)
     SET(USE_RENDER TRUE)
 	set(LIBSBML_PACKAGE_INCLUDES ${LIBSBML_PACKAGE_INCLUDES} "LIBSBML_HAS_PACKAGE_RENDER")
 	add_definitions(-DUSE_RENDER)
+	
+	# the render class defines 'Rectangle' and 'Ellipse' these classes are by default
+	# defined by GDI, so there would be a name conflict if just using them here
+	# so for our builds we disable it
+	if (WIN32)
+	  add_definitions(-DNOGDI -DWIN32_LEAN_AND_MEAN ) 
+	  list(APPEND SWIG_EXTRA_ARGS -DNOGDI -DWIN32_LEAN_AND_MEAN )	  
+	endif()
+	
 	list(APPEND SWIG_EXTRA_ARGS -DUSE_RENDER)
 	list(APPEND SWIG_SWIGDOCDEFINES --define USE_RENDER)
 endif()

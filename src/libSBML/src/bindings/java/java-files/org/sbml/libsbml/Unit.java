@@ -79,7 +79,7 @@ package org.sbml.libsbml;
  * default value of <code>1</code> (one); in SBML Level&nbsp;3, the attribute is
  * mandatory and has not default value.
  <p>
- * * <h3><a class='anchor' name='UnitKind_t'>%Unit identification codes</a></h3>
+ * * <h3><a class='anchor' name='UnitKind_t'>Unit identification codes</a></h3>
  <p>
  * As discussed above, SBML defines a set of base units which serves as the
  * starting point for new unit definitions.  This set of base units
@@ -857,9 +857,10 @@ public class Unit extends SBase {
    * names begin with <code>UNIT_KIND_</code> in <code><a
    * href='libsbmlConstants.html'>libsbmlConstants</a></code>.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -875,9 +876,10 @@ public class Unit extends SBase {
    <p>
    * @param value the integer to which the attribute 'exponent' should be set
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -893,9 +895,10 @@ public class Unit extends SBase {
    <p>
    * @param value the double to which the attribute 'exponent' should be set
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -910,9 +913,10 @@ public class Unit extends SBase {
    <p>
    * @param value the integer to which the attribute 'scale' should be set
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -928,9 +932,10 @@ public class Unit extends SBase {
    * @param value the floating-point value to which the attribute
    * 'multiplier' should be set
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -947,9 +952,10 @@ public class Unit extends SBase {
    * @param value the float-point value to which the attribute 'offset'
    * should set
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -977,7 +983,7 @@ public class Unit extends SBase {
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
@@ -1132,8 +1138,10 @@ public class Unit extends SBase {
    <p>
    * @param unit the {@link Unit} object to manipulate.
    <p>
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *

@@ -791,21 +791,82 @@ def conditional_abspath (filename):
 
 def readSBML(*args):
   """
-  @copydoc doc_readsbmlfromfile
+  readSBML(self, string filename) -> SBMLDocument
 
-  This method is identical to
-  SBMLReader::readSBMLFromFile(@if java String@endif).
+  Reads an SBML document from a file.
 
-  @param filename the name or full pathname of the file to be read.
+  This method is identical to readSBMLFromFile().
 
-  @return a pointer to the SBMLDocument object created from the SBML
-  content in @p filename.
+  If the file named 'filename' does not exist or its content is not
+  valid SBML, one or more errors will be logged with the SBMLDocument
+  object returned by this method.  Callers can use the methods on
+  SBMLDocument such as SBMLDocument.getNumErrors() and
+  SBMLDocument.getError() to get the errors.  The object returned by
+  SBMLDocument.getError() is an SBMLError object, and it has methods to
+  get the error code, category, and severity level of the problem, as
+  well as a textual description of the problem.  The possible severity
+  levels range from informational messages to fatal errors; see the
+  documentation for SBMLError for more information.
 
-  @copydetails doc_note_sbmlreader_error_handling
+  If the file 'filename' could not be read, the file-reading error will
+  appear first.  The error code can provide a clue about what happened.
+  For example, a file might be unreadable (either because it does not
+  actually exist or because the user does not have the necessary access
+  priviledges to read it) or some sort of file operation error may have
+  been reported by the underlying operating system.  Callers can check
+  for these situations using a program fragment such as the following:
 
-  @see readSBMLFromString(@if java String@endif)
-  @see SBMLError
-  @see SBMLDocument
+   reader = SBMLReader()
+   doc    = reader.readSBML(filename)
+
+   if doc.getNumErrors() > 0:
+     if doc.getError(0).getErrorId() == libsbml.XMLFileUnreadable:
+       # Handle case of unreadable file here.
+     elif doc.getError(0).getErrorId() == libsbml.XMLFileOperationError:
+       # Handle case of other file error here.
+     else:
+       # Handle other error cases here.
+
+  If the given filename ends with the suffix \".gz\" (for example,
+  \"myfile.xml.gz\"), the file is assumed to be compressed in gzip format
+  and will be automatically decompressed upon reading.  Similarly, if the
+  given filename ends with \".zip\" or \".bz2\", the file is assumed to be
+  compressed in zip or bzip2 format (respectively).  Files whose names
+  lack these suffixes will be read uncompressed.  Note that if the file
+  is in zip format but the archive contains more than one file, only the
+  first file in the archive will be read and the rest ignored.
+
+  To read a gzip/zip file, libSBML needs to be configured and linked with
+  the zlib library at compile time.  It also needs to be linked with the
+  bzip2 library to read files in bzip2 format.  (Both of these are the
+  default configurations for libSBML.)  Errors about unreadable files
+  will be logged if a compressed filename is given and libSBML was not
+  linked with the corresponding required library.
+
+  Parameter 'filename is the name or full pathname of the file to be
+  read.
+
+  Returns a pointer to the SBMLDocument created from the SBML content.
+
+  See also SBMLError.
+
+  Note:
+
+  LibSBML versions 2.x and later versions behave differently in
+  error handling in several respects.  One difference is how early some
+  errors are caught and whether libSBML continues processing a file in
+  the face of some early errors.  In general, libSBML versions after 2.x
+  stop parsing SBML inputs sooner than libSBML version 2.x in the face
+  of XML errors, because the errors may invalidate any further SBML
+  content.  For example, a missing XML declaration at the beginning of
+  the file was ignored by libSBML 2.x but in version 3.x and later, it
+  will cause libSBML to stop parsing the rest of the input altogether.
+  While this behavior may seem more severe and intolerant, it was
+  necessary in order to provide uniform behavior regardless of which
+  underlying XML parser (Expat, Xerces, libxml2) is being used by
+  libSBML.  The XML parsers themselves behave differently in their error
+  reporting, and sometimes libSBML has to resort to the lowest common
+  denominator.
   """
   reader = SBMLReader()
   return reader.readSBML(args[0])
@@ -1266,21 +1327,61 @@ class SBMLReader(_object):
 
     def readSBMLFromFile(*args):
       """
-      @copydoc doc_readsbmlfromfile
+      Reads an SBML document from the given file.
 
-      This method is identical to
-      SBMLReader::readSBML(@if java String@endif).
+      If the file named 'filename' does not exist or its content is not
+      valid SBML, one or more errors will be logged with the SBMLDocument
+      object returned by this method.  Callers can use the methods on
+      SBMLDocument such as SBMLDocument.getNumErrors() and
+      SBMLDocument.getError() to get the errors.  The object returned by
+      SBMLDocument.getError() is an SBMLError object, and it has methods to
+      get the error code, category, and severity level of the problem, as
+      well as a textual description of the problem.  The possible severity
+      levels range from informational messages to fatal errors; see the
+      documentation for SBMLError for more information.
 
-      @param filename the name or full pathname of the file to be read.
+      If the file 'filename' could not be read, the file-reading error will
+      appear first.  The error code  can provide a clue about what happened.
+      For example, a file might be unreadable (either because it does not
+      actually exist or because the user does not have the necessary access
+      priviledges to read it) or some sort of file operation error may have
+      been reported by the underlying operating system.  Callers can check
+      for these situations using a program fragment such as the following:
 
-      @return a pointer to the SBMLDocument object created from the SBML
-      content in @p filename.
+        reader = SBMLReader()
+        if reader == None:
+          # Handle the truly exceptional case of no object created here.
 
-      @copydetails doc_note_sbmlreader_error_handling
+        doc = reader.readSBMLFromFile(filename)
+        if doc.getNumErrors() > 0:
+          if doc.getError(0).getErrorId() == XMLFileUnreadable:
+            # Handle case of unreadable file here.
+          elif doc.getError(0).getErrorId() == XMLFileOperationError:
+            # Handle case of other file error here.
+          else:
+            # Handle other error cases here.
 
-      @see readSBMLFromString(@if java String@endif)
-      @see SBMLError
-      @see SBMLDocument
+      If the given filename ends with the suffix '.gz' (for example,
+      'myfile.xml.gz'), the file is assumed to be compressed in gzip format
+      and will be automatically decompressed upon reading. Similarly, if the
+      given filename ends with '.zip' or '.bz2', the file is assumed to be
+      compressed in zip or bzip2 format (respectively).  Files whose names
+      lack these suffixes will be read uncompressed.  Note that if the file
+      is in zip format but the archive contains more than one file, only the
+      first file in the archive will be read and the rest ignored.
+
+      To read a gzip/zip file, libSBML needs to be configured and linked
+      with the zlib library at compile time.  It also needs to be linked
+      with the bzip2 library to read files in bzip2 format.  (Both of these
+      are the default configurations for libSBML.)  Errors about unreadable
+      files will be logged if a compressed filename is given and libSBML was
+      not linked with the corresponding required library.
+
+      Parameter 'filename' is the name or full pathname of the file to be
+      read.
+
+      Returns a pointer to the SBMLDocument structure created from the SBML
+      content in 'filename'.
       """
       args_copy    = list(args)
       args_copy[1] = conditional_abspath(args[1])
@@ -1628,8 +1729,8 @@ class SBMLWriter(_object):
         Parameter 'name' is the name of this program (where 'this program'
         refers to program in which libSBML is embedded, not libSBML itself!)
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -1659,8 +1760,8 @@ class SBMLWriter(_object):
         program' refers to program in which libSBML is embedded, not libSBML
         itself!)
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -2094,7 +2195,7 @@ def SBMLTypeCode_toString(*args):
   return _libsbml.SBMLTypeCode_toString(*args)
 class SBase(_object):
     """
-    SBML's SBase class, the base class of most SBML objects.
+    SBML's SBase class, base class of most SBML objects.
 
     Most components in SBML are derived from a single abstract base type,
     SBase.  In addition to serving as the parent class for most other
@@ -3033,8 +3134,8 @@ class SBase(_object):
         Parameter 'metaid' is the identifier string to use as the value of the
         'metaid' attribute
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3125,8 +3226,8 @@ class SBase(_object):
         Parameter 'annotation' is an XML structure that is to be used as the
         new content of the 'annotation' subelement of this object
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3173,12 +3274,19 @@ class SBase(_object):
         Parameter 'annotation' is an XML structure that is to be copied and
         appended to the content of the 'annotation' subelement of this object
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
         * LIBSBML_OPERATION_FAILED
+
+        * LIBSBML_UNEXPECTED_ATTRIBUTE
+
+        * LIBSBML_DUPLICATE_ANNOTATION_NS With 'unexpected attribute'
+        returned if the parent element does not have  the 'metaid' attribute
+        set, and 'duplicate annotation' set if the parent  was already
+        annotated with the annotation in question.
 
         See also getAnnotationString(), isSetAnnotation(), setAnnotation(),
         setAnnotation(), appendAnnotation(), unsetAnnotation(),
@@ -3213,8 +3321,8 @@ class SBase(_object):
         removeEmpty argument is true, the annotation node will be  deleted
         (default).
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3261,8 +3369,8 @@ class SBase(_object):
         Parameter 'annotation' is XMLNode representing the replacement top
         level annotation
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3341,8 +3449,8 @@ class SBase(_object):
         is appropriate when the string in 'notes' does not already containg
         the appropriate XHTML markup.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3395,8 +3503,8 @@ class SBase(_object):
         Parameter 'notes' is an XML string that is to appended to the content
         of the 'notes' subelement of this object
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3423,8 +3531,8 @@ class SBase(_object):
 
         Parameter 'history' is ModelHistory of this object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3451,12 +3559,7 @@ class SBase(_object):
         return _libsbml.SBase_connectToParent(self, *args)
 
     def connectToChild(self):
-        """
-        connectToChild(self)
-
-        Internal implementation method.
-
-        """
+        """connectToChild(self)"""
         return _libsbml.SBase_connectToChild(self)
 
     def setSBOTerm(self, *args):
@@ -3491,8 +3594,8 @@ class SBase(_object):
 
         Parameter 'value' is the NNNNNNN integer portion of the SBO identifier
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3520,8 +3623,8 @@ class SBase(_object):
 
         Parameter 'xmlns' is the namespaces to set
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3551,8 +3654,8 @@ class SBase(_object):
         provide an explicit XML ID data type; it uses ordinary character
         strings, which is easier for applications to support.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3574,8 +3677,8 @@ class SBase(_object):
         is used to identify the object within the SBML model definition. Other
         objects can refer to the component using this identifier.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3624,8 +3727,8 @@ class SBase(_object):
         allows software applications leeway in assigning component
         identifiers.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3657,8 +3760,8 @@ class SBase(_object):
         SBML Level 2 and  3 specifications have considerable detail about how
         'notes' element content must be structured.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3686,8 +3789,8 @@ class SBase(_object):
         the data as well as help reduce conflicts between annotations added by
         different tools.  Please see the SBML specifications for more details.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3704,8 +3807,8 @@ class SBase(_object):
 
         Unsets the value of the 'sboTerm' attribute of this SBML object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3728,8 +3831,8 @@ class SBase(_object):
         existing RDF bag with the same type of qualifier as the term being
         added.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3818,8 +3921,8 @@ class SBase(_object):
 
         Clears the list of CVTerm objects attached to this SBML object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -3834,8 +3937,8 @@ class SBase(_object):
 
         Unsets the ModelHistory object attached to this object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -4039,12 +4142,12 @@ class SBase(_object):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Here follow some additional general information about libSBML type
         codes:
@@ -4537,9 +4640,9 @@ class SBase(_object):
         Returns True if the given package is enabled within this object, False
         otherwise.
 
-        See also isPkgEnabled().
+        DEPRECATED. Replaced in libSBML 5.2.0 by SBase.isPackageURIEnabled().
 
-        DEPRECATED. Replaced in libSBML 5.2.0 by isPackageURIEnabled()
+        See also isPkgEnabled().
 
         """
         return _libsbml.SBase_isPkgURIEnabled(self, *args)
@@ -4558,9 +4661,9 @@ class SBase(_object):
         Returns True if the given package is enabled within this object, False
         otherwise.
 
-        See also isPkgURIEnabled().
+        DEPRECATED. Replaced in libSBML 5.2.0 by SBase.isPackageEnabled().
 
-        DEPRECATED. Replaced in libSBML 5.2.0 by isPackageEnabled()
+        See also isPkgURIEnabled().
 
         """
         return _libsbml.SBase_isPkgEnabled(self, *args)
@@ -4729,7 +4832,7 @@ class SBase(_object):
         'http://www.sbml.org/sbml/level3/version1/core'; all elements that
         belong to Layout Extension Version 1 for SBML Level 3 Version 1 Core
         must would have the URI
-        'http://www.sbml.org/sbml/level3/version1/layout/version1/'
+        'http://www.sbml.org/sbml/level3/version1/layout/version1'.
 
         This function first returns the URI for this element by looking into
         the SBMLNamespaces object of the document with the its package name.
@@ -5267,12 +5370,7 @@ class ListOf(SBase):
         return _libsbml.ListOf_size(self)
 
     def connectToChild(self):
-        """
-        connectToChild(self)
-
-        Internal implementation method.
-
-        """
+        """connectToChild(self)"""
         return _libsbml.ListOf_connectToChild(self)
 
     def getTypeCode(self):
@@ -5283,12 +5381,12 @@ class ListOf(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_LIST_OF (default).
 
@@ -5318,12 +5416,12 @@ class ListOf(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Classes that inherit from the ListOf class should override this method
         to return the SBML type code for the objects contained in this ListOf.
@@ -5417,7 +5515,7 @@ class Model(SBase):
     All of the lists are optional, but if a given list container is
     present within the model, the list must not be empty; that is, it must
     have length one or more.  The following are the components and lists
-    permitted in different Levels and Versions of SBML in version 5.10.3
+    permitted in different Levels and Versions of SBML in version 5.11.0
     of libSBML:
 
     * In SBML Level 1, the components are: UnitDefinition, Compartment,
@@ -5536,7 +5634,7 @@ class Model(SBase):
     ======================================================================
 
     To make it easier for applications to do whatever they need, libSBML
-    version 5.10.3 is relatively lax when it comes to enforcing
+    version 5.11.0 is relatively lax when it comes to enforcing
     correctness and completeness of models during model construction and
     editing. Essentially, libSBML will not in most cases check
     automatically that a model's components have valid attribute values,
@@ -6144,8 +6242,8 @@ class Model(SBase):
 
         Parameter 'sid' is the string to use as the identifier of this Model
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6164,8 +6262,8 @@ class Model(SBase):
 
         Parameter 'name' is the new name for the Model
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6184,8 +6282,8 @@ class Model(SBase):
 
         Parameter 'units' is the new substanceUnits for the Model
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6211,8 +6309,8 @@ class Model(SBase):
 
         Parameter 'units' is the new timeUnits for the Model
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6238,8 +6336,8 @@ class Model(SBase):
 
         Parameter 'units' is the new volumeUnits for the Model
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6265,8 +6363,8 @@ class Model(SBase):
 
         Parameter 'units' is the new areaUnits for the Model
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6292,8 +6390,8 @@ class Model(SBase):
 
         Parameter 'units' is the new lengthUnits for the Model
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6319,8 +6417,8 @@ class Model(SBase):
 
         Parameter 'units' is the new extentUnits for the Model
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6346,8 +6444,8 @@ class Model(SBase):
 
         Parameter 'units' is the new conversionFactor for the Model
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6369,8 +6467,8 @@ class Model(SBase):
 
         Unsets the value of the 'id' attribute of this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6385,8 +6483,8 @@ class Model(SBase):
 
         Unsets the value of the 'name' attribute of this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6401,8 +6499,8 @@ class Model(SBase):
 
         Unsets the value of the 'substanceUnits' attribute of this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6422,8 +6520,8 @@ class Model(SBase):
 
         Unsets the value of the 'timeUnits' attribute of this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6443,8 +6541,8 @@ class Model(SBase):
 
         Unsets the value of the 'volumeUnits' attribute of this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6464,8 +6562,8 @@ class Model(SBase):
 
         Unsets the value of the 'areaUnits' attribute of this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6487,8 +6585,8 @@ class Model(SBase):
 
         Unsets the value of the 'lengthUnits' attribute of this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6510,8 +6608,8 @@ class Model(SBase):
 
         Unsets the value of the 'extentUnits' attribute of this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6533,8 +6631,8 @@ class Model(SBase):
 
         Unsets the value of the 'conversionFactor' attribute of this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6558,8 +6656,8 @@ class Model(SBase):
 
         Parameter 'fd' is the FunctionDefinition to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6599,8 +6697,8 @@ class Model(SBase):
 
         Parameter 'ud' is the UnitDefinition object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6640,8 +6738,8 @@ class Model(SBase):
 
         Parameter 'ct' is the CompartmentType object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6686,8 +6784,8 @@ class Model(SBase):
 
         Parameter 'st' is the SpeciesType object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6773,8 +6871,8 @@ class Model(SBase):
 
         Parameter 's' is the Species object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6814,8 +6912,8 @@ class Model(SBase):
 
         Parameter 'p' is the Parameter object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6855,8 +6953,8 @@ class Model(SBase):
 
         Parameter 'ia' is the InitialAssignment object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6896,8 +6994,8 @@ class Model(SBase):
 
         Parameter 'r' is the Rule object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6938,8 +7036,8 @@ class Model(SBase):
 
         Parameter 'c' is the Constraint object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -6977,8 +7075,8 @@ class Model(SBase):
 
         Parameter 'r' is the Reaction object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -7018,8 +7116,8 @@ class Model(SBase):
 
         Parameter 'e' is the Event object to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -7560,8 +7658,8 @@ class Model(SBase):
         Parameter 'annotation' is an XML structure that is to be used as the
         content of the 'annotation' subelement of this object
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -7593,8 +7691,8 @@ class Model(SBase):
         Parameter 'annotation' is an XML structure that is to be copied and
         appended to the content of the 'annotation' subelement of this object
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -8720,12 +8818,7 @@ class Model(SBase):
         return _libsbml.Model_dealWithEvents(self, *args)
 
     def connectToChild(self):
-        """
-        connectToChild(self)
-
-        Internal implementation method.
-
-        """
+        """connectToChild(self)"""
         return _libsbml.Model_connectToChild(self)
 
     def getTypeCode(self):
@@ -8736,12 +8829,12 @@ class Model(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_MODEL (default).
 
@@ -9643,7 +9736,7 @@ class SBMLDocument(SBase):
         The default SBML Level of new SBMLDocument objects.
 
         This 'default Level' corresponds to the most recent SBML
-        specification Level available at the time libSBML version 5.10.3 was
+        specification Level available at the time libSBML version 5.11.0 was
         released.  The default Level is used by SBMLDocument if no Level is
         explicitly specified at the time of the construction of an
         SBMLDocument instance.
@@ -9675,7 +9768,7 @@ class SBMLDocument(SBase):
 
         This 'default Version' corresponds to the most recent Version within
         the most recent Level of SBML available at the time libSBML version
-        5.10.3 was released.  The default Version is used by SBMLDocument if
+        5.11.0 was released.  The default Version is used by SBMLDocument if
         no Version is explicitly specified at the time of the construction of
         an SBMLDocument instance.
 
@@ -10469,6 +10562,25 @@ class SBMLDocument(SBase):
         """
         return _libsbml.SBMLDocument_getError(self, *args)
 
+    def getErrorWithSeverity(self, *args):
+        """
+        getErrorWithSeverity(self, unsigned int n, unsigned int severity) -> SBMLError
+
+        Returns the nth error or warning with the given severity encountered
+        during parsing, consistency checking, or attempted translation of this
+        model.
+
+        Returns the error or warning indexed by integer 'n', or return None if
+        n > (getNumErrors(severity) - 1).
+
+        Parameter 'n' is the integer index of the error sought. Parameter
+        'severity' is the severity of the error sought.
+
+        See also SBMLDocument.getNumErrors().
+
+        """
+        return _libsbml.SBMLDocument_getErrorWithSeverity(self, *args)
+
     def getNumErrors(self, *args):
         """
         getNumErrors(self) -> unsigned int
@@ -10499,49 +10611,42 @@ class SBMLDocument(SBase):
         """
         printErrors(self, ostream stream = cerr)
         printErrors(self)
+        printErrors(self, ostream stream, unsigned int severity)
 
-        Prints all the errors or warnings encountered trying to parse, check,
-        or translate this SBML document.
+        This method has multiple variants; they differ in the arguments  they
+        accept.  Each variant is described separately below.
 
-        It prints the text to the stream given by the optional parameter
-        'stream'.  If no parameter is given, it prints the output to the
-        standard error stream.
+        ______________________________________________________________________
+        Method variant with the following signature:
 
-        If no errors have occurred, i.e., getNumErrors() == 0, no output will
-        be sent to the stream.
+        printErrors(std::ostream stream, long severity)
+
+        Prints all the errors or warnings with the given severity encountered
+        trying to parse, check, or translate this SBML document.
+
+        It prints the text to the stream given by the parameter 'stream'.
+
+        If no errors have occurred, i.e., getNumErrors(severity) == 0, no
+        output will be sent to the stream.
 
         The format of the output is:
 
-             N error(s):
-               line NNN: (id) message
+              N error(s):
+                line NNN: (id) message
 
         Parameter 'stream' is the ostream or ostringstream object indicating
-        where the output should be printed.
+        where the output should be printed. Parameter 'severity' is of the
+        errors sought.
 
-        Documentation note: The native C++ implementation of this method
-        defines a default argument value. In the documentation generated for
-        different libSBML language bindings, you may or may not see
-        corresponding arguments in the method declarations. For example, in
-        Java and C#, a default argument is handled by declaring two separate
-        methods, with one of them having the argument and the other one
-        lacking the argument. However, the libSBML documentation will be
-        identical for both methods. Consequently, if you are reading this and
-        do not see an argument even though one is described, please look for
-        descriptions of other variants of this method near where this one
-        appears in the documentation.
-
-        See also getNumErrors(), getErrorLog(), SBMLDocument.getError().
+        See also getNumErrors(), getErrorLog(),
+        SBMLDocument.getErrorWithSeverity(), getNumErrors(), getErrorLog(),
+        SBMLDocument.getError().
 
         """
         return _libsbml.SBMLDocument_printErrors(self, *args)
 
     def connectToChild(self):
-        """
-        connectToChild(self)
-
-        Internal implementation method.
-
-        """
+        """connectToChild(self)"""
         return _libsbml.SBMLDocument_connectToChild(self)
 
     def convert(self, *args):
@@ -10582,12 +10687,12 @@ class SBMLDocument(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_DOCUMENT (default).
 
@@ -10937,6 +11042,24 @@ class SBMLDocument(SBase):
         """
         return _libsbml.SBMLDocument_getValidator(self, *args)
 
+    def addUnknownPackageRequired(self, *args):
+        """
+        addUnknownPackageRequired(self, string pkgURI, string prefix, bool flag) -> int
+
+        Internal implementation method.
+
+        """
+        return _libsbml.SBMLDocument_addUnknownPackageRequired(self, *args)
+
+    def hasUnknownPackage(self, *args):
+        """
+        hasUnknownPackage(self, string pkgURI) -> bool
+
+        Internal implementation method.
+
+        """
+        return _libsbml.SBMLDocument_hasUnknownPackage(self, *args)
+
 SBMLDocument_swigregister = _libsbml.SBMLDocument_swigregister
 SBMLDocument_swigregister(SBMLDocument)
 
@@ -10947,7 +11070,7 @@ def SBMLDocument_getDefaultLevel():
     The default SBML Level of new SBMLDocument objects.
 
     This 'default Level' corresponds to the most recent SBML
-    specification Level available at the time libSBML version 5.10.3 was
+    specification Level available at the time libSBML version 5.11.0 was
     released.  The default Level is used by SBMLDocument if no Level is
     explicitly specified at the time of the construction of an
     SBMLDocument instance.
@@ -10977,7 +11100,7 @@ def SBMLDocument_getDefaultVersion():
 
     This 'default Version' corresponds to the most recent Version within
     the most recent Level of SBML available at the time libSBML version
-    5.10.3 was released.  The default Version is used by SBMLDocument if
+    5.11.0 was released.  The default Version is used by SBMLDocument if
     no Version is explicitly specified at the time of the construction of
     an SBMLDocument instance.
 
@@ -11449,12 +11572,12 @@ class FunctionDefinition(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_FUNCTION_DEFINITION
         (default).
@@ -11687,12 +11810,12 @@ class ListOfFunctionDefinitions(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for the objects contained in this ListOf:
         SBML_FUNCTION_DEFINITION (default).
@@ -12728,8 +12851,8 @@ class Unit(SBase):
         Parameter 'kind' is a unit identifier chosen from the set of constants
         whose names begin with UNIT_KIND_ in libsbml.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -12756,8 +12879,8 @@ class Unit(SBase):
         Parameter 'value' is the integer to which the attribute 'exponent'
         should be set
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -12773,8 +12896,8 @@ class Unit(SBase):
         Parameter 'value' is the double to which the attribute 'exponent'
         should be set
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -12790,8 +12913,8 @@ class Unit(SBase):
         Parameter 'value' is the integer to which the attribute 'scale' should
         be set
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -12807,8 +12930,8 @@ class Unit(SBase):
         Parameter 'value' is the floating-point value to which the attribute
         'multiplier' should be set
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -12826,8 +12949,8 @@ class Unit(SBase):
         Parameter 'value' is the float-point value to which the attribute
         'offset' should set
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -12855,12 +12978,12 @@ class Unit(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_UNIT (default).
 
@@ -13054,8 +13177,8 @@ class Unit(SBase):
 
         Parameter 'unit' is the Unit object to manipulate.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -13332,8 +13455,8 @@ def Unit_removeScale(*args):
 
     Parameter 'unit' is the Unit object to manipulate.
 
-    Returns integer value indicating success/failure of the function.  The
-    possible values returned by this function are:
+    Returns integer value indicating success/failure of the function.
+    The possible values returned by this function are:
 
     * LIBSBML_OPERATION_SUCCESS
 
@@ -13557,12 +13680,12 @@ class ListOfUnits(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for objects contained in this list:
         SBML_UNIT (default).
@@ -14051,8 +14174,8 @@ class UnitDefinition(SBase):
         Parameter 'sid' is the string to use as the identifier of this
         UnitDefinition
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -14071,8 +14194,8 @@ class UnitDefinition(SBase):
 
         Parameter 'name' is the new name for the UnitDefinition
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -14087,8 +14210,8 @@ class UnitDefinition(SBase):
 
         Unsets the value of the 'name' attribute of this UnitDefinition.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -14220,8 +14343,8 @@ class UnitDefinition(SBase):
 
         Parameter 'u' is the Unit instance to add to this UnitDefinition.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -14333,12 +14456,7 @@ class UnitDefinition(SBase):
         return _libsbml.UnitDefinition_removeUnit(self, *args)
 
     def connectToChild(self):
-        """
-        connectToChild(self)
-
-        Internal implementation method.
-
-        """
+        """connectToChild(self)"""
         return _libsbml.UnitDefinition_connectToChild(self)
 
     def enablePackageInternal(self, *args):
@@ -14358,12 +14476,12 @@ class UnitDefinition(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_UNIT_DEFINITION
         (default).
@@ -15098,12 +15216,12 @@ class ListOfUnitDefinitions(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for objects contained in this list:
         SBML_UNIT_DEFINITION (default).
@@ -15536,12 +15654,12 @@ class CompartmentType(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_COMPARTMENT_TYPE
         (default).
@@ -15729,12 +15847,12 @@ class ListOfCompartmentTypes(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for the objects contained in this ListOf
         instance: SBML_COMPARTMENT_TYPE (default).
@@ -16128,12 +16246,12 @@ class SpeciesType(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_SPECIES_TYPE
         (default).
@@ -16318,12 +16436,12 @@ class ListOfSpeciesTypes(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for objects contained in this list:
         SBML_SPECIES_TYPE (default).
@@ -16774,7 +16892,9 @@ class Compartment(SBase):
 
         Compartment(Compartment orig)
 
-        Copy constructor; creates a copy of a Compartment.
+        Copy constructor.
+
+        This creates a copy of a Compartment object.
 
         Parameter 'orig' is the Compartment instance to copy.
 
@@ -17246,8 +17366,8 @@ class Compartment(SBase):
         Compartment object. If the string is None, this method will return
         LIBSBML_INVALID_ATTRIBUTE_VALUE.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17270,8 +17390,8 @@ class Compartment(SBase):
         string is None, this method will return
         LIBSBML_INVALID_ATTRIBUTE_VALUE.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17292,8 +17412,8 @@ class Compartment(SBase):
         elsewhere in this Model. If the string is None, this method will
         return LIBSBML_INVALID_ATTRIBUTE_VALUE.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17331,8 +17451,8 @@ class Compartment(SBase):
         Parameter 'value' is a double indicating the number of dimensions of
         this compartment.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17357,8 +17477,8 @@ class Compartment(SBase):
         Parameter 'value' is a float representing the size of this compartment
         instance in whatever units are in effect for the compartment.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17385,8 +17505,8 @@ class Compartment(SBase):
         compartment instance in whatever units are in effect for the
         compartment.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17415,8 +17535,8 @@ class Compartment(SBase):
         'sid' is None, then this method will return
         LIBSBML_INVALID_ATTRIBUTE_VALUE.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17437,8 +17557,8 @@ class Compartment(SBase):
         one. If 'sid' is None, then this method will return
         LIBSBML_INVALID_ATTRIBUTE_VALUE.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17464,8 +17584,8 @@ class Compartment(SBase):
         this compartment should be considered constant (True) or variable
         (False).
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17539,8 +17659,8 @@ class Compartment(SBase):
 
         Unsets the value of the 'name' attribute of this Compartment object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17558,8 +17678,8 @@ class Compartment(SBase):
         Unsets the value of the 'compartmentType' attribute of this
         Compartment object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17590,8 +17710,8 @@ class Compartment(SBase):
         Level 2, a compartment's 'size' is optional with no default value, and
         unsetting it will result in the compartment having no defined size.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17615,8 +17735,8 @@ class Compartment(SBase):
         This method is identical to unsetSize().  Please refer to that
         method's documentation for more information about its behavior.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17643,8 +17763,8 @@ class Compartment(SBase):
 
         Unsets the value of the 'units' attribute of this Compartment object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17662,8 +17782,8 @@ class Compartment(SBase):
         Unsets the value of the 'outside' attribute of this Compartment
         object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17691,8 +17811,8 @@ class Compartment(SBase):
         model of SBML Level 1-2 will result in a return value of
         LIBSBML_UNEXPECTED_ATTRIBUTE
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -17761,12 +17881,12 @@ class Compartment(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_COMPARTMENT
         (default).
@@ -17954,12 +18074,12 @@ class ListOfCompartments(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for the objects contained in this ListOf
         instance: SBML_COMPARTMENT (default).
@@ -19017,8 +19137,8 @@ class Species(SBase):
 
         Parameter 'sid' is the string to use as the identifier of this Species
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19037,8 +19157,8 @@ class Species(SBase):
 
         Parameter 'name' is the new name for the Species
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19056,8 +19176,8 @@ class Species(SBase):
         Parameter 'sid' is the identifier of a SpeciesType object defined
         elsewhere in this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19082,8 +19202,8 @@ class Species(SBase):
         Parameter 'sid' is the identifier of a Compartment object defined
         elsewhere in this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19104,8 +19224,8 @@ class Species(SBase):
         Parameter 'value' is the value to which the 'initialAmount' attribute
         should be set.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19124,8 +19244,8 @@ class Species(SBase):
         Parameter 'value' is the value to which the 'initialConcentration'
         attribute should be set.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19147,8 +19267,8 @@ class Species(SBase):
 
         Parameter 'sid' is the identifier of the unit to use.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19166,8 +19286,8 @@ class Species(SBase):
 
         Parameter 'sid' is the identifier of the unit to use.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19196,8 +19316,8 @@ class Species(SBase):
 
         Parameter 'sname' is the identifier of the unit to use.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19215,8 +19335,8 @@ class Species(SBase):
         Parameter 'value' is boolean value for the 'hasOnlySubstanceUnits'
         attribute.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19238,8 +19358,8 @@ class Species(SBase):
         Parameter 'value' is boolean value for the 'boundaryCondition'
         attribute.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19268,8 +19388,8 @@ class Species(SBase):
         model mathematics directly.  LibSBML retains this method for easier
         compatibility with SBML Level 1.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19286,8 +19406,8 @@ class Species(SBase):
 
         Parameter 'value' is a boolean value for the 'constant' attribute
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19312,8 +19432,8 @@ class Species(SBase):
 
         Parameter 'sid' is the new conversionFactor for the Species
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19335,8 +19455,8 @@ class Species(SBase):
 
         Unsets the value of the 'name' attribute of this Species object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19351,8 +19471,8 @@ class Species(SBase):
 
         Unsets the 'speciesType' attribute value of this Species object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19372,8 +19492,8 @@ class Species(SBase):
 
         Unsets the 'initialAmount' attribute value of this Species object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19389,8 +19509,8 @@ class Species(SBase):
         Unsets the 'initialConcentration' attribute value of this Species
         object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19410,8 +19530,8 @@ class Species(SBase):
 
         Unsets the 'substanceUnits' attribute value of this Species object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19426,8 +19546,8 @@ class Species(SBase):
 
         Unsets the 'spatialSizeUnits' attribute value of this Species object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19452,8 +19572,8 @@ class Species(SBase):
 
         Unsets the 'units' attribute value of this Species object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19468,8 +19588,8 @@ class Species(SBase):
 
         Unsets the 'charge' attribute value of this Species object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19500,8 +19620,8 @@ class Species(SBase):
 
         Unsets the 'conversionFactor' attribute value of this Species object.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -19570,12 +19690,12 @@ class Species(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_SPECIES (default).
 
@@ -19829,12 +19949,12 @@ class ListOfSpecies(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for objects contained in this list:
         SBML_SPECIES (default).
@@ -20410,8 +20530,8 @@ class Parameter(SBase):
         Parameter 'sid' is the string to use as the identifier of this
         Parameter
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -20430,8 +20550,8 @@ class Parameter(SBase):
 
         Parameter 'name' is the new name for the Parameter
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -20449,8 +20569,8 @@ class Parameter(SBase):
 
         Parameter 'value' is a float, the value to assign
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -20467,8 +20587,8 @@ class Parameter(SBase):
         Parameter 'units' is a string, the identifier of the units to assign
         to this Parameter instance
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -20487,8 +20607,8 @@ class Parameter(SBase):
         Parameter 'flag' is a boolean, the value for the 'constant' attribute
         of this Parameter instance
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -20521,8 +20641,8 @@ class Parameter(SBase):
 
         Unsets the value of the 'name' attribute of this Parameter.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -20537,8 +20657,8 @@ class Parameter(SBase):
 
         Unsets the 'value' attribute of this Parameter instance.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -20556,8 +20676,8 @@ class Parameter(SBase):
 
         Unsets the 'units' attribute of this Parameter instance.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -20614,12 +20734,12 @@ class Parameter(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_PARAMETER (default).
 
@@ -20842,12 +20962,12 @@ class ListOfParameters(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this objects contained in this list:
         SBML_PARAMETER (default).
@@ -21197,12 +21317,12 @@ class LocalParameter(Parameter):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_LOCAL_PARAMETER
         (default).
@@ -21416,12 +21536,12 @@ class ListOfLocalParameters(ListOfParameters):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for the objects contained in this ListOf:
         SBML_LOCAL_PARAMETER (default).
@@ -21860,8 +21980,8 @@ class InitialAssignment(SBase):
         Parameter 'sid' is the identifier of a Species, Compartment or
         Parameter object defined elsewhere in this Model.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -21881,8 +22001,8 @@ class InitialAssignment(SBase):
         Parameter 'math' is an AST containing the mathematical expression to
         be used as the formula for this InitialAssignment.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -21968,12 +22088,12 @@ class InitialAssignment(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_INITIAL_ASSIGNMENT
         (default).
@@ -22271,12 +22391,12 @@ class ListOfInitialAssignments(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for the objects contained in this ListOf:
         SBML_INITIAL_ASSIGNMENT (default).
@@ -22771,8 +22891,8 @@ class Rule(SBase):
 
         Parameter 'formula' is a mathematical formula in text-string form.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -22798,11 +22918,10 @@ class Rule(SBase):
         Sets the 'math' subelement of this Rule to a copy of the given
         ASTNode.
 
-        Parameter 'math' is the ASTNode_t structure of the mathematical
-        formula.
+        Parameter 'math' is the AST structure of the mathematical formula.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -22841,8 +22960,8 @@ class Rule(SBase):
         Parameter 'sid' is the identifier of a Compartment, Species or
         Parameter elsewhere in the enclosing Model object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -22861,8 +22980,8 @@ class Rule(SBase):
 
         Parameter 'sname' is the identifier of the units
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -22884,8 +23003,8 @@ class Rule(SBase):
 
         Unsets the 'units' for this Rule.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -23101,12 +23220,12 @@ class Rule(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object, either
         SBML_ASSIGNMENT_RULE, SBML_RATE_RULE, or SBML_ALGEBRAIC_RULE  for SBML
@@ -23148,7 +23267,7 @@ class Rule(SBase):
 
         The returned value can be any of a number of different strings,
         depending on the SBML Level in use and the kind of Rule object this
-        is.  The rules as of libSBML version 5.10.3 are the following:
+        is.  The rules as of libSBML version 5.11.0 are the following:
 
         * (Level 2 and 3) RateRule: returns 'rateRule'
 
@@ -23184,8 +23303,8 @@ class Rule(SBase):
         allowable values are SBML_COMPARTMENT_VOLUME_RULE,
         SBML_PARAMETER_RULE, and SBML_SPECIES_CONCENTRATION_RULE.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -23460,12 +23579,12 @@ class ListOfRules(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for objects contained in this list:
         SBML_RULE (default).
@@ -25007,12 +25126,12 @@ class Constraint(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_CONSTRAINT (default).
 
@@ -25198,12 +25317,12 @@ class ListOfConstraints(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for the objects contained in this ListOf
         instance: SBML_CONSTRAINT (default).
@@ -26539,12 +26658,7 @@ class Reaction(SBase):
         return _libsbml.Reaction_removeModifier(self, *args)
 
     def connectToChild(self):
-        """
-        connectToChild(self)
-
-        Internal implementation method.
-
-        """
+        """connectToChild(self)"""
         return _libsbml.Reaction_connectToChild(self)
 
     def enablePackageInternal(self, *args):
@@ -26564,12 +26678,12 @@ class Reaction(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_REACTION (default).
 
@@ -26759,12 +26873,12 @@ class ListOfReactions(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for objects contained in this list:
         SBML_REACTION (default).
@@ -27273,8 +27387,8 @@ class KineticLaw(SBase):
         Parameter 'formula' is the mathematical expression to use, represented
         in text-string form.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -27310,8 +27424,8 @@ class KineticLaw(SBase):
 
         Parameter 'math' is an ASTNode representing a formula tree.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -27331,8 +27445,8 @@ class KineticLaw(SBase):
 
         Parameter 'sid' is the identifier of the units to use.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -27359,8 +27473,8 @@ class KineticLaw(SBase):
 
         Parameter 'sid' is the identifier of the units to use.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -27385,8 +27499,8 @@ class KineticLaw(SBase):
         (SBML Level 2 Version 1 only) Unsets the 'timeUnits' attribugte of
         this KineticLaw object.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -27411,8 +27525,8 @@ class KineticLaw(SBase):
         (SBML Level 2 Version 1 only) Unsets the 'substanceUnits' attribute of
         this KineticLaw object.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -27439,8 +27553,8 @@ class KineticLaw(SBase):
 
         Parameter 'p' is the Parameter to add
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -27481,8 +27595,8 @@ class KineticLaw(SBase):
 
         Parameter 'p' is the LocalParameter to add
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -27819,12 +27933,7 @@ class KineticLaw(SBase):
         return _libsbml.KineticLaw_removeLocalParameter(self, *args)
 
     def connectToChild(self):
-        """
-        connectToChild(self)
-
-        Internal implementation method.
-
-        """
+        """connectToChild(self)"""
         return _libsbml.KineticLaw_connectToChild(self)
 
     def enablePackageInternal(self, *args):
@@ -27844,12 +27953,12 @@ class KineticLaw(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_KINETIC_LAW
         (default).
@@ -28152,8 +28261,8 @@ class SimpleSpeciesReference(SBase):
         Parameter 'sid' is the identifier of a species defined in the
         enclosing Model's ListOfSpecies.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28193,8 +28302,8 @@ class SimpleSpeciesReference(SBase):
         Parameter 'sid' is the string to use as the identifier of this
         SimpleSpeciesReference
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28215,8 +28324,8 @@ class SimpleSpeciesReference(SBase):
 
         Parameter 'name' is the new name for the SimpleSpeciesReference
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28233,8 +28342,8 @@ class SimpleSpeciesReference(SBase):
 
         Unsets the value of the 'id' attribute of this SimpleSpeciesReference.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28250,8 +28359,8 @@ class SimpleSpeciesReference(SBase):
         Unsets the value of the 'name' attribute of this
         SimpleSpeciesReference.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28801,8 +28910,8 @@ class SpeciesReference(SimpleSpeciesReference):
         attribute and the stoichiometryMath' subelement are mutually
         exclusive.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28848,8 +28957,8 @@ class SpeciesReference(SimpleSpeciesReference):
         math is not null because the 'stoichiometry' attribute and the
         stoichiometryMath' subelement are mutually exclusive.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28882,8 +28991,8 @@ class SpeciesReference(SimpleSpeciesReference):
 
         Parameter 'value' is the scalar value
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28900,8 +29009,8 @@ class SpeciesReference(SimpleSpeciesReference):
         Parameter 'flag' is a boolean, the value for the 'constant' attribute
         of this SpeciesReference instance
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28916,8 +29025,8 @@ class SpeciesReference(SimpleSpeciesReference):
 
         Unsets the 'stoichiometryMath' subelement of this SpeciesReference.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -28960,8 +29069,8 @@ class SpeciesReference(SimpleSpeciesReference):
 
         Unsets the 'stoichiometry' attribute of this SpeciesReference.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -29023,8 +29132,8 @@ class SpeciesReference(SimpleSpeciesReference):
         Parameter 'annotation' is an XML structure that is to be used as the
         content of the 'annotation' subelement of this object
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -29057,8 +29166,8 @@ class SpeciesReference(SimpleSpeciesReference):
         Parameter 'annotation' is an XML structure that is to be copied and
         appended to the content of the 'annotation' subelement of this object
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -29078,12 +29187,12 @@ class SpeciesReference(SimpleSpeciesReference):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_SPECIES_REFERENCE
         (default).
@@ -29264,12 +29373,12 @@ class ListOfSpeciesReferences(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for objects contained in this list:
         SBML_SPECIES_REFERENCE (default).
@@ -29494,12 +29603,12 @@ class ModifierSpeciesReference(SimpleSpeciesReference):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object:
         SBML_MODIFIER_SPECIES_REFERENCE (default).
@@ -30642,12 +30751,7 @@ class Event(SBase):
         return _libsbml.Event_removeEventAssignment(self, *args)
 
     def connectToChild(self):
-        """
-        connectToChild(self)
-
-        Internal implementation method.
-
-        """
+        """connectToChild(self)"""
         return _libsbml.Event_connectToChild(self)
 
     def enablePackageInternal(self, *args):
@@ -30667,12 +30771,12 @@ class Event(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_EVENT (default).
 
@@ -30721,8 +30825,8 @@ class Event(SBase):
         """
         hasRequiredElements(self) -> bool
 
-        Predicate returning True if all the required elements for the given
-        Event_t structure have been set.
+        Predicate returning True if all the required elements for this Event
+        object have been set.
 
         Note:
 
@@ -30875,12 +30979,12 @@ class ListOfEvents(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for the objects contained in this ListOf:
         SBML_EVENT (default).
@@ -31411,12 +31515,12 @@ class EventAssignment(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_EVENT_ASSIGNMENT
         (default).
@@ -31713,12 +31817,12 @@ class ListOfEventAssignments(ListOf):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for the objects contained in this ListOf:
         SBML_EVENT_ASSIGNMENT (default).
@@ -32187,12 +32291,12 @@ class Trigger(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_TRIGGER (default).
 
@@ -32718,12 +32822,12 @@ class Delay(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_DELAY (default).
 
@@ -33161,12 +33265,12 @@ class Priority(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_PRIORITY (default).
         WARNING:
@@ -36023,8 +36127,8 @@ class StoichiometryMath(SBase):
 
         Parameter 'math' is an ASTNode representing a formula tree.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -36128,12 +36232,12 @@ class StoichiometryMath(SBase):
 
         LibSBML attaches an identifying code to every kind of SBML object.
         These are integer constants known as SBML type codes.  The names of
-        all the codes begin with the characters "SBML_". In the Python
-        language interface for libSBML, the type codes are defined as static
-        integer constants in the interface class 'libsbml'.  Note that
-        different Level 3 package plug-ins may use overlapping type codes; to
-        identify the package to which a given object belongs, call the
-        getPackageName() method on the object.
+        all the codes begin with the characters SBML_. In the Python language
+        interface for libSBML, the type codes are defined as static integer
+        constants in the interface class 'libsbml'.  Note that different Level
+        3 package plug-ins may use overlapping type codes; to identify the
+        package to which a given object belongs, call the getPackageName()
+        method on the object.
 
         Returns the SBML type code for this object: SBML_STOICHIOMETRY_MATH
         (default).
@@ -37514,6 +37618,103 @@ class ConversionProperties(_object):
     also communicated by the values of the SBML namespaces set on a
     ConversionProperties object.
 
+    General information about the use of SBML converters
+    ======================================================================
+
+    The use of all the converters follows a similar approach.  First, one
+    creates a ConversionProperties object and calls
+    ConversionProperties.addOption() on this object with one arguments: a
+    text string that identifies the desired converter.  (The text string
+    is specific to each converter; consult the documentation for a given
+    converter to find out how it should be enabled.)
+
+    Next, for some converters, the caller can optionally set some
+    converter-specific properties using additional calls to
+    ConversionProperties.addOption(). Many converters provide the ability
+    to configure their behavior to some extent; this is realized through
+    the use of properties that offer different options.  The default
+    property values for each converter can be interrogated using the
+    method SBMLConverter.getDefaultProperties() on the converter class in
+    question .
+
+    Finally, the caller should invoke the method SBMLDocument.convert()
+    with the ConversionProperties object as an argument.
+
+    Example of invoking an SBML converter
+    ......................................................................
+
+    The following code fragment illustrates an example using
+    SBMLReactionConverter, which is invoked using the option string
+    'replaceReactions':
+
+      config = ConversionProperties()
+      if config != None:
+        config.addOption('replaceReactions')
+
+    In the case of SBMLReactionConverter, there are no options to affect
+    its behavior, so the next step is simply to invoke the converter on an
+    SBMLDocument object.  Continuing the example code:
+
+        # Assume that the variable 'document' has been set to an SBMLDocument object.
+        status = document.convert(config)
+        if status != LIBSBML_OPERATION_SUCCESS:
+          # Handle error somehow.
+          print('Error: conversion failed due to the following:')
+          document.printErrors()
+
+    Here is an example of using a converter that offers an option. The
+    following code invokes SBMLStripPackageConverter to remove the SBML
+    Level 3 Layout package from a model.  It sets the name of the package
+    to be removed by adding a value for the option named 'package' defined
+    by that converter:
+
+      def strip_layout_example(document):
+        config = ConversionProperties()
+        if config != None:
+          config.addOption('stripPackage')
+          config.addOption('package', 'layout')
+          status = document.convert(config)
+          if status != LIBSBML_OPERATION_SUCCESS:
+            # Handle error somehow.
+            print('Error: unable to strip the Layout package.')
+            print('LibSBML returned error: ' + OperationReturnValue_toString(status).strip())
+        else:
+          # Handle error somehow.
+          print('Error: unable to create ConversionProperties object')
+
+    Available SBML converters in libSBML
+    ......................................................................
+
+    LibSBML provides a number of built-in converters; by convention, their
+    names end in Converter. The following are the built-in converters
+    provided by libSBML 5.11.0:
+
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
+
     See also ConversionOption, SBMLNamespaces.
 
     """
@@ -38106,9 +38307,33 @@ class SBMLConverter(_object):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -38120,7 +38345,7 @@ class SBMLConverter(_object):
         """
         __init__(self) -> SBMLConverter
         __init__(self, string name) -> SBMLConverter
-        __init__(self, SBMLConverter c) -> SBMLConverter
+        __init__(self, SBMLConverter orig) -> SBMLConverter
 
         This method has multiple variants; they differ in the arguments  they
         accept.  Each variant is described separately below.
@@ -38135,23 +38360,25 @@ class SBMLConverter(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
+        SBMLConverter(SBMLConverter orig)
+
+        Copy constructor.
+
+        This creates a copy of an SBMLConverter object.
+
+        Parameter 'orig' is the SBMLConverter object to copy.
+
+        Throws SBMLConstructorException: Thrown if the argument 'orig' is
+        None.
+
+        ______________________________________________________________________
+        Method variant with the following signature:
+
         SBMLConverter(string name)
 
         Creates a new SBMLConverter object with a given name.
 
         Parameter 'name' is the name for the converter to create
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        SBMLConverter(SBMLConverter c)
-
-        Copy constructor; creates a copy of an SBMLConverter object.
-
-        Parameter 'c' is the SBMLConverter object to copy.
-
-        Throws SBMLConstructorException: Thrown if the argument 'orig' is
-        None.
 
         """
         if self.__class__ == SBMLConverter:
@@ -38215,13 +38442,13 @@ class SBMLConverter(_object):
         SBML namespaces are used by libSBML to express the Level+Version of
         the SBML document (and, possibly, any SBML Level 3 packages in use).
         Some converters' behavior is affected by the SBML namespace configured
-        in the converter.  For example, the actions of
-        SBMLLevelVersionConverter, the converter for converting SBML documents
-        from one Level+Version combination to another, are fundamentally
-        dependent on the SBML namespaces being targeted.
+        in the converter.  For example, in SBMLLevelVersionConverter (the
+        converter for converting SBML documents from one Level+Version
+        combination to another), the actions are fundamentally dependent on
+        the SBML namespaces targeted.
 
         Returns the SBMLNamespaces object that describes the SBML namespaces
-        in effect.
+        in effect, or None if none are set.
 
         """
         return _libsbml.SBMLConverter_getTargetNamespaces(self)
@@ -38230,12 +38457,16 @@ class SBMLConverter(_object):
         """
         matchesProperties(self, ConversionProperties props) -> bool
 
-        Predicate returning True if this converter's properties matches a
-        given set of configuration properties.
+        Returns True if this converter matches the given properties.
 
-        Parameter 'props' is the configuration properties to match.
+        Given a ConversionProperties object 'props', this method checks that
+        'props' possesses an option value to enable this converter.  If it
+        does, this method returns True.
 
-        Returns True if this converter's properties match, False otherwise.
+        Parameter 'props' is the properties to match.
+
+        Returns True if the properties 'props' would match the necessary
+        properties for this type of converter, False otherwise.
 
         """
         return _libsbml.SBMLConverter_matchesProperties(self, *args)
@@ -38252,37 +38483,30 @@ class SBMLConverter(_object):
 
         setDocument(SBMLDocument doc)
 
-        Sets the current SBML document to the given SBMLDocument object.
+        Sets the SBML document to be converted.
 
         Parameter 'doc' is the document to use for this conversion.
 
         Returns integer value indicating the success/failure of the operation.
         The set of possible values that may be returned ultimately depends on
         the specific subclass of SBMLConverter being used, but the default
-        method can return the following values:
+        method can return the following:
 
         * LIBSBML_OPERATION_SUCCESS
-
-        WARNING:
-
-        Even though the argument 'doc' is 'const', it is immediately cast to a
-        non-const version, which is then usually changed by the converter upon
-        a successful conversion.  This variant of the setDocument() method is
-        here solely to preserve backwards compatibility.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         setDocument(SBMLDocument doc)
 
-        Sets the current SBML document to the given SBMLDocument object.
+        Sets the SBML document to be converted.
 
         Parameter 'doc' is the document to use for this conversion.
 
         Returns integer value indicating the success/failure of the operation.
         The set of possible values that may be returned ultimately depends on
         the specific subclass of SBMLConverter being used, but the default
-        method can return the following values:
+        method can return the following:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -38356,7 +38580,7 @@ class SBMLConverter(_object):
 
         Returns the name of this converter.
 
-        Returns a name for this converter
+        Returns a string, the name of this converter.
 
         """
         return _libsbml.SBMLConverter_getName(self)
@@ -38423,8 +38647,8 @@ class SBMLConverterRegistry(_object):
 
         Parameter 'converter' is the converter to add to the registry.
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -38620,9 +38844,33 @@ class SBMLFunctionDefinitionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -38719,8 +38967,8 @@ class SBMLFunctionDefinitionConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -38876,9 +39124,33 @@ class SBMLIdConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -38972,8 +39244,8 @@ class SBMLIdConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -39109,9 +39381,33 @@ class SBMLInferUnitsConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -39206,8 +39502,8 @@ class SBMLInferUnitsConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -39357,9 +39653,33 @@ class SBMLInitialAssignmentConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -39455,8 +39775,8 @@ class SBMLInitialAssignmentConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -39601,9 +39921,33 @@ class SBMLLevelVersionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -39699,8 +40043,8 @@ class SBMLLevelVersionConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -39878,9 +40222,33 @@ class SBMLLocalParameterConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -39976,8 +40344,8 @@ class SBMLLocalParameterConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -40111,9 +40479,33 @@ class SBMLReactionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -40207,8 +40599,8 @@ class SBMLReactionConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -40257,15 +40649,13 @@ class SBMLReactionConverter(SBMLConverter):
 
         WARNING:
 
-        Even though the 'doc' is 'const', it is immediately cast to a non-
-        const version, which is then usually changed by the converter upon a
-        successful conversion.  This function is here solely to preserve
-        backwards compatibility.
+        Even though the 'doc' is '', it is immediately cast to a non- version,
+        which is then usually changed by the converter upon a successful
+        conversion.  This function is here solely to preserve backwards
+        compatibility.
 
-        Returns integer value indicating the success/failure of the operation.
-        The set of possible values that may be returned ultimately depends on
-        the specific subclass of SBMLConverter being used, but the default
-        method can return the following values:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -40278,10 +40668,8 @@ class SBMLReactionConverter(SBMLConverter):
 
         Parameter 'doc' is the document to use for this conversion.
 
-        Returns integer value indicating the success/failure of the operation.
-        The set of possible values that may be returned ultimately depends on
-        the specific subclass of SBMLConverter being used, but the default
-        method can return the following values:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -40336,13 +40724,11 @@ class SBMLRuleConverter(SBMLConverter):
     used to reorder the SBML objects regardless of whether the input file
     contained them in the desired order.
 
-    Note:
-
-    The two sets of assignments (list of assignment rules on the one hand,
-    and list of initial assignments on the other hand) are handled
-    independently.  In an SBML model, these entities are treated
-    differently and no amount of sorting can deal with inter-dependencies
-    between assignments of the two kinds. Configuration and use of SBMLRuleConverter
+    Note that the two sets of SBML assignments (list of assignment rules
+    on the one hand, and list of initial assignments on the other hand)
+    are handled independently.  In an SBML model, these entities are
+    treated differently and no amount of sorting can deal with inter-
+    dependencies between assignments of the two kinds. Configuration and use of SBMLRuleConverter
     ======================================================================
 
     SBMLRuleConverter is enabled by creating a ConversionProperties object
@@ -40418,9 +40804,33 @@ class SBMLRuleConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -40516,8 +40926,8 @@ class SBMLRuleConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -40652,9 +41062,33 @@ class SBMLStripPackageConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -40750,8 +41184,8 @@ class SBMLStripPackageConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -40897,9 +41331,33 @@ class SBMLUnitsConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.10.3:
+    provided by libSBML 5.11.0:
 
-    @copydetails doc_list_of_libsbml_converters
+    * CobraToFbcConverter
+
+    * CompFlatteningConverter
+
+    * FbcToCobraConverter
+
+    * SBMLFunctionDefinitionConverter
+
+    * SBMLIdConverter
+
+    * SBMLInferUnitsConverter
+
+    * SBMLInitialAssignmentConverter
+
+    * SBMLLevelVersionConverter
+
+    * SBMLLocalParameterConverter
+
+    * SBMLReactionConverter
+
+    * SBMLRuleConverter
+
+    * SBMLStripPackageConverter
+
+    * SBMLUnitsConverter
 
     """
     __swig_setmethods__ = {}
@@ -40993,8 +41451,8 @@ class SBMLUnitsConverter(SBMLConverter):
         SBMLConverter.setDocument() and with the configuration options set by
         SBMLConverter.setProperties().
 
-        Returns integer value indicating the success/failure of the operation.
-        The possible values are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -41156,8 +41614,8 @@ class SBMLValidator(_object):
 
         Parameter 'doc' is the document to use for this validation
 
-        Returns an integer value indicating the success/failure of the
-        validation.   The possible values returned by this function are
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -41463,12 +41921,54 @@ SBMLExternalValidator_swigregister(SBMLExternalValidator)
 
 class XMLAttributes(_object):
     """
-    An attribute on an XML node.
+    A list of attributes on an XML element.
 
     This class of objects is defined by libSBML only and has no direct
     equivalent in terms of SBML components. This class is not prescribed
     by the SBML specifications, although it is used to implement features
     defined in SBML.
+
+    In libSBML's XML interface layer, attributes on an element are stored
+    as a list of values kept in an XMLAttributes object.  XMLAttributes
+    has methods for adding and removing individual attributes as well as
+    performing other actions on the list of attributes.  Classes in
+    libSBML that represent nodes in an XML document (i.e., XMLNode and its
+    parent class, XMLToken) use XMLAttributes objects to manage attributes
+    on XML elements.
+
+    Attributes on an XML element can be written in one of two forms:
+
+    * name='value'
+
+    * prefix:name='value'
+
+    An attribute in XML must always have a value, and the value must
+    always be a quoted string; i.e., it is always name='value' and not
+    name=value.  An empty value is represented simply as an empty string;
+    i.e., name=''.
+
+    In cases when a prefix is provided with an attribute name, general XML
+    validity rules require that the prefix is an XML namespace prefix that
+    has been declared somewhere else (possibly as an another attribute on
+    the same element).  However, the XMLAttributes class does not test for
+    the proper existence or declaration of XML namespaces -- callers must
+    arrange to do this themselves in some other way.  This class only
+    provides facilities for tracking and manipulating attributes and their
+    prefix/URI/name/value components.
+
+    Note:
+
+    Note that although XMLAttributes provides operations that can
+    manipulate attributes based on a numerical index, XML attributes are
+    in fact unordered when they appear in files and data streams.  The
+    XMLAttributes class provides some list-like facilities, but it is only
+    for the convenience of callers.  (For example, it permits callers to
+    loop across all attributes more easily.)  Users should keep in mind
+    that the order in which attributes are stored in XMLAttributes objects
+    has no real impact on the order in which the attributes are read or
+    written from an XML file or data stream.
+
+    See also XMLTriple, XMLNode, XMLToken.
 
     """
     __swig_setmethods__ = {}
@@ -41491,14 +41991,14 @@ class XMLAttributes(_object):
 
         XMLAttributes()
 
-        Creates a new empty XMLAttributes set.
+        Creates a new, empty XMLAttributes object.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         XMLAttributes(XMLAttributes orig)
 
-        Copy constructor; creates a copy of this XMLAttributes set.
+        Copy constructor; creates a copy of this XMLAttributes object.
 
         'orig' the XMLAttributes object to copy.
 
@@ -41535,57 +42035,119 @@ class XMLAttributes(_object):
 
         add( XMLTriple triple, string value)
 
-        Adds an attribute with the given XMLTriple/value pair to this
-        XMLAttributes set.
+        Adds an attribute to this list of attributes.
 
-        Note:
+        Some explanations are in order about the behavior of XMLAttributes
+        with respect to namespace prefixes and namespace URIs.  XMLAttributes
+        does not verify the consistency of different uses of an XML namespace
+        and the prefix used to refer to it in a given context.  It cannot,
+        because the prefix used for a given XML namespace in an XML document
+        may intentionally be different on different elements in the document.
+        Consequently, callers need to manage their own prefix-to-namespace
+        mappings, and need to ensure that the desired prefix is used in any
+        given context.
 
-        if local name with the same namespace URI already exists in this
-        attribute set,  its value and prefix will be replaced.
+        When called with attribute names, prefixes and namespace URIs,
+        XMLAttributes pays attention to the namespace URIs and not the
+        prefixes: a match is established by a combination of attribute name
+        and namespace URI, and if on different occasions a different prefix is
+        used for the same name/namespace combination, the prefix associated
+        with the namespace on that attribute is overwritten.
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute.
-        Parameter 'value' is a string, the value of the attribute.
+        Some examples will hopefully clarify this.  Here are the results of a
+        sequence of calls to the XMLAttributes add methods with different
+        argument combinations.  First, we create the object and add one
+        attribute:
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+          XMLAttributes  att = new XMLAttributes();
+          att->add('myattribute', '1', 'myuri');
+
+        The above adds an attribute named myattribute in the namespace myuri,
+        and with the attribute value 1.  No namespace prefix is associated
+        with the attribute (but the attribute is recorded to exist in the
+        namespace myuri).  If this attribute object were written out in XML,
+        it would look like the following (and note that, since no namespace
+        prefix was assigned, none is written out): <center>
+
+          myattribute='1'
+
+        </center>
+
+        Continuing with this series of examples, suppose we invoke the add
+        method again as follows:
+
+          att->add('myattribute', '2');
+
+        The above adds a new attribute also named myattribute, but in a
+        different XML namespace: it is placed in the namespace with no URI,
+        which is to say, the default XML namespace.  Both attributes coexist
+        on this XMLAttributes object; both can be independently retrieved.
+
+          att->add('myattribute', '3');
+
+        The code above now replaces the value of the attribute myattribute
+        that resides in the default namespace.  The attribute in the namespace
+        myuri remains untouched.
+
+          att->add('myattribute', '4', 'myuri');
+
+        The code above replaces the value of the attribute myattribute that
+        resides in the myuri namespace. The attribute in the default namespace
+        remains untouched.
+
+          att->add('myattribute', '5', 'myuri', 'foo');
+
+        The code above replaces the value of the attribute myattribute that
+        resides in the myuri namespace. It also now assigns a namespace
+        prefix, foo, to the attribute. The attribute myattribute in the
+        default namespace remains untouched. If this XMLAttributes object were
+        written out in XML, it would look like the following: <center>
+
+          myattribute='3'
+          foo:myattribute='5'
+
+        </center> Pressing on, now suppose we call the add method as follows:
+
+          att->add('myattribute', '6', 'myuri', 'bar');
+
+        The code above replaces the value of the attribute myattribute that
+        resides in the myuri namespace. It also assigns a different prefix to
+        the attribute.  The namespace of the attribute remains myuri.
+
+          att->add('myattribute', '7', '', 'foo');
+
+        The code above replaces the value of the attribute myattribute that
+        resides in the default namespace.  It also now assigns a namespace
+        prefix, foo, to that attribute.  If this XMLAttributes object were
+        written out in XML, it would look like the following: <center>
+
+          bar:myattribute='6'
+          foo:myattribute='7'
+
+        </center>
+
+        Parameter 'triple' is an XMLTriple object describing the attribute to
+        be added. Parameter 'value' is a string, the value of the attribute.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        add(  string name , string value , string namespaceURI = '' ,
-        string prefix = '')
-
-        Adds an attribute (a name/value pair) to this XMLAttributes object,
-        optionally with a prefix and URI defining a namespace.
-
-        Parameter 'name' is a string, the local name of the attribute.
-        Parameter 'value' is a string, the value of the attribute. Parameter
-        'namespaceURI' is a string, the namespace URI of the attribute.
-        Parameter 'prefix' is a string, the prefix of the namespace
-
-        Returns an integer code indicating the success or failure of the
-        function.  The possible values returned by this function are:
-
-        * LIBSBML_OPERATION_SUCCESS
+        * LIBSBML_INVALID_OBJECT.  This value is returned if any of the
+        arguments are None.  To set an empty value for the attribute, use an
+        empty string rather than None.
 
         Note:
 
-        if local name with the same namespace URI already exists in this
-        attribute set, its value and prefix will be replaced.
+        If an attribute with the same name and XML namespace URI already
+        exists in the list of attributes held by this XMLAttributes object,
+        then the previous value of that attribute will be replaced with the
+        new value provided to this method.
 
-        Documentation note: The native C++ implementation of this method
-        defines a default argument value. In the documentation generated for
-        different libSBML language bindings, you may or may not see
-        corresponding arguments in the method declarations. For example, in
-        Java and C#, a default argument is handled by declaring two separate
-        methods, with one of them having the argument and the other one
-        lacking the argument. However, the libSBML documentation will be
-        identical for both methods. Consequently, if you are reading this and
-        do not see an argument even though one is described, please look for
-        descriptions of other variants of this method near where this one
-        appears in the documentation.
+        See also add(), getIndex(), getIndex(), hasAttribute(),
+        hasAttribute(), add(), getIndex(), getIndex(), hasAttribute(),
+        hasAttribute().
 
         """
         return _libsbml.XMLAttributes_add(self, *args)
@@ -41594,15 +42156,7 @@ class XMLAttributes(_object):
         """
         removeResource(self, int n) -> int
 
-        Removes an attribute with the given index from this XMLAttributes set.
-
-        Parameter 'n' is an integer the index of the resource to be deleted
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
-
-        * LIBSBML_OPERATION_SUCCESS
-
-        * LIBSBML_INDEX_EXCEEDS_SIZE
+        Internal implementation method.
 
         """
         return _libsbml.XMLAttributes_removeResource(self, *args)
@@ -41622,52 +42176,23 @@ class XMLAttributes(_object):
 
         remove(XMLTriple triple)
 
-        Removes an attribute with the given XMLTriple from this XMLAttributes
-        set.
+        Removes a specific attribute from this list of attributes.
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute.
+        Parameter 'triple' is an XMLTriple describing the attribute to be
+        removed.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
-
-        * LIBSBML_OPERATION_SUCCESS
-
-        * LIBSBML_INDEX_EXCEEDS_SIZE
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        remove(int n)
-
-        Removes an attribute with the given index from this XMLAttributes set.
-        (This function is an alias of XMLAttributes.removeResource() ).
-
-        Parameter 'n' is an integer the index of the resource to be deleted
-
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
         * LIBSBML_INDEX_EXCEEDS_SIZE
 
-        ______________________________________________________________________
-        Method variant with the following signature:
+        The value LIBSBML_INDEX_EXCEEDS_SIZE is returned if there is no
+        attribute matching the properties of the given 'triple'.
 
-        remove(string name, string uri = '')
-
-        Removes an attribute with the given local name and namespace URI from
-        this XMLAttributes set.
-
-        Parameter 'name' is a string, the local name of the attribute.
-        Parameter 'uri' is a string, the namespace URI of the attribute.
-
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
-
-        * LIBSBML_OPERATION_SUCCESS
-
-        * LIBSBML_INDEX_EXCEEDS_SIZE
+        See also remove(), remove(), getLength(), remove(), remove(),
+        remove(), remove().
 
         """
         return _libsbml.XMLAttributes_remove(self, *args)
@@ -41676,12 +42201,14 @@ class XMLAttributes(_object):
         """
         clear(self) -> int
 
-        Clears (deletes) all attributes in this XMLAttributes object.
+        Removes all attributes in this XMLAttributes object.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
+
+        See also remove(), remove(), remove().
 
         """
         return _libsbml.XMLAttributes_clear(self)
@@ -41700,49 +42227,17 @@ class XMLAttributes(_object):
 
         getIndex(XMLTriple triple)
 
-        Return the index of an attribute with the given XMLTriple.
+        Returns the index of the attribute defined by the given XMLTriple
+        object.
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute
-        for which  the index is required.
+        Parameter 'triple' is an XMLTriple describing the attribute being
+        sought.
 
-        Returns the index of an attribute with the given XMLTriple, or -1 if
-        not present.
+        Returns the index of an attribute described by the given XMLTriple
+        object, or -1 if no such attribute is present.
 
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        getIndex(string name, string uri)
-
-        Return the index of an attribute with the given local name and
-        namespace URI.
-
-        Parameter 'name' is a string, the local name of the attribute.
-        Parameter 'uri' is a string, the namespace URI of the attribute.
-
-        Returns the index of an attribute with the given local name and
-        namespace URI,  or -1 if not present.
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        getIndex(string name)
-
-        Return the index of an attribute with the given name.
-
-        Note:
-
-        A namespace bound to the name is not checked by this function. Thus,
-        if there are multiple attributes with the given local name and
-        different namespaces, the smallest index among those attributes will
-        be returned.  XMLAttributes.getIndex() const or
-        XMLAttributes.getIndex() const should be used to get an index of an
-        attribute with the given local name and namespace.
-
-        Parameter 'name' is a string, the local name of the attribute for
-        which the  index is required.
-
-        Returns the index of an attribute with the given local name, or -1 if
-        not present.
+        See also hasAttribute(), hasAttribute(), hasAttribute(),
+        hasAttribute(), hasAttribute(), hasAttribute().
 
         """
         return _libsbml.XMLAttributes_getIndex(self, *args)
@@ -41751,9 +42246,10 @@ class XMLAttributes(_object):
         """
         getLength(self) -> int
 
-        Return the number of attributes in the set.
+        Returns the number of attributes in this list of attributes.
 
-        Returns the number of attributes in this XMLAttributes set.
+        Returns the number of attributes contained in this XMLAttributes
+        object.
 
         """
         return _libsbml.XMLAttributes_getLength(self)
@@ -41762,12 +42258,13 @@ class XMLAttributes(_object):
         """
         getNumAttributes(self) -> int
 
-        Return the number of attributes in the set.
+        Returns the number of attributes in this list of attributes.
 
-        Returns the number of attributes in this XMLAttributes set.
+        This function is merely an alias of XMLAttributes.getLength()
+        introduced for consistency with other libXML classes.
 
-        This function is an alias for getLength introduced for consistency
-        with other XML classes.
+        Returns the number of attributes contained in this XMLAttributes
+        object.
 
         """
         return _libsbml.XMLAttributes_getNumAttributes(self)
@@ -41776,19 +42273,33 @@ class XMLAttributes(_object):
         """
         getName(self, int index) -> string
 
-        Return the local name of an attribute in this XMLAttributes set (by
-        position).
+        Returns the name of the nth attribute in this list of attributes.
 
         Parameter 'index' is an integer, the position of the attribute whose
-        local name is  required.
+        name is being sought.
 
-        Returns the local name of an attribute in this list (by position).
+        Returns the local name of the nth attribute.
 
         Note:
 
-        If index is out of range, an empty string will be returned.  Use
-        XMLAttributes.hasAttribute() const to test for the attribute
-        existence.
+        If 'index' is out of range, this method will return an empty string.
+        Callers should use XMLAttributes.getLength() to check the number of
+        attributes contained in this object or XMLAttributes.hasAttribute()
+        to test for the existence of an attribute at a given position.
+
+        Note:
+
+        Note that although XMLAttributes provides operations that can
+        manipulate attributes based on a numerical index, XML attributes are
+        in fact unordered when they appear in files and data streams.  The
+        XMLAttributes class provides some list-like facilities, but it is only
+        for the convenience of callers.  (For example, it permits callers to
+        loop across all attributes more easily.)  Users should keep in mind
+        that the order in which attributes are stored in XMLAttributes objects
+        has no real impact on the order in which the attributes are read or
+        written from an XML file or data stream.
+
+        See also getLength(), hasAttribute().
 
         """
         return _libsbml.XMLAttributes_getName(self, *args)
@@ -41797,20 +42308,34 @@ class XMLAttributes(_object):
         """
         getPrefix(self, int index) -> string
 
-        Return the prefix of an attribute in this XMLAttributes set (by
-        position).
+        Returns the namespace prefix of the nth attribute in this attribute
+        set.
 
         Parameter 'index' is an integer, the position of the attribute whose
-        prefix is  required.
+        namespace prefix is being sought.
 
-        Returns the namespace prefix of an attribute in this list (by
-        position).
+        Returns the XML namespace prefix of the nth attribute.
 
         Note:
 
-        If index is out of range, an empty string will be returned. Use
-        XMLAttributes.hasAttribute() const to test for the attribute
-        existence.
+        If 'index' is out of range, this method will return an empty string.
+        Callers should use XMLAttributes.getLength() to check the number of
+        attributes contained in this object or XMLAttributes.hasAttribute()
+        to test for the existence of an attribute at a given position.
+
+        Note:
+
+        Note that although XMLAttributes provides operations that can
+        manipulate attributes based on a numerical index, XML attributes are
+        in fact unordered when they appear in files and data streams.  The
+        XMLAttributes class provides some list-like facilities, but it is only
+        for the convenience of callers.  (For example, it permits callers to
+        loop across all attributes more easily.)  Users should keep in mind
+        that the order in which attributes are stored in XMLAttributes objects
+        has no real impact on the order in which the attributes are read or
+        written from an XML file or data stream.
+
+        See also getLength(), hasAttribute().
 
         """
         return _libsbml.XMLAttributes_getPrefix(self, *args)
@@ -41819,18 +42344,33 @@ class XMLAttributes(_object):
         """
         getPrefixedName(self, int index) -> string
 
-        Return the prefixed name of an attribute in this XMLAttributes set (by
-        position).
+        Returns the prefix name of the nth attribute in this attribute set.
 
         Parameter 'index' is an integer, the position of the attribute whose
-        prefixed  name is required.
+        prefixed name is being sought.
 
-        Returns the prefixed name of an attribute in this list (by position).
+        Returns the prefixed name of the nth attribute.
 
         Note:
 
-        If index is out of range, an empty string will be returned.  Use
-        XMLAttributes.hasAttribute() const to test for attribute existence.
+        If 'index' is out of range, this method will return an empty string.
+        Callers should use XMLAttributes.getLength() to check the number of
+        attributes contained in this object or XMLAttributes.hasAttribute()
+        to test for the existence of an attribute at a given position.
+
+        Note:
+
+        Note that although XMLAttributes provides operations that can
+        manipulate attributes based on a numerical index, XML attributes are
+        in fact unordered when they appear in files and data streams.  The
+        XMLAttributes class provides some list-like facilities, but it is only
+        for the convenience of callers.  (For example, it permits callers to
+        loop across all attributes more easily.)  Users should keep in mind
+        that the order in which attributes are stored in XMLAttributes objects
+        has no real impact on the order in which the attributes are read or
+        written from an XML file or data stream.
+
+        See also getLength(), hasAttribute().
 
         """
         return _libsbml.XMLAttributes_getPrefixedName(self, *args)
@@ -41839,18 +42379,34 @@ class XMLAttributes(_object):
         """
         getURI(self, int index) -> string
 
-        Return the namespace URI of an attribute in this XMLAttributes set (by
-        position).
+        Returns the XML namespace URI of the nth attribute in this attribute
+        set.
 
         Parameter 'index' is an integer, the position of the attribute whose
-        namespace URI is  required.
+        namespace URI is being sought.
 
-        Returns the namespace URI of an attribute in this list (by position).
+        Returns the XML namespace URI of the nth attribute.
 
         Note:
 
-        If index is out of range, an empty string will be returned.  Use
-        XMLAttributes.hasAttribute() const to test for attribute existence.
+        If 'index' is out of range, this method will return an empty string.
+        Callers should use XMLAttributes.getLength() to check the number of
+        attributes contained in this object or XMLAttributes.hasAttribute()
+        to test for the existence of an attribute at a given position.
+
+        Note:
+
+        Note that although XMLAttributes provides operations that can
+        manipulate attributes based on a numerical index, XML attributes are
+        in fact unordered when they appear in files and data streams.  The
+        XMLAttributes class provides some list-like facilities, but it is only
+        for the convenience of callers.  (For example, it permits callers to
+        loop across all attributes more easily.)  Users should keep in mind
+        that the order in which attributes are stored in XMLAttributes objects
+        has no real impact on the order in which the attributes are read or
+        written from an XML file or data stream.
+
+        See also getLength(), hasAttribute().
 
         """
         return _libsbml.XMLAttributes_getURI(self, *args)
@@ -41870,80 +42426,23 @@ class XMLAttributes(_object):
 
         getValue(XMLTriple triple)
 
-        Return a value of an attribute with the given XMLTriple.
+        Return the value of an attribute described by a given XMLTriple
+        object.
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute
-        whose  value is required.
-
-        Returns The attribute value as a string.
-
-        Note:
-
-        If an attribute with the given XMLTriple does not exist, an empty
-        string will be returned.  Use XMLAttributes.hasAttribute() const to
-        test for attribute existence.
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        getValue(int index)
-
-        Return the value of an attribute in this XMLAttributes set (by
-        position).
-
-        Parameter 'index' is an integer, the position of the attribute whose
-        value is  required.
-
-        Returns the value of an attribute in the list (by position).
-
-        Note:
-
-        If index is out of range, an empty string will be returned.  Use
-        XMLAttributes.hasAttribute() const to test for attribute existence.
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        getValue(string name)
-
-        Return an attribute's value by name.
-
-        Parameter 'name' is a string, the local name of the attribute whose
-        value is required.
+        Parameter 'triple' is an XMLTriple describing the attribute whose
+        value is being sought.
 
         Returns The attribute value as a string.
 
         Note:
 
-        If an attribute with the given local name does not exist, an empty
-        string will be returned.  Use XMLAttributes.hasAttribute() const to
-        test for attribute existence.  A namespace bound to the local name is
-        not checked by this function.  Thus, if there are multiple attributes
-        with the given local name and different namespaces, the value of an
-        attribute with the smallest index among those attributes will be
-        returned.  XMLAttributes.getValue() const or XMLAttributes.getValue()
-        const should be used to get a value of an attribute with the given
-        local name and namespace.
+        If an attribute with the properties given by 'triple' does not exist
+        in this XMLAttributes object, this method will return an empty string.
+        Callers can use XMLAttributes.hasAttribute()  to test for an
+        attribute's existence.
 
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        getValue(string name, string uri)
-
-        Return a value of an attribute with the given local name and namespace
-        URI.
-
-        Parameter 'name' is a string, the local name of the attribute whose
-        value is required. Parameter 'uri' is a string, the namespace URI of
-        the attribute.
-
-        Returns The attribute value as a string.
-
-        Note:
-
-        If an attribute with the given local name and namespace URI does not
-        exist, an empty string will be returned.  Use
-        XMLAttributes.hasAttribute() const to test for attribute existence.
+        See also hasAttribute(), hasAttribute(), getLength(), hasAttribute(),
+        hasAttribute(), hasAttribute(), hasAttribute(), hasAttribute().
 
         """
         return _libsbml.XMLAttributes_getValue(self, *args)
@@ -41963,41 +42462,15 @@ class XMLAttributes(_object):
 
         hasAttribute(XMLTriple triple)
 
-        Predicate returning True or False depending on whether an attribute
-        with the given XML triple exists in this XMLAttributes.
+        Returns True if an attribute with the given properties exists.
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute
+        Parameter 'triple' is an XMLTriple describing the attribute to be
+        tested.
 
         Returns True if an attribute with the given XML triple exists in this
-        XMLAttributes, False otherwise.
+        XMLAttributes object, False otherwise.
 
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        hasAttribute(int index)
-
-        Predicate returning True or False depending on whether an attribute
-        with the given index exists in this XMLAttributes.
-
-        Parameter 'index' is an integer, the position of the attribute.
-
-        Returns True if an attribute with the given index exists in this
-        XMLAttributes, False otherwise.
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        hasAttribute(string name, string uri='')
-
-        Predicate returning True or False depending on whether an attribute
-        with the given local name and namespace URI exists in this
-        XMLAttributes.
-
-        Parameter 'name' is a string, the local name of the attribute.
-        Parameter 'uri' is a string, the namespace URI of the attribute.
-
-        Returns True if an attribute with the given local name and namespace
-        URI exists in this XMLAttributes, False otherwise.
+        See also add(), add(), add(), add().
 
         """
         return _libsbml.XMLAttributes_hasAttribute(self, *args)
@@ -42006,10 +42479,9 @@ class XMLAttributes(_object):
         """
         isEmpty(self) -> bool
 
-        Predicate returning True or False depending on whether  this
-        XMLAttributes set is empty.
+        Returns True if this list of attributes is empty.
 
-        Returns True if this XMLAttributes set is empty, False otherwise.
+        Returns True if this XMLAttributes object is empty, False otherwise.
 
         """
         return _libsbml.XMLAttributes_isEmpty(self)
@@ -42209,8 +42681,8 @@ class XMLNamespaces(_object):
         Clears (deletes) all XML namespace declarations in this XMLNamespaces
         object.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -42448,12 +42920,56 @@ XMLNamespaces_swigregister(XMLNamespaces)
 
 class XMLToken(_object):
     """
-    A token in libSBML's XML stream.
+    A token in an XML stream.
 
     This class of objects is defined by libSBML only and has no direct
     equivalent in terms of SBML components. This class is not prescribed
     by the SBML specifications, although it is used to implement features
     defined in SBML.
+
+    The libSBML XML parser interface can read an XML file or data stream
+    and convert the contents into tokens.  The tokens represent items in
+    the XML stream, either XML elements (start or end tags) or text that
+    appears as content inside an element.  The XMLToken class is libSBML's
+    low-level representation of these entities.
+
+    Each XMLToken has the following information associated with it: <ol>
+
+    * Qualified name: every XML element or XML attribute has a name
+    (e.g., for the element <mytag>, the name is 'mytag'), but this name
+    may be qualified with a namespace (e.g., it may appear as
+    <someNamespace:mytag> in the input).  An XMLToken stores the name of a
+    token, along with any namespace qualification present, through the use
+    of an XMLTriple object.  This object stores the bare name of the
+    element, its XML namespace prefix (if any), and the XML namespace with
+    which that prefix is associated.
+
+    * Namespaces: An XML token can have one or more XML namespaces
+    associated with it.  These namespaces may be specified explicitly on
+    the element or inherited from parent elements.  In libSBML, a list of
+    namespaces is stored in an XMLNamespaces object.  An XMLToken
+    possesses a field for storing an XMLNamespaces object.
+
+    * Attributes: XML elements can have attributes associated with
+    them, and these attributes can have values assigned to them.  The set
+    of attribute-value pairs is stored in an XMLAttributes object stored
+    in an XMLToken object.  (Note: only elements can have attributes --
+    text blocks cannot have them in XML.)
+
+    * Line number: the line number in the input where the token
+    appears.
+
+    * Column number: the column number in the input where the token
+    appears. </ol>
+
+    The XMLToken class serves as base class for XMLNode.  XML lends itself
+    to a tree-structured representation, and in libSBML, the nodes in an
+    XML document tree are XMLNode objects.  Most higher-level libSBML
+    classes and methods that offer XML-level functionality (such as the
+    methods on SBase for interacting with annotations) work with XMLNode
+    objects rather than XMLToken objects directly.
+
+    See also XMLNode, XMLTriple, XMLAttributes, XMLNamespaces.
 
     """
     __swig_setmethods__ = {}
@@ -42491,14 +43007,14 @@ class XMLToken(_object):
 
         XMLToken()
 
-        Creates a new empty XMLToken.
+        Creates a new empty XMLToken object.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         XMLToken(XMLToken orig)
 
-        Copy constructor; creates a copy of this XMLToken.
+        Copy constructor; creates a copy of this XMLToken object.
 
         Parameter 'orig' is the XMLToken object to copy.
 
@@ -42508,14 +43024,24 @@ class XMLToken(_object):
         Method variant with the following signature:
 
         XMLToken(  XMLTriple      triple , XMLAttributes  attributes ,
-        const long    line   = 0 , const long    column = 0 )
+        long    line   = 0 ,  long    column = 0 )
 
-        Creates a start element XMLToken with the given set of attributes.
+        Creates an XML start element with attributes.
 
-        Parameter 'triple' is XMLTriple. Parameter 'attributes' is
-        XMLAttributes, the attributes to set. Parameter 'line' is a long
-        integer, the line number (default = 0). Parameter 'column' is a long
-        integer, the column number (default = 0).
+        Parameter 'triple' is an XMLTriple object describing the start tag.
+
+        Parameter 'attributes' is XMLAttributes, the attributes to set on the
+        element to be created.
+
+        Parameter 'line' is a long integer, the line number to associate with
+        the token (default = 0).
+
+        Parameter 'column' is a long integer, the column number to associate
+        with the token (default = 0).
+
+        The XML namespace component of this XMLToken object will be left
+        empty. See the other variants of the XMLToken constructors for
+        versions that take namespace arguments.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -42532,14 +43058,18 @@ class XMLToken(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        XMLToken(  XMLTriple    triple , const long  line   = 0 , const
-        long  column = 0 )
+        XMLToken(  XMLTriple    triple ,  long  line   = 0 ,  long  column
+        = 0 )
 
-        Creates an end element XMLToken.
+        Creates an XML end element.
 
-        Parameter 'triple' is XMLTriple. Parameter 'line' is a long integer,
-        the line number (default = 0). Parameter 'column' is a long integer,
-        the column number (default = 0).
+        Parameter 'triple' is an XMLTriple object describing the end tag.
+
+        Parameter 'line' is a long integer, the line number to associate with
+        the token (default = 0).
+
+        Parameter 'column' is a long integer, the column number to associate
+        with the token (default = 0).
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -42557,17 +43087,25 @@ class XMLToken(_object):
         Method variant with the following signature:
 
         XMLToken(  XMLTriple      triple , XMLAttributes  attributes ,
-        XMLNamespaces  namespaces , const long    line   = 0 , const long
-        column = 0 )
+        XMLNamespaces  namespaces ,  long    line   = 0 ,  long    column = 0
+        )
 
-        Creates a start element XMLToken with the given set of attributes and
-        namespace declarations.
+        Creates an XML start element with attributes and namespace
+        declarations.
 
-        Parameter 'triple' is XMLTriple. Parameter 'attributes' is
-        XMLAttributes, the attributes to set. Parameter 'namespaces' is
-        XMLNamespaces, the namespaces to set. Parameter 'line' is a long
-        integer, the line number (default = 0). Parameter 'column' is a long
-        integer, the column number (default = 0).
+        Parameter 'triple' is an XMLTriple object describing the start tag.
+
+        Parameter 'attributes' is XMLAttributes, the attributes to set on the
+        element to be created.
+
+        Parameter 'namespaces' is XMLNamespaces, the namespaces to set on the
+        element to be created.
+
+        Parameter 'line' is a long integer, the line number to associate with
+        the token (default = 0).
+
+        Parameter 'column' is a long integer, the column number to associate
+        with the token (default = 0).
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -42584,16 +43122,21 @@ class XMLToken(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        XMLToken(  string  chars , const long  line   = 0 , const long
-        column = 0 )
+        XMLToken(  string  chars ,  long  line   = 0 ,  long  column = 0 )
 
-        Creates a text XMLToken.
+        Creates a text object.
 
         Parameter 'chars' is a string, the text to be added to the XMLToken
-        Parameter 'line' is a long integer, the line number (default = 0).
-        Parameter 'column' is a long integer, the column number (default = 0).
+        object.
 
-        Throws XMLConstructorException: Thrown if the argument 'orig' is None.
+        Parameter 'line' is a long integer, the line number to associate with
+        the token (default = 0).
+
+        Parameter 'column' is a long integer, the column number to associate
+        with the token (default = 0).
+
+        Throws XMLConstructorException: Thrown if the argument 'chars' is
+        None.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -42626,9 +43169,10 @@ class XMLToken(_object):
         """
         getAttributes(self) -> XMLAttributes
 
-        Returns the attributes of this element.
+        Returns the attributes of the XML element represented by this token.
 
-        Returns the XMLAttributes of this XML element.
+        Returns the attributes of this XML element, stored in an XMLAttributes
+        object.
 
         """
         return _libsbml.XMLToken_getAttributes(self)
@@ -42637,10 +43181,15 @@ class XMLToken(_object):
         """
         setAttributes(self, XMLAttributes attributes) -> int
 
-        Sets an XMLAttributes to this XMLToken. Nothing will be done if this
-        XMLToken is not a start element.
+        Sets the attributes on the XML element represented by this token.
 
-        Parameter 'attributes' is XMLAttributes to be set to this XMLToken.
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
+
+        Parameter 'attributes' is an XMLAttributes object to be assigned to
+        this XMLToken object, thereby setting the XML attributes associated
+        with this token.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -42655,7 +43204,8 @@ class XMLToken(_object):
 
         Note:
 
-        This function replaces the existing XMLAttributes with the new one.
+        This function replaces any existing XMLAttributes object on this
+        XMLToken object with the one given by 'attributes'.
 
         """
         return _libsbml.XMLToken_setAttributes(self, *args)
@@ -42676,24 +43226,31 @@ class XMLToken(_object):
 
         addAttr( XMLTriple triple, string value)
 
-        Adds an attribute with the given XMLTriple/value pair to the attribute
-        set in this XMLToken. Nothing will be done if this XMLToken is not a
-        start element.
+        Adds an attribute to the XML element represented by this token.
 
-        Note:
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
 
-        if local name with the same namespace URI already exists in the
-        attribute set, its value and prefix will be replaced.
+        Parameter 'triple' is an XMLTriple object defining the attribute, its
+        value, and optionally its XML namespace (if any is provided).
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute.
-        Parameter 'value' is a string, the value of the attribute.
+        Parameter 'value' is a string, the value assigned to the attribute.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
+        * LIBSBML_INVALID_OBJECT
+
         * LIBSBML_INVALID_XML_OPERATION
+
+        Note:
+
+        If an attribute with the same name and XML namespace URI already
+        exists on this XMLToken object, then the previous value will be
+        replaced with the new value provided to this method.
 
         ______________________________________________________________________
         Method variant with the following signature:
@@ -42701,26 +43258,45 @@ class XMLToken(_object):
         addAttr(  string name , string value , string namespaceURI = '' ,
         string prefix = '')
 
-        Adds an attribute to the attribute set in this XMLToken optionally
-        with a prefix and URI defining a namespace. Nothing will be done if
-        this XMLToken is not a start element.
+        Adds an attribute to the XML element represented by this token.
 
-        Parameter 'name' is a string, the local name of the attribute.
-        Parameter 'value' is a string, the value of the attribute. Parameter
-        'namespaceURI' is a string, the namespace URI of the attribute.
-        Parameter 'prefix' is a string, the prefix of the namespace
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
+
+        Parameter 'name' is a string, the so-called 'local part' of the
+        attribute name; that is, the attribute name without any namespace
+        qualifier or prefix.
+
+        Parameter 'value' is a string, the value assigned to the attribute.
+
+        Parameter 'namespaceURI' is a string, the XML namespace URI of the
+        attribute.
+
+        Parameter 'prefix' is a string, the prefix for the XML namespace.
+
+        Recall that in XML, the complete form of an attribute on an XML
+        element is the following: <center> prefix:name='value' </center> The
+        name part is the name of the attribute, the 'value' part is the value
+        assigned to the attribute (and it is always a quoted string), and the
+        prefix part is an optional XML namespace prefix.  Internally in
+        libSBML, this data is stored in an XMLAttributes object associated
+        with this XMLToken.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
+        * LIBSBML_INVALID_OBJECT
+
         * LIBSBML_INVALID_XML_OPERATION
 
         Note:
 
-        if local name with the same namespace URI already exists in the
-        attribute set, its value and prefix will be replaced.
+        If an attribute with the same name and XML namespace URI already
+        exists on this XMLToken object, then the previous value will be
+        replaced with the new value provided to this method.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -42752,31 +43328,14 @@ class XMLToken(_object):
 
         removeAttr(XMLTriple triple)
 
-        Removes an attribute with the given XMLTriple from the attribute set
-        in this XMLToken.   Nothing will be done if this XMLToken is not a
-        start element.
+        Removes an attribute from the XML element represented by this token.
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute.
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
 
-        Returns integer value indicating success/failure of the function.
-        The possible values returned by this function are:
-
-        * LIBSBML_OPERATION_SUCCESS
-
-        * LIBSBML_INVALID_XML_OPERATION
-
-        * LIBSBML_INDEX_EXCEEDS_SIZE
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        removeAttr(int n)
-
-        Removes an attribute with the given index from the attribute set in
-        this XMLToken. Nothing will be done if this XMLToken is not a start
-        element.
-
-        Parameter 'n' is an integer the index of the resource to be deleted
+        Parameter 'triple' is an XMLTriple describing the attribute to be
+        removed.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -42787,26 +43346,12 @@ class XMLToken(_object):
 
         * LIBSBML_INDEX_EXCEEDS_SIZE
 
-        ______________________________________________________________________
-        Method variant with the following signature:
+        The value LIBSBML_INDEX_EXCEEDS_SIZE is returned if there is no
+        attribute on this element matching the properties of the given
+        'triple'.
 
-        removeAttr(string name, string uri = '')
-
-        Removes an attribute with the given local name and namespace URI from
-        the attribute set in this XMLToken. Nothing will be done if this
-        XMLToken is not a start element.
-
-        Parameter 'name' is a string, the local name of the attribute.
-        Parameter 'uri' is a string, the namespace URI of the attribute.
-
-        Returns integer value indicating success/failure of the function.
-        The possible values returned by this function are:
-
-        * LIBSBML_OPERATION_SUCCESS
-
-        * LIBSBML_INVALID_XML_OPERATION
-
-        * LIBSBML_INDEX_EXCEEDS_SIZE
+        See also hasAttr(), getAttrIndex(), getAttrIndex(),
+        getAttributesLength(), hasAttr().
 
         """
         return _libsbml.XMLToken_removeAttr(self, *args)
@@ -42815,8 +43360,11 @@ class XMLToken(_object):
         """
         clearAttributes(self) -> int
 
-        Clears (deletes) all attributes in this XMLToken. Nothing will be done
-        if this XMLToken is not a start element.
+        Removes all attributes of this XMLToken object.
+
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -42842,27 +43390,28 @@ class XMLToken(_object):
 
         getAttrIndex(XMLTriple triple)
 
-        Return the index of an attribute with the given XMLTriple.
+        Returns the index of the attribute defined by the given XMLTriple
+        object.
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute
-        for which  the index is required.
+        Parameter 'triple' is the XMLTriple object that defines the attribute
+        whose index is being sought.
 
-        Returns the index of an attribute with the given XMLTriple, or -1 if
-        not present.
+        Returns the index of an attribute with the given XMLTriple object, or
+        -1 if no such attribute is present on this token.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         getAttrIndex(string name, string uri='')
 
-        Return the index of an attribute with the given local name and
-        namespace URI.
+        Returns the index of the attribute with the given name and namespace
+        URI.
 
-        Parameter 'name' is a string, the local name of the attribute.
-        Parameter 'uri' is a string, the namespace URI of the attribute.
+        Parameter 'name' is a string, the name of the attribute. Parameter
+        'uri' is a string, the namespace URI of the attribute.
 
         Returns the index of an attribute with the given local name and
-        namespace URI,  or -1 if not present.
+        namespace URI, or -1 if it is not present on this token.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -42883,10 +43432,11 @@ class XMLToken(_object):
         """
         getAttributesLength(self) -> int
 
-        Return the number of attributes in the attributes set.
+        Returns the number of attributes on this XMLToken object.
 
-        Returns the number of attributes in the attributes set in this
-        XMLToken.
+        Returns the number of attributes possessed by this token.
+
+        See also hasAttr().
 
         """
         return _libsbml.XMLToken_getAttributesLength(self)
@@ -42895,18 +43445,23 @@ class XMLToken(_object):
         """
         getAttrName(self, int index) -> string
 
-        Return the local name of an attribute in the attributes set in this
-        XMLToken (by position).
+        Returns the name of the nth attribute in this token's list of
+        attributes.
 
         Parameter 'index' is an integer, the position of the attribute whose
-        local name  is required.
+        name is being sought.
 
-        Returns the local name of an attribute in this list (by position).
+        Returns the name of the attribute located at position 'n' in the list
+        of attributes possessed by this XMLToken object.
 
         Note:
 
-        If index is out of range, an empty string will be returned.  Use
-        XMLToken.hasAttr() to test for the attribute existence.
+        If 'index' is out of range, this method will return an empty string.
+        XMLToken.hasAttr() can be used to test for an attribute's existence
+        explicitly, and XMLToken.getAttributesLength() can be used to find out
+        the number of attributes possessed by this token.
+
+        See also hasAttr(), getAttributesLength().
 
         """
         return _libsbml.XMLToken_getAttrName(self, *args)
@@ -42915,19 +43470,23 @@ class XMLToken(_object):
         """
         getAttrPrefix(self, int index) -> string
 
-        Return the prefix of an attribute in the attribute set in this
-        XMLToken (by position).
+        Returns the prefix of the nth attribute in this token's list of
+        attributes.
 
         Parameter 'index' is an integer, the position of the attribute whose
-        prefix is  required.
+        prefix is being sought.
 
-        Returns the namespace prefix of an attribute in the attribute set (by
-        position).
+        Returns the XML namespace prefix of the attribute located at position
+        'n' in the list of attributes possessed by this XMLToken object.
 
         Note:
 
-        If index is out of range, an empty string will be returned. Use
-        XMLToken.hasAttr() to test for the attribute existence.
+        If 'index' is out of range, this method will return an empty string.
+        XMLToken.hasAttr() can be used to test for an attribute's existence
+        explicitly, and XMLToken.getAttributesLength() can be used to find out
+        the number of attributes possessed by this token.
+
+        See also hasAttr(), getAttributesLength().
 
         """
         return _libsbml.XMLToken_getAttrPrefix(self, *args)
@@ -42936,19 +43495,25 @@ class XMLToken(_object):
         """
         getAttrPrefixedName(self, int index) -> string
 
-        Return the prefixed name of an attribute in the attribute set in this
-        XMLToken (by position).
+        Returns the prefixed name of the nth attribute in this token's list of
+        attributes.
+
+        In this context, prefixed name means the name of the attribute
+        prefixed with the XML namespace prefix assigned to the attribute.
+        This will be a string of the form prefix:name.
 
         Parameter 'index' is an integer, the position of the attribute whose
-        prefixed  name is required.
+        prefixed name is being sought.
 
-        Returns the prefixed name of an attribute in the attribute set  (by
-        position).
+        Returns the prefixed name of the attribute located at position 'n' in
+        the list of attributes possessed by this XMLToken object.
 
         Note:
 
-        If index is out of range, an empty string will be returned.  Use
-        XMLToken.hasAttr() to test for attribute existence.
+        If 'index' is out of range, this method will return an empty string.
+        XMLToken.hasAttr() can be used to test for an attribute's existence
+        explicitly, and XMLToken.getAttributesLength() can be used to find out
+        the number of attributes possessed by this token.
 
         """
         return _libsbml.XMLToken_getAttrPrefixedName(self, *args)
@@ -42957,19 +43522,21 @@ class XMLToken(_object):
         """
         getAttrURI(self, int index) -> string
 
-        Return the namespace URI of an attribute in the attribute set in this
-        XMLToken (by position).
+        Returns the XML namespace URI of the nth attribute in this token's
+        list of attributes.
 
         Parameter 'index' is an integer, the position of the attribute whose
-        namespace  URI is required.
+        namespace URI is being sought.
 
-        Returns the namespace URI of an attribute in the attribute set (by
-        position).
+        Returns the XML namespace URI of the attribute located at position 'n'
+        in the list of attributes possessed by this XMLToken object.
 
         Note:
 
-        If index is out of range, an empty string will be returned.  Use
-        XMLToken.hasAttr() to test for attribute existence.
+        If 'index' is out of range, this method will return an empty string.
+        XMLToken.hasAttr() can be used to test for an attribute's existence
+        explicitly, and XMLToken.getAttributesLength() can be used to find out
+        the number of attributes possessed by this token.
 
         """
         return _libsbml.XMLToken_getAttrURI(self, *args)
@@ -42989,56 +43556,63 @@ class XMLToken(_object):
 
         getAttrValue(XMLTriple triple)
 
-        Return a value of an attribute with the given XMLTriple.
+        Returns the value of the attribute specified by a given XMLTriple
+        object.
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute
-        whose  value is required.
+        Parameter 'triple' is an XMLTriple describing the attribute whose
+        value is being sought.
 
-        Returns The attribute value as a string.
+        Returns The value of the attribute, as a string.
 
         Note:
 
-        If an attribute with the given XMLTriple does not exist, an empty
-        string will be returned.   Use XMLToken.hasAttr() to test for
-        attribute existence.
+        If an attribute defined by the given 'triple' does not exist on this
+        token object, this method will return an empty string.
+        XMLToken.hasAttr() can be used to test explicitly for the existence of
+        an attribute with the properties of a given triple.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         getAttrValue(int index)
 
-        Return the value of an attribute in the attribute set in this XMLToken
-        (by position).
+        Returns the value of the nth attribute in this token's list of
+        attributes.
 
         Parameter 'index' is an integer, the position of the attribute whose
-        value is  required.
+        value is required.
 
-        Returns the value of an attribute in the attribute set (by position).
+        Returns the value of the attribute located at position 'n' in the list
+        of attributes possessed by this XMLToken object.
 
         Note:
 
-        If index is out of range, an empty string will be returned. Use
-        XMLToken.hasAttr() to test for attribute existence.
+        If 'index' is out of range, this method will return an empty string.
+        XMLToken.hasAttr() can be used to test for an attribute's existence
+        explicitly, and XMLToken.getAttributesLength() can be used to find out
+        the number of attributes possessed by this token.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         getAttrValue(string name, string uri='')
 
-        Return a value of an attribute with the given local name and namespace
+        Returns the value of the attribute with a given name and XML namespace
         URI.
 
-        Parameter 'name' is a string, the local name of the attribute whose
-        value is required. Parameter 'uri' is a string, the namespace URI of
-        the attribute.
+        Parameter 'name' is a string, the name of the attribute whose value is
+        being sought.
 
-        Returns The attribute value as a string.
+        Parameter 'uri' is a string, the XML namespace URI of the attribute.
+
+        Returns The value of the attribute, as a string.
 
         Note:
 
-        If an attribute with the  given local name and namespace URI does not
-        exist, an empty string will be  returned.   Use XMLToken.hasAttr() to
-        test for attribute existence.
+        If an attribute with the given 'name' and 'uri' does not exist on this
+        token object, this method will return an empty string.
+        XMLToken.hasAttr() can be used to test explicitly for the presence of
+        an attribute with a given name and namespace.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -43070,42 +43644,44 @@ class XMLToken(_object):
 
         hasAttr(XMLTriple triple)
 
-        Predicate returning True or False depending on whether an attribute
-        with the given XML triple exists in the attribute set in  this
-        XMLToken
+        Returns True if an attribute defined by a given XMLTriple object
+        exists.
 
-        Parameter 'triple' is an XMLTriple, the XML triple of the attribute
+        Parameter 'triple' is an XMLTriple object describing the attribute
+        being sought.
 
-        Returns True if an attribute with the given XML triple exists in the
-        attribute set in this XMLToken, False otherwise.
+        Returns True if an attribute matching the properties of the given
+        XMLTriple object exists in the list of attributes on this token, False
+        otherwise.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         hasAttr(int index)
 
-        Predicate returning True or False depending on whether an attribute
-        with the given index exists in the attribute set in this  XMLToken.
+        Returns True if an attribute with the given index exists.
 
         Parameter 'index' is an integer, the position of the attribute.
 
-        Returns True if an attribute with the given index exists in the
-        attribute  set in this XMLToken, False otherwise.
+        Returns True if this token object possesses an attribute with the
+        given index, False otherwise.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         hasAttr(string name, string uri='')
 
-        Predicate returning True or False depending on whether an attribute
-        with the given local name and namespace URI exists  in the attribute
-        set in this XMLToken.
+        Returns True if an attribute with a given name and namespace URI
+        exists.
 
-        Parameter 'name' is a string, the local name of the attribute.
-        Parameter 'uri' is a string, the namespace URI of the attribute.
+        Parameter 'name' is a string, the name of the attribute being sought.
+
+        Parameter 'uri' is a string, the XML namespace URI of the attribute
+        being sought.
 
         Returns True if an attribute with the given local name and namespace
-        URI exists in the attribute set in this XMLToken, False otherwise.
+        URI exists in the list of attributes on this token object, False
+        otherwise.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -43126,11 +43702,10 @@ class XMLToken(_object):
         """
         isAttributesEmpty(self) -> bool
 
-        Predicate returning True or False depending on whether  the attribute
-        set in this XMLToken set is empty.
+        Returns True if this token has no attributes.
 
-        Returns True if the attribute set in this XMLToken is empty,  False
-        otherwise.
+        Returns True if the list of attributes on XMLToken object is empty,
+        False otherwise.
 
         """
         return _libsbml.XMLToken_isAttributesEmpty(self)
@@ -43139,7 +43714,7 @@ class XMLToken(_object):
         """
         getNamespaces(self) -> XMLNamespaces
 
-        Returns the XML namespace declarations for this XML element.
+        Returns the XML namespaces declared for this token.
 
         Returns the XML namespace declarations for this XML element.
 
@@ -43150,10 +43725,14 @@ class XMLToken(_object):
         """
         setNamespaces(self, XMLNamespaces namespaces) -> int
 
-        Sets an XMLnamespaces to this XML element. Nothing will be done if
-        this XMLToken is not a start element.
+        Sets the XML namespaces on this XML element.
 
-        Parameter 'namespaces' is XMLNamespaces to be set to this XMLToken.
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
+
+        Parameter 'namespaces' is the XMLNamespaces object to be assigned to
+        this XMLToken object.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -43168,7 +43747,8 @@ class XMLToken(_object):
 
         Note:
 
-        This function replaces the existing XMLNamespaces with the new one.
+        This function replaces any existing XMLNamespaces object on this
+        XMLToken object with the new one given by 'namespaces'.
 
         """
         return _libsbml.XMLToken_setNamespaces(self, *args)
@@ -43178,14 +43758,20 @@ class XMLToken(_object):
         addNamespace(self, string uri, string prefix = "") -> int
         addNamespace(self, string uri) -> int
 
-        Appends an XML namespace prefix and URI pair to this XMLToken. If
-        there is an XML namespace with the given prefix in this XMLToken,
-        then the existing XML namespace will be overwritten by the new one.
+        Appends an XML namespace declaration to this token.
 
-        Nothing will be done if this XMLToken is not a start element.
+        The namespace added will be defined by the given XML namespace URI and
+        an optional prefix.  If this XMLToken object already possesses an XML
+        namespace declaration with the given 'prefix', then the existing XML
+        namespace URI will be overwritten by the new one given by 'uri'.
 
-        Parameter 'uri' is a string, the uri for the namespace Parameter
-        'prefix' is a string, the prefix for the namespace
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
+
+        Parameter 'uri' is a string, the XML namespace URI for the namespace.
+
+        Parameter 'prefix' is a string, the namespace prefix to use.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -43222,30 +43808,17 @@ class XMLToken(_object):
 
         removeNamespace(int index)
 
-        Removes an XML Namespace stored in the given position of the
-        XMLNamespaces of this XMLToken. Nothing will be done if this XMLToken
-        is not a start element.
+        Removes the nth XML namespace declaration.
 
-        Parameter 'index' is an integer, position of the removed namespace.
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
 
-        Returns integer value indicating success/failure of the function.
-        The possible values returned by this function are:
-
-        * LIBSBML_OPERATION_SUCCESS
-
-        * LIBSBML_INVALID_XML_OPERATION
-
-        * LIBSBML_INDEX_EXCEEDS_SIZE
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        removeNamespace(string prefix)
-
-        Removes an XML Namespace with the given prefix. Nothing will be done
-        if this XMLToken is not a start element.
-
-        Parameter 'prefix' is a string, prefix of the required namespace.
+        Parameter 'index' is an integer, the position of the namespace to be
+        removed. The position in this context refers to the position of the
+        namespace in the XMLNamespaces object stored in this XMLToken object.
+        Callers can use one of the getNamespace___() methods to find the index
+        number of a given namespace.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -43255,6 +43828,9 @@ class XMLToken(_object):
         * LIBSBML_INVALID_XML_OPERATION
 
         * LIBSBML_INDEX_EXCEEDS_SIZE
+
+        See also getNamespaceIndex(), getNamespaceIndexByPrefix(),
+        getNamespacesLength(), getNamespaceIndexByPrefix().
 
         """
         return _libsbml.XMLToken_removeNamespace(self, *args)
@@ -43263,9 +43839,11 @@ class XMLToken(_object):
         """
         clearNamespaces(self) -> int
 
-        Clears (deletes) all XML namespace declarations in the XMLNamespaces
-        of this XMLToken. Nothing will be done if this XMLToken is not a start
-        element.
+        Removes all XML namespace declarations from this token.
+
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -43274,6 +43852,8 @@ class XMLToken(_object):
 
         * LIBSBML_INVALID_XML_OPERATION
 
+        * LIBSBML_OPERATION_FAILED
+
         """
         return _libsbml.XMLToken_clearNamespaces(self)
 
@@ -43281,11 +43861,13 @@ class XMLToken(_object):
         """
         getNamespaceIndex(self, string uri) -> int
 
-        Look up the index of an XML namespace declaration by URI.
+        Returns the index of an XML namespace declaration based on its URI.
 
-        Parameter 'uri' is a string, uri of the required namespace.
+        Parameter 'uri' is a string, the XML namespace URI of the sought-after
+        namespace.
 
-        Returns the index of the given declaration, or -1 if not present.
+        Returns the index of the given declaration, or -1 if no such namespace
+        URI is present on this XMLToken object.
 
         """
         return _libsbml.XMLToken_getNamespaceIndex(self, *args)
@@ -43294,11 +43876,13 @@ class XMLToken(_object):
         """
         getNamespaceIndexByPrefix(self, string prefix) -> int
 
-        Look up the index of an XML namespace declaration by prefix.
+        Returns the index of an XML namespace declaration based on its prefix.
 
-        Parameter 'prefix' is a string, prefix of the required namespace.
+        Parameter 'prefix' is a string, the prefix of the sought-after XML
+        namespace.
 
-        Returns the index of the given declaration, or -1 if not present.
+        Returns the index of the given declaration, or -1 if no such namespace
+        URI is present on this XMLToken object.
 
         """
         return _libsbml.XMLToken_getNamespaceIndexByPrefix(self, *args)
@@ -43307,10 +43891,10 @@ class XMLToken(_object):
         """
         getNamespacesLength(self) -> int
 
-        Returns the number of XML namespaces stored in the XMLNamespaces  of
-        this XMLToken.
+        Returns the number of XML namespaces declared on this token.
 
-        Returns the number of namespaces in this list.
+        Returns the number of XML namespaces stored in the XMLNamespaces
+        object of this XMLToken object.
 
         """
         return _libsbml.XMLToken_getNamespacesLength(self)
@@ -43328,19 +43912,18 @@ class XMLToken(_object):
 
         getNamespacePrefix(int index)
 
-        Look up the prefix of an XML namespace declaration by position.
-
-        Callers should use getNamespacesLength() to find out how many
-        namespaces are stored in the XMLNamespaces.
+        Returns the prefix of the nth XML namespace declaration.
 
         Parameter 'index' is an integer, position of the required prefix.
 
         Returns the prefix of an XML namespace declaration in the
-        XMLNamespaces  (by position).
+        XMLNamespaces (by position).
 
         Note:
 
-        If index is out of range, an empty string will be returned.
+        If 'index' is out of range, this method will return an empty string.
+        XMLToken.getNamespacesLength() can be used to find out how many
+        namespaces are defined on this XMLToken object.
 
         See also getNamespacesLength().
 
@@ -43349,15 +43932,19 @@ class XMLToken(_object):
 
         getNamespacePrefix(string uri)
 
-        Look up the prefix of an XML namespace declaration by its URI.
+        Returns the prefix associated with a given XML namespace URI on this
+        token.
 
-        Parameter 'uri' is a string, the URI of the prefix being sought
+        Parameter 'uri' is a string, the URI of the namespace whose prefix is
+        being sought.
 
-        Returns the prefix of an XML namespace declaration given its URI.
+        Returns the prefix of an XML namespace declaration on this XMLToken
+        object.
 
         Note:
 
-        If 'uri' does not exist, an empty string will be returned.
+        If there is no XML namespace with the given 'uri' declared on this
+        XMLToken object, this method will return an empty string.
 
         """
         return _libsbml.XMLToken_getNamespacePrefix(self, *args)
@@ -43376,16 +43963,17 @@ class XMLToken(_object):
 
         getNamespaceURI(int index)
 
-        Look up the URI of an XML namespace declaration by its position.
+        Returns the URI of the nth XML namespace declared on this token.
 
-        Parameter 'index' is an integer, position of the required URI.
+        Parameter 'index' is an integer, the position of the sought-after XML
+        namespace URI.
 
-        Returns the URI of an XML namespace declaration in the XMLNamespaces
-        (by position).
+        Returns the URI of the nth XML namespace stored in the XMLNamespaces
+        object in this XMLToken object.
 
         Note:
 
-        If 'index' is out of range, an empty string will be returned.
+        If 'index' is out of range, this method will return an empty string.
 
         See also getNamespacesLength().
 
@@ -43394,15 +43982,18 @@ class XMLToken(_object):
 
         getNamespaceURI(string prefix = '')
 
-        Look up the URI of an XML namespace declaration by its prefix.
+        Returns the URI of an XML namespace with a given prefix.
 
-        Parameter 'prefix' is a string, the prefix of the required URI
+        Parameter 'prefix' is a string, the prefix of the sought-after XML
+        namespace URI.
 
         Returns the URI of an XML namespace declaration given its prefix.
 
         Note:
 
-        If 'prefix' does not exist, an empty string will be returned.
+        If there is no XML namespace with the given 'prefix' stored in the
+        XMLNamespaces object of this XMLToken object, this method will return
+        an empty string.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -43423,11 +44014,10 @@ class XMLToken(_object):
         """
         isNamespacesEmpty(self) -> bool
 
-        Predicate returning True or False depending on whether  the
-        XMLNamespaces of this XMLToken is empty.
+        Returns True if there are no namespaces declared on this token.
 
-        Returns True if the XMLNamespaces of this XMLToken is empty,  False
-        otherwise.
+        Returns True if the XMLNamespaces object stored in this XMLToken token
+        is empty, False otherwise.
 
         """
         return _libsbml.XMLToken_isNamespacesEmpty(self)
@@ -43436,14 +44026,12 @@ class XMLToken(_object):
         """
         hasNamespaceURI(self, string uri) -> bool
 
-        Predicate returning True or False depending on whether  an XML
-        Namespace with the given URI is contained in the XMLNamespaces of this
-        XMLToken.
+        Returns True if this token has an XML namespace with a given URI.
 
-        Parameter 'uri' is a string, the uri for the namespace
+        Parameter 'uri' is a string, the URI of the XML namespace.
 
-        Returns True if an XML Namespace with the given URI is contained in
-        the XMLNamespaces of this XMLToken,  False otherwise.
+        Returns True if an XML namespace with the given URI is contained in
+        the XMLNamespaces object of this XMLToken object, False otherwise.
 
         """
         return _libsbml.XMLToken_hasNamespaceURI(self, *args)
@@ -43452,11 +44040,9 @@ class XMLToken(_object):
         """
         hasNamespacePrefix(self, string prefix) -> bool
 
-        Predicate returning True or False depending on whether  an XML
-        Namespace with the given prefix is contained in the XMLNamespaces of
-        this XMLToken.
+        Returns True if this token has an XML namespace with a given prefix.
 
-        Parameter 'prefix' is a string, the prefix for the namespace
+        Parameter 'prefix' is a string, the prefix for the XML namespace.
 
         Returns True if an XML Namespace with the given URI is contained in
         the XMLNamespaces of this XMLToken, False otherwise.
@@ -43468,15 +44054,15 @@ class XMLToken(_object):
         """
         hasNamespaceNS(self, string uri, string prefix) -> bool
 
-        Predicate returning True or False depending on whether  an XML
-        Namespace with the given uri/prefix pair is contained in the
-        XMLNamespaces ofthis XMLToken.
+        Returns True if this token has an XML namespace with a given prefix
+        and URI combination.
 
-        Parameter 'uri' is a string, the uri for the namespace Parameter
-        'prefix' is a string, the prefix for the namespace
+        Parameter 'uri' is a string, the URI for the namespace. Parameter
+        'prefix' is a string, the prefix for the namespace.
 
-        Returns True if an XML Namespace with the given uri/prefix pair is
-        contained in the XMLNamespaces of this XMLToken,  False otherwise.
+        Returns True if an XML namespace with the given URI/prefix pair is
+        contained in the XMLNamespaces object of this XMLToken object, False
+        otherwise.
 
         """
         return _libsbml.XMLToken_hasNamespaceNS(self, *args)
@@ -43485,10 +44071,15 @@ class XMLToken(_object):
         """
         setTriple(self, XMLTriple triple) -> int
 
-        Sets the XMLTripe (name, uri and prefix) of this XML element. Nothing
-        will be done if this XML element is a text node.
+        Sets the name, namespace prefix and namespace URI of this token.
 
-        Parameter 'triple' is XMLTriple to be added to this XML element.
+        This operation only makes sense for XML start elements.  This method
+        will return LIBSBML_INVALID_XML_OPERATION if this XMLToken object is
+        not an XML start element.
+
+        Parameter 'triple' is the new XMLTriple to use for this XMLToken
+        object.  If this XMLToken already had an XMLTriple object stored
+        within it, that object will be replaced.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -43508,9 +44099,9 @@ class XMLToken(_object):
         """
         getName(self) -> string
 
-        Returns the (unqualified) name of this XML element.
+        Returns the (unqualified) name of token.
 
-        Returns the (unqualified) name of this XML element.
+        Returns the (unqualified) name of token.
 
         """
         return _libsbml.XMLToken_getName(self)
@@ -43519,13 +44110,14 @@ class XMLToken(_object):
         """
         getPrefix(self) -> string
 
-        Returns the namespace prefix of this XML element.
+        Returns the XML namespace prefix of token.
 
-        Returns the namespace prefix of this XML element.
+        Returns the XML namespace prefix of token.
 
         Note:
 
-        If no prefix exists, an empty string will be return.
+        If no XML namespace prefix has been assigned to this token, this
+        method will return an empty string.
 
         """
         return _libsbml.XMLToken_getPrefix(self)
@@ -43534,9 +44126,9 @@ class XMLToken(_object):
         """
         getURI(self) -> string
 
-        Returns the namespace URI of this XML element.
+        Returns the XML namespace URI of token.
 
-        Returns the namespace URI of this XML element.
+        Returns the XML namespace URI of token.
 
         """
         return _libsbml.XMLToken_getURI(self)
@@ -43545,9 +44137,13 @@ class XMLToken(_object):
         """
         getCharacters(self) -> string
 
-        Returns the text of this element.
+        Returns the character text of token.
 
-        Returns the characters of this XML text.
+        Returns the characters of this XML token.  If this token is not a text
+        token (i.e., it's an XML element and not character content), then this
+        will return an empty string.
+
+        See also isText(), isElement().
 
         """
         return _libsbml.XMLToken_getCharacters(self)
@@ -43556,9 +44152,14 @@ class XMLToken(_object):
         """
         append(self, string chars) -> int
 
-        Appends characters to this XML text content.
+        Appends characters to the text content of token.
 
-        Parameter 'chars' is string, characters to append
+        This method only makes sense for XMLToken objects that contains text.
+        If this method is called on a token that represents an XML start or
+        end tag, it will return the code LIBSBML_OPERATION_FAILED.
+
+        Parameter 'chars' is string, characters to append to the text of this
+        token.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -43567,6 +44168,8 @@ class XMLToken(_object):
 
         * LIBSBML_OPERATION_FAILED
 
+        See also isText(), isElement().
+
         """
         return _libsbml.XMLToken_append(self, *args)
 
@@ -43574,8 +44177,7 @@ class XMLToken(_object):
         """
         getColumn(self) -> unsigned int
 
-        Returns the column at which this XMLToken occurred in the input
-        document or data stream.
+        Returns the column number at which this token occurs in the input.
 
         Returns the column at which this XMLToken occurred.
 
@@ -43586,8 +44188,7 @@ class XMLToken(_object):
         """
         getLine(self) -> unsigned int
 
-        Returns the line at which this XMLToken occurred in the input document
-        or data stream.
+        Returns the line number at which this token occurs in the input.
 
         Returns the line at which this XMLToken occurred.
 
@@ -43598,10 +44199,17 @@ class XMLToken(_object):
         """
         isElement(self) -> bool
 
-        Predicate returning True or False depending on whether  this XMLToken
-        is an XML element.
+        Returns True if this token represents an XML element.
 
-        Returns True if this XMLToken is an XML element, False otherwise.
+        This generic predicate returns True if the element is either a start
+        or end tag, and False if it's a text object.  The related methods
+        XMLToken:isStart(), XMLToken.isEnd() and XMLToken.isText() are more
+        specific predicates.
+
+        Returns True if this XMLToken object represents an XML element, False
+        otherwise.
+
+        See also isStart(), isEnd(), isText().
 
         """
         return _libsbml.XMLToken_isElement(self)
@@ -43610,10 +44218,12 @@ class XMLToken(_object):
         """
         isEnd(self) -> bool
 
-        Predicate returning True or False depending on whether  this XMLToken
-        is an XML end element.
+        Returns True if this token represents an XML end element.
 
-        Returns True if this XMLToken is an XML end element, False otherwise.
+        Returns True if this XMLToken object represents an XML end element,
+        False otherwise.
+
+        See also isStart(), isElement(), isText().
 
         """
         return _libsbml.XMLToken_isEnd(self)
@@ -43622,13 +44232,17 @@ class XMLToken(_object):
         """
         isEndFor(self, XMLToken element) -> bool
 
-        Predicate returning True or False depending on whether  this XMLToken
-        is an XML end element for the given start element.
+        Returns True if this token represents an XML end element for a
+        particular start element.
 
-        Parameter 'element' is XMLToken, element for which query is made.
+        Parameter 'element' is XMLToken, the element with which the current
+        object should be compared to determined whether the current object is
+        a start element for the given one.
 
-        Returns True if this XMLToken is an XML end element for the given
-        XMLToken start element, False otherwise.
+        Returns True if this XMLToken object represents an XML end tag for the
+        start tag given by 'element', False otherwise.
+
+        See also isElement(), isStart(), isEnd(), isText().
 
         """
         return _libsbml.XMLToken_isEndFor(self, *args)
@@ -43637,11 +44251,12 @@ class XMLToken(_object):
         """
         isEOF(self) -> bool
 
-        Predicate returning True or False depending on whether  this XMLToken
-        is an end of file marker.
+        Returns True if this token is an end of file marker.
 
-        Returns True if this XMLToken is an end of file (input) marker, False
-        otherwise.
+        Returns True if this XMLToken object represents the end of the input,
+        False otherwise.
+
+        See also setEOF().
 
         """
         return _libsbml.XMLToken_isEOF(self)
@@ -43650,11 +44265,12 @@ class XMLToken(_object):
         """
         isStart(self) -> bool
 
-        Predicate returning True or False depending on whether  this XMLToken
-        is an XML start element.
+        Returns True if this token represents an XML start element.
 
         Returns True if this XMLToken is an XML start element, False
         otherwise.
+
+        See also isElement(), isEnd(), isText().
 
         """
         return _libsbml.XMLToken_isStart(self)
@@ -43663,10 +44279,11 @@ class XMLToken(_object):
         """
         isText(self) -> bool
 
-        Predicate returning True or False depending on whether  this XMLToken
-        is an XML text element.
+        Returns True if this token represents an XML text element.
 
         Returns True if this XMLToken is an XML text element, False otherwise.
+
+        See also isElement(), isStart(), isEnd().
 
         """
         return _libsbml.XMLToken_isText(self)
@@ -43675,7 +44292,7 @@ class XMLToken(_object):
         """
         setEnd(self) -> int
 
-        Declares this XML start element is also an end element.
+        Declares that this token represents an XML element end tag.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -43683,6 +44300,8 @@ class XMLToken(_object):
         * LIBSBML_OPERATION_SUCCESS
 
         * LIBSBML_OPERATION_FAILED
+
+        See also isStart(), isEnd().
 
         """
         return _libsbml.XMLToken_setEnd(self)
@@ -43691,7 +44310,7 @@ class XMLToken(_object):
         """
         setEOF(self) -> int
 
-        Declares this XMLToken is an end-of-file (input) marker.
+        Declares that this token is an end-of-file/input marker.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -43700,6 +44319,8 @@ class XMLToken(_object):
 
         * LIBSBML_OPERATION_FAILED
 
+        See also isEOF().
+
         """
         return _libsbml.XMLToken_setEOF(self)
 
@@ -43707,7 +44328,8 @@ class XMLToken(_object):
         """
         unsetEnd(self) -> int
 
-        Declares this XML start/end element is no longer an end element.
+        Declares that this token no longer represents an XML start/end
+        element.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -43723,8 +44345,11 @@ class XMLToken(_object):
         """
         toString(self) -> string
 
-        Prints a string representation of the underlying token stream, for
-        debugging purposes.
+        Prints a string representation of the underlying token stream.
+
+        This method is intended for debugging purposes.
+
+        Returns a text string representing this XMLToken object.
 
         """
         return _libsbml.XMLToken_toString(self)
@@ -43838,7 +44463,7 @@ class XMLNode(XMLToken):
 
         XMLNode(XMLToken token)
 
-        Creates a new XMLNode by copying token.
+        Creates a new XMLNode by copying an XMLToken object.
 
         Parameter 'token' is XMLToken to be copied to XMLNode
 
@@ -43846,8 +44471,7 @@ class XMLNode(XMLToken):
         Method variant with the following signature:
 
         XMLNode(  XMLTriple     triple , XMLAttributes attributes ,
-        XMLNamespaces namespaces , const long   line   = 0 , const long
-        column = 0 )
+        XMLNamespaces namespaces ,  long   line   = 0 ,  long   column = 0 )
 
         Creates a new start element XMLNode with the given set of attributes
         and namespace declarations.
@@ -43892,7 +44516,7 @@ class XMLNode(XMLToken):
         Method variant with the following signature:
 
         XMLNode(  XMLTriple      triple , XMLAttributes  attributes ,
-        const long    line   = 0 , const long    column = 0 )
+        long    line   = 0 ,  long    column = 0 )
 
         Creates a start element XMLNode with the given set of attributes.
 
@@ -43916,8 +44540,8 @@ class XMLNode(XMLToken):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        XMLNode(  XMLTriple    triple , const long  line   = 0 , const
-        long  column = 0 )
+        XMLNode(  XMLTriple    triple ,  long  line   = 0 ,  long  column
+        = 0 )
 
         Creates an end element XMLNode.
 
@@ -43940,8 +44564,7 @@ class XMLNode(XMLToken):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        XMLNode(  string  chars , const long  line   = 0 , const long
-        column = 0 )
+        XMLNode(  string  chars ,  long  line   = 0 ,  long  column = 0 )
 
         Creates a text XMLNode.
 
@@ -43990,6 +44613,8 @@ class XMLNode(XMLToken):
         The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
 
         * LIBSBML_INVALID_XML_OPERATION
 
@@ -44300,26 +44925,32 @@ class XMLTriple(_object):
 
     A 'triple' in the libSBML XML layer encapsulates the notion of
     qualified name, meaning an element name or an attribute name with an
-    optional namespace qualifier.  An XMLTriple instance carries up to
-    three data items:
+    optional namespace qualifier.  Triples by themselves are not entities
+    in an XML stream -- they are not, for example, elements or attributes;
+    rather, XMLTriple is used in libSBML to construct these other kinds of
+    objects.
 
-    * The name of the attribute or element; that is, the attribute
-    name as it appears in an XML document or data stream;
+    An XMLTriple instance carries up to three data items: <ol>
 
-    * The XML namespace prefix (if any) of the attribute.  For example, in
-    the following fragment of XML, the namespace prefix is the string
+    * The name of the attribute or element; that is, the attribute name
+    as it appears in an XML document or data stream;
+
+    * The XML namespace prefix (if any) of the attribute.  For example,
+    in the following fragment of XML, the namespace prefix is the string
     mysim and it appears on both the element someelement and the attribute
     attribA.  When both the element and the attribute are stored as
     XMLTriple objects, their prefix is mysim.
 
       <mysim:someelement mysim:attribA='value' />
 
-    * The XML namespace URI with which the prefix is associated.  In
-    XML, every namespace used must be declared and mapped to a URI.
+    * The XML namespace URI with which the prefix is associated.  In XML,
+    every namespace used must be declared and mapped to a URI. </ol>
 
     XMLTriple objects are the lowest-level data item in the XML layer of
     libSBML.  Other objects such as XMLToken make use of XMLTriple
     objects.
+
+    See also XMLToken, XMLNode, XMLAttributes, XMLNamespaces.
 
     """
     __swig_setmethods__ = {}
@@ -44343,33 +44974,38 @@ class XMLTriple(_object):
 
         XMLTriple(  string  name , string  uri , string  prefix )
 
-        Creates a new XMLTriple with the given 'name', 'uri' and and 'prefix'.
+        Creates a new XMLTriple object with a given 'name', 'uri' and and
+        'prefix'.
 
-        Parameter 'name' is a string, name for the XMLTriple. Parameter 'uri'
-        is a string, URI of the XMLTriple. Parameter 'prefix' is a string,
-        prefix for the URI of the XMLTriple,
+        Parameter 'name' is a string, the name for the entity represented by
+        this object. Parameter 'uri' is a string, the XML namespace URI
+        associated with the prefix. Parameter 'prefix' is a string, the XML
+        namespace prefix for this triple.
 
-        Throws XMLConstructorException: Thrown if the argument 'orig' is None.
+        Throws XMLConstructorException: Thrown if any of the arguments are
+        None.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
-        XMLTriple(string triplet, const char sepchar = ' ')
+        XMLTriple(string triplet,  char sepchar = ' ')
 
-        Creates a new XMLTriple by splitting the given 'triplet' on the
-        separator character 'sepchar'.
+        Creates an XMLTriple object by splitting a given string at a given
+        separator character.
 
-        Triplet may be in one of the following formats:
+        The 'triplet' in this case is a string that may be in one of the
+        following three possible formats: <ol>
 
-        * name
+        * name * URIxname* URIxnamexprefix</ol>
 
-        * URI sepchar name
+        where x represents the separator character, 'sepchar'.
 
-        * URI sepchar name sepchar prefix Parameter 'triplet' is a string
-        representing the triplet as above Parameter 'sepchar' is a character,
-        the sepchar used in the triplet
+        Parameter 'triplet' is a string representing the triplet as shown
+        above Parameter 'sepchar' is a character, the sepchar used in the
+        triplet
 
-        Throws XMLConstructorException: Thrown if the argument 'orig' is None.
+        Throws XMLConstructorException: Thrown if the argument 'triplet' is
+        None.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -44388,14 +45024,14 @@ class XMLTriple(_object):
 
         XMLTriple()
 
-        Creates a new, empty XMLTriple.
+        Creates a new, empty XMLTriple object.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         XMLTriple(XMLTriple orig)
 
-        Copy constructor; creates a copy of this XMLTriple set.
+        Copy constructor; creates a copy of this XMLTriple object.
 
         Parameter 'orig' is the XMLTriple object to copy.
 
@@ -44420,9 +45056,9 @@ class XMLTriple(_object):
         """
         getName(self) -> string
 
-        Returns the name portion of this XMLTriple.
+        Returns the name portion of this XMLTriple object.
 
-        Returns a string, the name from this XMLTriple.
+        Returns a string, the name portion of this XMLTriple object.
 
         """
         return _libsbml.XMLTriple_getName(self)
@@ -44431,9 +45067,9 @@ class XMLTriple(_object):
         """
         getPrefix(self) -> string
 
-        Returns the prefix portion of this XMLTriple.
+        Returns the prefix portion of this XMLTriple object.
 
-        Returns a string, the prefix portion of this XMLTriple.
+        Returns a string, the prefix portion of this XMLTriple object.
 
         """
         return _libsbml.XMLTriple_getPrefix(self)
@@ -44442,9 +45078,9 @@ class XMLTriple(_object):
         """
         getURI(self) -> string
 
-        Returns the URI portion of this XMLTriple.
+        Returns the URI portion of this XMLTriple object.
 
-        Returns URI a string, the prefix portion of this XMLTriple.
+        Returns URI a string, the URI portion of this XMLTriple object.
 
         """
         return _libsbml.XMLTriple_getURI(self)
@@ -44455,7 +45091,10 @@ class XMLTriple(_object):
 
         Returns the prefixed name from this XMLTriple.
 
-        Returns a string, the prefixed name from this XMLTriple.
+        Returns a string, the prefixed name from this XMLTriple.  This is
+        constructed by concatenating the prefix stored in this XMLTriple
+        object, followed by a colon character ':', followed by the name stored
+        in this XMLTriple object.
 
         """
         return _libsbml.XMLTriple_getPrefixedName(self)
@@ -44464,8 +45103,7 @@ class XMLTriple(_object):
         """
         isEmpty(self) -> bool
 
-        Predicate returning True or False depending on whether  this XMLTriple
-        is empty.
+        Returns True if this XMLTriple object is empty.
 
         Returns True if this XMLTriple is empty, False otherwise.
 
@@ -44793,7 +45431,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, string prefix, const double& value)
+        writeAttribute(string name, string prefix,  double& value)
 
         Writes the given namespace-prefixed attribute value to this output
         stream.
@@ -44825,7 +45463,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(XMLTriple triple, const bool& value)
+        writeAttribute(XMLTriple triple,  bool& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -44836,7 +45474,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, const double& value)
+        writeAttribute(string name,  double& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -44847,7 +45485,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(XMLTriple triple, const long& value)
+        writeAttribute(XMLTriple triple,  long& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -44858,7 +45496,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(XMLTriple triple, const double& value)
+        writeAttribute(XMLTriple triple,  double& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -44869,7 +45507,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, const long& value)
+        writeAttribute(string name,  long& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -44902,7 +45540,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, string prefix, const long& value)
+        writeAttribute(string name, string prefix,  long& value)
 
         Writes the given namespace-prefixed attribute value to this output
         stream.
@@ -44918,7 +45556,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, string prefix, const long& value)
+        writeAttribute(string name, string prefix,  long& value)
 
         Writes the given namespace-prefixed attribute value to this output
         stream.
@@ -44934,7 +45572,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, string prefix, const int& value)
+        writeAttribute(string name, string prefix,  int& value)
 
         Writes the given namespace-prefixed attribute value to this output
         stream.
@@ -44950,7 +45588,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(XMLTriple triple, const long& value)
+        writeAttribute(XMLTriple triple,  long& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -44961,7 +45599,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, const int& value)
+        writeAttribute(string name,  int& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -44972,7 +45610,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(XMLTriple triple, const int& value)
+        writeAttribute(XMLTriple triple,  int& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -44983,7 +45621,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, const bool& value)
+        writeAttribute(string name,  bool& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -45005,7 +45643,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, const long& value)
+        writeAttribute(string name,  long& value)
 
         Writes the given attribute and value to this output stream.
 
@@ -45032,7 +45670,7 @@ class XMLOutputStream(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        writeAttribute(string name, string &prefix, const bool& value)
+        writeAttribute(string name, string &prefix,  bool& value)
 
         Writes the given namespace-prefixed attribute value to this output
         stream.
@@ -45172,6 +45810,63 @@ class XMLOutputStream(_object):
 
 XMLOutputStream_swigregister = _libsbml.XMLOutputStream_swigregister
 XMLOutputStream_swigregister(XMLOutputStream)
+
+class XMLOwningOutputStringStream(_object):
+    """Proxy of C++ XMLOwningOutputStringStream class"""
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, XMLOwningOutputStringStream, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, XMLOwningOutputStringStream, name)
+    __repr__ = _swig_repr
+    def __init__(self, encoding = "UTF-8", writeXMLDecl = True, programName = "", 
+    programVersion = ""): 
+        """
+        __init__(self, string encoding = "UTF-8", bool writeXMLDecl = True, 
+            string programName = "", string programVersion = "") -> XMLOwningOutputStringStream
+        __init__(self, string encoding = "UTF-8", bool writeXMLDecl = True, 
+            string programName = "") -> XMLOwningOutputStringStream
+        __init__(self, string encoding = "UTF-8", bool writeXMLDecl = True) -> XMLOwningOutputStringStream
+        __init__(self, string encoding = "UTF-8") -> XMLOwningOutputStringStream
+        __init__(self) -> XMLOwningOutputStringStream
+
+        Internal implementation method.
+
+        """
+        this = _libsbml.new_XMLOwningOutputStringStream(encoding, writeXMLDecl, programName, programVersion)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _libsbml.delete_XMLOwningOutputStringStream
+    __del__ = lambda self : None;
+XMLOwningOutputStringStream_swigregister = _libsbml.XMLOwningOutputStringStream_swigregister
+XMLOwningOutputStringStream_swigregister(XMLOwningOutputStringStream)
+
+class XMLOwningOutputFileStream(_object):
+    """Proxy of C++ XMLOwningOutputFileStream class"""
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, XMLOwningOutputFileStream, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, XMLOwningOutputFileStream, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        """
+        __init__(self, string filename, string encoding = "UTF-8", bool writeXMLDecl = True, 
+            string programName = "", string programVersion = "") -> XMLOwningOutputFileStream
+        __init__(self, string filename, string encoding = "UTF-8", bool writeXMLDecl = True, 
+            string programName = "") -> XMLOwningOutputFileStream
+        __init__(self, string filename, string encoding = "UTF-8", bool writeXMLDecl = True) -> XMLOwningOutputFileStream
+        __init__(self, string filename, string encoding = "UTF-8") -> XMLOwningOutputFileStream
+        __init__(self, string filename) -> XMLOwningOutputFileStream
+
+        Internal implementation method.
+
+        """
+        this = _libsbml.new_XMLOwningOutputFileStream(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _libsbml.delete_XMLOwningOutputFileStream
+    __del__ = lambda self : None;
+XMLOwningOutputFileStream_swigregister = _libsbml.XMLOwningOutputFileStream_swigregister
+XMLOwningOutputFileStream_swigregister(XMLOwningOutputFileStream)
 
 class XMLInputStream(_object):
     """
@@ -45406,8 +46101,8 @@ class XMLInputStream(_object):
 
         Sets the XMLErrorLog this stream will use to log errors.
 
-        Returns integer value indicating success/failure of the operation.
-        The possible values returned by this method are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -45773,10 +46468,9 @@ class XMLError(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        XMLError( const int errorId           = 0 , string details  = '' ,
-        const long line     = 0 , const long column   = 0 , const long
-        severity = LIBSBML_SEV_FATAL , const long category =
-        LIBSBML_CAT_INTERNAL )
+        XMLError(  int errorId           = 0 , string details  = '' ,
+        long line     = 0 ,  long column   = 0 ,  long severity =
+        LIBSBML_SEV_FATAL ,  long category = LIBSBML_CAT_INTERNAL )
 
         Creates a new XMLError to report that something occurred during XML
         processing.
@@ -46351,7 +47045,7 @@ class XMLErrorLog(_object):
     A typical approach for using this error log is to first use
     getNumErrors() to inquire how many XMLError object instances it
     contains, and then to iterate over the list of objects one at a time
-    using getError(long n) const.  Indexing in the list begins at 0.
+    using getError(long n) .  Indexing in the list begins at 0.
 
     In normal circumstances, programs using libSBML will actually obtain
     an SBMLErrorLog rather than an XMLErrorLog.  The former is subclassed
@@ -46451,6 +47145,39 @@ class XMLErrorLog(_object):
         """
         printErrors(self, ostream stream = cerr)
         printErrors(self)
+        printErrors(self, ostream stream, unsigned int severity)
+
+        This method has multiple variants; they differ in the arguments  they
+        accept.  Each variant is described separately below.
+
+        ______________________________________________________________________
+        Method variant with the following signature:
+
+        printErrors(std::ostream stream, long severity)
+
+        Prints the errors or warnings with given severity stored in this error
+        log.
+
+        This method prints the text to the stream given by the optional
+        parameter 'stream'.  If no stream is given, the method prints the
+        output to the standard error stream.
+
+        The format of the output is:
+
+             N error(s):
+               line NNN: (id) message
+
+        If no errors with that severity was found, then no output will be
+        produced.
+
+        Parameter 'stream' is the ostream or ostringstream object indicating
+        where the output should be printed. Parameter 'severity' is the
+        severity of the errors sought.
+
+        ______________________________________________________________________
+        Method variant with the following signature:
+
+        printErrors(std::ostream stream = std::cerr)
 
         Prints all the errors or warnings stored in this error log.
 
@@ -46537,7 +47264,9 @@ class XMLErrorLog(_object):
         and even to disable error logging completely.  An override stays in
         effect until the override is changed again by the calling application.
 
-        Returns a severity override code.  The possible values are :
+        Returns a severity override code.  The possible values are drawn from
+        the set of integer constants whose names begin with the prefix
+        LIBSBML_OVERRIDE_:
 
         * LIBSBML_OVERRIDE_DISABLED
 
@@ -46672,10 +47401,11 @@ class SBMLErrorLog(XMLErrorLog):
     as SBMLDocument.  Callers should then use getNumErrors()  to inquire
     how many objects there are in the list.  (The answer may be 0.)  If
     there is at least one SBMLError object in the SBMLErrorLog instance,
-    callers can then iterate over the list using SBMLErrorLog.getError(),
-    using methods provided by the SBMLError class to find out the error
-    code and associated information such as the error severity, the
-    message, and the line number in the input.
+    callers can then iterate over the list using
+    SBMLErrorLog.getError()@if clike @endif, using methods provided by the
+    SBMLError class to find out the error code and associated information
+    such as the error severity, the message, and the line number in the
+    input.
 
     If you wish to simply print the error strings for a human to read, an
     easier and more direct way might be to use SBMLDocument.printErrors().
@@ -46711,6 +47441,29 @@ class SBMLErrorLog(XMLErrorLog):
 
         """
         return _libsbml.SBMLErrorLog_getError(self, *args)
+
+    def getErrorWithSeverity(self, *args):
+        """
+        getErrorWithSeverity(self, unsigned int n, unsigned int severity) -> SBMLError
+
+        Returns the nth SBMLError object with given severity in this log.
+
+        Index 'n' is counted from 0.  Callers should first inquire about the
+        number of items in the log by using the getNumFailsWithSeverity()
+        method. Attempts to use an error index number that exceeds the actual
+        number of errors in the log will result in a None being returned.
+
+        Parameter 'n' is the index number of the error to retrieve (with 0
+        being the first error). Parameter 'severity' is the severity of the
+        error to retrieve
+
+        Returns the nth SBMLError in this log, or None if 'n' is greater than
+        or equal to getNumFailsWithSeverity().
+
+        See also getNumFailsWithSeverity().
+
+        """
+        return _libsbml.SBMLErrorLog_getErrorWithSeverity(self, *args)
 
     def getNumFailsWithSeverity(self, *args):
         """
@@ -47349,7 +48102,7 @@ class SBMLError(XMLError):
 
     In addition, SBMLError also has a severity code.  Its value may be
     retrieved using the method SBMLError.getSeverity().  The possible
-    severity values are the same as those reported by XMLError.  Severity
+    severity values are the same as those reported by XMLError. Severity
     levels currently range from informational (LIBSBML_SEV_INFO) to fatal
     errors (LIBSBML_SEV_FATAL). They can be used by an application to
     evaluate how serious a given problem is.
@@ -48287,7 +49040,7 @@ class SBMLError(XMLError):
     with SBMLError objects
     ......................................................................
 
-    In libSBML version 5.10.3 there are no additional severity codes
+    In libSBML version 5.11.0 there are no additional severity codes
     beyond those defined by XMLError. They are implemented as static
     integer constants defined in the interface class libsbml, and have
     names beginning with LIBSBML_SEV_.
@@ -48354,12 +49107,11 @@ class SBMLError(XMLError):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        SBMLError( const long errorId  = 0 , const long level    =
-        SBML_DEFAULT_LEVEL , const long version  = SBML_DEFAULT_VERSION ,
-        string details  = '' , const long line     = 0 , const long column   =
-        0 , const long severity = LIBSBML_SEV_ERROR , const long category =
-        LIBSBML_CAT_SBML , string package  = 'core' , const long pkgVersion =
-        1 )
+        SBMLError(  long errorId  = 0 ,  long level    =
+        SBML_DEFAULT_LEVEL ,  long version  = SBML_DEFAULT_VERSION , string
+        details  = '' ,  long line     = 0 ,  long column   = 0 ,  long
+        severity = LIBSBML_SEV_ERROR ,  long category = LIBSBML_CAT_SBML ,
+        string package  = 'core' ,  long pkgVersion = 1 )
 
         Creates a new SBMLError to report that something occurred during SBML
         processing.
@@ -48370,13 +49122,13 @@ class SBMLError(XMLError):
         of the exception.  These numbers are defined as longeger constants in
         the interface class libsbml.  See the top of this documentation page
         for a table listing the possible values and their meanings.  The
-        argument  'errorId' to this constructor can be (but does not have to
+        argument 'errorId' to this constructor can be (but does not have to
         be) a value from this set of constants.  If it is one of the
         predefined error identifiers, the SBMLError class assumes the error is
         a low-level system or SBML layer error and prepends a built-in,
         predefined error message to any string passed in the argument
         'details' to this constructor.  In addition, all the predefined error
-        identifiers have associated values for the  'severity' and 'category'
+        identifiers have associated values for the 'severity' and 'category'
         codes, and these fields are filled-in using the libSBML defaults for
         each different error identifier.
 
@@ -48389,7 +49141,7 @@ class SBMLError(XMLError):
         suitable values if generating errors with codes greater than 99999 to
         make maximum use of the SBMLError facilities.
 
-        As mentioned above,  there are additional constants defined for
+        As mentioned above, there are additional constants defined for
         standard severity and standard category codes, and every predefined
         error in libSBML has an associated value for severity and category
         taken from these predefined sets.  These constants have symbol names
@@ -48460,6 +49212,8 @@ UNKNOWN_QUALIFIER = _libsbml.UNKNOWN_QUALIFIER
 BQM_IS = _libsbml.BQM_IS
 BQM_IS_DESCRIBED_BY = _libsbml.BQM_IS_DESCRIBED_BY
 BQM_IS_DERIVED_FROM = _libsbml.BQM_IS_DERIVED_FROM
+BQM_IS_INSTANCE_OF = _libsbml.BQM_IS_INSTANCE_OF
+BQM_HAS_INSTANCE = _libsbml.BQM_HAS_INSTANCE
 BQM_UNKNOWN = _libsbml.BQM_UNKNOWN
 BQB_IS = _libsbml.BQB_IS
 BQB_HAS_PART = _libsbml.BQB_HAS_PART
@@ -48473,6 +49227,7 @@ BQB_ENCODES = _libsbml.BQB_ENCODES
 BQB_OCCURS_IN = _libsbml.BQB_OCCURS_IN
 BQB_HAS_PROPERTY = _libsbml.BQB_HAS_PROPERTY
 BQB_IS_PROPERTY_OF = _libsbml.BQB_IS_PROPERTY_OF
+BQB_HAS_TAXON = _libsbml.BQB_HAS_TAXON
 BQB_UNKNOWN = _libsbml.BQB_UNKNOWN
 class CVTerm(_object):
     """
@@ -48502,15 +49257,18 @@ class CVTerm(_object):
 
     The SBML annotation format consists of RDF-based content placed inside
     an <annotation> element attached to an SBML component such as Species,
-    Compartment, etc.  The following template illustrates the different
-    parts of SBML annotations in XML form:
+    Compartment, etc.  A small change was introduced in SBML Level 2
+    Version 5 and SBML Level 3 Version 2 to permit nested annotations:
+    lower Versions of the SBML specifications did not explicitly allow
+    this.  We first describe the different parts of SBML annotations in
+    XML form for SBML Level 2 below Version 5 and SBML Level 3 below
+    Version 2:
 
        <SBML_ELEMENT +++ metaid="meta id" +++>
          +++
          <annotation>
            +++
            <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
-                    xmlns:dc='http://purl.org/dc/elements/1.1/'
                     xmlns:dcterm='http://purl.org/dc/terms/'
                     xmlns:vcard='http://www.w3.org/2001/vcard-rdf/3.0#'
                     xmlns:bqbiol='http://biomodels.net/biology-qualifiers/'
@@ -48563,20 +49321,62 @@ class CVTerm(_object):
     Resources: tools to generate and resolve robust cross-references in
     Systems Biology', BMC Systems Biology, 58(1), 2007.
 
-    The relation-resource pairs above are the 'controlled vocabulary'
-    terms that which CVTerm is designed to store and manipulate.  The next
-    section describes these parts in more detail.  For more information
-    about SBML annotations in general, please refer to Section 6 in the
-    SBML Level 2 (Versions 2-4) or Level 3 specification documents.
+    Finally, the following is the same template as above, but this time
+    showing the nested content permitted by the most recent SBML
+    specifications (SBML Level 2 Version 5 and Level 3 Version 2):
+
+       <SBML_ELEMENT +++ metaid="meta id" +++>
+         +++
+         <annotation>
+           +++
+           <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+                    xmlns:dcterm='http://purl.org/dc/terms/'
+                    xmlns:vcard='http://www.w3.org/2001/vcard-rdf/3.0#'
+                    xmlns:bqbiol='http://biomodels.net/biology-qualifiers/'
+                    xmlns:bqmodel='http://biomodels.net/model-qualifiers/' >
+             <rdf:Description rdf:about="#meta id">
+               HISTORY
+               <RELATION_ELEMENT>
+                 <rdf:Bag>
+                   <rdf:li rdf:resource="URI" />
+                   NESTED_CONTENT
+                   ...
+                 </rdf:Bag>
+               </RELATION_ELEMENT>
+               ...
+             </rdf:Description>
+             +++
+           </rdf:RDF>
+           +++
+         </annotation>
+         +++
+       </SBML_ELEMENT>
+
+    The placeholder NESTED_CONTENT refers to other optional RDF elements
+    such as 'bqbiol:isDescribedBy' that describe a clarification or
+    another annotation about the RELATION_ELEMENT in which it appears.
+    Nested content allows one to, for example, describe protein
+    modifications on species, or to add evidence codes for an annotation.
+    Nested content relates to its containing RELATION_ELEMENT, not the
+    other way around.  It qualifies it, but does not change its meaning.
+    As such, ignoring a NESTED_CONTENT does not affect the information
+    provided by the containing RELATION_ELEMENT.
+
+    For more information about SBML annotations in general, please refer
+    to Section 6 in the SBML Level 2 (Versions 2-4) or Level 3
+    specification documents.
 
     The parts of a CVTerm
     ======================================================================
 
     Annotations that refer to controlled vocabularies are managed in
-    libSBML using CVTerm objects.  A set of RDF-based annotations attached
-    to a given SBML <annotation> element are read by RDFAnnotationParser
-    and converted into a list of these CVTerm objects. Each CVTerm object
-    instance stores the following components of an annotation:
+    libSBML using CVTerm objects.  The relation-resource pairs discussed
+    in the previous section are the 'controlled vocabulary' terms that
+    CVTerm is designed to store and manipulate.  A set of RDF-based
+    annotations attached to a given SBML <annotation> element are read by
+    RDFAnnotationParser and converted into a list of these CVTerm objects.
+    Each CVTerm object instance stores the following components of an
+    annotation:
 
     * The qualifier, which can be a BioModels.net 'biological
     qualifier', a BioModels.net 'model qualifier', or an unknown qualifier
@@ -48598,7 +49398,7 @@ class CVTerm(_object):
     by supporting a list of resources.
 
     Detailed explanations of the qualifiers defined by BioModels.net can
-    be found at http://biomodels.net/qualifiers.
+    be found at http://co.mbine.org/standards/qualifiers.
 
     """
     __swig_setmethods__ = {}
@@ -48633,7 +49433,7 @@ class CVTerm(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        CVTerm(const XMLNode node)
+        CVTerm( XMLNode node)
 
         Creates a new CVTerm from the given XMLNode.
 
@@ -48776,15 +49576,16 @@ class CVTerm(_object):
 
         The specific relationship of this CVTerm to the enclosing SBML object
         can be determined using the CVTerm methods such as
-        getModelQualifierType() and getBiologicalQualifierType().  Callers
-        will typically want to use the present method to find out which one of
-        the other two methods to call to find out the specific relationship.
+        CVTerm.getModelQualifierType() and
+        CVTerm.getBiologicalQualifierType().  Callers will typically want to
+        use the present method to find out which one of the other two methods
+        to call to find out the specific relationship.
 
         Returns the qualifier type of this object or UNKNOWN_QUALIFIER (the
         default).
 
-        See also getResources(), getModelQualifierType(),
-        getBiologicalQualifierType().
+        See also CVTerm.getResources(), CVTerm.getModelQualifierType(),
+        CVTerm.getBiologicalQualifierType().
 
         """
         return _libsbml.CVTerm_getQualifierType(self, *args)
@@ -48823,10 +49624,10 @@ class CVTerm(_object):
         element name.  This is an element in either the XML namespace
         'http://biomodels.net/model-qualifiers' (for model qualifiers) or
         'http://biomodels.net/biology-qualifiers' (for biological qualifier).
-        Callers will typically use getQualifierType() to find out the type of
-        qualifier relevant to this particular CVTerm object, then if it is a
-        model qualifier, use the present method to determine the specific
-        qualifier.
+        Callers will typically use CVTerm.getQualifierType() to find out the
+        type of qualifier relevant to this particular CVTerm object, then if
+        it is a model qualifier, use the present method to determine the
+        specific qualifier.
 
         Annotations with model qualifiers express a relationship between an
         annotation resource and the modeling concept represented by a given
@@ -48851,6 +49652,10 @@ class CVTerm(_object):
         * BQM_IS_DESCRIBED_BY
 
         * BQM_IS_DERIVED_FROM
+
+        * BQM_IS_INSTANCE_OF
+
+        * BQM_HAS_INSTANCE
 
         Any other BioModels.net qualifier found in the model is considered
         unknown by libSBML and reported as BQM_UNKNOWN.
@@ -48895,10 +49700,10 @@ class CVTerm(_object):
         element name.  This is an element in either the XML namespace
         'http://biomodels.net/model-qualifiers' (for model qualifiers) or
         'http://biomodels.net/biology-qualifiers' (for biological qualifier).
-        Callers will typically use getQualifierType() to find out the type of
-        qualifier relevant to this particular CVTerm object, then if it is a
-        biological qualifier, use the present method to determine the specific
-        qualifier.
+        Callers will typically use CVTerm.getQualifierType() to find out the
+        type of qualifier relevant to this particular CVTerm object, then if
+        it is a biological qualifier, use the present method to determine the
+        specific qualifier.
 
         Annotations with biological qualifiers express a relationship between
         an annotation resource and the biological concept represented by a
@@ -48941,6 +49746,8 @@ class CVTerm(_object):
         * BQB_HAS_PROPERTY
 
         * BQB_IS_PROPERTY_OF
+
+        * BQB_HAS_TAXON
 
         Any other BioModels.net qualifier found in the model is considered
         unknown by libSBML and reported as BQB_UNKNOWN.
@@ -48992,7 +49799,8 @@ class CVTerm(_object):
 
         Returns the XMLAttributes that store the resources of this CVTerm.
 
-        See also getQualifierType(), addResource(), getResourceURI().
+        See also CVTerm.getQualifierType(), CVTerm.addResource(),
+        CVTerm.getResourceURI().
 
         """
         return _libsbml.CVTerm_getResources(self, *args)
@@ -49036,7 +49844,7 @@ class CVTerm(_object):
         Returns the number of resources in the set of XMLAttributes of this
         CVTerm.
 
-        See also getResources(), getResourceURI().
+        See also CVTerm.getResources(), CVTerm.getResourceURI().
 
         """
         return _libsbml.CVTerm_getNumResources(self, *args)
@@ -49075,16 +49883,16 @@ class CVTerm(_object):
         resource referenced by a given relationship annotation (i.e., the
         resource URI values associated with a particular RELATION_ELEMENT).
         LibSBML stores all resource URIs in a single CVTerm object for a given
-        relationship.  Callers can use getNumResources() to find out how many
-        resources are stored in this CVTerm object, then call this method to
-        retrieve the nth resource URI.
+        relationship. Callers can use CVTerm.getNumResources() to find out how
+        many resources are stored in this CVTerm object, then call this method
+        to retrieve the nth resource URI.
 
         Parameter 'n' is the index of the resource to query
 
         Returns string representing the value of the nth resource in the set
         of XMLAttributes of this CVTerm.
 
-        See also getNumResources(), getQualifierType().
+        See also CVTerm.getNumResources(), CVTerm.getQualifierType().
 
         """
         return _libsbml.CVTerm_getResourceURI(self, *args)
@@ -49095,12 +49903,14 @@ class CVTerm(_object):
 
         Sets the qualifier code of this CVTerm object.
 
-        Parameter 'type' is the qualifier type. The possible values returned
-        by this function are:
+        Parameter 'type' is the qualifier type.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
-        See also getQualifierType().
+        See also CVTerm.getQualifierType().
 
         """
         return _libsbml.CVTerm_setQualifierType(self, *args)
@@ -49118,12 +49928,12 @@ class CVTerm(_object):
 
         setModelQualifierType(string qualifier)
 
-        Sets the  value of this CVTerm object.
+        Sets the model qualifier type value of this CVTerm object.
 
         Parameter 'qualifier' is the string representing a model qualifier
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -49132,10 +49942,10 @@ class CVTerm(_object):
         Note:
 
         If the Qualifier Type of this object is not MODEL_QUALIFIER,  then the
-        ModelQualifierType_t value will default to BQM_UNKNOWN.
+        model qualifier type will default to BQM_UNKNOWN.
 
-        See also getQualifierType(), setQualifierType(), getQualifierType(),
-        setQualifierType().
+        See also CVTerm.getQualifierType(), CVTerm.setQualifierType(),
+        CVTerm.getQualifierType(), CVTerm.setQualifierType().
 
         """
         return _libsbml.CVTerm_setModelQualifierType(self, *args)
@@ -49153,12 +49963,12 @@ class CVTerm(_object):
 
         setBiologicalQualifierType(string qualifier)
 
-        Sets the  of this CVTerm object.
+        Sets the biology qualifier type code of this CVTerm object.
 
         Parameter 'qualifier' is the string representing a biology qualifier
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -49167,10 +49977,10 @@ class CVTerm(_object):
         Note:
 
         If the Qualifier Type of this object is not BIOLOGICAL_QUALIFIER, then
-        the  value will default to BQB_UNKNOWN.
+        the biology qualifier type code will default to BQB_UNKNOWN.
 
-        See also getQualifierType(), setQualifierType(), getQualifierType(),
-        setQualifierType().
+        See also CVTerm.getQualifierType(), CVTerm.setQualifierType(),
+        CVTerm.getQualifierType(), CVTerm.setQualifierType().
 
         """
         return _libsbml.CVTerm_setBiologicalQualifierType(self, *args)
@@ -49234,22 +50044,24 @@ class CVTerm(_object):
         within an XMLAttributes object.
 
         The relationship of this CVTerm to the enclosing SBML object can be
-        determined using the CVTerm methods such as getModelQualifierType()
-        and getBiologicalQualifierType().
+        determined using the CVTerm methods such as
+        CVTerm.getModelQualifierType() and
+        CVTerm.getBiologicalQualifierType().
 
         Parameter 'resource' is a string representing the URI of the resource
         and data item being referenced; e.g.,
         'http://www.geneontology.org/#GO:0005892'.
 
-        Returns integer value indicating success/failure of the call. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
         * LIBSBML_OPERATION_FAILED
 
-        See also getResources(), removeResource(), getQualifierType(),
-        getModelQualifierType(), getBiologicalQualifierType().
+        See also CVTerm.getResources(), CVTerm.removeResource(),
+        CVTerm.getQualifierType(), CVTerm.getModelQualifierType(),
+        CVTerm.getBiologicalQualifierType().
 
         """
         return _libsbml.CVTerm_addResource(self, *args)
@@ -49264,14 +50076,16 @@ class CVTerm(_object):
         Parameter 'resource' is a string representing the resource URI to
         remove; e.g., 'http://www.geneontology.org/#GO:0005892'.
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
+        * LIBSBML_INDEX_EXCEEDS_SIZE
+
         * LIBSBML_INVALID_ATTRIBUTE_VALUE
 
-        See also addResource().
+        See also CVTerm.addResource().
 
         """
         return _libsbml.CVTerm_removeResource(self, *args)
@@ -50112,7 +50926,7 @@ class ModelCreator(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
-        ModelCreator(const XMLNode creator)
+        ModelCreator( XMLNode creator)
 
         Creates a new ModelCreator from an XMLNode.
 
@@ -50300,6 +51114,8 @@ class ModelCreator(_object):
 
         * LIBSBML_OPERATION_SUCCESS
 
+        * LIBSBML_INVALID_ATTRIBUTE_VALUE
+
         """
         return _libsbml.ModelCreator_setFamilyName(self, *args)
 
@@ -50316,6 +51132,8 @@ class ModelCreator(_object):
         The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_INVALID_ATTRIBUTE_VALUE
 
         """
         return _libsbml.ModelCreator_setGivenName(self, *args)
@@ -50334,6 +51152,8 @@ class ModelCreator(_object):
 
         * LIBSBML_OPERATION_SUCCESS
 
+        * LIBSBML_INVALID_ATTRIBUTE_VALUE
+
         """
         return _libsbml.ModelCreator_setEmail(self, *args)
 
@@ -50350,6 +51170,8 @@ class ModelCreator(_object):
         The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_INVALID_ATTRIBUTE_VALUE
 
         """
         return _libsbml.ModelCreator_setOrganization(self, *args)
@@ -50372,6 +51194,8 @@ class ModelCreator(_object):
         The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_INVALID_ATTRIBUTE_VALUE
 
         See also setOrganization().
 
@@ -51720,14 +52544,37 @@ class SBaseExtensionPoint(_object):
 
         SBaseExtensionPoint(SBaseExtensionPoint rhs)
 
-        copy constructor
+        Copy constructor.
+
+        This creates a copy of an SBaseExtensionPoint instance.
+
+        Parameter 'rhs' is the object to copy.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         SBaseExtensionPoint(string pkgName, int typeCode)
 
-        constructor
+        Constructor for SBaseExtensionPoint.
+
+        The use of SBaseExtensionPoint is relatively straightforward.  The
+        class needs to be used for each extended SBML object implemented using
+        SBMLDocumentPlugin or SBasePlugin.  Doing so requires knowing just two
+        things:
+
+        * The short-form name of the parent package being extended. The
+        parent package is often simply core SBML, identified in libSBML by the
+        nickname 'core', but a SBML Level 3 package could conceivably extend
+        another Level 3 package and the mechanism supports this.
+
+        * The libSBML type code assigned to the object being extended. For
+        example, if an extension of Model is implemented, the relevant type
+        code is SBML_MODEL, found in #SBMLTypeCode_t.
+
+        Parameter 'pkgName' is the short-form name of the parent package where
+        that this package extension is extending.
+
+        Parameter 'typeCode' is the type code of the object being extended.
 
         """
         this = _libsbml.new_SBaseExtensionPoint(*args)
@@ -51757,7 +52604,7 @@ class SBaseExtensionPoint(_object):
         """
         getTypeCode(self) -> int
 
-        Returns the typecode of this extension point.
+        Returns the libSBML type code of this extension point.
 
         """
         return _libsbml.SBaseExtensionPoint_getTypeCode(self)
@@ -51767,136 +52614,178 @@ SBaseExtensionPoint_swigregister(SBaseExtensionPoint)
 
 class SBasePlugin(_object):
     """
-    A libSBML plug-in object for an SBML Level 3 package.
+    Base class for extending SBML objects in packages.
 
-    Additional attributes and/or elements of a package extension which are
-    directly  contained by some pre-defined element are contained/accessed
-    by   SBasePlugin  class which is extended by package developers for
-    each extension point. The extension point, which represents an element
-    to be extended, is identified by a  combination of a Package name and
-    a typecode of the element, and is represented by SBaseExtensionPoint
-    class.
+    This class of objects is defined by libSBML only and has no direct
+    equivalent in terms of SBML components. This class is not prescribed
+    by the SBML specifications, although it is used to implement features
+    defined in SBML.
 
-    For example, the layout extension defines <listOfLayouts> element
-    which is  directly contained in <model> element of the core package.
-    In the layout package (provided as one of example packages in
-    libSBML-5), the additional  element for the model element is
-    implemented as ListOfLayouts class (an SBase derived class) and  the
-    object is contained/accessed by a LayoutModelPlugin class (an
-    SBasePlugin derived class).
+    The SBasePlugin class is libSBML's base class for extensions of core
+    SBML component objects.  SBasePlugin defines basic virtual methods for
+    reading/writing/checking additional attributes and/or subobjects;
+    these methods should be overridden by subclasses to implement the
+    necessary features of an extended SBML object.
 
-    SBasePlugin class defines basic virtual functions for
-    reading/writing/checking  additional attributes and/or top-level
-    elements which should or must be overridden by  subclasses like SBase
-    class and its derived classes.
+    Perhaps the easiest way to explain and motivate the role of
+    SBasePlugin is through an example.  The SBML Layout package specifies
+    the existence of an element, <listOfLayouts>, contained inside an SBML
+    <model> element.  In terms of libSBML components, this means a new
+    ListOfLayouts class of objects must be defined, and this object placed
+    in an extended class of Model (because Model in plain/core SBML does
+    not allow the inclusion of a ListOfLayouts subobject).  This extended
+    class of Model is LayoutModelPlugin, and it is derived from
+    SBasePlugin.
 
-    Package developers must implement an SBasePlugin exntended class for
-    each element to be extended (e.g. SBMLDocument, Model, ...) in which
-    additional  attributes and/or top-level elements of the package
-    extension are directly contained.
+    How to extend SBasePlugin for a package implementation
+    ======================================================================
 
-    To implement reading/writing functions for attributes and/or top-level
-    elements of the SBsaePlugin extended class, package developers should
-    or must override the corresponding virtual functions below provided in
-    the SBasePlugin class:
+    LibSBML package extensions can extend existing libSBML objects such as
+    Model using SBasePlugin as a base class, to hold attributes and/or
+    subcomponents necessary for the SBML package being implemented.
+    Package developers must implement an SBasePlugin extended class for
+    each element to be extended (e.g., Model, Reaction, and others) where
+    additional attributes and/or top-level objects of the package
+    extension are directly contained.  The following subsections detail
+    the basic steps necessary to use SBasePlugin for the implementation of
+    a class extension.
 
-    *  reading elements :  <ol>
+    1. Identify the SBML components that need to be extended
+    ......................................................................
 
-    * virtual SBase createObject (XMLInputStream stream)
+    The specification for a SBML Level 3 package will define the
+    attributes and subojects that make up the package constructs.  Those
+    constructs that modify existing SBML components such as Model,
+    Reaction, etc., will be the ones that need to be extended using
+    SBasePlugin.
 
-    This function must be overridden if one or more additional elements
-    are defined. * virtual bool readOtherXML (SBase parentObject,
-    XMLInputStream stream)
+    For example, the Layout package makes additions to Model,
+    SpeciesReference, and the <sbml> element (which is represented in
+    libSBML by SBMLDocument).  This means that the Layout package
+    extension in libSBML needs to define extended versions of Model,
+    SpeciesReference and SBMLDocument.  Elements other than the SBML
+    document need to be implemented using SBasePlugin; the document
+    component must be implemented using SBMLDocumentPlugin instead.
 
-    This function should be overridden if elements of annotation, notes,
-    MathML, etc. need  to be directly parsed from the given XMLInputStream
-    object .
+    2. Create a SBasePlugin subclass for each extended SBML component
+    ......................................................................
 
-    </ol> *  reading attributes (must be overridden if additional
-    attributes are defined) : <ol>
+    A new class definition that subclasses SBasePlugin needs to be created
+    for each SBML component to be extended by the package.  For instance,
+    the Layout package needs LayoutModelPlugin and
+    LayoutSpeciesReferencePlugin. (As mentioned above, the Layout class
+    also needs LayoutSBMLDocumentPlugin, but this one is implemented using
+    SBMLDocumentPlugin instead of SBasePlugin.)  Below, we describe in
+    detail the different parts of an SBasePlugin subclass definition.
 
-    * virtual void addExpectedAttributes(ExpectedAttributes&
-    attributes) * virtual void readAttributes (XMLAttributes attributes,
-    const ExpectedAttributes& expectedAttributes)</ol> *  writing elements
-    (must be overridden if additional elements are defined) : <ol>
+    @subsubsection sbp-protected 2.1 Define protected data members
 
-    * virtual void writeElements (XMLOutputStream stream) const </ol> *
-    writing attributes :  <ol>
+    Data attributes on each extended class in an SBML package will have
+    one of the data types string, double, int, or bool.
+    Subelements/subobjects will normally be derived from the ListOf class
+    or from SBase.
 
-    * virtual void writeAttributes (XMLOutputStream stream) const
+    The additional data members must be properly initialized in the class
+    constructor, and must be properly copied in the copy constructor and
+    assignment operator.  For example, the following data member is
+    defined in the GroupsModelPlugin class (in the file
+    GroupsModelPlugin.h):
 
-    This function must be overridden if one or more additional attributes
-    are defined. * virtual void writeXMLNS (XMLOutputStream stream) const
+      ListOfGroups mGroups;
 
-    This function must be overridden if one or more additional xmlns
-    attributes are defined. </ol> *  checking elements (should be
-    overridden) : <ol>
+    @subsubsection sbp-class-methods 2.2 Override SBasePlugin class-
+    related methods
 
-    * virtual bool hasRequiredElements() const </ol> *  checking
-    attributes (should be overridden) : <ol>
+    The derived class must override the constructor, copy constructor,
+    assignment operator (operator=) and clone() methods from SBasePlugin.
 
-    * virtual bool hasRequiredAttributes() const </ol>
+    @subsubsection sbp-methods-attribs 2.3 Override SBasePlugin virtual
+    methods for attributes
 
-    To implement package-specific creating/getting/manipulating functions
-    of the SBasePlugin derived class (e.g., getListOfLayouts(),
-    createLyout(), getLayout(), and etc are implemented in
-    LayoutModelPlugin class of the layout package), package developers
-    must newly implement such functions (as they like) in the derived
-    class.
+    If the extended component is defined by the SBML Level 3 package to
+    have attributes, then the extended class definition needs to override
+    the following internal methods on SBasePlugin and provide appropriate
+    implementations:
 
-    SBasePlugin class defines other virtual functions of internal
-    implementations such as:
+    * addExpectedAttributes(ExpectedAttributes& attributes): This
+    method should add the attributes that are expected to be found on this
+    kind of extended component in an SBML file or data stream.
 
-    *  virtual void setSBMLDocument(SBMLDocument d)
+    * readAttributes(XMLAttributes attributes, ExpectedAttributes&
+    expectedAttributes): This method should read the attributes expected
+    to be found on this kind of extended component in an SBML file or data
+    stream.
 
-    *  virtual void connectToParent(SBase sbase)
+    * hasRequiredAttributes(): This method should return True if all
+    of the required attribute for this extended component are present on
+    instance of the object.
 
-    *  virtual void enablePackageInternal(string pkgURI, string
-    pkgPrefix, bool flag)  These functions must be overridden by
-    subclasses in which one or more top-level elements are defined.
+    * writeAttributes(XMLOutputStream stream): This method should
+    write out the attributes of an extended component.  The implementation
+    should use the different kinds of writeAttribute methods defined by
+    XMLOutputStream to achieve this.
 
-    For example, the following three SBasePlugin extended classes are
-    implemented in the layout extension:
+    @subsubsection sbp-methods-elem 2.4 Override SBasePlugin virtual
+    methods for subcomponents
 
-    <ol>
+    If the extended component is defined by the Level 3 package to have
+    subcomponents (i.e., full XML elements rather than mere attributes),
+    then the extended class definition needs to override the following
+    internal SBasePlugin methods and provide appropriate implementations:
 
-    *  SBMLDocumentPlugin  class for SBMLDocument element
+    * createObject(XMLInputStream stream): Subclasses must override
+    this method to create, store, and then return an SBML object
+    corresponding to the next XMLToken in the XMLInputStream.  To do this,
+    implementations can use methods like peek() on XMLInputStream to test
+    if the next object in the stream is something expected for the
+    package. For example, LayoutModelPlugin uses peek() to examine the
+    next element in the input stream, then tests that element against the
+    Layout namespace and the element name 'listOfLayouts' to see if it's
+    the single subcomponent (ListOfLayouts) permitted on a Model object
+    using the Layout package.  If it is, it returns the appropriate
+    object.
 
-    *  required  attribute is added to SBMLDocument object.
+    * connectToParent(SBase sbase): This creates a parent-child
+    relationship between a given extended component and its
+    subcomponent(s).
 
-    ( SBMLDocumentPlugin  class is a common SBasePlugin  extended class
-    for SBMLDocument class. Package developers can use this class as-is if
-    no additional  elements/attributes (except for  required  attribute)
-    is needed for the SBMLDocument class  in their packages, otherwise
-    package developers must implement a new SBMLDocumentPlugin derived
-    class.)
+    * setSBMLDocument(SBMLDocument d): This method should set the
+    parent SBMLDocument object on the subcomponent object instances, so
+    that the subcomponent instances know which SBMLDocument contains them.
 
-    *  LayoutModelPlugin class for Model element
+    * enablePackageInternal(string& pkgURI, string& pkgPrefix, bool
+    flag): This method should enable or disable the subcomponent based on
+    whether a given XML namespace is active.
 
-    * <listOfLayouts> element is added to Model object. *  The following
-    virtual functions for reading/writing/checking are overridden: (type
-    of arguments and return values are omitted)
+    * writeElements(XMLOutputStream stream): This method must be
+    overridden to provide an implementation that will write out the
+    expected subcomponents/subelements to the XML output stream.
 
-    *  createObject()  : (read elements) *  readOtherXML()  : (read
-    elements in annotation of SBML L2) *  writeElements()  : (write
-    elements) *  The following virtual functions of internal
-    implementations are overridden: (type of arguments and return values
-    are omitted)
+    * readOtherXML(SBase parentObject, XMLInputStream stream): This
+    function should be overridden if elements of annotation, notes, MathML
+    content, etc., need to be directly parsed from the given
+    XMLInputStream object.
 
-    *  setSBMLDocument()   *  connectToParent()  *
-    enablePackageInternal()  *  The following
-    creating/getting/manipulating functions are newly  implemented: (type
-    of arguments and return values are omitted)
+    * hasRequiredElements(): This method should return True if a given
+    object contains all the required subcomponents defined by the
+    specification for that SBML Level 3 package.
 
-    *  getListOfLayouts()  *  getLayout ()   *  addLayout()  *
-    createLayout()  *  removeLayout()  *  getNumLayouts()  *
-    LayoutSpeciesReferencePlugin class for SpeciesReference element (used
-    only for SBML L2V1)
+    @subsubsection sbp-methods-xmlns 2.5 Override SBasePlugin virtual
+    methods for XML namespaces
 
-    *  id  attribute is internally added to SpeciesReference object
-    only for SBML L2V1  * The following virtual functions for
-    reading/writing/checking are overridden: (type of arguments and return
-    values are omitted) *  readOtherXML()  *  writeAttributes()  </ol>
+    If the package needs to add additional xmlns attributes to declare
+    additional XML namespace URIs, the extended class should override the
+    following method:
+
+    * writeXMLNS(XMLOutputStream stream): This method should write out
+    any additional XML namespaces that might be needed by a package
+    implementation.
+
+    @subsubsection sbp-methods-hooks 2.6 Implement additional methods as
+    needed
+
+    Extended component implementations can add whatever additional utility
+    methods are useful for their implementation.
 
     """
     __swig_setmethods__ = {}
@@ -51911,10 +52800,11 @@ class SBasePlugin(_object):
         """
         getElementNamespace(self) -> string
 
-        Returns the XML namespace (URI) of the package extension of this
-        plugin object.
+        Returns the namespace URI of the package to which this plugin object
+        belongs.
 
-        Returns the URI of the package extension of this plugin object.
+        Returns the XML namespace URI of the SBML Level 3 package implemented
+        by this libSBML package extension.
 
         """
         return _libsbml.SBasePlugin_getElementNamespace(self)
@@ -51923,9 +52813,11 @@ class SBasePlugin(_object):
         """
         getPrefix(self) -> string
 
-        Returns the prefix of the package extension of this plugin object.
+        Returns the XML namespace prefix of the package to which this plugin
+        object belongs.
 
-        Returns the prefix of the package extension of this plugin object.
+        Returns the XML namespace prefix of the SBML Level 3 package
+        implemented by this libSBML package extension.
 
         """
         return _libsbml.SBasePlugin_getPrefix(self)
@@ -51934,9 +52826,11 @@ class SBasePlugin(_object):
         """
         getPackageName(self) -> string
 
-        Returns the package name of this plugin object.
+        Returns the short-form name of the package to which this plugin object
+        belongs.
 
-        Returns the package name of this plugin object.
+        Returns the short-form package name (or nickname) of the SBML package
+        implemented by this package extension.
 
         """
         return _libsbml.SBasePlugin_getPackageName(self)
@@ -51956,12 +52850,20 @@ class SBasePlugin(_object):
         """
         getElementBySId(self, string id) -> SBase
 
-        Returns the first child element found that has the given 'id' in the
-        model-wide SId namespace, or None if no such object is found.
+        Return the first child object found with a given identifier.
 
-        Parameter 'id' is string representing the id of objects to find
+        This method searches all the subobjects under this one, compares their
+        identifiers to 'id', and returns the first one that machines.
 
-        Returns pointer to the first element found with the given 'id'.
+        Normally, SId type identifier values are unique across a model in
+        SBML.  However, in some circumstances they may not be, such as if a
+        model is invalid because of multiple objects having the same
+        identifier.
+
+        Parameter 'id' is string representing the identifier of the object to
+        find
+
+        Returns pointer to the first object with the given 'id'.
 
         """
         return _libsbml.SBasePlugin_getElementBySId(self, *args)
@@ -51970,13 +52872,14 @@ class SBasePlugin(_object):
         """
         getElementByMetaId(self, string metaid) -> SBase
 
-        Returns the first child element it can find with the given 'metaid',
-        or None if no such object is found.
+        Return the first child object found with a given meta identifier.
 
-        Parameter 'metaid' is string representing the metaid of objects to
-        find
+        This method searches all the subobjects under this one, compares their
+        meta identifiers to 'metaid', and returns the first one that machines.
 
-        Returns pointer to the first element found with the given 'metaid'.
+        Parameter 'metaid' is string, the metaid of the object to find.
+
+        Returns pointer to the first object found with the given 'metaid'.
 
         """
         return _libsbml.SBasePlugin_getElementByMetaId(self, *args)
@@ -52013,9 +52916,23 @@ class SBasePlugin(_object):
         getSBMLDocument(self) -> SBMLDocument
         getSBMLDocument(self) -> SBMLDocument
 
-        Returns the parent SBMLDocument of this plugin object.
+        Returns the SBMLDocument object containing this object instance.
+
+        LibSBML uses the class SBMLDocument as a top-level container for
+        storing SBML content and data associated with it (such as warnings and
+        error messages).  An SBML model in libSBML is contained inside an
+        SBMLDocument object.  SBMLDocument corresponds roughly to the class
+        SBML defined in the SBML Level 3 and Level 2 specifications, but it
+        does not have a direct correspondence in SBML Level 1.  (But, it is
+        created by libSBML no matter whether the model is Level 1, Level 2 or
+        Level 3.)
+
+        This method allows the caller to obtain the SBMLDocument for the
+        current object.
 
         Returns the parent SBMLDocument object of this plugin object.
+
+        See also getParentSBMLObject().
 
         """
         return _libsbml.SBasePlugin_getSBMLDocument(self, *args)
@@ -52024,19 +52941,28 @@ class SBasePlugin(_object):
         """
         getURI(self) -> string
 
-        Gets the URI to which this element belongs to. For example, all
-        elements that belong to SBML Level 3 Version 1 Core must would have
-        the URI 'http://www.sbml.org/sbml/level3/version1/core';  all elements
-        that belong to Layout Extension Version 1 for SBML Level 3 Version 1
-        Core must would have the URI
-        'http://www.sbml.org/sbml/level3/version1/layout/version1/'
+        Returns the XML namespace URI for the package to which this object
+        belongs.
 
-        Unlike getElementNamespace, this function first returns the URI for
-        this  element by looking into the SBMLNamespaces object of the
-        document with  the its package name. if not found it will return the
-        result of  getElementNamespace
+        In the XML representation of an SBML document, XML namespaces are
+        used to identify the origin of each XML construct used.  XML
+        namespaces are identified by their unique resource identifiers (URIs).
+        The core SBML specifications stipulate the namespaces that must be
+        used for core SBML constructs; for example, all XML elements that
+        belong to SBML Level 3 Version 1 Core must be placed in the XML
+        namespace identified by the URI
+        'http://www.sbml.org/sbml/level3/version1/core'.  Individual SBML
+        Level 3 packages define their own XML namespaces; for example, all
+        elements belonging to the SBML Level 3 Layout Version 1 package must
+        be placed in the XML namespace
+        'http://www.sbml.org/sbml/level3/version1/layout/version1/'.
 
-        Returns the URI this elements
+        This method first looks into the SBMLNamespaces object possessed by
+        the parent SBMLDocument object of the current object.  If this cannot
+        be found, this method returns the result of getElementNamespace().
+
+        Returns a string, the URI of the XML namespace to which this object
+        belongs.
 
         See also getPackageName(), getElementNamespace(),
         SBMLDocument.getSBMLNamespaces(), getSBMLDocument().
@@ -52049,11 +52975,9 @@ class SBasePlugin(_object):
         getParentSBMLObject(self) -> SBase
         getParentSBMLObject(self) -> SBase
 
-        Returns the parent SBase object to which this plugin  object
-        connected.
+        Returns the parent object to which this plugin object is connected.
 
-        Returns the parent SBase object to which this plugin  object
-        connected.
+        Returns the parent object of this object.
 
         """
         return _libsbml.SBasePlugin_getParentSBMLObject(self, *args)
@@ -52062,19 +52986,29 @@ class SBasePlugin(_object):
         """
         setElementNamespace(self, string uri) -> int
 
-        Sets the XML namespace to which this element belongs to. For example,
-        all elements that belong to SBML Level 3 Version 1 Core must set the
-        namespace to 'http://www.sbml.org/sbml/level3/version1/core';  all
-        elements that belong to Layout Extension Version 1 for SBML Level 3
-        Version 1 Core must set the namespace to
-        'http://www.sbml.org/sbml/level3/version1/layout/version1/'
+        Sets the XML namespace to which this object belongs.
+
+        In the XML representation of an SBML document, XML namespaces are
+        used to identify the origin of each XML construct used.  XML
+        namespaces are identified by their unique resource identifiers (URIs).
+        The core SBML specifications stipulate the namespaces that must be
+        used for core SBML constructs; for example, all XML elements that
+        belong to SBML Level 3 Version 1 Core must be placed in the XML
+        namespace identified by the URI
+        'http://www.sbml.org/sbml/level3/version1/core'.  Individual SBML
+        Level 3 packages define their own XML namespaces; for example, all
+        elements belonging to the SBML Level 3 Layout Version 1 package must
+        be placed in the XML namespace
+        'http://www.sbml.org/sbml/level3/version1/layout/version1/'.
+
+        Parameter 'uri' is the URI to assign to this object.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
-        * LIBSBML_INVALID_ATTRIBUTE_VALUE
+        See also getElementNamespace().
 
         """
         return _libsbml.SBasePlugin_setElementNamespace(self, *args)
@@ -52083,10 +53017,11 @@ class SBasePlugin(_object):
         """
         getLevel(self) -> unsigned int
 
-        Returns the SBML level of the package extension of  this plugin
-        object.
+        Returns the SBML Level of the package extension of this plugin object.
 
-        Returns the SBML level of the package extension of this plugin object.
+        Returns the SBML Level.
+
+        See also getVersion().
 
         """
         return _libsbml.SBasePlugin_getLevel(self)
@@ -52095,11 +53030,12 @@ class SBasePlugin(_object):
         """
         getVersion(self) -> unsigned int
 
-        Returns the SBML version of the package extension of this plugin
-        object.
+        Returns the Version within the SBML Level of the package extension of
+        this plugin object.
 
-        Returns the SBML version of the package extension of this plugin
-        object.
+        Returns the SBML Version.
+
+        See also getLevel().
 
         """
         return _libsbml.SBasePlugin_getVersion(self)
@@ -52113,6 +53049,8 @@ class SBasePlugin(_object):
 
         Returns the package version of the package extension of this plugin
         object.
+
+        See also getLevel(), getVersion().
 
         """
         return _libsbml.SBasePlugin_getPackageVersion(self)
@@ -52242,14 +53180,184 @@ SBasePlugin_swigregister(SBasePlugin)
 
 class SBMLDocumentPlugin(SBasePlugin):
     """
-    Base class for SBML Level 3 package plug-ins.
+    Base class for extending SBMLDocument in packages.
 
-    Plug-in objects for the SBMLDocument element must be this class or a
-    derived class of this class.  Package developers should use this class
-    as-is if only 'required' attribute is added in the SBMLDocument
-    element by their packages.  Otherwise, developers must implement a
-    derived class of this class and use that class as the plugin object
-    for the SBMLDocument element.
+    This class of objects is defined by libSBML only and has no direct
+    equivalent in terms of SBML components. This class is not prescribed
+    by the SBML specifications, although it is used to implement features
+    defined in SBML.
+
+    The SBMLDocumentPlugin class is a specialization of SBasePlugin
+    designed specifically for extending SBMLDocument.  All package
+    extensions must extend SBMLDocument to implement support for SBML
+    Level 3 packages; these extensions can be subclasses of this class or
+    from a derived class of this class.
+
+    How to extend SBMLDocumentPlugin for a package implementation
+    ======================================================================
+
+    The following subsections detail the basic steps necessary to use
+    SBMLDocumentPlugin to extend SBMLDocument for a given package
+    extension.
+
+    1. Identify the changes necessary to SBMLDocument
+    ......................................................................
+
+    The specification for a SBML Level 3 package will define the changes
+    to the SBML <sbml> element.  Packages typically do not make any
+    changes beyond adding an attribute named 'required' (discussed below),
+    so in most cases, the extension of SBMLDocument is very simple.
+    However, some packages do more.  For instance, the Hierarchical Model
+    Composition package adds subobjects for lists of model definitions.
+    SBMLDocumentPlugin supports all these cases.
+
+    2. Create the SBMLDocumentPlugin subclass
+    ......................................................................
+
+    A package extension will only define one subclass of
+    SBMLDocumentPlugin. Below, we describe in detail the different parts
+    of a subclass definition.
+
+    @subsubsection sdp-class  2.1 Override SBasePlugin class-related
+    methods
+
+    The derived class must override the constructor, copy constructor,
+    assignment operator (operator=) and clone() methods from SBasePlugin.
+
+    @subsubsection sdp-required 2.2 Determine the necessary value of the
+    'required' attribute
+
+    At minimum, it is necessary for a package implementation to add the
+    'required' attribute to the SBML <sbml> element mandated by SBML for
+    all Level 3 packages, and this is done using this class as a base.  If
+    the 'required' attribute is the only addition necessary for a
+    particular SBML Level 3 package, then the subclass of
+    SBMLDocumentPlugin for the package can have a very simple
+    implementation.  Some Level 3 packages add additional attributes or
+    elements to <sbml>, and their implementations would go into the
+    subclassed SBMLDocumentPlugin.
+
+    SBMLDocumentPlugin provides methods with default implementations that
+    support managing the 'required' attribute, so package extension code
+    does not need to provide implementations -- they only need to set the
+    correct value for the SBML Level 3 package based on its specification.
+    The following are the virtual methods for working with the 'required'
+    attribute.  Package extensions would only need to override them in
+    special circumstances:
+
+    * setRequired(bool value): This method sets the value of the flag.
+
+    * getRequired(): This method gets the value of the 'required'
+    flag.
+
+    * isSetRequired(): This method tests if the value has been set.
+
+    * unsetRequired(): This method unsets the value of the 'required'
+    flag.
+
+    @subsubsection sdp-protected 2.3 Define protected data members
+
+    An extended SBMLDocument object may need more than just the 'required'
+    attribute, depending on what is defined in the specification for the
+    package being implemented.  Data attributes on the extended <sbml>
+    object in an SBML package will have one of the data types string,
+    double, int, or bool.  Subelements/subobjects will normally be derived
+    from the ListOf class or from SBase.
+
+    The additional data members must be properly initialized in the class
+    constructor, and must be properly copied in the copy constructor and
+    assignment operator.
+
+    @subsubsection sdp-methods-attribs 2.4 Override virtual methods for
+    attributes
+
+    If the extended component is defined by the SBML Level 3 package to
+    have attributes, then the extended SBMLDocumentPlugin class definition
+    needs to override the following internal methods that come from
+    SBasePlugin (the base class of SBMLDocumentPlugin) and provide
+    appropriate implementations:
+
+    * addExpectedAttributes(ExpectedAttributes& attributes): This
+    method should add the attributes that are expected to be found on this
+    kind of extended component in an SBML file or data stream.
+
+    * readAttributes(XMLAttributes attributes, ExpectedAttributes&
+    expectedAttributes): This method should read the attributes expected
+    to be found on this kind of extended component in an SBML file or data
+    stream.
+
+    * hasRequiredAttributes(): This method should return True if all
+    of the required attribute for this extended component are present on
+    instance of the object.
+
+    * writeAttributes(XMLOutputStream stream): This method should
+    write out the attributes of an extended component.  The implementation
+    should use the different kinds of writeAttribute methods defined by
+    XMLOutputStream to achieve this.
+
+    @subsubsection sdp-methods-elem 2.5 Override virtual methods for
+    subcomponents
+
+    If the extended component is defined by the Level 3 package to have
+    subcomponents (i.e., full XML elements rather than mere attributes),
+    then the extended class definition needs to override the following
+    internal methods on SBasePlugin (the base class of SBMLDocumentPlugin)
+    and provide appropriate implementations:
+
+    * createObject(XMLInputStream stream): Subclasses must override
+    this method to create, store, and then return an SBML object
+    corresponding to the next XMLToken in the XMLInputStream.  To do this,
+    implementations can use methods like peek() on XMLInputStream to test
+    if the next object in the stream is something expected for the
+    package. For example, LayoutModelPlugin uses peek() to examine the
+    next element in the input stream, then tests that element against the
+    Layout namespace and the element name 'listOfLayouts' to see if it's
+    the single subcomponent (ListOfLayouts) permitted on a Model object
+    using the Layout package.  If it is, it returns the appropriate
+    object.
+
+    * connectToParent(SBase sbase): This creates a parent-child
+    relationship between a given extended component and its
+    subcomponent(s).
+
+    * setSBMLDocument(SBMLDocument d): This method should set the
+    parent SBMLDocument object on the subcomponent object instances, so
+    that the subcomponent instances know which SBMLDocument contains them.
+
+    * enablePackageInternal(string& pkgURI, string& pkgPrefix, bool
+    flag): This method should enable or disable the subcomponent based on
+    whether a given XML namespace is active.
+
+    * writeElements(XMLOutputStream stream): This method must be
+    overridden to provide an implementation that will write out the
+    expected subcomponents/subelements to the XML output stream.
+
+    * readOtherXML(SBase parentObject, XMLInputStream stream): This
+    function should be overridden if elements of annotation, notes, MathML
+    content, etc., need to be directly parsed from the given
+    XMLInputStream object.
+
+    * hasRequiredElements(): This method should return True if a given
+    object contains all the required subcomponents defined by the
+    specification for that SBML Level 3 package.
+
+    @subsubsection sdp-methods-xmlns 2.6 Override virtual methods for XML
+    namespaces
+
+    If the package needs to add additional xmlns attributes to declare
+    additional XML namespace URIs, the extended class should override the
+    following method coming from SBasePlugin (the parent class of
+    SBMLDocumentPlugin):
+
+    * writeXMLNS(XMLOutputStream stream): This method should write out
+    any additional XML namespaces that might be needed by a package
+    implementation.
+
+    @subsubsection sdp-methods-hooks 2.7 Implement additional methods as
+    needed
+
+    Extended SBMLDocumentPlugin implementations can add whatever
+    additional utility methods are useful for their implementation.
 
     """
     __swig_setmethods__ = {}
@@ -52273,18 +53381,47 @@ class SBMLDocumentPlugin(SBasePlugin):
         SBMLDocumentPlugin(string &uri, string &prefix, SBMLNamespaces
         sbmlns)
 
-        Constructor
+        Creates a new SBMLDocumentPlugin object using the given parameters.
 
-        Parameter 'uri' is the URI of package  Parameter 'prefix' is the
-        prefix for the given package Parameter 'sbmlns' is the SBMLNamespaces
-        object for the package
+        In the XML representation of an SBML document, XML namespaces are
+        used to identify the origin of each XML construct used.  XML
+        namespaces are identified by their unique resource identifiers (URIs).
+        The core SBML specifications stipulate the namespaces that must be
+        used for core SBML constructs; for example, all XML elements that
+        belong to SBML Level 3 Version 1 Core must be placed in the XML
+        namespace identified by the URI
+        'http://www.sbml.org/sbml/level3/version1/core'.  Individual SBML
+        Level 3 packages define their own XML namespaces; for example, all
+        elements belonging to the SBML Level 3 Layout Version 1 package must
+        be placed in the XML namespace
+        'http://www.sbml.org/sbml/level3/version1/layout/version1/'.
+
+        The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
+        information.  It is used to communicate the SBML Level, Version, and
+        (in Level 3) packages used in addition to SBML Level 3 Core.  A common
+        approach to using libSBML's SBMLNamespaces facilities is to create an
+        SBMLNamespaces object somewhere in a program once, then hand that
+        object as needed to object constructors that accept SBMLNamespaces as
+        arguments.
+
+        Parameter 'uri' is the URI of the SBML Level 3 package implemented by
+        this libSBML package extension.
+
+        Parameter 'prefix' is the XML namespace prefix being used for the
+        package.
+
+        Parameter 'sbmlns' is the SBMLNamespaces object for the package.
 
         ______________________________________________________________________
         Method variant with the following signature:
 
         SBMLDocumentPlugin(SBMLDocumentPlugin orig)
 
-        Copy constructor. Creates a copy of this object.
+        Copy constructor.
+
+        This creates a copy of this object.
+
+        Parameter 'orig' is the SBMLDocumentPlugin instance to copy.
 
         """
         this = _libsbml.new_SBMLDocumentPlugin(*args)
@@ -52307,18 +53444,42 @@ class SBMLDocumentPlugin(SBasePlugin):
         """
         setRequired(self, bool value) -> int
 
-        Sets the bool value of 'required' attribute of corresponding package
-        in SBMLDocument element.
+        Sets the SBML 'required' attribute value.
 
-        Parameter 'value' is the bool value of 'required' attribute of
-        corresponding  package in SBMLDocument element.
+        SBML Level 3 requires that every package defines an attribute named
+        'required' on the root <sbml> element in an SBML file or data stream.
+        The attribute, being in the namespace of the Level 3 package in
+        question, must be prefixed by the XML namespace prefix associated with
+        the package.  The value of the 'required' attribute indicates whether
+        constructs in that package may change the mathematical interpretation
+        of constructs defined in SBML Level 3 Core.  A 'required' value of
+        True indicates that the package may do so.  The value of the attribute
+        is set by the Level 3 package specification, and does not depend on
+        the actual presence or absence of particular package constructs in a
+        given SBML document: in other words, if the package specification
+        defines any construct that can change the model's meaning, the value
+        of the 'required' attribute must always be set to True in any SBML
+        document that uses the package.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        The XML namespace declaration for an SBML Level 3 package is an
+        indication that a model makes use of features defined by that package,
+        while the 'required' attribute indicates whether the features may be
+        ignored without compromising the mathematical meaning of the model.
+        Both are necessary for a complete reference to an SBML Level 3
+        package.
+
+        Parameter 'value' is the value to be assigned to the 'required'
+        attribute. The 'required' attribute takes a Boolean value, either True
+        or False.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
         * LIBSBML_UNEXPECTED_ATTRIBUTE
+
+        See also getRequired(), isSetRequired(), unsetRequired().
 
         """
         return _libsbml.SBMLDocumentPlugin_setRequired(self, *args)
@@ -52327,11 +53488,33 @@ class SBMLDocumentPlugin(SBasePlugin):
         """
         getRequired(self) -> bool
 
-        Returns the bool value of 'required' attribute of corresponding
-        package in SBMLDocument element.
+        Returns the value of the 'required' attribute.
 
-        Returns the bool value of 'required' attribute of corresponding
-        package in SBMLDocument element.
+        SBML Level 3 requires that every package defines an attribute named
+        'required' on the root <sbml> element in an SBML file or data stream.
+        The attribute, being in the namespace of the Level 3 package in
+        question, must be prefixed by the XML namespace prefix associated with
+        the package.  The value of the 'required' attribute indicates whether
+        constructs in that package may change the mathematical interpretation
+        of constructs defined in SBML Level 3 Core.  A 'required' value of
+        True indicates that the package may do so.  The value of the attribute
+        is set by the Level 3 package specification, and does not depend on
+        the actual presence or absence of particular package constructs in a
+        given SBML document: in other words, if the package specification
+        defines any construct that can change the model's meaning, the value
+        of the 'required' attribute must always be set to True in any SBML
+        document that uses the package.
+
+        The XML namespace declaration for an SBML Level 3 package is an
+        indication that a model makes use of features defined by that package,
+        while the 'required' attribute indicates whether the features may be
+        ignored without compromising the mathematical meaning of the model.
+        Both are necessary for a complete reference to an SBML Level 3
+        package.
+
+        Returns the bool value of 'required' attribute for the SBML package.
+
+        See also setRequired(), isSetRequired(), unsetRequired().
 
         """
         return _libsbml.SBMLDocumentPlugin_getRequired(self)
@@ -52340,11 +53523,32 @@ class SBMLDocumentPlugin(SBasePlugin):
         """
         isSetRequired(self) -> bool
 
-        Predicate returning True or False depending on whether this
-        SBMLDocumentPlugin's 'required' attribute has been set.
+        Returns the value of the 'required' attribute.
+
+        SBML Level 3 requires that every package defines an attribute named
+        'required' on the root <sbml> element in an SBML file or data stream.
+        The attribute, being in the namespace of the Level 3 package in
+        question, must be prefixed by the XML namespace prefix associated with
+        the package.  The value of the 'required' attribute indicates whether
+        constructs in that package may change the mathematical interpretation
+        of constructs defined in SBML Level 3 Core.  A 'required' value of
+        True indicates that the package may do so.  The value of the attribute
+        is set by the Level 3 package specification, and does not depend on
+        the actual presence or absence of particular package constructs in a
+        given SBML document: in other words, if the package specification
+        defines any construct that can change the model's meaning, the value
+        of the 'required' attribute must always be set to True in any SBML
+        document that uses the package.
+
+        The XML namespace declaration for an SBML Level 3 package is an
+        indication that a model makes use of features defined by that package,
+        while the 'required' attribute indicates whether the features may be
+        ignored without compromising the mathematical meaning of the model.
+        Both are necessary for a complete reference to an SBML Level 3
+        package.
 
         Returns True if the 'required' attribute of this SBMLDocument has been
-        set, False otherwise.
+        set to True, False otherwise.
 
         """
         return _libsbml.SBMLDocumentPlugin_isSetRequired(self)
@@ -52360,8 +53564,6 @@ class SBMLDocumentPlugin(SBasePlugin):
         The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
-
-        * LIBSBML_OPERATION_FAILED
 
         """
         return _libsbml.SBMLDocumentPlugin_unsetRequired(self)
@@ -52389,7 +53591,70 @@ SBMLDocumentPlugin_swigregister(SBMLDocumentPlugin)
 
 class SBMLExtension(_object):
     """
-    Internal implementation method.
+    Base class for SBML Level 3 package plug-ins.
+
+    This class of objects is defined by libSBML only and has no direct
+    equivalent in terms of SBML components. This class is not prescribed
+    by the SBML specifications, although it is used to implement features
+    defined in SBML.
+
+    The SBMLExtension class is a component of the libSBML package
+    extension mechanism.  It is an abstract class that is extended by each
+    package extension implementation.
+
+    Special handling for SBML Level 2
+    ======================================================================
+
+    Due to the historical background of the SBML Layout package, libSBML
+    implements special behavior for that package: it always creates a
+    Layout plugin object for any SBML Level 2 document it reads in,
+    regardless of whether that document actually uses Layout constructs.
+    This is unlike the case for SBML Level 3 documents that use Layout;
+    for them, libSBML will not create a plugin object unless the document
+    actually declares the use of the Layout package (via the usual Level 3
+    namespace declaration for Level 3 packages).
+
+    This has the following consequence.  If an application queries for the
+    presence of Layout in an SBML Level 2 document by testing only for the
+    existence of the plugin object, it will always get a positive result;
+    in other words, the presence of a Layout extension object is not an
+    indication of whether a read-in Level 2 document does or does not use
+    SBML Layout.  Instead, callers have to query explicitly for the
+    existence of layout information.  An example of such a query is the
+    following code:
+
+      # Assume 'doc' below is an SBMLDocument object.
+      m = doc.getModel()
+      if m != None:
+          layoutPlugin = m.getPlugin('layout')
+          if layoutPlugin != None:
+              numLayouts = layoutPlugin.getNumLayouts()
+              # If numLayouts is greater than zero, then the model uses Layout.
+
+    The special, always-available Level 2 Layout behavior was motivated
+    by a desire to support legacy applications.  In SBML Level 3, the
+    Layout package uses the normal SBML Level 3 scheme of requiring
+    declarations on the SBML document element.  This means that upon
+    reading a model, libSBML knows right away whether it contains layout
+    information. In SBML Level 2, there is no top-level declaration
+    because layout is stored as annotations in the body of the model.
+    Detecting the presence of layout information when reading a Level 2
+    model requires parsing the annotations.  For efficiency reasons,
+    libSBML normally does not parse annotations automatically when reading
+    a model.  However, applications that predated the introduction of
+    Level 3 Layout and the updated version of libSBML never had to do
+    anything special to enable parsing layout; the facilities were always
+    available for every Level 2 model as long as libSBML was compiled with
+    Layout support.  To avoid burdening developers of legacy applications
+    with the need to modify their software, libSBML provides backward
+    compatibility by always preloading the Layout package extension when
+    reading Level 2 models.  The same applies to the creation of Level 2
+    models: with the plugin-oriented libSBML, applications normally would
+    have to take deliberate steps to activate package code, instantiate
+    objects, manage namespaces, and so on.  LibSBML again loads the Layout
+    package plugin automatically when creating a Level 2 model, thereby
+    making the APIs available to legacy applications without further work
+    on their part.
 
     """
     __swig_setmethods__ = {}
@@ -52404,9 +53669,11 @@ class SBMLExtension(_object):
         """
         getNumOfSBasePlugins(self) -> int
 
-        Returns the number of SBasePlugin objects stored in this object.
+        Returns the number of SBasePluginCreatorBase objects stored in this
+        object.
 
-        Returns the number of SBasePlugin objects stored in this object.
+        Returns the total number of SBasePluginCreatorBase objects stored in
+        this SBMLExtension-derived object.
 
         """
         return _libsbml.SBMLExtension_getNumOfSBasePlugins(self)
@@ -52415,11 +53682,10 @@ class SBMLExtension(_object):
         """
         getNumOfSupportedPackageURI(self) -> unsigned int
 
-        Returns the number of supported package Namespace (package versions)
-        of this  package extension.
+        Returns the number of supported package namespace URIs.
 
-        Returns the number of supported package Namespace (package versions)
-        of this  package extension.
+        Returns the number of supported package XML namespace URIs of this
+        package extension.
 
         """
         return _libsbml.SBMLExtension_getNumOfSupportedPackageURI(self)
@@ -52428,24 +53694,25 @@ class SBMLExtension(_object):
         """
         isSupported(self, string uri) -> bool
 
-        Returns a flag indicating, whether the given URI (package version) is
-        supported by this package extension.
+        Returns True if the given XML namespace URI is supported by this
+        package extension.
 
-        Returns true if the given URI (package version) is supported by this
-        package extension, otherwise false is returned.
+        Returns True if the given XML namespace URI (equivalent to a package
+        version) is supported by this package extension, False otherwise.
 
         """
         return _libsbml.SBMLExtension_isSupported(self, *args)
 
     def getSupportedPackageURI(self, *args):
         """
-        getSupportedPackageURI(self, unsigned int i) -> string
+        getSupportedPackageURI(self, unsigned int n) -> string
 
-        Returns the ith URI (the supported package version)
+        Returns the nth XML namespace URI.
 
-        Parameter 'i' is the index of the list of URI (the list of supporeted
-        package versions) Returns the URI of supported package version with
-        the given index.
+        Parameter 'n' is the index number of the namespace URI being sought.
+        Returns a string representing the XML namespace URI understood to be
+        supported by this package.  An empty string will be returned if there
+        is no nth URI.
 
         """
         return _libsbml.SBMLExtension_getSupportedPackageURI(self, *args)
@@ -52454,12 +53721,15 @@ class SBMLExtension(_object):
         """
         clone(self) -> SBMLExtension
 
-        (NOTICE) Package developers MUST OVERRIDE this pure virtual function
-        in their derived class.
-
         Creates and returns a deep copy of this SBMLExtension object.
 
-        Returns a (deep) copy of this SBase object
+        Returns a (deep) copy of this SBMLExtension object.
+
+        Note:
+
+        This is a method that package extension implementations must override.
+        See the libSBML documentation on extending libSBML to support SBML
+        packages for more information on this topic.
 
         """
         return _libsbml.SBMLExtension_clone(self)
@@ -52468,12 +53738,19 @@ class SBMLExtension(_object):
         """
         getName(self) -> string
 
-        (NOTICE) Package developers MUST OVERRIDE this pure virtual function
-        in their derived class.
+        Returns the nickname of this package.
 
-        Returns the name of this package (e.g. 'layout', 'multi').
+        This returns the short-form name of an SBML Level 3 package
+        implemented by a given SBMLExtension-derived class.  Examples of such
+        names are 'layout', 'fbc', etc.
 
-        Returns the name of package extension
+        Returns a string, the nickname of SBML package.
+
+        Note:
+
+        This is a method that package extension implementations must override.
+        See the libSBML documentation on extending libSBML to support SBML
+        packages for more information on this topic.
 
         """
         return _libsbml.SBMLExtension_getName(self)
@@ -52482,16 +53759,20 @@ class SBMLExtension(_object):
         """
         getURI(self, unsigned int sbmlLevel, unsigned int sbmlVersion, unsigned int pkgVersion) -> string
 
-        (NOTICE) Package developers MUST OVERRIDE this pure virtual function
-        in their derived class.
+        Returns the XML namespace URI for a given Level and Version.
 
-        Returns the uri corresponding to the given SBML level, SBML version,
-        and package version.
+        Parameter 'sbmlLevel' is the SBML Level. Parameter 'sbmlVersion' is
+        the SBML Version. Parameter 'pkgVersion' is the version of the
+        package.
 
-        Parameter 'sbmlLevel' is the level of SBML Parameter 'sbmlVersion' is
-        the version of SBML Parameter 'pkgVersion' is the version of package
+        Returns a string, the XML namespace URI for the package for the given
+        SBML Level, SBML Version, and package version.
 
-        Returns a string of the package URI
+        Note:
+
+        This is a method that package extension implementations must override.
+        See the libSBML documentation on extending libSBML to support SBML
+        packages for more information on this topic.
 
         """
         return _libsbml.SBMLExtension_getURI(self, *args)
@@ -52500,14 +53781,18 @@ class SBMLExtension(_object):
         """
         getLevel(self, string uri) -> unsigned int
 
-        (NOTICE) Package developers MUST OVERRIDE this pure virtual function
-        in their derived class.
+        Returns the SBML Level associated with the given XML namespace URI.
 
-        Returns the SBML level associated with the given URI of this package.
-
-        Parameter 'uri' is the string of URI that represents a versions of the
-        package Returns the SBML level associated with the given URI of this
+        Parameter 'uri' is the string of URI that represents a version of the
         package.
+
+        Returns the SBML Level associated with the given URI of this package.
+
+        Note:
+
+        This is a method that package extension implementations must override.
+        See the libSBML documentation on extending libSBML to support SBML
+        packages for more information on this topic.
 
         """
         return _libsbml.SBMLExtension_getLevel(self, *args)
@@ -52516,15 +53801,19 @@ class SBMLExtension(_object):
         """
         getVersion(self, string uri) -> unsigned int
 
-        (NOTICE) Package developers MUST OVERRIDE this pure virtual function
-        in their derived class.
+        Returns the SBML Version associated with the given XML namespace URI.
 
-        Returns the SBML version associated with the given URI of this
+        Parameter 'uri' is the string of URI that represents a version of the
         package.
 
-        Parameter 'uri' is the string of URI that represents a versions of the
-        package Returns the SBML version associated with the given URI of this
+        Returns the SBML Version associated with the given URI of this
         package.
+
+        Note:
+
+        This is a method that package extension implementations must override.
+        See the libSBML documentation on extending libSBML to support SBML
+        packages for more information on this topic.
 
         """
         return _libsbml.SBMLExtension_getVersion(self, *args)
@@ -52533,15 +53822,20 @@ class SBMLExtension(_object):
         """
         getPackageVersion(self, string uri) -> unsigned int
 
-        (NOTICE) Package developers MUST OVERRIDE this pure virtual function
-        in their derived class.
+        Returns the package version associated with the given XML namespace
+        URI.
+
+        Parameter 'uri' is the string of URI that represents a version of this
+        package.
 
         Returns the package version associated with the given URI of this
         package.
 
-        Parameter 'uri' is the string of URI that represents a versions of
-        this package Returns the package version associated with the given URI
-        of this package.
+        Note:
+
+        This is a method that package extension implementations must override.
+        See the libSBML documentation on extending libSBML to support SBML
+        packages for more information on this topic.
 
         """
         return _libsbml.SBMLExtension_getPackageVersion(self, *args)
@@ -52550,11 +53844,21 @@ class SBMLExtension(_object):
         """
         getStringFromTypeCode(self, int typeCode) -> char
 
-        (NOTICE) Package developers MUST OVERRIDE this pure virtual function
-        in their derived class.
+        Returns a string representation of a type code.
 
-        This method takes a type code of this package and returns a string
-        representing the code.
+        This method takes a numerical type code 'typeCode' for a component
+        object implemented by this package extension, and returns a string
+        representing that type code.
+
+        Parameter 'typeCode' is the type code to turn into a string.
+
+        Returns the string representation of 'typeCode'.
+
+        Note:
+
+        This is a method that package extension implementations must override.
+        See the libSBML documentation on extending libSBML to support SBML
+        packages for more information on this topic.
 
         """
         return _libsbml.SBMLExtension_getStringFromTypeCode(self, *args)
@@ -52563,19 +53867,25 @@ class SBMLExtension(_object):
         """
         getSBMLExtensionNamespaces(self, string uri) -> SBMLNamespaces
 
-        (NOTICE) Package developers MUST OVERRIDE this pure virtual function
-        in  their derived class.
+        Returns a specialized SBMLNamespaces object corresponding to a given
+        namespace URI.
 
-        Returns an SBMLExtensionNamespaces<class SBMLExtensionType> object
-        (e.g. SBMLExtensionNamespaces<LayoutExtension> whose alias type is
-        LayoutPkgNamespaces) corresponding to the given uri. Null will be
-        returned if the given uri is not defined in the corresponding
-        package.
+        LibSBML package extensions each define a subclass of SBMLNamespaces.
 
-        Parameter 'uri' is the string of URI that represents one of versions
-        of the package Returns an SBMLExtensionNamespaces<class
-        SBMLExtensionType> object. None will be returned if the given uri is
-        not defined in the corresponding  package.
+        The present method returns the appropriate object corresponding to the
+        given XML namespace URI in argument 'uri'.
+
+        Parameter 'uri' is the namespace URI that represents one of versions
+        of the package implemented in this extension.
+
+        Returns an SBMLNamespaces   object, or None if the given 'uri' is not
+        defined in the corresponding package.
+
+        Note:
+
+        This is a method that package extension implementations must override.
+        See the libSBML documentation on extending libSBML to support SBML
+        packages for more information on this topic.
 
         """
         return _libsbml.SBMLExtension_getSBMLExtensionNamespaces(self, *args)
@@ -52584,14 +53894,12 @@ class SBMLExtension(_object):
         """
         setEnabled(self, bool isEnabled) -> bool
 
-        enable/disable this package. Returned value is the result of this
-        function.
+        Enable or disable this package.
 
-        Parameter 'isEnabled' is the bool value: true (enabled) or false
-        (disabled)
+        Parameter 'isEnabled' is flag indicating whether to enable (if True)
+        or disable (False) this package extension.
 
-        Returns true if this function call succeeded, otherwise false is
-        returned.
+        Returns True if this call succeeded; False otherwise.
 
         """
         return _libsbml.SBMLExtension_setEnabled(self, *args)
@@ -52600,9 +53908,9 @@ class SBMLExtension(_object):
         """
         isEnabled(self) -> bool
 
-        Check if this package is enabled (true) or disabled (false).
+        Returns True if this package is enabled.
 
-        Returns true if this package is enabled, otherwise false is returned.
+        Returns True if this package is enabled, False otherwise.
 
         """
         return _libsbml.SBMLExtension_isEnabled(self)
@@ -52611,10 +53919,32 @@ class SBMLExtension(_object):
         """
         removeL2Namespaces(self, XMLNamespaces xmlns)
 
-        Removes the L2 Namespaces.
+        Removes the package's Level 2 namespace(s).
 
-        This method should be overridden by all extensions that want to
-        serialize to an L2 annotation.
+        This method is related to special facilities designed to support
+        legacy behaviors surrounding SBML Level 2 models.  Due to the
+        historical background of the SBML Layout package, libSBML implements
+        special behavior for that package: it always creates a Layout plugin
+        object for any SBML Level 2 document it reads in, regardless of
+        whether that document actually uses Layout constructs. Since Level 2
+        does not use namespaces on the top level of the SBML document object,
+        libSBML simply keys off the fact that the model is a Level 2 model.
+        To allow the extensions for the Layout and Render (and possibly other)
+        packages to support this behavior, the SBMLExtension class contains
+        special methods to allow packages to hook themselves into the Level 2
+        parsing apparatus when necessary.
+
+        Parameter 'xmlns' is an XMLNamespaces object that will be used for
+        the annotation. Implementations should override this method with
+        something that removes the package's namespace(s) from the set of
+        namespaces in 'xmlns'.  For instance, here is the code from the Layout
+        package extension:
+
+          for (int n = 0; n < xmlns->getNumNamespaces(); n++)
+          {
+            if (xmlns->getURI(n) == LayoutExtension.getXmlnsL2())
+              xmlns->remove(n);
+          }
 
         """
         return _libsbml.SBMLExtension_removeL2Namespaces(self, *args)
@@ -52623,10 +53953,29 @@ class SBMLExtension(_object):
         """
         addL2Namespaces(self, XMLNamespaces xmlns)
 
-        Adds all L2 Extension namespaces to the namespace list.
+        Adds the package's Level 2 namespace(s).
 
-        This method should be overridden by all extensions that want to
-        serialize to an L2 annotation.
+        This method is related to special facilities designed to support
+        legacy behaviors surrounding SBML Level 2 models.  Due to the
+        historical background of the SBML Layout package, libSBML implements
+        special behavior for that package: it always creates a Layout plugin
+        object for any SBML Level 2 document it reads in, regardless of
+        whether that document actually uses Layout constructs. Since Level 2
+        does not use namespaces on the top level of the SBML document object,
+        libSBML simply keys off the fact that the model is a Level 2 model.
+        To allow the extensions for the Layout and Render (and possibly other)
+        packages to support this behavior, the SBMLExtension class contains
+        special methods to allow packages to hook themselves into the Level 2
+        parsing apparatus when necessary.
+
+        Parameter 'xmlns' is an XMLNamespaces object that will be used for
+        the annotation. Implementation should override this method with
+        something that adds the package's namespace(s) to the set of
+        namespaces in 'xmlns'.  For instance, here is the code from the Layout
+        package extension:
+
+          if (!xmlns->containsUri( LayoutExtension.getXmlnsL2()))
+            xmlns->add(LayoutExtension.getXmlnsL2(), 'layout');
 
         """
         return _libsbml.SBMLExtension_addL2Namespaces(self, *args)
@@ -52635,10 +53984,28 @@ class SBMLExtension(_object):
         """
         enableL2NamespaceForDocument(self, SBMLDocument doc)
 
-        Adds the L2 Namespace to the document and enables the extension.
+        Called to enable the package on the SBMLDocument object.
 
-        If the extension supports serialization to SBML L2 Annotations, this
-        method should be overrridden, so it will be activated.
+        This method is related to special facilities designed to support
+        legacy behaviors surrounding SBML Level 2 models.  Due to the
+        historical background of the SBML Layout package, libSBML implements
+        special behavior for that package: it always creates a Layout plugin
+        object for any SBML Level 2 document it reads in, regardless of
+        whether that document actually uses Layout constructs. Since Level 2
+        does not use namespaces on the top level of the SBML document object,
+        libSBML simply keys off the fact that the model is a Level 2 model.
+        To allow the extensions for the Layout and Render (and possibly other)
+        packages to support this behavior, the SBMLExtension class contains
+        special methods to allow packages to hook themselves into the Level 2
+        parsing apparatus when necessary.
+
+        Parameter 'doc' is the SBMLDocument object for the model.
+        Implementations should override this method with something that
+        enables the package based on the package's namespace(s). For example,
+        here is the code from the Layout package extension:
+
+          if (doc->getLevel() == 2)
+            doc->enablePackage(LayoutExtension.getXmlnsL2(), 'layout', true);
 
         """
         return _libsbml.SBMLExtension_enableL2NamespaceForDocument(self, *args)
@@ -52650,10 +54017,10 @@ class SBMLExtension(_object):
         Indicates whether this extension is being used by the given
         SBMLDocument.
 
-        The default implementation returns true. This means that when a
+        The default implementation returns True.  This means that when a
         document had this extension enabled, it will not be possible to
-        convert it to L2 as we cannot make sure that the extension can be
-        converted.
+        convert it to SBML Level 2 as we cannot make sure that the extension
+        can be converted.
 
         Parameter 'doc' is the SBML document to test.
 
@@ -52711,7 +54078,22 @@ SBMLExtension_swigregister(SBMLExtension)
 
 class SBMLExtensionException(_object):
     """
-    Exceptions thrown by SBML Level 3 package plug-ins.
+    Exception used by package extensions
+
+    This class of objects is defined by libSBML only and has no direct
+    equivalent in terms of SBML components. This class is not prescribed
+    by the SBML specifications, although it is used to implement features
+    defined in SBML.
+
+    Certain situations can result in an exception being thrown by libSBML
+    package extensions.  A prominent example involves the constructor for
+    SBMLNamespaces (and its subclasses), which will throw
+    SBMLExtensionException if the arguments it is given refer to an
+    unknown SBML Level 3 package.  The situation can arise for legitimate
+    SBML files if the necessary package extension has not been registered
+    with a given copy of libSBML.
+
+    See also SBMLNamespaces.
 
     """
     __swig_setmethods__ = {}
@@ -52723,7 +54105,10 @@ class SBMLExtensionException(_object):
         """
         __init__(self, string errmsg) -> SBMLExtensionException
 
-        constructor
+        Creates a new SBMLExtensionException object with a given message.
+
+        Parameter 'errmsg' is a string, the text of the error message to store
+        with this exception
 
         """
         this = _libsbml.new_SBMLExtensionException(*args)
@@ -52736,7 +54121,26 @@ SBMLExtensionException_swigregister(SBMLExtensionException)
 
 class SBMLExtensionRegistry(_object):
     """
-    Registry where package plug-ins are registered.
+    Registry where package extensions are registered.
+
+    This class of objects is defined by libSBML only and has no direct
+    equivalent in terms of SBML components. This class is not prescribed
+    by the SBML specifications, although it is used to implement features
+    defined in SBML.
+
+    This class provides a central registry of all extensions known to
+    libSBML. Each package extension must be registered with the registry.
+    The registry class is accessed by various classes to retrieve
+    information about known package extensions and to create additional
+    attributes and/or elements by factory objects of the package
+    extensions.
+
+    The package extension registry is implemented as a singleton instance
+    of SBMLExtensionRegistry.  The class provides only utility
+    functionality; implementations of SBML packages do not need to
+    implement any subclasses or methods of this class.
+    SBMLExtensionRegistry is useful for its facilities to query the known
+    packages, and to enable or disable packages selectively.
 
     """
     __swig_setmethods__ = {}
@@ -52749,9 +54153,11 @@ class SBMLExtensionRegistry(_object):
         """
         getInstance() -> SBMLExtensionRegistry
 
-        Returns an instance (singleton) of the SBMLExtensionRegistry class.
-        This function needs to be invoked when manipulating the
-        SBMLExtensionRegistry class.
+        Returns a singleton instance of the registry.
+
+        Callers need to obtain a copy of the package extension registry before
+        they can invoke its methods.  The registry is implemented as a
+        singleton, and this is the method callers can use to get a copy of it.
 
         Returns the instance of the SBMLExtensionRegistry object.
 
@@ -52764,12 +54170,12 @@ class SBMLExtensionRegistry(_object):
         """
         addExtension(self, SBMLExtension ext) -> int
 
-        Add the given SBMLExtension to this SBMLExtensionRegistry.
+        Add the given SBMLExtension object to this SBMLExtensionRegistry.
 
         Parameter 'ext' is the SBMLExtension object to be added.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -52785,13 +54191,19 @@ class SBMLExtensionRegistry(_object):
         getExtension(self, string package) -> SBMLExtension
 
         Returns an SBMLExtension object with the given package URI or package
-        name (string).
+        name.
 
-        Parameter 'package' is the URI or name of the package extension
+        Parameter 'package' is a string representing the URI or name of the
+        SBML package whose package extension is being sought.
 
         Returns a clone of the SBMLExtension object with the given package URI
-        or name. The returned  extension is to be freed (i.e.: deleted) by the
-        caller!
+        or name.
+
+        Note:
+
+        The caller is responsible for freeing the object returned.  Since the
+        object is a clone, freeing it will not result in the deletion of the
+        original package extension object.
 
         """
         return _libsbml.SBMLExtensionRegistry_getExtension(self, *args)
@@ -52800,8 +54212,10 @@ class SBMLExtensionRegistry(_object):
         """
         removeL2Namespaces(self, XMLNamespaces xmlns)
 
-        Remove all L2 Extension namespaces from the namespace list. This will
-        call all  overriden SBMLExtension::removeL2Namespaces methods.
+        Removes SBML Level 2 namespaces from the namespace list.
+
+        Parameter 'xmlns' is an XMLNamespaces object listing one or more
+        namespaces to be removed.
 
         """
         return _libsbml.SBMLExtensionRegistry_removeL2Namespaces(self, *args)
@@ -52810,8 +54224,10 @@ class SBMLExtensionRegistry(_object):
         """
         addL2Namespaces(self, XMLNamespaces xmlns)
 
-        adds all L2 Extension namespaces to the namespace list. This will call
-        all  overriden SBMLExtension::addL2Namespaces methods.
+        Adds SBML Level 2 namespaces to the namespace list.
+
+        Parameter 'xmlns' is an XMLNamespaces object providing one or more
+        namespaces to be added.
 
         """
         return _libsbml.SBMLExtensionRegistry_addL2Namespaces(self, *args)
@@ -52820,8 +54236,16 @@ class SBMLExtensionRegistry(_object):
         """
         enableL2NamespaceForDocument(self, SBMLDocument doc)
 
-        Enables all extensions that support serialization / deserialization
-        with SBML Annotations.
+        Enables package extensions that support serialization to SBML
+        annotations.
+
+        SBML Level 2 does not have a package mechanism in the way that SBML
+        Level 3 does.  However, SBML annotations can be used to store SBML
+        constructs.  In fact, a widely-used approach to developing SBML Level
+        3 packages involves first using them as annotations.
+
+        Parameter 'doc' is the SBMLDocument object for which this should be
+        enabled.
 
         """
         return _libsbml.SBMLExtensionRegistry_enableL2NamespaceForDocument(self, *args)
@@ -52830,8 +54254,13 @@ class SBMLExtensionRegistry(_object):
         """
         disableUnusedPackages(self, SBMLDocument doc)
 
-        Goes through all extensions in the list of plugins of the given
-        document and disables all plugins that are not being used.
+        Disables unused packages.
+
+        This method walks through all extensions in the list of plugins of the
+        given SBML document 'doc', and disables all that are not being used.
+
+        Parameter 'doc' is the SBMLDocument object whose unused package
+        extensions should be disabled.
 
         """
         return _libsbml.SBMLExtensionRegistry_disableUnusedPackages(self, *args)
@@ -52840,7 +54269,10 @@ class SBMLExtensionRegistry(_object):
         """
         disablePackage(string package)
 
-        Disables the package with the given URI / name.
+        Disables the package with the given URI or name.
+
+        Parameter 'package' is a string representing the URI or name of the
+        SBML package whose package extension is to be disabled.
 
         """
         return _libsbml.SBMLExtensionRegistry_disablePackage(*args)
@@ -52851,11 +54283,11 @@ class SBMLExtensionRegistry(_object):
         """
         isPackageEnabled(string package) -> bool
 
-        If the given 'package' is enabled, returns True; otherwise, returns
-        False.
+        Returns True if the named package is enabled.
 
-        Returns the status (enabled = true, disabled = false of the given
-        package.
+        Parameter 'package' is the name or URI of a package to test.
+
+        Returns True if the package is enabled, False otherwise.
 
         """
         return _libsbml.SBMLExtensionRegistry_isPackageEnabled(*args)
@@ -52868,6 +54300,8 @@ class SBMLExtensionRegistry(_object):
 
         Enables the package with the given URI / name.
 
+        Parameter 'package' is the name or URI of a package to enable.
+
         """
         return _libsbml.SBMLExtensionRegistry_enablePackage(*args)
 
@@ -52877,11 +54311,12 @@ class SBMLExtensionRegistry(_object):
         """
         getNumExtension(self, SBaseExtensionPoint extPoint) -> unsigned int
 
-        Returns the number of SBMLExtension with the given extension point.
+        Returns the number of extensions that have a given extension point.
 
-        Parameter 'extPoint' is the SBaseExtensionPoint
+        Parameter 'extPoint' is the SBaseExtensionPoint object
 
-        Returns the number of SBMLExtension with the given extension point.
+        Returns the number of SBMLExtension-derived objects with the given
+        extension point.
 
         """
         return _libsbml.SBMLExtensionRegistry_getNumExtension(self, *args)
@@ -52890,14 +54325,13 @@ class SBMLExtensionRegistry(_object):
         """
         setEnabled(self, string uri, bool isEnabled) -> bool
 
-        Enable/disable the package with the given uri.
+        Enables or disable the package with the given URI.
 
         Parameter 'uri' is the URI of the target package. Parameter
-        'isEnabled' is the bool value corresponding to enabled (true) or
-        disabled (false)
+        'isEnabled' is True to enable the package, False to disable.
 
-        Returns false will be returned if the given bool value is false  or
-        the given package is not registered, otherwise true will be returned.
+        Returns False if 'isEnabled' is False or the given package is not
+        registered, otherwise this method returns True.
 
         """
         return _libsbml.SBMLExtensionRegistry_setEnabled(self, *args)
@@ -52906,13 +54340,12 @@ class SBMLExtensionRegistry(_object):
         """
         isEnabled(self, string uri) -> bool
 
-        Checks if the extension with the given URI is enabled (true) or
-        disabled (false)
+        Returns True if the given extension is enabled.
 
         Parameter 'uri' is the URI of the target package.
 
-        Returns false will be returned if the given package is disabled  or
-        not registered, otherwise true will be returned.
+        Returns False if the given package is disabled or not registered, True
+        otherwise.
 
         """
         return _libsbml.SBMLExtensionRegistry_isEnabled(self, *args)
@@ -52921,13 +54354,13 @@ class SBMLExtensionRegistry(_object):
         """
         isRegistered(self, string uri) -> bool
 
-        Checks if the extension with the given URI is registered (true)  or
-        not (false)
+        Returns True if a package extension is registered for the
+        corresponding package URI.
 
         Parameter 'uri' is the URI of the target package.
 
-        Returns true will be returned if the package with the given URI is
-        registered, otherwise false will be returned.
+        Returns True if the package with the given URI is registered,
+        otherwise returns False.
 
         """
         return _libsbml.SBMLExtensionRegistry_isRegistered(self, *args)
@@ -52936,10 +54369,13 @@ class SBMLExtensionRegistry(_object):
         """
         getAllRegisteredPackageNames() -> std::vector<(std::string)>
 
-        Returns a vector of registered packages (such as 'layout', 'fbc' or
-        'comp') the vector contains strings.
+        Returns a list of registered packages.
 
-        Returns the names of the registered packages in a list
+        This method returns a vector of strings containing the nicknames of
+        the SBML packages for which package extensions are registered with
+        this copy of libSBML.  The vector will contain string objects.
+
+        Returns a vector of strings
 
         """
         return _libsbml.SBMLExtensionRegistry_getAllRegisteredPackageNames()
@@ -52952,7 +54388,7 @@ class SBMLExtensionRegistry(_object):
 
         Returns the number of registered packages.
 
-        Returns the number of registered packages.
+        Returns a count of the registered package extensions.
 
         """
         return _libsbml.SBMLExtensionRegistry_getNumRegisteredPackages()
@@ -52963,11 +54399,14 @@ class SBMLExtensionRegistry(_object):
         """
         getRegisteredPackageName(unsigned int index) -> string
 
-        Returns the registered package name at the given index
+        Returns the nth registered package.
 
-        Parameter 'index' is zero based index of the package name to return
+        Parameter 'index' is zero-based index of the package name to return.
 
-        Returns the package name with the given index or None
+        Returns the package name with the given index, or None if none such
+        exists.
+
+        See also getNumRegisteredPackages().
 
         """
         return _libsbml.SBMLExtensionRegistry_getRegisteredPackageName(*args)
@@ -52981,9 +54420,11 @@ def SBMLExtensionRegistry_getInstance():
   """
     SBMLExtensionRegistry_getInstance() -> SBMLExtensionRegistry
 
-    Returns an instance (singleton) of the SBMLExtensionRegistry class.
-    This function needs to be invoked when manipulating the
-    SBMLExtensionRegistry class.
+    Returns a singleton instance of the registry.
+
+    Callers need to obtain a copy of the package extension registry before
+    they can invoke its methods.  The registry is implemented as a
+    singleton, and this is the method callers can use to get a copy of it.
 
     Returns the instance of the SBMLExtensionRegistry object.
 
@@ -52994,7 +54435,10 @@ def SBMLExtensionRegistry_disablePackage(*args):
   """
     SBMLExtensionRegistry_disablePackage(string package)
 
-    Disables the package with the given URI / name.
+    Disables the package with the given URI or name.
+
+    Parameter 'package' is a string representing the URI or name of the
+    SBML package whose package extension is to be disabled.
 
     """
   return _libsbml.SBMLExtensionRegistry_disablePackage(*args)
@@ -53003,11 +54447,11 @@ def SBMLExtensionRegistry_isPackageEnabled(*args):
   """
     SBMLExtensionRegistry_isPackageEnabled(string package) -> bool
 
-    If the given 'package' is enabled, returns True; otherwise, returns
-    False.
+    Returns True if the named package is enabled.
 
-    Returns the status (enabled = true, disabled = false of the given
-    package.
+    Parameter 'package' is the name or URI of a package to test.
+
+    Returns True if the package is enabled, False otherwise.
 
     """
   return _libsbml.SBMLExtensionRegistry_isPackageEnabled(*args)
@@ -53018,6 +54462,8 @@ def SBMLExtensionRegistry_enablePackage(*args):
 
     Enables the package with the given URI / name.
 
+    Parameter 'package' is the name or URI of a package to enable.
+
     """
   return _libsbml.SBMLExtensionRegistry_enablePackage(*args)
 
@@ -53025,10 +54471,13 @@ def SBMLExtensionRegistry_getAllRegisteredPackageNames():
   """
     SBMLExtensionRegistry_getAllRegisteredPackageNames() -> std::vector<(std::string)>
 
-    Returns a vector of registered packages (such as 'layout', 'fbc' or
-    'comp') the vector contains strings.
+    Returns a list of registered packages.
 
-    Returns the names of the registered packages in a list
+    This method returns a vector of strings containing the nicknames of
+    the SBML packages for which package extensions are registered with
+    this copy of libSBML.  The vector will contain string objects.
+
+    Returns a vector of strings
 
     """
   return _libsbml.SBMLExtensionRegistry_getAllRegisteredPackageNames()
@@ -53039,7 +54488,7 @@ def SBMLExtensionRegistry_getNumRegisteredPackages():
 
     Returns the number of registered packages.
 
-    Returns the number of registered packages.
+    Returns a count of the registered package extensions.
 
     """
   return _libsbml.SBMLExtensionRegistry_getNumRegisteredPackages()
@@ -53048,11 +54497,14 @@ def SBMLExtensionRegistry_getRegisteredPackageName(*args):
   """
     SBMLExtensionRegistry_getRegisteredPackageName(unsigned int index) -> string
 
-    Returns the registered package name at the given index
+    Returns the nth registered package.
 
-    Parameter 'index' is zero based index of the package name to return
+    Parameter 'index' is zero-based index of the package name to return.
 
-    Returns the package name with the given index or None
+    Returns the package name with the given index, or None if none such
+    exists.
+
+    See also getNumRegisteredPackages().
 
     """
   return _libsbml.SBMLExtensionRegistry_getRegisteredPackageName(*args)
@@ -54207,8 +55659,8 @@ class ASTNode(ASTBase):
         this constructor, the caller should set the node type to something
         else as soon as possible using ASTNode.setType().
 
-        Parameter 'type' is an optional type code indicating the type of node
-        to create.
+        Parameter 'type' is an optional integer type code indicating the type
+        of node to create.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -54238,8 +55690,8 @@ class ASTNode(ASTBase):
         operators, numbers, or AST_UNKNOWN.  This method has no effect on
         other types of nodes.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -54294,8 +55746,8 @@ class ASTNode(ASTBase):
 
         Parameter 'child' is the ASTNode instance to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -54330,8 +55782,8 @@ class ASTNode(ASTBase):
 
         Parameter 'child' is the ASTNode instance to add
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -54363,8 +55815,8 @@ class ASTNode(ASTBase):
 
         Parameter 'n' is long the index of the child to remove
 
-        Returns integer value indicating success/failure of the function. The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -54387,15 +55839,17 @@ class ASTNode(ASTBase):
 
     def replaceChild(self, *args):
         """
+        replaceChild(self, unsigned int n, ASTNode newChild, bool delreplaced = False) -> int
         replaceChild(self, unsigned int n, ASTNode newChild) -> int
 
         Replaces the nth child of this ASTNode with the given ASTNode.
 
         Parameter 'n' is long the index of the child to replace Parameter
-        'newChild' is ASTNode to replace the nth child
+        'newChild' is ASTNode to replace the nth child Parameter 'delreplaced'
+        is boolean indicating whether to delete the replaced child.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -54431,8 +55885,8 @@ class ASTNode(ASTBase):
         Parameter 'n' is long the index of the ASTNode being added Parameter
         'newChild' is ASTNode to insert as the nth child
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -54548,8 +56002,8 @@ class ASTNode(ASTBase):
 
         Parameter 'sAnnotation' is the annotation to add.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55471,8 +56925,8 @@ class ASTNode(ASTBase):
         Parameter 'value' is the character value to which the node's value
         should be set.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55487,8 +56941,8 @@ class ASTNode(ASTBase):
 
         Parameter 'id' is string representing the identifier.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55506,8 +56960,8 @@ class ASTNode(ASTBase):
         Parameter 'className' is string representing the MathML class for this
         node.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55524,8 +56978,8 @@ class ASTNode(ASTBase):
 
         Parameter 'style' is string representing the identifier.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55549,8 +57003,8 @@ class ASTNode(ASTBase):
         Parameter 'name' is the string containing the name to which this
         node's value should be set.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55579,8 +57033,8 @@ class ASTNode(ASTBase):
         Parameter 'numerator' is the numerator value of the rational.
         Parameter 'denominator' is the denominator value of the rational.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55597,8 +57051,8 @@ class ASTNode(ASTBase):
         value. Parameter 'exponent' is the exponent of this node's real-
         numbered value.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55614,8 +57068,8 @@ class ASTNode(ASTBase):
         Parameter 'value' is the integer to which this node's value should be
         set.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55635,8 +57089,8 @@ class ASTNode(ASTBase):
         Parameter 'value' is the float format number to which this node's
         value should be set.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55652,8 +57106,8 @@ class ASTNode(ASTBase):
         Parameter 'value' is the integer to which this node's value should be
         set.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55674,14 +57128,16 @@ class ASTNode(ASTBase):
 
         Sets the type of this ASTNode.
 
-        This uses integer type codes, which may come from ASTNodeType_t or an
-        enumeration of AST types in an SBML Level 3 package.
+        This uses integer type codes, which may come from the set of static
+        integer constants whose names begin with the prefix AST_  defined in
+        the interface class libsbml or an enumeration of AST types in an SBML
+        Level 3 package.
 
         Parameter 'type' is the integer representing the type to which this
         node should be set.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55724,8 +57180,8 @@ class ASTNode(ASTBase):
 
         Parameter 'units' is string representing the unit identifier.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55752,8 +57208,8 @@ class ASTNode(ASTBase):
         Parameter 'that' is the other node whose children should be used to
         replace this node's children.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55814,8 +57270,8 @@ class ASTNode(ASTBase):
 
         Unsets the units of this ASTNode.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55832,8 +57288,8 @@ class ASTNode(ASTBase):
 
         Unsets the MathML id attribute of this ASTNode.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55848,8 +57304,8 @@ class ASTNode(ASTBase):
 
         Unsets the MathML class attribute of this ASTNode.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55864,8 +57320,8 @@ class ASTNode(ASTBase):
 
         Unsets the MathML style attribute of this ASTNode.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55891,8 +57347,8 @@ class ASTNode(ASTBase):
 
         Parameter 'url' is the URL value for the definitionURL attribute.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -55958,8 +57414,8 @@ class ASTNode(ASTBase):
 
         Unsets the parent SBML object.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -56008,8 +57464,8 @@ class ASTNode(ASTBase):
         attribute will passed as it is. The attribute will be never
         interpreted by this class.
 
-        Returns integer value indicating success/failure of the function.  The
-        possible values returned by this function are:
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
 
         * LIBSBML_OPERATION_SUCCESS
 
@@ -56212,9 +57668,9 @@ def readMathMLFromStringWithNamespaces(*args):
     abstract syntax tree, and returns a pointer to the root of the tree.
 
     Parameter 'xml' is a string containing a full MathML expression
-    Parameter 'xmlns' is a XMLNamespaces_t object containing namespaces
-    that are considered active during the read e.g. an L3 package
-    namespace
+    Parameter 'xmlns' is an XMLNamespaces object containing namespaces
+    that are considered active during the read. (For example, an SBML
+    Level 3 package namespace.)
 
     Returns the root of an AST corresponding to the given mathematical
     expression, otherwise None is returned if the given string is None or
@@ -56227,7 +57683,7 @@ def writeMathMLToString(*args):
   """
     writeMathMLToString(ASTNode_t node) -> char
 
-    Writes the given ASTNode_t (and its children) to a string as MathML,
+    Writes the given AST node (and its children) to a string as MathML,
     and returns the string.
 
     Parameter 'node' is the root of an AST to write out to the stream.
@@ -57506,6 +58962,15 @@ def getLastParseL3Error():
 
     """
   return _libsbml.getLastParseL3Error()
+
+def SBML_deleteL3Parser():
+  """
+    SBML_deleteL3Parser()
+
+    Internal implementation method.
+
+    """
+  return _libsbml.SBML_deleteL3Parser()
 L3P_PARSE_LOG_AS_LOG10 = _libsbml.L3P_PARSE_LOG_AS_LOG10
 L3P_PARSE_LOG_AS_LN = _libsbml.L3P_PARSE_LOG_AS_LN
 L3P_PARSE_LOG_AS_ERROR = _libsbml.L3P_PARSE_LOG_AS_ERROR
@@ -57623,6 +59088,7 @@ class L3ParserSettings(_object):
             bool parseunits, bool avocsymbol, bool caseSensitive = False) -> L3ParserSettings
         __init__(self, Model model, ParseLogType_t parselog, bool collapseminus, 
             bool parseunits, bool avocsymbol) -> L3ParserSettings
+        __init__(self, L3ParserSettings source) -> L3ParserSettings
 
         This method has multiple variants; they differ in the arguments  they
         accept.  Each variant is described separately below.
@@ -57670,12 +59136,14 @@ class L3ParserSettings(_object):
         L3P_AVOGADRO_IS_NAME, the symbol is interpreted as a plain symbol
         name.
 
-        Parameter 'caseSensitive' is a flag that controls how the parser will
-        handle case sensitivity of any function name. If set to the value
-        L3P_COMPARE_BUILTINS_CASE_INSENSITIVE, the name is interpreted as teh
-        relevant math function regardless of case; if set to the value
-        L3P_COMPARE_BUILTINS_CASE_SENSITIVE, the name is interpreted as a user
-        defined function unless it is all lower case.
+        Parameter 'caseSensitive' is ('case sensitive') a flag that controls
+        how the cases of alphabetical characters are treated when symbols are
+        compared. If the flag is set to the value
+        L3P_COMPARE_BUILTINS_CASE_INSENSITIVE, symbols are compared in a case-
+        insensitive manner, which means that mathematical functions such as
+        'sin' will be matched no matter what their case is: 'Sin', 'SIN', etc.
+        If the flag is set to the value L3P_COMPARE_BUILTINS_CASE_SENSITIVE,
+        symbols are interpreted in a case-sensitive manner.
 
         Parameter 'sbmlns' is ('SBML namespaces') an SBML namespaces object.
         The namespaces identify the SBML Level 3 packages that can extend the
@@ -57722,10 +59190,20 @@ class L3ParserSettings(_object):
         * avocsymbol ('Avogadro csymbol') is set to
         L3P_AVOGADRO_IS_CSYMBOL.
 
+        * caseSensitive ('case sensitive') is set to
+        L3P_COMPARE_BUILTINS_CASE_INSENSITIVE.
+
         * sbmlns ('SBML namespaces') is set to None (which indicates that
         no syntax extensions due to SBML Level 3 packages will be assumed---
         the formula parser will only understand the core syntax described in
         the documentation for parseL3Formula()).
+
+        ______________________________________________________________________
+        Method variant with the following signature:
+
+        L3ParserSettings(L3ParserSettings source)
+
+        Copy constructor.
 
         """
         this = _libsbml.new_L3ParserSettings(*args)
@@ -58078,12 +59556,14 @@ class L3ParserSettings(_object):
         Sets the parser's behavior with respect to case sensitivity for
         recognizing predefined symbols.
 
-        By default, the parser compares symbols in a case insensitive manner
-        for built-in functions such as 'sin' and 'piecewise', and for
-        constants such as 'True' and 'avogadro'.  Setting this option to
-        False, you can force the string comparison to only match lower-case
-        strings. Thus, for example, 'sin' and 'True' will match the built-in
-        values, but 'SIN' and 'TRUE' will not.
+        By default (which is the value
+        L3P_COMPARE_BUILTINS_CASE_INSENSITIVE), the parser compares symbols in
+        a case insensitive manner for built-in functions such as 'sin' and
+        'piecewise', and for constants such as 'True' and 'avogadro'.  Setting
+        this option to L3P_COMPARE_BUILTINS_CASE_SENSITIVE causes the parser
+        to become case sensitive.  In that mode, for example, the symbols
+        'sin' and 'True' will match the built-in values, but the symbols
+        'SIN', 'Sin', 'True', 'TRUE', and so on, will not.
 
         Parameter 'strcmp' is a boolean indicating whether to be case
         sensitive (if True) or be case insensitive (if False).
@@ -58100,12 +59580,14 @@ class L3ParserSettings(_object):
         Returns True if the parser is configured to match built-in symbols in
         a case-insensitive way.
 
-        By default, the parser compares symbols in a case insensitive manner
-        for built-in functions such as 'sin' and 'piecewise', and for
-        constants such as 'True' and 'avogadro'.  Setting this option to
-        False, you can force the string comparison to only match lower-case
-        strings. Thus, for example, 'sin' and 'True' will match the built-in
-        values, but 'SIN' and 'TRUE' will not.
+        By default (which is the value
+        L3P_COMPARE_BUILTINS_CASE_INSENSITIVE), the parser compares symbols in
+        a case insensitive manner for built-in functions such as 'sin' and
+        'piecewise', and for constants such as 'True' and 'avogadro'.  Setting
+        this option to L3P_COMPARE_BUILTINS_CASE_SENSITIVE causes the parser
+        to become case sensitive.  In that mode, for example, the symbols
+        'sin' and 'True' will match the built-in values, but the symbols
+        'SIN', 'Sin', 'True', 'TRUE', and so on, will not.
 
         Returns True if matches are done in a case-sensitive manner, and
         False if the parser will recognize built-in functions and constants
@@ -58393,7 +59875,7 @@ class ASTBasePlugin(_object):
 
     def replaceChild(self, *args):
         """
-        replaceChild(self, unsigned int n, ASTBase newChild) -> int
+        replaceChild(self, unsigned int n, ASTBase newChild, bool delreplaced) -> int
 
         Internal implementation method.
 

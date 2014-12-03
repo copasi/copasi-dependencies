@@ -95,34 +95,22 @@
 
 
 %csmethodmodifiers IdList::append(const std::string& id) "
-/**
-   * Appends id to the list of ids.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers IdList::contains(const std::string& id) const "
-/**
-   * Returns true if id is already in this IdList, false otherwise.
-   *
-   * @return true if id is already in this IdList, false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers IdList::removeIdsBefore(const std::string& id) "
-/**
-   * Removes all ids in this IdList before the given @p id.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers IdList::size() const "
-/**
-   * Returns the number of ids in this IdList.
-   *
-   * @return the number of ids in this IdList.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -217,8 +205,13 @@
    *
    * @param userData specifies the new user data.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -795,11 +788,7 @@ if (doc.getNumErrors() > 0)
 
 
 %csmethodmodifiers SBMLReader::readInternal(const char* content, bool isFile = true) "
-/**
-   * Used by readSBML() and readSBMLFromString().
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html@endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -1279,9 +1268,13 @@ if (doc.getNumErrors() > 0)
    * @param name the name of this program (where \'this program\' refers to
    * program in which libSBML is embedded, not libSBML itself!)
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * 
    * @see setProgramVersion(string version)
@@ -1309,9 +1302,13 @@ if (doc.getNumErrors() > 0)
    * @param version the version of this program (where \'this program\'
    * refers to program in which libSBML is embedded, not libSBML itself!)
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setProgramName(string name)
@@ -1359,21 +1356,7 @@ if (doc.getNumErrors() > 0)
 
 
 %csmethodmodifiers SBMLWriter::writeToString(const SBMLDocument* d) "
-/**
-   * Writes the given SBML document to an in-memory string and returns a
-   * pointer to it.
-   *
-   * The string is owned by the caller and should be freed (with @c free())
-   * when no longer needed.
-   *
-   * @param d the SBML document to be written
-   *
-   * @return the string on success and @c 0 if one of the underlying parser
-   * components fail.
-   * 
-   * @see setProgramVersion(string version)
-   * @see setProgramName(string name)
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -1614,7 +1597,7 @@ if (doc.getNumErrors() > 0)
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html SBML\'s %SBase class, the base class of most SBML objects.
+@htmlinclude pkg-marker-core.html SBML\'s <em>%SBase</em> class, base class of most SBML objects.
  *
  * Most components in SBML are derived from a single abstract base type,
  * SBase.  In addition to serving as the parent class for most other
@@ -1890,78 +1873,37 @@ if (doc.getNumErrors() > 0)
 
 
 %csmethodmodifiers SBase::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this object has a child \'math\' object (or anything with ASTNodes in
-   * general), replace all nodes with the name \'id\' with the provided
-   * function.
-   *
-   * @note This function does nothing itself---subclasses with ASTNode
-   * subelements must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::divideAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If the function of this object is to assign a value has a child \'math\'
-   * object (or anything with ASTNodes in general), replace the \'math\'
-   * object with the function (existing/function).
-   *
-   * @note This function does nothing itself---subclasses with ASTNode
-   * subelements must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::multiplyAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this assignment assigns a value to the \'id\' element, replace the \'math\' object with the function (existing*function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::getElementFromPluginsBySId(std::string id) "
-/**
-   * Returns the first child element found that has the given @p id in the
-   * model-wide SId namespace from all plug-ins associated with this
-   * element, or @c null if no such object is found.
-   *
-   * @param id string representing the id of objects to find
-   *
-   * @return pointer to the first element found with the given @p id.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::getElementFromPluginsByMetaId(std::string metaid) "
-/**
-   * Returns the first child element it can find with the given @p metaid from
-   * all plug-ins associated with this element, or @c null if no such object
-   * is found.
-   *
-   * @param metaid string representing the metaid of objects to find
-   *
-   * @return pointer to the first element found with the given @p metaid.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::hasNonstandardIdentifierBeginningWith(const std::string& prefix) "
-/**
-   * Check to see if the given prefix is used by any of the IDs defined by
-   * extension elements *excluding* \'id\' and \'metaid\' attributes (as, for
-   * example, the spatial id attributes \'spid\').
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::prependStringToAllIdentifiers(const std::string& prefix) "
-/**
-   * Add the given string to all identifiers in the object.  If the string
-   * is added to anything other than an id or a metaid, this code is
-   * responsible for tracking down and renaming all *idRefs in the package
-   * extention that identifier comes from.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -3001,8 +2943,13 @@ if (doc.getNumErrors() > 0)
    * @param metaid the identifier string to use as the value of the
    * \'metaid\' attribute
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -3071,8 +3018,13 @@ if (doc.getNumErrors() > 0)
    * @param annotation an XML structure that is to be used as the new content
    * of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getAnnotationString()
@@ -3118,8 +3070,13 @@ if (doc.getNumErrors() > 0)
    * @param annotation an XML string that is to be used as the content
    * of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -3160,10 +3117,20 @@ if (doc.getNumErrors() > 0)
    * @param annotation an XML structure that is to be copied and appended
    * to the content of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS@endlink
+   * With \'unexpected attribute\' returned if the parent element does not have 
+   * the \'metaid\' attribute set, and \'duplicate annotation\' set if the parent 
+   * was already annotated with the annotation in question.
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -3202,10 +3169,20 @@ if (doc.getNumErrors() > 0)
    * @param annotation an XML string that is to be copied and appended
    * to the content of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS@endlink
+   * With \'unexpected attribute\' returned if the parent element does not have 
+   * the \'metaid\' attribute set, and \'duplicate annotation\' set if the parent 
+   * was already annotated with the annotation in question.
    *
    * @see getAnnotationString()
    * @see isSetAnnotation()
@@ -3238,8 +3215,13 @@ if (doc.getNumErrors() > 0)
    * empty, and the removeEmpty argument is true, the annotation node will be 
    * deleted (default). 
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_ANNOTATION_NAME_NOT_FOUND LIBSBML_ANNOTATION_NAME_NOT_FOUND@endlink
@@ -3269,8 +3251,13 @@ if (doc.getNumErrors() > 0)
    *
    * @param annotation XMLNode representing the replacement top level annotation 
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -3299,8 +3286,13 @@ if (doc.getNumErrors() > 0)
    *
    * @param annotation string representing the replacement top level annotation 
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -3341,8 +3333,13 @@ if (doc.getNumErrors() > 0)
    * @param notes an XML structure that is to be used as the content of the
    * \'notes\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -3433,8 +3430,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * tags.  This is appropriate when the string in @p notes does not already
    * containg the appropriate XHTML markup.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -3479,8 +3481,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * @param notes an XML node structure that is to appended to the content
    * of the \'notes\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -3525,8 +3532,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * @param notes an XML string that is to appended to the content of
    * the \'notes\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -3551,8 +3563,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @param history ModelHistory of this object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -3565,61 +3582,12 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
 
 
 %csmethodmodifiers SBase::setSBMLDocument(SBMLDocument* d) "
-/**
-   * Sets the parent SBMLDocument of this SBML object.
-   *
-   * *
- * 
- * LibSBML uses the class SBMLDocument as a top-level container for
- * storing SBML content and data associated with it (such as warnings and
- * error messages).  An SBML model in libSBML is contained inside an
- * SBMLDocument object.  SBMLDocument corresponds roughly to the class
- * <i>SBML</i> defined in the SBML Level&nbsp;3 and Level&nbsp;2
- * specifications, but it does not have a direct correspondence in SBML
- * Level&nbsp;1.  (But, it is created by libSBML no matter whether the
- * model is Level&nbsp;1, Level&nbsp;2 or Level&nbsp;3.)
- *
- *
-   * 
-   * @param d the SBMLDocument object to use
-   *
-   * @see connectToChild()
-   * @if clike
-   * @see enablePackageInternal()
-   * @endif
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::connectToParent(SBase* parent) "
-/**
-   * Sets the parent SBML object of this SBML object.
-   * (Creates a child-parent relationship by the child)
-   * This function is called when a child element is
-   * set/added/created by its parent element (e.g. by setXXX,
-   * addXXX, createXXX, and connectToChild functions of the
-   * parent element).
-   *
-   * @param parent the SBML object to use
-   */ /* libsbml-internal */ public new
-";
-
-
-%csmethodmodifiers SBase::connectToChild "
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor, assignment operator.
-   *
-   * @if clike
-   * @see setSBMLDocument()
-   * @see enablePackageInternal()
-   * @endif
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -3644,8 +3612,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @param value the NNNNNNN integer portion of the SBO identifier
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -3678,8 +3651,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    *
    * @param sboid the SBO identifier string of the form \'SBO:NNNNNNN\'
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -3702,8 +3680,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * 
    * @param xmlns the namespaces to set
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -3737,8 +3720,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
  *
  * 
    *  
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -3755,8 +3743,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * is used to identify the object within the SBML model definition.
    * Other objects can refer to the component using this identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -3800,8 +3793,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * restrictions on the uniqueness of \'name\' values in a model.  This
    * allows software applications leeway in assigning component identifiers.
    * 
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -3832,8 +3830,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * specifications have considerable detail about how \'notes\' element
    * content must be structured.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getNotesString()
@@ -3865,8 +3868,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * the data as well as help reduce conflicts between annotations added by
    * different tools.  Please see the SBML specifications for more details.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getAnnotation()
@@ -3884,8 +3892,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
 /**
    * Unsets the value of the \'sboTerm\' attribute of this SBML object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
@@ -3902,8 +3915,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
    * as a previous bag, and if @c false, adds the term to an existing
    * RDF bag with the same type of qualifier as the term being added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink, if
@@ -3979,8 +3997,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
 /**
    * Clears the list of CVTerm objects attached to this SBML object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -3991,8 +4014,13 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
 /**
    * Unsets the ModelHistory object attached to this object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -4268,7 +4296,7 @@ s.setNotes(\'<body xmlns=\'http://www.w3.org/1999/xhtml\'><p>here is my note</p>
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -4810,10 +4838,13 @@ void example (SBase sb)
    * 
    * @param flag whether to enable (@c true) or disable (@c false) the package
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
    * @li @link libsbml#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
@@ -4963,10 +4994,13 @@ newModel.addSpecies(s1);
    * 
    * @param pkgPrefix the XML prefix of the package
    * 
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN LIBSBML_PKG_UNKNOWN@endlink
    * @li @link libsbml#LIBSBML_PKG_VERSION_MISMATCH LIBSBML_PKG_VERSION_MISMATCH@endlink
@@ -4978,19 +5012,7 @@ newModel.addSpecies(s1);
 
 
 %csmethodmodifiers SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   *
-   * @note Subclasses in which one or more child elements are defined 
-   * must override this function.
-   *
-   * @if clike
-   * @see setSBMLDocument()
-   * @endif
-   * @see connectToChild()
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -5036,10 +5058,10 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c 
    * false otherwise.
    *
-   * @see isPkgEnabled(@if java String@endif)
-   *
    * @deprecated Replaced in libSBML 5.2.0 by
-   * isPackageURIEnabled(@if java String@endif)
+   * SBase::isPackageURIEnabled(@if java String@endif).
+   *
+   * @see isPkgEnabled(@if java String@endif)
    */ public
 ";
 
@@ -5056,49 +5078,31 @@ newModel.addSpecies(s1);
    * @return @c true if the given package is enabled within this object, @c
    * false otherwise.
    *
-   * @see isPkgURIEnabled(@if java String@endif)
-   *
    * @deprecated Replaced in libSBML 5.2.0 by
-   * isPackageEnabled(@if java String@endif)
+   * SBase::isPackageEnabled(@if java String@endif).
+   *
+   * @see isPkgURIEnabled(@if java String@endif)
    */ public
 ";
 
 
 %csmethodmodifiers SBase::writeExtensionElements(XMLOutputStream& stream) const "
-/**
-   * Writes out contained SBML objects of package extensions (if any)
-   * as XML elements.
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::read(XMLInputStream& stream) "
-/**
-   * Reads (initializes) this SBML object by reading from XMLInputStream.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::write(XMLOutputStream& stream) const "
-/**
-   * Writes (serializes) this SBML object by writing it to XMLOutputStream.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.  For example:@if clike
-   * <pre>
-   *   SBase::writeElements();
-   *   mReactants.write(stream);
-   *   mProducts.write(stream);
-   *   ...
-   * </pre>@endif
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -5164,10 +5168,13 @@ newModel.addSpecies(s1);
    * be overridden, but for all objects whose parent is of the class ListOf,
    * the default implementation will work.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -5283,8 +5290,13 @@ newModel.addSpecies(s1);
    *
    * @param userData specifies the new user data.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -5316,10 +5328,10 @@ newModel.addSpecies(s1);
    * Gets the namespace URI to which this element belongs to.
    *
    * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must would have the URI \'http://www.sbml.org/sbml/level3/version1/core\';
+   * must would have the URI <code>\'http://www.sbml.org/sbml/level3/version1/core\'</code>;
    * all elements that belong to Layout Extension Version 1 for SBML Level 3
    * Version 1 Core must would have the URI
-   * \'http://www.sbml.org/sbml/level3/version1/layout/version1/\'
+   * <code>\'http://www.sbml.org/sbml/level3/version1/layout/version1\'</code>.
    *
    * This function first returns the URI for this element by looking into the
    * SBMLNamespaces object of the document with the its package name.  If not
@@ -5348,7 +5360,7 @@ newModel.addSpecies(s1);
    * the elements tags. The default implementation does nothing.
    * 
    * @param text the text string found between the element tags.
-   */ public new
+   */ /* libsbml-internal */ public new
 ";
 
 
@@ -5363,197 +5375,87 @@ newModel.addSpecies(s1);
 
 
 %csmethodmodifiers SBase::SBase(unsigned int level, unsigned int version) "
-/**
-   * Creates a new SBase object with the given SBML level, version.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::SBase(SBMLNamespaces* sbmlns) "
-/**
-   * Creates a new SBase object with the given SBMLNamespaces.
-   * Only subclasses may create SBase objects.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::SBase(const SBase& orig) "
-/**
-  * Copy constructor. Creates a copy of this SBase object.
-   *
-   * @param orig the object to copy.
-   * 
-   * @throws SBMLConstructorException
-   * Thrown if the argument @p orig is @c null.
-  */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::createObject(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to create, store, and then
-   * return an SBML object corresponding to the next XMLToken in the
-   * XMLInputStream.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::hasValidLevelVersionNamespaceCombination(int typecode, XMLNamespaces *xmlns) "
-/**
-   * Predicate returning @c true if this
-   * object\'s level/version and namespace values correspond to a valid
-   * SBML specification.
-   *
-   * The valid combinations of SBML Level, Version and Namespace as of this
-   * release of libSBML are the following:
-   * <ul>
-   * <li> Level&nbsp;1 Version&nbsp;2: <code>\'http://www.sbml.org/sbml/level1\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;1: <code>\'http://www.sbml.org/sbml/level2\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;2: <code>\'http://www.sbml.org/sbml/level2/version2\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;3: <code>\'http://www.sbml.org/sbml/level2/version3\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;4: <code>\'http://www.sbml.org/sbml/level2/version4\'</code>
-   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code>\'http://www.sbml.org/sbml/level3/version1/core\'</code>
-   * </ul>
-   *
-   * @param typecode the typecode for this element
-   * @param xmlns the namespaces used by this element.
-   *
-   * @note  This function is provided as convenience method to be called from constructors. This 
-   *        allows to use it in scenarios where the namespaces or typecode have not yet been initialized. 
-   * 
-   * @return @c true if the level, version and namespace values of this 
-   * SBML object correspond to a valid set of values, @c false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::getElementPosition() const "
-/**
-   * The SBML XML Schema is written such that the order of child elements
-   * is significant.  LibSBML can read elements out of order.  If you
-   * override this method to indicate the ordinal position of element with
-   * respect to its siblings, libSBML will log an error if the element is
-   * read out of order.
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings or @c -1 (the default) to indicate the position is not
-   * significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::getErrorLog "
-/**
-   * Returns the SBMLErrorLog used to log errors while reading and
-   * validating SBML.
-   *
-   * @return the SBMLErrorLog used to log errors while reading and
-   * validating SBML.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::logError(  unsigned int       id , const unsigned int level   = 2 , const unsigned int version = 3 , const std::string& details = "" ) "
-/**
-   * Convenience method for easily logging problems from within method
-   * implementations.
-   *
-   * This is essentially a short form of getErrorLog()->logError(...)
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::logUnknownAttribute( const std::string& attribute, const unsigned int level, const unsigned int version, const std::string& element, const std::string& prefix="") "
-/**
-   * Helper to log a common type of error.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::logUnknownElement( const std::string& element, const unsigned int level, const unsigned int version ) "
-/**
-   * Helper to log a common type of error.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::logEmptyString( const std::string& attribute, const unsigned int level, const unsigned int version, const std::string& element) "
-/**
-   * Helper to log a common type of error.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to add the list of
-   * expected attributes. Be sure to call your parents implementation 
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.  For example:
-   *
-   *   SBase::writeAttributes(stream);
-   *   stream.writeAttribute( \'id\'  , mId   );
-   *   stream.writeAttribute( \'name\', mName );
-   *   ...
-   *
-   * (NOTICE) this function doesn\'t write xmlns attributes.
-   * Be sure to implement wirteXMLNS() function to write xmlns attributes.
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::writeXMLNS(XMLOutputStream& stream) const "
-/**
-   *
-   * Subclasses should override this method to write their xmlns attriubutes
-   * (if any) to the XMLOutputStream. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::syncAnnotation "
-/**
-   * Synchronizes the annotation of this SBML object.
-   *
-   * Annotation element (XMLNode mAnnotation) is synchronized with the 
-   * current CVTerm objects (List* mCVTerm).
-   * Currently, this method is called in getAnnotation, isSetAnnotation,
-   * and writeElements methods.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -5563,45 +5465,27 @@ newModel.addSpecies(s1);
 
 
 %csmethodmodifiers SBase::checkOrderAndLogError(SBase* object, int expected) "
-/**
-   * Checks that the SBML element appears in the expected order.
-   *
-   * If @p object is not in the expected position, an error is logged.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::checkListOfPopulated(SBase* object) "
-/**
-   * Checks that an SBML ListOf element is populated.  
-   * If a listOf element has been declared with no elements, 
-   * an error is logged.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::checkDefaultNamespace(const XMLNamespaces* xmlns, const std::string& elementName, const std::string& prefix = "") "
-/**
-   * Checks that the given default namespace in the given element is valid.
-   * If the given default namespace is not valid, an error is logged.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::checkAnnotation "
-/**
-   * Checks the annotation does not declare an sbml namespace.
-   * If the annotation declares an sbml namespace an error is logged.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::checkXHTML(const XMLNode *) "
-/**
-   * Checks that the XHTML is valid.
-   * If the xhtml does not conform to the specification of valid xhtml within
-   * an sbml document, an error is logged.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -5611,143 +5495,47 @@ newModel.addSpecies(s1);
 
 
 %csmethodmodifiers SBase::createExtensionObject(XMLInputStream& stream) "
-/**
-   * Create, store, and then return an SBML object of package extensions
-   * corresponding to the next XMLToken in the XMLInputStream.
-   *
-   * @return the SBML object of package extensions corresponding to next 
-   * XMLToken in the XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::setElementNamespace(const std::string &uri) "
-/**
-   * Sets the XML namespace to which this element belongs to.
-   * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must set the namespace to \'http://www.sbml.org/sbml/level3/version1/core\'; 
-   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-   * Version 1 Core must set the namespace to 
-   * \'http://www.sbml.org/sbml/level3/version1/layout/version1/\'
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::getElementNamespace() const "
-/**
-   * Gets the XML namespace (URI) to which this element belongs to.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::readExtensionAttributes(const XMLAttributes& attributes, const ExpectedAttributes* expectedAttributes = NULL) "
-/**
-   * Read attributes of package extensions from the given XMLAttributes 
-   * set into their specific fields. 
-   * 
-   * Be sure to call your parent\'s implementation of this function as well.  
-   * For example:
-   * @if clike
-@verbatim
-SBase::readExtensionAttributes(attributes, expectedAttributes);
-@endverbatim
-   * @endif@if java
-@verbatim
-SBase.readExtensionAttributes(attributes, expectedAttributes);
-@endverbatim
-   * @endif@if java
-@verbatim
-SBase.readExtensionAttributes(attributes, expectedAttributes);
-@endverbatim
-   * @endif@if python
-@verbatim
-SBase.readExtensionAttributes(attributes, expectedAttributes);
-@endverbatim
-   * @endif
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::writeExtensionAttributes(XMLOutputStream& stream) const "
-/**
-   * Write attributes of package extensions to the XMLOutputStream.  
-   *
-   * Be sure to call your parents implementation of this function as well.  
-   * For example:
-   *
-   *   SBase::writeExtensionAttributes(stream);
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBase::storeUnknownExtAttribute(const std::string& element, const XMLAttributes& xattr, unsigned int index) "
-/**
-   * Stores the given attribute to the list of ignored attributes if
-   * the given attribute belongs to some unknown package extension.
-   * Unknown attribute error will be logged if the \'required\' attribute
-   * of the package is \'true\' in SBMLDocument element.
-   *
-   * The stored attributes will be written out as-is when writing the 
-   * SBMLDocument to a string or a file (i.e. Attributes and elements of 
-   * unknown package extensions will not be lost when reading/writing 
-   * a file/sting containing them.)
-   *
-   * @param element the string of element which contains the given attribute
-   * @param xattr the XMLAttributes object which is contained in the given 
-   * element
-   * @param index the index of the target attribute in the given XMLAttributes
-   * object.
-   *
-   * @return true will be returned if the given attribute belongs
-   * to some unknown package extension, otherwise false will be returned.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::storeUnknownExtElement(XMLInputStream &stream) "
-/**
-   * Stores the element of next token if the element belongs to some 
-   * unknown package extension. Unknown element error will be logged if
-   * the \'required\' attribute of the package is \'true\' in SBMLDocument 
-   * element.
-   *
-   * The stored elements will be written out as-is when writing the 
-   * SBMLDocument to a string or a file (i.e. Attributes and elements of 
-   * unknown package extensions will not be lost when reading/writing 
-   * a file/sting containing them.)
-   *
-   * @return true will be returned if the element of next token belongs
-   * to some unknown package extension, otherwise false will be returned.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::getSBMLPrefix() const "
-/**
-   * Return the SBML prefix of this element. This will be the same as getPrefix()
-   * unless the element in question is an element of an SBML extension class.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::getRootElement "
-/**
-   * Returns the root element of the node tree to which this element is connected.
-   *
-   * @note The root element may not be an SBMLDocument element. For example,
-   * this element is the root element if this element doesn\'t have a parent
-   * SBML object (i.e. mParentSBMLObject is null)
-   *
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -5757,42 +5545,27 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
 
 
 %csmethodmodifiers SBase::setSBaseFields(const XMLToken& element) "
-/**
-   * Stores the location (line and column) and any XML namespaces (for
-   * roundtripping) declared on this SBML (XML) element.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::readAnnotation(XMLInputStream& stream) "
-/**
-   * Reads an annotation from the stream and returns true if successful.
-   *
-   * @return true if read an <annotation> element from the stream
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::removeDuplicatedResources(CVTerm *term, QualifierType_t type) "
-/**
-   * removes resources from the term object that alread exist on this object 
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::addTermToExistingBag(CVTerm *term, QualifierType_t type) "
-/**
-  * adds the given term to an existing bag. Returns 1 if added, 0 otherwise. 
-  */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBase::readNotes(XMLInputStream& stream) "
-/**
-   * Reads the notes from the stream and returns true if successful.
-   *
-   * @return true if read a <notes> element from the stream
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -5989,10 +5762,13 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    *
    * @param item the item to be added to the list.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -6013,10 +5789,13 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    *
    * @param item the item to be added to the list.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -6035,10 +5814,13 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    *
    * @param list a list of items to be added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -6059,10 +5841,13 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * @param location the location in the list where to insert the item.
    * @param item the item to be inserted to the list.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -6082,10 +5867,13 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * @param location the location where to insert the item
    * @param item the item to be inserted to the list
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -6194,10 +5982,13 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
    * @if cpp Implementations of subclasses of ListOf may need to override
    * this method if different handling of child objects is needed.@endif
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
 ";
@@ -6227,30 +6018,7 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
 
 
 %csmethodmodifiers ListOf::setSBMLDocument(SBMLDocument* d) "
-/**
-   * Sets the parent SBMLDocument of this SBML object.
-   *
-   * @param d the SBMLDocument that should become the parent of this
-   * ListOf.
-   */ /* libsbml-internal */ public new
-";
-
-
-%csmethodmodifiers ListOf::connectToChild "
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor and assignment operator.
-   *
-   * @if cpp
-   * @see setSBMLDocument()
-   * @see enablePackageInternal()
-   * @endif
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -6263,7 +6031,7 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -6312,7 +6080,7 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -6356,56 +6124,27 @@ SBase.readExtensionAttributes(attributes, expectedAttributes);
 
 
 %csmethodmodifiers ListOf::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOf::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   *
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOf::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOf::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOf::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.  For example:
-   *
-   *   SBase::writeAttributes(stream);
-   *   stream.writeAttribute( \'id\'  , mId   );
-   *   stream.writeAttribute( \'name\', mName );
-   *   ...
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -7189,9 +6928,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -7206,9 +6949,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -7223,9 +6970,13 @@ sp.setId(\'MySpecies\');
    *
    * @param units the new substanceUnits for the Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -7244,9 +6995,13 @@ sp.setId(\'MySpecies\');
    *
    * @param units the new timeUnits for the Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -7265,9 +7020,13 @@ sp.setId(\'MySpecies\');
    *
    * @param units the new volumeUnits for the Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -7286,9 +7045,13 @@ sp.setId(\'MySpecies\');
    *
    * @param units the new areaUnits for the Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -7307,9 +7070,13 @@ sp.setId(\'MySpecies\');
    *
    * @param units the new lengthUnits for the Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -7328,9 +7095,13 @@ sp.setId(\'MySpecies\');
    *
    * @param units the new extentUnits for the Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -7349,9 +7120,13 @@ sp.setId(\'MySpecies\');
    *
    * @param units the new conversionFactor for the Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -7366,9 +7141,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'id\' attribute of this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -7379,9 +7158,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -7392,9 +7175,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'substanceUnits\' attribute of this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -7408,9 +7195,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'timeUnits\' attribute of this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -7424,9 +7215,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'volumeUnits\' attribute of this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -7440,9 +7235,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'areaUnits\' attribute of this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -7457,9 +7256,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'lengthUnits\' attribute of this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -7474,9 +7277,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'extentUnits\' attribute of this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -7491,9 +7298,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'conversionFactor\' attribute of this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -7510,9 +7321,13 @@ sp.setId(\'MySpecies\');
    *
    * @param fd the FunctionDefinition to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7545,9 +7360,13 @@ sp.setId(\'MySpecies\');
    *
    * @param ud the UnitDefinition object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7580,9 +7399,13 @@ sp.setId(\'MySpecies\');
    *
    * @param ct the CompartmentType object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7619,9 +7442,13 @@ sp.setId(\'MySpecies\');
    *
    * @param st the SpeciesType object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7693,9 +7520,13 @@ sp.setId(\'MySpecies\');
    *
    * @param s the Species object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7728,9 +7559,13 @@ sp.setId(\'MySpecies\');
    *
    * @param p the Parameter object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7763,9 +7598,13 @@ sp.setId(\'MySpecies\');
    *
    * @param ia the InitialAssignment object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7798,9 +7637,13 @@ sp.setId(\'MySpecies\');
    *
    * @param r the Rule object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7835,9 +7678,13 @@ sp.setId(\'MySpecies\');
    *
    * @param c the Constraint object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7869,9 +7716,13 @@ sp.setId(\'MySpecies\');
    *
    * @param r the Reaction object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -7904,9 +7755,13 @@ sp.setId(\'MySpecies\');
    *
    * @param e the Event object to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -8411,9 +8266,13 @@ sp.setId(\'MySpecies\');
    * @param annotation an XML structure that is to be used as the content
    * of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
@@ -8436,9 +8295,13 @@ sp.setId(\'MySpecies\');
    * @param annotation an XML string that is to be used as the content
    * of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -8459,9 +8322,13 @@ sp.setId(\'MySpecies\');
    * @param annotation an XML structure that is to be copied and appended
    * to the content of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -9619,10 +9486,13 @@ sp.setId(\'MySpecies\');
    * <code>setModel(null)</code> on it, indirectly deleting itself.
    * Overridden from the SBase function since the parent is not a ListOf.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -9709,17 +9579,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Model::isBoolean(const ASTNode* node) const "
-/**
-   * Predicate returning @c true if the
-   * given ASTNode is a bool.
-   *
-   * Often times, this question can be answered with the ASTNode\'s own
-   * isBoolean() method, but if the AST is an expression that calls a
-   * function defined in the Model\'s ListOfFunctionDefinitions, the model
-   * is needed for lookup context.
-   *
-   * @return true if the given ASTNode is a bool.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -9848,22 +9708,6 @@ sp.setId(\'MySpecies\');
 ";
 
 
-%csmethodmodifiers Model::connectToChild "
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor and assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public new
-";
-
-
 %csmethodmodifiers Model::getTypeCode() const "
 /**
    * Returns the libSBML type code for this %SBML object.
@@ -9872,7 +9716,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -9919,21 +9763,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Model::getElementPosition() const "
-/**
-   * Return the position of this element.
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings or -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Model::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -9998,133 +9833,57 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Model::addFormulaUnitsData(const FormulaUnitsData* fud) "
-/**
-   * Adds a copy of the given FormulaUnitsData object to this Model.
-   *
-   * @param fud the FormulaUnitsData to add
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::createFormulaUnitsData "
-/**
-   * Creates a new FormulaUnitsData inside this Model and returns it.
-   *
-   * @return the FormulaUnitsData object created
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::getFormulaUnitsData "
-/**
-   * Get the nth FormulaUnitsData object in this Model.
-   *
-   * @return the nth FormulaUnitsData of this Model.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::getFormulaUnitsData(unsigned int n) "
-/**
-   * Get the nth FormulaUnitsData object in this Model.
-   *
-   * @return the nth FormulaUnitsData of this Model.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::getFormulaUnitsData(const std::string& sid, int typecode) const "
-/**
-   * Get a FormulaUnitsData object based on its unitReferenceId and typecode.
-   *
-   * @return the FormulaUnitsData in this Model with the unitReferenceId @p sid 
-   * and the typecode (int) @p typecode or @c null
-   * if no such FormulaUnitsData exists.
-   *
-   * @note The typecode (int) parameter is necessary as the unitReferenceId
-   * of the FormulaUnitsData need not be unique. For example if a Species
-   * with id \'s\' is assigned by an AssignmentRule there will be two 
-   * elements of the FormulaUnitsData list with the unitReferenceId \'s\'; 
-   * one with
-   * typecode \'SBML_SPECIES\' referring to the units related to the species, 
-   * the other with typecode \'SBML_ASSIGNMENT_RULE\' referring to the units
-   * derived from the math element of the AssignmentRule.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::getFormulaUnitsData(const std::string& sid, int) "
-/**
-   * Get a FormulaUnitsData object based on its unitReferenceId and typecode.
-   *
-   * @return the FormulaUnitsData in this Model with the unitReferenceId @p sid 
-   * and the typecode (int) @p typecode or @c null
-   * if no such FormulaUnitsData exists.
-   *
-   * @note The typecode (int) parameter is necessary as the unitReferenceId
-   * of the FormulaUnitsData need not be unique. For example if a Species
-   * with id \'s\' is assigned by an AssignmentRule there will be two 
-   * elements of the FormulaUnitsData list with the unitReferenceId \'s\'; 
-   * one with
-   * typecode \'SBML_SPECIES\' referring to the units related to the species, 
-   * the other with typecode \'SBML_ASSIGNMENT_RULE\' referring to the units
-   * derived from the math element of the AssignmentRule.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::getFormulaUnitsDataForVariable(const std::string& sid) "
-/**
-   * Get a FormulaUnitsData variable object based on its unitReferenceId.
-   *
-   * @return the FormulaUnitsData in this Model with the unitReferenceId @p sid 
-   * that corrsponds to a variable object or @c null
-   * if no such FormulaUnitsData exists.
-   *
-   * @note  This function restricts the search to classes that can be varied
-   * Species, Compartment, Parameter, SpeciesReference.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::getFormulaUnitsDataForAssignment(const std::string& sid) "
-/**
-   * Get a FormulaUnitsData variable object based on its unitReferenceId.
-   *
-   * @return the FormulaUnitsData in this Model with the unitReferenceId @p sid 
-   * that corrsponds to a variable object or @c null
-   * if no such FormulaUnitsData exists.
-   *
-   * @note  This function restricts the search to classes that can be varied
-   * Species, Compartment, Parameter, SpeciesReference.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::getNumFormulaUnitsData() const "
-/**
-   * Get the number of FormulaUnitsData objects in this Model.
-   *
-   * @return the number of FormulaUnitsData in this Model.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::getListFormulaUnitsData "
-/**
-   * Get the list of FormulaUnitsData object in this Model.
-   *
-   * @return the list of FormulaUnitsData for this Model.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::getListFormulaUnitsData() const "
-/**
-   * Get the list of FormulaUnitsData object in this Model.
-   *
-   * @return the list of FormulaUnitsData for this Model.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -10550,53 +10309,27 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Model::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with this element and child elements
-   * (if any).  (This is an internal implementation for enablePackage
-   * function)
-   *
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Model::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Model::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Model::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Model::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -10616,38 +10349,22 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Model::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Model::syncAnnotation "
-/**
-   * Synchronizes the annotation of this SBML object.
-   *
-   * Annotation element (XMLNode mAnnotation) is synchronized with the
-   * current CVTerm objects (List* mCVTerm), ModelHistory object 
-   * (ModelHistory mHistory) and ListOfLayouts object (ListOfLayouts mLayouts).
-   * Currently, this method is called in getAnnotation, isSetAnnotation,
-   * and writeElements methods.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Model::populatePerTimeUnitDefinition(FormulaUnitsData *fud) "
-/**
-   * Internal function used in populateListFormulaUnitsData
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Model::createSpeciesReferenceUnitsData(SpeciesReference* sr, UnitFormulaFormatter* unitFormatter) "
-/**
-   * Internal function used in populateListFormulaUnitsData
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -10812,6 +10529,11 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Model::createEventAssignmentUnitsData(UnitFormulaFormatter* unitFormatter, EventAssignment * ea, const std::string& eventId) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers Model::createLocalParameterUnitsData(KineticLaw * kl, UnitFormulaFormatter * unitFormatter) "
 /** */ /* libsbml-internal */ public
 ";
 
@@ -11421,11 +11143,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SBMLDocument::updateSBMLNamespace(const std::string& package, unsigned int level, unsigned int version) "
-/**
-   * @param package
-   * @param level
-   * @param version
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -11435,10 +11153,13 @@ sp.setId(\'MySpecies\');
    *
    * @param m the new Model to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -11872,6 +11593,23 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers SBMLDocument::getErrorWithSeverity "
+/**
+   * Returns the nth error or warning with the given severity
+   * encountered during parsing, consistency checking, or attempted
+   * translation of this model.
+   *
+   * @return the error or warning indexed by integer @p n, or return @c
+   * null if <code>n &gt; (getNumErrors(severity) - 1)</code>.
+   *
+   * @param n the integer index of the error sought.
+   * @param severity the severity of the error sought.
+   *
+   * @see SBMLDocument::getNumErrors()
+   */ public
+";
+
+
 %csmethodmodifiers SBMLDocument::getNumErrors() const "
 /**
    * Returns the number of errors or warnings encountered during parsing,
@@ -11929,27 +11667,36 @@ sp.setId(\'MySpecies\');
 ";
 
 
-%csmethodmodifiers SBMLDocument::setSBMLDocument(SBMLDocument* d) "
+%csmethodmodifiers SBMLDocument::printErrors "
 /**
-   * No-op; it is provided for consistency with the method available on
-   * other libSBML object classes but has no effect on SBMLDocument.
-   */ /* libsbml-internal */ public new
+    * Prints all the errors or warnings with the given severity encountered 
+    * trying to parse, check, or translate this SBML document.
+    *
+    * It prints the text to the stream given by the parameter @p
+    * stream.  
+    *
+    * If no errors have occurred, i.e., <code>getNumErrors(severity) == 0</code>, no
+    * output will be sent to the stream.
+    *
+    * The format of the output is:
+    * @verbatim
+    N error(s):
+      line NNN: (id) message
+@endverbatim
+    *
+    * @param stream the ostream or ostringstream object indicating where
+    * the output should be printed.
+    * @param severity of the errors sought.
+    *
+    * @see getNumErrors(long severity)
+    * @see getErrorLog()
+    * @see SBMLDocument::getErrorWithSeverity(long n, long severity)
+    */ public
 ";
 
 
-%csmethodmodifiers SBMLDocument::connectToChild "
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor and assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public new
+%csmethodmodifiers SBMLDocument::setSBMLDocument(SBMLDocument* d) "
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -11960,10 +11707,13 @@ sp.setId(\'MySpecies\');
    * 
    * @param props the conversion properties to use
    * 
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
@@ -11972,14 +11722,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SBMLDocument::enablePackageInternal(const std::string& pkgURI,const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   *
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -11991,7 +11734,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -12085,10 +11828,13 @@ sp.setId(\'MySpecies\');
    * @param flag bool value to indicate whether to write a namespace
    * prefix.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    */ public
@@ -12122,10 +11868,13 @@ sp.setId(\'MySpecies\');
    * @param package the name or URI of the package extension.
    * @param flag Boolean value indicating whether the package is required.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    */ public
@@ -12208,10 +11957,13 @@ sp.setId(\'MySpecies\');
    * @param package the name or URI of the package extension.
    * @param flag a Boolean value.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    *
@@ -12277,126 +12029,87 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SBMLDocument::getElementPosition() const "
-/**
-   * Return the position of this element.
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings or -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLDocument::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBMLDocument::getApplicableValidators() const "
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLDocument::getConversionValidators() const "
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLDocument::setApplicableValidators(unsigned char appl) "
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLDocument::setConversionValidators(unsigned char appl) "
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLDocument::getNumValidators() const "
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLDocument::clearValidators "
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLDocument::addValidator(const SBMLValidator* validator) "
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLDocument::getValidator(unsigned int index) "
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLDocument::addUnknownPackageRequired(const std::string& pkgURI, const std::string& prefix, bool flag) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLDocument::hasUnknownPackage(const std::string& pkgURI) "
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLDocument::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBMLDocument::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBMLDocument::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBMLDocument::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBMLDocument::writeXMLNS(XMLOutputStream& stream) const "
-/**
-   *
-   * Subclasses should override this method to write their xmlns attriubutes
-   * (if any) to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -12749,10 +12462,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this FunctionDefinition
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -12767,10 +12483,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the FunctionDefinition
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -12785,10 +12504,13 @@ sp.setId(\'MySpecies\');
    * @param math an AST containing the mathematical expression to
    * be used as the formula for this FunctionDefinition.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -12799,10 +12521,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this FunctionDefinition.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -12891,7 +12616,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -12938,11 +12663,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers FunctionDefinition::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -13007,31 +12728,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers FunctionDefinition::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers FunctionDefinition::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers FunctionDefinition::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -13046,11 +12753,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers FunctionDefinition::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -13100,7 +12803,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -13233,29 +12936,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfFunctionDefinitions::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of %SBML is generally fixed
-   * for most components in %SBML.  So, for example, the
-   * ListOfFunctionDefinitions in a model is (in %SBML Level 2 Version 4)
-   * the first ListOf___.  (However, it differs for different Levels and
-   * Versions of SBML.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfFunctionDefinitions::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -14225,9 +13911,13 @@ sp.setId(\'MySpecies\');
    * names begin with <code>UNIT_KIND_</code> in @link libsbml libsbml@endlink.
    * @endif
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -14240,9 +13930,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value the integer to which the attribute \'exponent\' should be set
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -14255,9 +13949,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value the double to which the attribute \'exponent\' should be set
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -14269,9 +13967,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value the integer to which the attribute \'scale\' should be set
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -14284,9 +13986,13 @@ sp.setId(\'MySpecies\');
    * @param value the floating-point value to which the attribute
    * \'multiplier\' should be set
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
@@ -14300,9 +14006,13 @@ sp.setId(\'MySpecies\');
    * @param value the float-point value to which the attribute \'offset\'
    * should set
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -14329,7 +14039,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -14376,11 +14086,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Unit::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -14537,8 +14243,13 @@ sp.setId(\'MySpecies\');
    *
    * @param unit the Unit object to manipulate.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * *
@@ -14670,21 +14381,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Unit::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Unit::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -14704,62 +14406,27 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Unit::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Unit::isL1UnitKind(const std::string& name) "
-/**
-   * Predicate to test whether a given string is the name of a valid
-   * base unit in SBML Level 1 (such as @c \'gram\' or @c \'mole\')
-   *
-   * @param name a string to be tested
-   * 
-   * @return @c true if name is a valid SBML UnitKind, @c false otherwise
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Unit::isL2V1UnitKind(const std::string& name) "
-/**
-   * Predicate to test whether a given string is the name of a valid base
-   * unit in SBML Level&nbsp;2 Version&nbsp;1 (such as @c \'gram\' or @c
-   * \'mole\')
-   *
-   * @param name a string to be tested
-   * 
-   * @return @c true if name is a valid SBML UnitKind, @c false otherwise
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Unit::isL2UnitKind(const std::string& name) "
-/**
-   * Predicate to test whether a given string is the name of a valid base
-   * unit in SBML Level&nbsp;2 Version&nbsp;2, 3 or 4 (such as @c \'gram\' or @c
-   * \'mole\')
-   *
-   * @param name a string to be tested
-   * 
-   * @return @c true if name is a valid SBML UnitKind, @c false otherwise
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Unit::isL3UnitKind(const std::string& name) "
-/**
-   * Predicate to test whether a given string is the name of a valid base
-   * unit in SBML Level&nbsp;3 Version&nbsp;1 (such as @c \'gram\' or @c
-   * \'mole\')
-   *
-   * @param name a string to be tested
-   * 
-   * @return @c true if name is a valid SBML UnitKind, @c false otherwise
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -14829,7 +14496,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -14909,24 +14576,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfUnits::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfUnits::createObject(XMLInputStream& stream) "
-/**
-   * Create a ListOfUnits object corresponding to the next token
-   * in the XML input stream.
-   * 
-   * @return the %SBML object corresponding to next XMLToken in the
-   * XMLInputStream, or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -15452,9 +15107,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this UnitDefinition
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -15469,9 +15128,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the UnitDefinition
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -15482,9 +15145,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this UnitDefinition.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -15596,9 +15263,13 @@ sp.setId(\'MySpecies\');
    *
    * @param u the Unit instance to add to this UnitDefinition.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -15711,39 +15382,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers UnitDefinition::setSBMLDocument(SBMLDocument* d) "
-/**
-   * Sets the parent SBMLDocument of this SBML object.
-   *
-   * @param d the SBMLDocument to use
-   */ /* libsbml-internal */ public new
-";
-
-
-%csmethodmodifiers UnitDefinition::connectToChild "
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor and assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers UnitDefinition::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   *
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -15755,7 +15399,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -16063,11 +15707,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers UnitDefinition::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -16102,31 +15742,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers UnitDefinition::createObject(XMLInputStream& stream) "
-/**
-   * Create and return a unitDefinition object, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers UnitDefinition::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers UnitDefinition::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -16146,11 +15772,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers UnitDefinition::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -16200,7 +15822,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -16350,29 +15972,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfUnitDefinitions::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of SBML is generally fixed
-   * for most components in SBML.  So, for example, the
-   * ListOfUnitDefinitions in a model is (in SBML Level&nbsp;2
-   * Version&nbsp;4) the second ListOf___.  (However, it differs for
-   * different Levels and Versions of SBML.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfUnitDefinitions::createObject(XMLInputStream& stream) "
-/**
-   * Create and return a listOfUnitDefinitions object, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -16705,10 +16310,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this CompartmentType
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -16727,10 +16335,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the CompartmentType
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -16745,10 +16356,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this CompartmentType object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -16767,7 +16381,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -16818,11 +16432,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers CompartmentType::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -16841,23 +16451,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers CompartmentType::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers CompartmentType::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   *
-   * @param attributes the XMLAttributes to use.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -16867,13 +16466,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers CompartmentType::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   *
-   * @param stream the XMLOutputStream to use.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -16923,7 +16516,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -17056,30 +16649,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfCompartmentTypes::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of SBML is generally fixed
-   * for most components in SBML.  For example, the
-   * ListOfCompartmentTypes in a model (in SBML Level 2 Version 4) is the
-   * third ListOf___.  (However, it differs for different Levels and
-   * Versions of SBML, so calling code should not hardwire this number.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfCompartmentTypes::createObject(XMLInputStream& stream) "
-/**
-   * Create a ListOfCompartmentTypes object corresponding to the next token
-   * in the XML input stream.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream, or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -17389,10 +16964,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this SpeciesType
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -17407,10 +16985,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the SpeciesType
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -17421,10 +17002,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this SpeciesType.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -17439,7 +17023,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -17486,11 +17070,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SpeciesType::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -17510,23 +17090,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SpeciesType::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SpeciesType::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   *
-   * @param attributes the XMLAttributes to use.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -17536,13 +17105,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SpeciesType::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   *
-   * @param stream the XMLOutputStream to use.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -17592,7 +17155,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -17725,30 +17288,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfSpeciesTypes::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of SBML is generally fixed
-   * for most components in SBML.  For example, the
-   * ListOfSpeciesTypes in a model (in SBML Level 2 Version 4) is the
-   * third ListOf___.  (However, it differs for different Levels and
-   * Versions of SBML, so calling code should not hardwire this number.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfSpeciesTypes::createObject(XMLInputStream& stream) "
-/**
-   * Create a ListOfSpeciesTypes object corresponding to the next token
-   * in the XML input stream.
-   * 
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream, or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -18250,7 +17795,9 @@ sp.setId(\'MySpecies\');
 
 %csmethodmodifiers Compartment::Compartment(const Compartment& orig) "
 /**
-   * Copy constructor; creates a copy of a Compartment.
+   * Copy constructor.
+   *
+   * This creates a copy of a Compartment object.
    *
    * @param orig the Compartment instance to copy.
    *
@@ -18742,9 +18289,13 @@ sp.setId(\'MySpecies\');
    * the string is @c null, this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -18765,9 +18316,13 @@ sp.setId(\'MySpecies\');
    * null, this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -18786,9 +18341,13 @@ sp.setId(\'MySpecies\');
    * in this Model. If the string is @c null, this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -18810,9 +18369,13 @@ sp.setId(\'MySpecies\');
    * @param value a long integereger indicating the number of dimensions
    * of this compartment.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -18831,9 +18394,13 @@ sp.setId(\'MySpecies\');
    * @param value a double indicating the number of dimensions
    * of this compartment.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -18853,9 +18420,13 @@ sp.setId(\'MySpecies\');
    * @param value a @c double representing the size of this compartment
    * instance in whatever units are in effect for the compartment.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @note This method is identical to
@@ -18882,9 +18453,13 @@ sp.setId(\'MySpecies\');
    * @param value a @c double representing the volume of this compartment
    * instance in whatever units are in effect for the compartment.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * *
@@ -18915,9 +18490,13 @@ sp.setId(\'MySpecies\');
    * null, then this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -18936,9 +18515,13 @@ sp.setId(\'MySpecies\');
    * sid is @c null, then this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -18961,9 +18544,13 @@ sp.setId(\'MySpecies\');
    * compartment should be considered constant (@c true) or variable
    * (@c false).
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -19046,9 +18633,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this Compartment object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -19063,9 +18654,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'compartmentType\' attribute of this Compartment object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -19091,9 +18686,13 @@ sp.setId(\'MySpecies\');
    * no default value, and unsetting it will result in the compartment having
    * no defined size.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -19116,9 +18715,13 @@ sp.setId(\'MySpecies\');
    * @if java Compartment::unsetSize()@else unsetSize()@endif.  Please refer
    * to that method\'s documentation for more information about its behavior.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -19146,9 +18749,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'units\' attribute of this Compartment object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -19163,9 +18770,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'outside\' attribute of this Compartment object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -19190,9 +18801,13 @@ sp.setId(\'MySpecies\');
    * on a model of SBML Level 1&ndash;2 will result in a return value of
    * @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -19312,7 +18927,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -19360,11 +18975,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Compartment::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -19384,21 +18995,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Compartment::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Compartment::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -19418,11 +19020,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Compartment::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -19482,7 +19080,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -19615,29 +19213,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfCompartments::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of SBML is generally fixed
-   * for most components in SBML.  So, for example, the ListOfCompartments
-   * in a model is (in SBML Level&nbsp;2 Version&nbsp;4) the fifth
-   * ListOf___.  (However, it differs for different Levels and Versions of
-   * SBML.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfCompartments::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -20591,9 +20172,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this Species
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -20608,9 +20193,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the Species
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -20624,9 +20213,13 @@ sp.setId(\'MySpecies\');
    * @param sid the identifier of a SpeciesType object defined elsewhere
    * in this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -20644,9 +20237,13 @@ sp.setId(\'MySpecies\');
    * @param sid the identifier of a Compartment object defined elsewhere
    * in this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -20663,9 +20260,13 @@ sp.setId(\'MySpecies\');
    * @param value the value to which the \'initialAmount\' attribute should
    * be set.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -20681,9 +20282,13 @@ sp.setId(\'MySpecies\');
    * @param value the value to which the \'initialConcentration\' attribute
    * should be set.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -20699,9 +20304,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the identifier of the unit to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -20714,9 +20323,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the identifier of the unit to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -20741,9 +20354,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sname the identifier of the unit to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
   */ public
@@ -20756,9 +20373,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value bool value for the \'hasOnlySubstanceUnits\' attribute.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -20774,9 +20395,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value bool value for the \'boundaryCondition\' attribute.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -20801,9 +20426,13 @@ sp.setId(\'MySpecies\');
  * affect model mathematics directly.  LibSBML retains this method for
  * easier compatibility with SBML Level&nbsp;1. 
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
@@ -20816,9 +20445,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value a bool value for the \'constant\' attribute
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -20836,9 +20469,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the new conversionFactor for the Species
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -20854,9 +20491,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this Species object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -20867,9 +20508,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'speciesType\' attribute value of this Species object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -20883,9 +20528,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'initialAmount\' attribute value of this Species object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -20896,9 +20545,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'initialConcentration\' attribute value of this Species object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -20912,9 +20565,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'substanceUnits\' attribute value of this Species object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -20925,9 +20582,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'spatialSizeUnits\' attribute value of this Species object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -20949,9 +20610,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'units\' attribute value of this Species object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -20963,9 +20628,13 @@ sp.setId(\'MySpecies\');
    * Unsets the \'charge\' attribute
    * value of this Species object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -20990,9 +20659,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'conversionFactor\' attribute value of this Species object.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -21100,7 +20773,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -21147,11 +20820,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Species::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -21245,21 +20914,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Species::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Species::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -21279,11 +20939,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Species::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -21348,7 +21004,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -21480,29 +21136,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfSpecies::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of SBML is generally fixed
-   * for most components in SBML.  So, for example, the ListOfSpeciess in
-   * a model is (in SBML Level&nbsp;2 Version&nbsp;4) the sixth
-   * ListOf___.  (However, it differs for different Levels and Versions of
-   * SBML.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfSpecies::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -22050,8 +21689,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this Parameter
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -22066,9 +21710,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the Parameter
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -22082,9 +21730,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value a @c double, the value to assign
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -22098,9 +21750,13 @@ sp.setId(\'MySpecies\');
    * @param units a string, the identifier of the units to assign to this
    * Parameter instance
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -22115,9 +21771,13 @@ sp.setId(\'MySpecies\');
    * @param flag a bool, the value for the \'constant\' attribute of this
    * Parameter instance
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -22147,9 +21807,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this Parameter.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -22160,9 +21824,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'value\' attribute of this Parameter instance.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * In SBML Level&nbsp;1 Version&nbsp;1, parameters are required to have
@@ -22177,9 +21845,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'units\' attribute of this Parameter instance.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -22266,7 +21938,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -22313,11 +21985,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Parameter::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -22372,22 +22040,18 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers Parameter::Parameter(SBMLNamespaces* sbmlns, bool isLocal) "
+/** */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers Parameter::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Parameter::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -22407,11 +22071,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Parameter::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -22506,7 +22166,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -22641,30 +22301,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfParameters::getElementPosition() const "
-/**
-   * Gets the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of SBML is generally fixed
-   * for most components in SBML.  So, for example, the ListOfParameters
-   * in a model is (in SBML Level&nbsp;2 Version&nbsp;4) the seventh
-   * ListOf___.  (However, it differs for different Levels and Versions of
-   * SBML.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfParameters::createObject(XMLInputStream& stream) "
-/**
-   * Create a ListOfParameters object corresponding to the next token in
-   * the XML input stream.
-   * 
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream, or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -23033,7 +22675,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -23110,21 +22752,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers LocalParameter::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers LocalParameter::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -23134,11 +22767,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers LocalParameter::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -23188,7 +22817,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -23343,30 +22972,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfLocalParameters::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of SBML is generally fixed
-   * for most components in SBML.  So, for example, the ListOfLocalParameters
-   * in a model is (in SBML Level&nbsp;2 Version&nbsp;4) the seventh
-   * ListOf___.  (However, it differs for different Levels and Versions of
-   * SBML.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfLocalParameters::createObject(XMLInputStream& stream) "
-/**
-   * Create a ListOfLocalParameters object corresponding to the next token in
-   * the XML input stream.
-   * 
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream, or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -23749,9 +23360,13 @@ sp.setId(\'MySpecies\');
    * @param sid the identifier of a Species, Compartment or Parameter
    * object defined elsewhere in this Model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -23767,9 +23382,13 @@ sp.setId(\'MySpecies\');
    * @param math an AST containing the mathematical expression to
    * be used as the formula for this InitialAssignment.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -23916,7 +23535,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -23963,11 +23582,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers InitialAssignment::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -24074,53 +23689,32 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers InitialAssignment::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace all nodes with the name \'id\' from the child \'math\' object with the provided function. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers InitialAssignment::divideAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this assignment assigns a value to the \'id\' element, replace the \'math\' object with the function (existing/function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers InitialAssignment::multiplyAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this assignment assigns a value to the \'id\' element, replace the \'math\' object with the function (existing*function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers InitialAssignment::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers InitialAssignment::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers InitialAssignment::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -24135,11 +23729,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers InitialAssignment::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -24189,7 +23779,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -24338,29 +23928,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfInitialAssignments::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of %SBML is generally fixed
-   * for most components in %SBML.  So, for example, the
-   * ListOfInitialAssignments in a model is (in %SBML Level 2 Version 4)
-   * the eighth ListOf___.  (However, it differs for different Levels and
-   * Versions of SBML.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfInitialAssignments::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -24511,7 +24084,8 @@ sp.setId(\'MySpecies\');
  * SBML Level 1 uses a different scheme than SBML Level 2 and Level 3 for
  * distinguishing rules; specifically, it uses an attribute whose value is
  * drawn from an enumeration of 3 values.  LibSBML supports this using methods
- * that work @if clike a libSBML enumeration type, RuleType_t, whose values
+ * that work @if clike a libSBML enumeration type,
+ * @link Rule::RuleType_t RuleType_t@endlink, whose values
  * are @else with the enumeration values @endif listed below.
  *
  * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
@@ -24798,9 +24372,13 @@ sp.setId(\'MySpecies\');
    *
    * @param formula a mathematical formula in text-string form.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -24820,11 +24398,15 @@ sp.setId(\'MySpecies\');
    * Sets the \'math\' subelement of this Rule to a copy of the given
    * ASTNode.
    *
-   * @param math the ASTNode_t structure of the mathematical formula.
+   * @param math the AST structure of the mathematical formula.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -24861,9 +24443,13 @@ sp.setId(\'MySpecies\');
    * @param sid the identifier of a Compartment, Species or Parameter
    * elsewhere in the enclosing Model object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -24877,9 +24463,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sname the identifier of the units
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -24894,9 +24484,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'units\' for this Rule.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -25149,7 +24743,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -25233,11 +24827,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Rule::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -25250,8 +24840,13 @@ sp.setId(\'MySpecies\');
    * @link libsbml#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
    * @link libsbml#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * if given @p type value is not one of the above.
@@ -25374,31 +24969,22 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Rule::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace all nodes with the name \'id\' from the child \'math\' object with the provided function. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Rule::divideAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this rule assigns a value or a change to the \'id\' element, replace the \'math\' object with the function (existing/function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Rule::multiplyAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this assignment assigns a value to the \'id\' element, replace the \'math\' object with the function (existing*function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Rule::Rule(  int      type , unsigned int        level , unsigned int        version ) "
-/**
-   * Only subclasses may create Rules.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -25408,31 +24994,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Rule::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Rule::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Rule::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -25452,11 +25024,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Rule::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -25506,7 +25074,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -25648,26 +25216,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfRules::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of %SBML is generally fixed
-   * for most components in %SBML.
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfRules::createObject(XMLInputStream& stream) "
-/**
-   * Create and return a listOfRules object, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -25849,7 +25403,8 @@ sp.setId(\'MySpecies\');
  * SBML Level 1 uses a different scheme than SBML Level 2 and Level 3 for
  * distinguishing rules; specifically, it uses an attribute whose value is
  * drawn from an enumeration of 3 values.  LibSBML supports this using methods
- * that work @if clike a libSBML enumeration type, RuleType_t, whose values
+ * that work @if clike a libSBML enumeration type,
+ * @link Rule::RuleType_t RuleType_t@endlink, whose values
  * are @else with the enumeration values @endif listed below.
  *
  * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
@@ -25966,9 +25521,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers AlgebraicRule::setInternalIdOnly "
-/**
-   * sets the mInternalIdOnly flag
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -26220,7 +25773,8 @@ sp.setId(\'MySpecies\');
  * SBML Level 1 uses a different scheme than SBML Level 2 and Level 3 for
  * distinguishing rules; specifically, it uses an attribute whose value is
  * drawn from an enumeration of 3 values.  LibSBML supports this using methods
- * that work @if clike a libSBML enumeration type, RuleType_t, whose values
+ * that work @if clike a libSBML enumeration type,
+ * @link Rule::RuleType_t RuleType_t@endlink, whose values
  * are @else with the enumeration values @endif listed below.
  *
  * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
@@ -26584,7 +26138,8 @@ sp.setId(\'MySpecies\');
  * SBML Level 1 uses a different scheme than SBML Level 2 and Level 3 for
  * distinguishing rules; specifically, it uses an attribute whose value is
  * drawn from an enumeration of 3 values.  LibSBML supports this using methods
- * that work @if clike a libSBML enumeration type, RuleType_t, whose values
+ * that work @if clike a libSBML enumeration type,
+ * @link Rule::RuleType_t RuleType_t@endlink, whose values
  * are @else with the enumeration values @endif listed below.
  *
  * @li @link libsbml#RULE_TYPE_RATE RULE_TYPE_RATE@endlink: Indicates
@@ -27079,10 +26634,13 @@ sp.setId(\'MySpecies\');
    *
    * @param xhtml an XML tree containing XHTML content.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -27097,10 +26655,13 @@ sp.setId(\'MySpecies\');
    * @param math an ASTNode expression to be assigned as the \'math\'
    * subelement of this Constraint
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -27111,10 +26672,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'message\' subelement of this Constraint.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -27191,10 +26755,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Constraint::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace all nodes with the name \'id\' from the child \'math\' object with the provided function. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -27206,7 +26767,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -27253,11 +26814,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Constraint::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -27277,31 +26834,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Constraint::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Constraint::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Constraint::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -27316,11 +26859,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Constraint::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -27370,7 +26909,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -27450,28 +26989,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfConstraints::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of SBML is generally fixed
-   * for most components in SBML.  So, for example, the ListOfConstraints
-   * in a model is (in SBML Level&nbsp;2 Version 4) the tenth ListOf___.
-   * (However, it differs for different Levels and Versions of SBML.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfConstraints::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -28082,10 +27605,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this Reaction
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -28100,10 +27626,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the Reaction
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -28117,10 +27646,13 @@ sp.setId(\'MySpecies\');
    *
    * @param kl the KineticLaw object to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -28134,10 +27666,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value the value of the \'reversible\' attribute.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -28149,10 +27684,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value the value of the \'fast\' attribute.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * 
    * * 
@@ -28181,10 +27719,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the compartment of this Reaction
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -28200,10 +27741,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this Reaction.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -28214,10 +27758,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'kineticLaw\' subelement of this Reaction.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -28228,10 +27775,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'fast\' attribute of this Reaction.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -28257,10 +27807,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'compartment\' attribute of this Reaction.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -28281,10 +27834,13 @@ sp.setId(\'MySpecies\');
    * @param sr a SpeciesReference object referring to a Species in the
    * enclosing Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -28320,10 +27876,13 @@ sp.setId(\'MySpecies\');
    * @param sr a SpeciesReference object referring to a Species in the
    * enclosing Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -28358,10 +27917,13 @@ sp.setId(\'MySpecies\');
    * @param msr a ModifierSpeciesReference object referring to a Species in
    * the enclosing Model
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
@@ -28802,37 +28364,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Reaction::setSBMLDocument(SBMLDocument* d) "
-/**
-   * Sets the parent SBMLDocument of this SBML object.
-   */ /* libsbml-internal */ public new
-";
-
-
-%csmethodmodifiers Reaction::connectToChild "
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor and assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Reaction::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   *
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -28844,7 +28381,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -28891,11 +28428,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Reaction::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -28916,31 +28449,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Reaction::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Reaction::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Reaction::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -28960,11 +28479,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Reaction::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -29024,7 +28539,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -29150,22 +28665,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfReactions::getElementPosition() const "
-/**
-   * Return the position of this element.
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings or -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfReactions::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -29561,9 +29066,13 @@ sp.setId(\'MySpecies\');
    * @param formula the mathematical expression to use, represented in
    * text-string form.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -29587,9 +29096,13 @@ sp.setId(\'MySpecies\');
    *
    * @param math an ASTNode representing a formula tree.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -29605,9 +29118,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the identifier of the units to use.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -29631,9 +29148,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the identifier of the units to use.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -29654,9 +29175,13 @@ sp.setId(\'MySpecies\');
    * (SBML Level&nbsp;2 Version&nbsp;1 only) Unsets the \'timeUnits\'
    * attribugte of this KineticLaw object.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -29677,9 +29202,13 @@ sp.setId(\'MySpecies\');
    * (SBML Level&nbsp;2 Version&nbsp;1 only) Unsets the \'substanceUnits\'
    * attribute of this KineticLaw object.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -29702,9 +29231,13 @@ sp.setId(\'MySpecies\');
    *
    * @param p the Parameter to add
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -29738,9 +29271,13 @@ sp.setId(\'MySpecies\');
    *
    * @param p the LocalParameter to add
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -30140,38 +29677,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers KineticLaw::setSBMLDocument(SBMLDocument* d) "
-/**
-   * Sets the parent SBMLDocument of this SBML object.
-   *
-   * @param d the SBMLDocument to use.
-   */ /* libsbml-internal */ public new
-";
-
-
-%csmethodmodifiers KineticLaw::connectToChild "
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define one ore more child
-   * elements.  Basically, this function needs to be called in constructor,
-   * copy constructor and assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers KineticLaw::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   *
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -30183,7 +29694,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -30230,21 +29741,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers KineticLaw::getElementPosition() const "
-/**
-   * Return the position of this element.
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings or -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers KineticLaw::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -30283,10 +29785,13 @@ sp.setId(\'MySpecies\');
    *
    * Overridden from the SBase function since the parent is not a ListOf.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -30373,63 +29878,37 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers KineticLaw::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace all nodes with the name \'id\' from the child \'math\' object with the provided function. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers KineticLaw::divideAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this reaction id matches the provided \'id\' string, replace the \'math\' object with the function (existing/function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers KineticLaw::multiplyAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this assignment assigns a value to the \'id\' element, replace the \'math\' object with the function (existing*function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers KineticLaw::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers KineticLaw::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers KineticLaw::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers KineticLaw::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -30449,11 +29928,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers KineticLaw::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -30612,9 +30087,13 @@ sp.setId(\'MySpecies\');
    * @param sid the identifier of a species defined in the enclosing
    * Model\'s ListOfSpecies.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -30652,9 +30131,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this SimpleSpeciesReference
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -30670,9 +30153,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the SimpleSpeciesReference
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -30684,9 +30171,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'id\' attribute of this SimpleSpeciesReference.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -30697,9 +30188,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this SimpleSpeciesReference.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -30758,54 +30253,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SimpleSpeciesReference::SimpleSpeciesReference(SBMLNamespaces* sbmlns) "
-/**
-   * Creates a new SimpleSpeciesReference using the given SBMLNamespaces object
-   * @p sbmlns.
-   *
-   * *
- * 
- * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
- * information.  It is used to communicate the SBML Level, Version, and (in
- * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
- * common approach to using libSBML\'s SBMLNamespaces facilities is to create an
- * SBMLNamespaces object somewhere in a program once, then hand that object
- * as needed to object constructors that accept SBMLNamespaces as arguments.
- *
- * 
-   *
-   * @param sbmlns an SBMLNamespaces object.
-   *
-   * @note Upon the addition of a SimpleSpeciesReference object to an
-   * SBMLDocument (e.g., using Model::addSimpleSpeciesReference()), the
-   * SBML XML namespace of the document @em overrides the value used when
-   * creating the SimpleSpeciesReference object via this constructor.  This
-   * is necessary to ensure that an SBML document is a consistent
-   * structure.  Nevertheless, the ability to supply the values at the time
-   * of creation of a SimpleSpeciesReference is an important aid to
-   * producing valid SBML.  Knowledge of the intented SBML Level and
-   * Version determine whether it is valid to assign a particular value to
-   * an attribute, or whether it is valid to add an object to an existing
-   * SBMLDocument.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SimpleSpeciesReference::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SimpleSpeciesReference::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -30825,11 +30283,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SimpleSpeciesReference::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -31416,9 +30870,13 @@ sp.setId(\'MySpecies\');
    * attribute and the stoichiometryMath\' subelement are mutually
    * exclusive.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -31460,9 +30918,13 @@ sp.setId(\'MySpecies\');
    * given math is not null because the \'stoichiometry\' attribute and the
    * stoichiometryMath\' subelement are mutually exclusive.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
@@ -31489,9 +30951,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value the scalar value 
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -31505,9 +30971,13 @@ sp.setId(\'MySpecies\');
    * @param flag a bool, the value for the \'constant\' attribute of this
    * SpeciesReference instance
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
@@ -31518,9 +30988,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'stoichiometryMath\' subelement of this SpeciesReference.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -31557,9 +31031,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'stoichiometry\' attribute of this SpeciesReference.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -31606,9 +31084,13 @@ sp.setId(\'MySpecies\');
    * @param annotation an XML structure that is to be used as the content
    * of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
@@ -31632,9 +31114,13 @@ sp.setId(\'MySpecies\');
    * @param annotation an XML string that is to be used as the content
    * of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -31657,9 +31143,13 @@ sp.setId(\'MySpecies\');
    * @param annotation an XML structure that is to be copied and appended
    * to the content of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -31682,9 +31172,13 @@ sp.setId(\'MySpecies\');
    * @param annotation an XML string that is to be copied and appended
    * to the content of the \'annotation\' subelement of this object
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -31702,7 +31196,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -31741,11 +31235,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SpeciesReference::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -31771,41 +31261,22 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SpeciesReference::createObject(XMLInputStream& stream) "
-/**
-   * Create and return a speciesReference object, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SpeciesReference::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SpeciesReference::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SpeciesReference::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -31825,24 +31296,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SpeciesReference::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SpeciesReference::syncAnnotation "
-/**
-   *
-   * Synchronizes the annotation of this SBML object.
-   *
-   * Annotation element (XMLNode mAnnotation) is synchronized with the
-   * current CVTerm objects (List* mCVTerm) and id string (string mId)
-   * Currently, this method is called in getAnnotation(), isSetAnnotation(),
-   * and writeElements() methods.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -31902,7 +31361,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -32035,30 +31494,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfSpeciesReferences::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfSpeciesReferences::setType(SpeciesType type) "
-/**
-   * Sets type of this ListOfSpeciesReferences.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ListOfSpeciesReferences::createObject(XMLInputStream& stream) "
-/**
-   * Create and return a listOfSpeciesReferences object, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -32185,7 +31631,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -32925,10 +32371,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the string to use as the identifier of this Event
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -32943,10 +32392,13 @@ sp.setId(\'MySpecies\');
    *
    * @param name the new name for the Event
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
@@ -32960,10 +32412,13 @@ sp.setId(\'MySpecies\');
    *
    * @param trigger the Trigger object instance to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -32978,10 +32433,13 @@ sp.setId(\'MySpecies\');
    *
    * @param delay the Delay object instance to use
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -32996,10 +32454,13 @@ sp.setId(\'MySpecies\');
    *
    * @param priority the Priority object instance to use
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -33017,10 +32478,13 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the identifier of the time units to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -33079,10 +32543,13 @@ sp.setId(\'MySpecies\');
    *
    * @param value the value of useValuesFromTriggerTime to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -33102,10 +32569,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'id\' attribute of this Event.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -33116,10 +32586,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the value of the \'name\' attribute of this Event.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -33130,10 +32603,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the Delay of this Event.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -33144,10 +32620,13 @@ sp.setId(\'MySpecies\');
 /**
    * (SBML Level&nbsp;3 only) Unsets the Priority of this Event.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
@@ -33161,10 +32640,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the Trigger of this Event.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
@@ -33178,10 +32660,13 @@ sp.setId(\'MySpecies\');
 /**
    * Unsets the \'timeUnits\' attribute of this Event.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -33207,10 +32692,13 @@ sp.setId(\'MySpecies\');
    *
    * @param ea the EventAssignment object to add.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -33394,39 +32882,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Event::setSBMLDocument(SBMLDocument* d) "
-/**
-   * Sets the parent SBMLDocument of this SBML object.
-   *
-   * @param d the SBMLDocument to use
-   */ /* libsbml-internal */ public new
-";
-
-
-%csmethodmodifiers Event::connectToChild "
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor and assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Event::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   *
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -33438,7 +32899,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -33485,18 +32946,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Event::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Event::setInternalIdOnly "
-/**
-   * sets the mInternalIdOnly flag
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -33516,9 +32971,8 @@ sp.setId(\'MySpecies\');
 
 %csmethodmodifiers Event::hasRequiredElements() const "
 /**
-   * Predicate returning @c true if
-   * all the required elements for the given Event_t structure
-   * have been set.
+   * Predicate returning @c true if all the required elements for this Event
+   * object have been set.
    *
    * @note The required elements for an Event object are:
    * @li \'trigger\'
@@ -33528,31 +32982,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Event::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Event::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Event::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -33567,11 +33007,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Event::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -33626,7 +33062,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -33758,29 +33194,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfEvents::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   *
-   * The ordering of elements in the XML form of SBML is generally fixed
-   * for most components in SBML.  So, for example, the ListOfEvents in a
-   * model is (in SBML Level&nbsp;2 Version&nbsp;4) the twelfth ListOf___.
-   * (However, it differs for different Levels and Versions of SBML, so
-   * calling code should not hardwire this number.)
-   *
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfEvents::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -34166,10 +33585,13 @@ sp.setId(\'MySpecies\');
    * @param sid the identifier of a Compartment, Species or (global)
    * Parameter defined in this model.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -34184,10 +33606,13 @@ sp.setId(\'MySpecies\');
    * @param math an ASTNode that will be copied and stored as the
    * mathematical formula for this EventAssignment.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -34368,7 +33793,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -34415,11 +33840,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers EventAssignment::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -34526,52 +33947,32 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers EventAssignment::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace all nodes with the name \'id\' from the child \'math\' object with the provided function. 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers EventAssignment::divideAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this assignment assigns a value to the \'id\' element, replace the \'math\' object with the function (existing/function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers EventAssignment::multiplyAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this assignment assigns a value to the \'id\' element, replace the \'math\' object with the function (existing*function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers EventAssignment::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers EventAssignment::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers EventAssignment::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -34586,11 +33987,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers EventAssignment::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -34640,7 +34037,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -34790,23 +34187,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers ListOfEventAssignments::getElementPosition() const "
-/**
-   * Get the ordinal position of this element in the containing object
-   * (which in this case is the Model object).
-   * 
-   * @return the ordinal position of the element with respect to its
-   * siblings, or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ListOfEventAssignments::createObject(XMLInputStream& stream) "
-/**
-   * Create and return an SBML object of this class, if present.
-   *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or @c null if the token was not recognized.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -35077,10 +34463,13 @@ sp.setId(\'MySpecies\');
    *
    * @param math an ASTNode representing a formula tree.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -35093,10 +34482,13 @@ sp.setId(\'MySpecies\');
    *
    * @param initialValue a bool representing the initialValue to be set.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
@@ -35112,10 +34504,13 @@ sp.setId(\'MySpecies\');
    *
    * @param persistent a bool representing the persistent value to be set.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
@@ -35133,7 +34528,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -35249,29 +34644,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Trigger::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace all nodes with the name \'id\' from the child \'math\' object with the provided function. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Trigger::getElementPosition() const "
-/**
-   * Returns the position of this element.
-   * 
-   * @return the ordinal position of the element with respect to its
-   * siblings or -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Trigger::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -35310,10 +34693,13 @@ sp.setId(\'MySpecies\');
 /**
    * Finds this Trigger\'s Event parent and calls unsetTrigger() on it, indirectly deleting itself.  Overridden from the SBase function since the parent is not a ListOf.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -35321,31 +34707,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Trigger::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Trigger::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Trigger::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -35360,11 +34732,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Trigger::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -35635,10 +35003,13 @@ sp.setId(\'MySpecies\');
    *
    * @param math an ASTNode representing a formula tree.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t.  @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -35831,7 +35202,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -35880,21 +35251,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Delay::getElementPosition() const "
-/**
-   * Returns the position of this element.
-   * 
-   * @return the ordinal position of the element with respect to its
-   * siblings or -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Delay::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -35920,10 +35282,13 @@ sp.setId(\'MySpecies\');
    *
    * Overridden from the SBase function since the parent is not a ListOf.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -36000,10 +35365,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Delay::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace all nodes with the name \'id\' from the child \'math\' object with the provided function. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -36018,31 +35380,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Delay::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Delay::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Delay::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -36057,11 +35405,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Delay::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -36350,10 +35694,13 @@ sp.setId(\'MySpecies\');
    *
    * @param math an ASTNode representing a formula tree.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t.  @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -36368,7 +35715,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -36417,21 +35764,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Priority::getElementPosition() const "
-/**
-   * Returns the position of this element.
-   * 
-   * @return the ordinal position of the element with respect to its
-   * siblings or -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Priority::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -36456,10 +35794,13 @@ sp.setId(\'MySpecies\');
    *
    * Overridden from the SBase function since the parent is not a ListOf.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -36536,10 +35877,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Priority::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace all nodes with the name \'id\' from the child \'math\' object with the provided function. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -36554,31 +35892,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Priority::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Priority::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers Priority::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -36588,11 +35912,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Priority::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -36753,19 +36073,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SBO::readTerm(const XMLAttributes& attributes, SBMLErrorLog* log, unsigned int level = SBML_DEFAULT_LEVEL, unsigned int version = SBML_DEFAULT_VERSION, unsigned int line = 0, unsigned int column = 0) "
-/**
-   * Reads (and checks) sboTerm from the given XMLAttributes set.
-   *
-   * @return the sboTerm as an integer or -1 if the sboTerm was not in the
-   * correct format or not found.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBO::writeTerm(XMLOutputStream& stream, int sboTerm, const std::string& prefix = "") "
-/**
-   * Writes sboTerm as an XMLAttribute with the given prefix to the given XMLOutputStream.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -37399,18 +36712,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SBO::isChildOf(unsigned int term, unsigned int parent) "
-/**
-   * Returns @c true if the given term identifier comes from the stated branch of %SBO.
-   * * @return true if the term is-a parent, false otherwise
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBO::populateSBOTree "
-/**
-   * Returns @c true if the given term identifier comes from the stated branch of %SBO.
-   * populates the parent-child map
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -37749,10 +37056,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SyntaxChecker::isValidInternalSId(std::string sid) "
-/**
-   * Returns true @c true or @c false depending on whether the argument
-   * string conforms to the syntax of SBML identifiers or is empty.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -37777,34 +37081,22 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers SyntaxChecker::isUnicodeLetter(std::string::iterator, unsigned int) "
-/**
-   * Checks if a character is part of the Unicode Letter set.
-   * @return true if the character is a part of the set, false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SyntaxChecker::isUnicodeDigit(std::string::iterator, unsigned int) "
-/**
-   * Checks if a character is part of the Unicode Digit set.
-   * @return true if the character is a part of the set, false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SyntaxChecker::isCombiningChar(std::string::iterator, unsigned int) "
-/**
-   * Checks if a character is part of the Unicode CombiningChar set.
-   * @return true if the character is a part of the set, false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SyntaxChecker::isExtender(std::string::iterator, unsigned int) "
-/**
-   * Checks if a character is part of the Unicode Extender set.
-   * @return true if the character is a part of the set, false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -38125,9 +37417,13 @@ sp.setId(\'MySpecies\');
    *
    * @param math an ASTNode representing a formula tree.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -38286,7 +37582,7 @@ sp.setId(\'MySpecies\');
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -38333,21 +37629,12 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers StoichiometryMath::getElementPosition() const "
-/**
-   * Returns the position of this element.
-   * 
-   * @return the ordinal position of the element with respect to its
-   * siblings or @c -1 (default) to indicate the position is not significant.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers StoichiometryMath::writeElements(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write out their contained
-   * SBML objects as XML elements.  Be sure to call your parents
-   * implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -38373,10 +37660,13 @@ sp.setId(\'MySpecies\');
    *
    * Overridden from the SBase function since the parent is not a ListOf.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
@@ -38453,10 +37743,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers StoichiometryMath::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace all nodes with the name \'id\' from the child \'math\' object with the provided function. 
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -38471,31 +37758,17 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers StoichiometryMath::readOtherXML(XMLInputStream& stream) "
-/**
-   * Subclasses should override this method to read (and store) XHTML,
-   * MathML, etc. directly from the XMLInputStream.
-   *
-   * @return true if the subclass read from the stream, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers StoichiometryMath::addExpectedAttributes(ExpectedAttributes& attributes) "
-/**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers StoichiometryMath::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes) "
-/**
-   * Subclasses should override this method to read values from the given
-   * XMLAttributes set into their specific fields.  Be sure to call your
-   * parents implementation of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -38505,11 +37778,7 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers StoichiometryMath::writeAttributes(XMLOutputStream& stream) const "
-/**
-   * Subclasses should override this method to write their XML attributes
-   * to the XMLOutputStream.  Be sure to call your parents implementation
-   * of this method as well.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -38933,10 +38202,13 @@ else
    *
    * @param xmlns the XML namespaces to be added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -38952,10 +38224,13 @@ else
    * @param uri    the XML namespace to be added.
    * @param prefix the prefix of the namespace to be added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -38970,10 +38245,13 @@ else
    * 
    * @param uri    the XML namespace to be added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
@@ -38992,10 +38270,13 @@ else
    * @param prefix the prefix of the package namespace to be added.
    *        The package\'s name will be used if the given string is empty (default).
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -39016,10 +38297,13 @@ else
    * 
    * @param xmlns the XML namespaces to be added.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -39040,10 +38324,13 @@ else
    * @param pkgName the string of package name (e.g. \'layout\', \'multi\')
    * @param pkgVersion the package version
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
@@ -39052,74 +38339,17 @@ else
 
 
 %csmethodmodifiers SBMLNamespaces::addPkgNamespace(const std::string &pkgName, unsigned int pkgVersion, const std::string &prefix = "") "
-/**
-   * Add an XML namespace (a pair of URI and prefix) of a package extension
-   * to the set of namespaces within this SBMLNamespaces object.
-   * 
-   * The SBML Level and SBML Version of this object is used.
-   * 
-   * @param pkgName the string of package name (e.g. \'layout\', \'multi\')
-   * @param pkgVersion the package version
-   * @param prefix the prefix of the package namespace to be added.
-   *        The package\'s name will be used if the given string is empty (default).
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   *
-   * @note An XML namespace of a non-registered package extension can\'t be
-   * added by this function (@link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink 
-   * will be returned).
-   *
-   * @see addNamespace(@if java String, String@endif)
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLNamespaces::addPkgNamespaces(const XMLNamespaces* xmlns) "
-/**
-   * Add the XML namespaces of package extensions in the given XMLNamespace
-   * object to the set of namespaces within this SBMLNamespaces object.
-   * 
-   * Non-package XML namespaces are not added by this function.
-   * 
-   * @param xmlns the XML namespaces to be added.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   *
-   * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink will be returned if the given
-   * xmlns is null.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLNamespaces::removePkgNamespace(unsigned int level, unsigned version, const std::string &pkgName, unsigned int pkgVersion) "
-/**
-   * Removes an XML namespace of a package extension from the set of
-   * namespaces within this SBMLNamespaces object.
-   *
-   * @param level   the SBML level
-   * @param version the SBML version
-   * @param pkgName the string of package name (e.g. \'layout\', \'multi\')
-   * @param pkgVersion the package version
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -39202,65 +38432,12 @@ else
 
 
 %csmethodmodifiers SBMLTransforms::replaceFD(ASTNode * math, const FunctionDefinition * fd, const IdList* idsToExclude = NULL) "
-/**
-   * Expands the math represented by the ASTNode to implement the functionality
-   * of the FunctionDefinition, if it occurs within the original
-   * math.
-   *
-   * For example, an ASTNode represents the math expression: f(s, p) where
-   * f is the id of a FunctionDefinition representing f(x, y) = x * y.
-   * The outcome of the function is that the ASTNode now represents
-   * the math expression: s * p
-   *
-   * @param math ASTNode representing the math to be transformed
-   *
-   * @param fd the FunctionDefinition to be expanded
-   *
-   * @param idsToExclude an optional list of function definition ids to exclude.
-   *
-   * *
- * @if python @note Because this is a static method on a class, the Python
- * language interface for libSBML will contain two variants.  One will be the
- * expected, normal static method on the class (i.e., a regular
- * <em>methodName</em>), and the other will be a standalone top-level
- * function with the name <em>ClassName_methodName()</em>. This is merely an
- * artifact of how the language interfaces are created in libSBML.  The
- * methods are functionally identical. @endif
- *
- *
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLTransforms::replaceFD(ASTNode * math, const ListOfFunctionDefinitions * lofd, const IdList* idsToExclude = NULL) "
-/**
-   * Expands the math represented by the ASTNode to implement the functionality
-   * of all the FunctionDefinitions in the list, if they occur within the 
-   * original math.
-   *
-   * For example, an ASTNode represents the math expression: f(s, g(p, q)) where
-   * f is the id of a FunctionDefinition representing f(x, y) = x * y
-   * and g is the id of a FunctionDefinition representing f(x, y) = x/y
-   * The outcome of the function is that the ASTNode now represents
-   * the math expression: s * p/q
-   *
-   * @param math ASTNode representing the math to be transformed
-   *
-   * @param lofd the ListOfFunctionDefinitions to be expanded
-   * 
-   * @param idsToExclude an optional list of function definition ids to exclude.
-   *
-   * *
- * @if python @note Because this is a static method on a class, the Python
- * language interface for libSBML will contain two variants.  One will be the
- * expected, normal static method on the class (i.e., a regular
- * <em>methodName</em>), and the other will be a standalone top-level
- * function with the name <em>ClassName_methodName()</em>. This is merely an
- * artifact of how the language interfaces are created in libSBML.  The
- * methods are functionally identical. @endif
- *
- *
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -39294,6 +38471,21 @@ else
  * an exception.
  */
 "
+
+
+%csmethodmodifiers SBMLConstructorException::SBMLConstructorException(std::string errmsg = "") "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLConstructorException::SBMLConstructorException(std::string errmsg, std::string sbmlErrMsg) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLConstructorException::SBMLConstructorException(std::string elementName, SBMLNamespaces* xmlns) "
+/** */ /* libsbml-internal */ public
+";
 
 
 %csmethodmodifiers SBMLConstructorException::getSBMLErrMsg() const "
@@ -39343,7 +38535,7 @@ else
  * An option in ConversionOption must have a data type declared, to
  * indicate whether it is a string value, an integer, and so forth.  The
  * possible types of values are taken from
- * @if clike the enumeration ConversionOptionType_t @else a set of
+ * @if clike the enumeration #ConversionOptionType_t @else a set of
  * constants whose symbol names begin with the prefix
  * <code>CNV_TYPE_</code>@endif. The following are the possible values:
  *
@@ -39393,7 +38585,7 @@ else
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
- * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * #ConversionOptionType_t.@endif@if java the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.@endif@if python the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
@@ -39566,7 +38758,7 @@ else
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
- * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * #ConversionOptionType_t.@endif@if java the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.@endif@if python the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
@@ -39685,6 +38877,163 @@ else
  * conversions may be affected by SBML Level&nbsp;3 packages being used by an
  * SBML document; consequently, the packages in use are also communicated by
  * the values of the SBML namespaces set on a ConversionProperties object.
+ *
+ * *
+ * @section using-converters General information about the use of SBML converters
+ *
+ * The use of all the converters follows a similar approach.  First, one
+ * creates a ConversionProperties object and calls
+ * ConversionProperties::addOption(@if java ConversionOption@endif)
+ * on this object with one arguments: a text string that identifies the desired
+ * converter.  (The text string is specific to each converter; consult the
+ * documentation for a given converter to find out how it should be enabled.)
+ *
+ * Next, for some converters, the caller can optionally set some
+ * converter-specific properties using additional calls to
+ * ConversionProperties::addOption(@if java ConversionOption@endif).
+ * Many converters provide the ability to
+ * configure their behavior to some extent; this is realized through the use
+ * of properties that offer different options.  The default property values
+ * for each converter can be interrogated using the method
+ * SBMLConverter::getDefaultProperties() on the converter class in question .
+ *
+ * Finally, the caller should invoke the method
+ * SBMLDocument::convert(@if java ConversionProperties@endif)
+ * with the ConversionProperties object as an argument.
+ *
+ * @subsection converter-example Example of invoking an SBML converter
+ *
+ * The following code fragment illustrates an example using
+ * SBMLReactionConverter, which is invoked using the option string @c
+ * \'replaceReactions\':
+ *
+ * @if cpp
+ * @code{.cpp}
+ConversionProperties props;
+props.addOption(\'replaceReactions\');
+@endcode
+@endif
+@if python
+@code{.py}
+config = ConversionProperties()
+if config != None:
+  config.addOption(\'replaceReactions\')
+@endcode
+@endif
+@if java
+@code{.java}
+ConversionProperties props = new ConversionProperties();
+if (props != null) {
+  props.addOption(\'replaceReactions\');
+} else {
+  // Deal with error.
+}
+@endcode
+@endif
+ *
+ * In the case of SBMLReactionConverter, there are no options to affect
+ * its behavior, so the next step is simply to invoke the converter on
+ * an SBMLDocument object.  Continuing the example code:
+ *
+ * @if cpp
+ * @code{.cpp}
+// Assume that the variable \'document\' has been set to an SBMLDocument object.
+int status = document->convert(props);
+if (status != LIBSBML_OPERATION_SUCCESS)
+{
+  cerr << \'Unable to perform conversion due to the following:\' << endl;
+  document->printErrors(cerr);
+}
+@endcode
+@endif
+@if python
+@code{.py}
+  # Assume that the variable \'document\' has been set to an SBMLDocument object.
+  status = document.convert(config)
+  if status != LIBSBML_OPERATION_SUCCESS:
+    # Handle error somehow.
+    print(\'Error: conversion failed due to the following:\')
+    document.printErrors()
+@endcode
+@endif
+@if java
+@code{.java}
+  // Assume that the variable \'document\' has been set to an SBMLDocument object.
+  status = document.convert(config);
+  if (status != libsbml.LIBSBML_OPERATION_SUCCESS)
+  {
+    // Handle error somehow.
+    System.out.println(\'Error: conversion failed due to the following:\');
+    document.printErrors();
+  }
+@endcode
+@endif
+ *
+ * Here is an example of using a converter that offers an option. The
+ * following code invokes SBMLStripPackageConverter to remove the
+ * SBML Level&nbsp;3 @em %Layout package from a model.  It sets the name
+ * of the package to be removed by adding a value for the option named
+ * @c \'package\' defined by that converter:
+ *
+ * @if cpp
+ * @code{.cpp}
+ConversionProperties props;
+props.addOption(\'stripPackage\');
+props.addOption(\'package\', \'layout\');
+
+int status = document->convert(props);
+if (status != LIBSBML_OPERATION_SUCCESS)
+{
+    cerr << \'Unable to strip the Layout package from the model\';
+    cerr << \'Error returned: \' << status;
+}
+@endcode
+@endif
+@if python
+@code{.py}
+def strip_layout_example(document):
+  config = ConversionProperties()
+  if config != None:
+    config.addOption(\'stripPackage\')
+    config.addOption(\'package\', \'layout\')
+    status = document.convert(config)
+    if status != LIBSBML_OPERATION_SUCCESS:
+      # Handle error somehow.
+      print(\'Error: unable to strip the Layout package.\')
+      print(\'LibSBML returned error: \' + OperationReturnValue_toString(status).strip())
+  else:
+    # Handle error somehow.
+    print(\'Error: unable to create ConversionProperties object\')
+@endcode
+@endif
+@if java
+@code{.java}
+ConversionProperties config = new ConversionProperties();
+if (config != None) {
+  config.addOption(\'stripPackage\');
+  config.addOption(\'package\', \'layout\');
+  status = document.convert(config);
+  if (status != LIBSBML_OPERATION_SUCCESS) {
+    // Handle error somehow.
+    System.out.println(\'Error: unable to strip the Layout package\');
+    document.printErrors();
+  }
+} else {
+  // Handle error somehow.
+  System.out.println(\'Error: unable to create ConversionProperties object\');
+}
+@endcode
+@endif
+ *
+ * @subsection available-converters Available SBML converters in libSBML
+ *
+ * LibSBML provides a number of built-in converters; by convention, their
+ * names end in @em Converter. The following are the built-in converters
+ * provided by libSBML @htmlinclude libsbml-version.html:
+ *
+ * @copydetails doc_list_of_libsbml_converters
+ *
+ *
  *
  * @see ConversionOption
  * @see SBMLNamespaces
@@ -40217,17 +39566,19 @@ if (config != None) {
 %csmethodmodifiers SBMLConverter::SBMLConverter(const std::string& name) "
 /**
    * Creates a new SBMLConverter object with a given name.
-   * 
+   *
    * @param name the name for the converter to create
    */ public
 ";
 
 
-%csmethodmodifiers SBMLConverter::SBMLConverter(const SBMLConverter& c) "
+%csmethodmodifiers SBMLConverter::SBMLConverter(const SBMLConverter& orig) "
 /**
-   * Copy constructor; creates a copy of an SBMLConverter object.
+   * Copy constructor.
    *
-   * @param c the SBMLConverter object to copy.
+   * This creates a copy of an SBMLConverter object.
+   *
+   * @param orig the SBMLConverter object to copy.
    *
    * @throws SBMLConstructorException
    * Thrown if the argument @p orig is @c null.
@@ -40257,7 +39608,7 @@ if (config != None) {
 /**
    * Returns the SBML document that is the subject of the conversions.
    *
-   * @return the current SBMLDocument object, as a reference.
+   * @return the current SBMLDocument object.
    */ public new
 ";
 
@@ -40286,36 +39637,39 @@ if (config != None) {
 /**
    * Returns the target SBML namespaces of the currently set properties.
    *
-   * SBML namespaces are used by libSBML to express the Level+Version of
-   * the SBML document (and, possibly, any SBML Level&nbsp;3 packages in
+   * SBML namespaces are used by libSBML to express the Level+Version of the
+   * SBML document (and, possibly, any SBML Level&nbsp;3 packages in
    * use). Some converters\' behavior is affected by the SBML namespace
-   * configured in the converter.  For example, the actions of
-   * SBMLLevelVersionConverter, the converter for converting SBML documents
-   * from one Level+Version combination to another, are fundamentally
-   * dependent on the SBML namespaces being targeted.
+   * configured in the converter.  For example, in SBMLLevelVersionConverter
+   * (the converter for converting SBML documents from one Level+Version
+   * combination to another), the actions are fundamentally dependent on the
+   * SBML namespaces targeted.
    *
    * @return the SBMLNamespaces object that describes the SBML namespaces
-   * in effect.
+   * in effect, or @c null if none are set.
    */ public virtual
 ";
 
 
 %csmethodmodifiers SBMLConverter::matchesProperties(const ConversionProperties &props) const "
 /**
-   * Predicate returning @c true if this converter\'s properties matches a
-   * given set of configuration properties.
+   * Returns @c true if this converter matches the given properties.
    *
-   * @param props the configuration properties to match.
+   * Given a ConversionProperties object @p props, this method checks that @p
+   * props possesses an option value to enable this converter.  If it does,
+   * this method returns @c true.
    *
-   * @return @c true if this converter\'s properties match, @c false
-   * otherwise.
+   * @param props the properties to match.
+   *
+   * @return @c true if the properties @p props would match the necessary
+   * properties for this type of converter, @c false otherwise.
    */ public virtual
 ";
 
 
 %csmethodmodifiers SBMLConverter::setDocument(const SBMLDocument* doc) "
 /**
-   * Sets the current SBML document to the given SBMLDocument object.
+   * Sets the SBML document to be converted.
    *
    * @param doc the document to use for this conversion.
    *
@@ -40324,20 +39678,22 @@ if (config != None) {
    * #OperationReturnValues_t. @endif The set of possible values that may
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
-   * following values:
+   * following:
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
+   * @if cpp
    * @warning Even though the argument @p doc is \'const\', it is immediately
    * cast to a non-version, which is then usually changed by the
    * converter upon a successful conversion.  This variant of the
    * setDocument() method is here solely to preserve backwards compatibility.
+   * @endif
    */ public virtual
 ";
 
 
 %csmethodmodifiers SBMLConverter::setDocument(SBMLDocument* doc) "
 /**
-   * Sets the current SBML document to the given SBMLDocument object.
+   * Sets the SBML document to be converted.
    *
    * @param doc the document to use for this conversion.
    *
@@ -40346,7 +39702,7 @@ if (config != None) {
    * #OperationReturnValues_t. @endif The set of possible values that may
    * be returned ultimately depends on the specific subclass of
    * SBMLConverter being used, but the default method can return the
-   * following values:
+   * following:
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public virtual
 ";
@@ -40413,10 +39769,10 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLConverter::getName() const "
-/**  
-   * Returns the name of this converter. 
+/**
+   * Returns the name of this converter.
    *
-   * @return a name for this converter
+   * @return a string, the name of this converter.
    */ public
 ";
 
@@ -40458,21 +39814,25 @@ if (config != None) {
    *
    * Prior to using the registry, callers have to obtain a copy of the
    * registry.  This static method provides the means for doing that.
-   * 
-   * @return the singleton for the converter registry. 
+   *
+   * @return the singleton for the converter registry.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLConverterRegistry::addConverter(const SBMLConverter* converter) "
-/** 
+/**
    * Adds the given converter to the registry of SBML converters.
-   * 
+   *
    * @param converter the converter to add to the registry.
-   * 
-   * @return integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -40480,16 +39840,16 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLConverterRegistry::getConverterByIndex(int index) const "
-/** 
+/**
    * Returns the converter with the given index number.
    *
    * Converters are given arbitrary index numbers by the registry.  Callers
    * can use the method SBMLConverterRegistry::getNumConverters() to find
    * out how many converters are registered, then use this method to
    * iterate over the list and obtain each one in turn.
-   * 
+   *
    * @param index the zero-based index of the converter to fetch.
-   * 
+   *
    * @return the converter with the given index number, or @c null if the
    * number is less than @c 0 or there is no converter at the given index
    * position.
@@ -40498,20 +39858,20 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLConverterRegistry::getConverterFor(const ConversionProperties& props) const "
-/** 
+/**
    * Returns the converter that best matches the given configuration
    * properties.
-   * 
+   *
    * Many converters provide the ability to configure their behavior.  This
    * is realized through the use of @em properties that offer different @em
    * options.  The present method allows callers to search for converters
    * that have specific property values.  Callers can do this by creating a
    * ConversionProperties object, adding the desired option(s) to the
    * object, then passing the object to this method.
-   * 
+   *
    * @param props a ConversionProperties object defining the properties
    * to match against.
-   * 
+   *
    * @return the converter matching the properties, or @c null if no
    * suitable converter is found.
    *
@@ -40523,7 +39883,7 @@ if (config != None) {
 %csmethodmodifiers SBMLConverterRegistry::getNumConverters() const "
 /**
    * Returns the number of converters known by the registry.
-   * 
+   *
    * @return the number of registered converters.
    *
    * @see getConverterByIndex(@if java int@endif)
@@ -40532,9 +39892,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLConverterRegistry::SBMLConverterRegistry "
-/** 
-   * protected constructor, use the getInstance() method to access the registry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -40741,9 +40099,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLFunctionDefinitionConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -40805,9 +40161,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -41042,9 +40402,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLIdConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -41106,9 +40464,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -41318,9 +40680,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLInferUnitsConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -41382,9 +40742,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -41406,6 +40770,11 @@ if (config != None) {
    * @return the ConversionProperties object describing the default properties
    * for this converter.
    */ public new
+";
+
+
+%csmethodmodifiers SBMLInferUnitsConverter::existsAlready(Model& m, UnitDefinition *newUD) "
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -41625,9 +40994,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLInitialAssignmentConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -41689,9 +41056,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -41915,9 +41286,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLLevelVersionConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -41979,9 +41348,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_CONV_INVALID_TARGET_NAMESPACE LIBSBML_CONV_INVALID_TARGET_NAMESPACE@endlink
@@ -42032,6 +41405,26 @@ if (config != None) {
    * @return @c true if strict validity has been requested, @c false
    * otherwise.
    */ public
+";
+
+
+%csmethodmodifiers SBMLLevelVersionConverter::conversion_errors(unsigned int errors, bool strictUnits = true) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLLevelVersionConverter::hasStrictUnits "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLLevelVersionConverter::hasStrictSBO "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits, bool duplicateAnn) "
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -42227,9 +41620,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLLocalParameterConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -42291,9 +41682,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -42503,9 +41898,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLReactionConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -42567,9 +41960,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -42605,12 +42002,13 @@ if (config != None) {
    * converter upon a successful conversion.  This function is here
    * solely to preserve backwards compatibility.
    *
-   * @return integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The set of possible values that may
-   * be returned ultimately depends on the specific subclass of
-   * SBMLConverter being used, but the default method can return the
-   * following values:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
 ";
@@ -42622,39 +42020,40 @@ if (config != None) {
    *
    * @param doc the document to use for this conversion.
    *
-   * @return integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The set of possible values that may
-   * be returned ultimately depends on the specific subclass of
-   * SBMLConverter being used, but the default method can return the
-   * following values:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
 ";
 
 
-%csmethodmodifiers SBMLReactionConverter::createRateRuleMathForSpecies(const std::string& spId, Reaction * rn) "
-/** */ public
+%csmethodmodifiers SBMLReactionConverter::createRateRuleMathForSpecies(const std::string& spId, Reaction * rn, bool isReactant) "
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLReactionConverter::determineStoichiometryNode(SpeciesReference * sr, bool isReactant) "
-/** */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLReactionConverter::createRateRule(const std::string& spId, ASTNode * math) "
-/** */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLReactionConverter::replaceReactions "
-/** */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLReactionConverter::isDocumentValid "
-/** */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -42698,11 +42097,11 @@ if (config != None) {
  * can be used to reorder the SBML objects regardless of whether the
  * input file contained them in the desired order.
  *
- * @note The two sets of assignments (list of assignment rules on the one
- * hand, and list of initial assignments on the other hand) are handled @em
- * independently.  In an SBML model, these entities are treated differently
- * and no amount of sorting can deal with inter-dependencies between
- * assignments of the two kinds.
+ * Note that the two sets of SBML assignments (list of assignment rules on
+ * the one hand, and list of initial assignments on the other hand) are
+ * handled @em independently.  In an SBML model, these entities are treated
+ * differently and no amount of sorting can deal with inter-dependencies
+ * between assignments of the two kinds.
 
  * @section SBMLRuleConverter-usage Configuration and use of SBMLRuleConverter
  *
@@ -42872,9 +42271,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLRuleConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -42936,9 +42333,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
@@ -43150,9 +42551,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLStripPackageConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -43214,9 +42613,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -43238,6 +42641,11 @@ if (config != None) {
    * @return the ConversionProperties object describing the default properties
    * for this converter.
    */ public new
+";
+
+
+%csmethodmodifiers SBMLStripPackageConverter::getPackageToStrip "
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -43439,9 +42847,7 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLUnitsConverter::init "
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -43503,9 +42909,13 @@ if (config != None) {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -43528,6 +42938,81 @@ if (config != None) {
    * @return the ConversionProperties object describing the default properties
    * for this converter.
    */ public new
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::convertUnits(SBase& sb, Model& m) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::convertUnits(SBase& sb, Model& m, std::string &modelUnitAttribute, ASTNode *ast = 0) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::applyNewUnitDefinition(SBase& sb, Model& m, UnitDefinition *newUD, std::string &modelUnitAttribute, ASTNode * ast) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::existsAlready(Model& m, UnitDefinition *newUD) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::getRemoveUnusedUnitsFlag "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::removeUnusedUnitDefinitions(Model& m) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::convertGlobalUnits(Model& m) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::convertCnUnits(Model& m) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::isUsed(Model& m, std::string unitSId) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::unacceptable_errors(unsigned int errors) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::hasCnUnits(Model& m) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::mathHasCnUnits(const ASTNode *ast) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::matchesCnUnits(Model& m, std::string& units) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::mathMatchesCnUnits(const ASTNode *ast, std::string& units) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLUnitsConverter::convertAST(ASTNode *ast, Model &m) "
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -43632,10 +43117,13 @@ if (config != None) {
    * 
    * @param doc the document to use for this validation
    * 
-   * @return an integer value indicating the success/failure of the
-   * validation.  @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values returned by this
-   * function are
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getDocument()
@@ -43823,136 +43311,82 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLExternalValidator::SBMLExternalValidator "
-/**
-   * Constructor.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::SBMLExternalValidator(const SBMLExternalValidator&) "
-/**
-   * Copy constructor.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::clone() const "
-/**
-   * Creates and returns a deep copy of this SBMLValidator object.
-   *
-   * @return the (deep) copy of this SBMLValidator object.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::validate "
-/**
-   * the actual conversion 
-   * 
-   * @return status code represeting success/failure/conversion impossible
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::getProgram() const "
-/**
-   * Returns the program name of the validator to be run
-   *
-   * @return the program name of the validator to be run
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::setProgram(std::string program) "
-/**
-   * Sets the name of the program to run
-   *
-   * @param program the program to be started
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::getOutputFileName() const "
-/**
-   * Returns the output file name (this is the file the external program will write)
-   *
-   * @return the output file name
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::setOutputFileName(std::string outputFileName) "
-/**
-   * Sets the output file name
-   *
-   * @param outputFileName the name of the output XML file
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::getSBMLFileName() const "
-/**
-   * @return the name of the SBML file (the document of this validator will be written to it)
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::setSBMLFileName(std::string sbmlFileName) "
-/**
-   * Sets the filename for the temporary file to be created
-   *
-   * @param sbmlFileName the temporary name
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::clearArguments "
-/**
-   * Clear all additional arguments
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::addArgument(std::string arg) "
-/**
-   * Adds the given argument to the list of additional arguments 
-   *
-   * @param arg the argument
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::getNumArguments() const "
-/**
-   * @return the number of arguments. 
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::getArgument "
-/**
-   * Returns the argument for the given index. 
-   * 
-   * @param n the zero based index of the argument. 
-   *
-   * @return the argument at the given index. 
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::getArguments() const "
-/**
-   * @return all arguments
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExternalValidator::setArguments(std::vector<std::string> args) "
-/**
-   * Sets the additional arguments
-   *
-   * @param args the additional arguments
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -43963,23 +43397,65 @@ if (config != None) {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html An attribute on an XML node.
+@htmlinclude pkg-marker-core.html A list of attributes on an XML element.
  *
  * @htmlinclude not-sbml-warning.html
+ *
+ * In libSBML\'s XML interface layer, attributes on an element are stored as a
+ * list of values kept in an XMLAttributes object.  XMLAttributes has methods
+ * for adding and removing individual attributes as well as performing other
+ * actions on the list of attributes.  Classes in libSBML that represent nodes
+ * in an XML document (i.e., XMLNode and its parent class, XMLToken) use
+ * XMLAttributes objects to manage attributes on XML elements.
+ *
+ * Attributes on an XML element can be written in one of two forms:
+ * @li <code>name=\'value\'</code>
+ * @li <code>prefix:name=\'value\'</code>
+ *
+ * An attribute in XML must always have a value, and the value must always be
+ * a quoted string; i.e., it is always <code>name=\'value\'</code> and not
+ * <code>name=value</code>.  An empty value is represented simply as an
+ * empty string; i.e., <code>name=\'\'</code>.
+ *
+ * In cases when a <code>prefix</code> is provided with an attribute name,
+ * general XML validity rules require that the prefix is an XML namespace
+ * prefix that has been declared somewhere else (possibly as an another
+ * attribute on the same element).  However, the XMLAttributes class does
+ * @em not test for the proper existence or declaration of XML
+ * namespaces&mdash;callers must arrange to do this themselves in some other
+ * way.  This class only provides facilities for tracking and manipulating
+ * attributes and their prefix/URI/name/value components.
+ *
+ * *
+ * @note Note that although XMLAttributes provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * XMLAttributes class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in XMLAttributes objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+ *
+ *
+ *
+ * @see XMLTriple
+ * @see XMLNode
+ * @see XMLToken
  */
 "
 
 
 %csmethodmodifiers XMLAttributes::XMLAttributes "
 /**
-   * Creates a new empty XMLAttributes set.
+   * Creates a new, empty XMLAttributes object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::XMLAttributes(const XMLAttributes& orig) "
 /**
-   * Copy constructor; creates a copy of this XMLAttributes set.
+   * Copy constructor; creates a copy of this XMLAttributes object.
    *
    * @p orig the XMLAttributes object to copy.
    *
@@ -44000,419 +43476,860 @@ if (config != None) {
 
 %csmethodmodifiers XMLAttributes::add(  const std::string& name , const std::string& value , const std::string& namespaceURI = "" , const std::string& prefix = "") "
 /**
-   * Adds an attribute (a name/value pair) to this XMLAttributes object,
-   * optionally with a prefix and URI defining a namespace.
+   * Adds an attribute to this list of attributes.
    *
-   * @param name a string, the local name of the attribute.
+   * *
+ * 
+ * Some explanations are in order about the behavior of XMLAttributes with
+ * respect to namespace prefixes and namespace URIs.  XMLAttributes does @em
+ * not verify the consistency of different uses of an XML namespace and the
+ * prefix used to refer to it in a given context.  It cannot, because the
+ * prefix used for a given XML namespace in an XML document may intentionally
+ * be different on different elements in the document.  Consequently, callers
+ * need to manage their own prefix-to-namespace mappings, and need to ensure
+ * that the desired prefix is used in any given context.
+ *
+ * When called with attribute names, prefixes and namespace URIs,
+ * XMLAttributes pays attention to the namespace URIs and not the prefixes: a
+ * match is established by a combination of attribute name and namespace URI,
+ * and if on different occasions a different prefix is used for the same
+ * name/namespace combination, the prefix associated with the namespace on
+ * that attribute is overwritten.
+ *
+ * Some examples will hopefully clarify this.  Here are the results of a
+ * sequence of calls to the XMLAttributes <code>add</code> methods with
+ * different argument combinations.  First, we create the object and add
+ * one attribute:
+ *
+ * @code{.cpp}
+XMLAttributes  att = new XMLAttributes();
+att->add(\'myattribute\', \'1\', \'myuri\');
+@endcode
+ * The above adds an attribute named <code>myattribute</code> in the namespace
+ * <code>myuri</code>, and with the attribute value <code>1</code>.  No
+ * namespace prefix is associated with the attribute (but the attribute is
+ * recorded to exist in the namespace <code>myuri</code>).  If
+ * this attribute object were written out in XML, it would look like the
+ * following (and note that, since no namespace prefix was assigned, none
+ * is written out):
+ * <center><pre>
+myattribute=\'1\'
+ * </pre></center>
+ *
+ * Continuing with this series of examples, suppose we invoke the
+ * <code>add</code> method again as follows:
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'2\');
+@endcode
+ * The above adds a @em new attribute @em also named <code>myattribute</code>,
+ * but in a different XML namespace: it is placed in the namespace with no
+ * URI, which is to say, the default XML namespace.  Both attributes coexist
+ * on this XMLAttributes object; both can be independently retrieved.
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'3\');
+@endcode
+ * The code above now replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  The
+ * attribute in the namespace <code>myuri</code> remains untouched.
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'4\', \'myuri\');
+@endcode
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * The attribute in the default namespace remains untouched.
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'5\', \'myuri\', \'foo\');
+@endcode
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also now assigns a namespace prefix, <code>foo</code>, to the attribute.
+ * The attribute <code>myattribute</code> in the default namespace remains
+ * untouched. If this XMLAttributes object were written out in XML, it would
+ * look like the following:
+ * <center><pre>
+myattribute=\'3\'
+foo:myattribute=\'5\'
+ * </pre></center>
+ * Pressing on, now suppose we call the <code>add</code> method as follows:
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'6\', \'myuri\', \'bar\');
+@endcode
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also assigns a different prefix to the attribute.  The namespace of
+ * the attribute remains <code>myuri</code>.
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'7\', \'\', \'foo\');
+@endcode
+
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  It also
+ * now assigns a namespace prefix, <code>foo</code>, to that attribute.  If
+ * this XMLAttributes object were written out in XML, it would look like the
+ * following:
+ * <center><pre>
+bar:myattribute=\'6\'
+foo:myattribute=\'7\'
+ * </pre></center>
+   *
+   * @param name a string, the unprefixed name of the attribute.
    * @param value a string, the value of the attribute.
    * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * @param prefix a string, a prefix for the XML namespace.
    *
-   * @return an integer code indicating the success or failure of the
-   * function.  The possible values returned by this
-   * function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink.
+   * This value is returned if any of the arguments are @c null.  To set an
+   * empty @p prefix and/or @p name value, use an empty string rather than @c
+   * null.
    *
-   * @note if local name with the same namespace URI already exists in this 
-   * attribute set, its value and prefix will be replaced.
+   * *
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists in the list of attributes held by this XMLAttributes object, then
+ * the previous value of that attribute will be replaced with the new value
+ * provided to this method.
+ *
+ *
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   *
+   * @see add(XMLTriple triple, string value)
+   * @see getIndex(string name, string uri) const
+   * @see getIndex(XMLTriple triple) const
+   * @see hasAttribute(string name, string uri) const
+   * @see hasAttribute(XMLTriple triple) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::add( const XMLTriple& triple, const std::string& value) "
 /**
-   * Adds an attribute with the given XMLTriple/value pair to this XMLAttributes set.
+   * Adds an attribute to this list of attributes.
    *
-   * @note if local name with the same namespace URI already exists in this attribute set, 
-   * its value and prefix will be replaced.
+   * *
+ * 
+ * Some explanations are in order about the behavior of XMLAttributes with
+ * respect to namespace prefixes and namespace URIs.  XMLAttributes does @em
+ * not verify the consistency of different uses of an XML namespace and the
+ * prefix used to refer to it in a given context.  It cannot, because the
+ * prefix used for a given XML namespace in an XML document may intentionally
+ * be different on different elements in the document.  Consequently, callers
+ * need to manage their own prefix-to-namespace mappings, and need to ensure
+ * that the desired prefix is used in any given context.
+ *
+ * When called with attribute names, prefixes and namespace URIs,
+ * XMLAttributes pays attention to the namespace URIs and not the prefixes: a
+ * match is established by a combination of attribute name and namespace URI,
+ * and if on different occasions a different prefix is used for the same
+ * name/namespace combination, the prefix associated with the namespace on
+ * that attribute is overwritten.
+ *
+ * Some examples will hopefully clarify this.  Here are the results of a
+ * sequence of calls to the XMLAttributes <code>add</code> methods with
+ * different argument combinations.  First, we create the object and add
+ * one attribute:
+ *
+ * @code{.cpp}
+XMLAttributes  att = new XMLAttributes();
+att->add(\'myattribute\', \'1\', \'myuri\');
+@endcode
+ * The above adds an attribute named <code>myattribute</code> in the namespace
+ * <code>myuri</code>, and with the attribute value <code>1</code>.  No
+ * namespace prefix is associated with the attribute (but the attribute is
+ * recorded to exist in the namespace <code>myuri</code>).  If
+ * this attribute object were written out in XML, it would look like the
+ * following (and note that, since no namespace prefix was assigned, none
+ * is written out):
+ * <center><pre>
+myattribute=\'1\'
+ * </pre></center>
+ *
+ * Continuing with this series of examples, suppose we invoke the
+ * <code>add</code> method again as follows:
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'2\');
+@endcode
+ * The above adds a @em new attribute @em also named <code>myattribute</code>,
+ * but in a different XML namespace: it is placed in the namespace with no
+ * URI, which is to say, the default XML namespace.  Both attributes coexist
+ * on this XMLAttributes object; both can be independently retrieved.
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'3\');
+@endcode
+ * The code above now replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  The
+ * attribute in the namespace <code>myuri</code> remains untouched.
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'4\', \'myuri\');
+@endcode
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * The attribute in the default namespace remains untouched.
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'5\', \'myuri\', \'foo\');
+@endcode
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also now assigns a namespace prefix, <code>foo</code>, to the attribute.
+ * The attribute <code>myattribute</code> in the default namespace remains
+ * untouched. If this XMLAttributes object were written out in XML, it would
+ * look like the following:
+ * <center><pre>
+myattribute=\'3\'
+foo:myattribute=\'5\'
+ * </pre></center>
+ * Pressing on, now suppose we call the <code>add</code> method as follows:
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'6\', \'myuri\', \'bar\');
+@endcode
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also assigns a different prefix to the attribute.  The namespace of
+ * the attribute remains <code>myuri</code>.
+ *
+ * @code{.cpp}
+att->add(\'myattribute\', \'7\', \'\', \'foo\');
+@endcode
+
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  It also
+ * now assigns a namespace prefix, <code>foo</code>, to that attribute.  If
+ * this XMLAttributes object were written out in XML, it would look like the
+ * following:
+ * <center><pre>
+bar:myattribute=\'6\'
+foo:myattribute=\'7\'
+ * </pre></center>
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
+   * @param triple an XMLTriple object describing the attribute to be added.
    * @param value a string, the value of the attribute.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink. 
+   * This value is returned if any of the arguments are @c null.  To set an
+   * empty value for the attribute, use an empty string rather than @c null.
+   *
+   * *
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists in the list of attributes held by this XMLAttributes object, then
+ * the previous value of that attribute will be replaced with the new value
+ * provided to this method.
+ *
+ *
+   *
+   * @see add(string name, string value, string namespaceURI, string prefix)
+   * @see getIndex(string name, string uri) const
+   * @see getIndex(XMLTriple triple) const
+   * @see hasAttribute(string name, string uri) const
+   * @see hasAttribute(XMLTriple triple) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::addResource(const std::string& name, const std::string& value) "
-/**
-   * Adds an name/value pair to this XMLAttributes set.  
-   *
-   * This method is similar to the add method but an attribute with same name wont 
-   * be overwritten. This facilitates the addition of multiple resource attributes 
-   * in CVTerm class.
-   *
-   * @param name a string, the name of the attribute.
-   * @param value a string, the value of the attribute.
-   *
-   * @note This function is only internally used to store multiple rdf:resource 
-   * attributes in CVTerm class, and thus should not be used for other purposes.
-   *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::removeResource(int n) "
-/**
-   * Removes an attribute with the given index from this XMLAttributes set.  
-   *
-   * @param n an integer the index of the resource to be deleted
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
-   */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::remove(int n) "
 /**
-   * Removes an attribute with the given index from this XMLAttributes set.  
-   * (This function is an alias of XMLAttributes::removeResource(@if java int@endif) ).
+   * Removes the <em>n</em>th attribute from this list of attributes.
    *
    * @param n an integer the index of the resource to be deleted
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute at the
+   * given index @p n.
+   *
+   * *
+ * @note Note that although XMLAttributes provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * XMLAttributes class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in XMLAttributes objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+ *
+ *
+   *
+   * @see getLength()
+   * @see remove(XMLTriple triple)
+   * @see remove(string name, string uri)
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::remove(const std::string& name, const std::string& uri = "") "
 /**
-   * Removes an attribute with the given local name and namespace URI from 
-   * this XMLAttributes set.  
+   * Removes a named attribute from this list of attributes.
    *
-   * @param name   a string, the local name of the attribute.
-   * @param uri    a string, the namespace URI of the attribute.
+   * @param name a string, the unprefixed name of the attribute to be
+   * removed.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * @param uri a string, the namespace URI of the attribute to be removed.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute with the
+   * given @p name (and @p uri if specified).
+   *
+   * @see remove(int n)
+   * @see remove(XMLTriple triple)
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::remove(const XMLTriple& triple) "
 /**
-   * Removes an attribute with the given XMLTriple from this XMLAttributes set.  
+   * Removes a specific attribute from this list of attributes.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
+   * @param triple an XMLTriple describing the attribute to be removed.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute matching
+   * the properties of the given @p triple.
+   *
+   * @see remove(int n)
+   * @see remove(string name, string uri)
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::clear "
 /**
-   * Clears (deletes) all attributes in this XMLAttributes object.
+   * Removes all attributes in this XMLAttributes object.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   *
+   * @see remove(int n)
+   * @see remove(XMLTriple triple)
+   * @see remove(string name, string uri)
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getIndex(const std::string& name) const "
 /**
-   * Return the index of an attribute with the given name.
+   * Returns the index of an attribute having a given name.
    *
-   * @note A namespace bound to the name is not checked by this function.
-   * Thus, if there are multiple attributes with the given local name and
-   * different namespaces, the smallest index among those attributes will
-   * be returned.  XMLAttributes::getIndex(string name, string uri) or
-   * XMLAttributes::getIndex(XMLTriple triple) should be used to get an index of an
-   * attribute with the given local name and namespace.
+   * @note This method does not check XML namespaces.  Thus, if there are
+   * multiple attributes with the same local @p name but different
+   * namespaces, this method will return the first one found.  Callers should
+   * use the more specific methods
+   * XMLAttributes::getIndex(string name, string uri) const
+   * or XMLAttributes::getIndex(XMLTriple triple) const
+   * to find attributes in particular namespaces.
    *
-   * @param name a string, the local name of the attribute for which the 
-   * index is required.
+   * @param name a string, the name of the attribute whose index is begin
+   * sought.
    *
-   * @return the index of an attribute with the given local name, or -1 if not present.
+   * @return the index of an attribute with the given local name, or
+   * <code>-1</code> if no such attribute is present.
+   *
+   * @see hasAttribute(string name, string uri) const
+   * @see hasAttribute(XMLTriple triple) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getIndex(const std::string& name, const std::string& uri) const "
 /**
-   * Return the index of an attribute with the given local name and namespace URI.
+   * Returns the index of the attribute having a given name and XML namespace
+   * URI.
    *
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute being sought.
+   * @param uri  a string, the namespace URI of the attribute being sought.
    *
-   * @return the index of an attribute with the given local name and namespace URI, 
-   * or -1 if not present.
+   * @return the index of an attribute with the given local name and
+   * namespace URI, or <code>-1</code> if no such attribute is present.
+   *
+   * @see hasAttribute(string name, string uri) const
+   * @see hasAttribute(XMLTriple triple) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getIndex(const XMLTriple& triple) const "
 /**
-   * Return the index of an attribute with the given XMLTriple.
+   * Returns the index of the attribute defined by the given XMLTriple object.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute for which 
-   *        the index is required.
+   * @param triple an XMLTriple describing the attribute being sought.
    *
-   * @return the index of an attribute with the given XMLTriple, or -1 if not present.
+   * @return the index of an attribute described by the given XMLTriple
+   * object, or <code>-1</code> if no such attribute is present.
+   *
+   * @see hasAttribute(string name, string uri) const
+   * @see hasAttribute(XMLTriple triple) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getLength() const "
 /**
-   * Return the number of attributes in the set.
+   * Returns the number of attributes in this list of attributes.
    *
-   * @return the number of attributes in this XMLAttributes set.
+   * @return the number of attributes contained in this XMLAttributes object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getNumAttributes() const "
 /**
-   * Return the number of attributes in the set.
+   * Returns the number of attributes in this list of attributes.
    *
-   * @return the number of attributes in this XMLAttributes set.
+   * This function is merely an alias of XMLAttributes::getLength()
+   * introduced for consistency with other libXML classes.
    *
-   * This function is an alias for getLength introduced for consistency
-   * with other XML classes.
+   * @return the number of attributes contained in this XMLAttributes object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getName(int index) const "
 /**
-   * Return the local name of an attribute in this XMLAttributes set (by position).
+   * Returns the name of the <em>n</em>th attribute in this list of
+   * attributes.
    *
-   * @param index an integer, the position of the attribute whose local name is 
-   * required.
+   * @param index an integer, the position of the attribute whose name
+   * is being sought.
    *
-   * @return the local name of an attribute in this list (by position).  
+   * @return the local name of the <em>n</em>th attribute.
    *
-   * @note If index is out of range, an empty string will be returned.  Use
-   * XMLAttributes::hasAttribute(int index) to test for the attribute
-   * existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  Callers should use XMLAttributes::getLength() to check the number
+ * of attributes contained in this object or XMLAttributes::hasAttribute(int
+ * index) to test for the existence of an attribute at a given
+ * position.
+ *
+ *
+   *
+   * *
+ * @note Note that although XMLAttributes provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * XMLAttributes class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in XMLAttributes objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+ *
+ *
+   *
+   * @see getLength()
+   * @see hasAttribute(int index) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getPrefix(int index) const "
 /**
-   * Return the prefix of an attribute in this XMLAttributes set (by position).
+   * Returns the namespace prefix of the <em>n</em>th attribute in this
+   * attribute set.
    *
-   * @param index an integer, the position of the attribute whose prefix is 
-   * required.
+   * @param index an integer, the position of the attribute whose namespace
+   * prefix is being sought.
    *
-   * @return the namespace prefix of an attribute in this list (by
-   * position).  
+   * @return the XML namespace prefix of the <em>n</em>th attribute.
    *
-   * @note If index is out of range, an empty string will be returned. Use
-   * XMLAttributes::hasAttribute(int index) to test for the attribute
-   * existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  Callers should use XMLAttributes::getLength() to check the number
+ * of attributes contained in this object or XMLAttributes::hasAttribute(int
+ * index) to test for the existence of an attribute at a given
+ * position.
+ *
+ *
+   *
+   * *
+ * @note Note that although XMLAttributes provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * XMLAttributes class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in XMLAttributes objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+ *
+ *
+   *
+   * @see getLength()
+   * @see hasAttribute(int index) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getPrefixedName(int index) const "
 /**
-   * Return the prefixed name of an attribute in this XMLAttributes set (by position).
+   * Returns the prefix name of the <em>n</em>th attribute in this attribute
+   * set.
    *
-   * @param index an integer, the position of the attribute whose prefixed 
-   * name is required.
+   * @param index an integer, the position of the attribute whose prefixed
+   * name is being sought.
    *
-   * @return the prefixed name of an attribute in this list (by
-   * position).  
+   * @return the prefixed name of the <em>n</em>th attribute.
    *
-   * @note If index is out of range, an empty string will be returned.  Use
-   * XMLAttributes::hasAttribute(int index) to test for attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  Callers should use XMLAttributes::getLength() to check the number
+ * of attributes contained in this object or XMLAttributes::hasAttribute(int
+ * index) to test for the existence of an attribute at a given
+ * position.
+ *
+ *
+   *
+   * *
+ * @note Note that although XMLAttributes provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * XMLAttributes class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in XMLAttributes objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+ *
+ *
+   *
+   * @see getLength()
+   * @see hasAttribute(int index) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getURI(int index) const "
 /**
-   * Return the namespace URI of an attribute in this XMLAttributes set (by position).
+   * Returns the XML namespace URI of the <em>n</em>th attribute in this
+   * attribute set.
    *
-   * @param index an integer, the position of the attribute whose namespace URI is 
-   * required.
+   * @param index an integer, the position of the attribute whose namespace
+   * URI is being sought.
    *
-   * @return the namespace URI of an attribute in this list (by position).
+   * @return the XML namespace URI of the <em>n</em>th attribute.
    *
-   * @note If index is out of range, an empty string will be returned.  Use
-   * XMLAttributes::hasAttribute(int index) to test for attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  Callers should use XMLAttributes::getLength() to check the number
+ * of attributes contained in this object or XMLAttributes::hasAttribute(int
+ * index) to test for the existence of an attribute at a given
+ * position.
+ *
+ *
+   *
+   * *
+ * @note Note that although XMLAttributes provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * XMLAttributes class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in XMLAttributes objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+ *
+ *
+   *
+   * @see getLength()
+   * @see hasAttribute(int index) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getValue(int index) const "
 /**
-   * Return the value of an attribute in this XMLAttributes set (by position).
+   * Returns the value of the <em>n</em>th attribute in this list of attributes.
    *
-   * @param index an integer, the position of the attribute whose value is 
-   * required.
+   * @param index an integer, the position of the attribute whose value is
+   * being sought.
    *
-   * @return the value of an attribute in the list (by position).  
+   * @return the XML value of the <em>n</em>th attribute.
    *
-   * @note If index is out of range, an empty string will be returned.  Use
-   * XMLAttributes::hasAttribute(int index) to test for attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  Callers should use XMLAttributes::getLength() to check the number
+ * of attributes contained in this object or XMLAttributes::hasAttribute(int
+ * index) to test for the existence of an attribute at a given
+ * position.
+ *
+ *
+   *
+   * *
+ * @note Note that although XMLAttributes provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * XMLAttributes class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in XMLAttributes objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+ *
+ *
+   *
+   * @see getLength()
+   * @see hasAttribute(int index) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getValue(const std::string name) const "
 /**
-   * Return an attribute\'s value by name.
+   * Returns a named attribute\'s value.
    *
-   * @param name a string, the local name of the attribute whose value is required.
+   * @param name a string, the unprefixed name of the attribute whose value
+   * is being sought.
    *
-   * @return The attribute value as a string.  
+   * @return The attribute value as a string.
    *
-   * @note If an attribute with the given local name does not exist, an
-   * empty string will be returned.  Use
+   * @note If an attribute with the given local @p name does not exist in
+   * this XMLAttributes object, this method will return an empty string.
+   * Callers can use
    * XMLAttributes::hasAttribute(string name, string uri) const
-   * to test for attribute existence.  A namespace bound to the local name
-   * is not checked by this function.  Thus, if there are multiple
-   * attributes with the given local name and different namespaces, the
-   * value of an attribute with the smallest index among those attributes
-   * will be returned.  XMLAttributes::getValue(string name) or
-   * XMLAttributes::getValue(XMLTriple triple) should be used to get a value of an
-   * attribute with the given local name and namespace.
+   * to test for an attribute\'s existence.  This method also does not check
+   * the XML namespace of the named attribute.  Thus, if there are multiple
+   * attributes with the same local @p name but different namespaces, this
+   * method will return the value of the first such attribute found.  Callers
+   * should use the more specific methods
+   * XMLAttributes::getIndex(string name, string uri) const
+   * or XMLAttributes::getIndex(XMLTriple triple) to find
+   * attributes in particular namespaces.
+   *
+   * @see hasAttribute(string name, string uri) const
+   * @see hasAttribute(XMLTriple triple) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getValue(const std::string name, const std::string uri) const "
 /**
-   * Return a value of an attribute with the given local name and namespace URI.
+   * Returns a named attribute\'s value.
    *
-   * @param name a string, the local name of the attribute whose value is required.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute whose value is being sought.
+   * @param uri  a string, the XML namespace URI of the attribute.
    *
-   * @return The attribute value as a string.  
+   * @return The attribute value as a string.
    *
-   * @note If an attribute with the given local name and namespace URI does
-   * not exist, an empty string will be returned.  Use
+   * @note If an attribute with the given @p name and namespace @p uri does
+   * not exist in this XMLAttributes object, this method will return an empty
+   * string.  Callers can use
    * XMLAttributes::hasAttribute(string name, string uri) const
-   * to test for attribute existence.
+   * to test for an attribute\'s existence.
+   *
+   * @see hasAttribute(string name, string uri) const
+   * @see hasAttribute(XMLTriple triple) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::getValue(const XMLTriple& triple) const "
 /**
-   * Return a value of an attribute with the given XMLTriple.
+   * Return the value of an attribute described by a given XMLTriple object.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute whose 
-   *        value is required.
+   * @param triple an XMLTriple describing the attribute whose value is being
+   * sought.
    *
-   * @return The attribute value as a string.  
+   * @return The attribute value as a string.
    *
-   * @note If an attribute with the given XMLTriple does not exist, an
-   * empty string will be returned.  Use
-   * XMLAttributes::hasAttribute(XMLTriple triple) to test for attribute existence.
+   * @note If an attribute with the properties given by @p triple does not
+   * exist in this XMLAttributes object, this method will return an empty
+   * string.  Callers can use
+   * XMLAttributes::hasAttribute(string name, string uri) const
+   * to test for an attribute\'s existence.
+   *
+   * @see hasAttribute(string name, string uri) const
+   * @see hasAttribute(XMLTriple triple) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::hasAttribute(int index) const "
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given index exists in this XMLAttributes.
+   * Returns @c true if an attribute exists at a given index.
    *
-   * @param index an integer, the position of the attribute.
+   * @param index an integer, the position of the attribute to be tested.
    *
    * @return @c true if an attribute with the given index exists in this
-   * XMLAttributes, @c false otherwise.
+   * XMLAttributes object, @c false otherwise.
+   *
+   * *
+ * @note Note that although XMLAttributes provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * XMLAttributes class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in XMLAttributes objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+ *
+ *
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::hasAttribute(const std::string name, const std::string uri="") const "
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given local name and namespace URI exists in this 
-   * XMLAttributes.
+   * Returns @c true if an attribute with a given name and namespace URI
+   * exists.
    *
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the unprefixed name of the attribute.
+   * @param uri  a string, the XML namespace URI of the attribute.
    *
-   * @return @c true if an attribute with the given local name and namespace 
-   * URI exists in this XMLAttributes, @c false otherwise.
+   * @return @c true if an attribute with the given local name and XML
+   * namespace URI exists in this XMLAttributes object, @c false otherwise.
+   *
+   * @see add(string name, string value, string namespaceURI, string prefix)
+   * @see add(XMLTriple triple, string value)
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::hasAttribute(const XMLTriple& triple) const "
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given XML triple exists in this XMLAttributes.
+   * Returns @c true if an attribute with the given properties exists.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute 
+   * @param triple an XMLTriple describing the attribute to be tested.
    *
    * @return @c true if an attribute with the given XML triple exists in this
-   * XMLAttributes, @c false otherwise.
+   * XMLAttributes object, @c false otherwise.
    *
+   * @see add(string name, string value, string namespaceURI, string prefix)
+   * @see add(XMLTriple triple, string value)
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::isEmpty() const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLAttributes set is empty.
-   * 
-   * @return @c true if this XMLAttributes set is empty, @c false otherwise.
+   * Returns @c true if this list of attributes is empty.
+   *
+   * @return @c true if this XMLAttributes object is empty, @c false
+   * otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::readInto "
 /**
-   * Reads the value for the attribute name into value.  If the given local
-   * name was not found or value could be interpreted as a bool, value 
-   * is not modified.
+   * Interprets an attribute as a Boolean value.
    *
-   * According to the W3C XML Schema, valid bool values are: \'true\',
-   * \'false\', \'1\', and \'0\' (case-insensitive).  For more information, see:
-   * http://www.w3.org/TR/xmlschema-2/#bool
+   * This method reads the value associated with the attribute @p name in
+   * this XMLAttributes object and attempts to interpret it as a Boolean.  If
+   * successful, this method stores the value into the variable passed in as
+   * @p value.  If no attribute named @p name can be found in this
+   * XMLAttributes object or the value of the attribute could not be
+   * interpreted as a Boolean, @p value is left unmodified.
    *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#bool\'>XML Schema</a>, the
+   * valid Boolean values are: <code>\'true\'</code>, <code>\'false\'</code>,
+   * <code>\'1\'</code>, and <code>\'0\'</code>, read in a case-insensitive
+   * manner.
    *
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a Boolean, then the
+   * error logged to @p log indicates that a value type mismatch occurred.
    *
-   * @param name a string, the local name of the attribute.
-   * @param value a bool, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * Values are read using the \'C\' locale.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * @param name a string, the name of the attribute.
    *
-   * @note A namespace bound to the given local name is not checked by this
-   * function. XMLAttributes::readInto(XMLTriple, bool&, ...) should
-   * be used to read a value for an attribute name with a prefix and
-   * namespace.
+   * @param value a Boolean, the return parameter into which the value should
+   * be assigned.
+   *
+   * @copydetails doc_read_methods_common_args
+   *
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
+   *
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
+   *
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -44421,59 +44338,56 @@ if (config != None) {
 
 %csmethodmodifiers XMLAttributes::readInto "
 /**
-   * Reads the value for the attribute with the given XMLTriple into value.  
-   * If the XMLTriple was not found or value could be interpreted as a bool, 
-   * value is not modified.
+   * Interprets an attribute as a Boolean value.
    *
-   * According to the W3C XML Schema, valid bool values are: \'true\',
-   * \'false\', \'1\', and \'0\' (case-insensitive).  For more information, see:
-   * http://www.w3.org/TR/xmlschema-2/#bool
+   * This method reads the value associated with the attribute described by
+   * @p triple in this XMLAttributes object and attempts to interpret it as a
+   * Boolean.  If successful, this method stores the value into the variable
+   * passed in as @p value.  If no attribute named @p name can be found in
+   * this XMLAttributes object or the value of the attribute could not be
+   * interpreted as a Boolean, @p value is left unmodified.
    *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#bool\'>XML Schema</a>, the
+   * valid Boolean values are: <code>\'true\'</code>, <code>\'false\'</code>,
+   * <code>\'1\'</code>, and <code>\'0\'</code>, read in a case-insensitive
+   * manner.
    *
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a Boolean, then the
+   * error logged to @p log indicates that a value type mismatch occurred.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
-   * @param value a bool, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * Values are read using the \'C\' locale.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * @param triple an XMLTriple object describing the attribute to read.
    *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ public
-";
-
-
-%csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute name into value.  If the given local
-   * name was not found or value could be interpreted as a double, value is 
-   * not modified.
+   * @param value a Boolean, the return parameter into which the value should
+   * be assigned.
    *
-   * According to the W3C XML Schema, valid doubles are the same as valid
-   * doubles for C and the special values \'INF\', \'-INF\', and \'NaN\'
-   * (case-sensitive).  For more information, see:
-   * http://www.w3.org/TR/xmlschema-2/#double
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
    *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
    *
-   * @param name a string, the local name of the attribute.
-   * @param value a double, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
    *
-   * @note A namespace bound to the given local name is not checked by this
-   * function.  XMLAttributes::readInto(XMLTriple, double&, ...) const
-   * should be used to read a value for an attribute name with a prefix and
-   * namespace.
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -44482,87 +44396,70 @@ if (config != None) {
 
 %csmethodmodifiers XMLAttributes::readInto "
 /**
-   * Reads the value for the attribute with the given XMLTriple into value.  
-   * If the triple was not found or value could be interpreted as a double, 
-   *value is not modified.
+   * Interprets an attribute as a <code>double</code> value.
    *
-   * According to the W3C XML Schema, valid doubles are the same as valid
-   * doubles for C and the special values \'INF\', \'-INF\', and \'NaN\'
-   * (case-sensitive).  For more information, see:
-   * http://www.w3.org/TR/xmlschema-2/#double
+   * This method reads the value associated with the attribute @p name in
+   * this XMLAttributes object and attempts to interpret it as a
+   * <code>double</code>.  If successful, this method stores the value into
+   * the variable passed in as @p value.  If no attribute named @p name can
+   * be found in this XMLAttributes object or the value of the attribute
+   * could not be interpreted as a <code>double</code>, @p value is left
+   * unmodified.
    *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#double\'>XML Schema</a>, valid
+   * doubles are the same as valid doubles for the C language and in
+   * addition, the special values <code>\'INF\'</code>, <code>\'-INF\'</code>,
+   * and <code>\'NaN\'</code>, read in a case-insensitive manner.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
-   * @param value a double, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a
+   * <code>double</code>, then the error logged to @p log indicates that a
+   * value type mismatch occurred.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * Values are read using the \'C\' locale.
    *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ public
-";
-
-
-%csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute name into value.  If the given local
-   * name was not found or value could be interpreted as an long, value is 
-   * not modified.
+   * @param name a string, the name of the attribute.
    *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
-   * limit values to what can be stored in a long.  For more information,
-   * see: http://www.w3.org/TR/xmlschema-2/#integer
+   * @param value a <code>double</code>, the return parameter into which the
+   * value should be assigned.
    *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
    *
-   * @param name a string, the local name of the attribute.
-   * @param value a long, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
    *
-   * @note A namespace bound to the given local name is not checked by this
-   * function.  XMLAttributes::readInto(XMLTriple, long&, ...) should
-   * be used to read a value for an attribute name with a prefix and
-   * namespace.
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
    *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ public
-";
-
-
-%csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute XMLTriple into value.  
-   * If the XMLTriple was not found or value could be interpreted as a long, 
-   * value is not modified.
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
    *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
-   * limit values to what can be stored in a long.  For more information,
-   * see: http://www.w3.org/TR/xmlschema-2/#integer
-   *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
-   *
-   * @param triple an XMLTriple, the XML triple of the attribute.
-   * @param value a long, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * *
+ * @note The XML namespace associated with the attribute named @p name is not
+ * considered when looking up the attribute.  If more than one attribute with
+ * the same name exists with different XML namespace URI associations, this
+ * method will operate on the first one it encounters; this behavior is
+ * identical to XMLAttributes::getIndex (string name) const.  To
+ * have XML namespaces be considered too, callers should use the variant
+ * method that takes an XMLTriple object instead of a string @p name
+ * argument.
+ *
+ * 
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -44571,92 +44468,58 @@ if (config != None) {
 
 %csmethodmodifiers XMLAttributes::readInto "
 /**
-   * Reads the value for the attribute name into value.  If the given local
-   * name was not found or value could be interpreted as an int, value is 
-   * not modified.
+   * Interprets an attribute as a <code>double</code> value.
    *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
-   * limit values to what can be stored in a int.  For more information,
-   * see: http://www.w3.org/TR/xmlschema-2/#integer
+   * This method reads the value associated with the attribute described by
+   * @p triple in this XMLAttributes object and attempts to interpret it as a
+   * <code>double</code>.  If successful, this method stores the value into
+   * the variable passed in as @p value.  If no attribute named @p name can
+   * be found in this XMLAttributes object or the value of the attribute
+   * could not be interpreted as a <code>double</code>, @p value is left
+   * unmodified.
    *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#double\'>XML Schema</a>, valid
+   * doubles are the same as valid doubles for the C language and in
+   * addition, the special values <code>\'INF\'</code>, <code>\'-INF\'</code>,
+   * and <code>\'NaN\'</code>, read in a case-insensitive manner.
    *
-   * @param name a string, the local name of the attribute.
-   * @param value an integer, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a
+   * <code>double</code>, then the error logged to @p log indicates that a
+   * value type mismatch occurred.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * Values are read using the \'C\' locale.
    *
-   * @note A namespace bound to the given local name is not checked by this
-   * function.  XMLAttributes::readInto(XMLTriple, int&, ...) should
-   * be used to read a value for an attribute name with a prefix and
-   * namespace.
+   * @param triple an XMLTriple object describing the attribute to read.
    *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ public
-";
-
-
-%csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute with the given XMLTriple into value.  
-   * If the XMLTriple was not found or value could be interpreted as an int, 
-   * value is not modified.
+   * @param value a <code>double</code>, the return parameter into which the
+   * value should be assigned.
    *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
-   * limit values to what can be stored in a int.  For more information,
-   * see: http://www.w3.org/TR/xmlschema-2/#integer
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
    *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
-   * @param value an integer, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
    *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ public
-";
-
-
-%csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute name into value.  If the given local
-   * name was not found or value could be interpreted as a long integer, 
-   * value is not modified.
-   *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
-   * limit values to what can be stored in a long.  For more
-   * information, see: http://www.w3.org/TR/xmlschema-2/#integer
-   *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
-   *
-   * @param name a string, the local name of the attribute.
-   * @param value a long integereger, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
-   *
-   * @note A namespace bound to the given local name is not checked by this
-   * function.  XMLAttributes::readInto(XMLTriple, long&,
-   * ...) should be used to read a value for an attribute name with a
-   * prefix and namespace.
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -44665,26 +44528,71 @@ if (config != None) {
 
 %csmethodmodifiers XMLAttributes::readInto "
 /**
-   * Reads the value for the attribute with the given XMLTriple into value.  
-   * If the XMLTriple was not found or value could be interpreted as a long integer, 
-   * value is not modified.
+   * Interprets an attribute as a <code>long</code> integer value.
    *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
-   * limit values to what can be stored in a long.  For more
-   * information, see: http://www.w3.org/TR/xmlschema-2/#integer
+   * This method reads the value associated with the attribute @p name in
+   * this XMLAttributes object and attempts to interpret it as a
+   * <code>long</code>.  If successful, this method stores the value into the
+   * variable passed in as @p value.  If no attribute named @p name can be
+   * found in this XMLAttributes object or the value of the attribute could
+   * not be interpreted as a <code>long</code>, @p value is left unmodified.
    *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#integer\'>XML Schema</a>, valid
+   * <code>long</code>-type values are zero, all positive whole numbers and
+   * all negative whole numbers.  This is unfortunately a larger space of
+   * values than can be represented in a long integer, so libSBML limits the
+   * possible values to those that can be stored in a <code>long</code> data
+   * type.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
-   * @param value a long integereger, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a
+   * <code>long</code>, then the error logged to @p log indicates that a
+   * value type mismatch occurred.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * Values are read using the \'C\' locale.
+   *
+   * @param name a string, the name of the attribute.
+   *
+   * @param value a <code>long</code>, the return parameter into which the
+   * value should be assigned.
+   *
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
+   *
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
+   *
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
+   *
+   * *
+ * @note The XML namespace associated with the attribute named @p name is not
+ * considered when looking up the attribute.  If more than one attribute with
+ * the same name exists with different XML namespace URI associations, this
+ * method will operate on the first one it encounters; this behavior is
+ * identical to XMLAttributes::getIndex (string name) const.  To
+ * have XML namespaces be considered too, callers should use the variant
+ * method that takes an XMLTriple object instead of a string @p name
+ * argument.
+ *
+ * 
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -44693,25 +44601,70 @@ if (config != None) {
 
 %csmethodmodifiers XMLAttributes::readInto "
 /**
-   * Reads the value for the attribute name into value.  If the given local
-   * name was not found, value is not modified.
+   * Interprets an attribute as a <code>long</code> integer value.
    *
-   * If an XMLErrorLog is passed in and required is true, missing
-   * attributes are logged.
+   * This method reads the value associated with the attribute described by
+   * @p triple in this XMLAttributes object and attempts to interpret it as a
+   * <code>long</code>.  If successful, this method stores the value into the
+   * variable passed in as @p value.  If no attribute named @p name can be
+   * found in this XMLAttributes object or the value of the attribute could
+   * not be interpreted as a <code>long</code>, @p value is left unmodified.
    *
-   * @param name a string, the local name of the attribute.
-   * @param value a string, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#integer\'>XML Schema</a>, valid
+   * <code>long</code>-type values are zero, all positive whole numbers and
+   * all negative whole numbers.  This is unfortunately a larger space of
+   * values than can be represented in a long, so libSBML limits the possible
+   * values to those that can be stored in a <code>long</code> data type.
+
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a
+   * <code>long</code>, then the error logged to @p log indicates that a
+   * value type mismatch occurred.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * Values are read using the \'C\' locale.
    *
-   * @note A namespace bound to the given local name is not checked by this
-   * function. XMLAttributes::readInto(XMLTriple, string&, ...) const
-   * should be used to read a value for an attribute name with a prefix and
-   * namespace.
+   * @param triple an XMLTriple object describing the attribute
+   *
+   * @param value a <code>long</code>, the return parameter into which the
+   * value should be assigned.
+   *
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
+   *
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
+   *
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
+   *
+   * *
+ * @note The XML namespace associated with the attribute named @p name is not
+ * considered when looking up the attribute.  If more than one attribute with
+ * the same name exists with different XML namespace URI associations, this
+ * method will operate on the first one it encounters; this behavior is
+ * identical to XMLAttributes::getIndex (string name) const.  To
+ * have XML namespaces be considered too, callers should use the variant
+ * method that takes an XMLTriple object instead of a string @p name
+ * argument.
+ *
+ * 
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -44720,20 +44673,386 @@ if (config != None) {
 
 %csmethodmodifiers XMLAttributes::readInto "
 /**
-   * Reads the value for the attribute with the given XMLTriple into value.  
-   * If the XMLTriple was not found, value is not modified.
+   * Interprets an attribute as a <code>int</code> value.
    *
-   * If an XMLErrorLog is passed in and required is true, missing
-   * attributes are logged.
+   * This method reads the value associated with the attribute @p name in
+   * this XMLAttributes object and attempts to interpret it as an
+   * <code>int</code>.  If successful, this method stores the value into the
+   * variable passed in as @p value.  If no attribute named @p name can be
+   * found in this XMLAttributes object or the value of the attribute could
+   * not be interpreted as an <code>int</code>, @p value is left unmodified.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
-   * @param value a string, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#integer\'>XML Schema</a>, valid
+   * <code>long</code>-type values are zero, all positive whole numbers and
+   * all negative whole numbers.  The present method is designed to interpret
+   * numbers as signed <code>int</code> values and cannot represent larger
+   * values.  Note that variant methods on XMLAttributes are available to
+   * work with <code>long</code> type and <code>long</code> type
+   * values; users may wish to investigate those methods if they need to
+   * handle larger integer values.
    *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a
+   * <code>long</code>, then the error logged to @p log indicates that a
+   * value type mismatch occurred.
+   *
+   * Values are read using the \'C\' locale.
+   *
+   * @param name a string, the name of the attribute.
+   *
+   * @param value an <code>int</code>, the return parameter into which the
+   * value should be assigned.
+   *
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
+   *
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
+   *
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
+   *
+   * *
+ * @note The XML namespace associated with the attribute named @p name is not
+ * considered when looking up the attribute.  If more than one attribute with
+ * the same name exists with different XML namespace URI associations, this
+ * method will operate on the first one it encounters; this behavior is
+ * identical to XMLAttributes::getIndex (string name) const.  To
+ * have XML namespaces be considered too, callers should use the variant
+ * method that takes an XMLTriple object instead of a string @p name
+ * argument.
+ *
+ * 
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public
+";
+
+
+%csmethodmodifiers XMLAttributes::readInto "
+/**
+   * Interprets an attribute as a <code>int</code> value.
+   *
+   * This method reads the value associated with the attribute described by
+   * @p triple in this XMLAttributes object and attempts to interpret it as an
+   * <code>int</code>.  If successful, this method stores the value into the
+   * variable passed in as @p value.  If no attribute named @p name can be
+   * found in this XMLAttributes object or the value of the attribute could
+   * not be interpreted as an <code>int</code>, @p value is left unmodified.
+   *
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#integer\'>XML Schema</a>, valid
+   * <code>long</code>-type values are zero, all positive whole numbers and
+   * all negative whole numbers.  The present method is designed to interpret
+   * numbers as signed <code>int</code> values and cannot represent larger
+   * values.  Note that variant methods on XMLAttributes are available to
+   * work with <code>long</code> type and <code>long</code> type
+   * values; users may wish to investigate those methods if they need to
+   * handle larger integer values.
+   *
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a
+   * <code>long</code>, then the error logged to @p log indicates that a
+   * value type mismatch occurred.
+   *
+   * Values are read using the \'C\' locale.
+   *
+   * @param triple an XMLTriple object describing the attribute
+   *
+   * @param value an <code>int</code>, the return parameter into which the
+   * value should be assigned.
+   *
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
+   *
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
+   *
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public
+";
+
+
+%csmethodmodifiers XMLAttributes::readInto "
+/**
+   * Interprets an attribute as a <code>long</code> value.
+   *
+   * This method reads the value associated with the attribute @p name in
+   * this XMLAttributes object and attempts to interpret it as an
+   * <code>long</code>.  If successful, this method stores the value
+   * into the variable passed in as @p value.  If no attribute named @p name
+   * can be found in this XMLAttributes object or the value of the attribute
+   * could not be interpreted as an <code>long</code>, @p value is
+   * left unmodified.
+   *
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#integer\'>XML Schema</a>, valid
+   * <code>long</code>-type values are zero, all positive whole numbers and
+   * all negative whole numbers.  The present method is designed to interpret
+   * numbers as <code>long</code> and cannot represent larger values.
+   * Note that a variant method on XMLAttributes is available to work with
+   * <code>long</code> type values; users may wish to investigate that method
+   * if they need to handle large integer values.
+   *
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a
+   * <code>long</code>, then the error logged to @p log indicates that a
+   * value type mismatch occurred.
+   *
+   * Values are read using the \'C\' locale.
+   *
+   * @param name a string, the name of the attribute.
+   *
+   * @param value an <code>int</code>, the return parameter into which the
+   * value should be assigned.
+   *
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
+   *
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
+   *
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
+   *
+   * *
+ * @note The XML namespace associated with the attribute named @p name is not
+ * considered when looking up the attribute.  If more than one attribute with
+ * the same name exists with different XML namespace URI associations, this
+ * method will operate on the first one it encounters; this behavior is
+ * identical to XMLAttributes::getIndex (string name) const.  To
+ * have XML namespaces be considered too, callers should use the variant
+ * method that takes an XMLTriple object instead of a string @p name
+ * argument.
+ *
+ * 
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public
+";
+
+
+%csmethodmodifiers XMLAttributes::readInto "
+/**
+   * Interprets an attribute as a <code>long</code> value.
+   *
+   * This method reads the value associated with the attribute described by
+   * @p triple in this XMLAttributes object and attempts to interpret it as an
+   * <code>long</code>.  If successful, this method stores the value
+   * into the variable passed in as @p value.  If no attribute named @p name
+   * can be found in this XMLAttributes object or the value of the attribute
+   * could not be interpreted as an <code>long</code>, @p value is
+   * left unmodified.
+   *
+   * According to the specification of <a target=\'_blank\'
+   * href=\'http://www.w3.org/TR/xmlschema-2/#integer\'>XML Schema</a>, valid
+   * <code>long</code>-type values are zero, all positive whole numbers and
+   * all negative whole numbers.  The present method is designed to interpret
+   * numbers as <code>long</code> and cannot represent larger values.
+   * Note that a variant method on XMLAttributes is available to work with
+   * <code>long</code> type values; users may wish to investigate that method
+   * if they need to handle large integer values.
+   *
+   * Errors in attempting to interpret the format are logged to @p log, if an
+   * error log object is supplied.  If the parameter @p required is @c true,
+   * then if no attribute named @p name exists, an error will be logged to @p
+   * log with a description that explains the error is due to a missing
+   * required attribute.  If the parameter @p required is @c false (the
+   * default), then if no attribute @p name exists, no error will be logged
+   * and this method will simply return @c false to indicate an unsuccessful
+   * assignment.  Finally, if @p log is provided, @p name exists, but the
+   * value associated with @p name could not be parsed as a
+   * <code>long</code>, then the error logged to @p log indicates that a
+   * value type mismatch occurred.
+   *
+   * Values are read using the \'C\' locale.
+   *
+   * @param triple an XMLTriple object describing the attribute
+   *
+   * @param value an <code>int</code>, the return parameter into which the
+   * value should be assigned.
+   *
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
+   *
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
+   *
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public
+";
+
+
+%csmethodmodifiers XMLAttributes::readInto "
+/**
+   * Interprets an attribute as a string value.
+   *
+   * This method reads the value associated with the attribute @p name in
+   * this XMLAttributes object and stores the value into the variable passed
+   * in as @p value.  If no attribute named @p name can be found in this
+   * XMLAttributes object, @p value is left unmodified.
+   *
+   * Unlike the other variant methods on XMLAttributes, there are no format
+   * errors possible when reading strings, since XML attribute values @em are
+   * strings.  However, the case of a missing attribute can still occur.
+   * Errors will be logged to @p log, if an error log object is supplied.  If
+   * the parameter @p required is @c true, then if no attribute named @p name
+   * exists, an error will be logged to @p log with a description that
+   * explains the error is due to a missing required attribute.  If the
+   * parameter @p required is @c false (the default), then if no attribute @p
+   * name exists, no error will be logged and this method will simply return
+   * @c false to indicate an unsuccessful assignment.
+   *
+   * Values are read using the \'C\' locale.
+   *
+   * @param name a string, the name of the attribute.
+   *
+   * @param value a string, the return parameter into which the value should
+   * be assigned.
+   *
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
+   *
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
+   *
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
+   *
+   * *
+ * @note The XML namespace associated with the attribute named @p name is not
+ * considered when looking up the attribute.  If more than one attribute with
+ * the same name exists with different XML namespace URI associations, this
+ * method will operate on the first one it encounters; this behavior is
+ * identical to XMLAttributes::getIndex (string name) const.  To
+ * have XML namespaces be considered too, callers should use the variant
+ * method that takes an XMLTriple object instead of a string @p name
+ * argument.
+ *
+ * 
+   *
+   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public
+";
+
+
+%csmethodmodifiers XMLAttributes::readInto "
+/**
+   * Interprets an attribute as a string value.
+   *
+   * This method reads the value associated with the attribute described by
+   * @p triple in this XMLAttributes object and stores the value into the
+   * variable passed in as @p value.  If no attribute named @p name can be
+   * found in this XMLAttributes object, @p value is left unmodified.
+   *
+   * Unlike the other variant methods on XMLAttributes, there are no format
+   * errors possible when reading strings, since XML attribute values @em are
+   * strings.  However, the case of a missing attribute can still occur.
+   * Errors will be logged to @p log, if an error log object is supplied.  If
+   * the parameter @p required is @c true, then if no attribute named @p name
+   * exists, an error will be logged to @p log with a description that
+   * explains the error is due to a missing required attribute.  If the
+   * parameter @p required is @c false (the default), then if no attribute @p
+   * name exists, no error will be logged and this method will simply return
+   * @c false to indicate an unsuccessful assignment.
+   *
+   * Values are read using the \'C\' locale.
+   *
+   * @param triple an XMLTriple object describing the attribute
+   *
+   * @param value a string, the return parameter into which the value should
+   * be assigned.
+   *
+   * @param log an XMLErrorLog object, an optional error log for reporting
+   * problems.
+   *
+   * @param required a Boolean flag, to indicate whether it should be
+   * considered an error if the attribute @p name cannot be found in this
+   * XMLAttributes object.
+   *
+   * @param line a long integer, the line number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @param column a long integer, the column number at which the error
+   * occurred.  Callers can supply this value if it makes sense for their
+   * applications.
+   *
+   * @returns @c true if the attribute was successfully read into value, @c
+   * false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -44741,215 +45060,52 @@ if (config != None) {
 
 
 %csmethodmodifiers XMLAttributes::write(XMLOutputStream& stream) const "
-/**
-   * Writes this XMLAttributes set to stream.
-   *
-   * @param stream XMLOutputStream, stream to which this XMLAttributes
-   * set is to be written.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::setErrorLog(XMLErrorLog* log) "
-/**
-   * (Optional) Sets the log used when logging attributeTypeError() and
-   * attributeRequired() errors.
-   *
-   * @param log the log to use
-   *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::attributeTypeError "
-/**
-   * Logs an attribute datatype error.
-   *
-   * @param name  name of the attribute
-   * @param type  the datatype of the attribute value.
-   * @param log   the XMLErrorLog where the error should be logged
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::attributeRequiredError "
-/**
-   * Logs an error indicating a required attribute was missing.
-   * Used internally.
-   * 
-   * @param name  name of the attribute
-   * @param log   the XMLErrorLog where the error should be logged
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute with the given index into value.  
-   * If the attribute was not found or value could be interpreted as a bool, 
-   * value is not modified.
-   *
-   * According to the W3C XML Schema, valid bool values are: \'true\',
-   * \'false\', \'1\', and \'0\' (case-insensitive).  For more information, see:
-   * http://www.w3.org/TR/xmlschema-2/#bool
-   *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
-   *
-   *
-   * @param index a int, the index of the attribute.
-   * @param name a string, the name of the attribute 
-   * (only used for an error message (if error detected))
-   * @param value a bool, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute with the given index into value.  
-   * If name was not found or value could be interpreted as a double, value 
-   * is not modified.
-   *
-   * According to the W3C XML Schema, valid doubles are the same as valid
-   * doubles for C and the special values \'INF\', \'-INF\', and \'NaN\'
-   * (case-sensitive).  For more information, see:
-   * http://www.w3.org/TR/xmlschema-2/#double
-   *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
-   *
-   * @param index a int, the index of the attribute.
-   * @param name a string, the name of the attribute
-   * (only used for an error message (if error detected))
-   * @param value a double, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute with the given index into value.  
-   * If the attribute was not found or value could be interpreted as a long, 
-   * value is not modified.
-   *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
-   * limit values to what can be stored in a long.  For more information,
-   * see: http://www.w3.org/TR/xmlschema-2/#integer
-   *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
-   *
-   * @param index a int, the index of the attribute.
-   * @param name a string, the name of the attribute
-   * (only used for an error message (if error detected))
-   * @param value a long, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute with the given index into value.  
-   * If the attribute was not found or value could be interpreted as an integer, 
-   * value is not modified.
-   *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
-   * limit values to what can be stored in a int.  For more information,
-   * see: http://www.w3.org/TR/xmlschema-2/#integer
-   *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
-   *
-   * @param index a int, the index of the attribute.
-   * @param name a string, the name of the attribute
-   * (only used for an error message (if error detected))
-   * @param value an integer, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute with the given index into value.  
-   * If the attribute was not found or value could be interpreted as an 
-   * long, value is not modified.
-   *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
-   * limit values to what can be stored in a long.  For more
-   * information, see: http://www.w3.org/TR/xmlschema-2/#integer
-   *
-   * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
-   *
-   * @param index a int, the index of the attribute.
-   * @param name a string, the name of the attribute
-   * (only used for an error message (if error detected))
-   * @param value a long integereger, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLAttributes::readInto "
-/**
-   * Reads the value for the attribute with the given index into value.  
-   * If the attribute was not found, value is not modified.
-   *
-   * If an XMLErrorLog is passed in and required is true, missing
-   * attributes are logged.
-   *
-   * @param index a int, the index of the attribute.
-   * @param name a string, the name of the attribute
-   * (only used for an error message (if error detected))
-   * @param value a string, the value of the attribute.
-   * @param log an XMLErrorLog, the error log.
-   * @param required a bool, indicating whether the attribute is required.
-   * @param line a long integer, the line number at which the error occured.
-   * @param column a long integer, the column number at which the error occured.
-   *
-   * @returns @c true if the attribute was read into value, @c false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -44980,6 +45136,11 @@ if (config != None) {
  * @see SBMLConstructorException
  */
 "
+
+
+%csmethodmodifiers XMLConstructorException::XMLConstructorException(std::string message="NULL reference in XML constructor") "
+/** */ /* libsbml-internal */ public
+";
 
 
 %typemap(csimports) XMLNamespaces "
@@ -45068,9 +45229,13 @@ if (config != None) {
    * @param uri a string, the uri for the namespace
    * @param prefix a string, the prefix for the namespace
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -45086,9 +45251,13 @@ if (config != None) {
    *
    * @param index an integer, position of the namespace to remove.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
@@ -45101,9 +45270,13 @@ if (config != None) {
    *
    * @param prefix a string, prefix of the required namespace.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
@@ -45117,9 +45290,13 @@ if (config != None) {
    * Clears (deletes) all XML namespace declarations in this XMLNamespaces
    * object.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -45322,9 +45499,7 @@ if (config != None) {
 
 
 %csmethodmodifiers XMLNamespaces::removeDefault "
-/**
-   * Removes the default XML namespace.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -45340,31 +45515,79 @@ if (config != None) {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html A token in libSBML\'s XML stream.
+@htmlinclude pkg-marker-core.html A token in an XML stream.
  *
  * @htmlinclude not-sbml-warning.html
  *
+ * The libSBML XML parser interface can read an XML file or data stream and
+ * convert the contents into tokens.  The tokens represent items in the XML
+ * stream, either XML elements (start or end tags) or text that appears as
+ * content inside an element.  The XMLToken class is libSBML\'s low-level
+ * representation of these entities.
+ *
+ * Each XMLToken has the following information associated with it:
+ * <ol>
+ * <li> <em>Qualified name</em>: every XML element or XML attribute has a
+ * name (e.g., for the element <code>&lt;mytag&gt;</code>, the name is
+ * <code>\'mytag\'</code>), but this name may be qualified with a namespace
+ * (e.g., it may appear as <code>&lt;someNamespace:mytag&gt;</code> in the
+ * input).  An XMLToken stores the name of a token, along with any namespace
+ * qualification present, through the use of an XMLTriple object.  This
+ * object stores the bare name of the element, its XML namespace prefix (if
+ * any), and the XML namespace with which that prefix is associated.
+ * <li> @em Namespaces: An XML token can have one or more XML namespaces
+ * associated with it.  These namespaces may be specified explicitly on the
+ * element or inherited from parent elements.  In libSBML, a list of
+ * namespaces is stored in an XMLNamespaces object.  An XMLToken possesses a
+ * field for storing an XMLNamespaces object.
+ * <li> @em Attributes: XML elements can have attributes associated with
+ * them, and these attributes can have values assigned to them.  The set of
+ * attribute-value pairs is stored in an XMLAttributes object stored in an
+ * XMLToken object.  (Note: only elements can have attributes&mdash;text
+ * blocks cannot have them in XML.)
+ * <li> @em Line number: the line number in the input where the token appears.
+ * <li> @em Column number: the column number in the input where the token appears.
+ * </ol>
+ *
+ * The XMLToken class serves as base class for XMLNode.  XML lends itself to
+ * a tree-structured representation, and in libSBML, the nodes in an XML
+ * document tree are XMLNode objects.  Most higher-level libSBML classes and
+ * methods that offer XML-level functionality (such as the methods on SBase
+ * for interacting with annotations) work with XMLNode objects rather than
+ * XMLToken objects directly.
+ *
+ * @see XMLNode
+ * @see XMLTriple
+ * @see XMLAttributes
+ * @see XMLNamespaces
  */
 "
 
 
 %csmethodmodifiers XMLToken::XMLToken "
 /**
-   * Creates a new empty XMLToken.
+   * Creates a new empty XMLToken object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::XMLToken(  const XMLTriple&      triple , const XMLAttributes&  attributes , const XMLNamespaces&  namespaces , const unsigned int    line   = 0 , const unsigned int    column = 0 ) "
 /**
-   * Creates a start element XMLToken with the given set of attributes and
-   * namespace declarations.
+   * Creates an XML start element with attributes and namespace declarations.
    *
-   * @param triple XMLTriple.
-   * @param attributes XMLAttributes, the attributes to set.
-   * @param namespaces XMLNamespaces, the namespaces to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the start tag.
+   *
+   * @param attributes XMLAttributes, the attributes to set on the element to
+   * be created.
+   *
+   * @param namespaces XMLNamespaces, the namespaces to set on the element to
+   * be created.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45373,12 +45596,22 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::XMLToken(  const XMLTriple&      triple , const XMLAttributes&  attributes , const unsigned int    line   = 0 , const unsigned int    column = 0 ) "
 /**
-   * Creates a start element XMLToken with the given set of attributes.
+   * Creates an XML start element with attributes.
    *
-   * @param triple XMLTriple.
-   * @param attributes XMLAttributes, the attributes to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the start tag.
+   *
+   * @param attributes XMLAttributes, the attributes to set on the element to
+   * be created.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
+   *
+   * The XML namespace component of this XMLToken object will be left empty.
+   * See the other variants of the XMLToken constructors for versions that
+   * take namespace arguments.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45387,11 +45620,15 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::XMLToken(  const XMLTriple&    triple , const unsigned int  line   = 0 , const unsigned int  column = 0 ) "
 /**
-   * Creates an end element XMLToken.
+   * Creates an XML end element.
    *
-   * @param triple XMLTriple.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an XMLTriple object describing the end tag.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45400,14 +45637,18 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::XMLToken(  const std::string&  chars , const unsigned int  line   = 0 , const unsigned int  column = 0 ) "
 /**
-   * Creates a text XMLToken.
+   * Creates a text object.
    *
-   * @param chars a string, the text to be added to the XMLToken
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param chars a string, the text to be added to the XMLToken object.
+   *
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   *
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    *
    * @throws XMLConstructorException
-   * Thrown if the argument @p orig is @c null.
+   * Thrown if the argument @p chars is @c null.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45416,7 +45657,7 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::XMLToken(const XMLToken& orig) "
 /**
-   * Copy constructor; creates a copy of this XMLToken.
+   * Copy constructor; creates a copy of this XMLToken object.
    *
    * @param orig the XMLToken object to copy.
    *
@@ -45437,52 +45678,97 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::getAttributes() const "
 /**
-   * Returns the attributes of this element.
+   * Returns the attributes of the XML element represented by this token.
    *
-   * @return the XMLAttributes of this XML element.
+   * @return the attributes of this XML element, stored in an XMLAttributes
+   * object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::setAttributes(const XMLAttributes& attributes) "
 /**
-   * Sets an XMLAttributes to this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Sets the attributes on the XML element represented by this token.
    *
-   * @param attributes XMLAttributes to be set to this XMLToken.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param attributes an XMLAttributes object to be assigned to this
+   * XMLToken object, thereby setting the XML attributes associated with this
+   * token.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * @note This function replaces the existing XMLAttributes with the new one.
+   * @note This function replaces any existing XMLAttributes object
+   * on this XMLToken object with the one given by @p attributes.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::addAttr(  const std::string& name , const std::string& value , const std::string& namespaceURI = "" , const std::string& prefix = "") "
 /**
-   * Adds an attribute to the attribute set in this XMLToken optionally 
-   * with a prefix and URI defining a namespace.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    *
-   * @param name a string, the local name of the attribute.
-   * @param value a string, the value of the attribute.
-   * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name a string, the so-called \'local part\' of the attribute name;
+   * that is, the attribute name without any namespace qualifier or prefix.
+   *
+   * @param value a string, the value assigned to the attribute.
+   *
+   * @param namespaceURI a string, the XML namespace URI of the attribute.
+   *
+   * @param prefix a string, the prefix for the XML namespace.
+   *
+   * Recall that in XML, the complete form of an attribute on an XML element
+   * is the following:
+   * <center>
+   * <code>prefix:name=\'value\'</code>
+   * </center>
+   * The <code>name</code> part is the name of the attribute, the
+   * <code>\'value\'</code> part is the value assigned to the attribute (and
+   * it is always a quoted string), and the <code>prefix</code> part is
+   * an optional XML namespace prefix.  Internally in libSBML, this data
+   * is stored in an XMLAttributes object associated with this XMLToken.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * @note if local name with the same namespace URI already exists in the
-   * attribute set, its value and prefix will be replaced.
+   * *
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this XMLToken object, then the previous value will be replaced
+ * with the new value provided to this method.
+ *
+ *
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45491,88 +45777,164 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::addAttr( const XMLTriple& triple, const std::string& value) "
 /**
-   * Adds an attribute with the given XMLTriple/value pair to the attribute set
-   * in this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    *
-   * @note if local name with the same namespace URI already exists in the 
-   * attribute set, its value and prefix will be replaced.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
-   * @param value a string, the value of the attribute.
+   * @param triple an XMLTriple object defining the attribute, its value,
+   * and optionally its XML namespace (if any is provided).
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param value a string, the value assigned to the attribute.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   *
+   * *
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this XMLToken object, then the previous value will be replaced
+ * with the new value provided to this method.
+ *
+ *
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::removeAttr(int n) "
 /**
-   * Removes an attribute with the given index from the attribute set in
-   * this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes the <em>n</em>th attribute from the XML element represented by
+   * this token.
+   *
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
    * @param n an integer the index of the resource to be deleted
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
+   * element at the given index @p n.
+   *
+   * @see getAttrIndex(XMLTriple triple) const
+   * @see getAttrIndex(string name, string uri) const
+   * @see getAttributesLength()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::removeAttr(const std::string& name, const std::string& uri = "") "
 /**
-   * Removes an attribute with the given local name and namespace URI from 
-   * the attribute set in this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes an attribute from the XML element represented by this token.
    *
-   * @param name   a string, the local name of the attribute.
-   * @param uri    a string, the namespace URI of the attribute.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name   a string, the name of the attribute to be removed.
+   * @param uri    a string, the XML namespace URI of the attribute to be removed.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
+   * element with the given @p name (and @p uri if specified).
+   *
+   * @see hasAttr(string name, string uri) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::removeAttr(const XMLTriple& triple) "
 /**
-   * Removes an attribute with the given XMLTriple from the attribute set 
-   * in this XMLToken.  
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes an attribute from the XML element represented by this token.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param triple an XMLTriple describing the attribute to be removed.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
+   * element matching the properties of the given @p triple.
+   *
+   * @see hasAttr(XMLTriple triple) const
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::clearAttributes "
 /**
-   * Clears (deletes) all attributes in this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes all attributes of this XMLToken object.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    */ public
@@ -45581,13 +45943,14 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::getAttrIndex(const std::string& name, const std::string& uri="") const "
 /**
-   * Return the index of an attribute with the given local name and namespace URI.
+   * Returns the index of the attribute with the given name and namespace
+   * URI.
    *
-   * @param name a string, the local name of the attribute.
+   * @param name a string, the name of the attribute.
    * @param uri  a string, the namespace URI of the attribute.
    *
-   * @return the index of an attribute with the given local name and namespace URI, 
-   * or <code>-1</code> if not present.
+   * @return the index of an attribute with the given local name and
+   * namespace URI, or <code>-1</code> if it is not present on this token.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45596,127 +45959,155 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::getAttrIndex(const XMLTriple& triple) const "
 /**
-   * Return the index of an attribute with the given XMLTriple.
+   * Returns the index of the attribute defined by the given XMLTriple
+   * object.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute for which 
-   *        the index is required.
+   * @param triple the XMLTriple object that defines the attribute whose
+   * index is being sought.
    *
-   * @return the index of an attribute with the given XMLTriple, or <code>-1</code> if not present.
+   * @return the index of an attribute with the given XMLTriple object, or
+   * <code>-1</code> if no such attribute is present on this token.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getAttributesLength() const "
 /**
-   * Return the number of attributes in the attributes set.
+   * Returns the number of attributes on this XMLToken object.
    *
-   * @return the number of attributes in the attributes set in this XMLToken.
+   * @return the number of attributes possessed by this token.
+   *
+   * @see hasAttr(@if java int@endif)
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getAttrName(int index) const "
 /**
-   * Return the local name of an attribute in the attributes set in this 
-   * XMLToken (by position).
+   * Returns the name of the <em>n</em>th attribute in this token\'s list of
+   * attributes.
    *
-   * @param index an integer, the position of the attribute whose local name 
-   * is required.
+   * @param index an integer, the position of the attribute whose name
+   * is being sought.
    *
-   * @return the local name of an attribute in this list (by position).  
+   * @return the name of the attribute located at position @p n in the list
+   * of attributes possessed by this XMLToken object.
    *
-   * @note If index
-   * is out of range, an empty string will be returned.  Use
-   * XMLToken::hasAttr(@if java int@endif)
-   * to test for the attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute\'s existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token. 
+   *
+   * @see hasAttr(@if java int@endif)
+   * @see getAttributesLength()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getAttrPrefix(int index) const "
 /**
-   * Return the prefix of an attribute in the attribute set in this 
-   * XMLToken (by position).
+   * Returns the prefix of the <em>n</em>th attribute in this token\'s list of
+   * attributes.
    *
-   * @param index an integer, the position of the attribute whose prefix is 
-   * required.
+   * @param index an integer, the position of the attribute whose prefix is
+   * being sought.
    *
-   * @return the namespace prefix of an attribute in the attribute set
-   * (by position).  
+   * @return the XML namespace prefix of the attribute located at position @p
+   * n in the list of attributes possessed by this XMLToken object.
    *
-   * @note If index is out of range, an empty string will be returned. Use
-   * XMLToken::hasAttr(@if java int@endif) to test
-   * for the attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute\'s existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token.
+   *
+   * @see hasAttr(@if java int@endif)
+   * @see getAttributesLength()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getAttrPrefixedName(int index) const "
 /**
-   * Return the prefixed name of an attribute in the attribute set in this 
-   * XMLToken (by position).
+   * Returns the prefixed name of the <em>n</em>th attribute in this token\'s
+   * list of attributes.
    *
-   * @param index an integer, the position of the attribute whose prefixed 
-   * name is required.
+   * In this context, <em>prefixed name</em> means the name of the attribute
+   * prefixed with the XML namespace prefix assigned to the attribute.  This
+   * will be a string of the form <code>prefix:name</code>.
    *
-   * @return the prefixed name of an attribute in the attribute set 
-   * (by position).  
+   * @param index an integer, the position of the attribute whose prefixed
+   * name is being sought.
    *
-   * @note If index is out of range, an empty string will be returned.  Use
-   * XMLToken::hasAttr(@if java int@endif) to test
-   * for attribute existence.
+   * @return the prefixed name of the attribute located at position @p
+   * n in the list of attributes possessed by this XMLToken object.
+   *
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute\'s existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getAttrURI(int index) const "
 /**
-   * Return the namespace URI of an attribute in the attribute set in this 
-   * XMLToken (by position).
+   * Returns the XML namespace URI of the <em>n</em>th attribute in this
+   * token\'s list of attributes.
    *
-   * @param index an integer, the position of the attribute whose namespace 
-   * URI is required.
+   * @param index an integer, the position of the attribute whose namespace
+   * URI is being sought.
    *
-   * @return the namespace URI of an attribute in the attribute set (by position).
+   * @return the XML namespace URI of the attribute located at position @p n
+   * in the list of attributes possessed by this XMLToken object.
    *
-   * @note If index is out of range, an empty string will be returned.  Use
-   * XMLToken::hasAttr(@if java int@endif) to test
-   * for attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute\'s existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getAttrValue(int index) const "
 /**
-   * Return the value of an attribute in the attribute set in this XMLToken  
-   * (by position).
+   * Returns the value of the <em>n</em>th attribute in this token\'s list of
+   * attributes.
    *
-   * @param index an integer, the position of the attribute whose value is 
+   * @param index an integer, the position of the attribute whose value is
    * required.
    *
-   * @return the value of an attribute in the attribute set (by position).  
+   * @return the value of the attribute located at position @p n in the list
+   * of attributes possessed by this XMLToken object.
    *
-   * @note If index is out of range, an empty string will be returned. Use
-   * XMLToken::hasAttr(@if java int@endif) to test
-   * for attribute existence.
+   * *
+ * @note If @p index is out of range, this method will return an empty
+ * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
+ * attribute\'s existence explicitly, and XMLToken::getAttributesLength() can
+ * be used to find out the number of attributes possessed by this token.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getAttrValue(const std::string name, const std::string uri="") const "
 /**
-   * Return a value of an attribute with the given local name and namespace URI.
+   * Returns the value of the attribute with a given name and XML namespace URI.
    *
-   * @param name a string, the local name of the attribute whose value is required.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute whose value is being
+   * sought.
    *
-   * @return The attribute value as a string.  
+   * @param uri a string, the XML namespace URI of the attribute.
    *
-   * @note If an attribute with the 
-   * given local name and namespace URI does not exist, an empty string will be 
-   * returned.  
-   * Use XMLToken::hasAttr(@if java String, String@endif)
-   * to test for attribute existence.
+   * @return The value of the attribute, as a string.
+   *
+   * @note If an attribute with the given @p name and @p uri does not exist
+   * on this token object, this method will return an empty string.
+   * XMLToken::hasAttr(@if java String, String@endif) can be used to test
+   * explicitly for the presence of an attribute with a given name and
+   * namespace.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45725,46 +46116,47 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::getAttrValue(const XMLTriple& triple) const "
 /**
-   * Return a value of an attribute with the given XMLTriple.
+   * Returns the value of the attribute specified by a given XMLTriple object.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute whose 
-   *        value is required.
+   * @param triple an XMLTriple describing the attribute whose value is being
+   * sought.
    *
-   * @return The attribute value as a string.  
+   * @return The value of the attribute, as a string.
    *
-   * @note If an attribute with the
-   * given XMLTriple does not exist, an empty string will be returned.  
-   * Use XMLToken::hasAttr(@if java XMLTriple@endif)
-   * to test for attribute existence.
+   * @note If an attribute defined by the given @p triple does not exist on
+   * this token object, this method will return an empty string.
+   * XMLToken::hasAttr(@if java XMLTriple@endif) can be used to test
+   * explicitly for the existence of an attribute with the properties of
+   * a given triple.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::hasAttr(int index) const "
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given index exists in the attribute set in this 
-   * XMLToken.
+   * Returns @c true if an attribute with the given index exists.
    *
    * @param index an integer, the position of the attribute.
    *
-   * @return @c true if an attribute with the given index exists in the attribute 
-   * set in this XMLToken, @c false otherwise.
+   * @return @c true if this token object possesses an attribute with the
+   * given index, @c false otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::hasAttr(const std::string name, const std::string uri="") const "
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given local name and namespace URI exists 
-   * in the attribute set in this XMLToken.
+   * Returns @c true if an attribute with a given name and namespace URI
+   * exists.
    *
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute being sought.
    *
-   * @return @c true if an attribute with the given local name and namespace 
-   * URI exists in the attribute set in this XMLToken, @c false otherwise.
+   * @param uri a string, the XML namespace URI of the attribute being
+   * sought.
+   *
+   * @return @c true if an attribute with the given local name and namespace
+   * URI exists in the list of attributes on this token object, @c false
+   * otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45773,25 +46165,23 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::hasAttr(const XMLTriple& triple) const "
 /**
-   * Predicate returning @c true or @c false depending on whether
-   * an attribute with the given XML triple exists in the attribute set in 
-   * this XMLToken 
+   * Returns @c true if an attribute defined by a given XMLTriple object
+   * exists.
    *
-   * @param triple an XMLTriple, the XML triple of the attribute 
+   * @param triple an XMLTriple object describing the attribute being sought.
    *
-   * @return @c true if an attribute with the given XML triple exists
-   * in the attribute set in this XMLToken, @c false otherwise.
-   *
+   * @return @c true if an attribute matching the properties of the given
+   * XMLTriple object exists in the list of attributes on this token, @c
+   * false otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::isAttributesEmpty() const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * the attribute set in this XMLToken set is empty.
-   * 
-   * @return @c true if the attribute set in this XMLToken is empty, 
+   * Returns @c true if this token has no attributes.
+   *
+   * @return @c true if the list of attributes on XMLToken object is empty,
    * @c false otherwise.
    */ public
 ";
@@ -45799,7 +46189,7 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::getNamespaces() const "
 /**
-   * Returns the XML namespace declarations for this XML element.
+   * Returns the XML namespaces declared for this token.
    *
    * @return the XML namespace declarations for this XML element.
    */ public
@@ -45808,38 +46198,64 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::setNamespaces(const XMLNamespaces& namespaces) "
 /**
-   * Sets an XMLnamespaces to this XML element.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Sets the XML namespaces on this XML element.
    *
-   * @param namespaces XMLNamespaces to be set to this XMLToken.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param namespaces the XMLNamespaces object to be assigned to this XMLToken object.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * @note This function replaces the existing XMLNamespaces with the new one.
+   * @note This function replaces any existing XMLNamespaces object on this
+   * XMLToken object with the new one given by @p namespaces.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::addNamespace(const std::string& uri, const std::string& prefix = "") "
 /**
-   * Appends an XML namespace prefix and URI pair to this XMLToken.
-   * If there is an XML namespace with the given prefix in this XMLToken, 
-   * then the existing XML namespace will be overwritten by the new one.
+   * Appends an XML namespace declaration to this token.
    *
-   * Nothing will be done if this XMLToken is not a start element.
+   * The namespace added will be defined by the given XML namespace URI and
+   * an optional prefix.  If this XMLToken object already possesses an XML
+   * namespace declaration with the given @p prefix, then the existing XML
+   * namespace URI will be overwritten by the new one given by @p uri.
    *
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param uri a string, the XML namespace URI for the namespace.
+   * 
+   * @param prefix a string, the namespace prefix to use.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
@@ -45850,100 +46266,146 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::removeNamespace(int index) "
 /**
-   * Removes an XML Namespace stored in the given position of the XMLNamespaces
-   * of this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes the <em>n</em>th XML namespace declaration.
    *
-   * @param index an integer, position of the removed namespace.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param index an integer, the position of the namespace to be removed.
+   * The position in this context refers to the position of the namespace in
+   * the XMLNamespaces object stored in this XMLToken object.  Callers can
+   * use one of the <code>getNamespace___()</code> methods to find the index
+   * number of a given namespace.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * @see getNamespaceIndex(@if java String uri@endif)
+   * @see getNamespaceIndexByPrefix(@if java String prefix@endif)
+   * @see getNamespacesLength()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::removeNamespace(const std::string& prefix) "
 /**
-   * Removes an XML Namespace with the given prefix.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes an XML namespace declaration having a given prefix.
    *
-   * @param prefix a string, prefix of the required namespace.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param prefix a string, the prefix of the namespace to be removed.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   *
+   * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
+   * is returned if there is no namespace with the given @p prefix on this
+   * element.
+   *
+   * @see getNamespaceIndexByPrefix(@if java String prefix@endif)
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::clearNamespaces "
 /**
-   * Clears (deletes) all XML namespace declarations in the XMLNamespaces of
-   * this XMLToken.
-   * Nothing will be done if this XMLToken is not a start element.
+   * Removes all XML namespace declarations from this token.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ * 
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getNamespaceIndex(const std::string& uri) const "
 /**
-   * Look up the index of an XML namespace declaration by URI.
+   * Returns the index of an XML namespace declaration based on its URI.
    *
-   * @param uri a string, uri of the required namespace.
+   * @param uri a string, the XML namespace URI of the sought-after namespace.
    *
-   * @return the index of the given declaration, or <code>-1</code> if not present.
+   * @return the index of the given declaration, or <code>-1</code> if
+   * no such namespace URI is present on this XMLToken object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getNamespaceIndexByPrefix(const std::string& prefix) const "
 /**
-   * Look up the index of an XML namespace declaration by prefix.
+   * Returns the index of an XML namespace declaration based on its prefix.
    *
-   * @param prefix a string, prefix of the required namespace.
+   * @param prefix a string, the prefix of the sought-after XML namespace.
    *
-   * @return the index of the given declaration, or <code>-1</code> if not present.
+   * @return the index of the given declaration, or <code>-1</code> if
+   * no such namespace URI is present on this XMLToken object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getNamespacesLength() const "
 /**
-   * Returns the number of XML namespaces stored in the XMLNamespaces 
-   * of this XMLToken.
+   * Returns the number of XML namespaces declared on this token.
    *
-   * @return the number of namespaces in this list.
+   * @return the number of XML namespaces stored in the XMLNamespaces
+   * object of this XMLToken object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getNamespacePrefix(int index) const "
 /**
-   * Look up the prefix of an XML namespace declaration by position.
-   *
-   * Callers should use getNamespacesLength() to find out how many 
-   * namespaces are stored in the XMLNamespaces.
+   * Returns the prefix of the <em>n</em>th XML namespace declaration.
    *
    * @param index an integer, position of the required prefix.
    *
-   * @return the prefix of an XML namespace declaration in the XMLNamespaces 
-   * (by position).  
+   * @return the prefix of an XML namespace declaration in the XMLNamespaces
+   * (by position).
    *
-   * @note If index is out of range, an empty string will be
-   * returned.
+   * @note If @p index is out of range, this method will return an empty
+   * string.  XMLToken::getNamespacesLength() can be used to find out how
+   * many namespaces are defined on this XMLToken object.
    *
    * @see getNamespacesLength()
    */ public
@@ -45952,28 +46414,30 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::getNamespacePrefix(const std::string& uri) const "
 /**
-   * Look up the prefix of an XML namespace declaration by its URI.
+   * Returns the prefix associated with a given XML namespace URI on this
+   * token.
    *
-   * @param uri a string, the URI of the prefix being sought
+   * @param uri a string, the URI of the namespace whose prefix is being
+   * sought.
    *
-   * @return the prefix of an XML namespace declaration given its URI.  
+   * @return the prefix of an XML namespace declaration on this XMLToken object.
    *
-   * @note If @p uri does not exist, an empty string will be returned.
+   * @note If there is no XML namespace with the given @p uri declared on
+   * this XMLToken object, this method will return an empty string.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getNamespaceURI(int index) const "
 /**
-   * Look up the URI of an XML namespace declaration by its position.
+   * Returns the URI of the <em>n</em>th XML namespace declared on this token. 
    *
-   * @param index an integer, position of the required URI.
+   * @param index an integer, the position of the sought-after XML namespace URI.
    *
-   * @return the URI of an XML namespace declaration in the XMLNamespaces
-   * (by position).  
+   * @return the URI of the <em>n</em>th XML namespace stored in the
+   * XMLNamespaces object in this XMLToken object.
    *
-   * @note If @p index is out of range, an empty string will be
-   * returned.
+   * @note If @p index is out of range, this method will return an empty string.
    *
    * @see getNamespacesLength()
    */ public
@@ -45982,13 +46446,15 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::getNamespaceURI(const std::string& prefix = "") const "
 /**
-   * Look up the URI of an XML namespace declaration by its prefix.
+   * Returns the URI of an XML namespace with a given prefix.
    *
-   * @param prefix a string, the prefix of the required URI
+   * @param prefix a string, the prefix of the sought-after XML namespace URI.
    *
-   * @return the URI of an XML namespace declaration given its prefix.  
+   * @return the URI of an XML namespace declaration given its prefix.
    *
-   * @note If @p prefix does not exist, an empty string will be returned.
+   * @note If there is no XML namespace with the given @p prefix stored in
+   * the XMLNamespaces object of this XMLToken object, this method will
+   * return an empty string.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -45997,37 +46463,32 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::isNamespacesEmpty() const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * the XMLNamespaces of this XMLToken is empty.
-   * 
-   * @return @c true if the XMLNamespaces of this XMLToken is empty, 
-   * @c false otherwise.
+   * Returns @c true if there are no namespaces declared on this token.
+   *
+   * @return @c true if the XMLNamespaces object stored in this XMLToken
+   * token is empty, @c false otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::hasNamespaceURI(const std::string& uri) const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * an XML Namespace with the given URI is contained in the XMLNamespaces of
-   * this XMLToken.
-   * 
-   * @param uri a string, the uri for the namespace
+   * Returns @c true if this token has an XML namespace with a given URI.
    *
-   * @return @c true if an XML Namespace with the given URI is contained in the
-   * XMLNamespaces of this XMLToken,  @c false otherwise.
+   * @param uri a string, the URI of the XML namespace.
+   *
+   * @return @c true if an XML namespace with the given URI is contained in
+   * the XMLNamespaces object of this XMLToken object, @c false otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::hasNamespacePrefix(const std::string& prefix) const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * an XML Namespace with the given prefix is contained in the XMLNamespaces of
-   * this XMLToken.
+   * Returns @c true if this token has an XML namespace with a given prefix.
    *
-   * @param prefix a string, the prefix for the namespace
-   * 
+   * @param prefix a string, the prefix for the XML namespace.
+   *
    * @return @c true if an XML Namespace with the given URI is contained in the
    * XMLNamespaces of this XMLToken, @c false otherwise.
    */ public
@@ -46036,29 +46497,42 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::hasNamespaceNS(const std::string& uri, const std::string& prefix) const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * an XML Namespace with the given uri/prefix pair is contained in the 
-   * XMLNamespaces ofthis XMLToken.
+   * Returns @c true if this token has an XML namespace with a given prefix
+   * and URI combination.
    *
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
-   * 
-   * @return @c true if an XML Namespace with the given uri/prefix pair is 
-   * contained in the XMLNamespaces of this XMLToken,  @c false otherwise.
+   * @param uri a string, the URI for the namespace.
+   * @param prefix a string, the prefix for the namespace.
+   *
+   * @return @c true if an XML namespace with the given URI/prefix pair is
+   * contained in the XMLNamespaces object of this XMLToken object, @c false
+   * otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::setTriple(const XMLTriple& triple) "
 /**
-   * Sets the XMLTripe (name, uri and prefix) of this XML element.
-   * Nothing will be done if this XML element is a text node.
+   * Sets the name, namespace prefix and namespace URI of this token.
    *
-   * @param triple XMLTriple to be added to this XML element.
+   * *
+ * 
+ * This operation only makes sense for XML start elements.  This
+ * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
+ * element.
+ *
+ *
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param triple the new XMLTriple to use for this XMLToken object.  If
+   * this XMLToken already had an XMLTriple object stored within it, that
+   * object will be replaced.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
@@ -46069,62 +46543,77 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::getName() const "
 /**
-   * Returns the (unqualified) name of this XML element.
+   * Returns the (unqualified) name of token.
    *
-   * @return the (unqualified) name of this XML element.
+   * @return the (unqualified) name of token.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getPrefix() const "
 /**
-   * Returns the namespace prefix of this XML element.
+   * Returns the XML namespace prefix of token.
    *
-   * @return the namespace prefix of this XML element.  
+   * @return the XML namespace prefix of token.
    *
-   * @note If no prefix
-   * exists, an empty string will be return.
+   * @note If no XML namespace prefix has been assigned to this token, this
+   * method will return an empty string.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getURI() const "
 /**
-   * Returns the namespace URI of this XML element.
+   * Returns the XML namespace URI of token.
    *
-   * @return the namespace URI of this XML element.
+   * @return the XML namespace URI of token.
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getCharacters() const "
 /**
-   * Returns the text of this element.
+   * Returns the character text of token.
    *
-   * @return the characters of this XML text.
+   * @return the characters of this XML token.  If this token is not a
+   * text token (i.e., it\'s an XML element and not character content),
+   * then this will return an empty string.
+   *
+   * @see isText()
+   * @see isElement()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::append(const std::string& chars) "
 /**
-   * Appends characters to this XML text content.
+   * Appends characters to the text content of token.
    *
-   * @param chars string, characters to append
+   * This method only makes sense for XMLToken objects that contains text.
+   * If this method is called on a token that represents an XML start or end
+   * tag, it will return the code @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param chars string, characters to append to the text of this token.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isText()
+   * @see isElement()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::getColumn() const "
 /**
-   * Returns the column at which this XMLToken occurred in the input
-   * document or data stream.
+   * Returns the column number at which this token occurs in the input.
    *
    * @return the column at which this XMLToken occurred.
    */ public
@@ -46133,8 +46622,7 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::getLine() const "
 /**
-   * Returns the line at which this XMLToken occurred in the input document
-   * or data stream.
+   * Returns the line number at which this token occurs in the input.
    *
    * @return the line at which this XMLToken occurred.
    */ public
@@ -46143,101 +46631,145 @@ if (config != None) {
 
 %csmethodmodifiers XMLToken::isElement() const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML element.
-   * 
-   * @return @c true if this XMLToken is an XML element, @c false otherwise.
+   * Returns @c true if this token represents an XML element.
+   *
+   * This generic predicate returns @c true if the element is either a start
+   * or end tag, and @c false if it\'s a text object.  The related methods
+   * XMLToken:isStart(), XMLToken::isEnd() and XMLToken::isText() are more
+   * specific predicates.
+   *
+   * @return @c true if this XMLToken object represents an XML element, @c
+   * false otherwise.
+   *
+   * @see isStart()
+   * @see isEnd()
+   * @see isText()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::isEnd() const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML end element.
-   * 
-   * @return @c true if this XMLToken is an XML end element, @c false otherwise.
+   * Returns @c true if this token represents an XML end element.
+   *
+   * @return @c true if this XMLToken object represents an XML end element,
+   * @c false otherwise.
+   *
+   * @see isStart()
+   * @see isElement()
+   * @see isText()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::isEndFor(const XMLToken& element) const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML end element for the given start element.
-   * 
-   * @param element XMLToken, element for which query is made.
+   * Returns @c true if this token represents an XML end element for a
+   * particular start element.
    *
-   * @return @c true if this XMLToken is an XML end element for the given
-   * XMLToken start element, @c false otherwise.
+   * @param element XMLToken, the element with which the current object
+   * should be compared to determined whether the current object is a
+   * start element for the given one.
+   *
+   * @return @c true if this XMLToken object represents an XML end tag for
+   * the start tag given by @p element, @c false otherwise.
+   *
+   * @see isElement()
+   * @see isStart()
+   * @see isEnd()
+   * @see isText()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::isEOF() const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an end of file marker.
-   * 
-   * @return @c true if this XMLToken is an end of file (input) marker, @c false
-   * otherwise.
+   * Returns @c true if this token is an end of file marker.
+   *
+   * @return @c true if this XMLToken object represents the end of the input,
+   * @c false otherwise.
+   *
+   * @see setEOF()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::isStart() const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML start element.
-   * 
+   * Returns @c true if this token represents an XML start element.
+   *
    * @return @c true if this XMLToken is an XML start element, @c false otherwise.
+   *
+   * @see isElement()
+   * @see isEnd()
+   * @see isText()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::isText() const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLToken is an XML text element.
-   * 
+   * Returns @c true if this token represents an XML text element.
+   *
    * @return @c true if this XMLToken is an XML text element, @c false otherwise.
+   *
+   * @see isElement()
+   * @see isStart()
+   * @see isEnd()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::setEnd "
 /**
-   * Declares this XML start element is also an end element.
+   * Declares that this token represents an XML element end tag.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isStart()
+   * @see isEnd()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::setEOF "
 /**
-   * Declares this XMLToken is an end-of-file (input) marker.
+   * Declares that this token is an end-of-file/input marker.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isEOF()
    */ public
 ";
 
 
 %csmethodmodifiers XMLToken::unsetEnd "
 /**
-   * Declares this XML start/end element is no longer an end element.
+   * Declares that this token no longer represents an XML start/end element.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -46245,19 +46777,17 @@ if (config != None) {
 
 
 %csmethodmodifiers XMLToken::write(XMLOutputStream& stream) const "
-/**
-   * Writes this XMLToken to stream.
-   *
-   * @param stream XMLOutputStream, stream to which this XMLToken
-   * is to be written.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLToken::toString "
 /**
-   * Prints a string representation of the underlying token stream, for
-   * debugging purposes.
+   * Prints a string representation of the underlying token stream.
+   *
+   * This method is intended for debugging purposes.
+   *
+   * @return a text string representing this XMLToken object.
    */ public
 ";
 
@@ -46393,7 +46923,7 @@ else:
 
 %csmethodmodifiers XMLNode::XMLNode(const XMLToken& token) "
 /**
-   * Creates a new XMLNode by copying token.
+   * Creates a new XMLNode by copying an XMLToken object.
    *
    * @param token XMLToken to be copied to XMLNode
    */ public
@@ -46457,15 +46987,7 @@ else:
 
 
 %csmethodmodifiers XMLNode::XMLNode(XMLInputStream& stream) "
-/**
-   * Creates a new XMLNode by reading XMLTokens from stream.
-   *
-   * The stream must be positioned on a start element
-   * (<code>stream.peek().isStart() == true</code>) and will be read until
-   * the matching end element is found.
-   *
-   * @param stream XMLInputStream from which XMLNode is to be created.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -46498,10 +47020,15 @@ else:
    *
    * @param node the XMLNode to be added as child.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @note The given node is added at the end of the children list.
@@ -46550,9 +47077,13 @@ else:
 %csmethodmodifiers XMLNode::removeChildren "
 /**
    * Removes all children from this node.
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -46666,12 +47197,7 @@ else:
 
 
 %csmethodmodifiers XMLNode::write(XMLOutputStream& stream) const "
-/**
-   * Writes this XMLNode and its children to stream.
-   *
-   * @param stream XMLOutputStream, stream to which this XMLNode
-   * is to be written.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -46737,13 +47263,14 @@ else:
  *
  * A \'triple\' in the libSBML XML layer encapsulates the notion of qualified
  * name, meaning an element name or an attribute name with an optional
- * namespace qualifier.  An XMLTriple instance carries up to three data items:
- * 
- * <ul>
+ * namespace qualifier.  Triples by themselves are not entities in an XML
+ * stream&mdash;they are not, for example, elements or attributes; rather,
+ * XMLTriple is used in libSBML to construct these other kinds of objects.
  *
+ * An XMLTriple instance carries up to three data items:
+ * <ol>
  * <li> The name of the attribute or element; that is, the attribute name
  * as it appears in an XML document or data stream;
- *
  * <li> The XML namespace prefix (if any) of the attribute.  For example,
  * in the following fragment of XML, the namespace prefix is the string
  * <code>mysim</code> and it appears on both the element
@@ -46753,57 +47280,65 @@ else:
  * @verbatim
 <mysim:someelement mysim:attribA=\'value\' />
 @endverbatim
- *
  * <li> The XML namespace URI with which the prefix is associated.  In
  * XML, every namespace used must be declared and mapped to a URI.
- *
- * </ul>
+ * </ol>
  *
  * XMLTriple objects are the lowest-level data item in the XML layer
  * of libSBML.  Other objects such as XMLToken make use of XMLTriple
  * objects.
+ *
+ * @see XMLToken
+ * @see XMLNode
+ * @see XMLAttributes
+ * @see XMLNamespaces
  */
 "
 
 
 %csmethodmodifiers XMLTriple::XMLTriple "
 /**
-   * Creates a new, empty XMLTriple.
+   * Creates a new, empty XMLTriple object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLTriple::XMLTriple(  const std::string&  name , const std::string&  uri , const std::string&  prefix ) "
 /**
-   * Creates a new XMLTriple with the given @p name, @p uri and and @p
+   * Creates a new XMLTriple object with a given @p name, @p uri and and @p
    * prefix.
    *
-   * @param name a string, name for the XMLTriple.
-   * @param uri a string, URI of the XMLTriple.
-   * @param prefix a string, prefix for the URI of the XMLTriple,
+   * @param name a string, the name for the entity represented by this object.
+   * @param uri a string, the XML namespace URI associated with the prefix.
+   * @param prefix a string, the XML namespace prefix for this triple.
    *
    * @throws XMLConstructorException
-   * Thrown if the argument @p orig is @c null.
+   * Thrown if any of the arguments are @c null.
    */ public
 ";
 
 
 %csmethodmodifiers XMLTriple::XMLTriple(const std::string& triplet, const char sepchar = ' ') "
 /**
-   * Creates a new XMLTriple by splitting the given @p triplet on the
-   * separator character @p sepchar.
+   * Creates an XMLTriple object by splitting a given string at a given
+   * separator character.
    *
-   * Triplet may be in one of the following formats:
-   * <ul>
-   * <li> name
-   * <li> URI sepchar name
-   * <li> URI sepchar name sepchar prefix
-   * </ul>
-   * @param triplet a string representing the triplet as above
+   * The \'triplet\' in this case is a string that may be in one of the
+   * following three possible formats:
+   * <ol>
+   * <li> <span style=\'background-color: lightblue; padding-left: 2px; padding-right: 2px\'>name</span> </li>
+   * <li> <span style=\'background-color: #ccc; padding-left: 2px; padding-right: 2px\'>URI</span><span style=\'background-color: purple; color: white; padding-left: 2px; padding-right: 2px\'>x</span><span style=\'background-color: lightblue; padding-left: 2px; padding-right: 2px\'>name</span></li>
+   * <li> <span style=\'background-color: #ccc; padding-left: 2px; padding-right: 2px\'>URI</span><span style=\'background-color: purple; color: white; padding-left: 2px; padding-right: 2px\'>x</span><span style=\'background-color: lightblue; padding-left: 2px; padding-right: 2px\'>name</span><span style=\'background-color: purple; color: white; padding-left: 2px; padding-right: 2px\'>x</span><span style=\'background-color: #d0d0fd; padding-left: 2px; padding-right: 2px\'>prefix</span></li>
+   * </ol>
+   *
+   * where <span style=\'background-color: purple; color: white; padding-left: 2px; padding-right: 2px\'>x</span>
+   * represents the separator character, @p sepchar.
+   *
+   * @param triplet a string representing the triplet as shown above
    * @param sepchar a character, the sepchar used in the triplet
    *
    * @throws XMLConstructorException
-   * Thrown if the argument @p orig is @c null.
+   * Thrown if the argument @p triplet is @c null.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -46812,7 +47347,7 @@ else:
 
 %csmethodmodifiers XMLTriple::XMLTriple(const XMLTriple& orig) "
 /**
-   * Copy constructor; creates a copy of this XMLTriple set.
+   * Copy constructor; creates a copy of this XMLTriple object.
    *
    * @param orig the XMLTriple object to copy.
    *
@@ -46833,27 +47368,27 @@ else:
 
 %csmethodmodifiers XMLTriple::getName() const "
 /**
-   * Returns the @em name portion of this XMLTriple.
+   * Returns the @em name portion of this XMLTriple object.
    *
-   * @return a string, the name from this XMLTriple.
+   * @return a string, the name portion of this XMLTriple object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLTriple::getPrefix() const "
 /**
-   * Returns the @em prefix portion of this XMLTriple.
+   * Returns the @em prefix portion of this XMLTriple object.
    *
-   * @return a string, the @em prefix portion of this XMLTriple.
+   * @return a string, the prefix portion of this XMLTriple object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLTriple::getURI() const "
 /**
-   * Returns the @em URI portion of this XMLTriple.
+   * Returns the @em URI portion of this XMLTriple object.
    *
-   * @return URI a string, the @em prefix portion of this XMLTriple.
+   * @return URI a string, the URI portion of this XMLTriple object.
    */ public
 ";
 
@@ -46862,16 +47397,18 @@ else:
 /**
    * Returns the prefixed name from this XMLTriple.
    *
-   * @return a string, the prefixed name from this XMLTriple.
+   * @return a string, the prefixed name from this XMLTriple.  This is
+   * constructed by concatenating the @em prefix stored in this XMLTriple
+   * object, followed by a colon character <code>\':\'</code>, followed by the
+   * @em name stored in this XMLTriple object.
    */ public
 ";
 
 
 %csmethodmodifiers XMLTriple::isEmpty() const "
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLTriple is empty.
-   * 
+   * Returns @c true if this XMLTriple object is empty.
+   *
    * @return @c true if this XMLTriple is empty, @c false otherwise.
    */ public
 ";
@@ -47524,95 +48061,67 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
 
 %csmethodmodifiers XMLOutputStream::XMLOutputStream(const XMLOutputStream& other) "
-/**
-   * Copy Constructor, made private so as to notify users, that copying an input stream is not supported.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::XMLOutputStream "
-/**
-   * Unitialized XMLOutputStreams may only be created by subclasses.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeChars(const std::string& name) "
-/**
-   * Outputs the given characters to the underlying stream.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeIndent(bool isEnd = false) "
-/**
-   * Outputs indentation whitespace.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeName(const std::string& name, const std::string& prefix = "") "
-/**
-   * Outputs name.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeName(const XMLTriple& triple) "
-/**
-   * Outputs prefix:name.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeValue(const std::string& value) "
-/**
-   * Outputs value in quotes.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeValue(const char* value) "
-/**
-   * Outputs value in quotes.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeValue(const bool& value) "
-/**
-   * Outputs \'true\' or \'false\' in quotes.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeValue(const double& value) "
-/**
-   * Outputs the double value in quotes, or \'INF\', \'-INF\', or \'NaN\'.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeValue(const long& value) "
-/**
-   * Outputs the long value in quotes.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeValue(const int& value) "
-/**
-   * Outputs the int value in quotes.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLOutputStream::writeValue(const unsigned int& value) "
-/**
-   * Outputs the int value in quotes.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -47627,11 +48136,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
 
 %csmethodmodifiers XMLOutputStringStream::XMLOutputStringStream(  std::ostringstream& stream , const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
-/**
-   * Creates a new XMLOutputStream that wraps stream.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -47640,12 +48145,18 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 ";
 
 
+%csmethodmodifiers XMLOwningOutputStringStream::XMLOwningOutputStringStream(  const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
+/** */ /* libsbml-internal */ public
+";
+
+
 %csmethodmodifiers XMLOutputFileStream::XMLOutputFileStream(  std::ofstream&      stream , const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
-/**
-   * Creates a new XMLOutputStream that wraps stream.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers XMLOwningOutputFileStream::XMLOwningOutputFileStream(  const std::string&  filename , const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -47853,10 +48364,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Sets the XMLErrorLog this stream will use to log errors.
    *
-   * @return integer value indicating success/failure of the
-   * operation.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this method are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -47951,25 +48465,17 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
 
 %csmethodmodifiers XMLInputStream::XMLInputStream(const XMLInputStream& other) "
-/**
-   * Copy Constructor, made private so as to notify users, that copying an
-   * input stream is not supported.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLInputStream::XMLInputStream "
-/**
-   * Unitialized XMLInputStreams may only be created by subclasses.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLInputStream::queueToken "
-/**
-   * Runs mParser until mTokenizer is ready to deliver at least one
-   * XMLToken or a fatal error occurs.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -48086,7 +48592,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
           class=\'text-table normal-font alt-row-colors\'>
  * <caption>Possible XMLError error codes.  Depending on the programming
  * language in use, the <em>Enumerator</em> values will be defined either
- * as a value from the enumeration XMLErrorCode_t or as integer constants.
+ * as a value from an enumeration type @if clike (XMLErrorCode_t)@endif
+ * or as integer constants.
  * To make this table more compact, we have shortened the identifiers for
  * the category and severity codes to their essential parts.  To get the
  * actual names of the constants, prepend <code>LIBSBML_CAT_</code> to the
@@ -48729,9 +49236,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * 
    * @param line a long integer, the line number to set.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setColumn(long column)
@@ -48745,9 +49256,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * 
    * @param column a long integer, the column number to set.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setLine(long line)
@@ -48821,6 +49336,16 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @see getErrorId()
    * @see getPackage()
    */ public
+";
+
+
+%csmethodmodifiers XMLError::stringForSeverity "
+/** */ /* libsbml-internal */ public new
+";
+
+
+%csmethodmodifiers XMLError::stringForCategory "
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -48900,65 +49425,32 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
 
 %csmethodmodifiers XMLErrorLog::XMLErrorLog "
-/**
-   * Creates a new empty XMLErrorLog.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLErrorLog::XMLErrorLog(const XMLErrorLog& other) "
-/**
-   * Copy Constructor
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLErrorLog::add(const XMLError& error) "
-/**
-   * Logs the given XMLError.
-   *
-   * @param error XMLError, the error to be logged.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLErrorLog::add(const std::list<XMLError>& errors) "
-/**
-   * Logs (copies) the XMLErrors in the given XMLError list to this
-   * XMLErrorLog.
-   *
-   * @param errors list, a list of XMLError to be added to the log.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLErrorLog::add(const std::vector<XMLError*>& errors) "
-/**
-   * Logs (copies) the XMLErrors in the given XMLError list to this
-   * XMLErrorLog.
-   *
-   * @param errors list, a list of XMLError to be added to the log.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers XMLErrorLog::setParser(const XMLParser* p) "
-/**
-   * Sets the XMLParser associated with this XMLErrorLog.
-   *
-   * The XMLParser will be used to obtain the current line and column
-   * number for XMLError objects that lack line and column numbers when
-   * they are logged.  This method is used by libSBML\'s internal XML
-   * parsing code and probably has no useful reason to be called from
-   * application programs.
-   *
-   * @param p XMLParser, the parser to use
-   *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -48997,6 +49489,29 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * the output should be printed.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
+   */ public
+";
+
+
+%csmethodmodifiers XMLErrorLog::printErrors "
+/**
+   * Prints the errors or warnings with given severity stored in this error log.
+   *
+   * This method prints the text to the stream given by the optional
+   * parameter @p stream.  If no stream is given, the method prints the
+   * output to the standard error stream.
+   *
+   * The format of the output is:
+   * @verbatim
+   N error(s):
+     line NNN: (id) message
+@endverbatim
+   * If no errors with that severity was found, then no output will be produced.
+   *
+   * @param stream the ostream or ostringstream object indicating where
+   * the output should be printed.
+   * @param severity the severity of the errors sought.
+   *
    */ public
 ";
 
@@ -49060,8 +49575,10 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * logging completely.  An override stays in effect until the override is
  * changed again by the calling application.
    *
-   * @return a severity override code.  The possible values are @if clike drawn
-   * from the enumeration #XMLErrorSeverityOverride_t@endif:
+   * @return a severity override code.  The possible values are drawn
+   * from @if clike the enumeration #XMLErrorSeverityOverride_t@else the
+   * set of integer constants whose names begin with the prefix
+   * <code>LIBSBML_OVERRIDE_</code>@endif:
    * @li @link libsbml#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
    * @li @link libsbml#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink
    * @li @link libsbml#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink
@@ -49212,6 +49729,29 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 ";
 
 
+%csmethodmodifiers SBMLErrorLog::getErrorWithSeverity "
+/**
+   * Returns the <i>n</i>th SBMLError object with given severity in this log.
+   *
+   * Index @p n is counted from 0.  Callers should first inquire about the
+   * number of items in the log by using the
+   * @if java SBMLErrorLog::getNumFailsWithSeverity(long severity)@else getNumFailsWithSeverity()@endif method.
+   * Attempts to use an error index number that exceeds the actual number
+   * of errors in the log will result in a @c null being returned.
+   *
+   * @param n the index number of the error to retrieve (with 0 being the
+   * first error).
+   * @param severity the severity of the error to retrieve 
+   *
+   * @return the <i>n</i>th SBMLError in this log, or @c null if @p n is
+   * greater than or equal to
+   * @if java SBMLErrorLog::getNumFailsWithSeverity(long severity)@else getNumFailsWithSeverity()@endif.
+   *
+   * @see getNumFailsWithSeverity(long severity)
+   */ public
+";
+
+
 %csmethodmodifiers SBMLErrorLog::getNumFailsWithSeverity(unsigned int severity) "
 /**
    * Returns the number of errors that have been logged with the given
@@ -49279,47 +49819,17 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
 
 %csmethodmodifiers SBMLErrorLog::SBMLErrorLog "
-/**
-   * Creates a new, empty SBMLErrorLog.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLErrorLog::SBMLErrorLog(const SBMLErrorLog& other) "
-/**
-   * Copy Constructor
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLErrorLog::logError( const unsigned int errorId  = 0 , const unsigned int level    = SBML_DEFAULT_LEVEL , const unsigned int version  = SBML_DEFAULT_VERSION , const std::string& details  = "" , const unsigned int line     = 0 , const unsigned int column   = 0 , const unsigned int severity = LIBSBML_SEV_ERROR , const unsigned int category = LIBSBML_CAT_SBML ) "
-/**
-   * Convenience function that combines creating an SBMLError object and
-   * adding it to the log.
-   *
-   * @param errorId a long integer, the identification number of the error.
-   *
-   * @param level a long integer, the SBML Level
-   *
-   * @param version a long integer, the SBML Level\'s Version
-   * 
-   * @param details a string containing additional details about the error.
-   * If the error code in @p errorId is one that is recognized by SBMLError,
-   * the given message is @em appended to a predefined message associated
-   * with the given code.  If the error code is not recognized, the message
-   * is stored as-is as the text of the error.
-   * 
-   * @param line a long integer, the line number at which the error occured.
-   * 
-   * @param column a long integer, the column number at which the error occured.
-   * 
-   * @param severity an integer indicating severity of the error.
-   * 
-   * @param category an integer indicating the category to which the error
-   * belongs.
-   *
-   * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -49329,31 +49839,17 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
 
 %csmethodmodifiers SBMLErrorLog::add(const SBMLError& error) "
-/**
-   * Adds the given SBMLError to the log.
-   *
-   * @param error SBMLError, the error to be logged.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLErrorLog::add(const std::list<SBMLError>& errors) "
-/**
-   * Adds (copies) the SBMLErrors in the given SBMLError list to this
-   * SBMLErrorLog.
-   *
-   * @param errors list, a list of SBMLError to be added to the log.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLErrorLog::add(const std::vector<SBMLError>& errors) "
-/**
-   * Adds (copies) the SBMLErrors in the given SBMLError vector to this
-   * SBMLErrorLog.
-   *
-   * @param errors vector, a vector of SBMLError to be added to the log.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -49439,7 +49935,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * of the SBML specification documents, as well as some additional
  * libSBML-specific error codes.
  * @endif
- * 
+ *
  * Error codes are useful mainly for software.  For human readers,
  * SBMLError also includes text messages that describe the nature of a
  * given problem.  The messages can be accessed using
@@ -49457,7 +49953,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * href=\'#SBMLErrorCategory_t\'>SBMLErrorCategory_t</a> described below.
  * Categories are used to partition errors into distinct conceptual groups.
  * This is principally used by the libSBML validation system to group
- * classes of validation checks.  For example, 
+ * classes of validation checks.  For example,
  * @link libsbml#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink
  * is the category for tests that check identifier consistency;
  * @link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink
@@ -49496,14 +49992,14 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  * In addition, SBMLError also has a severity code.  Its value may be
  * retrieved using the method SBMLError::getSeverity().  The possible
- * severity values are the same as those reported by @if clike XMLError.@endif@if python XMLError.@endif@if java <code><a href=\'XMLError.html\'>XMLError</a></code>.@endif 
+ * severity values are the same as those reported by @if clike XMLError.@endif@if python XMLError.@endif@if java <code><a href=\'XMLError.html\'>XMLError</a></code>.@endif
  * Severity levels currently range from informational
  * (@link libsbml#LIBSBML_SEV_INFO LIBSBML_SEV_INFO@endlink)
  * to fatal errors
  * (@link libsbml#LIBSBML_SEV_FATAL LIBSBML_SEV_FATAL@endlink).
  * They can be
  * used by an application to evaluate how serious a given problem
- * is. 
+ * is.
  *
  * SBMLError also tracks the Level&nbsp;3 package extension, if any, was
  * responsible for a given warning or error.  Each diagnostic code logged by
@@ -49537,26 +50033,26 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * @if clike
  * <h3><a class=\'anchor\' name=\'SBMLErrorCode_t\'>SBMLErrorCode_t</a></h3>
  *
- * SBMLErrorCode_t is an enumeration of all SBML-level error, warning and
+ * #SBMLErrorCode_t is an enumeration of all SBML-level error, warning and
  * informational diagnostic codes.  Every SBMLError object has an error
  * code value that can be either a value from this enumeration, or a value
- * from the @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink
+ * from the #XMLErrorCode_t
  * enumeration (see the documentation for XMLError).  The latter values
  * apply when the error or warning signifies a basic XML issue rather than
- * an SBML issue per se.  The values of SBMLErrorCode_t are distinguished
- * from those of @link XMLError::XMLErrorCode_t XMLErrorCode_t@endlink by
+ * an SBML issue per se.  The values of #SBMLErrorCode_t are distinguished
+ * from those of #XMLErrorCode_t by
  * being numbered 10000 and higher, while the XML layer\'s codes are 9999 and
  * lower.  The method SBMLError::getErrorId() returns the error code of a
  * given SBMLError object instance.
- * 
- * The following is a table of the symbolic names of SBMLErrorCode_t values
+ *
+ * The following is a table of the symbolic names of #SBMLErrorCode_t values
  * and the meaning of each code.  In this table, the right-hand columns
  * titled \'L1V1\', \'L1V2\', etc. refer to Levels and Versions of the SBML
  * specifications, and the entries in each column refer to whether the
  * severity of the condition in that particular Level+Version of SBML.
  * The codes stand for the following:
- * 
- * @endif@if java <h3><a class=\'anchor\' 
+ *
+ * @endif@if java <h3><a class=\'anchor\'
  * name=\'SBMLErrorCode_t\'>Error codes associated with SBMLError objects</a></h3>
  *
  * The error and warning codes returned by libSBML are listed in the table
@@ -49569,13 +50065,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * programming, but it was necessary to work around the lack of
  * enumerations in Java prior to JDK 1.5.  Future versions of libSBML may
  * use a proper Java enumeration type to define the error identifiers.
- * 
+ *
  * In this table, the right-hand columns titled \'L1V1\', \'L1V2\', etc. refer
  * to Levels and Versions of the SBML specifications, and the entries in
  * each column refer to whether the severity of the condition in that
  * particular Level+Version of SBML.  The codes stand for the following:
  *
- * @endif@if python <h3><a class=\'anchor\' 
+ * @endif@if python <h3><a class=\'anchor\'
  * name=\'SBMLErrorCode_t\'>Error codes associated with SBMLError objects</a></h3>
  *
  * The error and warning codes returned by libSBML are listed in the table
@@ -49583,8 +50079,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * given SBMLError object instance.  In the libSBML Python language
  * interface, these error identifiers are currently
  * implemented as static integer constants defined in the interface class
- * @link libsbml libsbml@endlink. 
- * 
+ * @link libsbml libsbml@endlink.
+ *
  * In this table, the right-hand columns titled \'L1V1\', \'L1V2\', etc. refer
  * to Levels and Versions of the SBML specifications, and the entries in
  * each column refer to whether the severity of the condition in that
@@ -57847,21 +58343,21 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 </tr>
 </table>
- * 
+ *
  * @if clike <h3><a class=\'anchor\' name=\'SBMLErrorCategory_t\'>SBMLErrorCategory_t</a></h3>
  *
- * SBMLErrorCategory_t is an enumeration of category codes for SBMLError
+ * #SBMLErrorCategory_t is an enumeration of category codes for SBMLError
  * diagnostics.  The category can be retrieved from an SBMLError object
  * using the method SBMLError::getCategory().  These enumeration values are
- * distinct from (and in addition to) the @link
- * XMLError::XMLErrorCategory_t XMLErrorCategory_t@endlink codes used by
+ * distinct from (and in addition to) the
+ * #XMLErrorCategory_t codes used by
  * the parent XMLError object.  User programs receiving an SBMLError object
  * can use this distinction to check whether the error represents a
  * low-level XML problem or an SBML problem.
  *
  * The following table lists each possible value and a brief description of
  * its meaning.
- * 
+ *
  * @endif@if python <h3><a class=\'anchor\' name=\'SBMLErrorCategory_t\'>Category codes associated with SBMLError objects</a></h3>
  *
  * As discussed above, each SBMLError object contains a value for a
@@ -57873,20 +58369,20 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * As is the case with the error codes, in the libSBML Python language
  * interface, the category identifiers are currently implemented as static
  * integer constants defined in the interface class
- * @link libsbml libsbml@endlink. 
+ * @link libsbml libsbml@endlink.
  *
  * The following table lists each possible value and a brief description of
  * its meaning.
- * 
+ *
  * @endif@if java <h3><a class=\'anchor\'
  * name=\'SBMLErrorCategory_t\'>Category codes associated with SBMLError objects</a></h3>
- * 
+ *
  * As discussed above, each SBMLError object contains a value for a
  * category identifier, describing the type of issue that the SBMLError
  * object represents.  The category can be retrieved from an SBMLError
  * object using the method SBMLError::getCategory().  The following table
  * lists each possible value and a brief description of its meaning.
- * 
+ *
  * As is the case with the error codes, in the libSBML Java language
  * interface, the category identifiers are currently implemented as static
  * integer constants defined in the interface class
@@ -57894,16 +58390,16 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  * The following table lists each possible value and a brief description of
  * its meaning.
- * 
+ *
  * @endif@if csharp <h3><a class=\'anchor\'
  * name=\'SBMLErrorCategory_t\'>Category codes associated with SBMLError objects</a></h3>
- * 
+ *
  * As discussed above, each SBMLError object contains a value for a
  * category identifier, describing the type of issue that the SBMLError
  * object represents.  The category can be retrieved from an SBMLError
  * object using the method SBMLError::getCategory().  The following table
  * lists each possible value and a brief description of its meaning.
- * 
+ *
  * As is the case with the error codes, in the libSBML C# language
  * interface, the category identifiers are currently implemented as static
  * integer constants defined in the interface class
@@ -57911,9 +58407,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  * The following table lists each possible value and a brief description of
  * its meaning.
- * 
+ *
  * @endif
- * 
+ *
  * <center>
  * <table width=\'90%\' cellspacing=\'1\' cellpadding=\'4\' border=\'0\'  class=\'text-table normal-font alt-row-colors\'>
  *  <tr style=\'background: lightgray\' class=\'normal-font\'>
@@ -57921,22 +58417,22 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *      <th>Meaning</td>
  *  </tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML LIBSBML_CAT_SBML@endlink</td><td>General error not falling into
- * another category below.</td></tr> 
+ * another category below.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L1_COMPAT LIBSBML_CAT_SBML_L1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model from SBML Level&nbsp;2 to SBML
- * Level&nbsp;1.</td></tr> 
+ * Level&nbsp;1.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V1_COMPAT LIBSBML_CAT_SBML_L2V1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;1.</td></tr> 
+ * Version&nbsp;1.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V2_COMPAT LIBSBML_CAT_SBML_L2V2_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;2.</td></tr> 
+ * Version&nbsp;2.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_GENERAL_CONSISTENCY LIBSBML_CAT_GENERAL_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating general SBML constructs.  With
  * respect to the SBML specification, these concern failures in applying
@@ -57946,55 +58442,55 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * errors that can occur while validating symbol identifiers in a model.
  * With respect to the SBML specification, these concern failures in
  * applying the validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>  
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating the units of measurement on
  * quantities in a model.  With respect to the SBML specification, these
  * concern failures in applying the validation rules numbered 105xx in the
  * Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating MathML formulas in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 102xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink</td><td>Category of errors
  * that can occur while validating SBO identifiers in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink</td><td>Error in the
  * system of equations in the model: the system is overdetermined,
  * therefore violating a tenet of proper SBML.  With respect to the SBML
  * specification, this is validation rule #10601 in the SBML Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr> 
+ * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V3_COMPAT LIBSBML_CAT_SBML_L2V3_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;3.</td></tr> 
+ * Version&nbsp;3.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE@endlink</td><td>Category of
  * warnings about recommended good practices involving SBML and
  * computational modeling.  (These are tests performed by libSBML and do
- * not have equivalent SBML validation rules.)</td></tr> 
+ * not have equivalent SBML validation rules.)</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_INTERNAL_CONSISTENCY LIBSBML_CAT_INTERNAL_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating libSBML\'s internal representation
  * of SBML constructs. (These are tests performed by libSBML and do
- * not have equivalent SBML validation rules.)</td></tr> 
+ * not have equivalent SBML validation rules.)</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V4_COMPAT LIBSBML_CAT_SBML_L2V4_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;2
- * Version&nbsp;4.</td></tr> 
+ * Version&nbsp;4.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L3V1_COMPAT LIBSBML_CAT_SBML_L3V1_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
  * encountered while trying to convert a model to SBML Level&nbsp;3
- * Version&nbsp;1.</td></tr> 
+ * Version&nbsp;1.</td></tr>
  *
  * </table>
  * </center>
- * 
+ *
  * @if clike
  * <h3><a class=\'anchor\' name=\'SBMLErrorSeverity_t\'>SBMLErrorSeverity_t</a></h3>
  *
@@ -58002,20 +58498,20 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * User programs receiving an SBMLError object can use this distinction to
  * check whether the error represents a low-level XML problem or an SBML
  * problem.
- * 
+ *
  * In libSBML version @htmlinclude libsbml-version.html
- * there are no additional severity codes in SBMLErrorSeverity_t beyond
- * those defined in @link XMLError::XMLErrorSeverity_t XMLErrorSeverity_t@endlink.
- * 
+ * there are no additional severity codes in
+ * #SBMLErrorSeverity_t beyond those defined in #XMLErrorSeverity_t.
+ *
  * <hr>
  * @endif@if java <h3><a class=\'anchor\'
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with SBMLError
  * objects</h3>
  *
  * In libSBML version @htmlinclude libsbml-version.html
- * there are no additional severity codes beyond those defined by XMLError.  
- * They are implemented as static integer constants defined in the interface 
- * class <code><a href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>, 
+ * there are no additional severity codes beyond those defined by XMLError.
+ * They are implemented as static integer constants defined in the interface
+ * class <code><a href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>,
  * and have names beginning with <code>LIBSBML_SEV_</code>.
  * @endif@if python <h3><a class=\'anchor\'
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with SBMLError
@@ -58050,7 +58546,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * numbers are defined as longeger constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class=\'el\'
    * href=\'#SBMLErrorCode_t\'>top of this documentation page</a> for a table
-   * listing the possible values and their meanings. @endif The argument 
+   * listing the possible values and their meanings. @endif The argument
    * @p errorId to this constructor @em can be (but does not have to be) a
    * value from this @if clike enumeration. If it @em is a value
    * from <a class=\'el\' href=\'#SBMLErrorCode_t\'>SBMLErrorCode_t</a>, the
@@ -58068,7 +58564,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * assumes the error is a low-level system or SBML layer error and
    * <em>prepends</em> a built-in, predefined error message to any string
    * passed in the argument @p details to this constructor.  In addition,
-   * all the predefined error identifiers have associated values for the 
+   * all the predefined error identifiers have associated values for the
    * @p severity and @p category codes, and these fields are filled-in using
    * the libSBML defaults for each different error identifier. @endif
    *
@@ -58095,11 +58591,11 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * values (not just those from <a class=\'el\'
    * href=\'#SBMLErrorSeverity_t\'>SBMLErrorSeverity_t</a> and <a class=\'el\'
    * href=\'#SBMLErrorCategory_t\'>SBMLErrorCategory_t</a>, but their own
-   * special values) for @p severity and 
-   * @p category. @else As mentioned above, 
+   * special values) for @p severity and
+   * @p category. @else As mentioned above,
    * there are additional constants defined for <a class=\'el\'
    * href=\'#SBMLErrorSeverity_t\'>standard severity</a> and <a class=\'el\'
-   * href=\'#SBMLErrorCategory_t\'>standard category</a> codes, and every predefined 
+   * href=\'#SBMLErrorCategory_t\'>standard category</a> codes, and every predefined
    * error in libSBML has an associated value for severity and category taken
    * from these predefined sets.  These constants have symbol names
    * prefixed with <code>LIBSBML_SEV_</code> and <code>LIBSBML_CAT_</code>,
@@ -58118,19 +58614,19 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param level the SBML Level of the SBML model
    *
    * @param version the SBML Version within the Level of the SBML model
-   * 
+   *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
    * the given message is @em appended to a predefined message associated
    * with the given code.  If the error code is not recognized, the message
    * is stored as-is as the text of the error.
-   * 
+   *
    * @param line a long integer, the line number at which the error occured.
-   * 
+   *
    * @param column a long integer, the column number at which the error occured.
-   * 
+   *
    * @param severity an integer indicating severity of the error.
-   * 
+   *
    * @param category an integer indicating the category to which the error
    * belongs.
    *
@@ -58147,6 +58643,21 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Copy constructor; creates a copy of this SBMLError.
    */ public
+";
+
+
+%csmethodmodifiers SBMLError::stringForSeverity "
+/** */ /* libsbml-internal */ public new
+";
+
+
+%csmethodmodifiers SBMLError::stringForCategory "
+/** */ /* libsbml-internal */ public new
+";
+
+
+%csmethodmodifiers SBMLError::adjustErrorId(unsigned int offset) "
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -58179,18 +58690,21 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  * @section annotation-parts Components of an SBML annotation
  *
- * The SBML annotation format consists of RDF-based content placed inside
- * an <code>&lt;annotation&gt;</code> element attached to an SBML component
- * such as Species, Compartment, etc.  The following template illustrates
- * the different parts of SBML annotations in XML form:
- * 
+ * The SBML annotation format consists of RDF-based content placed inside an
+ * <code>&lt;annotation&gt;</code> element attached to an SBML component such
+ * as Species, Compartment, etc.  A small change was introduced in SBML
+ * Level&nbsp;2 Version&nbsp;5 and SBML Level&nbsp;3 Version&nbsp;2 to permit
+ * nested annotations: lower Versions of the SBML specifications did not
+ * explicitly allow this.  We first describe the different parts of SBML
+ * annotations in XML form for SBML Level&nbsp;2 below Version&nbsp;5 and
+ * SBML Level&nbsp;3 below Version&nbsp;2:
+ *
  <pre class=\'fragment\'>
  &lt;<span style=\'background-color: #bbb\'>SBML_ELEMENT</span> <span style=\'background-color: #d0eed0\'>+++</span> metaid=&quot;<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot; <span style=\'background-color: #d0eed0\'>+++</span>&gt;
    <span style=\'background-color: #d0eed0\'>+++</span>
    &lt;annotation&gt;
      <span style=\'background-color: #d0eed0\'>+++</span>
      &lt;rdf:RDF xmlns:rdf=\'http://www.w3.org/1999/02/22-rdf-syntax-ns#\'
-              xmlns:dc=\'http://purl.org/dc/elements/1.1/\'
               xmlns:dcterm=\'http://purl.org/dc/terms/\'
               xmlns:vcard=\'http://www.w3.org/2001/vcard-rdf/3.0#\'
               xmlns:bqbiol=\'http://biomodels.net/biology-qualifiers/\'
@@ -58212,7 +58726,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    <span style=\'background-color: #d0eed0\'>+++</span>
  &lt;/<span style=\'background-color: #bbb\'>SBML_ELEMENT</span>&gt;
  </pre>
- * 
+ *
  * In the template above, the placeholder
  * <span class=\'code\' style=\'background-color: #bbb\'>SBML_ELEMENT</span> stands for
  * the XML tag name of an SBML model component (e.g., <code>model</code>,
@@ -58240,7 +58754,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * biological qualifier).  Note that these namespace URIs are only labels,
  * and not actual Web locations, which means you cannot visit an address such
  * as <code>\'http://biomodels.net/model-qualifiers\'</code> in your browser or
- * try to have your application access it.  @if Refer instead to the enumerations
+ * try to have your application access it.  @if clike Refer instead to the enumerations
  * #ModelQualifierType_t and #BiolQualifierType_t for a list of the available
  * relationship elements that can be used for <span class=\'code\'
  * style=\'background-color: #bbb\'>RELATION_ELEMENT</span>.@endif
@@ -58259,19 +58773,66 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * resolve robust cross-references in Systems Biology\'</a>, <i>BMC Systems
  * Biology</i>, 58(1), 2007.
  *
- * The relation-resource pairs above are the \'controlled vocabulary\' terms
- * that which CVTerm is designed to store and manipulate.  The next section
- * describes these parts in more detail.  For more information about
- * SBML annotations in general, please refer to Section&nbsp;6 in the
- * SBML Level&nbsp;2 (Versions 2&ndash;4) or Level&nbsp;3 specification
- * documents.
- * 
+ * Finally, the following is the same template as above, but this time
+ * showing the nested content permitted by the most recent SBML
+ * specifications (SBML Level&nbsp;2 Version&nbsp;5 and Level&nbsp;3
+ * Version&nbsp;2):
+ <pre class=\'fragment\'>
+ &lt;<span style=\'background-color: #bbb\'>SBML_ELEMENT</span> <span style=\'background-color: #d0eed0\'>+++</span> metaid=&quot;<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot; <span style=\'background-color: #d0eed0\'>+++</span>&gt;
+   <span style=\'background-color: #d0eed0\'>+++</span>
+   &lt;annotation&gt;
+     <span style=\'background-color: #d0eed0\'>+++</span>
+     &lt;rdf:RDF xmlns:rdf=\'http://www.w3.org/1999/02/22-rdf-syntax-ns#\'
+              xmlns:dcterm=\'http://purl.org/dc/terms/\'
+              xmlns:vcard=\'http://www.w3.org/2001/vcard-rdf/3.0#\'
+              xmlns:bqbiol=\'http://biomodels.net/biology-qualifiers/\'
+              xmlns:bqmodel=\'http://biomodels.net/model-qualifiers/\' &gt;
+       &lt;rdf:Description rdf:about=&quot;#<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot;&gt;
+         <span style=\'background-color: #e0e0e0; border-bottom: 2px dotted #888\'>HISTORY</span>
+         &lt;<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+           &lt;rdf:Bag&gt;
+             &lt;rdf:li rdf:resource=&quot;<span style=\'background-color: #d0d0ee\'>URI</span>&quot; /&gt;
+             <span style=\'background-color: #fef\'>NESTED_CONTENT</span>
+             <span style=\'background-color: #edd\'>...</span>
+           &lt;/rdf:Bag&gt;
+         &lt;/<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+         <span style=\'background-color: #edd\'>...</span>
+       &lt;/rdf:Description&gt;
+       <span style=\'background-color: #d0eed0\'>+++</span>
+     &lt;/rdf:RDF&gt;
+     <span style=\'background-color: #d0eed0\'>+++</span>
+   &lt;/annotation&gt;
+   <span style=\'background-color: #d0eed0\'>+++</span>
+ &lt;/<span style=\'background-color: #bbb\'>SBML_ELEMENT</span>&gt;
+ </pre>
+ *
+ * The placeholder
+ * <span class=\'code\' style=\'background-color: #fef\'>NESTED_CONTENT</span>
+ * refers to other optional RDF elements such as
+ * <code>\'bqbiol:isDescribedBy\'</code> that describe a clarification or
+ * another annotation about the
+ * <span class=\'code\' style=\'background-color: #bbb\'>RELATION_ELEMENT</span>
+ * in which it appears.  Nested content allows one to, for example, describe
+ * protein modifications on species, or to add evidence codes for an
+ * annotation.  Nested content relates to its containing
+ * <span class=\'code\' style=\'background-color: #bbb\'>RELATION_ELEMENT</span>,
+ * not the other way around.  It qualifies it, but does not change its
+ * meaning.  As such, ignoring a
+ * <span class=\'code\' style=\'background-color: #fef\'>NESTED_CONTENT</span>
+ * does not affect the information provided by the containing
+ * <span class=\'code\' style=\'background-color: #bbb\'>RELATION_ELEMENT</span>.
+ *
+ * For more information about SBML annotations in general, please refer to
+ * Section&nbsp;6 in the SBML Level&nbsp;2 (Versions 2&ndash;4) or
+ * Level&nbsp;3 specification documents.
  *
  * @section cvterm-parts The parts of a CVTerm
- * 
+ *
  * Annotations that refer to controlled vocabularies are managed in libSBML
- * using CVTerm objects.  A set of RDF-based annotations attached to a
- * given SBML <code>&lt;annotation&gt;</code> element are read by
+ * using CVTerm objects.  The relation-resource pairs discussed in the
+ * previous section are the \'controlled vocabulary\' terms that CVTerm is
+ * designed to store and manipulate.  A set of RDF-based annotations attached
+ * to a given SBML <code>&lt;annotation&gt;</code> element are read by
  * RDFAnnotationParser and converted into a list of these CVTerm objects.
  * Each CVTerm object instance stores the following components of an
  * annotation:
@@ -58302,7 +58863,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  * Detailed explanations of the qualifiers defined by BioModels.net can be
  * found at <a target=\'_blank\'
- * href=\'http://biomodels.net/qualifiers\'>http://biomodels.net/qualifiers</a>.
+ * href=\'http://co.mbine.org/standards/qualifiers\'>http://co.mbine.org/standards/qualifiers</a>.
  */
 "
 
@@ -58334,15 +58895,14 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * 
    *
    * This method creates an empty CVTerm object.  The possible qualifier
-   * types usable as values of @p type are @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If
-   * an explicit value for @p type is not given, this method defaults to
-   * using @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier type@endif 
-   * can be set later using the
+   * types usable as values of @p type are @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink and @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink.  If an explicit value for @p type is not given, this
+   * method defaults to using @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink.  The @if clike #QualifierType_t value@else qualifier
+   * type@endif can be set later using the
    * CVTerm::setQualifierType(@if java int@endif) method.
    *
    * Different BioModels.net qualifier elements encode different types of
    * relationships.  Please refer to the SBML specification or the <a
-   * target=\'_blank\' href=\'http://biomodels.net/qualifiers/\'>BioModels.net
+   * target=\'_blank\' href=\'http://co.mbine.org/standards/qualifiers/\'>BioModels.net
    * qualifiers web page</a> for an explanation of the meaning of these
    * different qualifiers.
    *
@@ -58376,8 +58936,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * writing a model, it parses the CVTerm objects back into the
  * appropriate SBML <code>&lt;annotation&gt;</code> structure.
  *
- * 
-   * 
+ *
+   *
    * This method creates a CVTerm object from the given XMLNode object @p
    * node.  XMLNode is libSBML\'s representation of a node in an XML tree of
    * elements, and each such element can be placed in a namespace.  This
@@ -58467,18 +59027,18 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * The specific relationship of this CVTerm to the enclosing SBML object
    * can be determined using the CVTerm methods such as
-   * getModelQualifierType() and getBiologicalQualifierType().  Callers
-   * will typically want to use the present method to find out which one of
-   * the @em other two methods to call to find out the specific
-   * relationship.
+   * CVTerm::getModelQualifierType() and
+   * CVTerm::getBiologicalQualifierType().  Callers will typically want to
+   * use the present method to find out which one of the @em other two
+   * methods to call to find out the specific relationship.
    *
    * @return the @if clike #QualifierType_t value@else qualifier type@endif
    * of this object or @link libsbml#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
    * (the default).
    *
-   * @see getResources()
-   * @see getModelQualifierType()
-   * @see getBiologicalQualifierType()
+   * @see CVTerm::getResources()
+   * @see CVTerm::getModelQualifierType()
+   * @see CVTerm::getBiologicalQualifierType()
    */ public
 ";
 
@@ -58527,7 +59087,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * <code>\'http://biomodels.net/model-qualifiers\'</code> (for model
    * qualifiers) or <code>\'http://biomodels.net/biology-qualifiers\'</code>
    * (for biological qualifier).  Callers will typically use
-   * getQualifierType() to find out the type of qualifier relevant to this
+   * CVTerm::getQualifierType() to find out the type of qualifier relevant to this
    * particular CVTerm object, then if it is a @em model qualifier, use the
    * present method to determine the specific qualifier.
    *
@@ -58545,6 +59105,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @li @link libsbml#BQM_IS BQM_IS@endlink
    * @li @link libsbml#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY@endlink
    * @li @link libsbml#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM@endlink
+   * @li @link libsbml#BQM_IS_INSTANCE_OF BQM_IS_INSTANCE_OF@endlink
+   * @li @link libsbml#BQM_HAS_INSTANCE BQM_HAS_INSTANCE@endlink
    *
    * Any other BioModels.net qualifier found in the model is considered
    * unknown by libSBML and reported as
@@ -58596,13 +59158,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
    *
    * The placeholder <span class=\'code\' style=\'background-color: #bbb\'>
-   * RELATION_ELEMENT</span> refers to a BioModels.net qualifier
-   * element name.  This is an element in either the XML namespace
+   * RELATION_ELEMENT</span> refers to a BioModels.net qualifier element
+   * name.  This is an element in either the XML namespace
    * <code>\'http://biomodels.net/model-qualifiers\'</code> (for model
    * qualifiers) or <code>\'http://biomodels.net/biology-qualifiers\'</code>
    * (for biological qualifier).  Callers will typically use
-   * getQualifierType() to find out the type of qualifier relevant to this
-   * particular CVTerm object, then if it is a @em biological qualifier,
+   * CVTerm::getQualifierType() to find out the type of qualifier relevant to
+   * this particular CVTerm object, then if it is a @em biological qualifier,
    * use the present method to determine the specific qualifier.
    *
    * Annotations with biological qualifiers express a relationship between an
@@ -58628,6 +59190,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @li @link libsbml#BQB_OCCURS_IN BQB_OCCURS_IN@endlink
    * @li @link libsbml#BQB_HAS_PROPERTY BQB_HAS_PROPERTY@endlink
    * @li @link libsbml#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF@endlink
+   * @li @link libsbml#BQB_HAS_TAXON BQB_HAS_TAXON@endlink
    *
    * Any other BioModels.net qualifier found in the model is considered
    * unknown by libSBML and reported as
@@ -58691,9 +59254,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * 
    * @return the XMLAttributes that store the resources of this CVTerm.
    *
-   * @see getQualifierType()
-   * @see addResource(string resource)
-   * @see getResourceURI(long n)
+   * @see CVTerm::getQualifierType()
+   * @see CVTerm::addResource(string resource)
+   * @see CVTerm::getResourceURI(long n)
    */ public
 ";
 
@@ -58744,9 +59307,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * 
    * @return the XMLAttributes that store the resources of this CVTerm.
    *
-   * @see getQualifierType()
-   * @see addResource(string resource)
-   * @see getResourceURI(long n)
+   * @see CVTerm::getQualifierType()
+   * @see CVTerm::addResource(string resource)
+   * @see CVTerm::getResourceURI(long n)
    */ public
 ";
 
@@ -58794,8 +59357,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @return the number of resources in the set of XMLAttributes
    * of this CVTerm.
    *
-   * @see getResources()
-   * @see getResourceURI(long n)
+   * @see CVTerm::getResources()
+   * @see CVTerm::getResourceURI(long n)
    */ public
 ";
 
@@ -58843,8 +59406,8 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @return the number of resources in the set of XMLAttributes
    * of this CVTerm.
    *
-   * @see getResources()
-   * @see getResourceURI(long n)
+   * @see CVTerm::getResources()
+   * @see CVTerm::getResourceURI(long n)
    */ public
 ";
 
@@ -58882,23 +59445,23 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * form as the immediately preceding element.
  *
    *
-   * The fragment above illustrates that there can be more than one
-   * resource referenced by a given relationship annotation (i.e., the
-   * <span class=\'code\' style=\'background-color: #d0d0ee\'>resource
-   * URI</span> values associated with a particular <span class=\'code\'
-   * style=\'background-color: #bbb\'>RELATION_ELEMENT</span>).  LibSBML
-   * stores all resource URIs in a single CVTerm object for a given
-   * relationship.  Callers can use getNumResources() to find out how many
-   * resources are stored in this CVTerm object, then call this method to
-   * retrieve the <em>n</em>th resource URI.
+   * The fragment above illustrates that there can be more than one resource
+   * referenced by a given relationship annotation (i.e., the <span
+   * class=\'code\' style=\'background-color: #d0d0ee\'>resource URI</span>
+   * values associated with a particular <span class=\'code\'
+   * style=\'background-color: #bbb\'>RELATION_ELEMENT</span>).  LibSBML stores
+   * all resource URIs in a single CVTerm object for a given relationship.
+   * Callers can use CVTerm::getNumResources() to find out how many resources
+   * are stored in this CVTerm object, then call this method to retrieve the
+   * <em>n</em>th resource URI.
    * 
    * @param n the index of the resource to query
    *
    * @return string representing the value of the nth resource
    * in the set of XMLAttributes of this CVTerm.
    *
-   * @see getNumResources()
-   * @see getQualifierType()
+   * @see CVTerm::getNumResources()
+   * @see CVTerm::getQualifierType()
    */ public
 ";
 
@@ -58936,23 +59499,23 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  * form as the immediately preceding element.
  *
    *
-   * The fragment above illustrates that there can be more than one
-   * resource referenced by a given relationship annotation (i.e., the
-   * <span class=\'code\' style=\'background-color: #d0d0ee\'>resource
-   * URI</span> values associated with a particular <span class=\'code\'
-   * style=\'background-color: #bbb\'>RELATION_ELEMENT</span>).  LibSBML
-   * stores all resource URIs in a single CVTerm object for a given
-   * relationship.  Callers can use getNumResources() to find out how many
-   * resources are stored in this CVTerm object, then call this method to
-   * retrieve the <em>n</em>th resource URI.
+   * The fragment above illustrates that there can be more than one resource
+   * referenced by a given relationship annotation (i.e., the <span
+   * class=\'code\' style=\'background-color: #d0d0ee\'>resource URI</span>
+   * values associated with a particular <span class=\'code\'
+   * style=\'background-color: #bbb\'>RELATION_ELEMENT</span>).  LibSBML stores
+   * all resource URIs in a single CVTerm object for a given relationship.
+   * Callers can use CVTerm::getNumResources() to find out how many resources
+   * are stored in this CVTerm object, then call this method to retrieve the
+   * <em>n</em>th resource URI.
    * 
    * @param n the index of the resource to query
    *
    * @return string representing the value of the nth resource
    * in the set of XMLAttributes of this CVTerm.
    *
-   * @see getNumResources()
-   * @see getQualifierType()
+   * @see CVTerm::getNumResources()
+   * @see CVTerm::getQualifierType()
    */ public
 ";
 
@@ -58963,10 +59526,17 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * CVTerm object.
    *
    * @param type the @if clike #QualifierType_t value@else qualifier type@endif.
-   * The possible values returned by this function are:
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
-   * @see getQualifierType()
+   * @see CVTerm::getQualifierType()
    */ public
 ";
 
@@ -58978,88 +59548,108 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @param type the @if clike #ModelQualifierType_t value@else model qualifier type@endif
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
-   * @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
-   * then the ModelQualifierType_t value will default to
-   * @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
+   * @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, then the
+   * then the @if clike #ModelQualifierType_t value@else model qualifier type@endif
+   * will default to @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
    *
-   * @see getQualifierType()
-   * @see setQualifierType(@if java int@endif)
+   * @see CVTerm::getQualifierType()
+   * @see CVTerm::setQualifierType(@if java int@endif)
    */ public
 ";
 
 
 %csmethodmodifiers CVTerm::setBiologicalQualifierType(BiolQualifierType_t type) "
 /**
-   * Sets the @if clike #BiolQualifierType_t value@else biology qualifier type@endif
-   * of this CVTerm object.
+   * Sets the @if clike #BiolQualifierType_t value@else biology qualifier
+   * type@endif of this CVTerm object.
    *
-   * @param type the @if clike #BiolQualifierType_t value@else biology qualifier type@endif.
+   * @param type the @if clike #BiolQualifierType_t value@else biology
+   * qualifier type@endif.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
    * @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
-   * then the @if clike #BiolQualifierType_t value@else biology qualifier type@endif will default
-   * to @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
+   * then the @if clike #BiolQualifierType_t value@else biology qualifier type@endif
+   * will default to @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
    *
-   * @see getQualifierType()
-   * @see setQualifierType(@if java int@endif)
+   * @see CVTerm::getQualifierType()
+   * @see CVTerm::setQualifierType(@if java int@endif)
    */ public
 ";
 
 
 %csmethodmodifiers CVTerm::setModelQualifierType(const std::string& qualifier) "
 /**
-   * Sets the @if clike #ModelQualifierType_t@endif@if java model qualifier type code@endif value of this CVTerm object.
+   * Sets the @if clike #ModelQualifierType_t@else model qualifier
+   * type@endif value of this CVTerm object.
    *
    * @param qualifier the string representing a model qualifier
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
    * @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
-   * then the ModelQualifierType_t value will default to
-   * @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
+   * then the @if clike #ModelQualifierType_t value@else model qualifier type@endif
+   * will default to @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.
    *
-   * @see getQualifierType()
-   * @see setQualifierType(@if java int@endif)
+   * @see CVTerm::getQualifierType()
+   * @see CVTerm::setQualifierType(@if java int@endif)
    */ public
 ";
 
 
 %csmethodmodifiers CVTerm::setBiologicalQualifierType(const std::string& qualifier) "
 /**
-   * Sets the @if clike #BiolQualifierType_t@endif@if java biology qualifier
+   * Sets the @if clike #BiolQualifierType_t@else biology qualifier
    * type code@endif of this CVTerm object.
    *
    * @param qualifier the string representing a biology qualifier
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
    * @link libsbml#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
-   * then the @if clike #BiolQualifierType_t@endif@if java biology qualifier type code@endif value will default
-   * to @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
+   * then the @if clike #BiolQualifierType_t@else biology qualifier type code@endif
+   * will default to @link libsbml#BQB_UNKNOWN BQB_UNKNOWN@endlink.
    *
-   * @see getQualifierType()
-   * @see setQualifierType(@if java int@endif)
+   * @see CVTerm::getQualifierType()
+   * @see CVTerm::setQualifierType(@if java int@endif)
    */ public
 ";
 
@@ -59136,23 +59726,28 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * within an XMLAttributes object.
    * 
    * The relationship of this CVTerm to the enclosing SBML object can be
-   * determined using the CVTerm methods such as getModelQualifierType()
-   * and getBiologicalQualifierType().
+   * determined using the CVTerm methods such as
+   * CVTerm::getModelQualifierType() and CVTerm::getBiologicalQualifierType().
    *
    * @param resource a string representing the URI of the resource and data
    * item being referenced; e.g.,
    * <code>\'http://www.geneontology.org/#GO:0005892\'</code>.
    *
-   * @return integer value indicating success/failure of the call. The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * @see getResources()
-   * @see removeResource(string resource)
-   * @see getQualifierType()
-   * @see getModelQualifierType()
-   * @see getBiologicalQualifierType()
+   * @see CVTerm::getResources()
+   * @see CVTerm::removeResource(string resource)
+   * @see CVTerm::getQualifierType()
+   * @see CVTerm::getModelQualifierType()
+   * @see CVTerm::getBiologicalQualifierType()
    */ public
 ";
 
@@ -59165,13 +59760,18 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param resource a string representing the resource URI to remove;
    * e.g., <code>\'http://www.geneontology.org/#GO:0005892\'</code>.
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
-   * @see addResource(string resource)
+   * @see CVTerm::addResource(string resource)
    */ public
 ";
 
@@ -59577,10 +60177,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *  
    * @param year a long integer representing the year.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59594,10 +60197,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param month a long integer representing the month; it must be in the
    * range 1&ndash;12 or an error will be signaled.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59611,10 +60217,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param day a long integer representing the day; it must be in the
    * range 0&ndash;31 or an error will be signaled.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59628,10 +60237,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param hour a long integer representing the hour to set; it must be
    * in the range 0&ndash;23 or an error will be signaled.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59645,10 +60257,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param minute a long integer representing the minute to set; it must
    * be in the range 0&ndash;59 or an error will be signaled.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59662,10 +60277,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param second a long integer representing the seconds; it must
    * be in the range 0&ndash;59 or an error will be signaled.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59681,10 +60299,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param sign a long integer representing the sign of the offset, with
    * @c 0 signifying @c + and @c 1 signifying @c -.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59699,10 +60320,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * offset; it must be in the range 0&ndash;23 or an error will be
    * signaled.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59717,10 +60341,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * offset; it must be in the range 0&ndash;59 or an error will be
    * signaled.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59781,10 +60408,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @param date a string representing the date.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
@@ -59821,17 +60451,12 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
 
 %csmethodmodifiers Date::parseDateStringToNumbers "
-/**
-   * Sets the value of the individual numbers from the date 
-   * as a string.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers Date::parseDateNumbersToString "
-/**
-   * Sets the value of the date as a string from the individual numbers.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -60038,11 +60663,15 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *  
    * @param familyName a string representing the familyName of the ModelCreator. 
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -60053,11 +60682,15 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *  
    * @param givenName a string representing the givenName of the ModelCreator. 
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -60068,11 +60701,15 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *  
    * @param email a string representing the email of the ModelCreator. 
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -60084,11 +60721,15 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param organization a string representing the organization of the 
    * ModelCreator. 
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
 ";
 
@@ -60103,11 +60744,15 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @note This function is an alias of setOrganization(string organization).
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see setOrganization(string organization)
    */ public
@@ -60118,10 +60763,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Unsets the \'family name\' portion of this ModelCreator object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -60132,10 +60780,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Unsets the \'given name\' portion of this ModelCreator object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -60146,10 +60797,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Unsets the \'email\' portion of this ModelCreator object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -60160,10 +60814,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Unsets the \'organization\' portion of this ModelCreator object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -60176,10 +60833,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    *
    * @note This function is an alias of unsetOrganization().
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -60376,10 +61036,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param date a Date object representing the date to which the \'created
    * date\' portion of this ModelHistory should be set.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -60393,10 +61056,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param date a Date object representing the date to which the \'modified
    * date\' portion of this ModelHistory should be set.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -60416,10 +61082,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * @param date a Date object representing the \'modified date\' that should
    * be added to this ModelHistory object.
    * 
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -60481,10 +61150,13 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * 
    * @param mc the ModelCreator to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -61074,6 +61746,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
  *
 @htmlinclude pkg-marker-core.html 
  *
+ * @htmlinclude not-sbml-warning.html
  * @internal
  */
 "
@@ -61086,66 +61759,101 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Extension of an element by an SBML Level 3 package.
- * 
+@htmlinclude pkg-marker-core.html Base class for extending SBML components
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
  * @ifnot clike @internal @endif
  *
- * SBaseExtensionPoint represents an element to be extended (extension point) and the
- * extension point is identified by a combination of a package name and a typecode of the 
- * element.
+ * *
  * 
- * <p>
- * For example, an SBaseExtensionPoint object which represents an extension point of the model
- * element defined in the <em>core</em> package can be created as follows:
+ * This class is used as part of the mechanism that connects plugin objects
+ * (implemented using SBasePlugin or SBMLDocumentPlugin) to a given package
+ * extension.  For instance, an implementation of an extended version of
+ * Model (e.g., LayoutModelPlugin in the %Layout package) would involve the
+ * creation of an extension point using SBaseExtensionPoint and a mediator
+ * object created using SBasePluginCreator, to \'plug\' the extended Model
+ * object (LayoutModelPlugin) into the overall LayoutExtension object.
  *
-@verbatim
-      SBaseExtensionPoint  modelextp(\'core\', SBML_MODEL);
-@endverbatim
- * 
- * Similarly, an SBaseExtensionPoint object which represents an extension point of
- * the layout element defined in the layout extension can be created as follows:
- * 
-@verbatim
-      SBaseExtensionPoint  layoutextp(\'layout\', SBML_LAYOUT_LAYOUT);
-@endverbatim
- * 
- * SBaseExtensionPoint object is required as one of arguments of the constructor 
- * of SBasePluginCreator&lt;class SBasePluginType, class SBMLExtensionType&gt;
- * template class to identify an extension poitnt to which the plugin object created
- * by the creator class is plugged in.
- * For example, the SBasePluginCreator class which creates a LayoutModelPlugin object
- * of the layout extension which is plugged in to the model element of the <em>core</em>
- * package can be created with the corresponding SBaseExtensionPoint object as follows:
+ * The use of SBaseExtensionPoint is relatively straightforward.  The
+ * class needs to be used for each extended SBML object implemented using
+ * SBMLDocumentPlugin or SBasePlugin.  Doing so requires knowing just two
+ * things:
  *
-@verbatim
-  // std::vector object that contains a list of URI (package versions) supported 
-  // by the plugin object.
-  std::vector<string> packageURIs;
-  packageURIs.push_back(getXmlnsL3V1V1());
-  packageURIs.push_back(getXmlnsL2());  
-
-  // creates an extension point (model element of the \'core\' package)
-  SBaseExtensionPoint  modelExtPoint(\'core\',SBML_MODEL);
-   
-  // creates an SBasePluginCreator object 
-  SBasePluginCreator<LayoutModelPlugin, LayoutExtension>  modelPluginCreator(modelExtPoint,packageURIs);
-@endverbatim
+ * @li The short-form name of the @em parent package being extended.  The
+ * parent package is often simply core SBML, identified in libSBML by the
+ * nickname <code>\'core\'</code>, but a SBML Level&nbsp;3 package could
+ * conceivably extend another Level&nbsp;3 package.
  *
- * This kind of code is implemented in init() function of each SBMLExtension derived classes.
+ * @li The libSBML type code assigned to the object being extended.  For
+ * example, if an extension of Model is implemented, the relevant type code
+ * is #SBML_MODEL, found in #SBMLTypeCode_t.
+ *
+ * The typical use of SBaseExtensionPoint is illustrated by the following
+ * code fragment:
+ *
+ * @code{.cpp}
+ * SBaseExtensionPoint docExtPoint(\'core\', SBML_DOCUMENT);
+ * SBaseExtensionPoint modelExtPoint(\'core\', SBML_MODEL);
+ *
+ * SBasePluginCreator<GroupsSBMLDocumentPlugin, GroupsExtension> docPluginCreator(docExtPoint, pkgURIs);
+ * SBasePluginCreator<GroupsModelPlugin, GroupsExtension> modelPluginCreator(modelExtPoint, pkgURIs);
+ * @endcode
+ *
+ * The code above shows two core SBML components being extended: the
+ * document object, and the Model object.  These extended objects are
+ * created elsewhere (not shown) as the
+ * <code>GroupsSBMLDocumentPlugin</code> and <code>GroupsModelPlugin</code>
+ * objects.  The corresponding SBaseExtensionPoint objects are handed as
+ * arguments to the constructor for SBasePluginCreator to create the
+ * connection between the extended core components and the overall package
+ * extension (here, for the Groups package, with the
+ * <code>GroupsExtension</code> object).
+ *
+ * The code above is typically placed in the implementation of the
+ * <code>init()</code> method of the package class derived from
+ * SBMLExtension.  (For the example above, it would be in the
+ * <code>GroupsExtension.cpp</code> file.)
+ *
+ *
  */
 "
 
 
 %csmethodmodifiers SBaseExtensionPoint::SBaseExtensionPoint(const std::string& pkgName, int typeCode) "
 /**
-   * constructor
+   * Constructor for SBaseExtensionPoint.
+   *
+   * The use of SBaseExtensionPoint is relatively straightforward.  The
+   * class needs to be used for each extended SBML object implemented
+   * using SBMLDocumentPlugin or SBasePlugin.  Doing so requires knowing
+   * just two things:
+   *
+   * @li The short-form name of the @em parent package being extended.
+   * The parent package is often simply core SBML, identified in libSBML
+   * by the nickname <code>\'core\'</code>, but a SBML Level&nbsp;3
+   * package could conceivably extend another Level&nbsp;3 package and
+   * the mechanism supports this.
+   *
+   * @li The libSBML type code assigned to the object being extended.
+   * For example, if an extension of Model is implemented, the relevant
+   * type code is SBML_MODEL, found in #SBMLTypeCode_t.
+   *
+   * @param pkgName the short-form name of the parent package where
+   * that this package extension is extending.
+   *
+   * @param typeCode the type code of the object being extended.
    */ public
 ";
 
 
 %csmethodmodifiers SBaseExtensionPoint::SBaseExtensionPoint(const SBaseExtensionPoint& rhs) "
 /**
-   * copy constructor
+   * Copy constructor.
+   *
+   * This creates a copy of an SBaseExtensionPoint instance.
+   *
+   * @param rhs the object to copy.
    */ public
 ";
 
@@ -61168,7 +61876,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 
 %csmethodmodifiers SBaseExtensionPoint::getTypeCode() const "
 /**
-   * Returns the typecode of this extension point.
+   * Returns the libSBML type code of this extension point.
    */ public new
 ";
 
@@ -61180,241 +61888,206 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html A libSBML plug-in object for an SBML Level 3 package.
+@htmlinclude pkg-marker-core.html Base class for extending SBML objects in packages.
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * The SBasePlugin class is libSBML\'s base class for extensions of core SBML
+ * component objects.  SBasePlugin defines basic virtual methods for
+ * reading/writing/checking additional attributes and/or subobjects; these
+ * methods should be overridden by subclasses to implement the necessary
+ * features of an extended SBML object.
+ *
+ * Perhaps the easiest way to explain and motivate the role of SBasePlugin is
+ * through an example.  The SBML %Layout package specifies the existence of an
+ * element, <code>&lt;listOfLayouts&gt;</code>, contained inside an SBML
+ * <code>&lt;model&gt;</code> element.  In terms of libSBML components, this
+ * means a new ListOfLayouts class of objects must be defined, and this
+ * object placed in an @em extended class of Model (because Model in
+ * plain/core SBML does not allow the inclusion of a ListOfLayouts
+ * subobject).  This extended class of Model is LayoutModelPlugin, and it is
+ * derived from SBasePlugin.
+ *
+ * @section sbaseplugin-howto How to extend SBasePlugin for a package implementation
+ * *
  * 
- * Additional attributes and/or elements of a package extension which are directly 
- * contained by some pre-defined element are contained/accessed by <a href=\'#SBasePlugin\'> 
- * SBasePlugin </a> class which is extended by package developers for each extension point.
- * The extension point, which represents an element to be extended, is identified by a 
- * combination of a Package name and a typecode of the element, and is represented by
- * SBaseExtensionPoint class.
- * </p>
+ * LibSBML package extensions can extend existing libSBML objects such as Model
+ * using SBasePlugin as a base class, to hold attributes and/or subcomponents
+ * necessary for the SBML package being implemented.  Package developers must
+ * implement an SBasePlugin extended class for each element to be extended
+ * (e.g., Model, Reaction, and others) where additional attributes and/or
+ * top-level objects of the package extension are directly contained.  The
+ * following subsections detail the basic steps necessary to use SBasePlugin
+ * for the implementation of a class extension.
  *
- * <p>
- * For example, the layout extension defines <em>&lt;listOfLayouts&gt;</em> element which is 
- * directly contained in <em>&lt;model&gt;</em> element of the core package. 
- * In the layout package (provided as one of example packages in libSBML-5), the additional 
- * element for the model element is implemented as ListOfLayouts class (an SBase derived class) and 
- * the object is contained/accessed by a LayoutModelPlugin class (an SBasePlugin derived class). 
- * </p>
+ * @subsection sbp-identify 1. Identify the SBML components that need to be extended
  *
- * <p>
- * SBasePlugin class defines basic virtual functions for reading/writing/checking 
- * additional attributes and/or top-level elements which should or must be overridden by 
- * subclasses like SBase class and its derived classes.
- * </p>
+ * The specification for a SBML Level&nbsp;3 package will define the
+ * attributes and subojects that make up the package constructs.  Those
+ * constructs that modify existing SBML components such as Model,
+ * Reaction, etc., will be the ones that need to be extended using SBasePlugin.
  *
- * <p>
- *  Package developers must implement an SBasePlugin exntended class for 
- *  each element to be extended (e.g. SBMLDocument, Model, ...) in which additional 
- *  attributes and/or top-level elements of the package extension are directly contained.
- *</p>
- *
- *  To implement reading/writing functions for attributes and/or top-level 
- *  elements of the SBsaePlugin extended class, package developers should or must
- *  override the corresponding virtual functions below provided in the SBasePlugin class:
- *
- *   <ul>
- *     <li> <p>reading elements : </p>
- *       <ol>
- *         <li> <code>virtual SBase createObject (XMLInputStream stream) </code>
- *         <p>This function must be overridden if one or more additional elements are defined.</p>
- *         </li>
- *         <li> <code>virtual bool readOtherXML (SBase parentObject, XMLInputStream stream)</code>
- *         <p>This function should be overridden if elements of annotation, notes, MathML, etc. need 
- *            to be directly parsed from the given XMLInputStream object @if clike instead of the
- *            SBase::readAnnotation(XMLInputStream stream)
- *            and/or SBase::readNotes(XMLInputStream stream) functions@endif.
- *         </p> 
- *         </li>
- *       </ol>
- *     </li>
- *     <li> <p>reading attributes (must be overridden if additional attributes are defined) :</p>
- *       <ol>
- *         <li><code>virtual void addExpectedAttributes(ExpectedAttributes& attributes) </code></li>
- *         <li><code>virtual void readAttributes (XMLAttributes attributes, ExpectedAttributes& expectedAttributes)</code></li>
- *       </ol>
- *     </li>
- *     <li> <p>writing elements (must be overridden if additional elements are defined) :</p>
- *       <ol>
- *         <li><code>virtual void writeElements (XMLOutputStream stream) </code></li>
- *       </ol>
- *     </li>
- *     <li> <p>writing attributes : </p>
- *       <ol>
- *        <li><code>virtual void writeAttributes (XMLOutputStream stream) </code>
- *         <p>This function must be overridden if one or more additional attributes are defined.</p>
- *        </li>
- *        <li><code>virtual void writeXMLNS (XMLOutputStream stream) </code>
- *         <p>This function must be overridden if one or more additional xmlns attributes are defined.</p>
- *        </li>
- *       </ol>
- *     </li>
- *
- *     <li> <p>checking elements (should be overridden) :</p>
- *       <ol>
- *         <li><code>virtual bool hasRequiredElements() </code></li>
- *       </ol>
- *     </li>
- *
- *     <li> <p>checking attributes (should be overridden) :</p>
- *       <ol>
- *         <li><code>virtual bool hasRequiredAttributes() </code></li>
- *       </ol>
- *     </li>
- *   </ul>
- *
- *<p>
- *   To implement package-specific creating/getting/manipulating functions of the
- *   SBasePlugin derived class (e.g., getListOfLayouts(), createLyout(), getLayout(),
- *   and etc are implemented in LayoutModelPlugin class of the layout package), package
- *   developers must newly implement such functions (as they like) in the derived class.
- *</p>
- *
- *<p>
- *   SBasePlugin class defines other virtual functions of internal implementations
- *   such as:
- *
- *   <ul>
- *    <li><code> virtual void setSBMLDocument(SBMLDocument d) </code>
- *    <li><code> virtual void connectToParent(SBase sbase) </code>
- *    <li><code> virtual void enablePackageInternal(string pkgURI, string pkgPrefix, bool flag) </code>
- *   </ul>
- *
- *   These functions must be overridden by subclasses in which one or more top-level elements are defined.
- *</p>
- *
- *<p>
- *   For example, the following three SBasePlugin extended classes are implemented in
- *   the layout extension:
- *</p>
- *
- *<ol>
- *
- *  <li> <p><a href=\'class_s_b_m_l_document_plugin.html\'> SBMLDocumentPlugin </a> class for SBMLDocument element</p>
- *
- *    <ul>
- *         <li> <em> required </em> attribute is added to SBMLDocument object.
- *         </li>
- *    </ul>
- *
- *<p>
- *(<a href=\'class_s_b_m_l_document_plugin.html\'> SBMLDocumentPlugin </a> class is a common SBasePlugin 
- *extended class for SBMLDocument class. Package developers can use this class as-is if no additional 
- *elements/attributes (except for <em> required </em> attribute) is needed for the SBMLDocument class 
- *in their packages, otherwise package developers must implement a new SBMLDocumentPlugin derived class.)
- *</p>
- *
- *  <li> <p>LayoutModelPlugin class for Model element</p>
- *    <ul>
- *       <li> &lt;listOfLayouts&gt; element is added to Model object.
- *       </li>
- *
- *       <li> <p>
- *            The following virtual functions for reading/writing/checking
- *            are overridden: (type of arguments and return values are omitted)
- *            </p>
- *           <ul>
- *              <li> <code> createObject() </code> : (read elements)
- *              </li>
- *              <li> <code> readOtherXML() </code> : (read elements in annotation of SBML L2)
- *              </li>
- *              <li> <code> writeElements() </code> : (write elements)
- *              </li>
- *           </ul>
- *       </li>
- *
- *        <li> <p>
- *             The following virtual functions of internal implementations
- *             are overridden: (type of arguments and return values are omitted)
- *            </p>  
- *            <ul>
- *              <li> <code> setSBMLDocument() </code> 
- *              </li>
- *              <li> <code> connectToParent() </code>
- *              </li>
- *              <li> <code> enablePackageInternal() </code>
- *              </li>
- *            </ul>
- *        </li>
+ * For example, the Layout package makes additions to Model,
+ * SpeciesReference, and the <code>&lt;sbml&gt;</code> element (which is
+ * represented in libSBML by SBMLDocument).  This means that the Layout
+ * package extension in libSBML needs to define extended versions of Model,
+ * SpeciesReference and SBMLDocument.  Elements @em other than the SBML
+ * document need to be implemented using SBasePlugin; the document component
+ * must be implemented using SBMLDocumentPlugin instead.
  *
  *
- *        <li> <p>
- *             The following creating/getting/manipulating functions are newly 
- *             implemented: (type of arguments and return values are omitted)
- *            </p>
- *            <ul>
- *              <li> <code> getListOfLayouts() </code>
- *              </li>
- *              <li> <code> getLayout ()  </code>
- *              </li>
- *              <li> <code> addLayout() </code>
- *              </li>
- *              <li> <code> createLayout() </code>
- *              </li>
- *              <li> <code> removeLayout() </code>
- *              </li>	   
- *              <li> <code> getNumLayouts() </code>
- *              </li>
- *           </ul>
- *        </li>
+ * @subsection sbp-implement 2. Create a SBasePlugin subclass for each extended SBML component
  *
- *    </ul>
- *  </li>
+ * A new class definition that subclasses SBasePlugin needs to be created for
+ * each SBML component to be extended by the package.  For instance, the
+ * Layout package needs LayoutModelPlugin and LayoutSpeciesReferencePlugin.
+ * (As mentioned above, the Layout class also needs LayoutSBMLDocumentPlugin,
+ * but this one is implemented using SBMLDocumentPlugin instead of
+ * SBasePlugin.)  Below, we describe in detail the different parts of an
+ * SBasePlugin subclass definition.
  *
- *  <li> <p>LayoutSpeciesReferencePlugin class for SpeciesReference element (used only for SBML L2V1) </p>
+ * @subsubsection sbp-protected 2.1 Define protected data members
  *
- *      <ul>
- *        <li>
- *         <em> id </em> attribute is internally added to SpeciesReference object
- *          only for SBML L2V1 
- *        </li>
+ * Data attributes on each extended class in an SBML package will have one of
+ * the data types <code>string</code>, <code>double</code>,
+ * <code>int</code>, or <code>bool</code>.  Subelements/subobjects will normally
+ * be derived from the ListOf class or from SBase.
  *
- *        <li>
- *         The following virtual functions for reading/writing/checking
- *          are overridden: (type of arguments and return values are omitted)
- *        </li>
+ * The additional data members must be properly initialized in the class
+ * constructor, and must be properly copied in the copy constructor and
+ * assignment operator.  For example, the following data member is defined in
+ * the <code>GroupsModelPlugin</code> class (in the file
+ * <code>GroupsModelPlugin.h</code>):
+ * @code{.cpp}
+ListOfGroups mGroups;
+@endcode
  *
- *         <ul>
- *          <li>
- *          <code> readOtherXML() </code>
- *          </li>
- *          <li>
- *          <code> writeAttributes() </code>
- *          </li>
- *        </ul>
- *      </ul>
- *    </li>
+ * @subsubsection sbp-class-methods 2.2 Override SBasePlugin class-related methods
  *
- * </ol>
+ * The derived class must override the constructor, copy constructor, assignment
+ * operator (<code>operator=</code>) and <code>clone()</code> methods from
+ * SBasePlugin.
+ *
+ *
+ * @subsubsection sbp-methods-attribs 2.3 Override SBasePlugin virtual methods for attributes
+ *
+ * If the extended component is defined by the SBML Level&nbsp;3 package to have
+ * attributes, then the extended class definition needs to override the
+ * following internal methods on SBasePlugin and provide appropriate
+ * implementations:
+ *
+ * @li <code>addExpectedAttributes(ExpectedAttributes& attributes)</code>: This
+ * method should add the attributes that are expected to be found on this kind
+ * of extended component in an SBML file or data stream.
+ *
+ * @li <code>readAttributes(XMLAttributes attributes, ExpectedAttributes&
+ * expectedAttributes)</code>: This method should read the attributes
+ * expected to be found on this kind of extended component in an SBML file or
+ * data stream.
+ *
+ * @li <code>hasRequiredAttributes()</code>: This method should return @c true
+ * if all of the required attribute for this extended component are present on
+ * instance of the object.
+ *
+ * @li <code>writeAttributes(XMLOutputStream stream)</code>: This method should
+ * write out the attributes of an extended component.  The implementation should
+ * use the different kinds of <code>writeAttribute</code> methods defined by
+ * XMLOutputStream to achieve this.
+ *
+ *
+ * @subsubsection sbp-methods-elem 2.4 Override SBasePlugin virtual methods for subcomponents
+ *
+ * If the extended component is defined by the Level&nbsp;3 package to have
+ * subcomponents (i.e., full XML elements rather than mere attributes), then the
+ * extended class definition needs to override the following internal
+ * SBasePlugin methods and provide appropriate implementations:
+ *
+ * @li <code>createObject(XMLInputStream stream)</code>: Subclasses must
+ * override this method to create, store, and then return an SBML object
+ * corresponding to the next XMLToken in the XMLInputStream.  To do this,
+ * implementations can use methods like <code>peek()</code> on XMLInputStream to
+ * test if the next object in the stream is something expected for the package.
+ * For example, LayoutModelPlugin uses <code>peek()</code> to examine the next
+ * element in the input stream, then tests that element against the Layout
+ * namespace and the element name <code>\'listOfLayouts\'</code> to see if it\'s
+ * the single subcomponent (ListOfLayouts) permitted on a Model object using the
+ * Layout package.  If it is, it returns the appropriate object.
+ *
+ * @li <code>connectToParent(SBase sbase)</code>: This creates a parent-child
+ * relationship between a given extended component and its subcomponent(s).
+ *
+ * @li <code>setSBMLDocument(SBMLDocument d)</code>: This method should set the
+ * parent SBMLDocument object on the subcomponent object instances, so that the
+ * subcomponent instances know which SBMLDocument contains them.
+ *
+ * @li <code>enablePackageInternal(string& pkgURI, string& pkgPrefix,
+ * bool flag)</code>: This method should enable or disable the subcomponent
+ * based on whether a given XML namespace is active.
+ *
+ * @li <code>writeElements(XMLOutputStream stream)</code>: This method must be
+ * overridden to provide an implementation that will write out the expected
+ * subcomponents/subelements to the XML output stream.
+ *
+ * @li <code>readOtherXML(SBase parentObject, XMLInputStream stream)</code>:
+ * This function should be overridden if elements of annotation, notes, MathML
+ * content, etc., need to be directly parsed from the given XMLInputStream
+ * object.
+ *
+ * @li <code>hasRequiredElements()</code>: This method should return @c true if
+ * a given object contains all the required subcomponents defined by the
+ * specification for that SBML Level&nbsp;3 package.
+ *
+ *
+ * @subsubsection sbp-methods-xmlns 2.5 Override SBasePlugin virtual methods for XML namespaces
+ *
+ * If the package needs to add additional <code>xmlns</code> attributes to
+ * declare additional XML namespace URIs, the extended class should override the
+ * following method:
+ *
+ * @li <code>writeXMLNS(XMLOutputStream stream)</code>: This method should
+ * write out any additional XML namespaces that might be needed by a package
+ * implementation.
+ *
+ *
+ * @subsubsection sbp-methods-hooks 2.6 Implement additional methods as needed
+ *
+ * Extended component implementations can add whatever additional utility
+ * methods are useful for their implementation.
+ *
+ *
  */
 "
 
 
 %csmethodmodifiers SBasePlugin::getElementNamespace() const "
 /**
-   * Returns the XML namespace (URI) of the package extension
-   * of this plugin object.
+   * Returns the namespace URI of the package to which this plugin object
+   * belongs.
    *
-   * @return the URI of the package extension of this plugin object.
+   * @return the XML namespace URI of the SBML Level&nbsp;3 package
+   * implemented by this libSBML package extension.
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getPrefix() const "
 /**
-   * Returns the prefix of the package extension of this plugin object.
+   * Returns the XML namespace prefix of the package to which this plugin
+   * object belongs.
    *
-   * @return the prefix of the package extension of this plugin object.
+   * @return the XML namespace prefix of the SBML Level&nbsp;3 package
+   * implemented by this libSBML package extension.
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getPackageName() const "
 /**
-   * Returns the package name of this plugin object.
+   * Returns the short-form name of the package to which this plugin
+   * object belongs.
    *
-   * @return the package name of this plugin object.
+   * @return the short-form package name (or nickname) of the SBML package
+   * implemented by this package extension.
    */ public
 ";
 
@@ -61430,29 +62103,51 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 
 %csmethodmodifiers SBasePlugin::getElementBySId(const std::string& id) "
 /**
-   * Returns the first child element found that has the given @p id in the model-wide SId namespace, or @c null if no such object is found.
+   * Return the first child object found with a given identifier.
    *
-   * @param id string representing the id of objects to find
+   * This method searches all the subobjects under this one, compares their
+   * identifiers to @p id, and returns the first one that machines.
+   * @if clike It uses SBasePlugin::getAllElements(ElementFilter filter) to
+   * get the list of identifiers, so the order in which identifiers are
+   * searched is the order in which they appear in the results returned by
+   * that method.@endif
    *
-   * @return pointer to the first element found with the given @p id.
+   * Normally, <code>SId</code> type identifier values are unique across
+   * a model in SBML.  However, in some circumstances they may not be, such
+   * as if a model is invalid because of multiple objects having the same
+   * identifier.
+   *
+   * @param id string representing the identifier of the object to find
+   *
+   * @return pointer to the first object with the given @p id.
    */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::getElementByMetaId(const std::string& metaid) "
 /**
-   * Returns the first child element it can find with the given @p metaid, or @c null if no such object is found.
+   * Return the first child object found with a given meta identifier.
    *
-   * @param metaid string representing the metaid of objects to find
+   * This method searches all the subobjects under this one, compares their
+   * meta identifiers to @p metaid, and returns the first one that machines.
    *
-   * @return pointer to the first element found with the given @p metaid.
+   * @param metaid string, the metaid of the object to find.
+   *
+   * @return pointer to the first object found with the given @p metaid.
    */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::getAllElements(ElementFilter* filter=NULL) "
 /**
-   * Returns a List of all child SBase objects, including those nested to an arbitrary depth
+   * Returns all child objects of this object.
+   *
+   * This returns a List object containing all child SBase objects of this
+   * one, at any nesting depth.  Optionally, callers can supply a filter
+   * that will establish the search criteria for matching objects.
+   *
+   * @param filter an ElementFilter to use for determining the properties
+   * of the objects to be returned.
    *
    * @return a List of pointers to all children objects.
    */ public new
@@ -61460,58 +62155,17 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 
 
 %csmethodmodifiers SBasePlugin::setSBMLDocument(SBMLDocument* d) "
-/**
-   * Sets the parent SBMLDocument of this plugin object.
-   *
-   * Subclasses which contain one or more SBase derived elements must
-   * override this function.
-   *
-   * @param d the SBMLDocument object to use
-   *
-   * @see connectToParent()
-   * @see enablePackageInternal()
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::connectToParent(SBase *sbase) "
-/**
-   * Sets the parent SBML object of this plugin object to
-   * this object and child elements (if any).
-   * (Creates a child-parent relationship by this plugin object)
-   *
-   * This function is called when this object is created by
-   * the parent element.
-   * Subclasses must override this this function if they have one
-   * or more child elements. Also, SBasePlugin::connectToParent(@if java SBase@endif)
-   * must be called in the overridden function.
-   *
-   * @param sbase the SBase object to use
-   *
-   * @if cpp 
-   * @see setSBMLDocument()
-   * @see enablePackageInternal()
-   * @endif
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with child elements in this plugin 
-   * object (if any).
-   * (This is an internal implementation invoked from 
-   *  SBase::enablePackageInternal() function)
-   *
-   * Subclasses which contain one or more SBase derived elements should 
-   * override this function if elements defined in them can be extended by
-   * some other package extension.
-   *
-   * @if cpp 
-   * @see setSBMLDocument()
-   * @see connectToParent()
-   * @endif
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -61522,37 +62176,83 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 
 %csmethodmodifiers SBasePlugin::getSBMLDocument "
 /**
-   * Returns the parent SBMLDocument of this plugin object.
+   * Returns the SBMLDocument object containing this object instance.
+   *
+   * *
+ * 
+ * LibSBML uses the class SBMLDocument as a top-level container for
+ * storing SBML content and data associated with it (such as warnings and
+ * error messages).  An SBML model in libSBML is contained inside an
+ * SBMLDocument object.  SBMLDocument corresponds roughly to the class
+ * <i>SBML</i> defined in the SBML Level&nbsp;3 and Level&nbsp;2
+ * specifications, but it does not have a direct correspondence in SBML
+ * Level&nbsp;1.  (But, it is created by libSBML no matter whether the
+ * model is Level&nbsp;1, Level&nbsp;2 or Level&nbsp;3.)
+ *
+ *
+   *
+   * This method allows the caller to obtain the SBMLDocument for the
+   * current object.
    *
    * @return the parent SBMLDocument object of this plugin object.
+   *
+   * @see getParentSBMLObject()
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getSBMLDocument() const "
 /**
-   * Returns the parent SBMLDocument of this plugin object.
+   * Returns the SBMLDocument object containing this object instance.
+   *
+   * *
+ * 
+ * LibSBML uses the class SBMLDocument as a top-level container for
+ * storing SBML content and data associated with it (such as warnings and
+ * error messages).  An SBML model in libSBML is contained inside an
+ * SBMLDocument object.  SBMLDocument corresponds roughly to the class
+ * <i>SBML</i> defined in the SBML Level&nbsp;3 and Level&nbsp;2
+ * specifications, but it does not have a direct correspondence in SBML
+ * Level&nbsp;1.  (But, it is created by libSBML no matter whether the
+ * model is Level&nbsp;1, Level&nbsp;2 or Level&nbsp;3.)
+ *
+ *
+   *
+   * This method allows the caller to obtain the SBMLDocument for the
+   * current object.
    *
    * @return the parent SBMLDocument object of this plugin object.
+   *
+   * @see getParentSBMLObject()
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getURI() const "
 /**
-   * Gets the URI to which this element belongs to.
-   * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must would have the URI \'http://www.sbml.org/sbml/level3/version1/core\'; 
-   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-   * Version 1 Core must would have the URI
-   * \'http://www.sbml.org/sbml/level3/version1/layout/version1/\'
+   * Returns the XML namespace URI for the package to which this object belongs.
    *
-   * Unlike getElementNamespace, this function first returns the URI for this 
-   * element by looking into the SBMLNamespaces object of the document with 
-   * the its package name. if not found it will return the result of 
-   * getElementNamespace
+   * *
+ * 
+ * In the XML representation of an SBML document, XML namespaces are used to
+ * identify the origin of each XML construct used.  XML namespaces are
+ * identified by their unique resource identifiers (URIs).  The core SBML
+ * specifications stipulate the namespaces that must be used for core SBML
+ * constructs; for example, all XML elements that belong to SBML Level&nbsp;3
+ * Version&nbsp;1 Core must be placed in the XML namespace identified by the URI
+ * <code>\'http://www.sbml.org/sbml/level3/version1/core\'</code>.  Individual
+ * SBML Level&nbsp;3 packages define their own XML namespaces; for example,
+ * all elements belonging to the SBML Level&nbsp;3 %Layout Version&nbsp;1
+ * package must be placed in the XML namespace
+ * <code>\'http://www.sbml.org/sbml/level3/version1/layout/version1/\'</code>.
+ *
+ *
    *
-   * @return the URI this elements  
+   * This method first looks into the SBMLNamespaces object possessed by the
+   * parent SBMLDocument object of the current object.  If this cannot be
+   * found, this method returns the result of getElementNamespace().
+   *
+   * @return a string, the URI of the XML namespace to which this object belongs.
    *
    * @see getPackageName()
    * @see getElementNamespace()
@@ -61564,114 +62264,117 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 
 %csmethodmodifiers SBasePlugin::getParentSBMLObject "
 /**
-   * Returns the parent SBase object to which this plugin 
-   * object connected.
+   * Returns the parent object to which this plugin object is connected.
    *
-   * @return the parent SBase object to which this plugin 
-   * object connected.
+   * @return the parent object of this object.
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getParentSBMLObject() const "
 /**
-   * Returns the parent SBase object to which this plugin 
-   * object connected.
+   * Returns the parent object to which this plugin object is connected.
    *
-   * @return the parent SBase object to which this plugin 
-   * object connected.
+   * @return the parent object of this object.
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::setElementNamespace(const std::string &uri) "
 /**
-   * Sets the XML namespace to which this element belongs to.
-   * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must set the namespace to \'http://www.sbml.org/sbml/level3/version1/core\'; 
-   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-   * Version 1 Core must set the namespace to 
-   * \'http://www.sbml.org/sbml/level3/version1/layout/version1/\'
+   * Sets the XML namespace to which this object belongs.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * 
+ * In the XML representation of an SBML document, XML namespaces are used to
+ * identify the origin of each XML construct used.  XML namespaces are
+ * identified by their unique resource identifiers (URIs).  The core SBML
+ * specifications stipulate the namespaces that must be used for core SBML
+ * constructs; for example, all XML elements that belong to SBML Level&nbsp;3
+ * Version&nbsp;1 Core must be placed in the XML namespace identified by the URI
+ * <code>\'http://www.sbml.org/sbml/level3/version1/core\'</code>.  Individual
+ * SBML Level&nbsp;3 packages define their own XML namespaces; for example,
+ * all elements belonging to the SBML Level&nbsp;3 %Layout Version&nbsp;1
+ * package must be placed in the XML namespace
+ * <code>\'http://www.sbml.org/sbml/level3/version1/layout/version1/\'</code>.
+ *
+ *
+   *
+   * @param uri the URI to assign to this object.
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   *
+   * @see getElementNamespace()
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getLevel() const "
 /**
-   * Returns the SBML level of the package extension of 
-   * this plugin object.
+   * Returns the SBML Level of the package extension of this plugin object.
    *
-   * @return the SBML level of the package extension of
-   * this plugin object.
+   * @return the SBML Level.
+   *
+   * @see getVersion()
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getVersion() const "
 /**
-   * Returns the SBML version of the package extension of
+   * Returns the Version within the SBML Level of the package extension of
    * this plugin object.
    *
-   * @return the SBML version of the package extension of
-   * this plugin object.
+   * @return the SBML Version.
+   *
+   * @see getLevel()
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getPackageVersion() const "
 /**
-   * Returns the package version of the package extension of
-   * this plugin object.
+   * Returns the package version of the package extension of this plugin
+   * object.
    *
-   * @return the package version of the package extension of
-   * this plugin object.
+   * @return the package version of the package extension of this plugin
+   * object.
+   *
+   * @see getLevel()
+   * @see getVersion()
    */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::replaceSIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this object has a child \'math\' object (or anything with ASTNodes in general), replace all nodes with the name \'id\' with the provided function. 
-   *
-   * @note This function does nothing itself--subclasses with ASTNode subelements must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::divideAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If the function of this object is to assign a value has a child \'math\' object (or anything with ASTNodes in general), replace  the \'math\' object with the function (existing/function).  
-   *
-   * @note This function does nothing itself--subclasses with ASTNode subelements must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::multiplyAssignmentsToSIdByFunction(const std::string& id, const ASTNode* function) "
-/**
-   * If this assignment assigns a value to the \'id\' element, replace the \'math\' object with the function (existing*function). 
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::hasIdentifierBeginningWith(const std::string& prefix) "
-/**
-   * Check to see if the given prefix is used by any of the IDs defined by extension elements.  A package that defines its own \'id\' attribute for a core element would check that attribute here.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::prependStringToAllIdentifiers(const std::string& prefix) "
-/**
-   * Add the given string to all identifiers in the object.  If the string is added to anything other than an id or a metaid, this code is responsible for tracking down and renaming all *idRefs in the package extention that identifier comes from.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -61681,56 +62384,12 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 
 
 %csmethodmodifiers SBasePlugin::getLine() const "
-/**
-   * Returns the line number on which this object first appears in the XML
-   * representation of the SBML document.
-   * 
-   * @return the line number of the underlying SBML object.
-   *
-   * @note The line number for each construct in an SBML model is set upon
-   * reading the model.  The accuracy of the line number depends on the
-   * correctness of the XML representation of the model, and on the
-   * particular XML parser library being used.  The former limitation
-   * relates to the following problem: if the model is actually invalid
-   * XML, then the parser may not be able to interpret the data correctly
-   * and consequently may not be able to establish the real line number.
-   * The latter limitation is simply that different parsers seem to have
-   * their own accuracy limitations, and out of all the parsers supported
-   * by libSBML, none have been 100% accurate in all situations. (At this
-   * time, libSBML supports the use of <a target=\'_blank\'
-   * href=\'http://xmlsoft.org\'>libxml2</a>, <a target=\'_blank\'
-   * href=\'http://expat.sourceforge.net/\'>Expat</a> and <a target=\'_blank\'
-   * href=\'http://xerces.apache.org/xerces-c/\'>Xerces</a>.)
-   *
-   * @see getColumn()
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getColumn() const "
-/**
-   * Returns the column number on which this object first appears in the XML
-   * representation of the SBML document.
-   * 
-   * @return the column number of the underlying SBML object.
-   * 
-   * @note The column number for each construct in an SBML model is set
-   * upon reading the model.  The accuracy of the column number depends on
-   * the correctness of the XML representation of the model, and on the
-   * particular XML parser library being used.  The former limitation
-   * relates to the following problem: if the model is actually invalid
-   * XML, then the parser may not be able to interpret the data correctly
-   * and consequently may not be able to establish the real column number.
-   * The latter limitation is simply that different parsers seem to have
-   * their own accuracy limitations, and out of all the parsers supported
-   * by libSBML, none have been 100% accurate in all situations. (At this
-   * time, libSBML supports the use of <a target=\'_blank\'
-   * href=\'http://xmlsoft.org\'>libxml2</a>, <a target=\'_blank\'
-   * href=\'http://expat.sourceforge.net/\'>Expat</a> and <a target=\'_blank\'
-   * href=\'http://xerces.apache.org/xerces-c/\'>Xerces</a>.)
-   * 
-   * @see getLine()
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -61740,49 +62399,32 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 
 
 %csmethodmodifiers SBasePlugin::logUnknownElement(const std::string &element, const unsigned int sbmlLevel, const unsigned int sbmlVersion, const unsigned int pkgVersion ) "
-/**
-   * Helper to log a common type of error for elements.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::SBasePlugin(const std::string &uri, const std::string &prefix, SBMLNamespaces *sbmlns) "
-/**
-   * Constructor. Creates an SBasePlugin object with the URI and 
-   * prefix of an package extension.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::SBasePlugin(const SBasePlugin& orig) "
-/**
-   * Copy constructor. Creates a copy of this SBase object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::getErrorLog "
-/**
-   * Returns the SBMLErrorLog used to log errors while reading and
-   * validating SBML.
-   *
-   * @return the SBMLErrorLog used to log errors while reading and
-   * validating SBML.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBasePlugin::logUnknownAttribute(const std::string &attribute, const unsigned int sbmlLevel, const unsigned int sbmlVersion, const unsigned int pkgVersion, const std::string& element) "
-/**
-   * Helper to log a common type of error.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers SBasePlugin::logEmptyString(const std::string &attribute, const unsigned int sbmlLevel, const unsigned int sbmlVersion, const unsigned int pkgVersion, const std::string& element) "
-/**
-   * Helper to log a common type of error.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -61793,32 +62435,238 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Base class for SBML Level 3 package plug-ins.
+@htmlinclude pkg-marker-core.html Base class for extending SBMLDocument in packages.
  *
- * Plug-in objects for the SBMLDocument element must be this class or a
- * derived class of this class.  Package developers should use this class
- * as-is if only \'required\' attribute is added in the SBMLDocument element by
- * their packages.  Otherwise, developers must implement a derived class of
- * this class and use that class as the plugin object for the SBMLDocument
- * element.
+ * @htmlinclude not-sbml-warning.html
+ *
+ * The SBMLDocumentPlugin class is a specialization of SBasePlugin
+ * designed specifically for extending SBMLDocument.  All package
+ * extensions must extend SBMLDocument to implement support for SBML
+ * Level&nbsp;3 packages; these extensions can be subclasses of this
+ * class or from a derived class of this class.
+ *
+ * @section sbmldocumentplugin-howto How to extend SBMLDocumentPlugin for a package implementation
+ * *
+ * 
+ * The following subsections detail the basic steps necessary to use
+ * SBMLDocumentPlugin to extend SBMLDocument for a given package extension.
+ *
+ *
+ * @subsection sdp-identify 1. Identify the changes necessary to SBMLDocument
+ *
+ * The specification for a SBML Level&nbsp;3 package will define the
+ * changes to the SBML <code>&lt;sbml&gt;</code> element.  Packages
+ * typically do not make any changes beyond adding an attribute named
+ * \'required\' (discussed below), so in most cases, the extension of
+ * SBMLDocument is very simple.  However, some packages do more.  For
+ * instance, the Hierarchical %Model Composition package adds subobjects
+ * for lists of model definitions.  SBMLDocumentPlugin supports all these
+ * cases.
+ *
+ *
+ * @subsection sdp-implement 2. Create the SBMLDocumentPlugin subclass
+ *
+ * A package extension will only define one subclass of SBMLDocumentPlugin.
+ * Below, we describe in detail the different parts of a subclass
+ * definition.
+ *
+ *
+ * @subsubsection sdp-class  2.1 Override SBasePlugin class-related methods
+ *
+ * The derived class must override the constructor, copy constructor, assignment
+ * operator (<code>operator=</code>) and <code>clone()</code> methods from
+ * SBasePlugin.
+ *
+ *
+ * @subsubsection sdp-required 2.2 Determine the necessary value of the \'required\' attribute
+ *
+ * At minimum, it is necessary for a package implementation to add the
+ * \'required\' attribute to the SBML <code>&lt;sbml&gt;</code> element
+ * mandated by SBML for all Level&nbsp;3 packages, and this is done using
+ * this class as a base.  If the \'required\' attribute is the @em only
+ * addition necessary for a particular SBML Level&nbsp;3 package, then the
+ * subclass of SBMLDocumentPlugin for the package can have a very simple
+ * implementation.  Some Level&nbsp;3 packages add additional attributes or
+ * elements to <code>&lt;sbml&gt;</code>, and their implementations would
+ * go into the subclassed SBMLDocumentPlugin.
+ *
+ * SBMLDocumentPlugin provides methods with default implementations that
+ * support managing the \'required\' attribute, so package extension code
+ * does not need to provide implementations&mdash;they only need to set the
+ * correct value for the SBML Level&nbsp;3 package based on its
+ * specification.  The following are the virtual methods for working with
+ * the \'required\' attribute.  Package extensions would only need to
+ * override them in special circumstances:
+ *
+ * @li <code>setRequired(bool value)</code>: This method sets the value
+ * of the flag.
+ *
+ * @li <code>getRequired()</code>: This method gets the value of the
+ * \'required\' flag.
+ *
+ * @li <code>isSetRequired()</code>: This method tests if the value has
+ * been set.
+ *
+ * @li <code>unsetRequired()</code>: This method unsets the value of the
+ * \'required\' flag.
+ *
+ *
+ * @subsubsection sdp-protected 2.3 Define protected data members
+ *
+ * An extended SBMLDocument object may need more than just the \'required\'
+ * attribute, depending on what is defined in the specification for the
+ * package being implemented.  Data attributes on the extended
+ * <code>&lt;sbml&gt;</code> object in an SBML package will have one of the
+ * data types <code>string</code>, <code>double</code>,
+ * <code>int</code>, or <code>bool</code>.  Subelements/subobjects will
+ * normally be derived from the ListOf class or from SBase.
+ *
+ * The additional data members must be properly initialized in the class
+ * constructor, and must be properly copied in the copy constructor and
+ * assignment operator.
+ *
+ *
+ * @subsubsection sdp-methods-attribs 2.4 Override virtual methods for attributes
+ *
+ * If the extended component is defined by the SBML Level&nbsp;3 package to
+ * have attributes, then the extended SBMLDocumentPlugin class definition
+ * needs to override the following internal methods that come from
+ * SBasePlugin (the base class of SBMLDocumentPlugin) and provide
+ * appropriate implementations:
+ *
+ * @li <code>addExpectedAttributes(ExpectedAttributes& attributes)</code>: This
+ * method should add the attributes that are expected to be found on this kind
+ * of extended component in an SBML file or data stream.
+ *
+ * @li <code>readAttributes(XMLAttributes attributes, ExpectedAttributes&
+ * expectedAttributes)</code>: This method should read the attributes
+ * expected to be found on this kind of extended component in an SBML file or
+ * data stream.
+ *
+ * @li <code>hasRequiredAttributes()</code>: This method should return @c true
+ * if all of the required attribute for this extended component are present on
+ * instance of the object.
+ *
+ * @li <code>writeAttributes(XMLOutputStream stream)</code>: This method should
+ * write out the attributes of an extended component.  The implementation should
+ * use the different kinds of <code>writeAttribute</code> methods defined by
+ * XMLOutputStream to achieve this.
+ *
+ *
+ * @subsubsection sdp-methods-elem 2.5 Override virtual methods for subcomponents
+ *
+ * If the extended component is defined by the Level&nbsp;3 package to have
+ * subcomponents (i.e., full XML elements rather than mere attributes),
+ * then the extended class definition needs to override the following
+ * internal methods on SBasePlugin (the base class of SBMLDocumentPlugin)
+ * and provide appropriate implementations:
+ *
+ * @li <code>createObject(XMLInputStream stream)</code>: Subclasses must
+ * override this method to create, store, and then return an SBML object
+ * corresponding to the next XMLToken in the XMLInputStream.  To do this,
+ * implementations can use methods like <code>peek()</code> on XMLInputStream to
+ * test if the next object in the stream is something expected for the package.
+ * For example, LayoutModelPlugin uses <code>peek()</code> to examine the next
+ * element in the input stream, then tests that element against the Layout
+ * namespace and the element name <code>\'listOfLayouts\'</code> to see if it\'s
+ * the single subcomponent (ListOfLayouts) permitted on a Model object using the
+ * Layout package.  If it is, it returns the appropriate object.
+ *
+ * @li <code>connectToParent(SBase sbase)</code>: This creates a parent-child
+ * relationship between a given extended component and its subcomponent(s).
+ *
+ * @li <code>setSBMLDocument(SBMLDocument d)</code>: This method should set the
+ * parent SBMLDocument object on the subcomponent object instances, so that the
+ * subcomponent instances know which SBMLDocument contains them.
+ *
+ * @li <code>enablePackageInternal(string& pkgURI, string& pkgPrefix,
+ * bool flag)</code>: This method should enable or disable the subcomponent
+ * based on whether a given XML namespace is active.
+ *
+ * @li <code>writeElements(XMLOutputStream stream)</code>: This method must be
+ * overridden to provide an implementation that will write out the expected
+ * subcomponents/subelements to the XML output stream.
+ *
+ * @li <code>readOtherXML(SBase parentObject, XMLInputStream stream)</code>:
+ * This function should be overridden if elements of annotation, notes, MathML
+ * content, etc., need to be directly parsed from the given XMLInputStream
+ * object.
+ *
+ * @li <code>hasRequiredElements()</code>: This method should return @c true if
+ * a given object contains all the required subcomponents defined by the
+ * specification for that SBML Level&nbsp;3 package.
+ *
+ *
+ * @subsubsection sdp-methods-xmlns 2.6 Override virtual methods for XML namespaces
+ *
+ * If the package needs to add additional <code>xmlns</code> attributes to
+ * declare additional XML namespace URIs, the extended class should
+ * override the following method coming from SBasePlugin (the parent class
+ * of SBMLDocumentPlugin):
+ *
+ * @li <code>writeXMLNS(XMLOutputStream stream)</code>: This method should
+ * write out any additional XML namespaces that might be needed by a package
+ * implementation.
+ *
+ *
+ * @subsubsection sdp-methods-hooks 2.7 Implement additional methods as needed
+ *
+ * Extended SBMLDocumentPlugin implementations can add whatever additional
+ * utility methods are useful for their implementation.
+ *
+ *
  */
 "
 
 
 %csmethodmodifiers SBMLDocumentPlugin::SBMLDocumentPlugin(const std::string &uri, const std::string &prefix, SBMLNamespaces *sbmlns) "
 /**
-   *  Constructor
+   * Creates a new SBMLDocumentPlugin object using the given parameters.
    *
-   * @param uri the URI of package 
-   * @param prefix the prefix for the given package
-   * @param sbmlns the SBMLNamespaces object for the package
+   * *
+ * 
+ * In the XML representation of an SBML document, XML namespaces are used to
+ * identify the origin of each XML construct used.  XML namespaces are
+ * identified by their unique resource identifiers (URIs).  The core SBML
+ * specifications stipulate the namespaces that must be used for core SBML
+ * constructs; for example, all XML elements that belong to SBML Level&nbsp;3
+ * Version&nbsp;1 Core must be placed in the XML namespace identified by the URI
+ * <code>\'http://www.sbml.org/sbml/level3/version1/core\'</code>.  Individual
+ * SBML Level&nbsp;3 packages define their own XML namespaces; for example,
+ * all elements belonging to the SBML Level&nbsp;3 %Layout Version&nbsp;1
+ * package must be placed in the XML namespace
+ * <code>\'http://www.sbml.org/sbml/level3/version1/layout/version1/\'</code>.
+ *
+ *
+   *
+   * *
+ * 
+ * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
+ * information.  It is used to communicate the SBML Level, Version, and (in
+ * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
+ * common approach to using libSBML\'s SBMLNamespaces facilities is to create an
+ * SBMLNamespaces object somewhere in a program once, then hand that object
+ * as needed to object constructors that accept SBMLNamespaces as arguments.
+ *
+ *
+   *
+   * @param uri the URI of the SBML Level&nbsp;3 package implemented by
+   * this libSBML package extension.
+   *
+   * @param prefix the XML namespace prefix being used for the package.
+   *
+   * @param sbmlns the SBMLNamespaces object for the package.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLDocumentPlugin::SBMLDocumentPlugin(const SBMLDocumentPlugin& orig) "
 /**
-   * Copy constructor. Creates a copy of this object.
+   * Copy constructor.
+   *
+   * This creates a copy of this object.
+   *
+   * @param orig the SBMLDocumentPlugin instance to copy.
    */ public
 ";
 
@@ -61834,41 +62682,123 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 
 %csmethodmodifiers SBMLDocumentPlugin::setRequired(bool value) "
 /**
+   * Sets the SBML \'required\' attribute value.
    *
-   * Sets the bool value of \'required\' attribute of corresponding package
-   * in SBMLDocument element.
+   * *
+ * 
+ * SBML Level&nbsp;3 requires that every package defines an attribute named
+ * \'required\' on the root <code>&lt;sbml&gt;</code> element in an SBML file
+ * or data stream.  The attribute, being in the namespace of the Level&nbsp;3
+ * package in question, must be prefixed by the XML namespace prefix
+ * associated with the package.  The value of the \'required\' attribute
+ * indicates whether constructs in that package may change the mathematical
+ * interpretation of constructs defined in SBML Level&nbsp;3 Core.  A
+ * \'required\' value of @c true indicates that the package may do so.  The
+ * value of the attribute is set by the Level&nbsp;3 package specification,
+ * and does @em not depend on the actual presence or absence of particular
+ * package constructs in a given SBML document: in other words, if the
+ * package specification defines any construct that can change the model\'s
+ * meaning, the value of the \'required\' attribute must always be set to @c
+ * true in any SBML document that uses the package.
+ *
+ * The XML namespace declaration for an SBML Level&nbsp;3 package is an
+ * indication that a model makes use of features defined by that package,
+ * while the \'required\' attribute indicates whether the features may be
+ * ignored without compromising the mathematical meaning of the model.  Both
+ * are necessary for a complete reference to an SBML Level&nbsp;3 package.
+ *
+ *
    *
-   * @param value the bool value of \'required\' attribute of corresponding 
-   * package in SBMLDocument element.
+   * @param value the value to be assigned to the \'required\' attribute.
+   * The \'required\' attribute takes a Boolean value, either @c true or
+   * @c false.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   *
+   * @see getRequired()
+   * @see isSetRequired()
+   * @see unsetRequired()
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLDocumentPlugin::getRequired() const "
 /**
+   * Returns the value of the \'required\' attribute.
    *
-   * Returns the bool value of \'required\' attribute of corresponding 
-   * package in SBMLDocument element.
+   * *
+ * 
+ * SBML Level&nbsp;3 requires that every package defines an attribute named
+ * \'required\' on the root <code>&lt;sbml&gt;</code> element in an SBML file
+ * or data stream.  The attribute, being in the namespace of the Level&nbsp;3
+ * package in question, must be prefixed by the XML namespace prefix
+ * associated with the package.  The value of the \'required\' attribute
+ * indicates whether constructs in that package may change the mathematical
+ * interpretation of constructs defined in SBML Level&nbsp;3 Core.  A
+ * \'required\' value of @c true indicates that the package may do so.  The
+ * value of the attribute is set by the Level&nbsp;3 package specification,
+ * and does @em not depend on the actual presence or absence of particular
+ * package constructs in a given SBML document: in other words, if the
+ * package specification defines any construct that can change the model\'s
+ * meaning, the value of the \'required\' attribute must always be set to @c
+ * true in any SBML document that uses the package.
+ *
+ * The XML namespace declaration for an SBML Level&nbsp;3 package is an
+ * indication that a model makes use of features defined by that package,
+ * while the \'required\' attribute indicates whether the features may be
+ * ignored without compromising the mathematical meaning of the model.  Both
+ * are necessary for a complete reference to an SBML Level&nbsp;3 package.
+ *
+ *
    *
-   * @return the bool value of \'required\' attribute of corresponding
-   * package in SBMLDocument element.
+   * @return the bool value of \'required\' attribute for the SBML package.
+   *
+   * @see setRequired(bool value)
+   * @see isSetRequired()
+   * @see unsetRequired()
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLDocumentPlugin::isSetRequired() const "
 /**
-   * Predicate returning @c true or @c false depending on whether this
-   * SBMLDocumentPlugin\'s \'required\' attribute has been set.
+   * Returns the value of the \'required\' attribute.
    *
-   * @return @c true if the \'required\' attribute of this SBMLDocument has been
-   * set, @c false otherwise.
+   * *
+ * 
+ * SBML Level&nbsp;3 requires that every package defines an attribute named
+ * \'required\' on the root <code>&lt;sbml&gt;</code> element in an SBML file
+ * or data stream.  The attribute, being in the namespace of the Level&nbsp;3
+ * package in question, must be prefixed by the XML namespace prefix
+ * associated with the package.  The value of the \'required\' attribute
+ * indicates whether constructs in that package may change the mathematical
+ * interpretation of constructs defined in SBML Level&nbsp;3 Core.  A
+ * \'required\' value of @c true indicates that the package may do so.  The
+ * value of the attribute is set by the Level&nbsp;3 package specification,
+ * and does @em not depend on the actual presence or absence of particular
+ * package constructs in a given SBML document: in other words, if the
+ * package specification defines any construct that can change the model\'s
+ * meaning, the value of the \'required\' attribute must always be set to @c
+ * true in any SBML document that uses the package.
+ *
+ * The XML namespace declaration for an SBML Level&nbsp;3 package is an
+ * indication that a model makes use of features defined by that package,
+ * while the \'required\' attribute indicates whether the features may be
+ * ignored without compromising the mathematical meaning of the model.  Both
+ * are necessary for a complete reference to an SBML Level&nbsp;3 package.
+ *
+ *
+   *
+   * @return @c true if the \'required\' attribute of this SBMLDocument
+   * has been set to @c true, @c false otherwise.
    */ public new
 ";
 
@@ -61877,12 +62807,14 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 /**
    * Unsets the value of the \'required\' attribute of this SBMLDocumentPlugin.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
 ";
 
@@ -61893,9 +62825,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 
 
 %csmethodmodifiers SBMLDocumentPlugin::checkConsistency "
-/**
-   * Check consistency function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -61906,375 +62836,380 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Core class for SBML Level 3 package plug-ins.
+@htmlinclude pkg-marker-core.html Base class for SBML Level 3 package plug-ins.
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * The SBMLExtension class is a component of the libSBML package extension
+ * mechanism.  It is an abstract class that is extended by each package
+ * extension implementation. @if clike The SBMLExtension class provides
+ * methods for managing common attributes of package extensions (e.g.,
+ * package name, package version), registration of instantiated
+ * SBasePluginCreator objects, and initialization/registration of package
+ * extensions when the library code for the package is loaded. @endif
+ *
+ * @if clike
+ * @section sbmlextension-howto How to extend SBMLExtension for a package implementation
+ * *
  * 
- * @ifnot clike @internal @endif
+ * Each package implementation must contain a class that extends
+ * SBMLExtension.  For example, the class <code>GroupsExtension</code> serves
+ * this purpose for the SBML Level&nbsp;3 @em Groups package extension in
+ * libSBML. The following subsections detail the basic steps involved in
+ * implementing such an extended class.
  *
- * SBMLExtension class (abstract class) is a core component of package extension
- * which needs to be extended by package developers. 
- * The class provides functions for getting common attributes of package extension 
- * (e.g., package name, package version, and etc.), functions for adding (registering) 
- * each instantiated SBasePluginCreator object, and a static function (defined in each 
- * SBMLExtension extended class) for initializing/registering the package extension 
- * when the library of the package is loaded.
+ * @subsection ext-getpackagename 1. Define the getPackageName() method
  *
- * @section howto How to implement an SBMLExtension extended class for each package extension
+ * Define a method named <code>getPackageName()</code> that returns the
+ * name of the package as a string.  The following is an example from the
+ * implementation of the Groups package extension:
+@code{.cpp}
+string GroupsExtension::getPackageName ()
+{
+      static string pkgName = \'groups\';
+      return pkgName;
+}
+@endcode
  *
- * Package developers must implement an SBMLExtension extended class for
- * their packages (e.g. GroupsExtension class is implemented for groups extension).
- * The extended class is implemented based on the following steps:
  *
- * (NOTE: 
- *   \'src/packages/groups/extension/GroupsExtension.{h,cpp}\' and
- *   \'src/packages/layout/extension/LayoutExtension.{h,cpp}\' are
- *   example files in which SBMLExtension derived classes are implemented)
+ * @subsection ext-version-methods 2. Define methods returning package version information
  *
- * <ol>
+ * Define a set of methods that return the default SBML Level, SBML
+ * Version and version of the package.  These methods must be named
+ * <code>getDefaultLevel()</code>, <code>getDefaultVersion()</code> and
+ * <code>getDefaultPackageVersion()</code>, respectively.  The following
+ * are examples drawn from the Groups package implementation:
+@code{.cpp}
+long GroupsExtension::getDefaultLevel()
+{
+      return 3;
+}
+long GroupsExtension::getDefaultVersion()
+{
+      return 1;
+}
+long GroupsExtension::getDefaultPackageVersion()
+{
+      return 1;
+}
+@endcode
  *
- * <li> Define the following static functions in the extended class:
- *      (examples of groups extension are shown respectively)
- *   <ol>
- *     <li> <p>A string of package name (label) (The function name must be \'getPackageName\'.)</p>
- *         
-@verbatim
-  string GroupsExtension::getPackageName ()
-  {
-	static string pkgName = \'groups\';
-	return pkgName;
-  }
-@endverbatim
- *     </li>
  *
- *     <li> <p>
- *        Methods returning an integer of Default SBML level, version, and package version
- *        (The method names must be \'getDefaultLevel()\', \'getDefaultVersion()\', and 
- *        \'getDefaultPackageVersion()\' respectively.)
- *        </p>
-@verbatim
-  long GroupsExtension::getDefaultLevel()
-  {
-	return 3;
-  }  
-  long GroupsExtension::getDefaultVersion()
-  {
-	return 1; 
-  }
-  long GroupsExtension::getDefaultPackageVersion()
-  {
-	return 1;
-  }  
-@endverbatim
- *     </li>
- *     <li> <p> Methods returning Strings that represent the URI of packages </p>
-@verbatim
-  string GroupsExtension::getXmlnsL3V1V1 ()
-  {
-	static string xmlns = \'http://www.sbml.org/sbml/level3/version1/groups/version1\';
-	return xmlns;
-  }
-@endverbatim 
- *     </li>
- *     <li> <p>Strings that represent the other URI needed in this package (if any) </p>
- *     </li>
- *   </ol> 
- * </li>
+ * @subsection ext-ns 3. Define methods returning the package namespace URIs
  *
- * <li> Override the following pure virtual functions
-      <ul>
-       <li> <code>virtual string getName () =0</code>. This function returns the name of the package (e.g., \'layout\', \'groups\'). </li>
-       <li> <code>virtual long getLevel (string uri) =0</code>. This function returns the SBML level with the given URI of this package. </li>
-       <li> <code>virtual long getVersion (string uri) =0</code>. This function returns the SBML version with the given URI of this package. </li>
-       <li> <code>virtual long getPackageVersion (string uri) =0</code>. This function returns the package version with the given URI of this package.</li>
-       <li> <code>virtual long getURI (long sbmlLevel, long sbmlVersion, long pkgVersion) =0</code>. 
-             This function returns the URI (namespace) of the package corresponding to the combination of the given sbml level, sbml version, and pacakege version</li>
-       <li> <code>virtual SBMLExtension clone () = 0</code>. This function creates and returns a deep copy of this derived object.</li>
-      </ul>
-      <p>For example, the above functions are overridden in the groups
-	package (\'src/packages/groups/extension/GroupsExtension.cpp\') as follows:</p>
-@verbatim
-string
-GroupsExtension::getName() const
+ * Define methods that return strings representing the XML namespace URI
+ * for the package.  One method should be defined for each SBML Level/Version
+ * combination for which the package can be used.  For instance, if a package
+ * is only usable in SBML Level&nbsp;3 Version&nbsp;1, and the libSBML
+ * extension for the package implements version&nbsp;1 of the package, the
+ * necessary method is <code>getXmlnsL3V1V1()</code>.  
+@code{.cpp}
+string GroupsExtension::getXmlnsL3V1V1 ()
+{
+      static string xmlns = \'http://www.sbml.org/sbml/level3/version1/groups/version1\';
+      return xmlns;
+}
+@endcode
+ *
+ * Define other similar methods to return additional namespace URIs if the
+ * package extension implements other package versions or supports other SBML
+ * Level/Version combinations.
+ *
+ *
+ * @subsection ext-virtual 4. Override basic pure virtual methods
+ *
+ * Override the following pure virtual methods on SBMLExtension:
+ *
+ * @li <code>virtual string getName() =0</code>. This
+ * method returns the nickname of the package (e.g., \'layout\',
+ * \'groups\').
+ *
+ * @li <code>virtual long getLevel(string uri) const
+ * =0</code>. This method returns the SBML Level with the given URI of
+ * this package.
+ *
+ * @li <code>virtual long getVersion(string uri)
+ * =0</code>. This method returns the SBML Version with the given
+ * URI of this package.
+ *
+ * @li <code>virtual long getPackageVersion(string
+ * &uri) =0</code>. This method returns the package version with
+ * the given URI of this package.
+ *
+ * @li <code>virtual long getURI(long sbmlLevel,
+ * long sbmlVersion, long pkgVersion) =0</code>.
+ * This method returns the URI (namespace) of the package corresponding
+ * to the combination of the given SBML Level, SBML Version, and package
+ * version
+ *
+ * @li <code>virtual SBMLExtension clone() = 0</code>. This
+ * method creates and returns a deep copy of this derived object.
+ *
+ * As an example, the following are the versions of these methods for
+ * the Groups package:
+ * @code{.cpp}
+string GroupsExtension::getName() const
 {
   return getPackageName();
 }
 
-long 
-GroupsExtension::getLevel(string uri) const
+long GroupsExtension::getLevel(string uri) const
 {
   if (uri == getXmlnsL3V1V1())
-  {
     return 3;
-  }
-  
-  return 0;
+  else
+    return 0;
 }
 
-long 
-GroupsExtension::getVersion(string uri) const
+long GroupsExtension::getVersion(string uri) const
 {
   if (uri == getXmlnsL3V1V1())
-  {
     return 1;
-  }
-
-  return 0;
+  else
+    return 0;
 }
 
-long
-GroupsExtension::getPackageVersion(string uri) const
+long GroupsExtension::getPackageVersion(string uri) const
 {
   if (uri == getXmlnsL3V1V1())
-  {
     return 1;
-  }
-
-  return 0;
+  else
+    return 0;
 }
 
-string 
-GroupsExtension::getURI(long sbmlLevel, long sbmlVersion, long pkgVersion) const
+string GroupsExtension::getURI(long sbmlLevel,
+                                           long sbmlVersion,
+                                           long pkgVersion) const
 {
-  if (sbmlLevel == 3)
-  {
-    if (sbmlVersion == 1)
-    {
-      if (pkgVersion == 1)
-      {
-        return getXmlnsL3V1V1();
-      }
-    }
-  }
+  if (sbmlLevel == 3 && sbmlVersion == 1 && pkgVersion == 1)
+    return getXmlnsL3V1V1();
 
   static string empty = \'\';
-
   return empty;
 }
 
-GroupsExtension* 
-GroupsExtension::clone () const
+GroupsExtension* GroupsExtension::clone() const
 {
-  return new GroupsExtension(*this);  
+  return new GroupsExtension(*this);
 }
-@endverbatim
+@endcode
  *
- * Constructor, copy Constructor, and destructor also must be overridden
- * if additional data members are defined in the derived class.
+ * Constructor, copy constructor, and destructor methods also must be
+ * overridden if additional data members are defined in the derived class.
  *
+ *
+ * @subsection ext-typedef 5. Create SBMLExtensionNamespaces-related definitions
+ *
+ * Define typedef and template instantiation code for a package-specific
+ * subclass of the SBMLExtensionNamespaces template class.  The
+ * SBMLExtensionNamespaces template class is a derived class of
+ * SBMLNamespaces and can be used as an argument of constructors of
+ * SBase-derived classes defined in the package extensions.
+ *
+ * <ol>
+ *
+ * <li> Define a typedef.  For example, the typedef for
+ * <code>GroupsExtension</code> is implemented in the file
+ * <code>GroupsExtension.h</code> as follows:
+@code{.cpp}
+// GroupsPkgNamespaces is derived from the SBMLNamespaces class.
+// It is used when creating a Groups package object of a class
+// derived from SBase.
+typedef SBMLExtensionNamespaces<GroupsExtension> GroupsPkgNamespaces;
+@endcode
  * </li>
  *
- * <li> <p>
- *  Define typedef and template instantiation code for the package specific SBMLExtensionNamespaces template class
- *  </p>
+ * <li> Define a template instantiation for the typedef.  For example, the
+ * template instantiation code for <code>GroupsExtension is</code> implemented
+ * in the file <code>GroupsExtension.cpp</code> as follows:
+@code{.cpp}
+template class LIBSBML_EXTERN SBMLExtensionNamespaces<GroupsExtension>;
+@endcode
+ * </li>
  *
- *   <ol>
- *     <li> typedef for the package specific SBMLExtensionNamespaces template class
- *       <p> For example, the typedef for GroupsExtension (defined in the groups package) is implemented in GroupsExtension.h as follows:</p>
-@verbatim
-  // GroupsPkgNamespaces is derived from the SBMLNamespaces class and used when creating an object of 
-  // SBase derived classes defined in groups package.
-  typedef SBMLExtensionNamespaces<GroupsExtension> GroupsPkgNamespaces;
-@endverbatim
- *     </li>
+ * </ol>
  *
- *     <li> template instantiation code for the above typedef definition in the implementation file (i.e., *.cpp file).
- *       <p> For example, the template instantiation code for GroupsExtension is implemented in GroupsExtension.cpp 
- *           as follows:
- *       </p>
+ * Here is example of how the resulting class is used.  The definitions above
+ * allow a <code>GroupsPkgNamespaces</code> object to be used when creating a
+ * new <code>Group</code> object.  The <code>GroupsPkgNamespaces</code> is
+ * handed to the constructor as an argument, as shown below:
+@code{.cpp}
+GroupPkgNamespaces gpns(3, 1, 1);  // SBML Level, Version, & pkg version.
+Group g = new Group(&gpns);        // Creates a Group object.
+@endcode
  *
-@verbatim
-  // Instantiate SBMLExtensionNamespaces<GroupsExtension> (GroupsPkgNamespaces) for DLL.
-  template class LIBSBML_EXTERN SBMLExtensionNamespaces<GroupsExtension>;
-@endverbatim
- *
- *     </li>
- *  </ol>
- *
- *  <p> The SBMLExtensionNamespaces template class is a derived class of
- *      SBMLNamespaces and can be used as an argument of constructors 
- *      of SBase derived classes defined in the package extensions.
- *      For example, a GroupsPkgNamespaces object can be used when creating a group 
- *      object as follows:
- *  </P>
-@verbatim
-   GroupPkgNamespaces gpns(3,1,1);  // The arguments are SBML Level, SBML Version, and Groups Package Version.
-
-   Group g = new Group(&gpns);      // Creates a group object of L3V1 Groups V1.
-@endverbatim
- *
- *   <p>
- *     Also, the GroupsPkgNamespaces object can be used when creating an
- *     SBMLDocument object with the groups package as follows:
- *   </p>
- *
-@verbatim
-   GroupsPkgNamespaces gpns(3,1,1);
+ * The <code>GroupsPkgNamespaces</code> object can also be used when creating
+ * an SBMLDocument object with the Groups package.  The code fragment
+ * below shows an example of this:
+@code{.cpp}
+   GroupsPkgNamespaces gpns(3, 1, 1);
    SBMLDocument doc;
-
-   doc  = new SBMLDocument(&gnps); // Creates an SBMLDocument of L3V1 with Groups V1.
-@endverbatim
+   doc  = new SBMLDocument(&gnps);
+@endcode
  *
- * </li>
  *
- * <li> Override the following pure virtual function which returns the SBMLNamespaces derived object 
-@verbatim
-       virtual SBMLNamespaces getSBMLExtensionNamespaces (string uri) =0
-@endverbatim
- *    <p> For example, the function is overridden in GroupsExtension
- class as follows:</p>
-@verbatim
+ * @subsection ext-virtual-ns 6. Override the method getSBMLExtensionNamespaces()
+ *
+ * Override the pure virtual method <code>getSBMLExtensionNamespaces()</code>,
+ * which returns an SBMLNamespaces derived object.  For example, the method
+ * is overridden in the class <code>GroupsExtension</code> as follows:
+@code{.cpp}
 SBMLNamespaces
 GroupsExtension::getSBMLExtensionNamespaces(string uri) const
 {
   GroupsPkgNamespaces* pkgns = null;
   if ( uri == getXmlnsL3V1V1())
   {
-    pkgns = new GroupsPkgNamespaces(3,1,1);    
-  }  
+    pkgns = new GroupsPkgNamespaces(3, 1, 1);
+  }
   return pkgns;
 }
-@endverbatim
-   </li>
- *  
- *
- *  <li> Define an enum type for representing the typecode of elements (SBase extended classes) defined in the package extension
- *
- *   <p>  For example, SBMLGroupsTypeCode_t for groups package is
- *  defined in GroupsExtension.h as follows: </p>
-@verbatim
-      typedef enum
-      {
-         SBML_GROUPS_GROUP  = 200
-       , SBML_GROUPS_MEMBER = 201
-      } SBMLGroupsTypeCode_t;
-@endverbatim    
- *
- *  <p> <em>SBML_GROUPS_GROUP</em> corresponds to the Group class (&lt;group&gt;)
- * and <em>SBML_GROUPS_MEMBER</em> corresponds to the Member (&lt;member&gt;) class, respectively.
+@endcode
  *
  *
- *  <p> Similarly, SBMLLayoutTypeCode_t 
- *   for layout package is defined in LayoutExtension.h as follows: </p>
+ * @subsection ext-enum 7. Define an enumeration for the package object type codes
  *
-@verbatim  
-      typedef enum
-      {
-         SBML_LAYOUT_BOUNDINGBOX           = 100
-       , SBML_LAYOUT_COMPARTMENTGLYPH      = 101
-       , SBML_LAYOUT_CUBICBEZIER           = 102
-       , SBML_LAYOUT_CURVE                 = 103
-       , SBML_LAYOUT_DIMENSIONS            = 104
-       , SBML_LAYOUT_GRAPHICALOBJECT       = 105
-       , SBML_LAYOUT_LAYOUT                = 106   
-       , SBML_LAYOUT_LINESEGMENT           = 107   
-       , SBML_LAYOUT_POINT                 = 108    
-       , SBML_LAYOUT_REACTIONGLYPH         = 109    
-       , SBML_LAYOUT_SPECIESGLYPH          = 110    
-       , SBML_LAYOUT_SPECIESREFERENCEGLYPH = 111
-       , SBML_LAYOUT_TEXTGLYPH             = 112
-      } SBMLLayoutTypeCode_t;
-@endverbatim
+ * Define an enum type for representing the type code of the objects defined
+ * in the package extension.  For example, the enumeration
+ * <code>SBMLGroupsTypeCode_t</code> for the Groups package is defined in
+ * <code>GroupsExtension.h</code> as follows:
+@code{.cpp}
+typedef enum
+{
+   SBML_GROUPS_GROUP  = 200
+ , SBML_GROUPS_MEMBER = 201
+} SBMLGroupsTypeCode_t;
+@endcode
  *
- *  <p>
- *   These enum values are returned by corresponding getTypeCode() functions.
- *   (e.g. SBML_GROUPS_GROUP is returned in Group::getTypeCode())
- *  </p>
+ * In the enumeration above, <code>SBML_GROUPS_GROUP</code> corresponds to
+ * the <code>Group</code> class (for the <code>&lt;group&gt;</code> element
+ * defined by the SBML Level&nbsp;3 Groups package) and
+ * <code>SBML_GROUPS_MEMBER</code> corresponds to the <code>Member</code>
+ * class (for the <code>&lt;member&gt;</code> element defined by the
+ * Level&nbsp;3 Groups package), respectively.
  *
- *  <p>
- *   The value of each typecode can be duplicated between those of different 
- *   packages (In the above SBMLLayoutTypeCode_t and SBMLGroupsTypeCode_t types, 
- *   unique values are assigned to enum values, but this is not mandatory.)
- *  </p>
+ * Similarly, #SBMLLayoutTypeCode_t for the Layout package is defined in
+ * the file <code>LayoutExtension.h</code> as follows:
  *
- *  <p>
- *   Thus, to distinguish the typecodes of different packages, not only the return
- *   value of getTypeCode() function but also that of getPackageName()
- *   function should be checked as follows:
- *  </p>
-@verbatim
-          void example (SBase sb)
-          {
-            string pkgName = sb->getPackageName();
-            if (pkgName == \'core\') {
-              switch (sb->getTypeCode()) {
-                case SBML_MODEL:
-                   ....
-                   break;
-                case SBML_REACTION:
-                   ....
-              }
-            } 
-            else if (pkgName == \'layout\') {
-              switch (sb->getTypeCode()) {
-                case SBML_LAYOUT_LAYOUT:
-                   ....
-                   break;
-                case SBML_LAYOUT_REACTIONGLYPH:
-                   ....
-              }
-            } 
-            else if (pkgName == \'groups\') {
-              switch (sb->getTypeCode()) {
-                case SBML_GROUPS_GROUP:
-                   ....
-                   break;
-                case SBML_GROUPS_MEMBER:
-                   ....
-              }
-            }
-            ...
-          } 
-@endverbatim
+@code{.cpp}
+typedef enum
+{
+   SBML_LAYOUT_BOUNDINGBOX           = 100
+ , SBML_LAYOUT_COMPARTMENTGLYPH      = 101
+ , SBML_LAYOUT_CUBICBEZIER           = 102
+ , SBML_LAYOUT_CURVE                 = 103
+ , SBML_LAYOUT_DIMENSIONS            = 104
+ , SBML_LAYOUT_GRAPHICALOBJECT       = 105
+ , SBML_LAYOUT_LAYOUT                = 106
+ , SBML_LAYOUT_LINESEGMENT           = 107
+ , SBML_LAYOUT_POINT                 = 108
+ , SBML_LAYOUT_REACTIONGLYPH         = 109
+ , SBML_LAYOUT_SPECIESGLYPH          = 110
+ , SBML_LAYOUT_SPECIESREFERENCEGLYPH = 111
+ , SBML_LAYOUT_TEXTGLYPH             = 112
+} SBMLLayoutTypeCode_t;
+@endcode
  *
- *  </li>
- *  <li> Override the following pure virtual function which returns a string corresponding to the given typecode:
- *  
-@verbatim  
-       virtual string SBMLExtension::getStringFromTypeCode(int typeCode) const;
-@endverbatim 
+ * These enum values are returned by corresponding <code>getTypeCode()</code>
+ * methods.  (E.g., <code>SBML_GROUPS_GROUP</code> is returned in
+ * <code>Group::getTypeCode()</code>.)
  *
- *   <p> For example, the function for groups extension is implemented as follows: </p>
-@verbatim  
-static
-string SBML_GROUPS_TYPECODE_STRINGS[] =
+ * Note that libSBML does not require that type codes are unique across all
+ * packages&mdash;the same type codes may be used within individual package
+ * extensions.  LibSBML development must permit this because package
+ * implementations are developed by separate groups at different times;
+ * coordinating the type codes used is impractical.  It does mean that
+ * callers must check two things when identifying objects: to distinguish the
+ * type codes of different packages, callers much check not only the return
+ * value of the method <code>getTypeCode()</code> method but also that of the
+ * method <code>getPackageName()</code>.  Here is an example of doing that:
+@code{.cpp}
+void example (SBase sb)
+{
+  string pkgName = sb->getPackageName();
+  if (pkgName == \'core\') {
+    switch (sb->getTypeCode()) {
+      case SBML_MODEL:
+         ....
+         break;
+      case SBML_REACTION:
+         ....
+    }
+  }
+  else if (pkgName == \'layout\') {
+    switch (sb->getTypeCode()) {
+      case SBML_LAYOUT_LAYOUT:
+         ....
+         break;
+      case SBML_LAYOUT_REACTIONGLYPH:
+         ....
+    }
+  }
+  else if (pkgName == \'groups\') {
+    switch (sb->getTypeCode()) {
+      case SBML_GROUPS_GROUP:
+         ....
+         break;
+      case SBML_GROUPS_MEMBER:
+         ....
+    }
+  }
+  ...
+}
+@endcode
+ *
+ * Readers may have noticed that in the #SBMLLayoutTypeCode_t and
+ * <code>SBMLGroupsTypeCode_t</code> enumerations above, unique values
+ * are in fact assigned to the enumeration values.  This can be convenient
+ * when it can be arranged, but it is not required by libSBML.
+ *
+ *
+ * @subsection ext-virtual-typecodes 8. Override the method getStringFromTypeCode()
+ *
+ * Override the pure virtual method <code>getStringFromTypeCode()</code>,
+ * which returns a string corresponding to the given type code.  Here is an
+ * example, again drawn from the implementation of the Groups package:
+@code{.cpp}
+virtual string SBMLExtension::(int typeCode) const;
+@endcode
+ *
+ * For example, the method for the Groups extension is implemented as
+ * shown below:
+@code{.cpp}
+static string SBML_GROUPS_TYPECODE_STRINGS[] =
 {
     \'Group\'
   , \'Member\'
 };
 
-string 
-GroupsExtension::getStringFromTypeCode(int typeCode) const
+string GroupsExtension::getStringFromTypeCode(int typeCode) const
 {
   int min = SBML_GROUPS_GROUP;
   int max = SBML_GROUPS_MEMBER;
 
-  if ( typeCode < min || typeCode > max)
+  if (typeCode < min || typeCode > max)
   {
-    return \'(Unknown SBML Groups Type)\';  
+    return \'(Unknown SBML Groups Type)\';
   }
 
   return SBML_GROUPS_TYPECODE_STRINGS[typeCode - min];
 }
-@endverbatim 
+@endcode
  *
- *  </li>
  *
- * <li> Implements a \'static void init()\' function in the derived class
+ * @subsection ext-init 9. Implement an init() method
  *
- * <p> In the init() function, initialization code which creates an instance of 
- *     the derived class and registering code which registers the instance to 
- *     SBMLExtensionRegistry class are implemented.
- * </p>
- * 
- * For example, the init() function for groups package is implemented as follows: 
-@verbatim
-void 
-GroupsExtension::init()
+ * Implement a <code>static void init()</code> method in the derived class.
+ * This method serves to encapsulate initialization code that creates an
+ * instance of the derived class and registration code that registers the
+ * instance with the SBMLExtensionRegistry class.
+ *
+ * For example, the <code>init()</code> method for the Groups package is
+ * implemented as follows:
+@code{.cpp}
+void GroupsExtension::init()
 {
-  //-------------------------------------------------------------------------
-  //
-  // 1. Checks if the groups package has already been registered.
-  //
-  //-------------------------------------------------------------------------
+  // 1. Check if the Groups package has already been registered.
 
   if ( SBMLExtensionRegistry::getInstance().isRegistered(getPackageName()) )
   {
@@ -62282,90 +63217,174 @@ GroupsExtension::init()
     return;
   }
 
-  //-------------------------------------------------------------------------
-  //
-  // 2. Creates an SBMLExtension derived object.
-  //
-  //-------------------------------------------------------------------------
+  // 2. Create an SBMLExtension derived object.
 
-  GroupsExtension groupsExtension;
+  GroupsExtension gext;
 
-  //-------------------------------------------------------------------------------------
+  // 3. Create SBasePluginCreator-derived objects. The derived classes
+  // can be instantiated by using the following template class:
   //
-  // 3. Creates SBasePluginCreatorBase derived objects required for this 
-  //    extension. The derived classes can be instantiated by using the following 
-  //     template class.
+  //   template<class SBasePluginType> class SBasePluginCreator
   //
-  //    temaplate<class SBasePluginType> class SBasePluginCreator
+  // The constructor of the creator class takes two arguments:
   //
-  //    The constructor of the creator class has two arguments:
+  // 1) SBaseExtensionPoint: extension point to which the plugin connects
+  // 2) std::vector<string>: a vector that contains a list of URI
+  // (package versions) supported by the plugin object.
   //
-  //        (1) SBaseExtensionPoint : extension point to which the plugin object connected
-  //        (2) std::vector<string> : a std::vector object that contains a list of URI
-  //                                       (package versions) supported by the plugin object.
-  //
-  //    For example, two plugin objects (plugged in SBMLDocument and Model elements) are 
-  //    required for the groups extension.
-  //
-  //    Since only \'required\' attribute is used in SBMLDocument by the groups package, and
-  //    the \'required\' flag must always be \'false\', the existing
-  //    SBMLDocumentPluginNotRequired class can be used as-is for the plugin.
-  //
-  //    Since the lists of supported package versions (currently only L3V1-groups-V1 supported )
-  //    are equal in the both plugin objects, the same vector object is given to each 
-  //    constructor.
-  //
-  //---------------------------------------------------------------------------------------
+  // For example, two plugin objects are required as part of the Groups
+  // implementation: one plugged into SBMLDocument and one into Model.
+  // For the former, since the specification for the SBML Groups package
+  // mandates that the \'required\' flag is always \'false\', the existing
+  // SBMLDocumentPluginNotRequired class can be used as-is as part of
+  // the implementation.  For Model, since the lists of supported
+  // package versions (currently only SBML L3V1 Groups V1) are equal
+  // in the both plugin objects, the same vector can be handed to each
+  // constructor.
 
-  std::vector<string> packageURIs;
-  packageURIs.push_back(getXmlnsL3V1V1());
+  std::vector<string> pkgURIs;
+  pkgURIs.push_back(getXmlnsL3V1V1());
 
-  SBaseExtensionPoint sbmldocExtPoint(\'core\',SBML_DOCUMENT);
-  SBaseExtensionPoint modelExtPoint(\'core\',SBML_MODEL);
+  SBaseExtensionPoint docExtPoint(\'core\', SBML_DOCUMENT);
+  SBaseExtensionPoint modelExtPoint(\'core\', SBML_MODEL);
 
-  SBasePluginCreator<SBMLDocumentPluginNotRequired, GroupsExtension> sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
-  SBasePluginCreator<GroupsModelPlugin,   GroupsExtension> modelPluginCreator(modelExtPoint,packageURIs);
+  SBasePluginCreator<GroupsSBMLDocumentPlugin, GroupsExtension> docPluginCreator(docExtPoint, pkgURIs);
+  SBasePluginCreator<GroupsModelPlugin, GroupsExtension> modelPluginCreator(modelExtPoint, pkgURIs);
 
-  //--------------------------------------------------------------------------------------
-  //
-  // 3. Adds the above SBasePluginCreatorBase derived objects to the SBMLExtension derived object.
-  //
-  //--------------------------------------------------------------------------------------
+  // 4. Add the above objects to the SBMLExtension-derived object.
 
-  groupsExtension.addSBasePluginCreator(&sbmldocPluginCreator);
-  groupsExtension.addSBasePluginCreator(&modelPluginCreator);
+  gext.addSBasePluginCreator(&docPluginCreator);
+  gext.addSBasePluginCreator(&modelPluginCreator);
 
-  //-------------------------------------------------------------------------
-  //
-  // 4. Registers the SBMLExtension derived object to SBMLExtensionRegistry
-  //
-  //-------------------------------------------------------------------------
+  // 5. Register the SBMLExtension-derived object with the extension
+  // registry, SBMLExtensionRegistry.
 
-  int result = SBMLExtensionRegistry::getInstance().addExtension(&groupsExtension);
-
+  int result = SBMLExtensionRegistry::getInstance().addExtension(&gext);
   if (result != LIBSBML_OPERATION_SUCCESS)
   {
     std::cerr << \'[Error] GroupsExtension::init() failed.\' << std::endl;
   }
 }
-@endverbatim
- *    </p> 
- * </li>
- *
- * <li> Instantiate a global SBMLExtensionRegister variable in appropriate 
- *      implementation file
- *       
- * <p> For example, the global variable for the groups extension is instantiated in GroupsExtension.cpp as follows: </p>
-@verbatim
-  static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegister;
-@endverbatim
- *    The init() function is invoked when the global variable is instantiated,
- *    by which initialization and registering the package extension are performed.
- * </li>
+@endcode
  *
  *
- * </ol>
+ * @subsection ext-extensionregister 10. Instantiate a SBMLExtensionRegister variable
+ *
+ * Instantiate a global SBMLExtensionRegister object using the
+ * class derived from SBMLExtension (discussed above).  Here is an example for
+ * the Groups package extension, for the object <code>GroupsExtension</code>.
+ * This could is placed in the <code>GroupsExtension.cpp</code>:
+@code{.cpp}
+static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegister;
+@endcode
+ *
+ * The <code>init()</code> method on <code>GroupsExtension</code> is
+ * automatically invoked when the \'register\' object is instantiated.  This
+ * results in initialization and registration of the package extension
+ * with libSBML.
+ *
+ *
+ * @endif
+ *
+ * @section sbmlextension-l2-special Special handling for SBML Level&nbsp;2
+ * *
  * 
+ * Due to the historical background of the SBML %Layout package, libSBML
+ * implements special behavior for that package: it @em always creates a
+ * %Layout plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses %Layout constructs.  This
+ * is unlike the case for SBML Level&nbsp;3 documents that use %Layout; for
+ * them, libSBML will @em not create a plugin object unless the document
+ * actually declares the use of the %Layout package (via the usual Level&nbsp;3
+ * namespace declaration for Level&nbsp;3 packages).
+ *
+ * This has the following consequence.  If an application queries for the
+ * presence of %Layout in an SBML Level&nbsp;2 document by testing only for
+ * the existence of the plugin object, <strong>it will always get a positive
+ * result</strong>; in other words, the presence of a %Layout extension
+ * object is not an indication of whether a read-in Level&nbsp;2 document
+ * does or does not use SBML %Layout.  Instead, callers have to query
+ * explicitly for the existence of layout information.  An example of such a
+ * query is the following code:
+ * @if cpp
+@code{.cpp}
+// Assume \'m\' below is a Model object.
+LayoutModelPlugin* lmp = static_cast<LayoutModelPlugin*>(m->getPlugin(\'layout\'));
+if (lmp != null)
+{
+  long numLayouts = lmp->getNumLayouts();
+  // If numLayouts is greater than zero, then the model uses Layout.
+}
+@endcode
+@endif
+@if python
+@code{.py}
+# Assume \'doc\' below is an SBMLDocument object.
+m = doc.getModel()
+if m != None:
+    layoutPlugin = m.getPlugin(\'layout\')
+    if layoutPlugin != None:
+        numLayouts = layoutPlugin.getNumLayouts()
+        # If numLayouts is greater than zero, then the model uses Layout.
+@endcode
+@endif
+@if java
+@code{.java}
+// Assume \'doc\' below is an SBMLDocument object.
+Model m = doc.getModel();
+LayoutModelPlugin lmp = (LayoutModelPlugin) m.getPlugin(\'layout\');
+if (lmp != null)
+{
+  int numLayouts = lmp.getNumLayouts();
+  // If numLayouts is greater than zero, then the model uses Layout.
+}
+@endcode
+@endif
+@if csharp
+@code{.cs}
+// Assume \'doc\' below is an SBMLDocument object.
+Model m = doc.getModel();
+LayoutModelPlugin lmp = (LayoutModelPlugin) m.getPlugin(\'layout\');
+if (lmp != null)
+{
+  int numLayouts = lmp.getNumLayouts();
+  // If numLayouts is greater than zero, then the model uses Layout.
+}
+@endcode
+@endif
+ *
+ * The special, always-available Level&nbsp;2 %Layout behavior was motivated
+ * by a desire to support legacy applications.  In SBML Level&nbsp;3, the
+ * %Layout package uses the normal SBML Level&nbsp;3 scheme of requiring
+ * declarations on the SBML document element.  This means that upon reading a
+ * model, libSBML knows right away whether it contains layout information.
+ * In SBML Level&nbsp;2, there is no top-level declaration because layout is
+ * stored as annotations in the body of the model.  Detecting the presence of
+ * layout information when reading a Level&nbsp;2 model requires parsing the
+ * annotations.  For efficiency reasons, libSBML normally does not parse
+ * annotations automatically when reading a model.  However, applications
+ * that predated the introduction of Level&nbsp;3 %Layout and the updated
+ * version of libSBML never had to do anything special to enable parsing
+ * layout; the facilities were always available for every Level&nbsp;2 model
+ * as long as libSBML was compiled with %Layout support.  To avoid burdening
+ * developers of legacy applications with the need to modify their software,
+ * libSBML provides backward compatibility by always preloading the %Layout
+ * package extension when reading Level&nbsp;2 models.  The same applies to
+ * the creation of Level&nbsp;2 models: with the plugin-oriented libSBML,
+ * applications normally would have to take deliberate steps to activate
+ * package code, instantiate objects, manage namespaces, and so on.  LibSBML
+ * again loads the %Layout package plugin automatically when creating a
+ * Level&nbsp;2 model, thereby making the APIs available to legacy
+ * applications without further work on their part.
+ *
+ * @if clike
+ * The mechanisms for triggering this Level&nbsp;2-specific behavior
+ * involves a set of virtual methods on the SBMLExtension class that must
+ * be implemented by individual package extensions.  These methods are
+ * SBMLExtension::addL2Namespaces(),
+ * SBMLExtension::removeL2Namespaces(), and
+ * SBMLExtension::enableL2NamespaceForDocument().
+ * @endif
  */
 "
 
@@ -62377,28 +63396,33 @@ GroupsExtension::init()
 ";
 
 
-%csmethodmodifiers SBMLExtension::SBMLExtension(const SBMLExtension&) "
+%csmethodmodifiers SBMLExtension::SBMLExtension(const SBMLExtension& orig) "
 /**
    * Copy constructor.
+   *
+   * This creates a copy of an SBMLExtension object.
+   *
+   * @param orig The SBMLExtension object to copy.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtension::getNumOfSBasePlugins() const "
 /**
-   * Returns the number of SBasePlugin objects stored in this object.
+   * Returns the number of SBasePluginCreatorBase objects stored in this
+   * object.
    *
-   * @return the number of SBasePlugin objects stored in this object.
+   * @return the total number of SBasePluginCreatorBase objects stored in
+   * this SBMLExtension-derived object.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtension::getNumOfSupportedPackageURI() const "
 /**
-   * Returns the number of supported package Namespace (package versions) of this 
-   * package extension.
+   * Returns the number of supported package namespace URIs.
    *
-   * @return the number of supported package Namespace (package versions) of this 
+   * @return the number of supported package XML namespace URIs of this
    * package extension.
    */ public
 ";
@@ -62406,198 +63430,380 @@ GroupsExtension::init()
 
 %csmethodmodifiers SBMLExtension::isSupported(const std::string& uri) const "
 /**
-   * Returns a flag indicating, whether the given URI (package version) is 
-   * supported by this package extension.
+   * Returns @c true if the given XML namespace URI is supported by this
+   * package extension.
    *
-   * @return true if the given URI (package version) is supported by this 
-   * package extension, otherwise false is returned.
+   * @return @c true if the given XML namespace URI (equivalent to a package
+   * version) is supported by this package extension, @c false otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtension::getSupportedPackageURI "
 /**
+   * Returns the nth XML namespace URI.
    *
-   * Returns the ith URI (the supported package version)
-   *
-   * @param i the index of the list of URI (the list of supporeted package versions)
-   * @return the URI of supported package version with the given index.
+   * @param n the index number of the namespace URI being sought.
+
+   * @return a string representing the XML namespace URI understood to be
+   * supported by this package.  An empty string will be returned if there is
+   * no nth URI.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtension::clone() const "
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
-   *
    * Creates and returns a deep copy of this SBMLExtension object.
    *
-   * @return a (deep) copy of this SBase object
+   * @return a (deep) copy of this SBMLExtension object.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::getName() const "
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the nickname of this package.
    *
-   * Returns the name of this package (e.g. \'layout\', \'multi\').
+   * This returns the short-form name of an SBML Level&nbsp;3 package
+   * implemented by a given SBMLExtension-derived class.  Examples of
+   * such names are \'layout\', \'fbc\', etc.
    *
-   * @return the name of package extension
+   * @return a string, the nickname of SBML package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::getURI "
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the XML namespace URI for a given Level and Version.
    *
-   * Returns the uri corresponding to the given SBML level, SBML version, and package version.
+   * @param sbmlLevel the SBML Level.
+   * @param sbmlVersion the SBML Version.
+   * @param pkgVersion the version of the package.
    *
-   * @param sbmlLevel the level of SBML
-   * @param sbmlVersion the version of SBML
-   * @param pkgVersion the version of package
+   * @return a string, the XML namespace URI for the package for the given
+   * SBML Level, SBML Version, and package version.
    *
-   * @return a string of the package URI
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::getLevel(const std::string &uri) const "
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the SBML Level associated with the given XML namespace URI.
    *
-   * Returns the SBML level associated with the given URI of this package.
+   * @param uri the string of URI that represents a version of the package.
    *
-   * @param uri the string of URI that represents a versions of the package
-   * @return the SBML level associated with the given URI of this package.
+   * @return the SBML Level associated with the given URI of this package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::getVersion(const std::string &uri) const "
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the SBML Version associated with the given XML namespace URI.
    *
-   * Returns the SBML version associated with the given URI of this package.
+   * @param uri the string of URI that represents a version of the package.
    *
-   * @param uri the string of URI that represents a versions of the package
-   * @return the SBML version associated with the given URI of this package.
+   * @return the SBML Version associated with the given URI of this package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::getPackageVersion(const std::string &uri) const "
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the package version associated with the given XML namespace URI.
    *
-   * Returns the package version associated with the given URI of this package.
+   * @param uri the string of URI that represents a version of this package.
    *
-   * @param uri the string of URI that represents a versions of this package
    * @return the package version associated with the given URI of this package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::getStringFromTypeCode(int typeCode) const "
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns a string representation of a type code.
    *
-   * This method takes a type code of this package and returns a string 
-   * representing the code.
+   * This method takes a numerical type code @p typeCode for a component
+   * object implemented by this package extension, and returns a string
+   * representing that type code.
+   *
+   * @param typeCode the type code to turn into a string.
+   *
+   * @return the string representation of @p typeCode.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::getSBMLExtensionNamespaces(const std::string &uri) const "
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function in 
-   *           their derived class.
+   * Returns a specialized SBMLNamespaces object corresponding to a given
+   * namespace URI.
    *
-   * Returns an SBMLExtensionNamespaces<class SBMLExtensionType> object 
-   * (e.g. SBMLExtensionNamespaces<LayoutExtension> whose alias type is 
-   * LayoutPkgNamespaces) corresponding to the given uri.
-   * Null will be returned if the given uri is not defined in the corresponding 
-   * package.
+   * LibSBML package extensions each define a subclass of
+   * @if clike SBMLExtensionNamespaces @else SBMLNamespaces@endif.
+   * @if clike This object has the form
+   * @verbatim
+SBMLExtensionNamespaces<class SBMLExtensionType>
+@endverbatim
+   * For example, this kind of object for the Layout package is
+   * @verbatim
+SBMLExtensionNamespaces<LayoutExtension>
+@endverbatim
+@endif
+   * The present method returns the appropriate object corresponding
+   * to the given XML namespace URI in argument @p uri.
    *
-   * @param uri the string of URI that represents one of versions of the package
-   * @return an SBMLExtensionNamespaces<class SBMLExtensionType> object. null
-   *         will be returned if the given uri is not defined in the corresponding 
-   *         package. 
+   * @param uri the namespace URI that represents one of versions of the
+   * package implemented in this extension.
+   *
+   * @return an @if clike SBMLExtensionNamespaces @else SBMLNamespaces @endif 
+   * object, or @c null if the given @p uri is not defined in the
+   * corresponding package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::setEnabled(bool isEnabled) "
 /**
-   * enable/disable this package.
-   * Returned value is the result of this function.
+   * Enable or disable this package.
    *
-   * @param isEnabled the bool value: true (enabled) or false (disabled)
+   * @param isEnabled flag indicating whether to enable (if @c true) or
+   * disable (@c false) this package extension.
    *
-   * @return true if this function call succeeded, otherwise false is returned.
+   * @return @c true if this call succeeded; @c false otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtension::isEnabled() const "
 /**
-   * Check if this package is enabled (true) or disabled (false).
+   * Returns @c true if this package is enabled.
    *
-   * @return true if this package is enabled, otherwise false is returned.
+   * @return @c true if this package is enabled, @c false otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtension::removeL2Namespaces(XMLNamespaces* xmlns) const "
 /**
-   * Removes the L2 Namespaces. 
+   * Removes the package\'s Level&nbsp;2 namespace(s).
    *
-   * This method should be overridden by all extensions that want to serialize
-   * to an L2 annotation.
+   * *
+ * 
+ * This method is related to special facilities designed to support
+ * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
+ * historical background of the SBML %Layout package, libSBML implements
+ * special behavior for that package: it @em always creates a %Layout
+ * plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses %Layout constructs.
+ * Since Level&nbsp;2 does not use namespaces on the top level of the
+ * SBML document object, libSBML simply keys off the fact that the model
+ * is a Level&nbsp;2 model.  To allow the extensions for the %Layout and
+ * %Render (and possibly other) packages to support this behavior, the
+ * SBMLExtension class contains special methods to allow packages to
+ * hook themselves into the Level&nbsp;2 parsing apparatus when necessary.
+ *
+ * @if clike
+ * This virtual method should be overridden by all package extensions
+ * that want to serialize to an SBML Level&nbsp;2 annotation.  In
+ * Level&nbsp;2, the XML namespace declaration for the package is not
+ * placed on the top-level SBML document object but rather inside
+ * individual annotations.  addL2Namespaces() is invoked automatically
+ * for Level&nbsp;2 documents when an SBMLExtensionNamespace object is
+ * created; removeL2Namespaces() is automatically invoked by
+ * SBMLDocument to prevent the namespace(s) from being put on the
+ * top-level SBML Level&nbsp;2 element (because Level&nbsp;2 doesn\'t
+ * support namespaces there); and enableL2NamespaceForDocument() is
+ * called automatically when any SBML document (of any Level/Version) is
+ * read in.
+ * @endif
+   *
+   * @param xmlns an XMLNamespaces object that will be used for the annotation.
+   * Implementations should override this method with something that removes
+   * the package\'s namespace(s) from the set of namespaces in @p xmlns.  For
+   * instance, here is the code from the %Layout package extension:
+   * @code{.cpp}
+for (int n = 0; n < xmlns->getNumNamespaces(); n++)
+{
+  if (xmlns->getURI(n) == LayoutExtension::getXmlnsL2())
+    xmlns->remove(n);
+}
+@endcode
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::addL2Namespaces(XMLNamespaces *xmlns) const "
 /**
-   * Adds all L2 Extension namespaces to the namespace list. 
-   * 
-   * This method should be overridden by all extensions that want to serialize
-   * to an L2 annotation.
+   * Adds the package\'s Level&nbsp;2 namespace(s).
+   *
+   * *
+ * 
+ * This method is related to special facilities designed to support
+ * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
+ * historical background of the SBML %Layout package, libSBML implements
+ * special behavior for that package: it @em always creates a %Layout
+ * plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses %Layout constructs.
+ * Since Level&nbsp;2 does not use namespaces on the top level of the
+ * SBML document object, libSBML simply keys off the fact that the model
+ * is a Level&nbsp;2 model.  To allow the extensions for the %Layout and
+ * %Render (and possibly other) packages to support this behavior, the
+ * SBMLExtension class contains special methods to allow packages to
+ * hook themselves into the Level&nbsp;2 parsing apparatus when necessary.
+ *
+ * @if clike
+ * This virtual method should be overridden by all package extensions
+ * that want to serialize to an SBML Level&nbsp;2 annotation.  In
+ * Level&nbsp;2, the XML namespace declaration for the package is not
+ * placed on the top-level SBML document object but rather inside
+ * individual annotations.  addL2Namespaces() is invoked automatically
+ * for Level&nbsp;2 documents when an SBMLExtensionNamespace object is
+ * created; removeL2Namespaces() is automatically invoked by
+ * SBMLDocument to prevent the namespace(s) from being put on the
+ * top-level SBML Level&nbsp;2 element (because Level&nbsp;2 doesn\'t
+ * support namespaces there); and enableL2NamespaceForDocument() is
+ * called automatically when any SBML document (of any Level/Version) is
+ * read in.
+ * @endif
+   *
+   * @param xmlns an XMLNamespaces object that will be used for the annotation.
+   * Implementation should override this method with something that adds
+   * the package\'s namespace(s) to the set of namespaces in @p xmlns.  For
+   * instance, here is the code from the %Layout package extension:
+   * @code{.cpp}
+if (!xmlns->containsUri( LayoutExtension::getXmlnsL2()))
+  xmlns->add(LayoutExtension::getXmlnsL2(), \'layout\');
+@endcode
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::enableL2NamespaceForDocument(SBMLDocument* doc) const "
 /**
-   * Adds the L2 Namespace to the document and enables the extension.
+   * Called to enable the package on the SBMLDocument object.
    *
-   * If the extension supports serialization to SBML L2 Annotations, this 
-   * method should be overrridden, so it will be activated.
+   * *
+ * 
+ * This method is related to special facilities designed to support
+ * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
+ * historical background of the SBML %Layout package, libSBML implements
+ * special behavior for that package: it @em always creates a %Layout
+ * plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses %Layout constructs.
+ * Since Level&nbsp;2 does not use namespaces on the top level of the
+ * SBML document object, libSBML simply keys off the fact that the model
+ * is a Level&nbsp;2 model.  To allow the extensions for the %Layout and
+ * %Render (and possibly other) packages to support this behavior, the
+ * SBMLExtension class contains special methods to allow packages to
+ * hook themselves into the Level&nbsp;2 parsing apparatus when necessary.
+ *
+ * @if clike
+ * This virtual method should be overridden by all package extensions
+ * that want to serialize to an SBML Level&nbsp;2 annotation.  In
+ * Level&nbsp;2, the XML namespace declaration for the package is not
+ * placed on the top-level SBML document object but rather inside
+ * individual annotations.  addL2Namespaces() is invoked automatically
+ * for Level&nbsp;2 documents when an SBMLExtensionNamespace object is
+ * created; removeL2Namespaces() is automatically invoked by
+ * SBMLDocument to prevent the namespace(s) from being put on the
+ * top-level SBML Level&nbsp;2 element (because Level&nbsp;2 doesn\'t
+ * support namespaces there); and enableL2NamespaceForDocument() is
+ * called automatically when any SBML document (of any Level/Version) is
+ * read in.
+ * @endif
+   *
+   * @param doc the SBMLDocument object for the model.
+   * Implementations should override this method with something that
+   * enables the package based on the package\'s namespace(s). For example,
+   * here is the code from the %Layout package extension:
+   * @code{.cpp}
+if (doc->getLevel() == 2)
+  doc->enablePackage(LayoutExtension::getXmlnsL2(), \'layout\', true);
+@endcode
    */ public new
 ";
 
 
 %csmethodmodifiers SBMLExtension::isInUse(SBMLDocument *doc) const "
-/** 
+/**
    * Indicates whether this extension is being used by the given SBMLDocument.
    *
-   * The default implementation returns true. This means that when a document
-   * had this extension enabled, it will not be possible to convert it to L2
-   * as we cannot make sure that the extension can be converted.
-   * 
-   * @param doc the SBML document to test. 
-   * 
-   * @return a bool indicating whether the extension is actually being used
-   *         by the document. 
+   * The default implementation returns @c true.  This means that when a
+   * document had this extension enabled, it will not be possible to convert
+   * it to SBML Level&nbsp;2 as we cannot make sure that the extension can be
+   * converted.
+   *
+   * @param doc the SBML document to test.
+   *
+   * @return a bool indicating whether the extension is actually being
+   * used by the document.
    */ public new
 ";
 
@@ -62614,14 +63820,33 @@ GroupsExtension::init()
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Exceptions thrown by SBML Level 3 package plug-ins.
+@htmlinclude pkg-marker-core.html Exception used by package extensions
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * *
+ * 
+ * Certain situations can result in an exception being thrown by libSBML
+ * package extensions.  A prominent example involves the constructor for
+ * SBMLNamespaces (and its subclasses), which will throw
+ * SBMLExtensionException if the arguments it is given refer to an unknown
+ * SBML Level&nbsp;3 package.  The situation can arise for legitimate SBML
+ * files if the necessary package extension has not been registered with
+ * a given copy of libSBML.
+ *
+ *
+ *
+ * @see SBMLNamespaces
  */
 "
 
 
 %csmethodmodifiers SBMLExtensionException::SBMLExtensionException(const std::string& errmsg) throw() "
-/** 
-   * constructor 
+/**
+   * Creates a new SBMLExtensionException object with a given message.
+   *
+   * @param errmsg a string, the text of the error message to store
+   * with this exception
    */ public
 ";
 
@@ -62633,38 +63858,94 @@ GroupsExtension::init()
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html The Level+Version+namespace of a Level 3 package.
+@htmlinclude pkg-marker-core.html Set of SBML Level + Version + namespace triples.
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * SBMLExtensionNamespaces is a template class.  It is extended from
+ * SBMLNamespaces and is meant to be used by package extensions to store the
+ * SBML Level, Version within a Level, and package version of the SBML
+ * Level&nbsp;3 package implemented by a libSBML package extension.
+ *
+ * @section sbmlextensionnamespaces-howto How to use SBMLExtensionNamespaces for a package implementation
+ * *
+ * 
+ * Each package extension in libSBML needs to extend and instantiate the
+ * template class SBMLExtensionNamespaces, as well as declare a specific
+ * <code>typedef</code>.  The following sections explain these steps in detail.
+ *
+ *
+ * @subsection sen-identify 1. Define the typedef
+ *
+ * Each package needs to declare a package-specific version of the
+ * SBMLExtensionNamespaces class using a <code>typedef</code>.  The following
+ * example code demonstrates how this is done in the case of the Layout package:
+ *
+ * @code{.cpp}
+ * typedef SBMLExtensionNamespaces<LayoutExtension> LayoutPkgNamespaces;
+ * @endcode
+ *
+ * This creates a new type called LayoutPkgNamespaces.  The code above is
+ * usually placed in the same file that contains the SBMLExtension-derived
+ * definition of the package extension base class.  In the case of the Layout
+ * package, this is in the file
+ * <code>src/packages/layout/extension/LayoutExtension.h</code> in the libSBML
+ * source distribution.
+ *
+ *
+ * @subsection sen-instantiate 2. Instantiate a template instance
+ *
+ * Each package needs to instantiate a template instance of the
+ * SBMLExtensionNamespaces class.  The following
+ * example code demonstrates how this is done in the case of the Layout package:
+ *
+ * @code{.cpp}
+ * template class LIBSBML_EXTERN SBMLExtensionNamespaces<LayoutExtension>;
+ * @endcode
+ *
+ * In the case of the Layout package, the code above is located in the file
+ * <code>src/packages/layout/extension/LayoutExtension.cpp</code> in the libSBML
+ * source distribution.
+ *
+ *
+ * @subsection sen-derive 3. Create constructors that accept the class
+ *
+ * Each SBase-derived class in the package extension should implement a
+ * constructor that accepts the SBMLExtensionNamespaces-derived class as an
+ * argument.  For example, in the Layout package, the class BoundBox has a
+ * constructor declared as follows
+ *
+ * @code{.cpp}
+ * BoundingBox(LayoutPkgNamespaces* layoutns);
+ * @endcode
+ *
+ * The implementation of this constructor must, among other things, take the
+ * argument namespace object and use it to set the XML namespace URI for the
+ * object.  Again, for the BoundingBox example:
+ *
+ * @code{.cpp}
+ * BoundingBox::BoundingBox(LayoutPkgNamespaces* layoutns)
+ *  : SBase(layoutns)
+ *   ,mPosition(layoutns)
+ *   ,mDimensions(layoutns)
+ *   ,mPositionExplicitlySet (false)
+ *   ,mDimensionsExplicitlySet (false)
+ * {
+ *   // Standard extension actions.
+ *   setElementNamespace(layoutns->getURI());
+ *   connectToChild();
+ *
+ *   // Package-specific actions.
+ *   mPosition.setElementName(\'position\');
+ *
+ *   // Load package extensions bound with this object (if any).
+ *   loadPlugins(layoutns);
+ * }
+ * @endcode
+ *
  *
  */
 "
-
-
-%csmethodmodifiers SBMLExtensionNamespaces::SBMLExtensionNamespaces(unsigned int level        = SBMLExtensionType::getDefaultLevel(), unsigned int version      = SBMLExtensionType::getDefaultVersion(), unsigned int pkgVersion   = SBMLExtensionType::getDefaultPackageVersion(), const std::string& prefix = SBMLExtensionType::getPackageName()) "
-/**
-   * Creates a new SBMLExtensionNamespaces object corresponding to the given SBML
-   * @p level, @p version and @p package version.
-   *
-   * @note SBMLExtensionException will be thrown if the extension module
-   *       that supports the combination of the given sbml level, sbml version, 
-   *       package name, and package version has not been registered.
-   * 
-   * @param level   the SBML level
-   * @param version the SBML version
-   * @param pkgVersion the package version
-   * @param prefix  the prefix of the package namespace (e.g. \'layout\', \'multi\') 
-   *        to be added. The package\'s name will be used if the given string is empty 
-   *        (default).
-   */ public
-";
-
-
-%csmethodmodifiers SBMLExtensionNamespaces::SBMLExtensionNamespaces(const SBMLExtensionNamespaces& orig) "
-/**
-   * Copy constructor; creates a copy of a SBMLExtensionNamespaces.
-   * 
-   * @param orig the SBMLExtensionNamespaces instance to copy.
-   */ public
-";
 
 
 %typemap(csimports) SBMLExtensionRegistry "
@@ -62674,7 +63955,24 @@ GroupsExtension::init()
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Registry where package plug-ins are registered.
+@htmlinclude pkg-marker-core.html Registry where package extensions are registered.
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * This class provides a central registry of all extensions known to libSBML.
+ * Each package extension must be registered with the registry.  The registry
+ * class is accessed by various classes to retrieve information about known
+ * package extensions and to create additional attributes and/or elements by
+ * factory objects of the package extensions.
+ *
+ * *
+ * 
+ * The package extension registry is implemented as a singleton instance of
+ * SBMLExtensionRegistry.  The class provides only utility functionality;
+ * implementations of SBML packages do not need to implement any subclasses or
+ * methods of this class.  SBMLExtensionRegistry is useful for its facilities
+ * to query the known packages, and to enable or disable packages selectively.
+ *
  *
  */
 "
@@ -62682,9 +63980,11 @@ GroupsExtension::init()
 
 %csmethodmodifiers SBMLExtensionRegistry::getInstance "
 /**
+   * Returns a singleton instance of the registry.
    *
-   * Returns an instance (singleton) of the SBMLExtensionRegistry class.
-   * This function needs to be invoked when manipulating the SBMLExtensionRegistry class. 
+   * Callers need to obtain a copy of the package extension registry before
+   * they can invoke its methods.  The registry is implemented as a
+   * singleton, and this is the method callers can use to get a copy of it.
    *
    * @return the instance of the SBMLExtensionRegistry object.
    */ public
@@ -62693,12 +63993,17 @@ GroupsExtension::init()
 
 %csmethodmodifiers SBMLExtensionRegistry::addExtension(const SBMLExtension* ext) "
 /**
-   * Add the given SBMLExtension to this SBMLExtensionRegistry.
+   * Add the given SBMLExtension object to this SBMLExtensionRegistry.
    *
    * @param ext the SBMLExtension object to be added.
-   *   
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   *
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -62708,61 +64013,96 @@ GroupsExtension::init()
 
 %csmethodmodifiers SBMLExtensionRegistry::getExtension(const std::string& package) "
 /**
-   * Returns an SBMLExtension object with the given package URI or package name (string).
+   * Returns an SBMLExtension object with the given package URI or package
+   * name.
    *
-   * @param package the URI or name of the package extension
+   * @param package a string representing the URI or name of the SBML package
+   * whose package extension is being sought.
    *
-   * @return a clone of the SBMLExtension object with the given package URI or name. The returned 
-   *         extension is to be freed (i.e.: deleted) by the caller!
+   * @return a clone of the SBMLExtension object with the given package URI
+   * or name.
+   *
+   * @note The caller is responsible for freeing the object returned.  Since
+   * the object is a clone, freeing it will not result in the deletion of the
+   * original package extension object.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::removeL2Namespaces(XMLNamespaces *xmlns) const "
 /**
-   * Remove all L2 Extension namespaces from the namespace list. This will call all 
-   * overriden SBMLExtension::removeL2Namespaces methods.
+   * Removes SBML Level&nbsp;2 namespaces from the namespace list.
+   *
+   * @if clike 
+   * This will call all overridden
+   * <code>SBMLExtension::removeL2Namespaces()</code> methods.
+   * @endif
+   *
+   * @param xmlns an XMLNamespaces object listing one or more namespaces
+   * to be removed.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::addL2Namespaces(XMLNamespaces *xmlns) const "
 /**
-   * adds all L2 Extension namespaces to the namespace list. This will call all 
-   * overriden SBMLExtension::addL2Namespaces methods.
+   * Adds SBML Level&nbsp;2 namespaces to the namespace list.
+   *
+   * @if clike
+   * This will call all overridden
+   * <code>SBMLExtension::addL2Namespaces()</code> methods.
+   * @endif
+   *
+   * @param xmlns an XMLNamespaces object providing one or more namespaces to
+   * be added.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::enableL2NamespaceForDocument(SBMLDocument* doc) const "
 /**
-   * Enables all extensions that support serialization / deserialization with
-   * SBML Annotations.
+   * Enables package extensions that support serialization to SBML annotations.
+   *
+   * SBML Level&nbsp;2 does not have a package mechanism in the way that SBML
+   * Level&nbsp;3 does.  However, SBML annotations can be used to store SBML
+   * constructs.  In fact, a widely-used approach to developing SBML
+   * Level&nbsp;3 packages involves first using them as annotations.
+   *
+   * @param doc the SBMLDocument object for which this should be enabled.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::disableUnusedPackages(SBMLDocument *doc) "
-/** 
-   * Goes through all extensions in the list of plugins of the given document
-   * and disables all plugins that are not being used. 
+/**
+   * Disables unused packages.
+   *
+   * This method walks through all extensions in the list of plugins of the
+   * given SBML document @p doc, and disables all that are not being used.
+   *
+   * @param doc the SBMLDocument object whose unused package extensions
+   * should be disabled.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::disablePackage(const std::string& package) "
 /**
-   * Disables the package with the given URI / name.
+   * Disables the package with the given URI or name.
+   *
+   * @param package a string representing the URI or name of the SBML package
+   * whose package extension is to be disabled.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::isPackageEnabled(const std::string& package) "
 /**
-   * If the given @p package is enabled, returns @c true; otherwise,
-   * returns @c false.
+   * Returns @c true if the named package is enabled.
    *
-   * @return the status (enabled = <b>true</b>, disabled = <b>false</b> of the given package.
+   * @param package the name or URI of a package to test.
+   *
+   * @return @c true if the package is enabled, @c false otherwise.
    */ public
 ";
 
@@ -62770,6 +64110,8 @@ GroupsExtension::init()
 %csmethodmodifiers SBMLExtensionRegistry::enablePackage(const std::string& package) "
 /**
    * Enables the package with the given URI / name.
+   *
+   * @param package the name or URI of a package to enable.
    */ public
 ";
 
@@ -62780,111 +64122,124 @@ GroupsExtension::init()
    *
    * @param package the URI or name of the package extension
    *
-   * @return the SBMLExtension object with the given package URI or name. The returned 
+   * @return the SBMLExtension object with the given package URI or name. The returned
    *         extension is NOT ALLOWED to be freed (i.e.: deleted)!
-   */ public
+   */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::getNumExtension(const SBaseExtensionPoint& extPoint) "
 /**
-   * Returns the number of SBMLExtension with the given extension point.
+   * Returns the number of extensions that have a given extension point.
    *
-   * @param extPoint the SBaseExtensionPoint
+   * @param extPoint the SBaseExtensionPoint object
    *
-   * @return the number of SBMLExtension with the given extension point.
+   * @return the number of SBMLExtension-derived objects with the given
+   * extension point.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::setEnabled(const std::string& uri, bool isEnabled) "
 /**
-   * Enable/disable the package with the given uri.
+   * Enables or disable the package with the given URI.
    *
    * @param uri the URI of the target package.
-   * @param isEnabled the bool value corresponding to enabled (true) or 
-   * disabled (false)
+   * @param isEnabled @c true to enable the package, @c false to disable.
    *
-   * @return false will be returned if the given bool value is false 
-   * or the given package is not registered, otherwise true will be
-   * returned.
+   * @return @c false if @p isEnabled is @c false or the given package is not
+   * registered, otherwise this method returns @c true.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::isEnabled(const std::string& uri) "
 /**
-   * Checks if the extension with the given URI is enabled (true) or 
-   * disabled (false)
+   * Returns @c true if the given extension is enabled.
    *
    * @param uri the URI of the target package.
    *
-   * @return false will be returned if the given package is disabled 
-   * or not registered, otherwise true will be returned.
+   * @return @c false if the given package is disabled or not registered,
+   * @c true otherwise.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::isRegistered(const std::string& uri) "
 /**
-   * Checks if the extension with the given URI is registered (true) 
-   * or not (false)
+   * Returns @c true if a package extension is registered for the
+   * corresponding package URI.
    *
    * @param uri the URI of the target package.
    *
-   * @return true will be returned if the package with the given URI
-   * is registered, otherwise false will be returned.
+   * @return @c true if the package with the given URI is registered,
+   * otherwise returns @c false.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::getRegisteredPackageNames "
-/** 
-   * Returns a list of registered packages (such as \'layout\', \'fbc\' or \'comp\')
-   * the list contains char* strings and has to be freed by the caller. 
-   * 
-   * @return the names of the registered packages in a list
+/**
+   * Returns a list of registered packages.
+   *
+   * This method returns a List object containing the nicknames of the SBML
+   * packages for which package extensions are registered with this copy of
+   * libSBML.  The list will contain strings (e.g., <code>\'layout\'</code>,
+   * <code>\'fbc\'</code>, etc.) and has to be freed by the caller.
+   *
+   * @return a list of strings representing the names of the registered
+   * packages.
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::getAllRegisteredPackageNames "
-/** 
-   * Returns a vector of registered packages (such as \'layout\', \'fbc\' or \'comp\')
-   * the vector contains strings. 
-   * 
-   * @return the names of the registered packages in a list
+/**
+   * Returns a list of registered packages.
+   *
+   * This method returns a vector of strings containing the nicknames of the
+   * SBML packages for which package extensions are registered with this copy
+   * of libSBML.  The vector will contain <code>string</code> objects.
+   *
+   * @return a vector of strings
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::getNumRegisteredPackages "
-/** 
+/**
    * Returns the number of registered packages.
-   * 
-   * @return the number of registered packages.
+   *
+   * @return a count of the registered package extensions.
+   *
+   * @if clike
+   * @see getRegisteredPackageNames()
+   * @endif
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::getRegisteredPackageName(unsigned int index) "
-/** 
-   * Returns the registered package name at the given index
-   * 
-   * @param index zero based index of the package name to return
-   * 
-   * @return the package name with the given index or null
+/**
+   * Returns the nth registered package.
+   *
+   * @param index zero-based index of the package name to return.
+   *
+   * @return the package name with the given index, or @c null if none
+   * such exists.
+   *
+   * @see getNumRegisteredPackages()
    */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::SBMLExtensionRegistry "
-/** */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers SBMLExtensionRegistry::SBMLExtensionRegistry(const SBMLExtensionRegistry& orig) "
-/** */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -63062,10 +64417,7 @@ GroupsExtension::init()
 
 
 %csmethodmodifiers representsNumber(int type) "
-/**
- * Note to developers: leave at least one comment here.  Without it, something
- * doesn\'t go right when docs are generated.
- */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -63133,16 +64485,12 @@ GroupsExtension::init()
 
 
 %csmethodmodifiers ASTBase::ASTBase(const ASTBase& orig) "
-/**
-   * Copy constructor
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBase::deepCopy() const "
-/**
-   * Creates a copy (clone).
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -63152,13 +64500,7 @@ GroupsExtension::init()
 
 
 %csmethodmodifiers ASTBase::getType() const "
-/**
-   * Get the type of this ASTNode.  The value returned is one of the
-   * enumeration values such as @link libsbml#AST_LAMBDA AST_LAMBDA@endlink, @link libsbml#AST_PLUS AST_PLUS@endlink,
-   * etc.
-   * 
-   * @return the type of this ASTNode.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -63173,18 +64515,7 @@ GroupsExtension::init()
 
 
 %csmethodmodifiers ASTBase::setType(ASTNodeType_t type) "
-/**
-   * Sets the type of this ASTNode to the given type code.  A side-effect
-   * of doing this is that any numerical values previously stored in this
-   * node are reset to zero.
-   *
-   * @param type the type to which this node should be set
-   *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -63479,65 +64810,27 @@ GroupsExtension::init()
 
 
 %csmethodmodifiers ASTBase::getPlugin(const std::string& package) "
-/**
-   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension with the given package name or URI.
-   *
-   * @param package the name or URI of the package
-   *
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBase::getPlugin(const std::string& package) const "
-/**
-   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension with the given package name or URI.
-   *
-   * @param package the name or URI of the package
-   *
-   * @return the plug-in object (the libSBML extension interface) of a
-   * package extension with the given package name or URI.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBase::getPlugin(unsigned int n) "
-/**
-   * Returns the nth plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension.
-   *
-   * @param n the index of the plug-in to return
-   *
-   * @return the plug-in object (the libSBML extension interface) of
-   * a package extension with the given package name or URI.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBase::getPlugin "
-/**
-   * Returns the nth plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension.
-   *
-   * @param n the index of the plug-in to return
-   *
-   * @return the plug-in object (the libSBML extension interface) of a
-   * package extension with the given package name or URI.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBase::getNumPlugins() const "
-/**
-   * Returns the number of plug-in objects (extenstion interfaces) for SBML
-   * Level&nbsp;3 package extensions known.
-   *
-   * @return the number of plug-in objects (extension interfaces) of
-   * package extensions known by this instance of libSBML.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -63612,33 +64905,22 @@ GroupsExtension::init()
 
 
 %csmethodmodifiers ASTBase::isPackageInfixFunction() const "
-/**
-   * Returns true if this is a package function which should be written as
-   * \'functionname(argumentlist)\', false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBase::hasPackageOnlyInfixSyntax() const "
-/**
-   * Returns true if this is a package function which should be written
-   * special syntax that the package knows about, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBase::getL3PackageInfixPrecedence() const "
-/**
-   * Returns the precedence of the functions within the package
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBase::hasUnambiguousPackageInfixGrammar(const ASTNode *child) const "
-/**
-   * Returns true if this is a package function which needs no special
-   * consideration when writng as infix, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -63717,6 +64999,11 @@ GroupsExtension::init()
 ";
 
 
+%csmethodmodifiers ASTBase::clearPlugins "
+/** */ /* libsbml-internal */ public
+";
+
+
 %typemap(csimports) ASTNode "
  using System;
  using System.Runtime.InteropServices;
@@ -63789,7 +65076,7 @@ GroupsExtension::init()
  * Every ASTNode has an associated type code to indicate whether, for
  * example, it holds a number or stands for an arithmetic operator.
  * @if clike The type is recorded as a value drawn from the enumeration
- * @link ASTNode.h::ASTNodeType_t <code>ASTNodeType_t</code>@endlink.@endif
+ * #ASTNodeType_t.@endif
  * @if java The type is recorded as a value drawn from a
  * set of static integer constants defined in the class @link
  * libsbml.libsbml@endlink. Their names begin with the characters @c AST_.@endif
@@ -63906,11 +65193,11 @@ GroupsExtension::init()
    * Unless the argument @p type is given, the returned node will by default
    * have a type of @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink.  If the type
    * isn\'t supplied when caling this constructor, the caller should set the
-   * node type to something else as soon as possible using @if clike
-   * setType()@else ASTNode::setType(int)@endif.
+   * node type to something else as soon as possible using
+   * @if clike setType()@else ASTNode::setType(int)@endif.
    *
    * @param type an optional
-   * @if clike @link libsbml#ASTNodeType_t ASTNodeType_t@endlink@else type@endif
+   * @if clike #ASTNodeType_t@else integer type@endif
    * code indicating the type of node to create.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
@@ -63962,8 +65249,13 @@ GroupsExtension::init()
    * operators, numbers, or @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink.  This
    * method has no effect on other types of nodes.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
@@ -64015,8 +65307,13 @@ GroupsExtension::init()
    *
    * @param child the ASTNode instance to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -64049,8 +65346,13 @@ GroupsExtension::init()
    *
    * @param child the ASTNode instance to add
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -64080,8 +65382,13 @@ GroupsExtension::init()
    *
    * @param n long the index of the child to remove
    *
-   * @return integer value indicating success/failure of the
-   * function. The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
@@ -64105,15 +65412,21 @@ GroupsExtension::init()
 ";
 
 
-%csmethodmodifiers ASTNode::replaceChild(unsigned int n, ASTNode *newChild) "
+%csmethodmodifiers ASTNode::replaceChild(unsigned int n, ASTNode *newChild, bool delreplaced=false) "
 /**
    * Replaces the nth child of this ASTNode with the given ASTNode.
    *
    * @param n long the index of the child to replace
    * @param newChild ASTNode to replace the nth child
+   * @param delreplaced bool indicating whether to delete the replaced child.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -64146,8 +65459,13 @@ GroupsExtension::init()
    * @param n long the index of the ASTNode being added
    * @param newChild ASTNode to insert as the nth child
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -64265,8 +65583,13 @@ getChild( getNumChildren() - 1 );
    *
    * @param sAnnotation the annotation to add.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -64669,7 +65992,7 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * Returns the extended type of this ASTNode.
    *
    * The type may be either a core
-   * @ifnot clike integer type code@else ASTNodeType_t value@endif
+   * @ifnot clike integer type code@else #ASTNodeType_t value@endif
    * or a value of a type code defined by an SBML Level&nbsp;3 package.
    *
    * @return the type of this ASTNode.
@@ -65156,8 +66479,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * @param value the character value to which the node\'s value should be
    * set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -65169,8 +66497,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @param id @c string representing the identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see isSetId()
@@ -65186,8 +66519,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @param className @c string representing the MathML class for this node.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @if java
@@ -65210,8 +66548,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @param style @c string representing the identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see isSetStyle()
@@ -65235,8 +66578,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * @param name the string containing the name to which this node\'s value
    * should be set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -65251,8 +66599,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @param value the integer to which this node\'s value should be set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -65267,8 +66620,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    *
    * @param value the integer to which this node\'s value should be set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -65284,8 +66642,13 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * @param numerator the numerator value of the rational.
    * @param denominator the denominator value of the rational.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -65306,8 +66669,13 @@ setValue(value, 0);
    * @param value the @c double format number to which this node\'s value
    * should be set.
    *
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -65323,8 +66691,13 @@ setValue(value, 0);
    * @param mantissa the mantissa of this node\'s real-numbered value.
    * @param exponent the exponent of this node\'s real-numbered value.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
 ";
@@ -65336,8 +66709,13 @@ setValue(value, 0);
    *
    * @param type the type to which this node should be set.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -65354,14 +66732,25 @@ setValue(value, 0);
 /**
    * Sets the type of this ASTNode.
    *
-   * This uses integer type codes, which may come from ASTNodeType_t or an
-   * enumeration of AST types in an SBML Level&nbsp;3 package.
+   * This uses integer type codes, which may come from @if clike the
+   * enumeration #ASTNodeType_t@else the set
+   * of static integer constants whose names begin with the prefix
+   * <code>AST_</code> @endif @if java defined in the interface class
+   * <code><a href=\'libsbml.libsbml.html\'>libsbmlConstants</a></code>
+   * @endif@if python defined in the interface class @link libsbml
+   * libsbml@endlink@endif or an enumeration of AST types in an SBML
+   * Level&nbsp;3 package.
    *
    * @param type the integer representing the type to which this node should
    * be set.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -65388,8 +66777,13 @@ setValue(value, 0);
    *
    * @param units @c string representing the unit identifier.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -65410,8 +66804,13 @@ setValue(value, 0);
    * @param that the other node whose children should be used to replace
    * <em>this</em> node\'s children.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -65442,20 +66841,12 @@ setValue(value, 0);
 
 
 %csmethodmodifiers ASTNode::replaceIDWithFunction(const std::string& id, const ASTNode* function) "
-/**
-   * Replace any nodes of type AST_NAME with the name \'id\' from the child
-   * \'math\' object with the provided ASTNode.
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTNode::setIsChildFlag(bool flag) "
-/**
-   * Replaces any \'AST_NAME_TIME\' nodes with a node that multiplies time by
-   * the given function.
-   *
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -65463,8 +66854,13 @@ setValue(value, 0);
 /**
    * Unsets the units of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -65476,8 +66872,13 @@ setValue(value, 0);
 /**
    * Unsets the MathML @c id attribute of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -65488,8 +66889,13 @@ setValue(value, 0);
 /**
    * Unsets the MathML @c class attribute of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -65500,8 +66906,13 @@ setValue(value, 0);
 /**
    * Unsets the MathML @c style attribute of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -65514,8 +66925,13 @@ setValue(value, 0);
    *
    * @param url the URL value for the @c definitionURL attribute.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -65532,8 +66948,13 @@ setValue(value, 0);
    *
    * @param url the URL value for the @c definitionURL attribute.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
@@ -65581,8 +67002,13 @@ setValue(value, 0);
    *
    * @param sb the parent SBML object of this ASTNode.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -65608,8 +67034,13 @@ setValue(value, 0);
 /**
    * Unsets the parent SBML object.
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -65653,8 +67084,13 @@ setValue(value, 0);
   *
   * @param userData specifies the new user data.
   *
-  * @return integer value indicating success/failure of the
-  * function.  The possible values returned by this function are:
+  * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
   *
@@ -65691,8 +67127,13 @@ setValue(value, 0);
   * information to the node.  In case of a deep copy, this attribute will
   * passed as it is. The attribute will be never interpreted by this class.
   *
-  * @return integer value indicating success/failure of the
-  * function.  The possible values returned by this function are:
+  * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
   *
@@ -65815,9 +67256,7 @@ setValue(value, 0);
 
 
 %csmethodmodifiers ASTNode::canonicalizeConstant "
-/**
-   * Internal helper function for canonicalize().
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -65882,18 +67321,12 @@ setValue(value, 0);
 
 
 %csmethodmodifiers readMathML(XMLInputStream& stream, const std::string& reqd_prefix="") "
-/**
- * Reads the MathML from the given XMLInputStream, constructs a corresponding
- * abstract syntax tree and returns a pointer to the root of the tree.
- */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers writeMathML(const ASTNode* node, XMLOutputStream& stream, SBMLNamespaces *sbmlns=NULL) "
-/**
- * Writes the given ASTNode (and its children) to the XMLOutputStream_t as
- * MathML.
- */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -65921,8 +67354,9 @@ setValue(value, 0);
  * abstract syntax tree, and returns a pointer to the root of the tree.
  *
  * @param xml a string containing a full MathML expression
- * @param xmlns a XMLNamespaces_t object containing namespaces that
- * are considered active during the read e.g. an L3 package namespace
+ * @param xmlns an @if conly XMLNamespaces_t structure @else XMLNamespaces
+ * object@endif containing namespaces that are considered active during the
+ * read. (For example, an SBML Level&nbsp;3 package namespace.)
  *
  * @return the root of an AST corresponding to the given mathematical
  * expression, otherwise @c null is returned if the given string is @c null
@@ -65937,7 +67371,7 @@ setValue(value, 0);
 
 %csmethodmodifiers writeMathMLToString(const ASTNode_t* node) "
 /**
- * Writes the given ASTNode_t (and its children) to a string as MathML, and
+ * Writes the given AST node (and its children) to a string as MathML, and
  * returns the string.
  *
  * @param node the root of an AST to write out to the stream.
@@ -67149,6 +68583,11 @@ setValue(value, 0);
 ";
 
 
+%csmethodmodifiers SBML_deleteL3Parser "
+/** */ /* libsbml-internal */ public
+";
+
+
 %typemap(csimports) L3ParserSettings "
  using System;
  using System.Runtime.InteropServices;
@@ -67273,6 +68712,9 @@ setValue(value, 0);
    * @li <em>avocsymbol</em> (\'Avogadro csymbol\') is set to
    * @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink.
    *
+   * @li <em>caseSensitive</em> (\'case sensitive\') is set to
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink.
+   *
    * @li <em>sbmlns</em> (\'SBML namespaces\') is set to @c null (which
    * indicates that no syntax extensions due to SBML Level&nbsp;3 packages
    * will be assumed---the formula parser will only understand the
@@ -67323,12 +68765,15 @@ setValue(value, 0);
    * set to the value @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink, the symbol is
    * interpreted as a plain symbol name.
    *
-   * @param caseSensitive a flag that controls how the
-   * parser will handle case sensitivity of any function name.
-   * If set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink,
-   * the name is interpreted as teh relevant math function regardless of case; if
-   * set to the value @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, the name is
-   * interpreted as a user defined function unless it is all lower case.
+   * @param caseSensitive (\'case sensitive\') a flag that controls how the
+   * cases of alphabetical characters are treated when symbols are compared.
+   * If the flag is set to the value
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink, symbols are
+   * compared in a case-insensitive manner, which means that mathematical
+   * functions such as @c \'sin\' will be matched no matter what their case is:
+   * @c \'Sin\', @c \'SIN\', etc.  If the flag is set to the value
+   * @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, symbols are
+   * interpreted in a case-sensitive manner.
    *
    * @param sbmlns (\'SBML namespaces\') an SBML namespaces object.  The
    * namespaces identify the SBML Level&nbsp;3 packages that can extend the
@@ -67350,6 +68795,13 @@ setValue(value, 0);
    * @see setParseCollapseMinus(@if java bool@endif)
    * @see getParseAvogadroCsymbol()
    * @see setParseAvogadroCsymbol(@if java bool@endif)
+   */ public
+";
+
+
+%csmethodmodifiers L3ParserSettings::L3ParserSettings(const L3ParserSettings& source) "
+/**
+   * Copy constructor.
    */ public
 ";
 
@@ -67737,12 +69189,15 @@ setValue(value, 0);
    *
    * *
  * 
- * By default, the parser compares symbols in a case insensitive manner for
- * built-in functions such as @c \'sin\' and @c \'piecewise\', and for constants
- * such as @c \'true\' and @c \'avogadro\'.  Setting this option to @c false, you
- * can force the string comparison to @em only match lower-case strings.
- * Thus, for example, @c \'sin\' and @c \'true\' will match the built-in values, but
- * @c \'SIN\' and @c \'TRUE\' will not.
+ * By default (which is the value
+ * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink), the parser
+ * compares symbols in a case @em insensitive manner for built-in functions
+ * such as @c \'sin\' and @c \'piecewise\', and for constants such as @c \'true\'
+ * and @c \'avogadro\'.  Setting this option to
+ * @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink causes the parser to
+ * become case sensitive.  In that mode, for example, the symbols @c \'sin\'
+ * and @c \'true\' will match the built-in values, but the symbols @c \'SIN\',
+ * @c \'Sin\', @c \'True\', @c \'TRUE\', and so on, will not.
    *
    * @param strcmp a bool indicating whether to be case sensitive (if @c
    * true) or be case insensitive (if @c false).
@@ -67759,12 +69214,15 @@ setValue(value, 0);
    *
    * *
  * 
- * By default, the parser compares symbols in a case insensitive manner for
- * built-in functions such as @c \'sin\' and @c \'piecewise\', and for constants
- * such as @c \'true\' and @c \'avogadro\'.  Setting this option to @c false, you
- * can force the string comparison to @em only match lower-case strings.
- * Thus, for example, @c \'sin\' and @c \'true\' will match the built-in values, but
- * @c \'SIN\' and @c \'TRUE\' will not.
+ * By default (which is the value
+ * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink), the parser
+ * compares symbols in a case @em insensitive manner for built-in functions
+ * such as @c \'sin\' and @c \'piecewise\', and for constants such as @c \'true\'
+ * and @c \'avogadro\'.  Setting this option to
+ * @link libsbml#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink causes the parser to
+ * become case sensitive.  In that mode, for example, the symbols @c \'sin\'
+ * and @c \'true\' will match the built-in values, but the symbols @c \'SIN\',
+ * @c \'Sin\', @c \'True\', @c \'TRUE\', and so on, will not.
    *
    * @return @c true if matches are done in a case-sensitive manner, and 
    * @c false if the parser will recognize built-in functions and
@@ -67798,49 +69256,27 @@ setValue(value, 0);
 
 
 %csmethodmodifiers L3ParserSettings::visitPackageInfixSyntax( const ASTNode_t *parent, const ASTNode_t *node, StringBuffer_t  *sb) const "
-/**
-   * Visits the given ASTNode_t and continues the inorder traversal for nodes
-   * whose syntax are determined by packages.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers L3ParserSettings::checkNumArgumentsForPackage(const ASTNode* function, std::stringstream& error) const "
-/**
-   * This function checks the provided ASTNode function to see if it is a
-   * known function with the wrong number of arguments.  If so, the error is
-   * set and \'true\' is returned.  If the correct number of arguments is
-   * provided, \'false\' is returned.  It is used for ASTNodes created from
-   * packages.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers L3ParserSettings::parsePackageInfix(L3ParserGrammarLineType_t type, std::vector<ASTNode*> *nodeList = NULL, std::vector<std::string*> *stringList = NULL, std::vector<double> *doubleList = NULL) const "
-/**
-   * The generic parsing function for grammar lines that packages recognize,
-   * but not core.  When a package recognizes the \'type\', it will parse and
-   * return the correct ASTNode.  If it does not recognize the \'type\', or if
-   * the arguments are incorrect, null is returned.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers L3ParserSettings::getPackageFunctionFor(const std::string& name) const "
-/**
-   * The user input a string of the form \'name(...)\', and we want to know if
-   * \'name\' is recognized by a package as being a particular function.  We
-   * already know that it is not used in the Model as a FunctionDefinition.
-   * Should do caseless string comparison.  Return the type of the function,
-   * or AST_UNKNOWN if nothing found.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers L3ParserSettings::deletePlugins "
-/**
-   * Delete the plugin objects.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -67852,45 +69288,30 @@ setValue(value, 0);
  * @sbmlpackage{core}
  *
 @htmlinclude pkg-marker-core.html Base class for extensions that plug into AST classes.
+ *
+ * @htmlinclude not-sbml-warning.html
  * @internal
  */
 "
 
 
 %csmethodmodifiers ASTBasePlugin::clone() const "
-/**
-   * Creates and returns a deep copy of this ASTBasePlugin object.
-   *
-   * @return the (deep) copy of this ASTBasePlugin object.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getElementNamespace() const "
-/**
-   * Returns the XML namespace (URI) of the package extension
-   * of this plugin object.
-   *
-   * @return the URI of the package extension of this plugin object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getPrefix() const "
-/**
-   * Returns the prefix of the package extension of this plugin object.
-   *
-   * @return the prefix of the package extension of this plugin object.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getPackageName() const "
-/**
-   * Returns the package name of this plugin object.
-   *
-   * @return the package name of this plugin object.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -67905,39 +69326,12 @@ setValue(value, 0);
 
 
 %csmethodmodifiers ASTBasePlugin::connectToParent(ASTBase *astbase) "
-/**
-   * Sets the parent SBML object of this plugin object to
-   * this object and child elements (if any).
-   * (Creates a child-parent relationship by this plugin object)
-   *
-   * This function is called when this object is created by
-   * the parent element.
-   * Subclasses must override this this function if they have one
-   * or more child elements. Also, ASTBasePlugin::connectToParent(@if java SBase@endif)
-   * must be called in the overridden function.
-   *
-   * @param sbase the SBase object to use
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
-/**
-   * Enables/Disables the given package with child elements in this plugin 
-   * object (if any).
-   * (This is an internal implementation invoked from 
-   *  SBase::enablePackageInternal() function)
-   *
-   * Subclasses which contain one or more SBase derived elements should 
-   * override this function if elements defined in them can be extended by
-   * some other package extension.
-   *
-   * @see setSBMLDocument
-   * @see connectToParent
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -67947,100 +69341,37 @@ setValue(value, 0);
 
 
 %csmethodmodifiers ASTBasePlugin::getURI() const "
-/**
-   * Gets the URI to which this element belongs to.
-   * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must would have the URI \'http://www.sbml.org/sbml/level3/version1/core\'; 
-   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-   * Version 1 Core must would have the URI
-   * \'http://www.sbml.org/sbml/level3/version1/layout/version1/\'
-   *
-   * Unlike getElementNamespace, this function first returns the URI for this 
-   * element by looking into the SBMLNamespaces object of the document with 
-   * the its package name. if not found it will return the result of 
-   * getElementNamespace
-   *
-   * @return the URI this elements  
-   *
-   * @see getPackageName
-   * @see getElementNamespace
-   * @see SBMLDocument::getSBMLNamespaces
-   * @see getSBMLDocument
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getParentASTObject "
-/**
-   * Returns the parent ASTNode object to which this plugin 
-   * object connected.
-   *
-   * @return the parent ASTNode object to which this plugin 
-   * object connected.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getParentASTObject() const "
-/**
-   * Returns the parent ASTNode object to which this plugin 
-   * object connected.
-   *
-   * @return the parent ASTNode object to which this plugin 
-   * object connected.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::setElementNamespace(const std::string &uri) "
-/**
-   * Sets the XML namespace to which this element belongs to.
-   * For example, all elements that belong to SBML Level 3 Version 1 Core
-   * must set the namespace to \'http://www.sbml.org/sbml/level3/version1/core\'; 
-   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-   * Version 1 Core must set the namespace to 
-   * \'http://www.sbml.org/sbml/level3/version1/layout/version1/\'
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getLevel() const "
-/**
-   * Returns the SBML level of the package extension of 
-   * this plugin object.
-   *
-   * @return the SBML level of the package extension of
-   * this plugin object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getVersion() const "
-/**
-   * Returns the SBML version of the package extension of
-   * this plugin object.
-   *
-   * @return the SBML version of the package extension of
-   * this plugin object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getPackageVersion() const "
-/**
-   * Returns the package version of the package extension of
-   * this plugin object.
-   *
-   * @return the package version of the package extension of
-   * this plugin object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -68094,7 +69425,7 @@ setValue(value, 0);
 ";
 
 
-%csmethodmodifiers ASTBasePlugin::replaceChild(unsigned int n, ASTBase* newChild) "
+%csmethodmodifiers ASTBasePlugin::replaceChild(unsigned int n, ASTBase* newChild, bool delreplaced) "
 /** */ /* libsbml-internal */ public new
 ";
 
@@ -68235,10 +69566,7 @@ setValue(value, 0);
 
 
 %csmethodmodifiers ASTBasePlugin::ASTBasePlugin(const std::string &uri) "
-/**
-   * Constructor. Creates an ASTBasePlugin object with the URI and 
-   * prefix of an package extension.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
@@ -68248,78 +69576,47 @@ setValue(value, 0);
 
 
 %csmethodmodifiers ASTBasePlugin::ASTBasePlugin(const ASTBasePlugin& orig) "
-/**
-   * Copy constructor. Creates a copy of this SBase object.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::isPackageInfixFunction() const "
-/**
-   * Returns true if this is a package function which should be written as
-   * \'functionname(argumentlist)\', false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::hasPackageOnlyInfixSyntax() const "
-/**
-   * Returns true if this is a package function which should be written
-   * special syntax that the package knows about, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getL3PackageInfixPrecedence() const "
-/**
-   * Get the precedence of this package function, or -1 if unknown
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::hasUnambiguousPackageInfixGrammar(const ASTNode *child) const "
-/**
-   * Returns true if this is a package function which should be written
-   * special syntax that the package knows about, false otherwise.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::visitPackageInfixSyntax( const ASTNode *parent, const ASTNode *node, StringBuffer_t  *sb, const L3ParserSettings* settings) const "
-/**
-   * Visits the given ASTNode_t and continues the inorder traversal for nodes whose syntax are determined by packages.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::checkNumArguments(const ASTNode* function, std::stringstream& error) const "
-/**
-   * This function checks the provided ASTNode function to see if it is a 
-   * known function with the wrong number of arguments.  If so, \'error\' is
-   * set and \'-1\' is returned.  If it has the correct number of arguments,
-   * \'1\' is returned.  If the plugin knows nothing about the function, \'0\' 
-   * is returned.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::parsePackageInfix(L3ParserGrammarLineType_t type, std::vector<ASTNode*> *nodeList = NULL, std::vector<std::string*> *stringList = NULL, std::vector<double> *doubleList = NULL) const "
-/**
-   * The generic parsing function for grammar lines that packages recognize, but not core.
-   * When a package recognizes the \'type\', it will parse and return the correct ASTNode.
-   * If it does not recognize the \'type\', or if the arguments are incorrect, null is returend.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBasePlugin::getPackageFunctionFor(const std::string& name) const "
-/**
-   * The user input a string of the form \'name(...)\', and we want to know if
-   * \'name\' is recognized by a package as being a particular function.  We already
-   * know that it is not used in the Model as a FunctionDefinition.  Should do
-   * caseless string comparison.  Return the type of the function, or AST_UNKNOWN
-   * if nothing found.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
 ";
 
 

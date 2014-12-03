@@ -59,14 +59,15 @@ LIBSBML_CPP_NAMESPACE_BEGIN
   SBMLConverterRegistry::getInstance().addConverter(new RenderLayoutConverter());
 }
 
-RenderLayoutConverter::RenderLayoutConverter() : SBMLConverter()
+RenderLayoutConverter::RenderLayoutConverter() 
+  : SBMLConverter()
 {
 
 }
 
 
-RenderLayoutConverter::RenderLayoutConverter(const RenderLayoutConverter& orig) :
-  SBMLConverter(orig)
+RenderLayoutConverter::RenderLayoutConverter(const RenderLayoutConverter& orig) 
+  : SBMLConverter(orig)
 {
 }
 
@@ -105,10 +106,8 @@ int
 RenderLayoutConverter::convertToL3()
   {
     layoutNsUri = "http://www.sbml.org/sbml/level3/version1/layout/version1";
-    layoutNs = new LayoutPkgNamespaces(3, 1, 1);
 
     renderNsUri = "http://www.sbml.org/sbml/level3/version1/render/version1";
-    renderNs = new RenderPkgNamespaces(3, 1, 1);
 
     LayoutModelPlugin* plugin = (LayoutModelPlugin*)mDocument->getModel()->getPlugin("layout");
     if (plugin == NULL) 
@@ -155,10 +154,8 @@ int
 RenderLayoutConverter::convertToL2()
   {
     layoutNsUri = "http://projects.eml.org/bcb/sbml/level2";
-    layoutNs = new LayoutPkgNamespaces(2, targetVersion);
 
     renderNsUri = "http://projects.eml.org/bcb/sbml/render/level2";
-    renderNs = new RenderPkgNamespaces(2, targetVersion);
 
     LayoutModelPlugin* plugin = (LayoutModelPlugin*)mDocument->getModel()->getPlugin("layout");
     if (plugin == NULL) 

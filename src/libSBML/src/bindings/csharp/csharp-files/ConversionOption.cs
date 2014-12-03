@@ -49,7 +49,7 @@ namespace libsbmlcs {
  * An option in ConversionOption must have a data type declared, to
  * indicate whether it is a string value, an integer, and so forth.  The
  * possible types of values are taken from
- * @if clike the enumeration ConversionOptionType_t @else a set of
+ * @if clike the enumeration #ConversionOptionType_t @else a set of
  * constants whose symbol names begin with the prefix
  * <code>CNV_TYPE_</code>@endif. The following are the possible values:
  *
@@ -142,7 +142,7 @@ public class ConversionOption : IDisposable {
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
- * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * #ConversionOptionType_t.@endif@if java the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.@endif@if python the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
@@ -170,7 +170,7 @@ public class ConversionOption : IDisposable {
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
- * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * #ConversionOptionType_t.@endif@if java the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.@endif@if python the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
@@ -198,7 +198,7 @@ public class ConversionOption : IDisposable {
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
- * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * #ConversionOptionType_t.@endif@if java the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.@endif@if python the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
@@ -226,7 +226,7 @@ public class ConversionOption : IDisposable {
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
- * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * #ConversionOptionType_t.@endif@if java the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.@endif@if python the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
@@ -479,7 +479,7 @@ public class ConversionOption : IDisposable {
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
- * ConversionOptionType_t.@endif@if java the constants whose names begin
+ * #ConversionOptionType_t.@endif@if java the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.@endif@if python the constants whose names begin
  * with the characters <code>CNV_TYPE_</code> in the interface class

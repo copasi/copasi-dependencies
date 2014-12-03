@@ -6581,7 +6581,7 @@ START_TEST (test_RenderReading_read_L3_model_annotation)
  
   plugin = (LayoutModelPlugin*)D->getModel()->getPlugin("layout");
   ListOfLayouts* pListOfLayouts = plugin->getListOfLayouts();
-  XMLNode *lolAnnotation = pListOfLayouts->getAnnotation();
+  /*XMLNode *lolAnnotation = */ pListOfLayouts->getAnnotation();
   RenderListOfLayoutsPlugin* lolPlugin = (RenderListOfLayoutsPlugin*)pListOfLayouts->getPlugin("render");
   fail_unless(lolPlugin == NULL);
 
@@ -6604,6 +6604,8 @@ START_TEST (test_RenderReading_read_L3_model_annotation)
       RenderLayoutPlugin* currentPlugin = (RenderLayoutPlugin*)plugin->getLayout(i)->getPlugin("render");
       fail_unless(currentPlugin == NULL || currentPlugin->getListOfLocalRenderInformation()->size() == 0);
   }
+
+  delete D;
 
 }
 END_TEST
@@ -6663,7 +6665,8 @@ START_TEST(test_RenderReading_read_model_with_object_role)
   fail_unless(rplugin->isSetObjectRole());
 
   // next convert the model to L3 and ensure that all is well there. 
-  ConversionProperties props (new SBMLNamespaces(3, 1));
+  SBMLNamespaces nsl3v1(3, 1);
+  ConversionProperties props (&nsl3v1);
   props.addOption("convert layout", true);
   int result = doc->convert(props);
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
@@ -6691,12 +6694,13 @@ START_TEST(test_RenderReading_read_model_with_object_role)
   fail_unless(rplugin->isSetObjectRole());
 
   // ensure we have no render annotation on the layout (where the render extension would have been)
-  XMLNode *node = plugin->getLayout(0)->getAnnotation();
+  /*XMLNode *node = */ plugin->getLayout(0)->getAnnotation();
   fail_unless(plugin->getLayout(0)->isSetAnnotation() == true);
 
   // convert back to L2 just to be sure
 
-  props.setTargetNamespaces(new SBMLNamespaces(2, 4));
+  SBMLNamespaces nsl2v4(2, 4);
+  props.setTargetNamespaces(&nsl2v4);
   props.addOption("convert layout", true);
   result = doc->convert(props);
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
@@ -6722,7 +6726,7 @@ START_TEST(test_RenderReading_read_model_with_object_role)
   fail_unless(rplugin != NULL);
   fail_unless(rplugin->isSetObjectRole());
 
-
+  delete doc;
 
 }
 END_TEST

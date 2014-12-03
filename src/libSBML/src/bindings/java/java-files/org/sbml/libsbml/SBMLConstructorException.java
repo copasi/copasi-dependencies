@@ -84,15 +84,21 @@ public class SBMLConstructorException extends java.lang.IllegalArgumentException
     this(libsbmlJNI.new_SBMLConstructorException__SWIG_0(), true, v);
   }
 
-  public SBMLConstructorException() {
+  
+/** * @internal */ public
+ SBMLConstructorException() {
     this(libsbmlJNI.new_SBMLConstructorException__SWIG_0(), true);
   }
 
-  public SBMLConstructorException(String errmsg, String sbmlErrMsg) {
+  
+/** * @internal */ public
+ SBMLConstructorException(String errmsg, String sbmlErrMsg) {
     this(libsbmlJNI.new_SBMLConstructorException__SWIG_1(errmsg, sbmlErrMsg), true);
   }
 
-  public SBMLConstructorException(String elementName, SBMLNamespaces xmlns) {
+  
+/** * @internal */ public
+ SBMLConstructorException(String elementName, SBMLNamespaces xmlns) {
     this(libsbmlJNI.new_SBMLConstructorException__SWIG_2(elementName, SBMLNamespaces.getCPtr(xmlns), xmlns), true);
   }
 

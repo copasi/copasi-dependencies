@@ -14,7 +14,23 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Exceptions thrown by SBML Level 3 package plug-ins.
+@htmlinclude pkg-marker-core.html Exception used by package extensions
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * *
+ * 
+ * Certain situations can result in an exception being thrown by libSBML
+ * package extensions.  A prominent example involves the constructor for
+ * SBMLNamespaces (and its subclasses), which will throw
+ * SBMLExtensionException if the arguments it is given refer to an unknown
+ * SBML Level&nbsp;3 package.  The situation can arise for legitimate SBML
+ * files if the necessary package extension has not been registered with
+ * a given copy of libSBML.
+ *
+ *
+ *
+ * @see SBMLNamespaces
  */
 
 public class SBMLExtensionException : IDisposable {
@@ -63,8 +79,11 @@ public class SBMLExtensionException : IDisposable {
   }
 
   
-/** 
-   * constructor 
+/**
+   * Creates a new SBMLExtensionException object with a given message.
+   *
+   * @param errmsg a string, the text of the error message to store
+   * with this exception
    */ public
  SBMLExtensionException(string errmsg) : this(libsbmlPINVOKE.new_SBMLExtensionException(errmsg), true) {
   }

@@ -434,9 +434,10 @@ AST mechanisms.
    * @param formula the mathematical expression to use, represented in
    * text-string form.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -472,9 +473,10 @@ AST mechanisms.
    <p>
    * @param math an {@link ASTNode} representing a formula tree.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -493,9 +495,10 @@ AST mechanisms.
    <p>
    * @param sid the identifier of the units to use.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -521,9 +524,10 @@ AST mechanisms.
    <p>
    * @param sid the identifier of the units to use.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -546,9 +550,10 @@ AST mechanisms.
    * (SBML Level&nbsp;2 Version&nbsp;1 only) Unsets the 'timeUnits'
    * attribugte of this {@link KineticLaw} object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -571,9 +576,10 @@ AST mechanisms.
    * (SBML Level&nbsp;2 Version&nbsp;1 only) Unsets the 'substanceUnits'
    * attribute of this {@link KineticLaw} object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -598,9 +604,10 @@ AST mechanisms.
    <p>
    * @param p the {@link Parameter} to add
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
@@ -635,9 +642,10 @@ AST mechanisms.
    <p>
    * @param p the {@link LocalParameter} to add
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
@@ -926,33 +934,12 @@ AST mechanisms.
     return (cPtr == 0) ? null : new LocalParameter(cPtr, true);
   }
 
-  
-/**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   <p>
-   * Subclasses must override this function if they define one ore more child
-   * elements.  Basically, this function needs to be called in constructor,
-   * copy constructor and assignment operator.
-   <p>
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   * @internal
-   */ public
- void connectToChild() {
+  public void connectToChild() {
     libsbmlJNI.KineticLaw_connectToChild(swigCPtr, this);
   }
 
   
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   <p>
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   * @internal
-   */ public
+/** * @internal */ public
  void enablePackageInternal(String pkgURI, String pkgPrefix, boolean flag) {
     libsbmlJNI.KineticLaw_enablePackageInternal(swigCPtr, this, pkgURI, pkgPrefix, flag);
   }
@@ -964,7 +951,7 @@ AST mechanisms.
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
@@ -1040,9 +1027,10 @@ AST mechanisms.
    <p>
    * Overridden from the {@link SBase} function since the parent is not a {@link ListOf}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1113,29 +1101,19 @@ AST mechanisms.
   }
 
   
-/**
-   * Replace all nodes with the name 'id' from the child 'math' object with the provided function. 
-   <p>
-   * @internal
-   */ public
+/** * @internal */ public
  void replaceSIDWithFunction(String id, ASTNode function) {
     libsbmlJNI.KineticLaw_replaceSIDWithFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }
 
   
-/**
-   * If this reaction id matches the provided 'id' string, replace the 'math' object with the function (existing/function). 
-   * @internal 
-   */ public
+/** * @internal */ public
  void divideAssignmentsToSIdByFunction(String id, ASTNode function) {
     libsbmlJNI.KineticLaw_divideAssignmentsToSIdByFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }
 
   
-/**
-   * If this assignment assigns a value to the 'id' element, replace the 'math' object with the function (existing*function). 
-   * @internal 
-   */ public
+/** * @internal */ public
  void multiplyAssignmentsToSIdByFunction(String id, ASTNode function) {
     libsbmlJNI.KineticLaw_multiplyAssignmentsToSIdByFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }

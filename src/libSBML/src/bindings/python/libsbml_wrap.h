@@ -110,7 +110,7 @@ class SwigDirector_SBMLConverter : public SBMLConverter, public Swig::Director {
 public:
     SwigDirector_SBMLConverter(PyObject *self);
     SwigDirector_SBMLConverter(PyObject *self, std::string const &name);
-    SwigDirector_SBMLConverter(PyObject *self, SBMLConverter const &c);
+    SwigDirector_SBMLConverter(PyObject *self, SBMLConverter const &orig);
     virtual ~SwigDirector_SBMLConverter();
     virtual SBMLConverter *clone() const;
     virtual SBMLDocument *getDocument();

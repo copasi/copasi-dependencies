@@ -1743,6 +1743,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_getError")]
   public static extern IntPtr SBMLDocument_getError(HandleRef jarg1, long jarg2);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_getErrorWithSeverity")]
+  public static extern IntPtr SBMLDocument_getErrorWithSeverity(HandleRef jarg1, long jarg2, long jarg3);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_getNumErrors__SWIG_0")]
   public static extern uint SBMLDocument_getNumErrors__SWIG_0(HandleRef jarg1);
 
@@ -1754,6 +1757,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_printErrors__SWIG_1")]
   public static extern void SBMLDocument_printErrors__SWIG_1(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_printErrors__SWIG_2")]
+  public static extern void SBMLDocument_printErrors__SWIG_2(HandleRef jarg1, HandleRef jarg2, long jarg3);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_connectToChild")]
   public static extern void SBMLDocument_connectToChild(HandleRef jarg1);
@@ -1833,6 +1839,12 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_getValidator")]
   public static extern IntPtr SBMLDocument_getValidator(HandleRef jarg1, long jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_addUnknownPackageRequired")]
+  public static extern int SBMLDocument_addUnknownPackageRequired(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2, [MarshalAs(UnmanagedType.LPWStr)]string jarg3, bool jarg4);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_hasUnknownPackage")]
+  public static extern bool SBMLDocument_hasUnknownPackage(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_new_FunctionDefinition__SWIG_0")]
   public static extern IntPtr new_FunctionDefinition__SWIG_0(long jarg1, long jarg2);
@@ -6214,6 +6226,42 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_XMLOutputStream_setSBMLNamespaces")]
   public static extern void XMLOutputStream_setSBMLNamespaces(HandleRef jarg1, HandleRef jarg2);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputStringStream__SWIG_0")]
+  public static extern IntPtr new_XMLOwningOutputStringStream__SWIG_0([MarshalAs(UnmanagedType.LPWStr)]string jarg1, bool jarg2, [MarshalAs(UnmanagedType.LPWStr)]string jarg3, [MarshalAs(UnmanagedType.LPWStr)]string jarg4);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputStringStream__SWIG_1")]
+  public static extern IntPtr new_XMLOwningOutputStringStream__SWIG_1([MarshalAs(UnmanagedType.LPWStr)]string jarg1, bool jarg2, [MarshalAs(UnmanagedType.LPWStr)]string jarg3);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputStringStream__SWIG_2")]
+  public static extern IntPtr new_XMLOwningOutputStringStream__SWIG_2([MarshalAs(UnmanagedType.LPWStr)]string jarg1, bool jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputStringStream__SWIG_3")]
+  public static extern IntPtr new_XMLOwningOutputStringStream__SWIG_3([MarshalAs(UnmanagedType.LPWStr)]string jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputStringStream__SWIG_4")]
+  public static extern IntPtr new_XMLOwningOutputStringStream__SWIG_4();
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_delete_XMLOwningOutputStringStream")]
+  public static extern void delete_XMLOwningOutputStringStream(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputFileStream__SWIG_0")]
+  public static extern IntPtr new_XMLOwningOutputFileStream__SWIG_0([MarshalAs(UnmanagedType.LPWStr)]string jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2, bool jarg3, [MarshalAs(UnmanagedType.LPWStr)]string jarg4, [MarshalAs(UnmanagedType.LPWStr)]string jarg5);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputFileStream__SWIG_1")]
+  public static extern IntPtr new_XMLOwningOutputFileStream__SWIG_1([MarshalAs(UnmanagedType.LPWStr)]string jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2, bool jarg3, [MarshalAs(UnmanagedType.LPWStr)]string jarg4);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputFileStream__SWIG_2")]
+  public static extern IntPtr new_XMLOwningOutputFileStream__SWIG_2([MarshalAs(UnmanagedType.LPWStr)]string jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2, bool jarg3);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputFileStream__SWIG_3")]
+  public static extern IntPtr new_XMLOwningOutputFileStream__SWIG_3([MarshalAs(UnmanagedType.LPWStr)]string jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLOwningOutputFileStream__SWIG_4")]
+  public static extern IntPtr new_XMLOwningOutputFileStream__SWIG_4([MarshalAs(UnmanagedType.LPWStr)]string jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_delete_XMLOwningOutputFileStream")]
+  public static extern void delete_XMLOwningOutputFileStream(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_new_XMLInputStream__SWIG_0")]
   public static extern IntPtr new_XMLInputStream__SWIG_0([MarshalAs(UnmanagedType.LPWStr)]string jarg1, bool jarg2, [MarshalAs(UnmanagedType.LPWStr)]string jarg3, HandleRef jarg4);
 
@@ -6416,6 +6464,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_XMLErrorLog_printErrors__SWIG_1")]
   public static extern void XMLErrorLog_printErrors__SWIG_1(HandleRef jarg1);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_XMLErrorLog_printErrors__SWIG_2")]
+  public static extern void XMLErrorLog_printErrors__SWIG_2(HandleRef jarg1, HandleRef jarg2, long jarg3);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_XMLErrorLog_isSeverityOverridden")]
   public static extern bool XMLErrorLog_isSeverityOverridden(HandleRef jarg1);
 
@@ -6436,6 +6487,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLErrorLog_getError")]
   public static extern IntPtr SBMLErrorLog_getError(HandleRef jarg1, long jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLErrorLog_getErrorWithSeverity")]
+  public static extern IntPtr SBMLErrorLog_getErrorWithSeverity(HandleRef jarg1, long jarg2, long jarg3);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLErrorLog_getNumFailsWithSeverity__SWIG_0")]
   public static extern uint SBMLErrorLog_getNumFailsWithSeverity__SWIG_0(HandleRef jarg1, long jarg2);
@@ -7578,8 +7632,11 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_removeChild")]
   public static extern int ASTNode_removeChild(HandleRef jarg1, long jarg2);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_replaceChild")]
-  public static extern int ASTNode_replaceChild(HandleRef jarg1, long jarg2, HandleRef jarg3);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_replaceChild__SWIG_0")]
+  public static extern int ASTNode_replaceChild__SWIG_0(HandleRef jarg1, long jarg2, HandleRef jarg3, bool jarg4);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_replaceChild__SWIG_1")]
+  public static extern int ASTNode_replaceChild__SWIG_1(HandleRef jarg1, long jarg2, HandleRef jarg3);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_insertChild")]
   public static extern int ASTNode_insertChild(HandleRef jarg1, long jarg2, HandleRef jarg3);
@@ -7930,6 +7987,9 @@ class libsbmlPINVOKE {
   [return: MarshalAs(UnmanagedType.LPWStr)]
   public static extern string getLastParseL3Error();
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBML_deleteL3Parser")]
+  public static extern void SBML_deleteL3Parser();
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_new_L3ParserSettings__SWIG_0")]
   public static extern IntPtr new_L3ParserSettings__SWIG_0();
 
@@ -7941,6 +8001,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_new_L3ParserSettings__SWIG_3")]
   public static extern IntPtr new_L3ParserSettings__SWIG_3(HandleRef jarg1, int jarg2, bool jarg3, bool jarg4, bool jarg5);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_L3ParserSettings__SWIG_4")]
+  public static extern IntPtr new_L3ParserSettings__SWIG_4(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_delete_L3ParserSettings")]
   public static extern void delete_L3ParserSettings(HandleRef jarg1);
@@ -8073,7 +8136,7 @@ class libsbmlPINVOKE {
   public static extern int ASTBasePlugin_removeChild(HandleRef jarg1, long jarg2);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_ASTBasePlugin_replaceChild")]
-  public static extern int ASTBasePlugin_replaceChild(HandleRef jarg1, long jarg2, HandleRef jarg3);
+  public static extern int ASTBasePlugin_replaceChild(HandleRef jarg1, long jarg2, HandleRef jarg3, bool jarg4);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_ASTBasePlugin_swapChildren")]
   public static extern int ASTBasePlugin_swapChildren(HandleRef jarg1, HandleRef jarg2);

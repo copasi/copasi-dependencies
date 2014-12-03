@@ -238,9 +238,7 @@ public class SBMLStripPackageConverter : SBMLConverter {
   }
 
   
-/**
-   * Register with the ConversionRegistry.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  static void init() {
     libsbmlPINVOKE.SBMLStripPackageConverter_init();
   }
@@ -310,9 +308,13 @@ public class SBMLStripPackageConverter : SBMLConverter {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * @return  integer value indicating the success/failure of the operation.
-   * @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink

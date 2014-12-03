@@ -153,10 +153,13 @@ public class SBMLValidator : IDisposable {
    * 
    * @param doc the document to use for this validation
    * 
-   * @return an integer value indicating the success/failure of the
-   * validation.  @if clike The value is drawn from the enumeration
-   * #OperationReturnValues_t. @endif The possible values returned by this
-   * function are
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getDocument()

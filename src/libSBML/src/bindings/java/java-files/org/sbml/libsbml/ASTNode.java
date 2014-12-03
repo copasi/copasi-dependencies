@@ -363,8 +363,10 @@ public class ASTNode extends ASTBase {
    * operators, numbers, or {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.  This
    * method has no effect on other types of nodes.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -422,8 +424,10 @@ public class ASTNode extends ASTBase {
    <p>
    * @param child the {@link ASTNode} instance to add
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -457,8 +461,10 @@ public class ASTNode extends ASTBase {
    <p>
    * @param child the {@link ASTNode} instance to add
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -489,8 +495,10 @@ public class ASTNode extends ASTBase {
    <p>
    * @param n long the index of the child to remove
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
@@ -521,9 +529,49 @@ public class ASTNode extends ASTBase {
    <p>
    * @param n long the index of the child to replace
    * @param newChild {@link ASTNode} to replace the nth child
+   * @param delreplaced boolean indicating whether to delete the replaced child.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   *
+   * </ul> <p>
+   * <p>
+ * @warning Explicitly adding, removing or replacing children of an
+ * {@link ASTNode} object may change the
+ * structure of the mathematical formula it represents, and may even render
+ * the representation invalid.  Callers need to be careful to use this method
+ * in the context of other operations to create complete and correct
+ * formulas.  The method
+ * {@link ASTNode#isWellFormedASTNode()}
+ * may also be useful for checking the results of node modifications.
+   <p>
+   * @see #addChild(ASTNode child)
+   * @see #prependChild(ASTNode child)
+   * @see #insertChild(long n, ASTNode child)
+   * @see #removeChild(long n)
+   */ public
+ int replaceChild(long n, ASTNode newChild, boolean delreplaced) {
+    return libsbmlJNI.ASTNode_replaceChild__SWIG_0(swigCPtr, this, n, ASTNode.getCPtrAndDisown(newChild), newChild, delreplaced);
+  }
+
+  
+/**
+   * Replaces the nth child of this {@link ASTNode} with the given {@link ASTNode}.
+   <p>
+   * @param n long the index of the child to replace
+   * @param newChild {@link ASTNode} to replace the nth child
+   * @param delreplaced boolean indicating whether to delete the replaced child.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
@@ -546,7 +594,7 @@ public class ASTNode extends ASTBase {
    * @see #removeChild(long n)
    */ public
  int replaceChild(long n, ASTNode newChild) {
-    return libsbmlJNI.ASTNode_replaceChild(swigCPtr, this, n, ASTNode.getCPtrAndDisown(newChild), newChild);
+    return libsbmlJNI.ASTNode_replaceChild__SWIG_1(swigCPtr, this, n, ASTNode.getCPtrAndDisown(newChild), newChild);
   }
 
   
@@ -557,8 +605,10 @@ public class ASTNode extends ASTBase {
    * @param n long the index of the {@link ASTNode} being added
    * @param newChild {@link ASTNode} to insert as the nth child
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
@@ -684,8 +734,10 @@ getChild( getNumChildren() - 1 );
    <p>
    * @param sAnnotation the annotation to add.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1143,9 +1195,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * @param model the {@link Model} to use as context
    <p>
-   * @see #isBoolean()
-   <p>
+   * 
    * @return true if this {@link ASTNode} returns a boolean, <code>false</code> otherwise.
+   <p>
+   * @see #isBoolean()
    */ public
  boolean returnsBoolean(Model model) {
     return libsbmlJNI.ASTNode_returnsBoolean__SWIG_0(swigCPtr, this, Model.getCPtr(model), model);
@@ -1167,9 +1220,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * @param model the {@link Model} to use as context
    <p>
-   * @see #isBoolean()
-   <p>
+   * 
    * @return true if this {@link ASTNode} returns a boolean, <code>false</code> otherwise.
+   <p>
+   * @see #isBoolean()
    */ public
  boolean returnsBoolean() {
     return libsbmlJNI.ASTNode_returnsBoolean__SWIG_1(swigCPtr, this);
@@ -1636,8 +1690,10 @@ used to define a number with value <code>10</code> and unit of measurement
    * @param value the character value to which the node's value should be
    * set.
    <p>
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -1652,8 +1708,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * @param id <code>string</code> representing the identifier.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -1672,8 +1730,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * @param className <code>string</code> representing the MathML class for this node.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -1697,8 +1757,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * @param style <code>string</code> representing the identifier.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -1723,8 +1785,10 @@ used to define a number with value <code>10</code> and unit of measurement
    * @param name the string containing the name to which this node's value
    * should be set.
    <p>
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -1742,8 +1806,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * @param value the integer to which this node's value should be set.
    <p>
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -1762,8 +1828,10 @@ used to define a number with value <code>10</code> and unit of measurement
    * @param numerator the numerator value of the rational.
    * @param denominator the denominator value of the rational.
    <p>
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -1787,8 +1855,10 @@ setValue(value, 0);
    * @param value the <code>double</code> format number to which this node's value
    * should be set.
    <p>
-   * @return integer value indicating success/failure of the function.  The
-   * possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -1807,8 +1877,10 @@ setValue(value, 0);
    * @param mantissa the mantissa of this node's real-numbered value.
    * @param exponent the exponent of this node's real-numbered value.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -1821,14 +1893,20 @@ setValue(value, 0);
 /**
    * Sets the type of this {@link ASTNode}.
    <p>
-   * This uses integer type codes, which may come from ASTNodeType_t or an
-   * enumeration of AST types in an SBML Level&nbsp;3 package.
+   * This uses integer type codes, which may come from the set
+   * of static integer constants whose names begin with the prefix
+   * <code>AST_</code>  defined in the interface class
+   * <code><a href='libsbmlConstants.html'>libsbmlConstants</a></code>
+   *  or an enumeration of AST types in an SBML
+   * Level&nbsp;3 package.
    <p>
    * @param type the integer representing the type to which this node should
    * be set.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -1874,8 +1952,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * @param units <code>string</code> representing the unit identifier.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -1899,8 +1979,10 @@ used to define a number with value <code>10</code> and unit of measurement
    * @param that the other node whose children should be used to replace
    * <em>this</em> node's children.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1936,23 +2018,13 @@ used to define a number with value <code>10</code> and unit of measurement
   }
 
   
-/**
-   * Replace any nodes of type AST_NAME with the name 'id' from the child
-   * 'math' object with the provided {@link ASTNode}.
-   <p>
-   * @internal
-   */ public
+/** * @internal */ public
  void replaceIDWithFunction(String id, ASTNode function) {
     libsbmlJNI.ASTNode_replaceIDWithFunction(swigCPtr, this, id, ASTNode.getCPtr(function), function);
   }
 
   
-/**
-   * Replaces any 'AST_NAME_TIME' nodes with a node that multiplies time by
-   * the given function.
-   <p>
-   * @internal
-   */ public
+/** * @internal */ public
  void setIsChildFlag(boolean flag) {
     libsbmlJNI.ASTNode_setIsChildFlag(swigCPtr, this, flag);
   }
@@ -1961,8 +2033,10 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Unsets the units of this {@link ASTNode}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
@@ -1977,8 +2051,10 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Unsets the MathML <code>id</code> attribute of this {@link ASTNode}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1992,8 +2068,10 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Unsets the MathML <code>class</code> attribute of this {@link ASTNode}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -2007,8 +2085,10 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Unsets the MathML <code>style</code> attribute of this {@link ASTNode}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -2024,8 +2104,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * @param url the URL value for the <code>definitionURL</code> attribute.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -2045,8 +2127,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * @param url the URL value for the <code>definitionURL</code> attribute.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
@@ -2110,8 +2194,10 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Unsets the parent SBML object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -2157,8 +2243,10 @@ used to define a number with value <code>10</code> and unit of measurement
   * information to the node.  In case of a deep copy, this attribute will
   * passed as it is. The attribute will be never interpreted by this class.
   <p>
-  * @return integer value indicating success/failure of the
-  * function.  The possible values returned by this function are:
+  * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
   * <ul>
   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}

@@ -1,5 +1,7 @@
 <!-- ====================================================================== -->
 
+<p> This section explains how to build libSBML from the source distribution.
+
 <h2>Table of contents</h2>
 
 <table class="text-table borderless centered">
@@ -23,6 +25,7 @@
 <ul class="tight-list" style="margin-top: 0; margin-bottom: 0; list-style-type: none">
 <li><a href="#compiling-cmake">1.3.a Using CMake</a></li>
 <li><a href="#compiling-gnumake">1.3.b Using GNU make</a></li>
+<li><a href="#compiling-debugging">1.3.c Debugging build problems</a></li>
 </ul>
 
 <li><a href="#unix-advanced">1.4 Advanced configuration options</a></li>
@@ -51,30 +54,27 @@
 <h2><a class="anchor" name="detailed-unix">1. Procedures for Linux, Mac OS X, FreeBSD, Solaris and Cygwin</a></h2>
 <!-- ---------------------------------------------------------------------- -->
 
-<p> If there is no binary installer for your system, or you prefer to build
-libSBML from the source distribution, you can use one of two build systems:
-<a target="_blank" href="http://www.cmake.org/">CMake</a>, or GNU make.
-They are described separately below.
-
-<p class="warning"> <em>Compatibility warning</em>: The default XML parser
-library used by libSBML is <a target="_blank"
-href="http://xmlsoft.org">libxml2</a>.  If you chose to use another XML
-parser library instead, beware there is a known bug in Xerces 2.6.0 that
-cannot be worked around at this time and causes errors in software using
-it.  Xerces versions 2.2 &#150; 2.5, and
-2.7.0 and above, are known to work properly, and all Expat versions above
-1.95.8 are also known to work.
+<p> LibSBML supports two build systems: <a target="_blank"
+href="http://www.cmake.org/">CMake</a>, and <a target="_blank"
+href="http://www.gnu.org/software/make/">GNU make</a>.  CMake is preferred
+and is the only one supported for building SBML Level&nbsp;3 package
+extensions; GNU make is an alternative for building core libSBML and
+currently is also the only build system supported for generating the
+documentation.
 
 
 <!-- ---------------------------------------------------------------------- -->
 <h3><a class="anchor" name="unix-cmake">1.1 Configuring using CMake</a></h3>
 
-<p> If you do not already have CMake installed on your system, please make
-sure to download and install a copy of CMake version 2.8.4 or later from <a
-target="_blank" href="http://www.cmake.org/">cmake.org</a> on your computer
-system.  Also download and unzip the libSBML source code archive from the
-<a target="_blank"
-href="http://sf.net/projects/sbml/files/libsbml">download
+<p> <a target="_blank" href="http://www.cmake.org/">CMake</a> is a
+cross-platform build system that can be used to build packages such as
+libSBML and generate projects for common development environments such as
+Visual Studio, Eclipse, Xcode and CodeBlocks. If you do not already have
+CMake installed on your system, please make sure to download and install a
+copy of CMake version&nbsp;2.8.4 or later from <a target="_blank"
+href="http://www.cmake.org/">cmake.org</a> on your computer system.  Also
+download and unzip the libSBML source code archive from the <a
+target="_blank" href="http://sf.net/projects/sbml/files/libsbml">download
 area on SourceForge.net</a> and save the archive somewhere on your file
 system, then unpack it.
 
@@ -91,13 +91,15 @@ Mac&nbsp;OS&nbsp;X version of CMake; it will look similar but not identical
 on other operating systems.
 </center>
 
-<p> In the CMake interface, first click on the <b>Browse Source...</b> button and
-navigate to the directory where you unpacked the libSBML source code archive on 
-your file system.  Next, check the value of the field <em>Where to
-build the binaries</em>.  This is the path to the directory where CMake will
-build the binaries; if it is blank, or CMake filled it with a different value
-than what you prefer, click on the <b>Browse Build...</b> button to change
-the directory listed there.
+<p> In the CMake interface, first click on the <b>Browse Source...</b> button
+and navigate to the directory where you unpacked the libSBML source code
+archive on your file system.  Next, check the value of the field <em>Where to
+build the binaries</em>.  We use so-called &ldquo;out-of-source builds&rdquo;
+for libSBML, meaning that CMake will place compiled binary files in a
+separate build directory, not intermixed with the source files.  If the field
+for the build directory in the CMake GUI is blank, or CMake filled it with a
+different value than what you prefer, click on the <b>Browse Build...</b>
+button to change the directory.
 
 <p> After filling in the fields at the top of the interface, click on
 the <b>Configure</b> button.  If this is the first time you have executed
@@ -147,6 +149,7 @@ libSBML libraries.  After clicking on this field, you can type a directory path
 directly into the field or click on the square 
 <span style="background-color: #bbb; border:1px solid #777">...</span> icon to
 invoke a file/open dialog.
+</li>
 
 <li><code>WITH_JAVA</code>, <code>WITH_PYTHON</code>, etc.: toggle whether to
 build the language bindings for programming languages supported by libSBML,
@@ -156,17 +159,27 @@ Python), click the "<b>Advanced</b>" checkbox in the upper part of the
 CMake GUI to gain access to additional configuration options.
 (For Python, they are <code style="padding-right:0">PYTHON_EXECUTABLE</code>,
 <code>PYTHON_INCLUDE_DIR</code> and <code style="padding-right:0">PYTHON_LIBRARY</code>.)
+</li>
 
 <li><code>ENABLE_COMP</code>, <code>ENABLE_QUAL</code>, etc.: toggle whether
 support for various SBML Level&nbsp;3 packages is included.  The names
 following the <code>ENABLE_</code> part are the package nicknames:
 &ldquo;comp&rdquo; for the Hierarchical Model Composition package,
-&ldquo;qual&rdquo; for the Qualitative Models package, and so on.
+&ldquo;qual&rdquo; for the Qualitative Models package, and so on. 
+</li>
 
 <li><code>WITH_EXPAT</code>, <code>WITH_XERCES</code>: by default, libSBML will
 use the  <a
 target="_blank" href="http://xmlsoft.org">libxml2</a> XML library.  If you
 prefer to use Expat or Xerces, select one of these options instead.
+
+<p class="warning" style="margin-top: 1em"> <em>Compatibility warning</em>:
+The default XML parser library used by libSBML is <a target="_blank"
+href="http://xmlsoft.org">libxml2</a>.  If you chose to use another XML
+parser library instead, beware there is a known bug in Xerces 2.6.0 that
+cannot be worked around at this time and causes errors in software using it.
+Xerces versions 2.2 &#150; 2.5, and 2.7.0 and above, are known to work
+properly, and all Expat versions above 1.95.8 are also known to work.  </li>
 
 </ul>
 
@@ -251,10 +264,13 @@ And for Xerces, use
 ./configure --with-xerces
 </pre>
 
-<p> As already noted, there is a bug in Xerces 2.6.0 that cannot be worked
-around.  Xerces versions 2.2 &#150; 2.5, and 2.7.0 and above, are known to
-work properly.  Expat version 1.95.8 and above, and libxml2 version 2.6.16
-and above, are all known to work.
+<p class="warning"> <em>Compatibility warning</em>: The default XML parser
+library used by libSBML is <a target="_blank"
+href="http://xmlsoft.org">libxml2</a>.  If you chose to use another XML
+parser library instead, beware there is a known bug in Xerces 2.6.0 that
+cannot be worked around at this time and causes errors in software using it.
+Xerces versions 2.2 &#150; 2.5, and 2.7.0 and above, are known to work
+properly, and all Expat versions above 1.95.8 are also known to work.  </li>
 
 <p> If your copy of libxml2, Expat, or Xerces is installed in a
 non-standard location on your computer system (e.g., a private home
@@ -686,22 +702,27 @@ do the following:
 cd <span class="placeholder">SRC</span>/build
 </pre>
 
-<p> Next, execute the following commands to compile and install libSBML:
+<p> Next, execute the following command to compile libSBML:
 
 <pre class="fragment">
 make                # Note: use 'gmake' on FreeBSD
+</pre>
+
+<p> If all went well and libSBML compiled without errors, you can use the
+following command to install libSBML on your computer:
+
+<pre class="fragment">
 sudo make install   # Note: use 'sudo gmake install' on FreeBSD
 </pre>
 
 <p> Once the libSBML files are installed as described above, you may need to
 perform additional steps so that software can find the libSBML library files
-at <em>run</em> time.  Please see the instructions on <a
-href="libsbml-accessing.html"><i>Making libSBML accessible to your
-software</i></a> provided on a separate page of this documentation.
-
+at <em>run</em> time.  Please see the instructions in the section on making
+libSBML accessible to your software, provided elsewhere in this
+documentation.
 
 <!-- ---------------------------------------------------------------------- -->
-<h4><a class="anchor" name="compiling-gnumake">1.3.a Using GNU make</a></h4>
+<h4><a class="anchor" name="compiling-gnumake">1.3.b Using GNU make</a></h4>
 
 <p> If you are using GNU make and <i>not</i> using CMake, in a terminal/shell
 window, <code>cd</code> to the top level of the libSBML source directory.  
@@ -709,21 +730,92 @@ In the following example, let
 <span class="placeholder">SRC</span> stand for that directory:
 
 <pre class="fragment">
-cd <span class="placeholder">SRC</span>/build
+cd <span class="placeholder">SRC</span>
 </pre>
 
-<p> Next, execute the following commands to compile and install libSBML:
+<p> Next, execute the following commands to compile libSBML:
 
 <pre class="fragment">
 make                # Note: use 'gmake' on FreeBSD
+</pre>
+
+<p> If all went well and libSBML compiled without errors, you can use the
+following command to install libSBML on your computer:
+
+<pre class="fragment">
 sudo make install   # Note: use 'sudo gmake install' on FreeBSD
 </pre>
 
-<p> Once the libSBML files are installed as described in the sections
-above, you may need to perform additional steps so that software can find
-the libSBML library files at <em>run</em> time.  Please see the
-instructions on <a href="libsbml-accessing.html"><i>Making libSBML accessible
-to your software</i></a> provided on a separate page of this documentation.
+<p> Once the libSBML files are installed as described in the sections above,
+you may need to perform additional steps so that software can find the
+libSBML library files at <em>run</em> time.  Please see the separate section
+on making libSBML accessible to your software provided elsewhere in this
+documentation.
+
+
+<!-- ---------------------------------------------------------------------- -->
+<h4><a class="anchor" name="compiling-debugging">1.3.c Debugging build problems</a></h4>
+
+<p> If something went wrong during the build step and the compilation of
+libSBML stopped with an error, it may be useful to get more information in
+order to debug the process.  
+
+<ul>
+
+<li> <strong><em>If you use CMake</em></strong>: When building libSBML with
+CMake, you can easily run the build with verbose debugging output by giving
+the argument <code>VERBOSE=1</code> in the <code>make</code> step:
+
+<pre class="fragment">
+make VERBOSE=1
+</pre>
+
+<li> <strong><em>If you use GNU make</em></strong>: When building libSBML
+with GNU make, you can use the argument <nobr><code>--debug=b</code></nobr>
+to get additional debugging information without the overwhelming amount of
+output produced by <code>make -d</code>.  In other words, you can use the
+following command:
+
+<pre class="fragment">
+make --debug=b
+</pre>
+
+</ul>
+
+<p> If you need to contact the libSBML Team for help with debugging a failing
+libSBML build, it will greatly help us to get a record of the debugging
+output from a clean build.  On Linux, Mac&nbsp;OS&nbsp;X and Cygwin, you can
+use the convenient <code>script</code> command to record input and output in
+a terminal shell, and then email us the output.
+
+<ul>
+
+<li> <strong><em>If you use CMake</em></strong>: 
+
+<pre class="fragment">
+make clean          # Clean everything to get a fresh build
+script              # Start recording everything in the shell
+make VERBOSE=1      # Build with debugging on
+exit                # Stop recording the script
+</pre>
+
+<li> <strong><em>If you use GNU make</em></strong>: 
+
+<pre class="fragment">
+make clean          # Clean everything to get a fresh build
+script              # Start recording everything in the shell
+make --debug=b      # Build with debugging on
+exit                # Stop recording the script
+</pre>
+
+</ul>
+
+<p> Don't forget to type <code>exit</code>!  
+
+<p> Once you type <code>exit</code>, the <code>script</code> command will
+stop and leave a file named <code>"typescript"</code> in the current
+directory.  Please include the <code>"typescript"</code> when contacting
+the libSBML Team with questions about build failures.
 
 
 <!-- ---------------------------------------------------------------------- -->
@@ -1370,12 +1462,16 @@ offer the following tips for what to do if you encounter problems:
 <li>Contact the developers directly by sending email
 to <a href="mailto:libsbml-team@caltech.edu">libsbml-team@caltech.edu</a>.
   Please make sure to include the following information:
-  <ul style="margin-top: 1em">
+  <ul class="tight-list" style="margin-top: 1em">
     <li>The version of libSBML you are using,
     <li>The operating system, and operating system version, that you are using,
     <li>The programming language you are using, 
     <li>A description of what you are trying to do, and
     <li>A copy of any error messages or other diagnostic messages printed
     by libSBML or your compiler or any other software involved in the problem.
+  If the problem occurs while compiling libSBML, please follow the instructions
+  in section <a href="#compiling-debugging">1.3.c Debugging build problems</a>
+  on how to produce a record of the output produced during compilation.
+  </ul>
 
 </ol>

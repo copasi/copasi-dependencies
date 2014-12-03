@@ -164,38 +164,25 @@ public class XMLErrorLog : IDisposable {
   }
 
   
-/**
-   * Creates a new empty XMLErrorLog.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  XMLErrorLog() : this(libsbmlPINVOKE.new_XMLErrorLog__SWIG_0(), true) {
   }
 
   
-/**
-   * Copy Constructor
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  XMLErrorLog(XMLErrorLog other) : this(libsbmlPINVOKE.new_XMLErrorLog__SWIG_1(XMLErrorLog.getCPtr(other)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/**
-   * Logs the given XMLError.
-   *
-   * @param error XMLError, the error to be logged.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void add(XMLError error) {
     libsbmlPINVOKE.XMLErrorLog_add__SWIG_0(swigCPtr, XMLError.getCPtr(error));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   
-/**
-   * Logs (copies) the XMLErrors in the given XMLError list to this
-   * XMLErrorLog.
-   *
-   * @param errors list, a list of XMLError to be added to the log.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void add(SWIGTYPE_p_std__vectorT_XMLError_p_t errors) {
     libsbmlPINVOKE.XMLErrorLog_add__SWIG_1(swigCPtr, SWIGTYPE_p_std__vectorT_XMLError_p_t.getCPtr(errors));
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -271,6 +258,31 @@ public class XMLErrorLog : IDisposable {
 
   
 /**
+   * Prints the errors or warnings with given severity stored in this error log.
+   *
+   * This method prints the text to the stream given by the optional
+   * parameter @p stream.  If no stream is given, the method prints the
+   * output to the standard error stream.
+   *
+   * The format of the output is:
+   * @verbatim
+   N error(s):
+     line NNN: (id) message
+@endverbatim
+   * If no errors with that severity was found, then no output will be produced.
+   *
+   * @param stream the ostream or ostringstream object indicating where
+   * the output should be printed.
+   * @param severity the severity of the errors sought.
+   *
+   */ public
+ void printErrors(OStream stream, long severity) {
+    libsbmlPINVOKE.XMLErrorLog_printErrors__SWIG_2(swigCPtr, SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()), severity);
+    if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  
+/**
    * Returns a bool indicating whether or not the severity has been
    * overridden.
    *
@@ -331,8 +343,10 @@ public class XMLErrorLog : IDisposable {
  * logging completely.  An override stays in effect until the override is
  * changed again by the calling application.
    *
-   * @return a severity override code.  The possible values are @if clike drawn
-   * from the enumeration #XMLErrorSeverityOverride_t@endif:
+   * @return a severity override code.  The possible values are drawn
+   * from @if clike the enumeration #XMLErrorSeverityOverride_t@else the
+   * set of integer constants whose names begin with the prefix
+   * <code>LIBSBML_OVERRIDE_</code>@endif:
    * @li @link libsbml#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED@endlink
    * @li @link libsbml#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG@endlink
    * @li @link libsbml#LIBSBML_OVERRIDE_WARNING LIBSBML_OVERRIDE_WARNING@endlink

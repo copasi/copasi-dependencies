@@ -125,10 +125,10 @@ START_TEST (test_RenderWriting_write_l2_ojectrole)
   RenderGraphicalObjectPlugin* goPlugin = (RenderGraphicalObjectPlugin*)glyph->getPlugin("render");
   goPlugin->setObjectRole("myRole");
 
-  std::string  modelString = writeSBMLToString(&doc);
+  std::string  modelString = writeSBMLToStdString(&doc);
 
  
-  int index = modelString.find("objectRole=\"myRole");
+  std::string::size_type index = modelString.find("objectRole=\"myRole");
   fail_unless(index != std::string::npos);
 
 }
@@ -1360,8 +1360,7 @@ START_TEST (test_RenderWriting_write_model_1)
   document->enablePackage(LayoutExtension::getXmlnsL2(), "layout", true);  
   document->enablePackage(RenderExtension::getXmlnsL2(), "render", true);
 
-  LayoutPkgNamespaces *layoutns =  new LayoutPkgNamespaces(2);
-  RenderPkgNamespaces *renderns =  new RenderPkgNamespaces(2);
+  LayoutPkgNamespaces layoutns(2);
 
   // create the Model
 
@@ -1835,7 +1834,7 @@ START_TEST (test_RenderWriting_write_model_1)
   Layout* layout=plugin->createLayout();
 
   layout->setId("Layout_1");
-  Dimensions dim(layoutns, 2320.0,1000.0);
+  Dimensions dim(&layoutns, 2320.0,1000.0);
   layout->setDimensions(&dim);
 
 
@@ -1844,26 +1843,26 @@ START_TEST (test_RenderWriting_write_model_1)
   CompartmentGlyph* compartmentGlyph=layout->createCompartmentGlyph();
   compartmentGlyph->setId("CompartmentGlyph_1");
   compartmentGlyph->setCompartmentId(compartment->getId());
-  BoundingBox bb=BoundingBox(layoutns, "bb_compartment",10,10,2300,980);
+  BoundingBox bb=BoundingBox(&layoutns, "bb_compartment",10,10,2300,980);
   compartmentGlyph->setBoundingBox(&bb);
 
   TextGlyph* tg=layout->createTextGlyph();
   tg->setId("TextGlyph_Hepatocyte");
   tg->setOriginOfTextId(compartment->getId());
-  bb=BoundingBox(layoutns, "bb_tg_compartment",50,870,300,72);
+  bb=BoundingBox(&layoutns, "bb_tg_compartment",50,870,300,72);
   tg->setBoundingBox(&bb);
   tg->setGraphicalObjectId(compartmentGlyph->getId());
 
   CompartmentGlyph* mito1Glyph=layout->createCompartmentGlyph();
   mito1Glyph->setId("Mito1_Glyph");
   mito1Glyph->setCompartmentId(mito1->getId());
-  bb=BoundingBox(layoutns, "bb_mito1",100,100,300,100);
+  bb=BoundingBox(&layoutns, "bb_mito1",100,100,300,100);
   mito1Glyph->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_mito1");
   tg->setOriginOfTextId(mito1->getId());
-  bb=BoundingBox(layoutns, "bb_tg_mito1",110,110,280,72);
+  bb=BoundingBox(&layoutns, "bb_tg_mito1",110,110,280,72);
   tg->setBoundingBox(&bb);
   tg->setGraphicalObjectId(mito1Glyph->getId());
 
@@ -1871,26 +1870,26 @@ START_TEST (test_RenderWriting_write_model_1)
   CompartmentGlyph* mito2Glyph=layout->createCompartmentGlyph();
   mito2Glyph->setId("Mito2_Glyph");
   mito2Glyph->setCompartmentId(mito2->getId());
-  bb=BoundingBox(layoutns, "bb_mito2",200,650,300,100);
+  bb=BoundingBox(&layoutns, "bb_mito2",200,650,300,100);
   mito2Glyph->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_mito2");
   tg->setOriginOfTextId(mito2->getId());
-  bb=BoundingBox(layoutns, "bb_tg_mito2",210,660,280,72);
+  bb=BoundingBox(&layoutns, "bb_tg_mito2",210,660,280,72);
   tg->setBoundingBox(&bb);
   tg->setGraphicalObjectId(mito2Glyph->getId());
 
   CompartmentGlyph* mito3Glyph_2=layout->createCompartmentGlyph();
   mito3Glyph_2->setId("Mito3_Glyph_2");
   mito3Glyph_2->setCompartmentId(mito3->getId());
-  bb=BoundingBox(layoutns, "bb_mito3_2",1470,30,820,536);
+  bb=BoundingBox(&layoutns, "bb_mito3_2",1470,30,820,536);
   mito3Glyph_2->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_mito3_2");
   tg->setOriginOfTextId(mito3->getId());
-  bb=BoundingBox(layoutns, "bb_tg_mito3_2",1475,35,200,72);
+  bb=BoundingBox(&layoutns, "bb_tg_mito3_2",1475,35,200,72);
   tg->setBoundingBox(&bb);
   tg->setGraphicalObjectId(mito3Glyph_2->getId());
 
@@ -1905,12 +1904,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_malate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_malate_cyt->setId("SpeciesGlyph_malate_cyt");
   speciesGlyph_malate_cyt->setSpeciesId(malate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_malate_cyt",580,280,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_malate_cyt",580,280,240,36);
   speciesGlyph_malate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_malate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_malatate_cyt",590,280,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_malatate_cyt",590,280,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_malate_cyt->getId());
@@ -1919,12 +1918,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_oxaloacetate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_oxaloacetate_cyt->setId("SpeciesGlyph_oxaloacetate_cyt");
   speciesGlyph_oxaloacetate_cyt->setSpeciesId(oxaloacetate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_oxaloacetate_cyt",580,480,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_oxaloacetate_cyt",580,480,240,36);
   speciesGlyph_oxaloacetate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_oxaloacetate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_oxaloacetate_cyt",590,480,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_oxaloacetate_cyt",590,480,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(oxaloacetate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_oxaloacetate_cyt->getId());
@@ -1933,12 +1932,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_aspartate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_aspartate_cyt->setId("SpeciesGlyph_aspartate_cyt");
   speciesGlyph_aspartate_cyt->setSpeciesId(aspartate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_aspartate_cyt",580,680,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_aspartate_cyt",580,680,240,36);
   speciesGlyph_aspartate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_aspartate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_aspartate_cyt",590,680,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_aspartate_cyt",590,680,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_aspartate_cyt->getId());
@@ -1947,12 +1946,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_glutamate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_glutamate_cyt->setId("SpeciesGlyph_glutamate_cyt");
   speciesGlyph_glutamate_cyt->setSpeciesId(glutamate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_glutamate_cyt",800,610,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_glutamate_cyt",800,610,240,36);
   speciesGlyph_glutamate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_glutamate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_glutamate_cyt",810,610,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_glutamate_cyt",810,610,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(glutamate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_glutamate_cyt->getId());
@@ -1961,12 +1960,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_aKetoglutarate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_aKetoglutarate_cyt->setId("SpeciesGlyph_aKetoglutarate_cyt");
   speciesGlyph_aKetoglutarate_cyt->setSpeciesId(aKetoglutarate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_aKetoglutarate_cyt",860,500,280,36);
+  bb=BoundingBox(&layoutns, "bb_sg_aKetoglutarate_cyt",860,500,280,36);
   speciesGlyph_aKetoglutarate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_aKetoglutarate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_aKetoglutarate_cyt",870,500,260,36);
+  bb=BoundingBox(&layoutns, "bb_tg_aKetoglutarate_cyt",870,500,260,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aKetoglutarate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_aKetoglutarate_cyt->getId());
@@ -1975,12 +1974,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_nad_cyt=layout->createSpeciesGlyph();
   speciesGlyph_nad_cyt->setId("SpeciesGlyph_nad_cyt");
   speciesGlyph_nad_cyt->setSpeciesId(nad_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_nad_cyt",520,350,100,24);
+  bb=BoundingBox(&layoutns, "bb_sg_nad_cyt",520,350,100,24);
   speciesGlyph_nad_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_nad_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_nad_cyt",525,350,80,24);
+  bb=BoundingBox(&layoutns, "bb_tg_nad_cyt",525,350,80,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(nad_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_nad_cyt->getId());
@@ -1989,12 +1988,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_nadh_cyt=layout->createSpeciesGlyph();
   speciesGlyph_nadh_cyt->setId("SpeciesGlyph_nadh_cyt");
   speciesGlyph_nadh_cyt->setSpeciesId(nadh_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_nadh_cyt",520,430,100,24);
+  bb=BoundingBox(&layoutns, "bb_sg_nadh_cyt",520,430,100,24);
   speciesGlyph_nadh_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_nadh_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_nadh_cyt",525,430,80,24);
+  bb=BoundingBox(&layoutns, "bb_tg_nadh_cyt",525,430,80,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(nadh_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_nadh_cyt->getId());
@@ -2003,12 +2002,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_h_cyt=layout->createSpeciesGlyph();
   speciesGlyph_h_cyt->setId("SpeciesGlyph_h_cyt");
   speciesGlyph_h_cyt->setSpeciesId(h_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_h_cyt",430,430,40,24);
+  bb=BoundingBox(&layoutns, "bb_sg_h_cyt",430,430,40,24);
   speciesGlyph_h_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_h_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_h_cyt",435,430,30,24);
+  bb=BoundingBox(&layoutns, "bb_tg_h_cyt",435,430,30,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(h_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_h_cyt->getId());
@@ -2022,14 +2021,14 @@ START_TEST (test_RenderWriting_write_model_1)
 
   Curve* curve=rg_malatedh_cyt->getCurve();
   LineSegment* ls=curve->createLineSegment();
-  Point p(layoutns, 700,381);
+  Point p(&layoutns, 700,381);
   ls->setStart(&p);
-  p=Point(layoutns, 700,415);
+  p=Point(&layoutns, 700,415);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_malaltedh_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_rg_malaltedh_cyt",700,385,210,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_malaltedh_cyt",700,385,210,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malatedh_cyt->getId());
   tg->setGraphicalObjectId(rg_malatedh_cyt->getId());
@@ -2041,14 +2040,14 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=rg_aspartateat_cyt->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 700,581);
+  p=Point(&layoutns, 700,581);
   ls->setStart(&p);
-  p=Point(layoutns, 700,615);
+  p=Point(&layoutns, 700,615);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_aspartateat_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_rg_aspartateat_cyt",440,585,260,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_aspartateat_cyt",440,585,260,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartateat_cyt->getId());
   tg->setGraphicalObjectId(rg_aspartateat_cyt->getId());
@@ -2064,9 +2063,9 @@ START_TEST (test_RenderWriting_write_model_1)
   srg_malate_cyt_1->setRole(SPECIES_ROLE_SUBSTRATE);
 
   ls=srg_malate_cyt_1->createLineSegment();
-  p=Point(layoutns, 700,381);
+  p=Point(&layoutns, 700,381);
   ls->setStart(&p);
-  p=Point(layoutns, 700,316);
+  p=Point(&layoutns, 700,316);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_nad_cyt=rg_malatedh_cyt->createSpeciesReferenceGlyph();
@@ -2076,13 +2075,13 @@ START_TEST (test_RenderWriting_write_model_1)
   srg_nad_cyt->setRole(SPECIES_ROLE_SUBSTRATE);
 
   CubicBezier* cb=srg_nad_cyt->createCubicBezier();
-  p=Point(layoutns, 700,381);
+  p=Point(&layoutns, 700,381);
   cb->setStart(&p);
-  p=Point(layoutns, 700,362);
+  p=Point(&layoutns, 700,362);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 700,362);
+  p=Point(&layoutns, 700,362);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 620,362);
+  p=Point(&layoutns, 620,362);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_oxaloacetate_cyt_1=rg_malatedh_cyt->createSpeciesReferenceGlyph();
@@ -2093,9 +2092,9 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_oxaloacetate_cyt_1->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 700,415);
+  p=Point(&layoutns, 700,415);
   ls->setStart(&p);
-  p=Point(layoutns, 700,480);
+  p=Point(&layoutns, 700,480);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_nadh_cyt=rg_malatedh_cyt->createSpeciesReferenceGlyph();
@@ -2105,13 +2104,13 @@ START_TEST (test_RenderWriting_write_model_1)
   srg_nadh_cyt->setRole(SPECIES_ROLE_PRODUCT);
 
   cb=srg_nadh_cyt->createCubicBezier();
-  p=Point(layoutns, 700,415);
+  p=Point(&layoutns, 700,415);
   cb->setStart(&p);
-  p=Point(layoutns, 700,442);
+  p=Point(&layoutns, 700,442);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 700,442);
+  p=Point(&layoutns, 700,442);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 620,442);
+  p=Point(&layoutns, 620,442);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_h_cyt=rg_malatedh_cyt->createSpeciesReferenceGlyph();
@@ -2121,13 +2120,13 @@ START_TEST (test_RenderWriting_write_model_1)
   srg_h_cyt->setRole(SPECIES_ROLE_PRODUCT);
 
   cb=srg_h_cyt->createCubicBezier();
-  p=Point(layoutns, 700,415); 
+  p=Point(&layoutns, 700,415); 
   cb->setStart(&p);
-  p=Point(layoutns, 570,415);
+  p=Point(&layoutns, 570,415);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 570,415);
+  p=Point(&layoutns, 570,415);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 470,430);
+  p=Point(&layoutns, 470,430);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_oxaloacetate_cyt_2=rg_aspartateat_cyt->createSpeciesReferenceGlyph();
@@ -2138,9 +2137,9 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_oxaloacetate_cyt_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 700,581);
+  p=Point(&layoutns, 700,581);
   ls->setStart(&p);
-  p=Point(layoutns, 700,516);
+  p=Point(&layoutns, 700,516);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_glutamate_cyt_1=rg_aspartateat_cyt->createSpeciesReferenceGlyph();
@@ -2151,13 +2150,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_glutamate_cyt_1->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 700,581);
+  p=Point(&layoutns, 700,581);
   cb->setStart(&p);
-  p=Point(layoutns, 750,581);
+  p=Point(&layoutns, 750,581);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 750,628);
+  p=Point(&layoutns, 750,628);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 800,628);
+  p=Point(&layoutns, 800,628);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_aspartate_cyt_1=rg_aspartateat_cyt->createSpeciesReferenceGlyph();
@@ -2168,9 +2167,9 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_aspartate_cyt_1->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 700,615);
+  p=Point(&layoutns, 700,615);
   ls->setStart(&p);
-  p=Point(layoutns, 700,680);
+  p=Point(&layoutns, 700,680);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_aKetoglutarate_cyt_1=rg_aspartateat_cyt->createSpeciesReferenceGlyph();
@@ -2181,13 +2180,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_aKetoglutarate_cyt_1->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 700,615);
+  p=Point(&layoutns, 700,615);
   cb->setStart(&p);
-  p=Point(layoutns, 790,615);
+  p=Point(&layoutns, 790,615);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 790,515);
+  p=Point(&layoutns, 790,515);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 860,515);
+  p=Point(&layoutns, 860,515);
   cb->setEnd(&p);
 
 
@@ -2195,12 +2194,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_malate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_malate_mito3->setId("SpeciesGlyph_malate_mito3");
   speciesGlyph_malate_mito3->setSpeciesId(malate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_malate_mito3",1850,80,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_malate_mito3",1850,80,240,36);
   speciesGlyph_malate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_malate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_malatate_mito3",1860,80,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_malatate_mito3",1860,80,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_malate_mito3->getId());
@@ -2209,12 +2208,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_oxaloacetate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_oxaloacetate_mito3->setId("SpeciesGlyph_oxaloacetate_mito3");
   speciesGlyph_oxaloacetate_mito3->setSpeciesId(oxaloacetate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_oxaloacetate_mito3",1850,280,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_oxaloacetate_mito3",1850,280,240,36);
   speciesGlyph_oxaloacetate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_oxaloacetate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_oxaloacetate_mito3",1860,280,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_oxaloacetate_mito3",1860,280,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(oxaloacetate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_oxaloacetate_mito3->getId());
@@ -2223,12 +2222,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_aspartate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_aspartate_mito3->setId("SpeciesGlyph_aspartate_mito3");
   speciesGlyph_aspartate_mito3->setSpeciesId(aspartate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_aspartate_mito3",1850,480,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_aspartate_mito3",1850,480,240,36);
   speciesGlyph_aspartate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_aspartate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_aspartate_mito3",1860,480,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_aspartate_mito3",1860,480,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_aspartate_mito3->getId());
@@ -2237,12 +2236,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_glutamate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_glutamate_mito3->setId("SpeciesGlyph_glutamate_mito3");
   speciesGlyph_glutamate_mito3->setSpeciesId(glutamate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_glutamate_mito3",1550,430,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_glutamate_mito3",1550,430,240,36);
   speciesGlyph_glutamate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_glutamate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_glutamate_mito3",1560,430,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_glutamate_mito3",1560,430,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(glutamate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_glutamate_mito3->getId());
@@ -2251,12 +2250,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_aKetoglutarate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_aKetoglutarate_mito3->setId("SpeciesGlyph_aKetoglutarate_mito3");
   speciesGlyph_aKetoglutarate_mito3->setSpeciesId(aKetoglutarate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_aKetoglutarate_mito3",1530,300,280,36);
+  bb=BoundingBox(&layoutns, "bb_sg_aKetoglutarate_mito3",1530,300,280,36);
   speciesGlyph_aKetoglutarate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_aKetoglutarate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_aKetoglutarate_mito3",1540,300,260,36);
+  bb=BoundingBox(&layoutns, "bb_tg_aKetoglutarate_mito3",1540,300,260,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aKetoglutarate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_aKetoglutarate_mito3->getId());
@@ -2265,12 +2264,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_nad_mito3=layout->createSpeciesGlyph();
   speciesGlyph_nad_mito3->setId("SpeciesGlyph_nad_mito3");
   speciesGlyph_nad_mito3->setSpeciesId(nad_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_nad_mito3",2050,150,100,24);
+  bb=BoundingBox(&layoutns, "bb_sg_nad_mito3",2050,150,100,24);
   speciesGlyph_nad_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_nad_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_nad_mito3",2055,150,80,24);
+  bb=BoundingBox(&layoutns, "bb_tg_nad_mito3",2055,150,80,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(nad_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_nad_mito3->getId());
@@ -2279,12 +2278,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_nadh_mito3=layout->createSpeciesGlyph();
   speciesGlyph_nadh_mito3->setId("SpeciesGlyph_nadh_mito3");
   speciesGlyph_nadh_mito3->setSpeciesId(nadh_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_nadh_mito3",2050,230,100,24);
+  bb=BoundingBox(&layoutns, "bb_sg_nadh_mito3",2050,230,100,24);
   speciesGlyph_nadh_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_nadh_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_nadh_mito3",2055,230,80,24);
+  bb=BoundingBox(&layoutns, "bb_tg_nadh_mito3",2055,230,80,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(nadh_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_nadh_mito3->getId());
@@ -2293,12 +2292,12 @@ START_TEST (test_RenderWriting_write_model_1)
   SpeciesGlyph* speciesGlyph_h_mito3=layout->createSpeciesGlyph();
   speciesGlyph_h_mito3->setId("SpeciesGlyph_h_mito3");
   speciesGlyph_h_mito3->setSpeciesId(h_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_h_mito3",2200,230,40,24);
+  bb=BoundingBox(&layoutns, "bb_sg_h_mito3",2200,230,40,24);
   speciesGlyph_h_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_h_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_h_mito3",2205,230,30,24);
+  bb=BoundingBox(&layoutns, "bb_tg_h_mito3",2205,230,30,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(h_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_h_mito3->getId());
@@ -2312,14 +2311,14 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=rg_malatedh_mito3->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,181);
+  p=Point(&layoutns, 1970,181);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,215);
+  p=Point(&layoutns, 1970,215);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_malatedh_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_rg_malatedh_mito3",1740,185,220,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_malatedh_mito3",1740,185,220,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malatedh_mito3->getId());
   tg->setGraphicalObjectId(rg_malatedh_mito3->getId());
@@ -2330,14 +2329,14 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=rg_aspartateat_mito3->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,381);
+  p=Point(&layoutns, 1970,381);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,415);
+  p=Point(&layoutns, 1970,415);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_aspartateat_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_rg_aspartateat_mito3",1970,385,260,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_aspartateat_mito3",1970,385,260,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartateat_mito3->getId());
   tg->setGraphicalObjectId(rg_aspartateat_mito3->getId());
@@ -2352,9 +2351,9 @@ START_TEST (test_RenderWriting_write_model_1)
   srg_malate_mito3_1->setRole(SPECIES_ROLE_SUBSTRATE);
 
   ls=srg_malate_mito3_1->createLineSegment();
-  p=Point(layoutns, 1970,181);
+  p=Point(&layoutns, 1970,181);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,116);
+  p=Point(&layoutns, 1970,116);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_nad_mito3=rg_malatedh_mito3->createSpeciesReferenceGlyph();
@@ -2364,13 +2363,13 @@ START_TEST (test_RenderWriting_write_model_1)
   srg_nad_mito3->setRole(SPECIES_ROLE_SUBSTRATE);
 
   cb=srg_nad_mito3->createCubicBezier();
-  p=Point(layoutns, 1970,181);
+  p=Point(&layoutns, 1970,181);
   cb->setStart(&p);
-  p=Point(layoutns, 1970,162);
+  p=Point(&layoutns, 1970,162);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1970,162);
+  p=Point(&layoutns, 1970,162);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 2050,162);
+  p=Point(&layoutns, 2050,162);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_oxaloacetate_mito3_1=rg_malatedh_mito3->createSpeciesReferenceGlyph();
@@ -2381,9 +2380,9 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_oxaloacetate_mito3_1->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,215);
+  p=Point(&layoutns, 1970,215);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,280);
+  p=Point(&layoutns, 1970,280);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_nadh_mito3=rg_malatedh_mito3->createSpeciesReferenceGlyph();
@@ -2393,13 +2392,13 @@ START_TEST (test_RenderWriting_write_model_1)
   srg_nadh_mito3->setRole(SPECIES_ROLE_PRODUCT);
 
   cb=srg_nadh_mito3->createCubicBezier();
-  p=Point(layoutns, 1970,215);
+  p=Point(&layoutns, 1970,215);
   cb->setStart(&p);
-  p=Point(layoutns, 1970,242);
+  p=Point(&layoutns, 1970,242);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1970,242);
+  p=Point(&layoutns, 1970,242);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 2050,242);
+  p=Point(&layoutns, 2050,242);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_h_mito3=rg_malatedh_mito3->createSpeciesReferenceGlyph();
@@ -2409,13 +2408,13 @@ START_TEST (test_RenderWriting_write_model_1)
   srg_h_mito3->setRole(SPECIES_ROLE_PRODUCT);
 
   cb=srg_h_mito3->createCubicBezier();
-  p=Point(layoutns, 1970,215);
+  p=Point(&layoutns, 1970,215);
   cb->setStart(&p);
-  p=Point(layoutns, 2100,215);
+  p=Point(&layoutns, 2100,215);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 2100,215);
+  p=Point(&layoutns, 2100,215);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 2200,230);
+  p=Point(&layoutns, 2200,230);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_oxaloacetate_mito3_2=rg_aspartateat_mito3->createSpeciesReferenceGlyph();
@@ -2426,9 +2425,9 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_oxaloacetate_mito3_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,381);
+  p=Point(&layoutns, 1970,381);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,316);
+  p=Point(&layoutns, 1970,316);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_glutamate_mito3_1=rg_aspartateat_mito3->createSpeciesReferenceGlyph();
@@ -2439,13 +2438,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_glutamate_mito3_1->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1970,381);
+  p=Point(&layoutns, 1970,381);
   cb->setStart(&p);
-  p=Point(layoutns, 1880,381);
+  p=Point(&layoutns, 1880,381);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1880,448);
+  p=Point(&layoutns, 1880,448);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1790,448);
+  p=Point(&layoutns, 1790,448);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_aspartate_mito3_1=rg_aspartateat_mito3->createSpeciesReferenceGlyph();
@@ -2456,9 +2455,9 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_aspartate_mito3_1->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,415);
+  p=Point(&layoutns, 1970,415);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,480);
+  p=Point(&layoutns, 1970,480);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_aKetoglutarate_mito3_1=rg_aspartateat_mito3->createSpeciesReferenceGlyph();
@@ -2469,13 +2468,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_aKetoglutarate_mito3_1->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1970,415);
+  p=Point(&layoutns, 1970,415);
   cb->setStart(&p);
-  p=Point(layoutns, 1880,415);
+  p=Point(&layoutns, 1880,415);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1880,315);
+  p=Point(&layoutns, 1880,315);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1810,315);
+  p=Point(&layoutns, 1810,315);
   cb->setEnd(&p);
 
   // add the transport reaction glyphs
@@ -2486,14 +2485,14 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=rg_aspartateCarrier->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1420,530);
+  p=Point(&layoutns, 1420,530);
   ls->setStart(&p);
-  p=Point(layoutns, 1360,550);
+  p=Point(&layoutns, 1360,550);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_aspartateCarrier");
-  bb=BoundingBox(layoutns, "bb_tg_rg_aspartateCarrier",1380,500,160,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_aspartateCarrier",1380,500,160,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartateCarrier->getId());
   tg->setGraphicalObjectId(rg_aspartateCarrier->getId());
@@ -2505,14 +2504,14 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=rg_malateCarrier->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1420,320);
+  p=Point(&layoutns, 1420,320);
   ls->setStart(&p);
-  p=Point(layoutns, 1360,340);
+  p=Point(&layoutns, 1360,340);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_malateCarrier");
-  bb=BoundingBox(layoutns, "bb_tg_rg_malateCarrier",1360,330,140,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_malateCarrier",1360,330,140,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malateCarrier->getId());
   tg->setGraphicalObjectId(rg_malateCarrier->getId());
@@ -2529,9 +2528,9 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_aKetoglutarate_mito3_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1420,320);
+  p=Point(&layoutns, 1420,320);
   ls->setStart(&p);
-  p=Point(layoutns, 1530,318);
+  p=Point(&layoutns, 1530,318);
   ls->setEnd(&p);
 
 
@@ -2543,9 +2542,9 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_aKetoglutarate_cyt_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1360,340);
+  p=Point(&layoutns, 1360,340);
   ls->setStart(&p);
-  p=Point(layoutns, 1140,518);
+  p=Point(&layoutns, 1140,518);
   ls->setEnd(&p);
 
 
@@ -2557,13 +2556,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_malate_cyt_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1420,320);
+  p=Point(&layoutns, 1420,320);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,250);
+  p=Point(&layoutns, 1390,250);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,250);
+  p=Point(&layoutns, 1390,250);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 820,298);
+  p=Point(&layoutns, 820,298);
   cb->setEnd(&p);
 
 
@@ -2575,13 +2574,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_malate_mito3_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1360,340);
+  p=Point(&layoutns, 1360,340);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,150);
+  p=Point(&layoutns, 1390,150);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,150);
+  p=Point(&layoutns, 1390,150);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1850,98);
+  p=Point(&layoutns, 1850,98);
   cb->setEnd(&p);
 
 
@@ -2597,9 +2596,9 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_aspartate_mito3_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1420,530);
+  p=Point(&layoutns, 1420,530);
   ls->setStart(&p);
-  p=Point(layoutns, 1850,498);
+  p=Point(&layoutns, 1850,498);
   ls->setEnd(&p);
 
 
@@ -2611,13 +2610,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_aspartate_cyt_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1360,550);
+  p=Point(&layoutns, 1360,550);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,698);
+  p=Point(&layoutns, 1390,698);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,698);
+  p=Point(&layoutns, 1390,698);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 820,698);
+  p=Point(&layoutns, 820,698);
   cb->setEnd(&p);
 
 
@@ -2629,13 +2628,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_glutamate_cyt_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1420,530);
+  p=Point(&layoutns, 1420,530);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,648);
+  p=Point(&layoutns, 1390,648);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,648);
+  p=Point(&layoutns, 1390,648);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1050,628);
+  p=Point(&layoutns, 1050,628);
   cb->setEnd(&p);
 
 
@@ -2647,13 +2646,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   curve=srg_glutamate_mito3_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1360,550);
+  p=Point(&layoutns, 1360,550);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,448);
+  p=Point(&layoutns, 1390,448);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,448);
+  p=Point(&layoutns, 1390,448);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1550,448);
+  p=Point(&layoutns, 1550,448);
   cb->setEnd(&p);
 
   // now we add some global render information
@@ -2740,8 +2739,8 @@ START_TEST (test_RenderWriting_write_model_1)
   // line endings
   LineEnding* pLineEnding=pGlobalRender->createLineEnding();
   pLineEnding->setId("simpleHead_black");
-  p=Point(layoutns, -8,-3);
-  Dimensions d(layoutns, 10,6);
+  p=Point(&layoutns, -8,-3);
+  Dimensions d(&layoutns, 10,6);
   pLineEnding->getBoundingBox()->setPosition(&p);
   pLineEnding->getBoundingBox()->setDimensions(&d);
   pGroup=pLineEnding->getGroup();
@@ -4190,8 +4189,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   document->enablePackage(LayoutExtension::getXmlnsL3V1V1(), "layout", true);
   document->enablePackage(RenderExtension::getXmlnsL3V1V1(), "render", true);
 
-  LayoutPkgNamespaces *layoutns = new LayoutPkgNamespaces();
-  RenderPkgNamespaces *renderns = new RenderPkgNamespaces();
+  LayoutPkgNamespaces layoutns;
 
   document->setPackageRequired("layout", false);
   document->setPackageRequired("render", false);
@@ -4668,7 +4666,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   Layout* layout=plugin ->createLayout();
 
   layout->setId("Layout_1");
-  Dimensions dim(layoutns,2320.0,1000.0);
+  Dimensions dim(&layoutns,2320.0,1000.0);
   layout->setDimensions(&dim);
 
 
@@ -4677,26 +4675,26 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   CompartmentGlyph* compartmentGlyph=layout->createCompartmentGlyph();
   compartmentGlyph->setId("CompartmentGlyph_1");
   compartmentGlyph->setCompartmentId(compartment->getId());
-  BoundingBox bb=BoundingBox(layoutns, "bb_compartment",10,10,2300,980);
+  BoundingBox bb=BoundingBox(&layoutns, "bb_compartment",10,10,2300,980);
   compartmentGlyph->setBoundingBox(&bb);
 
   TextGlyph* tg=layout->createTextGlyph();
   tg->setId("TextGlyph_Hepatocyte");
   tg->setOriginOfTextId(compartment->getId());
-  bb=BoundingBox(layoutns, "bb_tg_compartment",50,870,300,72);
+  bb=BoundingBox(&layoutns, "bb_tg_compartment",50,870,300,72);
   tg->setBoundingBox(&bb);
   tg->setGraphicalObjectId(compartmentGlyph->getId());
 
   CompartmentGlyph* mito1Glyph=layout->createCompartmentGlyph();
   mito1Glyph->setId("Mito1_Glyph");
   mito1Glyph->setCompartmentId(mito1->getId());
-  bb=BoundingBox(layoutns, "bb_mito1",100,100,300,100);
+  bb=BoundingBox(&layoutns, "bb_mito1",100,100,300,100);
   mito1Glyph->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_mito1");
   tg->setOriginOfTextId(mito1->getId());
-  bb=BoundingBox(layoutns, "bb_tg_mito1",110,110,280,72);
+  bb=BoundingBox(&layoutns, "bb_tg_mito1",110,110,280,72);
   tg->setBoundingBox(&bb);
   tg->setGraphicalObjectId(mito1Glyph->getId());
 
@@ -4704,26 +4702,26 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   CompartmentGlyph* mito2Glyph=layout->createCompartmentGlyph();
   mito2Glyph->setId("Mito2_Glyph");
   mito2Glyph->setCompartmentId(mito2->getId());
-  bb=BoundingBox(layoutns, "bb_mito2",200,650,300,100);
+  bb=BoundingBox(&layoutns, "bb_mito2",200,650,300,100);
   mito2Glyph->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_mito2");
   tg->setOriginOfTextId(mito2->getId());
-  bb=BoundingBox(layoutns, "bb_tg_mito2",210,660,280,72);
+  bb=BoundingBox(&layoutns, "bb_tg_mito2",210,660,280,72);
   tg->setBoundingBox(&bb);
   tg->setGraphicalObjectId(mito2Glyph->getId());
 
   CompartmentGlyph* mito3Glyph_2=layout->createCompartmentGlyph();
   mito3Glyph_2->setId("Mito3_Glyph_2");
   mito3Glyph_2->setCompartmentId(mito3->getId());
-  bb=BoundingBox(layoutns, "bb_mito3_2",1470,30,820,536);
+  bb=BoundingBox(&layoutns, "bb_mito3_2",1470,30,820,536);
   mito3Glyph_2->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_mito3_2");
   tg->setOriginOfTextId(mito3->getId());
-  bb=BoundingBox(layoutns, "bb_tg_mito3_2",1475,35,200,72);
+  bb=BoundingBox(&layoutns, "bb_tg_mito3_2",1475,35,200,72);
   tg->setBoundingBox(&bb);
   tg->setGraphicalObjectId(mito3Glyph_2->getId());
 
@@ -4738,12 +4736,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_malate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_malate_cyt->setId("SpeciesGlyph_malate_cyt");
   speciesGlyph_malate_cyt->setSpeciesId(malate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_malate_cyt",580,280,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_malate_cyt",580,280,240,36);
   speciesGlyph_malate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_malate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_malatate_cyt",590,280,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_malatate_cyt",590,280,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_malate_cyt->getId());
@@ -4752,12 +4750,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_oxaloacetate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_oxaloacetate_cyt->setId("SpeciesGlyph_oxaloacetate_cyt");
   speciesGlyph_oxaloacetate_cyt->setSpeciesId(oxaloacetate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_oxaloacetate_cyt",580,480,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_oxaloacetate_cyt",580,480,240,36);
   speciesGlyph_oxaloacetate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_oxaloacetate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_oxaloacetate_cyt",590,480,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_oxaloacetate_cyt",590,480,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(oxaloacetate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_oxaloacetate_cyt->getId());
@@ -4766,12 +4764,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_aspartate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_aspartate_cyt->setId("SpeciesGlyph_aspartate_cyt");
   speciesGlyph_aspartate_cyt->setSpeciesId(aspartate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_aspartate_cyt",580,680,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_aspartate_cyt",580,680,240,36);
   speciesGlyph_aspartate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_aspartate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_aspartate_cyt",590,680,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_aspartate_cyt",590,680,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_aspartate_cyt->getId());
@@ -4780,12 +4778,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_glutamate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_glutamate_cyt->setId("SpeciesGlyph_glutamate_cyt");
   speciesGlyph_glutamate_cyt->setSpeciesId(glutamate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_glutamate_cyt",800,610,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_glutamate_cyt",800,610,240,36);
   speciesGlyph_glutamate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_glutamate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_glutamate_cyt",810,610,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_glutamate_cyt",810,610,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(glutamate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_glutamate_cyt->getId());
@@ -4794,12 +4792,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_aKetoglutarate_cyt=layout->createSpeciesGlyph();
   speciesGlyph_aKetoglutarate_cyt->setId("SpeciesGlyph_aKetoglutarate_cyt");
   speciesGlyph_aKetoglutarate_cyt->setSpeciesId(aKetoglutarate_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_aKetoglutarate_cyt",860,500,280,36);
+  bb=BoundingBox(&layoutns, "bb_sg_aKetoglutarate_cyt",860,500,280,36);
   speciesGlyph_aKetoglutarate_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_aKetoglutarate_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_aKetoglutarate_cyt",870,500,260,36);
+  bb=BoundingBox(&layoutns, "bb_tg_aKetoglutarate_cyt",870,500,260,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aKetoglutarate_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_aKetoglutarate_cyt->getId());
@@ -4808,12 +4806,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_nad_cyt=layout->createSpeciesGlyph();
   speciesGlyph_nad_cyt->setId("SpeciesGlyph_nad_cyt");
   speciesGlyph_nad_cyt->setSpeciesId(nad_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_nad_cyt",520,350,100,24);
+  bb=BoundingBox(&layoutns, "bb_sg_nad_cyt",520,350,100,24);
   speciesGlyph_nad_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_nad_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_nad_cyt",525,350,80,24);
+  bb=BoundingBox(&layoutns, "bb_tg_nad_cyt",525,350,80,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(nad_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_nad_cyt->getId());
@@ -4822,12 +4820,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_nadh_cyt=layout->createSpeciesGlyph();
   speciesGlyph_nadh_cyt->setId("SpeciesGlyph_nadh_cyt");
   speciesGlyph_nadh_cyt->setSpeciesId(nadh_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_nadh_cyt",520,430,100,24);
+  bb=BoundingBox(&layoutns, "bb_sg_nadh_cyt",520,430,100,24);
   speciesGlyph_nadh_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_nadh_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_nadh_cyt",525,430,80,24);
+  bb=BoundingBox(&layoutns, "bb_tg_nadh_cyt",525,430,80,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(nadh_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_nadh_cyt->getId());
@@ -4836,12 +4834,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_h_cyt=layout->createSpeciesGlyph();
   speciesGlyph_h_cyt->setId("SpeciesGlyph_h_cyt");
   speciesGlyph_h_cyt->setSpeciesId(h_cyt->getId());
-  bb=BoundingBox(layoutns, "bb_sg_h_cyt",430,430,40,24);
+  bb=BoundingBox(&layoutns, "bb_sg_h_cyt",430,430,40,24);
   speciesGlyph_h_cyt->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_h_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_h_cyt",435,430,30,24);
+  bb=BoundingBox(&layoutns, "bb_tg_h_cyt",435,430,30,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(h_cyt->getId());
   tg->setGraphicalObjectId(speciesGlyph_h_cyt->getId());
@@ -4855,14 +4853,14 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   Curve* curve=rg_malatedh_cyt->getCurve();
   LineSegment* ls=curve->createLineSegment();
-  Point p(layoutns, 700,381);
+  Point p(&layoutns, 700,381);
   ls->setStart(&p);
-  p=Point(layoutns, 700,415);
+  p=Point(&layoutns, 700,415);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_malaltedh_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_rg_malaltedh_cyt",700,385,210,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_malaltedh_cyt",700,385,210,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malatedh_cyt->getId());
   tg->setGraphicalObjectId(rg_malatedh_cyt->getId());
@@ -4874,14 +4872,14 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=rg_aspartateat_cyt->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 700,581);
+  p=Point(&layoutns, 700,581);
   ls->setStart(&p);
-  p=Point(layoutns, 700,615);
+  p=Point(&layoutns, 700,615);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_aspartateat_cyt");
-  bb=BoundingBox(layoutns, "bb_tg_rg_aspartateat_cyt",440,585,260,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_aspartateat_cyt",440,585,260,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartateat_cyt->getId());
   tg->setGraphicalObjectId(rg_aspartateat_cyt->getId());
@@ -4897,9 +4895,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   srg_malate_cyt_1->setRole(SPECIES_ROLE_SUBSTRATE);
 
   ls=srg_malate_cyt_1->createLineSegment();
-  p=Point(layoutns, 700,381);
+  p=Point(&layoutns, 700,381);
   ls->setStart(&p);
-  p=Point(layoutns, 700,316);
+  p=Point(&layoutns, 700,316);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_nad_cyt=rg_malatedh_cyt->createSpeciesReferenceGlyph();
@@ -4909,13 +4907,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   srg_nad_cyt->setRole(SPECIES_ROLE_SUBSTRATE);
 
   CubicBezier* cb=srg_nad_cyt->createCubicBezier();
-  p=Point(layoutns, 700,381);
+  p=Point(&layoutns, 700,381);
   cb->setStart(&p);
-  p=Point(layoutns, 700,362);
+  p=Point(&layoutns, 700,362);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 700,362);
+  p=Point(&layoutns, 700,362);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 620,362);
+  p=Point(&layoutns, 620,362);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_oxaloacetate_cyt_1=rg_malatedh_cyt->createSpeciesReferenceGlyph();
@@ -4926,9 +4924,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_oxaloacetate_cyt_1->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 700,415);
+  p=Point(&layoutns, 700,415);
   ls->setStart(&p);
-  p=Point(layoutns, 700,480);
+  p=Point(&layoutns, 700,480);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_nadh_cyt=rg_malatedh_cyt->createSpeciesReferenceGlyph();
@@ -4938,13 +4936,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   srg_nadh_cyt->setRole(SPECIES_ROLE_PRODUCT);
 
   cb=srg_nadh_cyt->createCubicBezier();
-  p=Point(layoutns, 700,415);
+  p=Point(&layoutns, 700,415);
   cb->setStart(&p);
-  p=Point(layoutns, 700,442);
+  p=Point(&layoutns, 700,442);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 700,442);
+  p=Point(&layoutns, 700,442);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 620,442);
+  p=Point(&layoutns, 620,442);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_h_cyt=rg_malatedh_cyt->createSpeciesReferenceGlyph();
@@ -4954,13 +4952,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   srg_h_cyt->setRole(SPECIES_ROLE_PRODUCT);
 
   cb=srg_h_cyt->createCubicBezier();
-  p=Point(layoutns, 700,415); 
+  p=Point(&layoutns, 700,415); 
   cb->setStart(&p);
-  p=Point(layoutns, 570,415);
+  p=Point(&layoutns, 570,415);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 570,415);
+  p=Point(&layoutns, 570,415);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 470,430);
+  p=Point(&layoutns, 470,430);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_oxaloacetate_cyt_2=rg_aspartateat_cyt->createSpeciesReferenceGlyph();
@@ -4971,9 +4969,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_oxaloacetate_cyt_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 700,581);
+  p=Point(&layoutns, 700,581);
   ls->setStart(&p);
-  p=Point(layoutns, 700,516);
+  p=Point(&layoutns, 700,516);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_glutamate_cyt_1=rg_aspartateat_cyt->createSpeciesReferenceGlyph();
@@ -4984,13 +4982,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_glutamate_cyt_1->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 700,581);
+  p=Point(&layoutns, 700,581);
   cb->setStart(&p);
-  p=Point(layoutns, 750,581);
+  p=Point(&layoutns, 750,581);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 750,628);
+  p=Point(&layoutns, 750,628);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 800,628);
+  p=Point(&layoutns, 800,628);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_aspartate_cyt_1=rg_aspartateat_cyt->createSpeciesReferenceGlyph();
@@ -5001,9 +4999,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_aspartate_cyt_1->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 700,615);
+  p=Point(&layoutns, 700,615);
   ls->setStart(&p);
-  p=Point(layoutns, 700,680);
+  p=Point(&layoutns, 700,680);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_aKetoglutarate_cyt_1=rg_aspartateat_cyt->createSpeciesReferenceGlyph();
@@ -5014,13 +5012,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_aKetoglutarate_cyt_1->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 700,615);
+  p=Point(&layoutns, 700,615);
   cb->setStart(&p);
-  p=Point(layoutns, 790,615);
+  p=Point(&layoutns, 790,615);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 790,515);
+  p=Point(&layoutns, 790,515);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 860,515);
+  p=Point(&layoutns, 860,515);
   cb->setEnd(&p);
 
 
@@ -5028,12 +5026,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_malate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_malate_mito3->setId("SpeciesGlyph_malate_mito3");
   speciesGlyph_malate_mito3->setSpeciesId(malate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_malate_mito3",1850,80,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_malate_mito3",1850,80,240,36);
   speciesGlyph_malate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_malate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_malatate_mito3",1860,80,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_malatate_mito3",1860,80,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_malate_mito3->getId());
@@ -5042,12 +5040,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_oxaloacetate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_oxaloacetate_mito3->setId("SpeciesGlyph_oxaloacetate_mito3");
   speciesGlyph_oxaloacetate_mito3->setSpeciesId(oxaloacetate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_oxaloacetate_mito3",1850,280,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_oxaloacetate_mito3",1850,280,240,36);
   speciesGlyph_oxaloacetate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_oxaloacetate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_oxaloacetate_mito3",1860,280,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_oxaloacetate_mito3",1860,280,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(oxaloacetate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_oxaloacetate_mito3->getId());
@@ -5056,12 +5054,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_aspartate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_aspartate_mito3->setId("SpeciesGlyph_aspartate_mito3");
   speciesGlyph_aspartate_mito3->setSpeciesId(aspartate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_aspartate_mito3",1850,480,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_aspartate_mito3",1850,480,240,36);
   speciesGlyph_aspartate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_aspartate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_aspartate_mito3",1860,480,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_aspartate_mito3",1860,480,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_aspartate_mito3->getId());
@@ -5070,12 +5068,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_glutamate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_glutamate_mito3->setId("SpeciesGlyph_glutamate_mito3");
   speciesGlyph_glutamate_mito3->setSpeciesId(glutamate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_glutamate_mito3",1550,430,240,36);
+  bb=BoundingBox(&layoutns, "bb_sg_glutamate_mito3",1550,430,240,36);
   speciesGlyph_glutamate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_glutamate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_glutamate_mito3",1560,430,220,36);
+  bb=BoundingBox(&layoutns, "bb_tg_glutamate_mito3",1560,430,220,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(glutamate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_glutamate_mito3->getId());
@@ -5084,12 +5082,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_aKetoglutarate_mito3=layout->createSpeciesGlyph();
   speciesGlyph_aKetoglutarate_mito3->setId("SpeciesGlyph_aKetoglutarate_mito3");
   speciesGlyph_aKetoglutarate_mito3->setSpeciesId(aKetoglutarate_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_aKetoglutarate_mito3",1530,300,280,36);
+  bb=BoundingBox(&layoutns, "bb_sg_aKetoglutarate_mito3",1530,300,280,36);
   speciesGlyph_aKetoglutarate_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_aKetoglutarate_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_aKetoglutarate_mito3",1540,300,260,36);
+  bb=BoundingBox(&layoutns, "bb_tg_aKetoglutarate_mito3",1540,300,260,36);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aKetoglutarate_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_aKetoglutarate_mito3->getId());
@@ -5098,12 +5096,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_nad_mito3=layout->createSpeciesGlyph();
   speciesGlyph_nad_mito3->setId("SpeciesGlyph_nad_mito3");
   speciesGlyph_nad_mito3->setSpeciesId(nad_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_nad_mito3",2050,150,100,24);
+  bb=BoundingBox(&layoutns, "bb_sg_nad_mito3",2050,150,100,24);
   speciesGlyph_nad_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_nad_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_nad_mito3",2055,150,80,24);
+  bb=BoundingBox(&layoutns, "bb_tg_nad_mito3",2055,150,80,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(nad_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_nad_mito3->getId());
@@ -5112,12 +5110,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_nadh_mito3=layout->createSpeciesGlyph();
   speciesGlyph_nadh_mito3->setId("SpeciesGlyph_nadh_mito3");
   speciesGlyph_nadh_mito3->setSpeciesId(nadh_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_nadh_mito3",2050,230,100,24);
+  bb=BoundingBox(&layoutns, "bb_sg_nadh_mito3",2050,230,100,24);
   speciesGlyph_nadh_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_nadh_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_nadh_mito3",2055,230,80,24);
+  bb=BoundingBox(&layoutns, "bb_tg_nadh_mito3",2055,230,80,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(nadh_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_nadh_mito3->getId());
@@ -5126,12 +5124,12 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   SpeciesGlyph* speciesGlyph_h_mito3=layout->createSpeciesGlyph();
   speciesGlyph_h_mito3->setId("SpeciesGlyph_h_mito3");
   speciesGlyph_h_mito3->setSpeciesId(h_mito3->getId());
-  bb=BoundingBox(layoutns, "bb_sg_h_mito3",2200,230,40,24);
+  bb=BoundingBox(&layoutns, "bb_sg_h_mito3",2200,230,40,24);
   speciesGlyph_h_mito3->setBoundingBox(&bb);
 
   tg=layout->createTextGlyph();
   tg->setId("TextGlyph_h_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_h_mito3",2205,230,30,24);
+  bb=BoundingBox(&layoutns, "bb_tg_h_mito3",2205,230,30,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(h_mito3->getId());
   tg->setGraphicalObjectId(speciesGlyph_h_mito3->getId());
@@ -5145,14 +5143,14 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=rg_malatedh_mito3->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,181);
+  p=Point(&layoutns, 1970,181);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,215);
+  p=Point(&layoutns, 1970,215);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_malatedh_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_rg_malatedh_mito3",1740,185,220,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_malatedh_mito3",1740,185,220,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malatedh_mito3->getId());
   tg->setGraphicalObjectId(rg_malatedh_mito3->getId());
@@ -5163,14 +5161,14 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=rg_aspartateat_mito3->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,381);
+  p=Point(&layoutns, 1970,381);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,415);
+  p=Point(&layoutns, 1970,415);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_aspartateat_mito3");
-  bb=BoundingBox(layoutns, "bb_tg_rg_aspartateat_mito3",1970,385,260,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_aspartateat_mito3",1970,385,260,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartateat_mito3->getId());
   tg->setGraphicalObjectId(rg_aspartateat_mito3->getId());
@@ -5185,9 +5183,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   srg_malate_mito3_1->setRole(SPECIES_ROLE_SUBSTRATE);
 
   ls=srg_malate_mito3_1->createLineSegment();
-  p=Point(layoutns, 1970,181);
+  p=Point(&layoutns, 1970,181);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,116);
+  p=Point(&layoutns, 1970,116);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_nad_mito3=rg_malatedh_mito3->createSpeciesReferenceGlyph();
@@ -5197,13 +5195,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   srg_nad_mito3->setRole(SPECIES_ROLE_SUBSTRATE);
 
   cb=srg_nad_mito3->createCubicBezier();
-  p=Point(layoutns, 1970,181);
+  p=Point(&layoutns, 1970,181);
   cb->setStart(&p);
-  p=Point(layoutns, 1970,162);
+  p=Point(&layoutns, 1970,162);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1970,162);
+  p=Point(&layoutns, 1970,162);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 2050,162);
+  p=Point(&layoutns, 2050,162);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_oxaloacetate_mito3_1=rg_malatedh_mito3->createSpeciesReferenceGlyph();
@@ -5214,9 +5212,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_oxaloacetate_mito3_1->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,215);
+  p=Point(&layoutns, 1970,215);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,280);
+  p=Point(&layoutns, 1970,280);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_nadh_mito3=rg_malatedh_mito3->createSpeciesReferenceGlyph();
@@ -5226,13 +5224,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   srg_nadh_mito3->setRole(SPECIES_ROLE_PRODUCT);
 
   cb=srg_nadh_mito3->createCubicBezier();
-  p=Point(layoutns, 1970,215);
+  p=Point(&layoutns, 1970,215);
   cb->setStart(&p);
-  p=Point(layoutns, 1970,242);
+  p=Point(&layoutns, 1970,242);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1970,242);
+  p=Point(&layoutns, 1970,242);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 2050,242);
+  p=Point(&layoutns, 2050,242);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_h_mito3=rg_malatedh_mito3->createSpeciesReferenceGlyph();
@@ -5242,13 +5240,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   srg_h_mito3->setRole(SPECIES_ROLE_PRODUCT);
 
   cb=srg_h_mito3->createCubicBezier();
-  p=Point(layoutns, 1970,215);
+  p=Point(&layoutns, 1970,215);
   cb->setStart(&p);
-  p=Point(layoutns, 2100,215);
+  p=Point(&layoutns, 2100,215);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 2100,215);
+  p=Point(&layoutns, 2100,215);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 2200,230);
+  p=Point(&layoutns, 2200,230);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_oxaloacetate_mito3_2=rg_aspartateat_mito3->createSpeciesReferenceGlyph();
@@ -5259,9 +5257,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_oxaloacetate_mito3_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,381);
+  p=Point(&layoutns, 1970,381);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,316);
+  p=Point(&layoutns, 1970,316);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_glutamate_mito3_1=rg_aspartateat_mito3->createSpeciesReferenceGlyph();
@@ -5272,13 +5270,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_glutamate_mito3_1->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1970,381);
+  p=Point(&layoutns, 1970,381);
   cb->setStart(&p);
-  p=Point(layoutns, 1880,381);
+  p=Point(&layoutns, 1880,381);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1880,448);
+  p=Point(&layoutns, 1880,448);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1790,448);
+  p=Point(&layoutns, 1790,448);
   cb->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_aspartate_mito3_1=rg_aspartateat_mito3->createSpeciesReferenceGlyph();
@@ -5289,9 +5287,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_aspartate_mito3_1->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1970,415);
+  p=Point(&layoutns, 1970,415);
   ls->setStart(&p);
-  p=Point(layoutns, 1970,480);
+  p=Point(&layoutns, 1970,480);
   ls->setEnd(&p);
 
   SpeciesReferenceGlyph* srg_aKetoglutarate_mito3_1=rg_aspartateat_mito3->createSpeciesReferenceGlyph();
@@ -5302,13 +5300,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_aKetoglutarate_mito3_1->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1970,415);
+  p=Point(&layoutns, 1970,415);
   cb->setStart(&p);
-  p=Point(layoutns, 1880,415);
+  p=Point(&layoutns, 1880,415);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1880,315);
+  p=Point(&layoutns, 1880,315);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1810,315);
+  p=Point(&layoutns, 1810,315);
   cb->setEnd(&p);
 
   // add the transport reaction glyphs
@@ -5319,14 +5317,14 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=rg_aspartateCarrier->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1420,530);
+  p=Point(&layoutns, 1420,530);
   ls->setStart(&p);
-  p=Point(layoutns, 1360,550);
+  p=Point(&layoutns, 1360,550);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_aspartateCarrier");
-  bb=BoundingBox(layoutns, "bb_tg_rg_aspartateCarrier",1380,500,160,24);
+  bb=BoundingBox(&layoutns, "bb_tg_rg_aspartateCarrier",1380,500,160,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(aspartateCarrier->getId());
   tg->setGraphicalObjectId(rg_aspartateCarrier->getId());
@@ -5338,14 +5336,14 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=rg_malateCarrier->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1420,320);
+  p=Point(&layoutns, 1420,320);
   ls->setStart(&p);
-  p=Point(layoutns, 1360,340);
+  p=Point(&layoutns, 1360,340);
   ls->setEnd(&p);
 
   tg=layout->createTextGlyph();
   tg->setId("tg_rg_malateCarrier");
-  bb=BoundingBox( layoutns, "bb_tg_rg_malateCarrier",1360,330,140,24);
+  bb=BoundingBox( &layoutns, "bb_tg_rg_malateCarrier",1360,330,140,24);
   tg->setBoundingBox(&bb);
   tg->setOriginOfTextId(malateCarrier->getId());
   tg->setGraphicalObjectId(rg_malateCarrier->getId());
@@ -5362,9 +5360,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_aKetoglutarate_mito3_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1420,320);
+  p=Point(&layoutns, 1420,320);
   ls->setStart(&p);
-  p=Point(layoutns, 1530,318);
+  p=Point(&layoutns, 1530,318);
   ls->setEnd(&p);
 
 
@@ -5376,9 +5374,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_aKetoglutarate_cyt_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1360,340);
+  p=Point(&layoutns, 1360,340);
   ls->setStart(&p);
-  p=Point(layoutns, 1140,518);
+  p=Point(&layoutns, 1140,518);
   ls->setEnd(&p);
 
 
@@ -5390,13 +5388,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_malate_cyt_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1420,320);
+  p=Point(&layoutns, 1420,320);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,250);
+  p=Point(&layoutns, 1390,250);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,250);
+  p=Point(&layoutns, 1390,250);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 820,298);
+  p=Point(&layoutns, 820,298);
   cb->setEnd(&p);
 
 
@@ -5408,13 +5406,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_malate_mito3_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1360,340);
+  p=Point(&layoutns, 1360,340);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,150);
+  p=Point(&layoutns, 1390,150);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,150);
+  p=Point(&layoutns, 1390,150);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1850,98);
+  p=Point(&layoutns, 1850,98);
   cb->setEnd(&p);
 
 
@@ -5430,9 +5428,9 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_aspartate_mito3_2->getCurve();
   ls=curve->createLineSegment();
-  p=Point(layoutns, 1420,530);
+  p=Point(&layoutns, 1420,530);
   ls->setStart(&p);
-  p=Point(layoutns, 1850,498);
+  p=Point(&layoutns, 1850,498);
   ls->setEnd(&p);
 
 
@@ -5444,13 +5442,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_aspartate_cyt_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1360,550);
+  p=Point(&layoutns, 1360,550);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,698);
+  p=Point(&layoutns, 1390,698);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,698);
+  p=Point(&layoutns, 1390,698);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 820,698);
+  p=Point(&layoutns, 820,698);
   cb->setEnd(&p);
 
 
@@ -5462,13 +5460,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_glutamate_cyt_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1420,530);
+  p=Point(&layoutns, 1420,530);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,648);
+  p=Point(&layoutns, 1390,648);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,648);
+  p=Point(&layoutns, 1390,648);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1050,628);
+  p=Point(&layoutns, 1050,628);
   cb->setEnd(&p);
 
 
@@ -5480,13 +5478,13 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   curve=srg_glutamate_mito3_2->getCurve();
   cb=curve->createCubicBezier();
-  p=Point(layoutns, 1360,550);
+  p=Point(&layoutns, 1360,550);
   cb->setStart(&p);
-  p=Point(layoutns, 1390,448);
+  p=Point(&layoutns, 1390,448);
   cb->setBasePoint1(&p);
-  p=Point(layoutns, 1390,448);
+  p=Point(&layoutns, 1390,448);
   cb->setBasePoint2(&p);
-  p=Point(layoutns, 1550,448);
+  p=Point(&layoutns, 1550,448);
   cb->setEnd(&p);
 
   // now we add some global render information
@@ -5572,8 +5570,8 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   // line endings
   LineEnding* pLineEnding=pGlobalRender->createLineEnding();
   pLineEnding->setId("simpleHead_black");
-  p=Point(layoutns, -8,-3);
-  Dimensions d(layoutns, 10,6);
+  p=Point(&layoutns, -8,-3);
+  Dimensions d(&layoutns, 10,6);
   pLineEnding->getBoundingBox()->setPosition(&p);
   pLineEnding->getBoundingBox()->setDimensions(&d);
   pGroup=pLineEnding->getGroup();
@@ -5996,7 +5994,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 
   // until the sbml element gets a namespace, we only compare the listOfLayouts element and all its children.
   fail_unless(listOfLayouts1->equals(*listOfLayouts2));
-  
+
   delete document;
 }
 END_TEST 
@@ -6147,8 +6145,7 @@ START_TEST (test_RenderWriting_write_L3_model_2)
   pText->setText(text);
 
   // write the document
-  SBMLWriter writer = SBMLWriter();
-  std::string writtenContent=writer.writeToString(document);
+  std::string writtenContent=writeSBMLToStdString(document);
   fail_unless(!writtenContent.empty());
   // now we read the written content 
   SBMLReader reader;

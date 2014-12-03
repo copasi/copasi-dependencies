@@ -170,9 +170,13 @@ public class SBMLWriter : IDisposable {
    * @param name the name of this program (where 'this program' refers to
    * program in which libSBML is embedded, not libSBML itself!)
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * 
    * @see setProgramVersion(string version)
@@ -203,9 +207,13 @@ public class SBMLWriter : IDisposable {
    * @param version the version of this program (where 'this program'
    * refers to program in which libSBML is embedded, not libSBML itself!)
    *
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setProgramName(string name)
@@ -262,21 +270,7 @@ public class SBMLWriter : IDisposable {
   }
 
   
-/**
-   * Writes the given SBML document to an in-memory string and returns a
-   * pointer to it.
-   *
-   * The string is owned by the caller and should be freed (with @c free())
-   * when no longer needed.
-   *
-   * @param d the SBML document to be written
-   *
-   * @return the string on success and @c 0 if one of the underlying parser
-   * components fail.
-   * 
-   * @see setProgramVersion(string version)
-   * @see setProgramName(string name)
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  string writeToString(SBMLDocument d) {
     string ret = libsbmlPINVOKE.SBMLWriter_writeToString(swigCPtr, SBMLDocument.getCPtr(d));
     return ret;

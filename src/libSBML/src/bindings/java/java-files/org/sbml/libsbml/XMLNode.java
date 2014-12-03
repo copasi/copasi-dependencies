@@ -182,7 +182,7 @@ public class XMLNode extends XMLToken {
 
   
 /**
-   * Creates a new {@link XMLNode} by copying token.
+   * Creates a new {@link XMLNode} by copying an {@link XMLToken} object.
    <p>
    * @param token {@link XMLToken} to be copied to {@link XMLNode}
    */ public
@@ -527,16 +527,7 @@ appears in the documentation.
   }
 
   
-/**
-   * Creates a new {@link XMLNode} by reading XMLTokens from stream.
-   <p>
-   * The stream must be positioned on a start element
-   * (<code>stream.peek().isStart() == true</code>) and will be read until
-   * the matching end element is found.
-   <p>
-   * @param stream {@link XMLInputStream} from which {@link XMLNode} is to be created.
-   * @internal
-   */ public
+/** * @internal */ public
  XMLNode(XMLInputStream stream) throws org.sbml.libsbml.XMLConstructorException {
     this(libsbmlJNI.new_XMLNode__SWIG_14(XMLInputStream.getCPtr(stream), stream), true);
   }
@@ -573,11 +564,13 @@ appears in the documentation.
    <p>
    * @param node the {@link XMLNode} to be added as child.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
@@ -631,9 +624,10 @@ appears in the documentation.
   
 /**
    * Removes all children from this node.
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>

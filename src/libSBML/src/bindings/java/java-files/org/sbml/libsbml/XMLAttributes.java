@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  An attribute on an XML node.
+ *  A list of attributes on an XML element.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -18,6 +18,48 @@ the SBML specifications, although it is used to implement features
 defined in SBML.
 </p>
 
+ <p>
+ * In libSBML's XML interface layer, attributes on an element are stored as a
+ * list of values kept in an {@link XMLAttributes} object.  {@link XMLAttributes} has methods
+ * for adding and removing individual attributes as well as performing other
+ * actions on the list of attributes.  Classes in libSBML that represent nodes
+ * in an XML document (i.e., {@link XMLNode} and its parent class, {@link XMLToken}) use
+ * {@link XMLAttributes} objects to manage attributes on XML elements.
+ <p>
+ * Attributes on an XML element can be written in one of two forms:
+ * <ul>
+ * <li> <code>name='value'</code>
+ * <li> <code>prefix:name='value'</code>
+ *
+ * </ul> <p>
+ * An attribute in XML must always have a value, and the value must always be
+ * a quoted string; i.e., it is always <code>name='value'</code> and not
+ * <code>name=value</code>.  An empty value is represented simply as an
+ * empty string; i.e., <code>name=''</code>.
+ <p>
+ * In cases when a <code>prefix</code> is provided with an attribute name,
+ * general XML validity rules require that the prefix is an XML namespace
+ * prefix that has been declared somewhere else (possibly as an another
+ * attribute on the same element).  However, the {@link XMLAttributes} class does
+ * <em>not</em> test for the proper existence or declaration of XML
+ * namespaces&mdash;callers must arrange to do this themselves in some other
+ * way.  This class only provides facilities for tracking and manipulating
+ * attributes and their prefix/URI/name/value components.
+ <p>
+ * <p>
+ * @note Note that although {@link XMLAttributes} provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * {@link XMLAttributes} class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in {@link XMLAttributes} objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+ <p>
+ * @see XMLTriple
+ * @see XMLNode
+ * @see XMLToken
  */
 
 public class XMLAttributes {
@@ -115,7 +157,7 @@ public class XMLAttributes {
 
   
 /**
-   * Creates a new empty {@link XMLAttributes} set.
+   * Creates a new, empty {@link XMLAttributes} object.
    */ public
  XMLAttributes() throws org.sbml.libsbml.XMLConstructorException {
     this(libsbmlJNI.new_XMLAttributes__SWIG_0(), true);
@@ -123,7 +165,7 @@ public class XMLAttributes {
 
   
 /**
-   * Copy constructor; creates a copy of this {@link XMLAttributes} set.
+   * Copy constructor; creates a copy of this {@link XMLAttributes} object.
    <p>
    * <code>orig</code> the {@link XMLAttributes} object to copy.
    <p>
@@ -147,23 +189,129 @@ public class XMLAttributes {
 
   
 /**
-   * Adds an attribute (a name/value pair) to this {@link XMLAttributes} object,
-   * optionally with a prefix and URI defining a namespace.
+   * Adds an attribute to this list of attributes.
    <p>
-   * @param name a string, the local name of the attribute.
+   * <p>
+ * Some explanations are in order about the behavior of {@link XMLAttributes} with
+ * respect to namespace prefixes and namespace URIs.  {@link XMLAttributes} does 
+ * <em>not</em> verify the consistency of different uses of an XML namespace and the
+ * prefix used to refer to it in a given context.  It cannot, because the
+ * prefix used for a given XML namespace in an XML document may intentionally
+ * be different on different elements in the document.  Consequently, callers
+ * need to manage their own prefix-to-namespace mappings, and need to ensure
+ * that the desired prefix is used in any given context.
+ <p>
+ * When called with attribute names, prefixes and namespace URIs,
+ * {@link XMLAttributes} pays attention to the namespace URIs and not the prefixes: a
+ * match is established by a combination of attribute name and namespace URI,
+ * and if on different occasions a different prefix is used for the same
+ * name/namespace combination, the prefix associated with the namespace on
+ * that attribute is overwritten.
+ <p>
+ * Some examples will hopefully clarify this.  Here are the results of a
+ * sequence of calls to the {@link XMLAttributes} <code>add</code> methods with
+ * different argument combinations.  First, we create the object and add
+ * one attribute:
+ <p>
+ * <pre class='fragment'>{.cpp}
+{@link XMLAttributes}  att = new {@link XMLAttributes}();
+att-&gt;add('myattribute', '1', 'myuri');
+</pre>
+ * The above adds an attribute named <code>myattribute</code> in the namespace
+ * <code>myuri</code>, and with the attribute value <code>1</code>.  No
+ * namespace prefix is associated with the attribute (but the attribute is
+ * recorded to exist in the namespace <code>myuri</code>).  If
+ * this attribute object were written out in XML, it would look like the
+ * following (and note that, since no namespace prefix was assigned, none
+ * is written out):
+ * <center><pre>
+myattribute='1'
+ * </pre></center>
+ <p>
+ * Continuing with this series of examples, suppose we invoke the
+ * <code>add</code> method again as follows:
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '2');
+</pre>
+ * The above adds a <em>new</em> attribute <em>also</em> named <code>myattribute</code>,
+ * but in a different XML namespace: it is placed in the namespace with no
+ * URI, which is to say, the default XML namespace.  Both attributes coexist
+ * on this {@link XMLAttributes} object; both can be independently retrieved.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '3');
+</pre>
+ * The code above now replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  The
+ * attribute in the namespace <code>myuri</code> remains untouched.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '4', 'myuri');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * The attribute in the default namespace remains untouched.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '5', 'myuri', 'foo');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also now assigns a namespace prefix, <code>foo</code>, to the attribute.
+ * The attribute <code>myattribute</code> in the default namespace remains
+ * untouched. If this {@link XMLAttributes} object were written out in XML, it would
+ * look like the following:
+ * <center><pre>
+myattribute='3'
+foo:myattribute='5'
+ * </pre></center>
+ * Pressing on, now suppose we call the <code>add</code> method as follows:
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '6', 'myuri', 'bar');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also assigns a different prefix to the attribute.  The namespace of
+ * the attribute remains <code>myuri</code>.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '7', '', 'foo');
+</pre>
+<p>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  It also
+ * now assigns a namespace prefix, <code>foo</code>, to that attribute.  If
+ * this {@link XMLAttributes} object were written out in XML, it would look like the
+ * following:
+ * <center><pre>
+bar:myattribute='6'
+foo:myattribute='7'
+ * </pre></center>
+   <p>
+   * @param name a string, the unprefixed name of the attribute.
    * @param value a string, the value of the attribute.
    * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * @param prefix a string, a prefix for the XML namespace.
    <p>
-   * @return an integer code indicating the success or failure of the
-   * function.  The possible values returned by this
-   * function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}.
+   * This value is returned if any of the arguments are <code>null.</code>  To set an
+   * empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather than 
+   * <code>null.</code>
    *
    * </ul> <p>
-   * @note if local name with the same namespace URI already exists in this 
-   * attribute set, its value and prefix will be replaced.
+   * <p>
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists in the list of attributes held by this {@link XMLAttributes} object, then
+ * the previous value of that attribute will be replaced with the new value
+ * provided to this method.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -179,6 +327,12 @@ for descriptions of other variants of this method near where this one
 appears in the documentation.
 </dd></dl>
  
+   <p>
+   * @see #add(XMLTriple triple, String value)
+   * @see #getIndex(String name, String uri) 
+   * @see #getIndex(XMLTriple triple) 
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  int add(String name, String value, String namespaceURI, String prefix) {
     return libsbmlJNI.XMLAttributes_add__SWIG_0(swigCPtr, this, name, value, namespaceURI, prefix);
@@ -186,23 +340,129 @@ appears in the documentation.
 
   
 /**
-   * Adds an attribute (a name/value pair) to this {@link XMLAttributes} object,
-   * optionally with a prefix and URI defining a namespace.
+   * Adds an attribute to this list of attributes.
    <p>
-   * @param name a string, the local name of the attribute.
+   * <p>
+ * Some explanations are in order about the behavior of {@link XMLAttributes} with
+ * respect to namespace prefixes and namespace URIs.  {@link XMLAttributes} does 
+ * <em>not</em> verify the consistency of different uses of an XML namespace and the
+ * prefix used to refer to it in a given context.  It cannot, because the
+ * prefix used for a given XML namespace in an XML document may intentionally
+ * be different on different elements in the document.  Consequently, callers
+ * need to manage their own prefix-to-namespace mappings, and need to ensure
+ * that the desired prefix is used in any given context.
+ <p>
+ * When called with attribute names, prefixes and namespace URIs,
+ * {@link XMLAttributes} pays attention to the namespace URIs and not the prefixes: a
+ * match is established by a combination of attribute name and namespace URI,
+ * and if on different occasions a different prefix is used for the same
+ * name/namespace combination, the prefix associated with the namespace on
+ * that attribute is overwritten.
+ <p>
+ * Some examples will hopefully clarify this.  Here are the results of a
+ * sequence of calls to the {@link XMLAttributes} <code>add</code> methods with
+ * different argument combinations.  First, we create the object and add
+ * one attribute:
+ <p>
+ * <pre class='fragment'>{.cpp}
+{@link XMLAttributes}  att = new {@link XMLAttributes}();
+att-&gt;add('myattribute', '1', 'myuri');
+</pre>
+ * The above adds an attribute named <code>myattribute</code> in the namespace
+ * <code>myuri</code>, and with the attribute value <code>1</code>.  No
+ * namespace prefix is associated with the attribute (but the attribute is
+ * recorded to exist in the namespace <code>myuri</code>).  If
+ * this attribute object were written out in XML, it would look like the
+ * following (and note that, since no namespace prefix was assigned, none
+ * is written out):
+ * <center><pre>
+myattribute='1'
+ * </pre></center>
+ <p>
+ * Continuing with this series of examples, suppose we invoke the
+ * <code>add</code> method again as follows:
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '2');
+</pre>
+ * The above adds a <em>new</em> attribute <em>also</em> named <code>myattribute</code>,
+ * but in a different XML namespace: it is placed in the namespace with no
+ * URI, which is to say, the default XML namespace.  Both attributes coexist
+ * on this {@link XMLAttributes} object; both can be independently retrieved.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '3');
+</pre>
+ * The code above now replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  The
+ * attribute in the namespace <code>myuri</code> remains untouched.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '4', 'myuri');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * The attribute in the default namespace remains untouched.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '5', 'myuri', 'foo');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also now assigns a namespace prefix, <code>foo</code>, to the attribute.
+ * The attribute <code>myattribute</code> in the default namespace remains
+ * untouched. If this {@link XMLAttributes} object were written out in XML, it would
+ * look like the following:
+ * <center><pre>
+myattribute='3'
+foo:myattribute='5'
+ * </pre></center>
+ * Pressing on, now suppose we call the <code>add</code> method as follows:
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '6', 'myuri', 'bar');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also assigns a different prefix to the attribute.  The namespace of
+ * the attribute remains <code>myuri</code>.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '7', '', 'foo');
+</pre>
+<p>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  It also
+ * now assigns a namespace prefix, <code>foo</code>, to that attribute.  If
+ * this {@link XMLAttributes} object were written out in XML, it would look like the
+ * following:
+ * <center><pre>
+bar:myattribute='6'
+foo:myattribute='7'
+ * </pre></center>
+   <p>
+   * @param name a string, the unprefixed name of the attribute.
    * @param value a string, the value of the attribute.
    * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * @param prefix a string, a prefix for the XML namespace.
    <p>
-   * @return an integer code indicating the success or failure of the
-   * function.  The possible values returned by this
-   * function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}.
+   * This value is returned if any of the arguments are <code>null.</code>  To set an
+   * empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather than 
+   * <code>null.</code>
    *
    * </ul> <p>
-   * @note if local name with the same namespace URI already exists in this 
-   * attribute set, its value and prefix will be replaced.
+   * <p>
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists in the list of attributes held by this {@link XMLAttributes} object, then
+ * the previous value of that attribute will be replaced with the new value
+ * provided to this method.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -218,6 +478,12 @@ for descriptions of other variants of this method near where this one
 appears in the documentation.
 </dd></dl>
  
+   <p>
+   * @see #add(XMLTriple triple, String value)
+   * @see #getIndex(String name, String uri) 
+   * @see #getIndex(XMLTriple triple) 
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  int add(String name, String value, String namespaceURI) {
     return libsbmlJNI.XMLAttributes_add__SWIG_1(swigCPtr, this, name, value, namespaceURI);
@@ -225,23 +491,129 @@ appears in the documentation.
 
   
 /**
-   * Adds an attribute (a name/value pair) to this {@link XMLAttributes} object,
-   * optionally with a prefix and URI defining a namespace.
+   * Adds an attribute to this list of attributes.
    <p>
-   * @param name a string, the local name of the attribute.
+   * <p>
+ * Some explanations are in order about the behavior of {@link XMLAttributes} with
+ * respect to namespace prefixes and namespace URIs.  {@link XMLAttributes} does 
+ * <em>not</em> verify the consistency of different uses of an XML namespace and the
+ * prefix used to refer to it in a given context.  It cannot, because the
+ * prefix used for a given XML namespace in an XML document may intentionally
+ * be different on different elements in the document.  Consequently, callers
+ * need to manage their own prefix-to-namespace mappings, and need to ensure
+ * that the desired prefix is used in any given context.
+ <p>
+ * When called with attribute names, prefixes and namespace URIs,
+ * {@link XMLAttributes} pays attention to the namespace URIs and not the prefixes: a
+ * match is established by a combination of attribute name and namespace URI,
+ * and if on different occasions a different prefix is used for the same
+ * name/namespace combination, the prefix associated with the namespace on
+ * that attribute is overwritten.
+ <p>
+ * Some examples will hopefully clarify this.  Here are the results of a
+ * sequence of calls to the {@link XMLAttributes} <code>add</code> methods with
+ * different argument combinations.  First, we create the object and add
+ * one attribute:
+ <p>
+ * <pre class='fragment'>{.cpp}
+{@link XMLAttributes}  att = new {@link XMLAttributes}();
+att-&gt;add('myattribute', '1', 'myuri');
+</pre>
+ * The above adds an attribute named <code>myattribute</code> in the namespace
+ * <code>myuri</code>, and with the attribute value <code>1</code>.  No
+ * namespace prefix is associated with the attribute (but the attribute is
+ * recorded to exist in the namespace <code>myuri</code>).  If
+ * this attribute object were written out in XML, it would look like the
+ * following (and note that, since no namespace prefix was assigned, none
+ * is written out):
+ * <center><pre>
+myattribute='1'
+ * </pre></center>
+ <p>
+ * Continuing with this series of examples, suppose we invoke the
+ * <code>add</code> method again as follows:
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '2');
+</pre>
+ * The above adds a <em>new</em> attribute <em>also</em> named <code>myattribute</code>,
+ * but in a different XML namespace: it is placed in the namespace with no
+ * URI, which is to say, the default XML namespace.  Both attributes coexist
+ * on this {@link XMLAttributes} object; both can be independently retrieved.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '3');
+</pre>
+ * The code above now replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  The
+ * attribute in the namespace <code>myuri</code> remains untouched.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '4', 'myuri');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * The attribute in the default namespace remains untouched.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '5', 'myuri', 'foo');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also now assigns a namespace prefix, <code>foo</code>, to the attribute.
+ * The attribute <code>myattribute</code> in the default namespace remains
+ * untouched. If this {@link XMLAttributes} object were written out in XML, it would
+ * look like the following:
+ * <center><pre>
+myattribute='3'
+foo:myattribute='5'
+ * </pre></center>
+ * Pressing on, now suppose we call the <code>add</code> method as follows:
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '6', 'myuri', 'bar');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also assigns a different prefix to the attribute.  The namespace of
+ * the attribute remains <code>myuri</code>.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '7', '', 'foo');
+</pre>
+<p>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  It also
+ * now assigns a namespace prefix, <code>foo</code>, to that attribute.  If
+ * this {@link XMLAttributes} object were written out in XML, it would look like the
+ * following:
+ * <center><pre>
+bar:myattribute='6'
+foo:myattribute='7'
+ * </pre></center>
+   <p>
+   * @param name a string, the unprefixed name of the attribute.
    * @param value a string, the value of the attribute.
    * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * @param prefix a string, a prefix for the XML namespace.
    <p>
-   * @return an integer code indicating the success or failure of the
-   * function.  The possible values returned by this
-   * function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}.
+   * This value is returned if any of the arguments are <code>null.</code>  To set an
+   * empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather than 
+   * <code>null.</code>
    *
    * </ul> <p>
-   * @note if local name with the same namespace URI already exists in this 
-   * attribute set, its value and prefix will be replaced.
+   * <p>
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists in the list of attributes held by this {@link XMLAttributes} object, then
+ * the previous value of that attribute will be replaced with the new value
+ * provided to this method.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -257,6 +629,12 @@ for descriptions of other variants of this method near where this one
 appears in the documentation.
 </dd></dl>
  
+   <p>
+   * @see #add(XMLTriple triple, String value)
+   * @see #getIndex(String name, String uri) 
+   * @see #getIndex(XMLTriple triple) 
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  int add(String name, String value) {
     return libsbmlJNI.XMLAttributes_add__SWIG_2(swigCPtr, this, name, value);
@@ -264,56 +642,175 @@ appears in the documentation.
 
   
 /**
-   * Adds an attribute with the given {@link XMLTriple}/value pair to this {@link XMLAttributes} set.
+   * Adds an attribute to this list of attributes.
    <p>
-   * @note if local name with the same namespace URI already exists in this attribute set, 
-   * its value and prefix will be replaced.
+   * <p>
+ * Some explanations are in order about the behavior of {@link XMLAttributes} with
+ * respect to namespace prefixes and namespace URIs.  {@link XMLAttributes} does 
+ * <em>not</em> verify the consistency of different uses of an XML namespace and the
+ * prefix used to refer to it in a given context.  It cannot, because the
+ * prefix used for a given XML namespace in an XML document may intentionally
+ * be different on different elements in the document.  Consequently, callers
+ * need to manage their own prefix-to-namespace mappings, and need to ensure
+ * that the desired prefix is used in any given context.
+ <p>
+ * When called with attribute names, prefixes and namespace URIs,
+ * {@link XMLAttributes} pays attention to the namespace URIs and not the prefixes: a
+ * match is established by a combination of attribute name and namespace URI,
+ * and if on different occasions a different prefix is used for the same
+ * name/namespace combination, the prefix associated with the namespace on
+ * that attribute is overwritten.
+ <p>
+ * Some examples will hopefully clarify this.  Here are the results of a
+ * sequence of calls to the {@link XMLAttributes} <code>add</code> methods with
+ * different argument combinations.  First, we create the object and add
+ * one attribute:
+ <p>
+ * <pre class='fragment'>{.cpp}
+{@link XMLAttributes}  att = new {@link XMLAttributes}();
+att-&gt;add('myattribute', '1', 'myuri');
+</pre>
+ * The above adds an attribute named <code>myattribute</code> in the namespace
+ * <code>myuri</code>, and with the attribute value <code>1</code>.  No
+ * namespace prefix is associated with the attribute (but the attribute is
+ * recorded to exist in the namespace <code>myuri</code>).  If
+ * this attribute object were written out in XML, it would look like the
+ * following (and note that, since no namespace prefix was assigned, none
+ * is written out):
+ * <center><pre>
+myattribute='1'
+ * </pre></center>
+ <p>
+ * Continuing with this series of examples, suppose we invoke the
+ * <code>add</code> method again as follows:
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '2');
+</pre>
+ * The above adds a <em>new</em> attribute <em>also</em> named <code>myattribute</code>,
+ * but in a different XML namespace: it is placed in the namespace with no
+ * URI, which is to say, the default XML namespace.  Both attributes coexist
+ * on this {@link XMLAttributes} object; both can be independently retrieved.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '3');
+</pre>
+ * The code above now replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  The
+ * attribute in the namespace <code>myuri</code> remains untouched.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '4', 'myuri');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * The attribute in the default namespace remains untouched.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '5', 'myuri', 'foo');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also now assigns a namespace prefix, <code>foo</code>, to the attribute.
+ * The attribute <code>myattribute</code> in the default namespace remains
+ * untouched. If this {@link XMLAttributes} object were written out in XML, it would
+ * look like the following:
+ * <center><pre>
+myattribute='3'
+foo:myattribute='5'
+ * </pre></center>
+ * Pressing on, now suppose we call the <code>add</code> method as follows:
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '6', 'myuri', 'bar');
+</pre>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the <code>myuri</code> namespace.
+ * It also assigns a different prefix to the attribute.  The namespace of
+ * the attribute remains <code>myuri</code>.
+ <p>
+ * <pre class='fragment'>{.cpp}
+att-&gt;add('myattribute', '7', '', 'foo');
+</pre>
+<p>
+ * The code above replaces the value of the attribute
+ * <code>myattribute</code> that resides in the default namespace.  It also
+ * now assigns a namespace prefix, <code>foo</code>, to that attribute.  If
+ * this {@link XMLAttributes} object were written out in XML, it would look like the
+ * following:
+ * <center><pre>
+bar:myattribute='6'
+foo:myattribute='7'
+ * </pre></center>
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute.
+   * @param triple an {@link XMLTriple} object describing the attribute to be added.
    * @param value a string, the value of the attribute.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * </ul>
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}. 
+   * This value is returned if any of the arguments are <code>null.</code>  To set an
+   * empty value for the attribute, use an empty string rather than <code>null.</code>
+   *
+   * </ul> <p>
+   * <p>
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists in the list of attributes held by this {@link XMLAttributes} object, then
+ * the previous value of that attribute will be replaced with the new value
+ * provided to this method.
+   <p>
+   * @see #add(String name, String value, String namespaceURI, String prefix)
+   * @see #getIndex(String name, String uri) 
+   * @see #getIndex(XMLTriple triple) 
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  int add(XMLTriple triple, String value) {
     return libsbmlJNI.XMLAttributes_add__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple, value);
   }
 
   
-/**
-   * Removes an attribute with the given index from this {@link XMLAttributes} set.  
-   <p>
-   * @param n an integer the index of the resource to be deleted
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
-   */ public
+/** * @internal */ public
  int removeResource(int n) {
     return libsbmlJNI.XMLAttributes_removeResource(swigCPtr, this, n);
   }
 
   
 /**
-   * Removes an attribute with the given index from this {@link XMLAttributes} set.  
-   * (This function is an alias of {@link XMLAttributes#removeResource(int)} ).
+   * Removes the <em>n</em>th attribute from this list of attributes.
    <p>
    * @param n an integer the index of the resource to be deleted
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * The value {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE} is returned if there is no attribute at the
+   * given index <code>n</code>.
+   <p>
+   * <p>
+ * @note Note that although {@link XMLAttributes} provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * {@link XMLAttributes} class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in {@link XMLAttributes} objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+   <p>
+   * @see #getLength()
+   * @see #remove(XMLTriple triple)
+   * @see #remove(String name, String uri)
    */ public
  int remove(int n) {
     return libsbmlJNI.XMLAttributes_remove__SWIG_0(swigCPtr, this, n);
@@ -321,19 +818,27 @@ appears in the documentation.
 
   
 /**
-   * Removes an attribute with the given local name and namespace URI from 
-   * this {@link XMLAttributes} set.  
+   * Removes a named attribute from this list of attributes.
    <p>
-   * @param name   a string, the local name of the attribute.
-   * @param uri    a string, the namespace URI of the attribute.
+   * @param name a string, the unprefixed name of the attribute to be
+   * removed.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * @param uri a string, the namespace URI of the attribute to be removed.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * The value {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE} is returned if there is no attribute with the
+   * given <code>name</code> (and <code>uri</code> if specified).
+   <p>
+   * @see #remove(int n)
+   * @see #remove(XMLTriple triple)
    */ public
  int remove(String name, String uri) {
     return libsbmlJNI.XMLAttributes_remove__SWIG_1(swigCPtr, this, name, uri);
@@ -341,19 +846,27 @@ appears in the documentation.
 
   
 /**
-   * Removes an attribute with the given local name and namespace URI from 
-   * this {@link XMLAttributes} set.  
+   * Removes a named attribute from this list of attributes.
    <p>
-   * @param name   a string, the local name of the attribute.
-   * @param uri    a string, the namespace URI of the attribute.
+   * @param name a string, the unprefixed name of the attribute to be
+   * removed.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * @param uri a string, the namespace URI of the attribute to be removed.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * The value {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE} is returned if there is no attribute with the
+   * given <code>name</code> (and <code>uri</code> if specified).
+   <p>
+   * @see #remove(int n)
+   * @see #remove(XMLTriple triple)
    */ public
  int remove(String name) {
     return libsbmlJNI.XMLAttributes_remove__SWIG_2(swigCPtr, this, name);
@@ -361,17 +874,24 @@ appears in the documentation.
 
   
 /**
-   * Removes an attribute with the given {@link XMLTriple} from this {@link XMLAttributes} set.  
+   * Removes a specific attribute from this list of attributes.
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute.
+   * @param triple an {@link XMLTriple} describing the attribute to be removed.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * The value {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE} is returned if there is no attribute matching
+   * the properties of the given <code>triple</code>.
+   <p>
+   * @see #remove(int n)
+   * @see #remove(String name, String uri)
    */ public
  int remove(XMLTriple triple) {
     return libsbmlJNI.XMLAttributes_remove__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple);
@@ -379,14 +899,19 @@ appears in the documentation.
 
   
 /**
-   * Clears (deletes) all attributes in this {@link XMLAttributes} object.
+   * Removes all attributes in this {@link XMLAttributes} object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function. The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * </ul>
+   *
+   * </ul> <p>
+   * @see #remove(int n)
+   * @see #remove(XMLTriple triple)
+   * @see #remove(String name, String uri)
    */ public
  int clear() {
     return libsbmlJNI.XMLAttributes_clear(swigCPtr, this);
@@ -394,19 +919,24 @@ appears in the documentation.
 
   
 /**
-   * Return the index of an attribute with the given name.
+   * Returns the index of an attribute having a given name.
    <p>
-   * @note A namespace bound to the name is not checked by this function.
-   * Thus, if there are multiple attributes with the given local name and
-   * different namespaces, the smallest index among those attributes will
-   * be returned.  {@link XMLAttributes#getIndex(String name, String uri)} or
-   * {@link XMLAttributes#getIndex(XMLTriple triple)} should be used to get an index of an
-   * attribute with the given local name and namespace.
+   * @note This method does not check XML namespaces.  Thus, if there are
+   * multiple attributes with the same local <code>name</code> but different
+   * namespaces, this method will return the first one found.  Callers should
+   * use the more specific methods
+   * {@link XMLAttributes#getIndex(String name, String uri)} 
+   * or {@link XMLAttributes#getIndex(XMLTriple triple)} 
+   * to find attributes in particular namespaces.
    <p>
-   * @param name a string, the local name of the attribute for which the 
-   * index is required.
+   * @param name a string, the name of the attribute whose index is begin
+   * sought.
    <p>
-   * @return the index of an attribute with the given local name, or -1 if not present.
+   * @return the index of an attribute with the given local name, or
+   * <code>-1</code> if no such attribute is present.
+   <p>
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  int getIndex(String name) {
     return libsbmlJNI.XMLAttributes_getIndex__SWIG_0(swigCPtr, this, name);
@@ -414,13 +944,17 @@ appears in the documentation.
 
   
 /**
-   * Return the index of an attribute with the given local name and namespace URI.
+   * Returns the index of the attribute having a given name and XML namespace
+   * URI.
    <p>
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute being sought.
+   * @param uri  a string, the namespace URI of the attribute being sought.
    <p>
-   * @return the index of an attribute with the given local name and namespace URI, 
-   * or -1 if not present.
+   * @return the index of an attribute with the given local name and
+   * namespace URI, or <code>-1</code> if no such attribute is present.
+   <p>
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  int getIndex(String name, String uri) {
     return libsbmlJNI.XMLAttributes_getIndex__SWIG_1(swigCPtr, this, name, uri);
@@ -428,12 +962,15 @@ appears in the documentation.
 
   
 /**
-   * Return the index of an attribute with the given {@link XMLTriple}.
+   * Returns the index of the attribute defined by the given {@link XMLTriple} object.
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute for which 
-   *        the index is required.
+   * @param triple an {@link XMLTriple} describing the attribute being sought.
    <p>
-   * @return the index of an attribute with the given {@link XMLTriple}, or -1 if not present.
+   * @return the index of an attribute described by the given {@link XMLTriple}
+   * object, or <code>-1</code> if no such attribute is present.
+   <p>
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  int getIndex(XMLTriple triple) {
     return libsbmlJNI.XMLAttributes_getIndex__SWIG_2(swigCPtr, this, XMLTriple.getCPtr(triple), triple);
@@ -441,9 +978,9 @@ appears in the documentation.
 
   
 /**
-   * Return the number of attributes in the set.
+   * Returns the number of attributes in this list of attributes.
    <p>
-   * @return the number of attributes in this {@link XMLAttributes} set.
+   * @return the number of attributes contained in this {@link XMLAttributes} object.
    */ public
  int getLength() {
     return libsbmlJNI.XMLAttributes_getLength(swigCPtr, this);
@@ -451,12 +988,12 @@ appears in the documentation.
 
   
 /**
-   * Return the number of attributes in the set.
+   * Returns the number of attributes in this list of attributes.
    <p>
-   * @return the number of attributes in this {@link XMLAttributes} set.
+   * This function is merely an alias of {@link XMLAttributes#getLength()}
+   * introduced for consistency with other libXML classes.
    <p>
-   * This function is an alias for getLength introduced for consistency
-   * with other XML classes.
+   * @return the number of attributes contained in this {@link XMLAttributes} object.
    */ public
  int getNumAttributes() {
     return libsbmlJNI.XMLAttributes_getNumAttributes(swigCPtr, this);
@@ -464,16 +1001,34 @@ appears in the documentation.
 
   
 /**
-   * Return the local name of an attribute in this {@link XMLAttributes} set (by position).
+   * Returns the name of the <em>n</em>th attribute in this list of
+   * attributes.
    <p>
-   * @param index an integer, the position of the attribute whose local name is 
-   * required.
+   * @param index an integer, the position of the attribute whose name
+   * is being sought.
    <p>
-   * @return the local name of an attribute in this list (by position).  
+   * @return the local name of the <em>n</em>th attribute.
    <p>
-   * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(int index)} to test for the attribute
-   * existence.
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  Callers should use {@link XMLAttributes#getLength()} to check the number
+ * of attributes contained in this object or {@link XMLAttributes#hasAttribute(int
+ * index)}  to test for the existence of an attribute at a given
+ * position.
+   <p>
+   * <p>
+ * @note Note that although {@link XMLAttributes} provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * {@link XMLAttributes} class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in {@link XMLAttributes} objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+   <p>
+   * @see #getLength()
+   * @see #hasAttribute(int index) 
    */ public
  String getName(int index) {
     return libsbmlJNI.XMLAttributes_getName(swigCPtr, this, index);
@@ -481,17 +1036,34 @@ appears in the documentation.
 
   
 /**
-   * Return the prefix of an attribute in this {@link XMLAttributes} set (by position).
+   * Returns the namespace prefix of the <em>n</em>th attribute in this
+   * attribute set.
    <p>
-   * @param index an integer, the position of the attribute whose prefix is 
-   * required.
+   * @param index an integer, the position of the attribute whose namespace
+   * prefix is being sought.
    <p>
-   * @return the namespace prefix of an attribute in this list (by
-   * position).  
+   * @return the XML namespace prefix of the <em>n</em>th attribute.
    <p>
-   * @note If index is out of range, an empty string will be returned. Use
-   * {@link XMLAttributes#hasAttribute(int index)} to test for the attribute
-   * existence.
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  Callers should use {@link XMLAttributes#getLength()} to check the number
+ * of attributes contained in this object or {@link XMLAttributes#hasAttribute(int
+ * index)}  to test for the existence of an attribute at a given
+ * position.
+   <p>
+   * <p>
+ * @note Note that although {@link XMLAttributes} provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * {@link XMLAttributes} class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in {@link XMLAttributes} objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+   <p>
+   * @see #getLength()
+   * @see #hasAttribute(int index) 
    */ public
  String getPrefix(int index) {
     return libsbmlJNI.XMLAttributes_getPrefix(swigCPtr, this, index);
@@ -499,16 +1071,34 @@ appears in the documentation.
 
   
 /**
-   * Return the prefixed name of an attribute in this {@link XMLAttributes} set (by position).
+   * Returns the prefix name of the <em>n</em>th attribute in this attribute
+   * set.
    <p>
-   * @param index an integer, the position of the attribute whose prefixed 
-   * name is required.
+   * @param index an integer, the position of the attribute whose prefixed
+   * name is being sought.
    <p>
-   * @return the prefixed name of an attribute in this list (by
-   * position).  
+   * @return the prefixed name of the <em>n</em>th attribute.
    <p>
-   * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(int index)} to test for attribute existence.
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  Callers should use {@link XMLAttributes#getLength()} to check the number
+ * of attributes contained in this object or {@link XMLAttributes#hasAttribute(int
+ * index)}  to test for the existence of an attribute at a given
+ * position.
+   <p>
+   * <p>
+ * @note Note that although {@link XMLAttributes} provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * {@link XMLAttributes} class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in {@link XMLAttributes} objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+   <p>
+   * @see #getLength()
+   * @see #hasAttribute(int index) 
    */ public
  String getPrefixedName(int index) {
     return libsbmlJNI.XMLAttributes_getPrefixedName(swigCPtr, this, index);
@@ -516,15 +1106,34 @@ appears in the documentation.
 
   
 /**
-   * Return the namespace URI of an attribute in this {@link XMLAttributes} set (by position).
+   * Returns the XML namespace URI of the <em>n</em>th attribute in this
+   * attribute set.
    <p>
-   * @param index an integer, the position of the attribute whose namespace URI is 
-   * required.
+   * @param index an integer, the position of the attribute whose namespace
+   * URI is being sought.
    <p>
-   * @return the namespace URI of an attribute in this list (by position).
+   * @return the XML namespace URI of the <em>n</em>th attribute.
    <p>
-   * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(int index)} to test for attribute existence.
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  Callers should use {@link XMLAttributes#getLength()} to check the number
+ * of attributes contained in this object or {@link XMLAttributes#hasAttribute(int
+ * index)}  to test for the existence of an attribute at a given
+ * position.
+   <p>
+   * <p>
+ * @note Note that although {@link XMLAttributes} provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * {@link XMLAttributes} class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in {@link XMLAttributes} objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+   <p>
+   * @see #getLength()
+   * @see #hasAttribute(int index) 
    */ public
  String getURI(int index) {
     return libsbmlJNI.XMLAttributes_getURI(swigCPtr, this, index);
@@ -532,15 +1141,33 @@ appears in the documentation.
 
   
 /**
-   * Return the value of an attribute in this {@link XMLAttributes} set (by position).
+   * Returns the value of the <em>n</em>th attribute in this list of attributes.
    <p>
-   * @param index an integer, the position of the attribute whose value is 
-   * required.
+   * @param index an integer, the position of the attribute whose value is
+   * being sought.
    <p>
-   * @return the value of an attribute in the list (by position).  
+   * @return the XML value of the <em>n</em>th attribute.
    <p>
-   * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(int index)} to test for attribute existence.
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  Callers should use {@link XMLAttributes#getLength()} to check the number
+ * of attributes contained in this object or {@link XMLAttributes#hasAttribute(int
+ * index)}  to test for the existence of an attribute at a given
+ * position.
+   <p>
+   * <p>
+ * @note Note that although {@link XMLAttributes} provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * {@link XMLAttributes} class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in {@link XMLAttributes} objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
+   <p>
+   * @see #getLength()
+   * @see #hasAttribute(int index) 
    */ public
  String getValue(int index) {
     return libsbmlJNI.XMLAttributes_getValue__SWIG_0(swigCPtr, this, index);
@@ -548,22 +1175,28 @@ appears in the documentation.
 
   
 /**
-   * Return an attribute's value by name.
+   * Returns a named attribute's value.
    <p>
-   * @param name a string, the local name of the attribute whose value is required.
+   * @param name a string, the unprefixed name of the attribute whose value
+   * is being sought.
    <p>
-   * @return The attribute value as a string.  
+   * @return The attribute value as a string.
    <p>
-   * @note If an attribute with the given local name does not exist, an
-   * empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(String name, String uri)} const
-   * to test for attribute existence.  A namespace bound to the local name
-   * is not checked by this function.  Thus, if there are multiple
-   * attributes with the given local name and different namespaces, the
-   * value of an attribute with the smallest index among those attributes
-   * will be returned.  {@link XMLAttributes#getValue(String name)} or
-   * {@link XMLAttributes#getValue(XMLTriple triple)} should be used to get a value of an
-   * attribute with the given local name and namespace.
+   * @note If an attribute with the given local <code>name</code> does not exist in
+   * this {@link XMLAttributes} object, this method will return an empty string.
+   * Callers can use
+   * {@link XMLAttributes#hasAttribute(String name, String uri)} 
+   * to test for an attribute's existence.  This method also does not check
+   * the XML namespace of the named attribute.  Thus, if there are multiple
+   * attributes with the same local <code>name</code> but different namespaces, this
+   * method will return the value of the first such attribute found.  Callers
+   * should use the more specific methods
+   * {@link XMLAttributes#getIndex(String name, String uri)} 
+   * or {@link XMLAttributes#getIndex(XMLTriple triple)}  to find
+   * attributes in particular namespaces.
+   <p>
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  String getValue(String name) {
     return libsbmlJNI.XMLAttributes_getValue__SWIG_1(swigCPtr, this, name);
@@ -571,17 +1204,21 @@ appears in the documentation.
 
   
 /**
-   * Return a value of an attribute with the given local name and namespace URI.
+   * Returns a named attribute's value.
    <p>
-   * @param name a string, the local name of the attribute whose value is required.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute whose value is being sought.
+   * @param uri  a string, the XML namespace URI of the attribute.
    <p>
-   * @return The attribute value as a string.  
+   * @return The attribute value as a string.
    <p>
-   * @note If an attribute with the given local name and namespace URI does
-   * not exist, an empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(String name, String uri)} const
-   * to test for attribute existence.
+   * @note If an attribute with the given <code>name</code> and namespace <code>uri</code> does
+   * not exist in this {@link XMLAttributes} object, this method will return an empty
+   * string.  Callers can use
+   * {@link XMLAttributes#hasAttribute(String name, String uri)} 
+   * to test for an attribute's existence.
+   <p>
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  String getValue(String name, String uri) {
     return libsbmlJNI.XMLAttributes_getValue__SWIG_2(swigCPtr, this, name, uri);
@@ -589,16 +1226,21 @@ appears in the documentation.
 
   
 /**
-   * Return a value of an attribute with the given {@link XMLTriple}.
+   * Return the value of an attribute described by a given {@link XMLTriple} object.
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute whose 
-   *        value is required.
+   * @param triple an {@link XMLTriple} describing the attribute whose value is being
+   * sought.
    <p>
-   * @return The attribute value as a string.  
+   * @return The attribute value as a string.
    <p>
-   * @note If an attribute with the given {@link XMLTriple} does not exist, an
-   * empty string will be returned.  Use
-   * {@link XMLAttributes#hasAttribute(XMLTriple triple)} to test for attribute existence.
+   * @note If an attribute with the properties given by <code>triple</code> does not
+   * exist in this {@link XMLAttributes} object, this method will return an empty
+   * string.  Callers can use
+   * {@link XMLAttributes#hasAttribute(String name, String uri)} 
+   * to test for an attribute's existence.
+   <p>
+   * @see #hasAttribute(String name, String uri) 
+   * @see #hasAttribute(XMLTriple triple) 
    */ public
  String getValue(XMLTriple triple) {
     return libsbmlJNI.XMLAttributes_getValue__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple);
@@ -606,13 +1248,23 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether
-   * an attribute with the given index exists in this {@link XMLAttributes}.
+   * Returns <code>true</code> if an attribute exists at a given index.
    <p>
-   * @param index an integer, the position of the attribute.
+   * @param index an integer, the position of the attribute to be tested.
    <p>
    * @return <code>true</code> if an attribute with the given index exists in this
-   * {@link XMLAttributes}, <code>false</code> otherwise.
+   * {@link XMLAttributes} object, <code>false</code> otherwise.
+   <p>
+   * <p>
+ * @note Note that although {@link XMLAttributes} provides operations that can
+ * manipulate attributes based on a numerical index, XML attributes are in
+ * fact unordered when they appear in files and data streams.  The
+ * {@link XMLAttributes} class provides some list-like facilities, but it is only for
+ * the convenience of callers.  (For example, it permits callers to loop
+ * across all attributes more easily.)  Users should keep in mind that the
+ * order in which attributes are stored in {@link XMLAttributes} objects has no real
+ * impact on the order in which the attributes are read or written from an
+ * XML file or data stream.
    */ public
  boolean hasAttribute(int index) {
     return libsbmlJNI.XMLAttributes_hasAttribute__SWIG_0(swigCPtr, this, index);
@@ -620,15 +1272,17 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether
-   * an attribute with the given local name and namespace URI exists in this 
-   * {@link XMLAttributes}.
+   * Returns <code>true</code> if an attribute with a given name and namespace URI
+   * exists.
    <p>
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the unprefixed name of the attribute.
+   * @param uri  a string, the XML namespace URI of the attribute.
    <p>
-   * @return <code>true</code> if an attribute with the given local name and namespace 
-   * URI exists in this {@link XMLAttributes}, <code>false</code> otherwise.
+   * @return <code>true</code> if an attribute with the given local name and XML
+   * namespace URI exists in this {@link XMLAttributes} object, <code>false</code> otherwise.
+   <p>
+   * @see #add(String name, String value, String namespaceURI, String prefix)
+   * @see #add(XMLTriple triple, String value)
    */ public
  boolean hasAttribute(String name, String uri) {
     return libsbmlJNI.XMLAttributes_hasAttribute__SWIG_1(swigCPtr, this, name, uri);
@@ -636,15 +1290,17 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether
-   * an attribute with the given local name and namespace URI exists in this 
-   * {@link XMLAttributes}.
+   * Returns <code>true</code> if an attribute with a given name and namespace URI
+   * exists.
    <p>
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the unprefixed name of the attribute.
+   * @param uri  a string, the XML namespace URI of the attribute.
    <p>
-   * @return <code>true</code> if an attribute with the given local name and namespace 
-   * URI exists in this {@link XMLAttributes}, <code>false</code> otherwise.
+   * @return <code>true</code> if an attribute with the given local name and XML
+   * namespace URI exists in this {@link XMLAttributes} object, <code>false</code> otherwise.
+   <p>
+   * @see #add(String name, String value, String namespaceURI, String prefix)
+   * @see #add(XMLTriple triple, String value)
    */ public
  boolean hasAttribute(String name) {
     return libsbmlJNI.XMLAttributes_hasAttribute__SWIG_2(swigCPtr, this, name);
@@ -652,13 +1308,15 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether
-   * an attribute with the given XML triple exists in this {@link XMLAttributes}.
+   * Returns <code>true</code> if an attribute with the given properties exists.
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute 
+   * @param triple an {@link XMLTriple} describing the attribute to be tested.
    <p>
    * @return <code>true</code> if an attribute with the given XML triple exists in this
-   * {@link XMLAttributes}, <code>false</code> otherwise.
+   * {@link XMLAttributes} object, <code>false</code> otherwise.
+   <p>
+   * @see #add(String name, String value, String namespaceURI, String prefix)
+   * @see #add(XMLTriple triple, String value)
    */ public
  boolean hasAttribute(XMLTriple triple) {
     return libsbmlJNI.XMLAttributes_hasAttribute__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple);
@@ -666,10 +1324,10 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * this {@link XMLAttributes} set is empty.
+   * Returns <code>true</code> if this list of attributes is empty.
    <p>
-   * @return <code>true</code> if this {@link XMLAttributes} set is empty, <code>false</code> otherwise.
+   * @return <code>true</code> if this {@link XMLAttributes} object is empty, <code>false</code>
+   * otherwise.
    */ public
  boolean isEmpty() {
     return libsbmlJNI.XMLAttributes_isEmpty(swigCPtr, this);

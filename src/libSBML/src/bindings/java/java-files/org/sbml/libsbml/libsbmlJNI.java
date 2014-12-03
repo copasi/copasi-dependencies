@@ -500,10 +500,12 @@ public class libsbmlJNI {
   public final static native long SBMLDocument_checkL2v4Compatibility(long jarg1, SBMLDocument jarg1_);
   public final static native long SBMLDocument_checkL3v1Compatibility(long jarg1, SBMLDocument jarg1_);
   public final static native long SBMLDocument_getError(long jarg1, SBMLDocument jarg1_, long jarg2);
+  public final static native long SBMLDocument_getErrorWithSeverity(long jarg1, SBMLDocument jarg1_, long jarg2, long jarg3);
   public final static native long SBMLDocument_getNumErrors__SWIG_0(long jarg1, SBMLDocument jarg1_);
   public final static native long SBMLDocument_getNumErrors__SWIG_1(long jarg1, SBMLDocument jarg1_, long jarg2);
   public final static native void SBMLDocument_printErrors__SWIG_0(long jarg1, SBMLDocument jarg1_, long jarg2, OStream jarg2_);
   public final static native void SBMLDocument_printErrors__SWIG_1(long jarg1, SBMLDocument jarg1_);
+  public final static native void SBMLDocument_printErrors__SWIG_2(long jarg1, SBMLDocument jarg1_, long jarg2, OStream jarg2_, long jarg3);
   public final static native void SBMLDocument_connectToChild(long jarg1, SBMLDocument jarg1_);
   public final static native int SBMLDocument_convert(long jarg1, SBMLDocument jarg1_, long jarg2, ConversionProperties jarg2_);
   public final static native void SBMLDocument_enablePackageInternal(long jarg1, SBMLDocument jarg1_, String jarg2, String jarg3, boolean jarg4);
@@ -530,6 +532,8 @@ public class libsbmlJNI {
   public final static native int SBMLDocument_clearValidators(long jarg1, SBMLDocument jarg1_);
   public final static native int SBMLDocument_addValidator(long jarg1, SBMLDocument jarg1_, long jarg2, SBMLValidator jarg2_);
   public final static native long SBMLDocument_getValidator(long jarg1, SBMLDocument jarg1_, long jarg2);
+  public final static native int SBMLDocument_addUnknownPackageRequired(long jarg1, SBMLDocument jarg1_, String jarg2, String jarg3, boolean jarg4);
+  public final static native boolean SBMLDocument_hasUnknownPackage(long jarg1, SBMLDocument jarg1_, String jarg2);
   public final static native long new_FunctionDefinition__SWIG_0(long jarg1, long jarg2) throws org.sbml.libsbml.SBMLConstructorException;
   public final static native long new_FunctionDefinition__SWIG_1(long jarg1, SBMLNamespaces jarg1_) throws org.sbml.libsbml.SBMLConstructorException;
   public final static native void delete_FunctionDefinition(long jarg1);
@@ -1946,6 +1950,18 @@ public class libsbmlJNI {
   public final static native void XMLOutputStream_upIndent(long jarg1, XMLOutputStream jarg1_);
   public final static native long XMLOutputStream_getSBMLNamespaces(long jarg1, XMLOutputStream jarg1_);
   public final static native void XMLOutputStream_setSBMLNamespaces(long jarg1, XMLOutputStream jarg1_, long jarg2, SBMLNamespaces jarg2_);
+  public final static native long new_XMLOwningOutputStringStream__SWIG_0(String jarg1, boolean jarg2, String jarg3, String jarg4);
+  public final static native long new_XMLOwningOutputStringStream__SWIG_1(String jarg1, boolean jarg2, String jarg3);
+  public final static native long new_XMLOwningOutputStringStream__SWIG_2(String jarg1, boolean jarg2);
+  public final static native long new_XMLOwningOutputStringStream__SWIG_3(String jarg1);
+  public final static native long new_XMLOwningOutputStringStream__SWIG_4();
+  public final static native void delete_XMLOwningOutputStringStream(long jarg1);
+  public final static native long new_XMLOwningOutputFileStream__SWIG_0(String jarg1, String jarg2, boolean jarg3, String jarg4, String jarg5);
+  public final static native long new_XMLOwningOutputFileStream__SWIG_1(String jarg1, String jarg2, boolean jarg3, String jarg4);
+  public final static native long new_XMLOwningOutputFileStream__SWIG_2(String jarg1, String jarg2, boolean jarg3);
+  public final static native long new_XMLOwningOutputFileStream__SWIG_3(String jarg1, String jarg2);
+  public final static native long new_XMLOwningOutputFileStream__SWIG_4(String jarg1);
+  public final static native void delete_XMLOwningOutputFileStream(long jarg1);
   public final static native long new_XMLInputStream__SWIG_0(String jarg1, boolean jarg2, String jarg3, long jarg4, XMLErrorLog jarg4_);
   public final static native long new_XMLInputStream__SWIG_1(String jarg1, boolean jarg2, String jarg3);
   public final static native long new_XMLInputStream__SWIG_2(String jarg1, boolean jarg2);
@@ -2010,6 +2026,7 @@ public class libsbmlJNI {
   public final static native String XMLErrorLog_toString(long jarg1, XMLErrorLog jarg1_);
   public final static native void XMLErrorLog_printErrors__SWIG_0(long jarg1, XMLErrorLog jarg1_, long jarg2, OStream jarg2_);
   public final static native void XMLErrorLog_printErrors__SWIG_1(long jarg1, XMLErrorLog jarg1_);
+  public final static native void XMLErrorLog_printErrors__SWIG_2(long jarg1, XMLErrorLog jarg1_, long jarg2, OStream jarg2_, long jarg3);
   public final static native boolean XMLErrorLog_isSeverityOverridden(long jarg1, XMLErrorLog jarg1_);
   public final static native void XMLErrorLog_unsetSeverityOverride(long jarg1, XMLErrorLog jarg1_);
   public final static native int XMLErrorLog_getSeverityOverride(long jarg1, XMLErrorLog jarg1_);
@@ -2017,6 +2034,7 @@ public class libsbmlJNI {
   public final static native void XMLErrorLog_changeErrorSeverity__SWIG_0(long jarg1, XMLErrorLog jarg1_, int jarg2, int jarg3, String jarg4);
   public final static native void XMLErrorLog_changeErrorSeverity__SWIG_1(long jarg1, XMLErrorLog jarg1_, int jarg2, int jarg3);
   public final static native long SBMLErrorLog_getError(long jarg1, SBMLErrorLog jarg1_, long jarg2);
+  public final static native long SBMLErrorLog_getErrorWithSeverity(long jarg1, SBMLErrorLog jarg1_, long jarg2, long jarg3);
   public final static native long SBMLErrorLog_getNumFailsWithSeverity__SWIG_0(long jarg1, SBMLErrorLog jarg1_, long jarg2);
   public final static native long new_SBMLErrorLog__SWIG_0();
   public final static native long new_SBMLErrorLog__SWIG_1(long jarg1, SBMLErrorLog jarg1_);
@@ -2388,7 +2406,8 @@ public class libsbmlJNI {
   public final static native int ASTNode_addChild(long jarg1, ASTNode jarg1_, long jarg2, ASTNode jarg2_);
   public final static native int ASTNode_prependChild(long jarg1, ASTNode jarg1_, long jarg2, ASTNode jarg2_);
   public final static native int ASTNode_removeChild(long jarg1, ASTNode jarg1_, long jarg2);
-  public final static native int ASTNode_replaceChild(long jarg1, ASTNode jarg1_, long jarg2, long jarg3, ASTNode jarg3_);
+  public final static native int ASTNode_replaceChild__SWIG_0(long jarg1, ASTNode jarg1_, long jarg2, long jarg3, ASTNode jarg3_, boolean jarg4);
+  public final static native int ASTNode_replaceChild__SWIG_1(long jarg1, ASTNode jarg1_, long jarg2, long jarg3, ASTNode jarg3_);
   public final static native int ASTNode_insertChild(long jarg1, ASTNode jarg1_, long jarg2, long jarg3, ASTNode jarg3_);
   public final static native long ASTNode_deepCopy(long jarg1, ASTNode jarg1_);
   public final static native long ASTNode_getChild(long jarg1, ASTNode jarg1_, long jarg2);
@@ -2501,10 +2520,12 @@ public class libsbmlJNI {
   public final static native long parseL3FormulaWithSettings(String jarg1, long jarg2, L3ParserSettings jarg2_);
   public final static native long getDefaultL3ParserSettings();
   public final static native String getLastParseL3Error();
+  public final static native void SBML_deleteL3Parser();
   public final static native long new_L3ParserSettings__SWIG_0();
   public final static native long new_L3ParserSettings__SWIG_1(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6, long jarg7, SBMLNamespaces jarg7_);
   public final static native long new_L3ParserSettings__SWIG_2(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6);
   public final static native long new_L3ParserSettings__SWIG_3(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5);
+  public final static native long new_L3ParserSettings__SWIG_4(long jarg1, L3ParserSettings jarg1_);
   public final static native void delete_L3ParserSettings(long jarg1);
   public final static native void L3ParserSettings_setModel(long jarg1, L3ParserSettings jarg1_, long jarg2, Model jarg2_);
   public final static native long L3ParserSettings_getModel(long jarg1, L3ParserSettings jarg1_);
@@ -2547,7 +2568,7 @@ public class libsbmlJNI {
   public final static native int ASTBasePlugin_insertChild(long jarg1, ASTBasePlugin jarg1_, long jarg2, long jarg3, ASTBase jarg3_);
   public final static native int ASTBasePlugin_prependChild(long jarg1, ASTBasePlugin jarg1_, long jarg2, ASTBase jarg2_);
   public final static native int ASTBasePlugin_removeChild(long jarg1, ASTBasePlugin jarg1_, long jarg2);
-  public final static native int ASTBasePlugin_replaceChild(long jarg1, ASTBasePlugin jarg1_, long jarg2, long jarg3, ASTBase jarg3_);
+  public final static native int ASTBasePlugin_replaceChild(long jarg1, ASTBasePlugin jarg1_, long jarg2, long jarg3, ASTBase jarg3_, boolean jarg4);
   public final static native int ASTBasePlugin_swapChildren(long jarg1, ASTBasePlugin jarg1_, long jarg2);
   public final static native boolean ASTBasePlugin_read(long jarg1, ASTBasePlugin jarg1_, long jarg2, XMLInputStream jarg2_, String jarg3, long jarg4, XMLToken jarg4_);
   public final static native void ASTBasePlugin_addExpectedAttributes(long jarg1, ASTBasePlugin jarg1_, long jarg2, long jarg3, XMLInputStream jarg3_, int jarg4);

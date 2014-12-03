@@ -57,99 +57,25 @@ public class SBMLTransforms {
   }
 
   
-/**
-   * Expands the math represented by the {@link ASTNode} to implement the functionality
-   * of the {@link FunctionDefinition}, if it occurs within the original
-   * math.
-   <p>
-   * For example, an {@link ASTNode} represents the math expression: f(s, p) where
-   * f is the id of a {@link FunctionDefinition} representing f(x, y) = x * y.
-   * The outcome of the function is that the {@link ASTNode} now represents
-   * the math expression: s * p
-   <p>
-   * @param math {@link ASTNode} representing the math to be transformed
-   <p>
-   * @param fd the {@link FunctionDefinition} to be expanded
-   <p>
-   * @param idsToExclude an optional list of function definition ids to exclude.
-   <p>
-   * 
-   * @internal
-   */ public
+/** * @internal */ public
  static void replaceFD(ASTNode math, FunctionDefinition fd, IdList idsToExclude) {
     libsbmlJNI.SBMLTransforms_replaceFD__SWIG_0(ASTNode.getCPtr(math), math, FunctionDefinition.getCPtr(fd), fd, IdList.getCPtr(idsToExclude), idsToExclude);
   }
 
   
-/**
-   * Expands the math represented by the {@link ASTNode} to implement the functionality
-   * of the {@link FunctionDefinition}, if it occurs within the original
-   * math.
-   <p>
-   * For example, an {@link ASTNode} represents the math expression: f(s, p) where
-   * f is the id of a {@link FunctionDefinition} representing f(x, y) = x * y.
-   * The outcome of the function is that the {@link ASTNode} now represents
-   * the math expression: s * p
-   <p>
-   * @param math {@link ASTNode} representing the math to be transformed
-   <p>
-   * @param fd the {@link FunctionDefinition} to be expanded
-   <p>
-   * @param idsToExclude an optional list of function definition ids to exclude.
-   <p>
-   * 
-   * @internal
-   */ public
+/** * @internal */ public
  static void replaceFD(ASTNode math, FunctionDefinition fd) {
     libsbmlJNI.SBMLTransforms_replaceFD__SWIG_1(ASTNode.getCPtr(math), math, FunctionDefinition.getCPtr(fd), fd);
   }
 
   
-/**
-   * Expands the math represented by the {@link ASTNode} to implement the functionality
-   * of all the FunctionDefinitions in the list, if they occur within the 
-   * original math.
-   <p>
-   * For example, an {@link ASTNode} represents the math expression: f(s, g(p, q)) where
-   * f is the id of a {@link FunctionDefinition} representing f(x, y) = x * y
-   * and g is the id of a {@link FunctionDefinition} representing f(x, y) = x/y
-   * The outcome of the function is that the {@link ASTNode} now represents
-   * the math expression: s * p/q
-   <p>
-   * @param math {@link ASTNode} representing the math to be transformed
-   <p>
-   * @param lofd the {@link ListOfFunctionDefinitions} to be expanded
-   <p>
-   * @param idsToExclude an optional list of function definition ids to exclude.
-   <p>
-   * 
-   * @internal
-   */ public
+/** * @internal */ public
  static void replaceFD(ASTNode math, ListOfFunctionDefinitions lofd, IdList idsToExclude) {
     libsbmlJNI.SBMLTransforms_replaceFD__SWIG_2(ASTNode.getCPtr(math), math, ListOfFunctionDefinitions.getCPtr(lofd), lofd, IdList.getCPtr(idsToExclude), idsToExclude);
   }
 
   
-/**
-   * Expands the math represented by the {@link ASTNode} to implement the functionality
-   * of all the FunctionDefinitions in the list, if they occur within the 
-   * original math.
-   <p>
-   * For example, an {@link ASTNode} represents the math expression: f(s, g(p, q)) where
-   * f is the id of a {@link FunctionDefinition} representing f(x, y) = x * y
-   * and g is the id of a {@link FunctionDefinition} representing f(x, y) = x/y
-   * The outcome of the function is that the {@link ASTNode} now represents
-   * the math expression: s * p/q
-   <p>
-   * @param math {@link ASTNode} representing the math to be transformed
-   <p>
-   * @param lofd the {@link ListOfFunctionDefinitions} to be expanded
-   <p>
-   * @param idsToExclude an optional list of function definition ids to exclude.
-   <p>
-   * 
-   * @internal
-   */ public
+/** * @internal */ public
  static void replaceFD(ASTNode math, ListOfFunctionDefinitions lofd) {
     libsbmlJNI.SBMLTransforms_replaceFD__SWIG_3(ASTNode.getCPtr(math), math, ListOfFunctionDefinitions.getCPtr(lofd), lofd);
   }

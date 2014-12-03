@@ -888,11 +888,7 @@ public class SBMLDocument : SBase {
   }
 
   
-/**
-   * @param package
-   * @param level
-   * @param version
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void updateSBMLNamespace(string package, long level, long version) {
     libsbmlPINVOKE.SBMLDocument_updateSBMLNamespace(swigCPtr, package, level, version);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -904,10 +900,13 @@ public class SBMLDocument : SBase {
    *
    * @param m the new Model to use.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -1361,6 +1360,26 @@ public class SBMLDocument : SBase {
 
   
 /**
+   * Returns the nth error or warning with the given severity
+   * encountered during parsing, consistency checking, or attempted
+   * translation of this model.
+   *
+   * @return the error or warning indexed by integer @p n, or return @c
+   * null if <code>n &gt; (getNumErrors(severity) - 1)</code>.
+   *
+   * @param n the integer index of the error sought.
+   * @param severity the severity of the error sought.
+   *
+   * @see SBMLDocument::getNumErrors()
+   */ public
+ SBMLError getErrorWithSeverity(long n, long severity) {
+    IntPtr cPtr = libsbmlPINVOKE.SBMLDocument_getErrorWithSeverity(swigCPtr, n, severity);
+    SBMLError ret = (cPtr == IntPtr.Zero) ? null : new SBMLError(cPtr, false);
+    return ret;
+  }
+
+  
+/**
    * Returns the number of errors or warnings encountered during parsing,
    * consistency checking, or attempted translation of this model.
    *
@@ -1449,18 +1468,35 @@ public class SBMLDocument : SBase {
 
   
 /**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   *
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor and assignment operator.
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */ /* libsbml-internal */ public new
- void connectToChild() {
+    * Prints all the errors or warnings with the given severity encountered 
+    * trying to parse, check, or translate this SBML document.
+    *
+    * It prints the text to the stream given by the parameter @p
+    * stream.  
+    *
+    * If no errors have occurred, i.e., <code>getNumErrors(severity) == 0</code>, no
+    * output will be sent to the stream.
+    *
+    * The format of the output is:
+    * @verbatim
+    N error(s):
+      line NNN: (id) message
+@endverbatim
+    *
+    * @param stream the ostream or ostringstream object indicating where
+    * the output should be printed.
+    * @param severity of the errors sought.
+    *
+    * @see getNumErrors(long severity)
+    * @see getErrorLog()
+    * @see SBMLDocument::getErrorWithSeverity(long n, long severity)
+    */ public
+ void printErrors(OStream stream, long severity) {
+    libsbmlPINVOKE.SBMLDocument_printErrors__SWIG_2(swigCPtr, SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()), severity);
+    if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public override void connectToChild() {
     libsbmlPINVOKE.SBMLDocument_connectToChild(swigCPtr);
   }
 
@@ -1471,10 +1507,13 @@ public class SBMLDocument : SBase {
    * 
    * @param props the conversion properties to use
    * 
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
@@ -1486,14 +1525,7 @@ public class SBMLDocument : SBase {
   }
 
   
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   *
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   */ /* libsbml-internal */ public new
+/** */ /* libsbml-internal */ public new
  void enablePackageInternal(string pkgURI, string pkgPrefix, bool flag) {
     libsbmlPINVOKE.SBMLDocument_enablePackageInternal(swigCPtr, pkgURI, pkgPrefix, flag);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -1507,7 +1539,7 @@ public class SBMLDocument : SBase {
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * @if clike The set of possible type codes for core elements is defined in
  * the enumeration #SBMLTypeCode_t, and in addition, libSBML plug-ins for
  * SBML Level&nbsp;3 packages define their own extra enumerations of type
@@ -1598,10 +1630,13 @@ public class SBMLDocument : SBase {
    * @param flag bool value to indicate whether to write a namespace
    * prefix.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    */ public
@@ -1641,10 +1676,13 @@ public class SBMLDocument : SBase {
    * @param package the name or URI of the package extension.
    * @param flag Boolean value indicating whether the package is required.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    */ public
@@ -1742,10 +1780,13 @@ public class SBMLDocument : SBase {
    * @param package the name or URI of the package extension.
    * @param flag a Boolean value.
    *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    *
@@ -1823,70 +1864,70 @@ public class SBMLDocument : SBase {
   }
 
   
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  byte getApplicableValidators() {
     byte ret = libsbmlPINVOKE.SBMLDocument_getApplicableValidators(swigCPtr);
     return ret;
   }
 
   
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  byte getConversionValidators() {
     byte ret = libsbmlPINVOKE.SBMLDocument_getConversionValidators(swigCPtr);
     return ret;
   }
 
   
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void setApplicableValidators(byte appl) {
     libsbmlPINVOKE.SBMLDocument_setApplicableValidators(swigCPtr, appl);
   }
 
   
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void setConversionValidators(byte appl) {
     libsbmlPINVOKE.SBMLDocument_setConversionValidators(swigCPtr, appl);
   }
 
   
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  long getNumValidators() { return (long)libsbmlPINVOKE.SBMLDocument_getNumValidators(swigCPtr); }
 
   
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  int clearValidators() {
     int ret = libsbmlPINVOKE.SBMLDocument_clearValidators(swigCPtr);
     return ret;
   }
 
   
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  int addValidator(SBMLValidator validator) {
     int ret = libsbmlPINVOKE.SBMLDocument_addValidator(swigCPtr, SBMLValidator.getCPtr(validator));
     return ret;
   }
 
   
-/**
-   * Validation system.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  SBMLValidator getValidator(long index) {
     IntPtr cPtr = libsbmlPINVOKE.SBMLDocument_getValidator(swigCPtr, index);
     SBMLValidator ret = (cPtr == IntPtr.Zero) ? null : new SBMLValidator(cPtr, false);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ int addUnknownPackageRequired(string pkgURI, string prefix, bool flag) {
+    int ret = libsbmlPINVOKE.SBMLDocument_addUnknownPackageRequired(swigCPtr, pkgURI, prefix, flag);
+    if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ bool hasUnknownPackage(string pkgURI) {
+    bool ret = libsbmlPINVOKE.SBMLDocument_hasUnknownPackage(swigCPtr, pkgURI);
+    if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

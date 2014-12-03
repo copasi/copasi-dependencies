@@ -240,8 +240,7 @@ public class SBMLDocument extends SBase {
    <p>
    * <p>
  * This 'default Level' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.10.3
- was released.  The default Level is used by
+ * Level available at the time libSBML version 5.11.0 was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
    <p>
@@ -262,8 +261,7 @@ public class SBMLDocument extends SBase {
    * <p>
  * This 'default Version' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.10.3
- was released.  The default Version is
+ * 5.11.0 was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
    <p>
@@ -885,12 +883,7 @@ appears in the documentation.
   }
 
   
-/**
-   * @param package
-   * @param level
-   * @param version
-   * @internal
-   */ public
+/** * @internal */ public
  void updateSBMLNamespace(String arg0, long level, long version) {
     libsbmlJNI.SBMLDocument_updateSBMLNamespace(swigCPtr, this, arg0, level, version);
   }
@@ -901,9 +894,10 @@ appears in the documentation.
    <p>
    * @param m the new {@link Model} to use.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
@@ -1374,6 +1368,25 @@ appears in the documentation.
 
   
 /**
+   * Returns the nth error or warning with the given severity
+   * encountered during parsing, consistency checking, or attempted
+   * translation of this model.
+   <p>
+   * @return the error or warning indexed by integer <code>n</code>, or return 
+   * <code>null</code> if <code>n &gt; (getNumErrors(severity) - 1)</code>.
+   <p>
+   * @param n the integer index of the error sought.
+   * @param severity the severity of the error sought.
+   <p>
+   * @see SBMLDocument#getNumErrors()
+   */ public
+ SBMLError getErrorWithSeverity(long n, long severity) {
+    long cPtr = libsbmlJNI.SBMLDocument_getErrorWithSeverity(swigCPtr, this, n, severity);
+    return (cPtr == 0) ? null : new SBMLError(cPtr, false);
+  }
+
+  
+/**
    * Returns the number of errors or warnings encountered during parsing,
    * consistency checking, or attempted translation of this model.
    <p>
@@ -1491,19 +1504,34 @@ appears in the documentation.
 
   
 /**
-   * Sets this SBML object to child SBML objects (if any).
-   * (Creates a child-parent relationship by the parent)
-   <p>
-   * Subclasses must override this function if they define
-   * one ore more child elements.
-   * Basically, this function needs to be called in
-   * constructor, copy constructor and assignment operator.
-   <p>
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   * @internal
-   */ public
- void connectToChild() {
+    * Prints all the errors or warnings with the given severity encountered 
+    * trying to parse, check, or translate this SBML document.
+    <p>
+    * It prints the text to the stream given by the parameter 
+    * <code>stream</code>.  
+    <p>
+    * If no errors have occurred, i.e., <code>getNumErrors(severity) == 0</code>, no
+    * output will be sent to the stream.
+    <p>
+    * The format of the output is:
+    * <pre class='fragment'>
+    N error(s):
+      line NNN: (id) message
+</pre>
+    <p>
+    * @param stream the ostream or ostringstream object indicating where
+    * the output should be printed.
+    * @param severity of the errors sought.
+    <p>
+    * @see #getNumErrors(long severity)
+    * @see #getErrorLog()
+    * @see SBMLDocument#getErrorWithSeverity(long n, long severity)
+    */ public
+ void printErrors(OStream stream, long severity) {
+    libsbmlJNI.SBMLDocument_printErrors__SWIG_2(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()), stream, severity);
+  }
+
+  public void connectToChild() {
     libsbmlJNI.SBMLDocument_connectToChild(swigCPtr, this);
   }
 
@@ -1514,9 +1542,10 @@ appears in the documentation.
    <p>
    * @param props the conversion properties to use
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1528,15 +1557,7 @@ appears in the documentation.
   }
 
   
-/**
-   * Enables/Disables the given package with this element and child
-   * elements (if any).
-   * (This is an internal implementation for enablePackage function)
-   <p>
-   * @note Subclasses of the SBML Core package in which one or more child
-   * elements are defined must override this function.
-   * @internal
-   */ public
+/** * @internal */ public
  void enablePackageInternal(String pkgURI, String pkgPrefix, boolean flag) {
     libsbmlJNI.SBMLDocument_enablePackageInternal(swigCPtr, this, pkgURI, pkgPrefix, flag);
   }
@@ -1548,7 +1569,7 @@ appears in the documentation.
    * <p>
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
- * the codes begin with the characters &ldquo;<code>SBML_</code>&rdquo;.
+ * the codes begin with the characters <code>SBML_</code>.
  * In the Java language interface for libSBML, the
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
@@ -1622,9 +1643,10 @@ appears in the documentation.
    * @param flag boolean value to indicate whether to write a namespace
    * prefix.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION}
@@ -1662,9 +1684,10 @@ appears in the documentation.
    * @param package the name or URI of the package extension.
    * @param flag Boolean value indicating whether the package is required.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION}
@@ -1754,9 +1777,10 @@ appears in the documentation.
    * @param package the name or URI of the package extension.
    * @param flag a Boolean value.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION}
@@ -1832,76 +1856,64 @@ appears in the documentation.
   }
 
   
-/**
-   * Validation system.
-   * @internal
-   */ public
+/** * @internal */ public
  short getApplicableValidators() {
     return libsbmlJNI.SBMLDocument_getApplicableValidators(swigCPtr, this);
   }
 
   
-/**
-   * Validation system.
-   * @internal
-   */ public
+/** * @internal */ public
  short getConversionValidators() {
     return libsbmlJNI.SBMLDocument_getConversionValidators(swigCPtr, this);
   }
 
   
-/**
-   * Validation system.
-   * @internal
-   */ public
+/** * @internal */ public
  void setApplicableValidators(short appl) {
     libsbmlJNI.SBMLDocument_setApplicableValidators(swigCPtr, this, appl);
   }
 
   
-/**
-   * Validation system.
-   * @internal
-   */ public
+/** * @internal */ public
  void setConversionValidators(short appl) {
     libsbmlJNI.SBMLDocument_setConversionValidators(swigCPtr, this, appl);
   }
 
   
-/**
-   * Validation system.
-   * @internal
-   */ public
+/** * @internal */ public
  long getNumValidators() {
     return libsbmlJNI.SBMLDocument_getNumValidators(swigCPtr, this);
   }
 
   
-/**
-   * Validation system.
-   * @internal
-   */ public
+/** * @internal */ public
  int clearValidators() {
     return libsbmlJNI.SBMLDocument_clearValidators(swigCPtr, this);
   }
 
   
-/**
-   * Validation system.
-   * @internal
-   */ public
+/** * @internal */ public
  int addValidator(SBMLValidator validator) {
     return libsbmlJNI.SBMLDocument_addValidator(swigCPtr, this, SBMLValidator.getCPtr(validator), validator);
   }
 
   
-/**
-   * Validation system.
-   * @internal
-   */ public
+/** * @internal */ public
  SBMLValidator getValidator(long index) {
     long cPtr = libsbmlJNI.SBMLDocument_getValidator(swigCPtr, this, index);
     return (cPtr == 0) ? null : new SBMLValidator(cPtr, false);
+  }
+
+  
+/** * @internal */ public
+ int addUnknownPackageRequired(String pkgURI, String prefix, boolean flag) {
+    return libsbmlJNI.SBMLDocument_addUnknownPackageRequired(swigCPtr, this, pkgURI, prefix, flag);
+  }
+
+  
+/** * @internal */ public
+ boolean hasUnknownPackage(String pkgURI) {
+    return libsbmlJNI.SBMLDocument_hasUnknownPackage(swigCPtr, this, pkgURI);
   }
 
 }

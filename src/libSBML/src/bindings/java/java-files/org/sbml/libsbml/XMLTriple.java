@@ -21,13 +21,14 @@ defined in SBML.
  <p>
  * A 'triple' in the libSBML XML layer encapsulates the notion of qualified
  * name, meaning an element name or an attribute name with an optional
- * namespace qualifier.  An {@link XMLTriple} instance carries up to three data items:
+ * namespace qualifier.  Triples by themselves are not entities in an XML
+ * stream&mdash;they are not, for example, elements or attributes; rather,
+ * {@link XMLTriple} is used in libSBML to construct these other kinds of objects.
  <p>
- * <ul>
- <p>
+ * An {@link XMLTriple} instance carries up to three data items:
+ * <ol>
  * <li> The name of the attribute or element; that is, the attribute name
  * as it appears in an XML document or data stream;
- <p>
  * <li> The XML namespace prefix (if any) of the attribute.  For example,
  * in the following fragment of XML, the namespace prefix is the string
  * <code>mysim</code> and it appears on both the element
@@ -37,15 +38,18 @@ defined in SBML.
  * <pre class='fragment'>
 &lt;mysim:someelement mysim:attribA='value' /&gt;
 </pre>
- <p>
  * <li> The XML namespace URI with which the prefix is associated.  In
  * XML, every namespace used must be declared and mapped to a URI.
- <p>
- * </ul>
+ * </ol>
  <p>
  * {@link XMLTriple} objects are the lowest-level data item in the XML layer
  * of libSBML.  Other objects such as {@link XMLToken} make use of {@link XMLTriple}
  * objects.
+ <p>
+ * @see XMLToken
+ * @see XMLNode
+ * @see XMLAttributes
+ * @see XMLNamespaces
  */
 
 public class XMLTriple {
@@ -143,7 +147,7 @@ public class XMLTriple {
 
   
 /**
-   * Creates a new, empty {@link XMLTriple}.
+   * Creates a new, empty {@link XMLTriple} object.
    */ public
  XMLTriple() {
     this(libsbmlJNI.new_XMLTriple__SWIG_0(), true);
@@ -151,15 +155,15 @@ public class XMLTriple {
 
   
 /**
-   * Creates a new {@link XMLTriple} with the given <code>name</code>, <code>uri</code> and and 
+   * Creates a new {@link XMLTriple} object with a given <code>name</code>, <code>uri</code> and and 
    * <code>prefix</code>.
    <p>
-   * @param name a string, name for the {@link XMLTriple}.
-   * @param uri a string, URI of the {@link XMLTriple}.
-   * @param prefix a string, prefix for the URI of the {@link XMLTriple},
+   * @param name a string, the name for the entity represented by this object.
+   * @param uri a string, the XML namespace URI associated with the prefix.
+   * @param prefix a string, the XML namespace prefix for this triple.
    <p>
    * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
+   * Thrown if any of the arguments are <code>null.</code>
    */ public
  XMLTriple(String name, String uri, String prefix) {
     this(libsbmlJNI.new_XMLTriple__SWIG_1(name, uri, prefix), true);
@@ -167,20 +171,25 @@ public class XMLTriple {
 
   
 /**
-   * Creates a new {@link XMLTriple} by splitting the given <code>triplet</code> on the
-   * separator character <code>sepchar</code>.
+   * Creates an {@link XMLTriple} object by splitting a given string at a given
+   * separator character.
    <p>
-   * Triplet may be in one of the following formats:
-   * <ul>
-   * <li> name
-   * <li> URI sepchar name
-   * <li> URI sepchar name sepchar prefix
-   * </ul>
-   * @param triplet a string representing the triplet as above
+   * The 'triplet' in this case is a string that may be in one of the
+   * following three possible formats:
+   * <ol>
+   * <li> <span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span> </li>
+   * <li> <span style='background-color: #ccc; padding-left: 2px; padding-right: 2px'>URI</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span></li>
+   * <li> <span style='background-color: #ccc; padding-left: 2px; padding-right: 2px'>URI</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: #d0d0fd; padding-left: 2px; padding-right: 2px'>prefix</span></li>
+   * </ol>
+   <p>
+   * where <span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span>
+   * represents the separator character, <code>sepchar</code>.
+   <p>
+   * @param triplet a string representing the triplet as shown above
    * @param sepchar a character, the sepchar used in the triplet
    <p>
    * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
+   * Thrown if the argument <code>triplet</code> is <code>null.</code>
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -203,20 +212,25 @@ appears in the documentation.
 
   
 /**
-   * Creates a new {@link XMLTriple} by splitting the given <code>triplet</code> on the
-   * separator character <code>sepchar</code>.
+   * Creates an {@link XMLTriple} object by splitting a given string at a given
+   * separator character.
    <p>
-   * Triplet may be in one of the following formats:
-   * <ul>
-   * <li> name
-   * <li> URI sepchar name
-   * <li> URI sepchar name sepchar prefix
-   * </ul>
-   * @param triplet a string representing the triplet as above
+   * The 'triplet' in this case is a string that may be in one of the
+   * following three possible formats:
+   * <ol>
+   * <li> <span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span> </li>
+   * <li> <span style='background-color: #ccc; padding-left: 2px; padding-right: 2px'>URI</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span></li>
+   * <li> <span style='background-color: #ccc; padding-left: 2px; padding-right: 2px'>URI</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: #d0d0fd; padding-left: 2px; padding-right: 2px'>prefix</span></li>
+   * </ol>
+   <p>
+   * where <span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span>
+   * represents the separator character, <code>sepchar</code>.
+   <p>
+   * @param triplet a string representing the triplet as shown above
    * @param sepchar a character, the sepchar used in the triplet
    <p>
    * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
+   * Thrown if the argument <code>triplet</code> is <code>null.</code>
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -239,7 +253,7 @@ appears in the documentation.
 
   
 /**
-   * Copy constructor; creates a copy of this {@link XMLTriple} set.
+   * Copy constructor; creates a copy of this {@link XMLTriple} object.
    <p>
    * @param orig the {@link XMLTriple} object to copy.
    <p>
@@ -263,9 +277,9 @@ appears in the documentation.
 
   
 /**
-   * Returns the <em>name</em> portion of this {@link XMLTriple}.
+   * Returns the <em>name</em> portion of this {@link XMLTriple} object.
    <p>
-   * @return a string, the name from this {@link XMLTriple}.
+   * @return a string, the name portion of this {@link XMLTriple} object.
    */ public
  String getName() {
     return libsbmlJNI.XMLTriple_getName(swigCPtr, this);
@@ -273,9 +287,9 @@ appears in the documentation.
 
   
 /**
-   * Returns the <em>prefix</em> portion of this {@link XMLTriple}.
+   * Returns the <em>prefix</em> portion of this {@link XMLTriple} object.
    <p>
-   * @return a string, the <em>prefix</em> portion of this {@link XMLTriple}.
+   * @return a string, the prefix portion of this {@link XMLTriple} object.
    */ public
  String getPrefix() {
     return libsbmlJNI.XMLTriple_getPrefix(swigCPtr, this);
@@ -283,9 +297,9 @@ appears in the documentation.
 
   
 /**
-   * Returns the <em>URI</em> portion of this {@link XMLTriple}.
+   * Returns the <em>URI</em> portion of this {@link XMLTriple} object.
    <p>
-   * @return URI a string, the <em>prefix</em> portion of this {@link XMLTriple}.
+   * @return URI a string, the URI portion of this {@link XMLTriple} object.
    */ public
  String getURI() {
     return libsbmlJNI.XMLTriple_getURI(swigCPtr, this);
@@ -295,7 +309,10 @@ appears in the documentation.
 /**
    * Returns the prefixed name from this {@link XMLTriple}.
    <p>
-   * @return a string, the prefixed name from this {@link XMLTriple}.
+   * @return a string, the prefixed name from this {@link XMLTriple}.  This is
+   * constructed by concatenating the <em>prefix</em> stored in this {@link XMLTriple}
+   * object, followed by a colon character <code>':'</code>, followed by the
+   * <em>name</em> stored in this {@link XMLTriple} object.
    */ public
  String getPrefixedName() {
     return libsbmlJNI.XMLTriple_getPrefixedName(swigCPtr, this);
@@ -303,8 +320,7 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * this {@link XMLTriple} is empty.
+   * Returns <code>true</code> if this {@link XMLTriple} object is empty.
    <p>
    * @return <code>true</code> if this {@link XMLTriple} is empty, <code>false</code> otherwise.
    */ public

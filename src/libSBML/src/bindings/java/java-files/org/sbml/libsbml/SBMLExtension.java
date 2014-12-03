@@ -9,451 +9,74 @@
 package org.sbml.libsbml;
 
 /** 
- *  Core class for SBML Level 3 package plug-ins.
+ *  Base class for SBML Level 3 package plug-ins.
  <p>
- * @internal 
+ * <p style='color: #777; font-style: italic'>
+This class of objects is defined by libSBML only and has no direct
+equivalent in terms of SBML components.  This class is not prescribed by
+the SBML specifications, although it is used to implement features
+defined in SBML.
+</p>
+
  <p>
- * {@link SBMLExtension} class (abstract class) is a core component of package extension
- * which needs to be extended by package developers. 
- * The class provides functions for getting common attributes of package extension 
- * (e.g., package name, package version, and etc.), functions for adding (registering) 
- * each instantiated SBasePluginCreator object, and a static function (defined in each 
- * {@link SBMLExtension} extended class) for initializing/registering the package extension 
- * when the library of the package is loaded.
+ * The {@link SBMLExtension} class is a component of the libSBML package extension
+ * mechanism.  It is an abstract class that is extended by each package
+ * extension implementation. 
  <p>
- * <h2>How to implement an {@link SBMLExtension} extended class for each package extension</h2>
+ * <h2>Special handling for SBML Level&nbsp;2</h2>
+ * <p>
+ * Due to the historical background of the SBML Layout package, libSBML
+ * implements special behavior for that package: it <em>always</em> creates a
+ * Layout plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses Layout constructs.  This
+ * is unlike the case for SBML Level&nbsp;3 documents that use Layout; for
+ * them, libSBML will <em>not</em> create a plugin object unless the document
+ * actually declares the use of the Layout package (via the usual Level&nbsp;3
+ * namespace declaration for Level&nbsp;3 packages).
  <p>
- * Package developers must implement an {@link SBMLExtension} extended class for
- * their packages (e.g. GroupsExtension class is implemented for groups extension).
- * The extended class is implemented based on the following steps:
- <p>
- * (NOTE: 
- *   'src/packages/groups/extension/GroupsExtension.{h,cpp}' and
- *   'src/packages/layout/extension/LayoutExtension.{h,cpp}' are
- *   example files in which {@link SBMLExtension} derived classes are implemented)
- <p>
- * <ol>
- <p>
- * <li> Define the following static functions in the extended class:
- *      (examples of groups extension are shown respectively)
- *   <ol>
- *     <li> <p>A string of package name (label) (The function name must be 'getPackageName'.)</p>
+ * This has the following consequence.  If an application queries for the
+ * presence of Layout in an SBML Level&nbsp;2 document by testing only for
+ * the existence of the plugin object, <strong>it will always get a positive
+ * result</strong>; in other words, the presence of a Layout extension
+ * object is not an indication of whether a read-in Level&nbsp;2 document
+ * does or does not use SBML Layout.  Instead, callers have to query
+ * explicitly for the existence of layout information.  An example of such a
+ * query is the following code:
  <p>
 <pre class='fragment'>
-  String {@link GroupsExtension#getPackageName ()}
-  {
-	static String pkgName = 'groups';
-	return pkgName;
-  }
-</pre>
- *     </li>
- <p>
- *     <li> <p>
- *        Methods returning an integer of Default SBML level, version, and package version
- *        (The method names must be 'getDefaultLevel()', 'getDefaultVersion()', and 
- *        'getDefaultPackageVersion()' respectively.)
- *        </p>
-<pre class='fragment'>
-  long {@link GroupsExtension#getDefaultLevel()}
-  {
-	return 3;
-  }  
-  long {@link GroupsExtension#getDefaultVersion()}
-  {
-	return 1; 
-  }
-  long {@link GroupsExtension#getDefaultPackageVersion()}
-  {
-	return 1;
-  }  
-</pre>
- *     </li>
- *     <li> <p> Methods returning Strings that represent the URI of packages </p>
-<pre class='fragment'>
-  String {@link GroupsExtension#getXmlnsL3V1V1 ()}
-  {
-	static String xmlns = 'http://www.sbml.org/sbml/level3/version1/groups/version1';
-	return xmlns;
-  }
-</pre> 
- *     </li>
- *     <li> <p>Strings that represent the other URI needed in this package (if any) </p>
- *     </li>
- *   </ol> 
- * </li>
- <p>
- * <li> Override the following pure virtual functions
-      <ul>
-       <li> <code>virtual String getName () =0</code>. This function returns the name of the package (e.g., 'layout', 'groups'). </li>
-       <li> <code>virtual long getLevel (String uri) =0</code>. This function returns the SBML level with the given URI of this package. </li>
-       <li> <code>virtual long getVersion (String uri) =0</code>. This function returns the SBML version with the given URI of this package. </li>
-       <li> <code>virtual long getPackageVersion (String uri) =0</code>. This function returns the package version with the given URI of this package.</li>
-       <li> <code>virtual long getURI (long sbmlLevel, long sbmlVersion, long pkgVersion) =0</code>. 
-             This function returns the URI (namespace) of the package corresponding to the combination of the given sbml level, sbml version, and pacakege version</li>
-       <li> <code>virtual {@link SBMLExtension} clone () = 0</code>. This function creates and returns a deep copy of this derived object.</li>
-      </ul>
-      <p>For example, the above functions are overridden in the groups
-	package ('src/packages/groups/extension/GroupsExtension.cpp') as follows:</p>
-<pre class='fragment'>
-String
-{@link GroupsExtension#getName()} const
+// Assume 'doc' below is an {@link SBMLDocument} object.
+{@link Model} m = doc.getModel();
+LayoutModelPlugin lmp = (LayoutModelPlugin) m.getPlugin('layout');
+if (lmp != null)
 {
-  return getPackageName();
-}
-
-long 
-{@link GroupsExtension#getLevel(String uri)} const
-{
-  if (uri == getXmlnsL3V1V1())
-  {
-    return 3;
-  }
-  
-  return 0;
-}
-
-long 
-{@link GroupsExtension#getVersion(String uri)} const
-{
-  if (uri == getXmlnsL3V1V1())
-  {
-    return 1;
-  }
-
-  return 0;
-}
-
-long
-{@link GroupsExtension#getPackageVersion(String uri)} const
-{
-  if (uri == getXmlnsL3V1V1())
-  {
-    return 1;
-  }
-
-  return 0;
-}
-
-String 
-{@link GroupsExtension#getURI(long sbmlLevel, long sbmlVersion, long pkgVersion)} const
-{
-  if (sbmlLevel == 3)
-  {
-    if (sbmlVersion == 1)
-    {
-      if (pkgVersion == 1)
-      {
-        return getXmlnsL3V1V1();
-      }
-    }
-  }
-
-  static String empty = '';
-
-  return empty;
-}
-
-GroupsExtension* 
-{@link GroupsExtension#clone ()} const
-{
-  return new GroupsExtension(*this);  
+  int numLayouts = lmp.getNumLayouts();
+  // If numLayouts is greater than zero, then the model uses Layout.
 }
 </pre>
- <p>
- * Constructor, copy Constructor, and destructor also must be overridden
- * if additional data members are defined in the derived class.
- <p>
- * </li>
- <p>
- * <li> <p>
- *  Define typedef and template instantiation code for the package specific {@link SBMLExtensionNamespaces} template class
- *  </p>
- <p>
- *   <ol>
- *     <li> typedef for the package specific {@link SBMLExtensionNamespaces} template class
- <p> For example, the typedef for GroupsExtension (defined in the groups package) is implemented in GroupsExtension.h as follows:</p>
-<pre class='fragment'>
-  // GroupsPkgNamespaces is derived from the {@link SBMLNamespaces} class and used when creating an object of 
-  // {@link SBase} derived classes defined in groups package.
-  typedef {@link SBMLExtensionNamespaces}&lt;GroupsExtension&gt; GroupsPkgNamespaces;
-</pre>
- *     </li>
- <p>
- *     <li> template instantiation code for the above typedef definition in the implementation file (i.e., *.cpp file).
- <p> For example, the template instantiation code for GroupsExtension is implemented in GroupsExtension.cpp 
- *           as follows:
- *       </p>
- <p>
-<pre class='fragment'>
-  // Instantiate {@link SBMLExtensionNamespaces}&lt;GroupsExtension&gt; (GroupsPkgNamespaces) for DLL.
-  template class LIBSBML_EXTERN {@link SBMLExtensionNamespaces}&lt;GroupsExtension&gt;;
-</pre>
- <p>
- *     </li>
- *  </ol>
- <p> The {@link SBMLExtensionNamespaces} template class is a derived class of
- *      {@link SBMLNamespaces} and can be used as an argument of constructors 
- *      of {@link SBase} derived classes defined in the package extensions.
- *      For example, a GroupsPkgNamespaces object can be used when creating a group 
- *      object as follows:
- *  </P>
-<pre class='fragment'>
-   GroupPkgNamespaces gpns(3,1,1);  // The arguments are SBML Level, SBML Version, and Groups Package Version.
-
-   Group g = new Group(&gpns);      // Creates a group object of L3V1 Groups V1.
-</pre>
- <p>
- *     Also, the GroupsPkgNamespaces object can be used when creating an
- *     {@link SBMLDocument} object with the groups package as follows:
- *   </p>
- <p>
-<pre class='fragment'>
-   GroupsPkgNamespaces gpns(3,1,1);
-   {@link SBMLDocument} doc;
-
-   doc  = new {@link SBMLDocument}(&gnps); // Creates an {@link SBMLDocument} of L3V1 with Groups V1.
-</pre>
- <p>
- * </li>
- <p>
- * <li> Override the following pure virtual function which returns the {@link SBMLNamespaces} derived object 
-<pre class='fragment'>
-       virtual {@link SBMLNamespaces} getSBMLExtensionNamespaces (String uri) =0
-</pre>
- <p> For example, the function is overridden in GroupsExtension
- class as follows:</p>
-<pre class='fragment'>
-{@link SBMLNamespaces}
-{@link GroupsExtension#getSBMLExtensionNamespaces(String uri)} const
-{
-  GroupsPkgNamespaces* pkgns = null;
-  if ( uri == getXmlnsL3V1V1())
-  {
-    pkgns = new GroupsPkgNamespaces(3,1,1);    
-  }  
-  return pkgns;
-}
-</pre>
-   </li>
- <p>
- *  <li> Define an enum type for representing the typecode of elements (SBase extended classes) defined in the package extension
- <p>  For example, SBMLGroupsTypeCode_t for groups package is
- *  defined in GroupsExtension.h as follows: </p>
-<pre class='fragment'>
-      typedef enum
-      {
-         SBML_GROUPS_GROUP  = 200
-       , SBML_GROUPS_MEMBER = 201
-      } SBMLGroupsTypeCode_t;
-</pre>    
- <p> <em>SBML_GROUPS_GROUP</em> corresponds to the Group class (&lt;group&gt;)
- * and <em>SBML_GROUPS_MEMBER</em> corresponds to the Member (&lt;member&gt;) class, respectively.
- <p> Similarly, SBMLLayoutTypeCode_t 
- *   for layout package is defined in LayoutExtension.h as follows: </p>
- <p>
-<pre class='fragment'>  
-      typedef enum
-      {
-         SBML_LAYOUT_BOUNDINGBOX           = 100
-       , SBML_LAYOUT_COMPARTMENTGLYPH      = 101
-       , SBML_LAYOUT_CUBICBEZIER           = 102
-       , SBML_LAYOUT_CURVE                 = 103
-       , SBML_LAYOUT_DIMENSIONS            = 104
-       , SBML_LAYOUT_GRAPHICALOBJECT       = 105
-       , SBML_LAYOUT_LAYOUT                = 106   
-       , SBML_LAYOUT_LINESEGMENT           = 107   
-       , SBML_LAYOUT_POINT                 = 108    
-       , SBML_LAYOUT_REACTIONGLYPH         = 109    
-       , SBML_LAYOUT_SPECIESGLYPH          = 110    
-       , SBML_LAYOUT_SPECIESREFERENCEGLYPH = 111
-       , SBML_LAYOUT_TEXTGLYPH             = 112
-      } SBMLLayoutTypeCode_t;
-</pre>
- <p>
- *   These enum values are returned by corresponding getTypeCode() functions.
- *   (e.g. SBML_GROUPS_GROUP is returned in {@link Group#getTypeCode()})
- *  </p>
- <p>
- *   The value of each typecode can be duplicated between those of different 
- *   packages (In the above SBMLLayoutTypeCode_t and SBMLGroupsTypeCode_t types, 
- *   unique values are assigned to enum values, but this is not mandatory.)
- *  </p>
- <p>
- *   Thus, to distinguish the typecodes of different packages, not only the return
- *   value of getTypeCode() function but also that of getPackageName()
- *   function should be checked as follows:
- *  </p>
-<pre class='fragment'>
-          void example (SBase sb)
-          {
-            String pkgName = sb-&gt;getPackageName();
-            if (pkgName == 'core') {
-              switch (sb-&gt;getTypeCode()) {
-                case SBML_MODEL:
-                   ....
-                   break;
-                case SBML_REACTION:
-                   ....
-              }
-            } 
-            else if (pkgName == 'layout') {
-              switch (sb-&gt;getTypeCode()) {
-                case SBML_LAYOUT_LAYOUT:
-                   ....
-                   break;
-                case SBML_LAYOUT_REACTIONGLYPH:
-                   ....
-              }
-            } 
-            else if (pkgName == 'groups') {
-              switch (sb-&gt;getTypeCode()) {
-                case SBML_GROUPS_GROUP:
-                   ....
-                   break;
-                case SBML_GROUPS_MEMBER:
-                   ....
-              }
-            }
-            ...
-          } 
-</pre>
- <p>
- *  </li>
- *  <li> Override the following pure virtual function which returns a string corresponding to the given typecode:
- <p>
-<pre class='fragment'>  
-       virtual String {@link SBMLExtension#getStringFromTypeCode(int typeCode)} const;
-</pre> 
- <p> For example, the function for groups extension is implemented as follows: </p>
-<pre class='fragment'>  
-static
-String SBML_GROUPS_TYPECODE_STRINGS[] =
-{
-    'Group'
-  , 'Member'
-};
-
-String 
-{@link GroupsExtension#getStringFromTypeCode(int typeCode)} const
-{
-  int min = SBML_GROUPS_GROUP;
-  int max = SBML_GROUPS_MEMBER;
-
-  if ( typeCode &lt; min || typeCode &gt; max)
-  {
-    return '(Unknown SBML Groups Type)';  
-  }
-
-  return SBML_GROUPS_TYPECODE_STRINGS[typeCode - min];
-}
-</pre> 
- <p>
- *  </li>
- <p>
- * <li> Implements a 'static void init()' function in the derived class
- <p> In the init() function, initialization code which creates an instance of 
- *     the derived class and registering code which registers the instance to 
- *     {@link SBMLExtensionRegistry} class are implemented.
- * </p>
- <p>
- * For example, the init() function for groups package is implemented as follows: 
-<pre class='fragment'>
-void 
-{@link GroupsExtension#init()}
-{
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
-  //
-  // 1. Checks if the groups package has already been registered.
-  //
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
-
-  if ( {@link SBMLExtensionRegistry#getInstance()}.isRegistered(getPackageName()) )
-  {
-    // do nothing;
-    return;
-  }
-
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
-  //
-  // 2. Creates an {@link SBMLExtension} derived object.
-  //
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
-
-  GroupsExtension groupsExtension;
-
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
-  //
-  // 3. Creates SBasePluginCreatorBase derived objects required for this 
-  //    extension. The derived classes can be instantiated by using the following 
-  //     template class.
-  //
-  //    temaplate&lt;class SBasePluginType&gt; class SBasePluginCreator
-  //
-  //    The constructor of the creator class has two arguments:
-  //
-  //        (1) {@link SBaseExtensionPoint} : extension point to which the plugin object connected
-  //        (2) std.vector&lt;String&gt; : a std.vector object that contains a list of URI
-  //                                       (package versions) supported by the plugin object.
-  //
-  //    For example, two plugin objects (plugged in {@link SBMLDocument} and {@link Model} elements) are 
-  //    required for the groups extension.
-  //
-  //    Since only 'required' attribute is used in {@link SBMLDocument} by the groups package, and
-  //    the 'required' flag must always be 'false', the existing
-  //    SBMLDocumentPluginNotRequired class can be used as-is for the plugin.
-  //
-  //    Since the lists of supported package versions (currently only L3V1-groups-V1 supported )
-  //    are equal in the both plugin objects, the same vector object is given to each 
-  //    constructor.
-  //
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
-
-  std.vector&lt;String&gt; packageURIs;
-  packageURIs.push_back(getXmlnsL3V1V1());
-
-  {@link SBaseExtensionPoint} sbmldocExtPoint('core',SBML_DOCUMENT);
-  {@link SBaseExtensionPoint} modelExtPoint('core',SBML_MODEL);
-
-  SBasePluginCreator&lt;SBMLDocumentPluginNotRequired, GroupsExtension&gt; sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
-  SBasePluginCreator&lt;GroupsModelPlugin,   GroupsExtension&gt; modelPluginCreator(modelExtPoint,packageURIs);
-
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;--
-  //
-  // 3. Adds the above SBasePluginCreatorBase derived objects to the {@link SBMLExtension} derived object.
-  //
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;--
-
-  groupsExtension.addSBasePluginCreator(&sbmldocPluginCreator);
-  groupsExtension.addSBasePluginCreator(&modelPluginCreator);
-
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
-  //
-  // 4. Registers the {@link SBMLExtension} derived object to {@link SBMLExtensionRegistry}
-  //
-  //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
-
-  int result = {@link SBMLExtensionRegistry#getInstance()}.addExtension(&groupsExtension);
-
-  if (result != LIBSBML_OPERATION_SUCCESS)
-  {
-    std.cerr &lt;&lt; '[Error] {@link GroupsExtension#init()} failed.' &lt;&lt; std.endl;
-  }
-}
-</pre>
- *    </p> 
- * </li>
- <p>
- * <li> Instantiate a global SBMLExtensionRegister variable in appropriate 
- *      implementation file
- <p> For example, the global variable for the groups extension is instantiated in GroupsExtension.cpp as follows: </p>
-<pre class='fragment'>
-  static SBMLExtensionRegister&lt;GroupsExtension&gt; groupsExtensionRegister;
-</pre>
- *    The init() function is invoked when the global variable is instantiated,
- *    by which initialization and registering the package extension are performed.
- * </li>
- <p>
- * </ol>
+<p>
+ * The special, always-available Level&nbsp;2 Layout behavior was motivated
+ * by a desire to support legacy applications.  In SBML Level&nbsp;3, the
+ * Layout package uses the normal SBML Level&nbsp;3 scheme of requiring
+ * declarations on the SBML document element.  This means that upon reading a
+ * model, libSBML knows right away whether it contains layout information.
+ * In SBML Level&nbsp;2, there is no top-level declaration because layout is
+ * stored as annotations in the body of the model.  Detecting the presence of
+ * layout information when reading a Level&nbsp;2 model requires parsing the
+ * annotations.  For efficiency reasons, libSBML normally does not parse
+ * annotations automatically when reading a model.  However, applications
+ * that predated the introduction of Level&nbsp;3 Layout and the updated
+ * version of libSBML never had to do anything special to enable parsing
+ * layout; the facilities were always available for every Level&nbsp;2 model
+ * as long as libSBML was compiled with Layout support.  To avoid burdening
+ * developers of legacy applications with the need to modify their software,
+ * libSBML provides backward compatibility by always preloading the Layout
+ * package extension when reading Level&nbsp;2 models.  The same applies to
+ * the creation of Level&nbsp;2 models: with the plugin-oriented libSBML,
+ * applications normally would have to take deliberate steps to activate
+ * package code, instantiate objects, manage namespaces, and so on.  LibSBML
+ * again loads the Layout package plugin automatically when creating a
+ * Level&nbsp;2 model, thereby making the APIs available to legacy
+ * applications without further work on their part.
  */
 
 public class SBMLExtension {
@@ -521,9 +144,11 @@ public class SBMLExtension {
 
   
 /**
-   * Returns the number of {@link SBasePlugin} objects stored in this object.
+   * Returns the number of SBasePluginCreatorBase objects stored in this
+   * object.
    <p>
-   * @return the number of {@link SBasePlugin} objects stored in this object.
+   * @return the total number of SBasePluginCreatorBase objects stored in
+   * this {@link SBMLExtension}-derived object.
    */ public
  int getNumOfSBasePlugins() {
     return libsbmlJNI.SBMLExtension_getNumOfSBasePlugins(swigCPtr, this);
@@ -531,10 +156,9 @@ public class SBMLExtension {
 
   
 /**
-   * Returns the number of supported package Namespace (package versions) of this 
-   * package extension.
+   * Returns the number of supported package namespace URIs.
    <p>
-   * @return the number of supported package Namespace (package versions) of this 
+   * @return the number of supported package XML namespace URIs of this
    * package extension.
    */ public
  long getNumOfSupportedPackageURI() {
@@ -543,11 +167,11 @@ public class SBMLExtension {
 
   
 /**
-   * Returns a flag indicating, whether the given URI (package version) is 
-   * supported by this package extension.
+   * Returns <code>true</code> if the given XML namespace URI is supported by this
+   * package extension.
    <p>
-   * @return true if the given URI (package version) is supported by this 
-   * package extension, otherwise false is returned.
+   * @return <code>true</code> if the given XML namespace URI (equivalent to a package
+   * version) is supported by this package extension, <code>false</code> otherwise.
    */ public
  boolean isSupported(String uri) {
     return libsbmlJNI.SBMLExtension_isSupported(swigCPtr, this, uri);
@@ -555,24 +179,29 @@ public class SBMLExtension {
 
   
 /**
+   * Returns the nth XML namespace URI.
    <p>
-   * Returns the ith URI (the supported package version)
-   <p>
-   * @param i the index of the list of URI (the list of supporeted package versions)
-   * @return the URI of supported package version with the given index.
+   * @param n the index number of the namespace URI being sought.
+<p>
+   * @return a string representing the XML namespace URI understood to be
+   * supported by this package.  An empty string will be returned if there is
+   * no nth URI.
    */ public
- String getSupportedPackageURI(long i) {
-    return libsbmlJNI.SBMLExtension_getSupportedPackageURI(swigCPtr, this, i);
+ String getSupportedPackageURI(long n) {
+    return libsbmlJNI.SBMLExtension_getSupportedPackageURI(swigCPtr, this, n);
   }
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
-   <p>
    * Creates and returns a deep copy of this {@link SBMLExtension} object.
    <p>
-   * @return a (deep) copy of this {@link SBase} object
+   * @return a (deep) copy of this {@link SBMLExtension} object.
+   <p>
+   * <p>
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
    */ public
  SBMLExtension cloneObject() {
 	return libsbml.DowncastExtension(libsbmlJNI.SBMLExtension_cloneObject(swigCPtr, this), true);
@@ -580,12 +209,19 @@ public class SBMLExtension {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the nickname of this package.
    <p>
-   * Returns the name of this package (e.g. 'layout', 'multi').
+   * This returns the short-form name of an SBML Level&nbsp;3 package
+   * implemented by a given {@link SBMLExtension}-derived class.  Examples of
+   * such names are 'layout', 'fbc', etc.
    <p>
-   * @return the name of package extension
+   * @return a string, the nickname of SBML package.
+   <p>
+   * <p>
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
    */ public
  String getName() {
     return libsbmlJNI.SBMLExtension_getName(swigCPtr, this);
@@ -593,16 +229,20 @@ public class SBMLExtension {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the XML namespace URI for a given Level and Version.
    <p>
-   * Returns the uri corresponding to the given SBML level, SBML version, and package version.
+   * @param sbmlLevel the SBML Level.
+   * @param sbmlVersion the SBML Version.
+   * @param pkgVersion the version of the package.
    <p>
-   * @param sbmlLevel the level of SBML
-   * @param sbmlVersion the version of SBML
-   * @param pkgVersion the version of package
+   * @return a string, the XML namespace URI for the package for the given
+   * SBML Level, SBML Version, and package version.
    <p>
-   * @return a string of the package URI
+   * <p>
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
    */ public
  String getURI(long sbmlLevel, long sbmlVersion, long pkgVersion) {
     return libsbmlJNI.SBMLExtension_getURI(swigCPtr, this, sbmlLevel, sbmlVersion, pkgVersion);
@@ -610,13 +250,17 @@ public class SBMLExtension {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the SBML Level associated with the given XML namespace URI.
    <p>
-   * Returns the SBML level associated with the given URI of this package.
+   * @param uri the string of URI that represents a version of the package.
    <p>
-   * @param uri the string of URI that represents a versions of the package
-   * @return the SBML level associated with the given URI of this package.
+   * @return the SBML Level associated with the given URI of this package.
+   <p>
+   * <p>
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
    */ public
  long getLevel(String uri) {
     return libsbmlJNI.SBMLExtension_getLevel(swigCPtr, this, uri);
@@ -624,13 +268,17 @@ public class SBMLExtension {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the SBML Version associated with the given XML namespace URI.
    <p>
-   * Returns the SBML version associated with the given URI of this package.
+   * @param uri the string of URI that represents a version of the package.
    <p>
-   * @param uri the string of URI that represents a versions of the package
-   * @return the SBML version associated with the given URI of this package.
+   * @return the SBML Version associated with the given URI of this package.
+   <p>
+   * <p>
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
    */ public
  long getVersion(String uri) {
     return libsbmlJNI.SBMLExtension_getVersion(swigCPtr, this, uri);
@@ -638,13 +286,17 @@ public class SBMLExtension {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the package version associated with the given XML namespace URI.
    <p>
-   * Returns the package version associated with the given URI of this package.
+   * @param uri the string of URI that represents a version of this package.
    <p>
-   * @param uri the string of URI that represents a versions of this package
    * @return the package version associated with the given URI of this package.
+   <p>
+   * <p>
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
    */ public
  long getPackageVersion(String uri) {
     return libsbmlJNI.SBMLExtension_getPackageVersion(swigCPtr, this, uri);
@@ -652,11 +304,21 @@ public class SBMLExtension {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns a string representation of a type code.
    <p>
-   * This method takes a type code of this package and returns a string 
-   * representing the code.
+   * This method takes a numerical type code <code>typeCode</code> for a component
+   * object implemented by this package extension, and returns a string
+   * representing that type code.
+   <p>
+   * @param typeCode the type code to turn into a string.
+   <p>
+   * @return the string representation of <code>typeCode</code>.
+   <p>
+   * <p>
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
    */ public
  String getStringFromTypeCode(int typeCode) {
     return libsbmlJNI.SBMLExtension_getStringFromTypeCode(swigCPtr, this, typeCode);
@@ -664,19 +326,27 @@ public class SBMLExtension {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function in 
-   *           their derived class.
+   * Returns a specialized {@link SBMLNamespaces} object corresponding to a given
+   * namespace URI.
    <p>
-   * Returns an {@link SBMLExtensionNamespaces}<class SBMLExtensionType> object 
-   * (e.g. {@link SBMLExtensionNamespaces}<LayoutExtension> whose alias type is 
-   * LayoutPkgNamespaces) corresponding to the given uri.
-   * Null will be returned if the given uri is not defined in the corresponding 
-   * package.
+   * LibSBML package extensions each define a subclass of
+   * {@link SBMLNamespaces}.
    <p>
-   * @param uri the string of URI that represents one of versions of the package
-   * @return an {@link SBMLExtensionNamespaces}<class SBMLExtensionType> object. null
-   *         will be returned if the given uri is not defined in the corresponding 
-   *         package. 
+   * The present method returns the appropriate object corresponding
+   * to the given XML namespace URI in argument <code>uri</code>.
+   <p>
+   * @param uri the namespace URI that represents one of versions of the
+   * package implemented in this extension.
+   <p>
+   * @return an {@link SBMLNamespaces}  
+   * object, or <code>null</code> if the given <code>uri</code> is not defined in the
+   * corresponding package.
+   <p>
+   * <p>
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
    */ public
  SBMLNamespaces getSBMLExtensionNamespaces(String uri) {
   return libsbml.DowncastSBMLNamespaces(libsbmlJNI.SBMLExtension_getSBMLExtensionNamespaces(swigCPtr, this, uri), false);
@@ -684,12 +354,12 @@ public class SBMLExtension {
 
   
 /**
-   * enable/disable this package.
-   * Returned value is the result of this function.
+   * Enable or disable this package.
    <p>
-   * @param isEnabled the boolean value: true (enabled) or false (disabled)
+   * @param isEnabled flag indicating whether to enable (if <code>true</code>) or
+   * disable (<code>false</code>) this package extension.
    <p>
-   * @return true if this function call succeeded, otherwise false is returned.
+   * @return <code>true</code> if this call succeeded; <code>false</code> otherwise.
    */ public
  boolean setEnabled(boolean isEnabled) {
     return libsbmlJNI.SBMLExtension_setEnabled(swigCPtr, this, isEnabled);
@@ -697,9 +367,9 @@ public class SBMLExtension {
 
   
 /**
-   * Check if this package is enabled (true) or disabled (false).
+   * Returns <code>true</code> if this package is enabled.
    <p>
-   * @return true if this package is enabled, otherwise false is returned.
+   * @return <code>true</code> if this package is enabled, <code>false</code> otherwise.
    */ public
  boolean isEnabled() {
     return libsbmlJNI.SBMLExtension_isEnabled(swigCPtr, this);
@@ -707,10 +377,33 @@ public class SBMLExtension {
 
   
 /**
-   * Removes the L2 Namespaces. 
+   * Removes the package's Level&nbsp;2 namespace(s).
    <p>
-   * This method should be overridden by all extensions that want to serialize
-   * to an L2 annotation.
+   * <p>
+ * This method is related to special facilities designed to support
+ * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
+ * historical background of the SBML Layout package, libSBML implements
+ * special behavior for that package: it <em>always</em> creates a Layout
+ * plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses Layout constructs.
+ * Since Level&nbsp;2 does not use namespaces on the top level of the
+ * SBML document object, libSBML simply keys off the fact that the model
+ * is a Level&nbsp;2 model.  To allow the extensions for the Layout and
+ * Render (and possibly other) packages to support this behavior, the
+ * {@link SBMLExtension} class contains special methods to allow packages to
+ * hook themselves into the Level&nbsp;2 parsing apparatus when necessary.
+   <p>
+   * @param xmlns an {@link XMLNamespaces} object that will be used for the annotation.
+   * Implementations should override this method with something that removes
+   * the package's namespace(s) from the set of namespaces in <code>xmlns</code>.  For
+   * instance, here is the code from the Layout package extension:
+   * <pre class='fragment'>{.cpp}
+for (int n = 0; n &lt; xmlns-&gt;getNumNamespaces(); n++)
+{
+  if (xmlns-&gt;getURI(n) == {@link LayoutExtension#getXmlnsL2()})
+    xmlns-&gt;remove(n);
+}
+</pre>
    */ public
  void removeL2Namespaces(XMLNamespaces xmlns) {
     libsbmlJNI.SBMLExtension_removeL2Namespaces(swigCPtr, this, XMLNamespaces.getCPtr(xmlns), xmlns);
@@ -718,10 +411,30 @@ public class SBMLExtension {
 
   
 /**
-   * Adds all L2 Extension namespaces to the namespace list. 
+   * Adds the package's Level&nbsp;2 namespace(s).
    <p>
-   * This method should be overridden by all extensions that want to serialize
-   * to an L2 annotation.
+   * <p>
+ * This method is related to special facilities designed to support
+ * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
+ * historical background of the SBML Layout package, libSBML implements
+ * special behavior for that package: it <em>always</em> creates a Layout
+ * plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses Layout constructs.
+ * Since Level&nbsp;2 does not use namespaces on the top level of the
+ * SBML document object, libSBML simply keys off the fact that the model
+ * is a Level&nbsp;2 model.  To allow the extensions for the Layout and
+ * Render (and possibly other) packages to support this behavior, the
+ * {@link SBMLExtension} class contains special methods to allow packages to
+ * hook themselves into the Level&nbsp;2 parsing apparatus when necessary.
+   <p>
+   * @param xmlns an {@link XMLNamespaces} object that will be used for the annotation.
+   * Implementation should override this method with something that adds
+   * the package's namespace(s) to the set of namespaces in <code>xmlns</code>.  For
+   * instance, here is the code from the Layout package extension:
+   * <pre class='fragment'>{.cpp}
+if (!xmlns-&gt;containsUri( {@link LayoutExtension#getXmlnsL2()}))
+  xmlns-&gt;add({@link LayoutExtension#getXmlnsL2()}, 'layout');
+</pre>
    */ public
  void addL2Namespaces(XMLNamespaces xmlns) {
     libsbmlJNI.SBMLExtension_addL2Namespaces(swigCPtr, this, XMLNamespaces.getCPtr(xmlns), xmlns);
@@ -729,27 +442,48 @@ public class SBMLExtension {
 
   
 /**
-   * Adds the L2 Namespace to the document and enables the extension.
+   * Called to enable the package on the {@link SBMLDocument} object.
    <p>
-   * If the extension supports serialization to SBML L2 Annotations, this 
-   * method should be overrridden, so it will be activated.
+   * <p>
+ * This method is related to special facilities designed to support
+ * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
+ * historical background of the SBML Layout package, libSBML implements
+ * special behavior for that package: it <em>always</em> creates a Layout
+ * plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses Layout constructs.
+ * Since Level&nbsp;2 does not use namespaces on the top level of the
+ * SBML document object, libSBML simply keys off the fact that the model
+ * is a Level&nbsp;2 model.  To allow the extensions for the Layout and
+ * Render (and possibly other) packages to support this behavior, the
+ * {@link SBMLExtension} class contains special methods to allow packages to
+ * hook themselves into the Level&nbsp;2 parsing apparatus when necessary.
+   <p>
+   * @param doc the {@link SBMLDocument} object for the model.
+   * Implementations should override this method with something that
+   * enables the package based on the package's namespace(s). For example,
+   * here is the code from the Layout package extension:
+   * <pre class='fragment'>{.cpp}
+if (doc-&gt;getLevel() == 2)
+  doc-&gt;enablePackage({@link LayoutExtension#getXmlnsL2()}, 'layout', true);
+</pre>
    */ public
  void enableL2NamespaceForDocument(SBMLDocument doc) {
     libsbmlJNI.SBMLExtension_enableL2NamespaceForDocument(swigCPtr, this, SBMLDocument.getCPtr(doc), doc);
   }
 
   
-/** 
+/**
    * Indicates whether this extension is being used by the given {@link SBMLDocument}.
    <p>
-   * The default implementation returns true. This means that when a document
-   * had this extension enabled, it will not be possible to convert it to L2
-   * as we cannot make sure that the extension can be converted.
+   * The default implementation returns <code>true.</code>  This means that when a
+   * document had this extension enabled, it will not be possible to convert
+   * it to SBML Level&nbsp;2 as we cannot make sure that the extension can be
+   * converted.
    <p>
-   * @param doc the SBML document to test. 
+   * @param doc the SBML document to test.
    <p>
-   * @return a boolean indicating whether the extension is actually being used
-   *         by the document. 
+   * @return a boolean indicating whether the extension is actually being
+   * used by the document.
    */ public
  boolean isInUse(SBMLDocument doc) {
     return libsbmlJNI.SBMLExtension_isInUse(swigCPtr, this, SBMLDocument.getCPtr(doc), doc);

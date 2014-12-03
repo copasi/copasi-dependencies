@@ -161,9 +161,10 @@ public class SBMLValidator {
    <p>
    * @param doc the document to use for this validation
    <p>
-   * @return an integer value indicating the success/failure of the
-   * validation.   The possible values returned by this
-   * function are
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *

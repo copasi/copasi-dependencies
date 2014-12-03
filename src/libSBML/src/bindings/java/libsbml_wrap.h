@@ -47,7 +47,7 @@ public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_SBMLConverter(JNIEnv *jenv);
     SwigDirector_SBMLConverter(JNIEnv *jenv, std::string const &name);
-    SwigDirector_SBMLConverter(JNIEnv *jenv, SBMLConverter const &c);
+    SwigDirector_SBMLConverter(JNIEnv *jenv, SBMLConverter const &orig);
     virtual ~SwigDirector_SBMLConverter();
     virtual SBMLConverter *clone() const;
     virtual SBMLDocument *getDocument();

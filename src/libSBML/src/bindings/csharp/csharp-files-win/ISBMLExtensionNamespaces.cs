@@ -16,6 +16,7 @@ namespace libsbml {
  *
 @htmlinclude pkg-marker-core.html 
  *
+ * @htmlinclude not-sbml-warning.html
  * @internal
  */
 

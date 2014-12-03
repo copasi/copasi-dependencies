@@ -56,148 +56,86 @@ public class SBMLExternalValidator extends SBMLValidator {
   }
 
   
-/**
-   * Constructor.
-   * @internal
-   */ public
+/** * @internal */ public
  SBMLExternalValidator() {
     this(libsbmlJNI.new_SBMLExternalValidator__SWIG_0(), true);
   }
 
   
-/**
-   * Copy constructor.
-   * @internal
-   */ public
+/** * @internal */ public
  SBMLExternalValidator(SBMLExternalValidator arg0) {
     this(libsbmlJNI.new_SBMLExternalValidator__SWIG_1(SBMLExternalValidator.getCPtr(arg0), arg0), true);
   }
 
   
-/**
-   * Creates and returns a deep copy of this {@link SBMLValidator} object.
-   <p>
-   * @return the (deep) copy of this {@link SBMLValidator} object.
-   * @internal
-   */ public
+/** * @internal */ public
  SBMLValidator cloneObject() {
     long cPtr = libsbmlJNI.SBMLExternalValidator_cloneObject(swigCPtr, this);
     return (cPtr == 0) ? null : new SBMLValidator(cPtr, true);
   }
 
   
-/**
-   * the actual conversion 
-   <p>
-   * @return status code represeting success/failure/conversion impossible
-   * @internal
-   */ public
+/** * @internal */ public
  long validate() {
     return libsbmlJNI.SBMLExternalValidator_validate(swigCPtr, this);
   }
 
   
-/**
-   * Returns the program name of the validator to be run
-   <p>
-   * @return the program name of the validator to be run
-   * @internal
-   */ public
+/** * @internal */ public
  String getProgram() {
     return libsbmlJNI.SBMLExternalValidator_getProgram(swigCPtr, this);
   }
 
   
-/**
-   * Sets the name of the program to run
-   <p>
-   * @param program the program to be started
-   * @internal
-   */ public
+/** * @internal */ public
  void setProgram(String program) {
     libsbmlJNI.SBMLExternalValidator_setProgram(swigCPtr, this, program);
   }
 
   
-/**
-   * Returns the output file name (this is the file the external program will write)
-   <p>
-   * @return the output file name
-   * @internal
-   */ public
+/** * @internal */ public
  String getOutputFileName() {
     return libsbmlJNI.SBMLExternalValidator_getOutputFileName(swigCPtr, this);
   }
 
   
-/**
-   * Sets the output file name
-   <p>
-   * @param outputFileName the name of the output XML file
-   * @internal
-   */ public
+/** * @internal */ public
  void setOutputFileName(String outputFileName) {
     libsbmlJNI.SBMLExternalValidator_setOutputFileName(swigCPtr, this, outputFileName);
   }
 
   
-/**
-   * @return the name of the SBML file (the document of this validator will be written to it)
-   * @internal
-   */ public
+/** * @internal */ public
  String getSBMLFileName() {
     return libsbmlJNI.SBMLExternalValidator_getSBMLFileName(swigCPtr, this);
   }
 
   
-/**
-   * Sets the filename for the temporary file to be created
-   <p>
-   * @param sbmlFileName the temporary name
-   * @internal
-   */ public
+/** * @internal */ public
  void setSBMLFileName(String sbmlFileName) {
     libsbmlJNI.SBMLExternalValidator_setSBMLFileName(swigCPtr, this, sbmlFileName);
   }
 
   
-/**
-   * Clear all additional arguments
-   * @internal
-   */ public
+/** * @internal */ public
  void clearArguments() {
     libsbmlJNI.SBMLExternalValidator_clearArguments(swigCPtr, this);
   }
 
   
-/**
-   * Adds the given argument to the list of additional arguments 
-   <p>
-   * @param arg the argument
-   * @internal
-   */ public
+/** * @internal */ public
  void addArgument(String arg) {
     libsbmlJNI.SBMLExternalValidator_addArgument(swigCPtr, this, arg);
   }
 
   
-/**
-   * @return the number of arguments. 
-   * @internal 
-   */ public
+/** * @internal */ public
  long getNumArguments() {
     return libsbmlJNI.SBMLExternalValidator_getNumArguments(swigCPtr, this);
   }
 
   
-/**
-   * Returns the argument for the given index. 
-   <p>
-   * @param n the zero based index of the argument. 
-   <p>
-   * @return the argument at the given index. 
-   * @internal 
-   */ public
+/** * @internal */ public
  String getArgument(long n) {
     return libsbmlJNI.SBMLExternalValidator_getArgument(swigCPtr, this, n);
   }

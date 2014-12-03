@@ -523,9 +523,10 @@ else
 <p>
    * @param xmlns the XML namespaces to be added.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -544,9 +545,10 @@ else
    * @param uri    the XML namespace to be added.
    * @param prefix the prefix of the namespace to be added.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -564,9 +566,10 @@ else
    <p>
    * @param uri    the XML namespace to be added.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
@@ -588,9 +591,10 @@ else
    * @param prefix the prefix of the package namespace to be added.
    *        The package's name will be used if the given string is empty (default).
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -618,9 +622,10 @@ else
    * @param prefix the prefix of the package namespace to be added.
    *        The package's name will be used if the given string is empty (default).
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -644,9 +649,10 @@ else
    <p>
    * @param xmlns the XML namespaces to be added.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -670,9 +676,10 @@ else
    * @param pkgName the string of package name (e.g. 'layout', 'multi')
    * @param pkgVersion the package version
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
@@ -684,113 +691,25 @@ else
   }
 
   
-/**
-   * Add an XML namespace (a pair of URI and prefix) of a package extension
-   * to the set of namespaces within this {@link SBMLNamespaces} object.
-   <p>
-   * The SBML Level and SBML Version of this object is used.
-   <p>
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
-   * @param prefix the prefix of the package namespace to be added.
-   *        The package's name will be used if the given string is empty (default).
-   <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
-   *
-   * </ul> <p>
-   * @note An XML namespace of a non-registered package extension can't be
-   * added by this function ({@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE} 
-   * will be returned).
-   <p>
-   * @see #addNamespace(String, String)
-   * @internal
-   */ public
+/** * @internal */ public
  int addPkgNamespace(String pkgName, long pkgVersion, String prefix) {
     return libsbmlJNI.SBMLNamespaces_addPkgNamespace__SWIG_0(swigCPtr, this, pkgName, pkgVersion, prefix);
   }
 
   
-/**
-   * Add an XML namespace (a pair of URI and prefix) of a package extension
-   * to the set of namespaces within this {@link SBMLNamespaces} object.
-   <p>
-   * The SBML Level and SBML Version of this object is used.
-   <p>
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
-   * @param prefix the prefix of the package namespace to be added.
-   *        The package's name will be used if the given string is empty (default).
-   <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
-   *
-   * </ul> <p>
-   * @note An XML namespace of a non-registered package extension can't be
-   * added by this function ({@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE} 
-   * will be returned).
-   <p>
-   * @see #addNamespace(String, String)
-   * @internal
-   */ public
+/** * @internal */ public
  int addPkgNamespace(String pkgName, long pkgVersion) {
     return libsbmlJNI.SBMLNamespaces_addPkgNamespace__SWIG_1(swigCPtr, this, pkgName, pkgVersion);
   }
 
   
-/**
-   * Add the XML namespaces of package extensions in the given XMLNamespace
-   * object to the set of namespaces within this {@link SBMLNamespaces} object.
-   <p>
-   * Non-package XML namespaces are not added by this function.
-   <p>
-   * @param xmlns the XML namespaces to be added.
-   <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
-   *
-   * </ul> <p>
-   * @note XML namespaces of a non-registered package extensions are not
-   * added (just ignored) by this function. {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE} will be returned if the given
-   * xmlns is null.
-   * @internal
-   */ public
+/** * @internal */ public
  int addPkgNamespaces(XMLNamespaces xmlns) {
     return libsbmlJNI.SBMLNamespaces_addPkgNamespaces(swigCPtr, this, XMLNamespaces.getCPtr(xmlns), xmlns);
   }
 
   
-/**
-   * Removes an XML namespace of a package extension from the set of
-   * namespaces within this {@link SBMLNamespaces} object.
-   <p>
-   * @param level   the SBML level
-   * @param version the SBML version
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
-   <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
-   * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * @internal
-   * </ul>
-   */ public
+/** * @internal */ public
  int removePkgNamespace(long level, long version, String pkgName, long pkgVersion) {
     return libsbmlJNI.SBMLNamespaces_removePkgNamespace(swigCPtr, this, level, version, pkgName, pkgVersion);
   }

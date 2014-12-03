@@ -70,38 +70,26 @@ public class IdList : IDisposable {
   }
 
   
-/**
-   * Appends id to the list of ids.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void append(string id) {
     libsbmlPINVOKE.IdList_append(swigCPtr, id);
   }
 
   
-/**
-   * Returns true if id is already in this IdList, false otherwise.
-   *
-   * @return true if id is already in this IdList, false otherwise.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  bool contains(string id) {
     bool ret = libsbmlPINVOKE.IdList_contains(swigCPtr, id);
     return ret;
   }
 
   
-/**
-   * Removes all ids in this IdList before the given @p id.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  void removeIdsBefore(string id) {
     libsbmlPINVOKE.IdList_removeIdsBefore(swigCPtr, id);
   }
 
   
-/**
-   * Returns the number of ids in this IdList.
-   *
-   * @return the number of ids in this IdList.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  long size() { return (long)libsbmlPINVOKE.IdList_size(swigCPtr); }
 
   public void clear() {

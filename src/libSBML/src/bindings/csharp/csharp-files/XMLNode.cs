@@ -221,7 +221,7 @@ public class XMLNode : XMLToken {
 
   
 /**
-   * Creates a new XMLNode by copying token.
+   * Creates a new XMLNode by copying an XMLToken object.
    *
    * @param token XMLToken to be copied to XMLNode
    */ public
@@ -410,15 +410,7 @@ public class XMLNode : XMLToken {
   }
 
   
-/**
-   * Creates a new XMLNode by reading XMLTokens from stream.
-   *
-   * The stream must be positioned on a start element
-   * (<code>stream.peek().isStart() == true</code>) and will be read until
-   * the matching end element is found.
-   *
-   * @param stream XMLInputStream from which XMLNode is to be created.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  XMLNode(XMLInputStream stream) : this(libsbmlPINVOKE.new_XMLNode__SWIG_14(XMLInputStream.getCPtr(stream)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
@@ -456,10 +448,15 @@ public class XMLNode : XMLToken {
    *
    * @param node the XMLNode to be added as child.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @note The given node is added at the end of the children list.
@@ -517,9 +514,13 @@ public class XMLNode : XMLToken {
   
 /**
    * Removes all children from this node.
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int removeChildren() {

@@ -978,11 +978,7 @@ Similarly, the filename in the archive will be
   }
 
   
-/**
- * Note to developers: leave at least one comment here.  Without it, something
- * doesn't go right when docs are generated.
- * @internal
- */ public
+/** * @internal */ public
  static boolean representsNumber(int type) {
     return libsbmlJNI.representsNumber(type);
   }
@@ -1099,8 +1095,9 @@ Similarly, the filename in the archive will be
  * abstract syntax tree, and returns a pointer to the root of the tree.
  <p>
  * @param xml a string containing a full MathML expression
- * @param xmlns a XMLNamespaces_t object containing namespaces that
- * are considered active during the read e.g. an L3 package namespace
+ * @param xmlns an {@link XMLNamespaces}
+ * object containing namespaces that are considered active during the
+ * read. (For example, an SBML Level&nbsp;3 package namespace.)
  <p>
  * @return the root of an AST corresponding to the given mathematical
  * expression, otherwise <code>null</code> is returned if the given string is <code>null</code>
@@ -1113,7 +1110,7 @@ Similarly, the filename in the archive will be
 
   
 /**
- * Writes the given ASTNode_t (and its children) to a string as MathML, and
+ * Writes the given AST node (and its children) to a string as MathML, and
  * returns the string.
  <p>
  * @param node the root of an AST to write out to the stream.
@@ -1251,14 +1248,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * @return the root node of the AST corresponding to the <code>formula</code>, or 
  * <code>null</code> if an error occurred in parsing the formula
  <p>
- * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
- * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
- * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
- * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
- * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
- * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
- * @see L3ParserSettings
- <p>
+ * 
  * <p>
  * @note
  * Callers using SBML Level&nbsp;3 are encouraged to use the facilities
@@ -1279,6 +1269,14 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * for parsing and transforming text-string math formulas back and forth from
  * AST structures for the convenience of calling applications, but it is
  * important to keep the system's limitations in mind.
+ <p>
+   * @see <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>
+ * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see L3ParserSettings
  */ public
  static ASTNode parseFormula(String formula) {
     long cPtr = libsbmlJNI.parseFormula(formula);
@@ -2100,12 +2098,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * formula oriented towards SBML Level&nbsp;1.  The caller owns the returned
  * string and is responsible for freeing it when it is no longer needed.
  <p>
- * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
- * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
- * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
- * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
- * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
- <p>
+ * 
  * <p>
  * @note
  * Callers using SBML Level&nbsp;3 are encouraged to use the facilities
@@ -2126,6 +2119,12 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * for parsing and transforming text-string math formulas back and forth from
  * AST structures for the convenience of calling applications, but it is
  * important to keep the system's limitations in mind.
+ <p>
+   * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
  */ public
  static String formulaToString(ASTNode tree) {
     return libsbmlJNI.formulaToString(ASTNode.getCPtr(tree), tree);
@@ -2748,16 +2747,7 @@ in the "Level&nbsp;3" text-string formula syntax.
  * returned, an error is recorded internally; information about the error can
  * be retrieved using <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>.
  <p>
- * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
- * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
- * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
- * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
- * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
- * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
- * @see L3ParserSettings
- * @see <a href='libsbml.html#getDefaultL3ParserSettings()'><code>libsbml.getDefaultL3ParserSettings()</code></a>
- * @see <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>
- <p>
+ * 
  * <p>
  * @note We urge developers to keep in mind that the text-string formula
  * syntax is specific to libSBML.  <em>Neither MathML nor SBML define a
@@ -2767,6 +2757,16 @@ in the "Level&nbsp;3" text-string formula syntax.
  * for parsing and transforming text-string math formulas back and forth from
  * AST structures for the convenience of calling applications, but it is
  * important to keep the system's limitations in mind.
+ <p>
+   * @see <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
+ * @see <a href='libsbml.html#parseFormula(java.lang.String)'><code>libsbml.parseFormula(String)</code></a>
+ * @see <a href='libsbml.html#formulaToL3StringWithSettings(org.sbml.libsbml.ASTNode, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.formulaToL3StringWithSettings(ASTNode, L3ParserSettings)</code></a>
+ * @see <a href='libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToL3String(ASTNode)</code></a>
+ * @see <a href='libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)'><code>libsbml.formulaToString(ASTNode)</code></a>
+ * @see L3ParserSettings
+ * @see <a href='libsbml.html#getDefaultL3ParserSettings()'><code>libsbml.getDefaultL3ParserSettings()</code></a>
+ * @see <a href='libsbml.html#getLastParseL3Error()'><code>libsbml.getLastParseL3Error()</code></a>
  */ public
  static ASTNode parseL3Formula(String formula) {
     long cPtr = libsbmlJNI.parseL3Formula(formula);
@@ -3533,6 +3533,12 @@ in the "Level&nbsp;3" text-string formula syntax.
  */ public
  static String getLastParseL3Error() {
     return libsbmlJNI.getLastParseL3Error();
+  }
+
+  
+/** * @internal */ public
+ static void SBML_deleteL3Parser() {
+    libsbmlJNI.SBML_deleteL3Parser();
   }
 
 }

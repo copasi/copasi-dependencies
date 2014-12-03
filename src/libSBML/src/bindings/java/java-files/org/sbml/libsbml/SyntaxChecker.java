@@ -493,11 +493,7 @@ appears in the documentation.
   }
 
   
-/**
-   * Returns true <code>true</code> or <code>false</code> depending on whether the argument
-   * string conforms to the syntax of SBML identifiers or is empty.
-   * @internal
-   */ public
+/** * @internal */ public
  static boolean isValidInternalSId(String sid) {
     return libsbmlJNI.SyntaxChecker_isValidInternalSId(sid);
   }

@@ -119,7 +119,8 @@ namespace libsbmlcs {
           class='text-table normal-font alt-row-colors'>
  * <caption>Possible XMLError error codes.  Depending on the programming
  * language in use, the <em>Enumerator</em> values will be defined either
- * as a value from the enumeration XMLErrorCode_t or as integer constants.
+ * as a value from an enumeration type @if clike (XMLErrorCode_t)@endif
+ * or as integer constants.
  * To make this table more compact, we have shortened the identifiers for
  * the category and severity codes to their essential parts.  To get the
  * actual names of the constants, prepend <code>LIBSBML_CAT_</code> to the
@@ -1425,9 +1426,13 @@ public class XMLError : IDisposable {
    * 
    * @param line a long integer, the line number to set.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setColumn(long column)
@@ -1443,9 +1448,13 @@ public class XMLError : IDisposable {
    * 
    * @param column a long integer, the column number to set.
    *
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ *
+ *
    * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setLine(long line)

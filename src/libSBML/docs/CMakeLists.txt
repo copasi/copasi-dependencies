@@ -52,18 +52,11 @@ else()
 file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/src/doxygen-version-specific.txt "")
 endif()
 
-# configure installation html file
-configure_file(
-	${CMAKE_CURRENT_SOURCE_DIR}/src/libsbml-installation.html.in
-	${CMAKE_CURRENT_SOURCE_DIR}/src/libsbml-installation.html
-)
-
 # configure java documentation file
 configure_file(
 	${CMAKE_CURRENT_SOURCE_DIR}/src/java-substitutions/libsbmlConstants.java.in
 	${CMAKE_CURRENT_SOURCE_DIR}/src/java-substitutions/libsbmlConstants.java
 )
-
 
 # disable dot if we don't have it
 set(HAVE_DOT)
@@ -77,6 +70,12 @@ else()
 endif()
 
 set(PACKAGE_NAME "libSBML")
+
+set(LOGO_FILES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/official-sbml-supported-32.jpg
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/official-sbml-supported-40.jpg
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/official-sbml-supported-70.png
+)
 
 # replace variables as needed
 foreach( lang "common" "c" "cpp" "perl" "python" "csharp")
@@ -102,11 +101,11 @@ macro(createManual lang)
 	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api output_path)
 	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api/search search_path)
 	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/official-sbml-supported-40.jpg logo_file)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/right-arrow.gif right_arrow)
+	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/css/right-arrow-2x.png right_arrow)
 	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/sbml.js sbml_js)
 	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/doxygen-tabs.css tabs_css)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/search.png search_png)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/search.css search_css)
+	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/css/search.png search_png)
+	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/css/search.css search_css)
 
 	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/doxygen-config-${lang}.txt api_doc)
 
@@ -129,10 +128,10 @@ macro(createManual lang)
 		ARGS -E copy
 			${sbml_js}
 			${output_path}
-		COMMAND "${CMAKE_COMMAND}"
-		ARGS -E copy
-			${tabs_css}
-			${output_path}
+#		COMMAND "${CMAKE_COMMAND}"
+#		ARGS -E copy
+#			${tabs_css}
+#			${output_path}
 		COMMAND "${CMAKE_COMMAND}"
 		ARGS -E copy
 			${search_png}
@@ -168,7 +167,7 @@ if (WITH_PYTHON)
 	ADD_CUSTOM_COMMAND(
 		OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/libsbml.py
 		COMMAND ${PYTHON_EXECUTABLE}
-		ARGS    pythondocpreprocessor.py
+		ARGS    ${CMAKE_CURRENT_SOURCE_DIR}/src/utilities/pythondocpreprocessor.py
 				${CMAKE_CURRENT_BINARY_DIR}/../src/bindings/python/libsbml-doxygen.py  
 				libsbml.py
 				${PYTHON_SUBSTITUTIONS}
@@ -245,20 +244,18 @@ if (WITH_JAVA)
 		COMMAND ${Java_JAVA_EXECUTABLE}
 		ARGS  -cp "${Java_JAVADOC_JAR}${FILE_SEP}${current_dir}"
 		      SBMLDoclet
+			  -use -public -version -author -sourcetab 4 -keywords -nohelp
+			  -link http://docs.oracle.com/javase/1.6.0/docs/api
+			  -tag note:a:"Note:"
+			  -tag warning:a:"Warning:"
 			  -excludefile java-skip.txt
-			  -use -public -version -author -sourcetab 4 -keywords
-			  -link http://java.sun.com/j2se/1.5.0/docs/api
-			  -nodeprecated
 			  -header "${LIBSBML_JAVADOC_HEADER}"
 			  -bottom "${LIBSBML_JAVADOC_FOOTER}"
 			  -windowtitle ${LIBSBML_JAVADOC_WINDOWTITLE}
 			  -doctitle ${LIBSBML_JAVADOC_DOCTITLE}
 			  -overview libsbml-java-fake-overview.html
-			  -stylesheetfile doxygen-base-stylesheet.css
+			  -stylesheetfile css/libsbml-javadoc-stylesheet.css
 			  -d ${output_dir}
-			  -tag note:a:"Note:"
-	          -tag warning:a:"Warning:"
-	          -tag docnote:a:"Documentation note:"
 	          -sourcepath ${java_dir} org.sbml.libsbml
 		COMMENT "Generate Java-API Documentation"
 		VERBATIM
@@ -274,10 +271,10 @@ if (WITH_JAVA)
 			"${sbml_js}"
 			"${output_dir}"
 
-		COMMAND "${CMAKE_COMMAND}"
-		ARGS -E copy
-			"${tabs_css}"
-			"${output_dir}"
+#		COMMAND "${CMAKE_COMMAND}"
+#		ARGS -E copy
+#			"${tabs_css}"
+#			"${output_dir}"
 
 #		COMMAND "${CMAKE_COMMAND}"
 #		ARGS -E copy

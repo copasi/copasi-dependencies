@@ -1100,10 +1100,7 @@ if (doc.getNumErrors() > 0)
   }
 
   
-/**
- * Note to developers: leave at least one comment here.  Without it, something
- * doesn't go right when docs are generated.
- */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  static bool representsNumber(int type) {
     bool ret = libsbmlPINVOKE.representsNumber(type);
     return ret;
@@ -1244,8 +1241,9 @@ if (doc.getNumErrors() > 0)
  * abstract syntax tree, and returns a pointer to the root of the tree.
  *
  * @param xml a string containing a full MathML expression
- * @param xmlns a XMLNamespaces_t object containing namespaces that
- * are considered active during the read e.g. an L3 package namespace
+ * @param xmlns an @if conly XMLNamespaces_t structure @else XMLNamespaces
+ * object@endif containing namespaces that are considered active during the
+ * read. (For example, an SBML Level&nbsp;3 package namespace.)
  *
  * @return the root of an AST corresponding to the given mathematical
  * expression, otherwise @c null is returned if the given string is @c null
@@ -1263,7 +1261,7 @@ if (doc.getNumErrors() > 0)
 
   
 /**
- * Writes the given ASTNode_t (and its children) to a string as MathML, and
+ * Writes the given AST node (and its children) to a string as MathML, and
  * returns the string.
  *
  * @param node the root of an AST to write out to the stream.
@@ -2500,9 +2498,15 @@ if (doc.getNumErrors() > 0)
     return ret;
   }
 
-  public const string LIBSBML_DOTTED_VERSION = "5.10.3";
-  public const int LIBSBML_VERSION = 51003;
-  public const string LIBSBML_VERSION_STRING = "51003";
+  
+/** */ /* libsbml-internal */ public
+ static void SBML_deleteL3Parser() {
+    libsbmlPINVOKE.SBML_deleteL3Parser();
+  }
+
+  public const string LIBSBML_DOTTED_VERSION = "5.11.0";
+  public const int LIBSBML_VERSION = 51100;
+  public const string LIBSBML_VERSION_STRING = "51100";
   // OperationReturnValues_t 
   public const int LIBSBML_OPERATION_SUCCESS = 0;
   public const int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -3139,7 +3143,9 @@ if (doc.getNumErrors() > 0)
   public const int BQM_IS = 0;
   public const int BQM_IS_DESCRIBED_BY = BQM_IS + 1;
   public const int BQM_IS_DERIVED_FROM = BQM_IS_DESCRIBED_BY + 1;
-  public const int BQM_UNKNOWN = BQM_IS_DERIVED_FROM + 1;
+  public const int BQM_IS_INSTANCE_OF = BQM_IS_DERIVED_FROM + 1;
+  public const int BQM_HAS_INSTANCE = BQM_IS_INSTANCE_OF + 1;
+  public const int BQM_UNKNOWN = BQM_HAS_INSTANCE + 1;
 
   // BiolQualifierType_t 
   public const int BQB_IS = 0;
@@ -3154,7 +3160,8 @@ if (doc.getNumErrors() > 0)
   public const int BQB_OCCURS_IN = BQB_ENCODES + 1;
   public const int BQB_HAS_PROPERTY = BQB_OCCURS_IN + 1;
   public const int BQB_IS_PROPERTY_OF = BQB_HAS_PROPERTY + 1;
-  public const int BQB_UNKNOWN = BQB_IS_PROPERTY_OF + 1;
+  public const int BQB_HAS_TAXON = BQB_IS_PROPERTY_OF + 1;
+  public const int BQB_UNKNOWN = BQB_HAS_TAXON + 1;
 
   // ASTNodeType_t 
   public const int AST_PLUS = '+';

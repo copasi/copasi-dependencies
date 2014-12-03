@@ -14,375 +14,380 @@ namespace libsbml {
 /** 
  * @sbmlpackage{core}
  *
-@htmlinclude pkg-marker-core.html Core class for SBML Level 3 package plug-ins.
+@htmlinclude pkg-marker-core.html Base class for SBML Level 3 package plug-ins.
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * The SBMLExtension class is a component of the libSBML package extension
+ * mechanism.  It is an abstract class that is extended by each package
+ * extension implementation. @if clike The SBMLExtension class provides
+ * methods for managing common attributes of package extensions (e.g.,
+ * package name, package version), registration of instantiated
+ * SBasePluginCreator objects, and initialization/registration of package
+ * extensions when the library code for the package is loaded. @endif
+ *
+ * @if clike
+ * @section sbmlextension-howto How to extend SBMLExtension for a package implementation
+ * *
  * 
- * @ifnot clike @internal @endif
+ * Each package implementation must contain a class that extends
+ * SBMLExtension.  For example, the class <code>GroupsExtension</code> serves
+ * this purpose for the SBML Level&nbsp;3 @em Groups package extension in
+ * libSBML. The following subsections detail the basic steps involved in
+ * implementing such an extended class.
  *
- * SBMLExtension class (abstract class) is a core component of package extension
- * which needs to be extended by package developers. 
- * The class provides functions for getting common attributes of package extension 
- * (e.g., package name, package version, and etc.), functions for adding (registering) 
- * each instantiated SBasePluginCreator object, and a static function (defined in each 
- * SBMLExtension extended class) for initializing/registering the package extension 
- * when the library of the package is loaded.
+ * @subsection ext-getpackagename 1. Define the getPackageName() method
  *
- * @section howto How to implement an SBMLExtension extended class for each package extension
+ * Define a method named <code>getPackageName()</code> that returns the
+ * name of the package as a string.  The following is an example from the
+ * implementation of the Groups package extension:
+@code{.cpp}
+string GroupsExtension::getPackageName ()
+{
+      static string pkgName = 'groups';
+      return pkgName;
+}
+@endcode
  *
- * Package developers must implement an SBMLExtension extended class for
- * their packages (e.g. GroupsExtension class is implemented for groups extension).
- * The extended class is implemented based on the following steps:
  *
- * (NOTE: 
- *   'src/packages/groups/extension/GroupsExtension.{h,cpp}' and
- *   'src/packages/layout/extension/LayoutExtension.{h,cpp}' are
- *   example files in which SBMLExtension derived classes are implemented)
+ * @subsection ext-version-methods 2. Define methods returning package version information
  *
- * <ol>
+ * Define a set of methods that return the default SBML Level, SBML
+ * Version and version of the package.  These methods must be named
+ * <code>getDefaultLevel()</code>, <code>getDefaultVersion()</code> and
+ * <code>getDefaultPackageVersion()</code>, respectively.  The following
+ * are examples drawn from the Groups package implementation:
+@code{.cpp}
+long GroupsExtension::getDefaultLevel()
+{
+      return 3;
+}
+long GroupsExtension::getDefaultVersion()
+{
+      return 1;
+}
+long GroupsExtension::getDefaultPackageVersion()
+{
+      return 1;
+}
+@endcode
  *
- * <li> Define the following static functions in the extended class:
- *      (examples of groups extension are shown respectively)
- *   <ol>
- *     <li> <p>A string of package name (label) (The function name must be 'getPackageName'.)</p>
- *         
-@verbatim
-  string GroupsExtension::getPackageName ()
-  {
-	static string pkgName = 'groups';
-	return pkgName;
-  }
-@endverbatim
- *     </li>
  *
- *     <li> <p>
- *        Methods returning an integer of Default SBML level, version, and package version
- *        (The method names must be 'getDefaultLevel()', 'getDefaultVersion()', and 
- *        'getDefaultPackageVersion()' respectively.)
- *        </p>
-@verbatim
-  long GroupsExtension::getDefaultLevel()
-  {
-	return 3;
-  }  
-  long GroupsExtension::getDefaultVersion()
-  {
-	return 1; 
-  }
-  long GroupsExtension::getDefaultPackageVersion()
-  {
-	return 1;
-  }  
-@endverbatim
- *     </li>
- *     <li> <p> Methods returning Strings that represent the URI of packages </p>
-@verbatim
-  string GroupsExtension::getXmlnsL3V1V1 ()
-  {
-	static string xmlns = 'http://www.sbml.org/sbml/level3/version1/groups/version1';
-	return xmlns;
-  }
-@endverbatim 
- *     </li>
- *     <li> <p>Strings that represent the other URI needed in this package (if any) </p>
- *     </li>
- *   </ol> 
- * </li>
+ * @subsection ext-ns 3. Define methods returning the package namespace URIs
  *
- * <li> Override the following pure virtual functions
-      <ul>
-       <li> <code>virtual string getName () =0</code>. This function returns the name of the package (e.g., 'layout', 'groups'). </li>
-       <li> <code>virtual long getLevel (string uri) =0</code>. This function returns the SBML level with the given URI of this package. </li>
-       <li> <code>virtual long getVersion (string uri) =0</code>. This function returns the SBML version with the given URI of this package. </li>
-       <li> <code>virtual long getPackageVersion (string uri) =0</code>. This function returns the package version with the given URI of this package.</li>
-       <li> <code>virtual long getURI (long sbmlLevel, long sbmlVersion, long pkgVersion) =0</code>. 
-             This function returns the URI (namespace) of the package corresponding to the combination of the given sbml level, sbml version, and pacakege version</li>
-       <li> <code>virtual SBMLExtension clone () = 0</code>. This function creates and returns a deep copy of this derived object.</li>
-      </ul>
-      <p>For example, the above functions are overridden in the groups
-	package ('src/packages/groups/extension/GroupsExtension.cpp') as follows:</p>
-@verbatim
-string
-GroupsExtension::getName() const
+ * Define methods that return strings representing the XML namespace URI
+ * for the package.  One method should be defined for each SBML Level/Version
+ * combination for which the package can be used.  For instance, if a package
+ * is only usable in SBML Level&nbsp;3 Version&nbsp;1, and the libSBML
+ * extension for the package implements version&nbsp;1 of the package, the
+ * necessary method is <code>getXmlnsL3V1V1()</code>.  
+@code{.cpp}
+string GroupsExtension::getXmlnsL3V1V1 ()
+{
+      static string xmlns = 'http://www.sbml.org/sbml/level3/version1/groups/version1';
+      return xmlns;
+}
+@endcode
+ *
+ * Define other similar methods to return additional namespace URIs if the
+ * package extension implements other package versions or supports other SBML
+ * Level/Version combinations.
+ *
+ *
+ * @subsection ext-virtual 4. Override basic pure virtual methods
+ *
+ * Override the following pure virtual methods on SBMLExtension:
+ *
+ * @li <code>virtual string getName() =0</code>. This
+ * method returns the nickname of the package (e.g., 'layout',
+ * 'groups').
+ *
+ * @li <code>virtual long getLevel(string uri) const
+ * =0</code>. This method returns the SBML Level with the given URI of
+ * this package.
+ *
+ * @li <code>virtual long getVersion(string uri)
+ * =0</code>. This method returns the SBML Version with the given
+ * URI of this package.
+ *
+ * @li <code>virtual long getPackageVersion(string
+ * &uri) =0</code>. This method returns the package version with
+ * the given URI of this package.
+ *
+ * @li <code>virtual long getURI(long sbmlLevel,
+ * long sbmlVersion, long pkgVersion) =0</code>.
+ * This method returns the URI (namespace) of the package corresponding
+ * to the combination of the given SBML Level, SBML Version, and package
+ * version
+ *
+ * @li <code>virtual SBMLExtension clone() = 0</code>. This
+ * method creates and returns a deep copy of this derived object.
+ *
+ * As an example, the following are the versions of these methods for
+ * the Groups package:
+ * @code{.cpp}
+string GroupsExtension::getName() const
 {
   return getPackageName();
 }
 
-long 
-GroupsExtension::getLevel(string uri) const
+long GroupsExtension::getLevel(string uri) const
 {
   if (uri == getXmlnsL3V1V1())
-  {
     return 3;
-  }
-  
-  return 0;
+  else
+    return 0;
 }
 
-long 
-GroupsExtension::getVersion(string uri) const
+long GroupsExtension::getVersion(string uri) const
 {
   if (uri == getXmlnsL3V1V1())
-  {
     return 1;
-  }
-
-  return 0;
+  else
+    return 0;
 }
 
-long
-GroupsExtension::getPackageVersion(string uri) const
+long GroupsExtension::getPackageVersion(string uri) const
 {
   if (uri == getXmlnsL3V1V1())
-  {
     return 1;
-  }
-
-  return 0;
+  else
+    return 0;
 }
 
-string 
-GroupsExtension::getURI(long sbmlLevel, long sbmlVersion, long pkgVersion) const
+string GroupsExtension::getURI(long sbmlLevel,
+                                           long sbmlVersion,
+                                           long pkgVersion) const
 {
-  if (sbmlLevel == 3)
-  {
-    if (sbmlVersion == 1)
-    {
-      if (pkgVersion == 1)
-      {
-        return getXmlnsL3V1V1();
-      }
-    }
-  }
+  if (sbmlLevel == 3 && sbmlVersion == 1 && pkgVersion == 1)
+    return getXmlnsL3V1V1();
 
   static string empty = '';
-
   return empty;
 }
 
-GroupsExtension* 
-GroupsExtension::clone () const
+GroupsExtension* GroupsExtension::clone() const
 {
-  return new GroupsExtension(*this);  
+  return new GroupsExtension(*this);
 }
-@endverbatim
+@endcode
  *
- * Constructor, copy Constructor, and destructor also must be overridden
- * if additional data members are defined in the derived class.
+ * Constructor, copy constructor, and destructor methods also must be
+ * overridden if additional data members are defined in the derived class.
  *
+ *
+ * @subsection ext-typedef 5. Create SBMLExtensionNamespaces-related definitions
+ *
+ * Define typedef and template instantiation code for a package-specific
+ * subclass of the SBMLExtensionNamespaces template class.  The
+ * SBMLExtensionNamespaces template class is a derived class of
+ * SBMLNamespaces and can be used as an argument of constructors of
+ * SBase-derived classes defined in the package extensions.
+ *
+ * <ol>
+ *
+ * <li> Define a typedef.  For example, the typedef for
+ * <code>GroupsExtension</code> is implemented in the file
+ * <code>GroupsExtension.h</code> as follows:
+@code{.cpp}
+// GroupsPkgNamespaces is derived from the SBMLNamespaces class.
+// It is used when creating a Groups package object of a class
+// derived from SBase.
+typedef SBMLExtensionNamespaces<GroupsExtension> GroupsPkgNamespaces;
+@endcode
  * </li>
  *
- * <li> <p>
- *  Define typedef and template instantiation code for the package specific SBMLExtensionNamespaces template class
- *  </p>
+ * <li> Define a template instantiation for the typedef.  For example, the
+ * template instantiation code for <code>GroupsExtension is</code> implemented
+ * in the file <code>GroupsExtension.cpp</code> as follows:
+@code{.cpp}
+template class LIBSBML_EXTERN SBMLExtensionNamespaces<GroupsExtension>;
+@endcode
+ * </li>
  *
- *   <ol>
- *     <li> typedef for the package specific SBMLExtensionNamespaces template class
- *       <p> For example, the typedef for GroupsExtension (defined in the groups package) is implemented in GroupsExtension.h as follows:</p>
-@verbatim
-  // GroupsPkgNamespaces is derived from the SBMLNamespaces class and used when creating an object of 
-  // SBase derived classes defined in groups package.
-  typedef SBMLExtensionNamespaces<GroupsExtension> GroupsPkgNamespaces;
-@endverbatim
- *     </li>
+ * </ol>
  *
- *     <li> template instantiation code for the above typedef definition in the implementation file (i.e., *.cpp file).
- *       <p> For example, the template instantiation code for GroupsExtension is implemented in GroupsExtension.cpp 
- *           as follows:
- *       </p>
+ * Here is example of how the resulting class is used.  The definitions above
+ * allow a <code>GroupsPkgNamespaces</code> object to be used when creating a
+ * new <code>Group</code> object.  The <code>GroupsPkgNamespaces</code> is
+ * handed to the constructor as an argument, as shown below:
+@code{.cpp}
+GroupPkgNamespaces gpns(3, 1, 1);  // SBML Level, Version, & pkg version.
+Group g = new Group(&gpns);        // Creates a Group object.
+@endcode
  *
-@verbatim
-  // Instantiate SBMLExtensionNamespaces<GroupsExtension> (GroupsPkgNamespaces) for DLL.
-  template class LIBSBML_EXTERN SBMLExtensionNamespaces<GroupsExtension>;
-@endverbatim
- *
- *     </li>
- *  </ol>
- *
- *  <p> The SBMLExtensionNamespaces template class is a derived class of
- *      SBMLNamespaces and can be used as an argument of constructors 
- *      of SBase derived classes defined in the package extensions.
- *      For example, a GroupsPkgNamespaces object can be used when creating a group 
- *      object as follows:
- *  </P>
-@verbatim
-   GroupPkgNamespaces gpns(3,1,1);  // The arguments are SBML Level, SBML Version, and Groups Package Version.
-
-   Group g = new Group(&gpns);      // Creates a group object of L3V1 Groups V1.
-@endverbatim
- *
- *   <p>
- *     Also, the GroupsPkgNamespaces object can be used when creating an
- *     SBMLDocument object with the groups package as follows:
- *   </p>
- *
-@verbatim
-   GroupsPkgNamespaces gpns(3,1,1);
+ * The <code>GroupsPkgNamespaces</code> object can also be used when creating
+ * an SBMLDocument object with the Groups package.  The code fragment
+ * below shows an example of this:
+@code{.cpp}
+   GroupsPkgNamespaces gpns(3, 1, 1);
    SBMLDocument doc;
-
-   doc  = new SBMLDocument(&gnps); // Creates an SBMLDocument of L3V1 with Groups V1.
-@endverbatim
+   doc  = new SBMLDocument(&gnps);
+@endcode
  *
- * </li>
  *
- * <li> Override the following pure virtual function which returns the SBMLNamespaces derived object 
-@verbatim
-       virtual SBMLNamespaces getSBMLExtensionNamespaces (string uri) =0
-@endverbatim
- *    <p> For example, the function is overridden in GroupsExtension
- class as follows:</p>
-@verbatim
+ * @subsection ext-virtual-ns 6. Override the method getSBMLExtensionNamespaces()
+ *
+ * Override the pure virtual method <code>getSBMLExtensionNamespaces()</code>,
+ * which returns an SBMLNamespaces derived object.  For example, the method
+ * is overridden in the class <code>GroupsExtension</code> as follows:
+@code{.cpp}
 SBMLNamespaces
 GroupsExtension::getSBMLExtensionNamespaces(string uri) const
 {
   GroupsPkgNamespaces* pkgns = null;
   if ( uri == getXmlnsL3V1V1())
   {
-    pkgns = new GroupsPkgNamespaces(3,1,1);    
-  }  
+    pkgns = new GroupsPkgNamespaces(3, 1, 1);
+  }
   return pkgns;
 }
-@endverbatim
-   </li>
- *  
- *
- *  <li> Define an enum type for representing the typecode of elements (SBase extended classes) defined in the package extension
- *
- *   <p>  For example, SBMLGroupsTypeCode_t for groups package is
- *  defined in GroupsExtension.h as follows: </p>
-@verbatim
-      typedef enum
-      {
-         SBML_GROUPS_GROUP  = 200
-       , SBML_GROUPS_MEMBER = 201
-      } SBMLGroupsTypeCode_t;
-@endverbatim    
- *
- *  <p> <em>SBML_GROUPS_GROUP</em> corresponds to the Group class (&lt;group&gt;)
- * and <em>SBML_GROUPS_MEMBER</em> corresponds to the Member (&lt;member&gt;) class, respectively.
+@endcode
  *
  *
- *  <p> Similarly, SBMLLayoutTypeCode_t 
- *   for layout package is defined in LayoutExtension.h as follows: </p>
+ * @subsection ext-enum 7. Define an enumeration for the package object type codes
  *
-@verbatim  
-      typedef enum
-      {
-         SBML_LAYOUT_BOUNDINGBOX           = 100
-       , SBML_LAYOUT_COMPARTMENTGLYPH      = 101
-       , SBML_LAYOUT_CUBICBEZIER           = 102
-       , SBML_LAYOUT_CURVE                 = 103
-       , SBML_LAYOUT_DIMENSIONS            = 104
-       , SBML_LAYOUT_GRAPHICALOBJECT       = 105
-       , SBML_LAYOUT_LAYOUT                = 106   
-       , SBML_LAYOUT_LINESEGMENT           = 107   
-       , SBML_LAYOUT_POINT                 = 108    
-       , SBML_LAYOUT_REACTIONGLYPH         = 109    
-       , SBML_LAYOUT_SPECIESGLYPH          = 110    
-       , SBML_LAYOUT_SPECIESREFERENCEGLYPH = 111
-       , SBML_LAYOUT_TEXTGLYPH             = 112
-      } SBMLLayoutTypeCode_t;
-@endverbatim
+ * Define an enum type for representing the type code of the objects defined
+ * in the package extension.  For example, the enumeration
+ * <code>SBMLGroupsTypeCode_t</code> for the Groups package is defined in
+ * <code>GroupsExtension.h</code> as follows:
+@code{.cpp}
+typedef enum
+{
+   SBML_GROUPS_GROUP  = 200
+ , SBML_GROUPS_MEMBER = 201
+} SBMLGroupsTypeCode_t;
+@endcode
  *
- *  <p>
- *   These enum values are returned by corresponding getTypeCode() functions.
- *   (e.g. SBML_GROUPS_GROUP is returned in Group::getTypeCode())
- *  </p>
+ * In the enumeration above, <code>SBML_GROUPS_GROUP</code> corresponds to
+ * the <code>Group</code> class (for the <code>&lt;group&gt;</code> element
+ * defined by the SBML Level&nbsp;3 Groups package) and
+ * <code>SBML_GROUPS_MEMBER</code> corresponds to the <code>Member</code>
+ * class (for the <code>&lt;member&gt;</code> element defined by the
+ * Level&nbsp;3 Groups package), respectively.
  *
- *  <p>
- *   The value of each typecode can be duplicated between those of different 
- *   packages (In the above SBMLLayoutTypeCode_t and SBMLGroupsTypeCode_t types, 
- *   unique values are assigned to enum values, but this is not mandatory.)
- *  </p>
+ * Similarly, #SBMLLayoutTypeCode_t for the Layout package is defined in
+ * the file <code>LayoutExtension.h</code> as follows:
  *
- *  <p>
- *   Thus, to distinguish the typecodes of different packages, not only the return
- *   value of getTypeCode() function but also that of getPackageName()
- *   function should be checked as follows:
- *  </p>
-@verbatim
-          void example (SBase sb)
-          {
-            string pkgName = sb->getPackageName();
-            if (pkgName == 'core') {
-              switch (sb->getTypeCode()) {
-                case SBML_MODEL:
-                   ....
-                   break;
-                case SBML_REACTION:
-                   ....
-              }
-            } 
-            else if (pkgName == 'layout') {
-              switch (sb->getTypeCode()) {
-                case SBML_LAYOUT_LAYOUT:
-                   ....
-                   break;
-                case SBML_LAYOUT_REACTIONGLYPH:
-                   ....
-              }
-            } 
-            else if (pkgName == 'groups') {
-              switch (sb->getTypeCode()) {
-                case SBML_GROUPS_GROUP:
-                   ....
-                   break;
-                case SBML_GROUPS_MEMBER:
-                   ....
-              }
-            }
-            ...
-          } 
-@endverbatim
+@code{.cpp}
+typedef enum
+{
+   SBML_LAYOUT_BOUNDINGBOX           = 100
+ , SBML_LAYOUT_COMPARTMENTGLYPH      = 101
+ , SBML_LAYOUT_CUBICBEZIER           = 102
+ , SBML_LAYOUT_CURVE                 = 103
+ , SBML_LAYOUT_DIMENSIONS            = 104
+ , SBML_LAYOUT_GRAPHICALOBJECT       = 105
+ , SBML_LAYOUT_LAYOUT                = 106
+ , SBML_LAYOUT_LINESEGMENT           = 107
+ , SBML_LAYOUT_POINT                 = 108
+ , SBML_LAYOUT_REACTIONGLYPH         = 109
+ , SBML_LAYOUT_SPECIESGLYPH          = 110
+ , SBML_LAYOUT_SPECIESREFERENCEGLYPH = 111
+ , SBML_LAYOUT_TEXTGLYPH             = 112
+} SBMLLayoutTypeCode_t;
+@endcode
  *
- *  </li>
- *  <li> Override the following pure virtual function which returns a string corresponding to the given typecode:
- *  
-@verbatim  
-       virtual string SBMLExtension::getStringFromTypeCode(int typeCode) const;
-@endverbatim 
+ * These enum values are returned by corresponding <code>getTypeCode()</code>
+ * methods.  (E.g., <code>SBML_GROUPS_GROUP</code> is returned in
+ * <code>Group::getTypeCode()</code>.)
  *
- *   <p> For example, the function for groups extension is implemented as follows: </p>
-@verbatim  
-static
-string SBML_GROUPS_TYPECODE_STRINGS[] =
+ * Note that libSBML does not require that type codes are unique across all
+ * packages&mdash;the same type codes may be used within individual package
+ * extensions.  LibSBML development must permit this because package
+ * implementations are developed by separate groups at different times;
+ * coordinating the type codes used is impractical.  It does mean that
+ * callers must check two things when identifying objects: to distinguish the
+ * type codes of different packages, callers much check not only the return
+ * value of the method <code>getTypeCode()</code> method but also that of the
+ * method <code>getPackageName()</code>.  Here is an example of doing that:
+@code{.cpp}
+void example (SBase sb)
+{
+  string pkgName = sb->getPackageName();
+  if (pkgName == 'core') {
+    switch (sb->getTypeCode()) {
+      case SBML_MODEL:
+         ....
+         break;
+      case SBML_REACTION:
+         ....
+    }
+  }
+  else if (pkgName == 'layout') {
+    switch (sb->getTypeCode()) {
+      case SBML_LAYOUT_LAYOUT:
+         ....
+         break;
+      case SBML_LAYOUT_REACTIONGLYPH:
+         ....
+    }
+  }
+  else if (pkgName == 'groups') {
+    switch (sb->getTypeCode()) {
+      case SBML_GROUPS_GROUP:
+         ....
+         break;
+      case SBML_GROUPS_MEMBER:
+         ....
+    }
+  }
+  ...
+}
+@endcode
+ *
+ * Readers may have noticed that in the #SBMLLayoutTypeCode_t and
+ * <code>SBMLGroupsTypeCode_t</code> enumerations above, unique values
+ * are in fact assigned to the enumeration values.  This can be convenient
+ * when it can be arranged, but it is not required by libSBML.
+ *
+ *
+ * @subsection ext-virtual-typecodes 8. Override the method getStringFromTypeCode()
+ *
+ * Override the pure virtual method <code>getStringFromTypeCode()</code>,
+ * which returns a string corresponding to the given type code.  Here is an
+ * example, again drawn from the implementation of the Groups package:
+@code{.cpp}
+virtual string SBMLExtension::(int typeCode) const;
+@endcode
+ *
+ * For example, the method for the Groups extension is implemented as
+ * shown below:
+@code{.cpp}
+static string SBML_GROUPS_TYPECODE_STRINGS[] =
 {
     'Group'
   , 'Member'
 };
 
-string 
-GroupsExtension::getStringFromTypeCode(int typeCode) const
+string GroupsExtension::getStringFromTypeCode(int typeCode) const
 {
   int min = SBML_GROUPS_GROUP;
   int max = SBML_GROUPS_MEMBER;
 
-  if ( typeCode < min || typeCode > max)
+  if (typeCode < min || typeCode > max)
   {
-    return '(Unknown SBML Groups Type)';  
+    return '(Unknown SBML Groups Type)';
   }
 
   return SBML_GROUPS_TYPECODE_STRINGS[typeCode - min];
 }
-@endverbatim 
+@endcode
  *
- *  </li>
  *
- * <li> Implements a 'static void init()' function in the derived class
+ * @subsection ext-init 9. Implement an init() method
  *
- * <p> In the init() function, initialization code which creates an instance of 
- *     the derived class and registering code which registers the instance to 
- *     SBMLExtensionRegistry class are implemented.
- * </p>
- * 
- * For example, the init() function for groups package is implemented as follows: 
-@verbatim
-void 
-GroupsExtension::init()
+ * Implement a <code>static void init()</code> method in the derived class.
+ * This method serves to encapsulate initialization code that creates an
+ * instance of the derived class and registration code that registers the
+ * instance with the SBMLExtensionRegistry class.
+ *
+ * For example, the <code>init()</code> method for the Groups package is
+ * implemented as follows:
+@code{.cpp}
+void GroupsExtension::init()
 {
-  //-------------------------------------------------------------------------
-  //
-  // 1. Checks if the groups package has already been registered.
-  //
-  //-------------------------------------------------------------------------
+  // 1. Check if the Groups package has already been registered.
 
   if ( SBMLExtensionRegistry::getInstance().isRegistered(getPackageName()) )
   {
@@ -390,90 +395,174 @@ GroupsExtension::init()
     return;
   }
 
-  //-------------------------------------------------------------------------
-  //
-  // 2. Creates an SBMLExtension derived object.
-  //
-  //-------------------------------------------------------------------------
+  // 2. Create an SBMLExtension derived object.
 
-  GroupsExtension groupsExtension;
+  GroupsExtension gext;
 
-  //-------------------------------------------------------------------------------------
+  // 3. Create SBasePluginCreator-derived objects. The derived classes
+  // can be instantiated by using the following template class:
   //
-  // 3. Creates SBasePluginCreatorBase derived objects required for this 
-  //    extension. The derived classes can be instantiated by using the following 
-  //     template class.
+  //   template<class SBasePluginType> class SBasePluginCreator
   //
-  //    temaplate<class SBasePluginType> class SBasePluginCreator
+  // The constructor of the creator class takes two arguments:
   //
-  //    The constructor of the creator class has two arguments:
+  // 1) SBaseExtensionPoint: extension point to which the plugin connects
+  // 2) std::vector<string>: a vector that contains a list of URI
+  // (package versions) supported by the plugin object.
   //
-  //        (1) SBaseExtensionPoint : extension point to which the plugin object connected
-  //        (2) std::vector<string> : a std::vector object that contains a list of URI
-  //                                       (package versions) supported by the plugin object.
-  //
-  //    For example, two plugin objects (plugged in SBMLDocument and Model elements) are 
-  //    required for the groups extension.
-  //
-  //    Since only 'required' attribute is used in SBMLDocument by the groups package, and
-  //    the 'required' flag must always be 'false', the existing
-  //    SBMLDocumentPluginNotRequired class can be used as-is for the plugin.
-  //
-  //    Since the lists of supported package versions (currently only L3V1-groups-V1 supported )
-  //    are equal in the both plugin objects, the same vector object is given to each 
-  //    constructor.
-  //
-  //---------------------------------------------------------------------------------------
+  // For example, two plugin objects are required as part of the Groups
+  // implementation: one plugged into SBMLDocument and one into Model.
+  // For the former, since the specification for the SBML Groups package
+  // mandates that the 'required' flag is always 'false', the existing
+  // SBMLDocumentPluginNotRequired class can be used as-is as part of
+  // the implementation.  For Model, since the lists of supported
+  // package versions (currently only SBML L3V1 Groups V1) are equal
+  // in the both plugin objects, the same vector can be handed to each
+  // constructor.
 
-  std::vector<string> packageURIs;
-  packageURIs.push_back(getXmlnsL3V1V1());
+  std::vector<string> pkgURIs;
+  pkgURIs.push_back(getXmlnsL3V1V1());
 
-  SBaseExtensionPoint sbmldocExtPoint('core',SBML_DOCUMENT);
-  SBaseExtensionPoint modelExtPoint('core',SBML_MODEL);
+  SBaseExtensionPoint docExtPoint('core', SBML_DOCUMENT);
+  SBaseExtensionPoint modelExtPoint('core', SBML_MODEL);
 
-  SBasePluginCreator<SBMLDocumentPluginNotRequired, GroupsExtension> sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
-  SBasePluginCreator<GroupsModelPlugin,   GroupsExtension> modelPluginCreator(modelExtPoint,packageURIs);
+  SBasePluginCreator<GroupsSBMLDocumentPlugin, GroupsExtension> docPluginCreator(docExtPoint, pkgURIs);
+  SBasePluginCreator<GroupsModelPlugin, GroupsExtension> modelPluginCreator(modelExtPoint, pkgURIs);
 
-  //--------------------------------------------------------------------------------------
-  //
-  // 3. Adds the above SBasePluginCreatorBase derived objects to the SBMLExtension derived object.
-  //
-  //--------------------------------------------------------------------------------------
+  // 4. Add the above objects to the SBMLExtension-derived object.
 
-  groupsExtension.addSBasePluginCreator(&sbmldocPluginCreator);
-  groupsExtension.addSBasePluginCreator(&modelPluginCreator);
+  gext.addSBasePluginCreator(&docPluginCreator);
+  gext.addSBasePluginCreator(&modelPluginCreator);
 
-  //-------------------------------------------------------------------------
-  //
-  // 4. Registers the SBMLExtension derived object to SBMLExtensionRegistry
-  //
-  //-------------------------------------------------------------------------
+  // 5. Register the SBMLExtension-derived object with the extension
+  // registry, SBMLExtensionRegistry.
 
-  int result = SBMLExtensionRegistry::getInstance().addExtension(&groupsExtension);
-
+  int result = SBMLExtensionRegistry::getInstance().addExtension(&gext);
   if (result != LIBSBML_OPERATION_SUCCESS)
   {
     std::cerr << '[Error] GroupsExtension::init() failed.' << std::endl;
   }
 }
-@endverbatim
- *    </p> 
- * </li>
- *
- * <li> Instantiate a global SBMLExtensionRegister variable in appropriate 
- *      implementation file
- *       
- * <p> For example, the global variable for the groups extension is instantiated in GroupsExtension.cpp as follows: </p>
-@verbatim
-  static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegister;
-@endverbatim
- *    The init() function is invoked when the global variable is instantiated,
- *    by which initialization and registering the package extension are performed.
- * </li>
+@endcode
  *
  *
- * </ol>
+ * @subsection ext-extensionregister 10. Instantiate a SBMLExtensionRegister variable
+ *
+ * Instantiate a global SBMLExtensionRegister object using the
+ * class derived from SBMLExtension (discussed above).  Here is an example for
+ * the Groups package extension, for the object <code>GroupsExtension</code>.
+ * This could is placed in the <code>GroupsExtension.cpp</code>:
+@code{.cpp}
+static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegister;
+@endcode
+ *
+ * The <code>init()</code> method on <code>GroupsExtension</code> is
+ * automatically invoked when the 'register' object is instantiated.  This
+ * results in initialization and registration of the package extension
+ * with libSBML.
+ *
+ *
+ * @endif
+ *
+ * @section sbmlextension-l2-special Special handling for SBML Level&nbsp;2
+ * *
  * 
+ * Due to the historical background of the SBML %Layout package, libSBML
+ * implements special behavior for that package: it @em always creates a
+ * %Layout plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses %Layout constructs.  This
+ * is unlike the case for SBML Level&nbsp;3 documents that use %Layout; for
+ * them, libSBML will @em not create a plugin object unless the document
+ * actually declares the use of the %Layout package (via the usual Level&nbsp;3
+ * namespace declaration for Level&nbsp;3 packages).
+ *
+ * This has the following consequence.  If an application queries for the
+ * presence of %Layout in an SBML Level&nbsp;2 document by testing only for
+ * the existence of the plugin object, <strong>it will always get a positive
+ * result</strong>; in other words, the presence of a %Layout extension
+ * object is not an indication of whether a read-in Level&nbsp;2 document
+ * does or does not use SBML %Layout.  Instead, callers have to query
+ * explicitly for the existence of layout information.  An example of such a
+ * query is the following code:
+ * @if cpp
+@code{.cpp}
+// Assume 'm' below is a Model object.
+LayoutModelPlugin* lmp = static_cast<LayoutModelPlugin*>(m->getPlugin('layout'));
+if (lmp != null)
+{
+  long numLayouts = lmp->getNumLayouts();
+  // If numLayouts is greater than zero, then the model uses Layout.
+}
+@endcode
+@endif
+@if python
+@code{.py}
+# Assume 'doc' below is an SBMLDocument object.
+m = doc.getModel()
+if m != None:
+    layoutPlugin = m.getPlugin('layout')
+    if layoutPlugin != None:
+        numLayouts = layoutPlugin.getNumLayouts()
+        # If numLayouts is greater than zero, then the model uses Layout.
+@endcode
+@endif
+@if java
+@code{.java}
+// Assume 'doc' below is an SBMLDocument object.
+Model m = doc.getModel();
+LayoutModelPlugin lmp = (LayoutModelPlugin) m.getPlugin('layout');
+if (lmp != null)
+{
+  int numLayouts = lmp.getNumLayouts();
+  // If numLayouts is greater than zero, then the model uses Layout.
+}
+@endcode
+@endif
+@if csharp
+@code{.cs}
+// Assume 'doc' below is an SBMLDocument object.
+Model m = doc.getModel();
+LayoutModelPlugin lmp = (LayoutModelPlugin) m.getPlugin('layout');
+if (lmp != null)
+{
+  int numLayouts = lmp.getNumLayouts();
+  // If numLayouts is greater than zero, then the model uses Layout.
+}
+@endcode
+@endif
+ *
+ * The special, always-available Level&nbsp;2 %Layout behavior was motivated
+ * by a desire to support legacy applications.  In SBML Level&nbsp;3, the
+ * %Layout package uses the normal SBML Level&nbsp;3 scheme of requiring
+ * declarations on the SBML document element.  This means that upon reading a
+ * model, libSBML knows right away whether it contains layout information.
+ * In SBML Level&nbsp;2, there is no top-level declaration because layout is
+ * stored as annotations in the body of the model.  Detecting the presence of
+ * layout information when reading a Level&nbsp;2 model requires parsing the
+ * annotations.  For efficiency reasons, libSBML normally does not parse
+ * annotations automatically when reading a model.  However, applications
+ * that predated the introduction of Level&nbsp;3 %Layout and the updated
+ * version of libSBML never had to do anything special to enable parsing
+ * layout; the facilities were always available for every Level&nbsp;2 model
+ * as long as libSBML was compiled with %Layout support.  To avoid burdening
+ * developers of legacy applications with the need to modify their software,
+ * libSBML provides backward compatibility by always preloading the %Layout
+ * package extension when reading Level&nbsp;2 models.  The same applies to
+ * the creation of Level&nbsp;2 models: with the plugin-oriented libSBML,
+ * applications normally would have to take deliberate steps to activate
+ * package code, instantiate objects, manage namespaces, and so on.  LibSBML
+ * again loads the %Layout package plugin automatically when creating a
+ * Level&nbsp;2 model, thereby making the APIs available to legacy
+ * applications without further work on their part.
+ *
+ * @if clike
+ * The mechanisms for triggering this Level&nbsp;2-specific behavior
+ * involves a set of virtual methods on the SBMLExtension class that must
+ * be implemented by individual package extensions.  These methods are
+ * SBMLExtension::addL2Namespaces(),
+ * SBMLExtension::removeL2Namespaces(), and
+ * SBMLExtension::enableL2NamespaceForDocument().
+ * @endif
  */
 
 public class SBMLExtension : IDisposable {
@@ -535,9 +624,11 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   * Returns the number of SBasePlugin objects stored in this object.
+   * Returns the number of SBasePluginCreatorBase objects stored in this
+   * object.
    *
-   * @return the number of SBasePlugin objects stored in this object.
+   * @return the total number of SBasePluginCreatorBase objects stored in
+   * this SBMLExtension-derived object.
    */ public
  int getNumOfSBasePlugins() {
     int ret = libsbmlPINVOKE.SBMLExtension_getNumOfSBasePlugins(swigCPtr);
@@ -546,21 +637,20 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   * Returns the number of supported package Namespace (package versions) of this 
-   * package extension.
+   * Returns the number of supported package namespace URIs.
    *
-   * @return the number of supported package Namespace (package versions) of this 
+   * @return the number of supported package XML namespace URIs of this
    * package extension.
    */ public
  long getNumOfSupportedPackageURI() { return (long)libsbmlPINVOKE.SBMLExtension_getNumOfSupportedPackageURI(swigCPtr); }
 
   
 /**
-   * Returns a flag indicating, whether the given URI (package version) is 
-   * supported by this package extension.
+   * Returns @c true if the given XML namespace URI is supported by this
+   * package extension.
    *
-   * @return true if the given URI (package version) is supported by this 
-   * package extension, otherwise false is returned.
+   * @return @c true if the given XML namespace URI (equivalent to a package
+   * version) is supported by this package extension, @c false otherwise.
    */ public
  bool isSupported(string uri) {
     bool ret = libsbmlPINVOKE.SBMLExtension_isSupported(swigCPtr, uri);
@@ -569,25 +659,32 @@ public class SBMLExtension : IDisposable {
 
   
 /**
+   * Returns the nth XML namespace URI.
    *
-   * Returns the ith URI (the supported package version)
-   *
-   * @param i the index of the list of URI (the list of supporeted package versions)
-   * @return the URI of supported package version with the given index.
+   * @param n the index number of the namespace URI being sought.
+
+   * @return a string representing the XML namespace URI understood to be
+   * supported by this package.  An empty string will be returned if there is
+   * no nth URI.
    */ public
- string getSupportedPackageURI(long i) {
-    string ret = libsbmlPINVOKE.SBMLExtension_getSupportedPackageURI(swigCPtr, i);
+ string getSupportedPackageURI(long n) {
+    string ret = libsbmlPINVOKE.SBMLExtension_getSupportedPackageURI(swigCPtr, n);
     return ret;
   }
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
-   *
    * Creates and returns a deep copy of this SBMLExtension object.
    *
-   * @return a (deep) copy of this SBase object
+   * @return a (deep) copy of this SBMLExtension object.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
  SBMLExtension clone() {
         SBMLExtension ret
@@ -597,12 +694,21 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the nickname of this package.
    *
-   * Returns the name of this package (e.g. 'layout', 'multi').
+   * This returns the short-form name of an SBML Level&nbsp;3 package
+   * implemented by a given SBMLExtension-derived class.  Examples of
+   * such names are 'layout', 'fbc', etc.
    *
-   * @return the name of package extension
+   * @return a string, the nickname of SBML package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
  string getName() {
     string ret = libsbmlPINVOKE.SBMLExtension_getName(swigCPtr);
@@ -611,16 +717,22 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the XML namespace URI for a given Level and Version.
    *
-   * Returns the uri corresponding to the given SBML level, SBML version, and package version.
+   * @param sbmlLevel the SBML Level.
+   * @param sbmlVersion the SBML Version.
+   * @param pkgVersion the version of the package.
    *
-   * @param sbmlLevel the level of SBML
-   * @param sbmlVersion the version of SBML
-   * @param pkgVersion the version of package
+   * @return a string, the XML namespace URI for the package for the given
+   * SBML Level, SBML Version, and package version.
    *
-   * @return a string of the package URI
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
  string getURI(long sbmlLevel, long sbmlVersion, long pkgVersion) {
     string ret = libsbmlPINVOKE.SBMLExtension_getURI(swigCPtr, sbmlLevel, sbmlVersion, pkgVersion);
@@ -629,47 +741,77 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the SBML Level associated with the given XML namespace URI.
    *
-   * Returns the SBML level associated with the given URI of this package.
+   * @param uri the string of URI that represents a version of the package.
    *
-   * @param uri the string of URI that represents a versions of the package
-   * @return the SBML level associated with the given URI of this package.
+   * @return the SBML Level associated with the given URI of this package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
  long getLevel(string uri) { return (long)libsbmlPINVOKE.SBMLExtension_getLevel(swigCPtr, uri); }
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the SBML Version associated with the given XML namespace URI.
    *
-   * Returns the SBML version associated with the given URI of this package.
+   * @param uri the string of URI that represents a version of the package.
    *
-   * @param uri the string of URI that represents a versions of the package
-   * @return the SBML version associated with the given URI of this package.
+   * @return the SBML Version associated with the given URI of this package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
  long getVersion(string uri) { return (long)libsbmlPINVOKE.SBMLExtension_getVersion(swigCPtr, uri); }
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns the package version associated with the given XML namespace URI.
    *
-   * Returns the package version associated with the given URI of this package.
+   * @param uri the string of URI that represents a version of this package.
    *
-   * @param uri the string of URI that represents a versions of this package
    * @return the package version associated with the given URI of this package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
  long getPackageVersion(string uri) { return (long)libsbmlPINVOKE.SBMLExtension_getPackageVersion(swigCPtr, uri); }
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function 
-   *           in their derived class.
+   * Returns a string representation of a type code.
    *
-   * This method takes a type code of this package and returns a string 
-   * representing the code.
+   * This method takes a numerical type code @p typeCode for a component
+   * object implemented by this package extension, and returns a string
+   * representing that type code.
+   *
+   * @param typeCode the type code to turn into a string.
+   *
+   * @return the string representation of @p typeCode.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
  string getStringFromTypeCode(int typeCode) {
     string ret = libsbmlPINVOKE.SBMLExtension_getStringFromTypeCode(swigCPtr, typeCode);
@@ -678,19 +820,37 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   *  (NOTICE) Package developers MUST OVERRIDE this pure virtual function in 
-   *           their derived class.
+   * Returns a specialized SBMLNamespaces object corresponding to a given
+   * namespace URI.
    *
-   * Returns an SBMLExtensionNamespaces<class SBMLExtensionType> object 
-   * (e.g. SBMLExtensionNamespaces<LayoutExtension> whose alias type is 
-   * LayoutPkgNamespaces) corresponding to the given uri.
-   * Null will be returned if the given uri is not defined in the corresponding 
-   * package.
+   * LibSBML package extensions each define a subclass of
+   * @if clike SBMLExtensionNamespaces @else SBMLNamespaces@endif.
+   * @if clike This object has the form
+   * @verbatim
+SBMLExtensionNamespaces<class SBMLExtensionType>
+@endverbatim
+   * For example, this kind of object for the Layout package is
+   * @verbatim
+SBMLExtensionNamespaces<LayoutExtension>
+@endverbatim
+@endif
+   * The present method returns the appropriate object corresponding
+   * to the given XML namespace URI in argument @p uri.
    *
-   * @param uri the string of URI that represents one of versions of the package
-   * @return an SBMLExtensionNamespaces<class SBMLExtensionType> object. null
-   *         will be returned if the given uri is not defined in the corresponding 
-   *         package. 
+   * @param uri the namespace URI that represents one of versions of the
+   * package implemented in this extension.
+   *
+   * @return an @if clike SBMLExtensionNamespaces @else SBMLNamespaces @endif 
+   * object, or @c null if the given @p uri is not defined in the
+   * corresponding package.
+   *
+   * *
+ * @note
+ * This is a method that package extension implementations must override.
+ * See the libSBML documentation on extending libSBML to support SBML
+ * packages for more information on this topic.
+ *
+ *
    */ public new
  SBMLNamespaces getSBMLExtensionNamespaces(string uri) {
 	SBMLNamespaces ret
@@ -700,12 +860,12 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   * enable/disable this package.
-   * Returned value is the result of this function.
+   * Enable or disable this package.
    *
-   * @param isEnabled the bool value: true (enabled) or false (disabled)
+   * @param isEnabled flag indicating whether to enable (if @c true) or
+   * disable (@c false) this package extension.
    *
-   * @return true if this function call succeeded, otherwise false is returned.
+   * @return @c true if this call succeeded; @c false otherwise.
    */ public
  bool setEnabled(bool isEnabled) {
     bool ret = libsbmlPINVOKE.SBMLExtension_setEnabled(swigCPtr, isEnabled);
@@ -714,9 +874,9 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   * Check if this package is enabled (true) or disabled (false).
+   * Returns @c true if this package is enabled.
    *
-   * @return true if this package is enabled, otherwise false is returned.
+   * @return @c true if this package is enabled, @c false otherwise.
    */ public
  bool isEnabled() {
     bool ret = libsbmlPINVOKE.SBMLExtension_isEnabled(swigCPtr);
@@ -725,10 +885,49 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   * Removes the L2 Namespaces. 
+   * Removes the package's Level&nbsp;2 namespace(s).
    *
-   * This method should be overridden by all extensions that want to serialize
-   * to an L2 annotation.
+   * *
+ * 
+ * This method is related to special facilities designed to support
+ * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
+ * historical background of the SBML %Layout package, libSBML implements
+ * special behavior for that package: it @em always creates a %Layout
+ * plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses %Layout constructs.
+ * Since Level&nbsp;2 does not use namespaces on the top level of the
+ * SBML document object, libSBML simply keys off the fact that the model
+ * is a Level&nbsp;2 model.  To allow the extensions for the %Layout and
+ * %Render (and possibly other) packages to support this behavior, the
+ * SBMLExtension class contains special methods to allow packages to
+ * hook themselves into the Level&nbsp;2 parsing apparatus when necessary.
+ *
+ * @if clike
+ * This virtual method should be overridden by all package extensions
+ * that want to serialize to an SBML Level&nbsp;2 annotation.  In
+ * Level&nbsp;2, the XML namespace declaration for the package is not
+ * placed on the top-level SBML document object but rather inside
+ * individual annotations.  addL2Namespaces() is invoked automatically
+ * for Level&nbsp;2 documents when an SBMLExtensionNamespace object is
+ * created; removeL2Namespaces() is automatically invoked by
+ * SBMLDocument to prevent the namespace(s) from being put on the
+ * top-level SBML Level&nbsp;2 element (because Level&nbsp;2 doesn't
+ * support namespaces there); and enableL2NamespaceForDocument() is
+ * called automatically when any SBML document (of any Level/Version) is
+ * read in.
+ * @endif
+   *
+   * @param xmlns an XMLNamespaces object that will be used for the annotation.
+   * Implementations should override this method with something that removes
+   * the package's namespace(s) from the set of namespaces in @p xmlns.  For
+   * instance, here is the code from the %Layout package extension:
+   * @code{.cpp}
+for (int n = 0; n < xmlns->getNumNamespaces(); n++)
+{
+  if (xmlns->getURI(n) == LayoutExtension::getXmlnsL2())
+    xmlns->remove(n);
+}
+@endcode
    */ public new
  void removeL2Namespaces(XMLNamespaces xmlns) {
     libsbmlPINVOKE.SBMLExtension_removeL2Namespaces(swigCPtr, XMLNamespaces.getCPtr(xmlns));
@@ -736,10 +935,46 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   * Adds all L2 Extension namespaces to the namespace list. 
-   * 
-   * This method should be overridden by all extensions that want to serialize
-   * to an L2 annotation.
+   * Adds the package's Level&nbsp;2 namespace(s).
+   *
+   * *
+ * 
+ * This method is related to special facilities designed to support
+ * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
+ * historical background of the SBML %Layout package, libSBML implements
+ * special behavior for that package: it @em always creates a %Layout
+ * plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses %Layout constructs.
+ * Since Level&nbsp;2 does not use namespaces on the top level of the
+ * SBML document object, libSBML simply keys off the fact that the model
+ * is a Level&nbsp;2 model.  To allow the extensions for the %Layout and
+ * %Render (and possibly other) packages to support this behavior, the
+ * SBMLExtension class contains special methods to allow packages to
+ * hook themselves into the Level&nbsp;2 parsing apparatus when necessary.
+ *
+ * @if clike
+ * This virtual method should be overridden by all package extensions
+ * that want to serialize to an SBML Level&nbsp;2 annotation.  In
+ * Level&nbsp;2, the XML namespace declaration for the package is not
+ * placed on the top-level SBML document object but rather inside
+ * individual annotations.  addL2Namespaces() is invoked automatically
+ * for Level&nbsp;2 documents when an SBMLExtensionNamespace object is
+ * created; removeL2Namespaces() is automatically invoked by
+ * SBMLDocument to prevent the namespace(s) from being put on the
+ * top-level SBML Level&nbsp;2 element (because Level&nbsp;2 doesn't
+ * support namespaces there); and enableL2NamespaceForDocument() is
+ * called automatically when any SBML document (of any Level/Version) is
+ * read in.
+ * @endif
+   *
+   * @param xmlns an XMLNamespaces object that will be used for the annotation.
+   * Implementation should override this method with something that adds
+   * the package's namespace(s) to the set of namespaces in @p xmlns.  For
+   * instance, here is the code from the %Layout package extension:
+   * @code{.cpp}
+if (!xmlns->containsUri( LayoutExtension::getXmlnsL2()))
+  xmlns->add(LayoutExtension::getXmlnsL2(), 'layout');
+@endcode
    */ public new
  void addL2Namespaces(XMLNamespaces xmlns) {
     libsbmlPINVOKE.SBMLExtension_addL2Namespaces(swigCPtr, XMLNamespaces.getCPtr(xmlns));
@@ -747,27 +982,64 @@ public class SBMLExtension : IDisposable {
 
   
 /**
-   * Adds the L2 Namespace to the document and enables the extension.
+   * Called to enable the package on the SBMLDocument object.
    *
-   * If the extension supports serialization to SBML L2 Annotations, this 
-   * method should be overrridden, so it will be activated.
+   * *
+ * 
+ * This method is related to special facilities designed to support
+ * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
+ * historical background of the SBML %Layout package, libSBML implements
+ * special behavior for that package: it @em always creates a %Layout
+ * plugin object for any SBML Level&nbsp;2 document it reads in,
+ * regardless of whether that document actually uses %Layout constructs.
+ * Since Level&nbsp;2 does not use namespaces on the top level of the
+ * SBML document object, libSBML simply keys off the fact that the model
+ * is a Level&nbsp;2 model.  To allow the extensions for the %Layout and
+ * %Render (and possibly other) packages to support this behavior, the
+ * SBMLExtension class contains special methods to allow packages to
+ * hook themselves into the Level&nbsp;2 parsing apparatus when necessary.
+ *
+ * @if clike
+ * This virtual method should be overridden by all package extensions
+ * that want to serialize to an SBML Level&nbsp;2 annotation.  In
+ * Level&nbsp;2, the XML namespace declaration for the package is not
+ * placed on the top-level SBML document object but rather inside
+ * individual annotations.  addL2Namespaces() is invoked automatically
+ * for Level&nbsp;2 documents when an SBMLExtensionNamespace object is
+ * created; removeL2Namespaces() is automatically invoked by
+ * SBMLDocument to prevent the namespace(s) from being put on the
+ * top-level SBML Level&nbsp;2 element (because Level&nbsp;2 doesn't
+ * support namespaces there); and enableL2NamespaceForDocument() is
+ * called automatically when any SBML document (of any Level/Version) is
+ * read in.
+ * @endif
+   *
+   * @param doc the SBMLDocument object for the model.
+   * Implementations should override this method with something that
+   * enables the package based on the package's namespace(s). For example,
+   * here is the code from the %Layout package extension:
+   * @code{.cpp}
+if (doc->getLevel() == 2)
+  doc->enablePackage(LayoutExtension::getXmlnsL2(), 'layout', true);
+@endcode
    */ public new
  void enableL2NamespaceForDocument(SBMLDocument doc) {
     libsbmlPINVOKE.SBMLExtension_enableL2NamespaceForDocument(swigCPtr, SBMLDocument.getCPtr(doc));
   }
 
   
-/** 
+/**
    * Indicates whether this extension is being used by the given SBMLDocument.
    *
-   * The default implementation returns true. This means that when a document
-   * had this extension enabled, it will not be possible to convert it to L2
-   * as we cannot make sure that the extension can be converted.
-   * 
-   * @param doc the SBML document to test. 
-   * 
-   * @return a bool indicating whether the extension is actually being used
-   *         by the document. 
+   * The default implementation returns @c true.  This means that when a
+   * document had this extension enabled, it will not be possible to convert
+   * it to SBML Level&nbsp;2 as we cannot make sure that the extension can be
+   * converted.
+   *
+   * @param doc the SBML document to test.
+   *
+   * @return a bool indicating whether the extension is actually being
+   * used by the document.
    */ public new
  bool isInUse(SBMLDocument doc) {
     bool ret = libsbmlPINVOKE.SBMLExtension_isInUse(swigCPtr, SBMLDocument.getCPtr(doc));

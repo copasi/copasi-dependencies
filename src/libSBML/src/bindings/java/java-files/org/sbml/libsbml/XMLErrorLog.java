@@ -31,7 +31,7 @@ defined in SBML.
  * {@link XMLErrorLog#getNumErrors()}
  * to inquire how many {@link XMLError} object instances it contains, and then to
  * iterate over the list of objects one at a time using
- * getError(long n) const.  Indexing in the list begins at 0.
+ * getError(long n) .  Indexing in the list begins at 0.
  <p>
  * In normal circumstances, programs using libSBML will actually obtain an
  * {@link SBMLErrorLog} rather than an {@link XMLErrorLog}.  The former is subclassed from
@@ -179,42 +179,25 @@ public class XMLErrorLog {
   }
 
   
-/**
-   * Creates a new empty {@link XMLErrorLog}.
-   * @internal
-   */ public
+/** * @internal */ public
  XMLErrorLog() {
     this(libsbmlJNI.new_XMLErrorLog__SWIG_0(), true);
   }
 
   
-/**
-   * Copy Constructor
-   * @internal
-   */ public
+/** * @internal */ public
  XMLErrorLog(XMLErrorLog other) {
     this(libsbmlJNI.new_XMLErrorLog__SWIG_1(XMLErrorLog.getCPtr(other), other), true);
   }
 
   
-/**
-   * Logs the given {@link XMLError}.
-   <p>
-   * @param error {@link XMLError}, the error to be logged.
-   * @internal
-   */ public
+/** * @internal */ public
  void add(XMLError error) {
     libsbmlJNI.XMLErrorLog_add__SWIG_0(swigCPtr, this, XMLError.getCPtr(error), error);
   }
 
   
-/**
-   * Logs (copies) the XMLErrors in the given {@link XMLError} list to this
-   * {@link XMLErrorLog}.
-   <p>
-   * @param errors list, a list of {@link XMLError} to be added to the log.
-   * @internal
-   */ public
+/** * @internal */ public
  void add(SWIGTYPE_p_std__vectorT_XMLError_p_t errors) {
     libsbmlJNI.XMLErrorLog_add__SWIG_1(swigCPtr, this, SWIGTYPE_p_std__vectorT_XMLError_p_t.getCPtr(errors));
   }
@@ -313,6 +296,29 @@ appears in the documentation.
 
   
 /**
+   * Prints the errors or warnings with given severity stored in this error log.
+   <p>
+   * This method prints the text to the stream given by the optional
+   * parameter <code>stream</code>.  If no stream is given, the method prints the
+   * output to the standard error stream.
+   <p>
+   * The format of the output is:
+   * <pre class='fragment'>
+   N error(s):
+     line NNN: (id) message
+</pre>
+   * If no errors with that severity was found, then no output will be produced.
+   <p>
+   * @param stream the ostream or ostringstream object indicating where
+   * the output should be printed.
+   * @param severity the severity of the errors sought.
+   */ public
+ void printErrors(OStream stream, long severity) {
+    libsbmlJNI.XMLErrorLog_printErrors__SWIG_2(swigCPtr, this, SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()), stream, severity);
+  }
+
+  
+/**
    * Returns a boolean indicating whether or not the severity has been
    * overridden.
    <p>
@@ -369,7 +375,10 @@ appears in the documentation.
  * logging completely.  An override stays in effect until the override is
  * changed again by the calling application.
    <p>
-   * @return a severity override code.  The possible values are :
+   * @return a severity override code.  The possible values are drawn
+   * from the
+   * set of integer constants whose names begin with the prefix
+   * <code>LIBSBML_OVERRIDE_</code>:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OVERRIDE_DISABLED LIBSBML_OVERRIDE_DISABLED}
    * <li> {@link libsbmlConstants#LIBSBML_OVERRIDE_DONT_LOG LIBSBML_OVERRIDE_DONT_LOG}

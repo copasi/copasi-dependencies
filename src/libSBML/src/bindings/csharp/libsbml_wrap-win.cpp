@@ -613,7 +613,7 @@ SwigDirector_SBMLConverter::SwigDirector_SBMLConverter(std::string const &name) 
   swig_init_callbacks();
 }
 
-SwigDirector_SBMLConverter::SwigDirector_SBMLConverter(SBMLConverter const &c) : SBMLConverter(c), Swig::Director() {
+SwigDirector_SBMLConverter::SwigDirector_SBMLConverter(SBMLConverter const &orig) : SBMLConverter(orig), Swig::Director() {
   swig_init_callbacks();
 }
 
@@ -8358,6 +8358,26 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLDocument_getError(void * jarg1, long lo
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLDocument_getErrorWithSeverity(void * jarg1, long long jarg2, long long jarg3) {
+  void * jresult ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  unsigned int arg2 ;
+  unsigned int arg3 ;
+  SBMLError *result = 0 ;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  {
+    arg2 = (unsigned int)jarg2;  
+  }
+  {
+    arg3 = (unsigned int)jarg3;  
+  }
+  result = (SBMLError *)((SBMLDocument const *)arg1)->getErrorWithSeverity(arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_getNumErrors__SWIG_0(void * jarg1) {
   unsigned int jresult ;
   SBMLDocument *arg1 = (SBMLDocument *) 0 ;
@@ -8405,6 +8425,24 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SBMLDocument_printErrors__SWIG_1(void * jarg1
   
   arg1 = (SBMLDocument *)jarg1; 
   ((SBMLDocument const *)arg1)->printErrors();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLDocument_printErrors__SWIG_2(void * jarg1, void * jarg2, long long jarg3) {
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  std::ostream *arg2 = 0 ;
+  unsigned int arg3 ;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  arg2 = (std::ostream *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::ostream & type is null", 0);
+    return ;
+  } 
+  {
+    arg3 = (unsigned int)jarg3;  
+  }
+  ((SBMLDocument const *)arg1)->printErrors(*arg2,arg3);
 }
 
 
@@ -8859,6 +8897,62 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLDocument_getValidator(void * jarg1, lon
   }
   result = (SBMLValidator *)(arg1)->getValidator(arg2);
   jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_SBMLDocument_addUnknownPackageRequired(void * jarg1, wchar_t* jarg2, wchar_t* jarg3, unsigned int jarg4) {
+  int jresult ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  bool arg4 ;
+  std::string arg_str2 ;
+  std::string arg_str3 ;
+  int result;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg2);
+    if (!mbstr) return 0;
+    
+    arg_str2.assign(mbstr);
+    arg2 = &arg_str2;
+    delete[] mbstr;
+  }
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg3);
+    if (!mbstr) return 0;
+    
+    arg_str3.assign(mbstr);
+    arg3 = &arg_str3;
+    delete[] mbstr;
+  }
+  arg4 = jarg4 ? true : false; 
+  result = (int)(arg1)->addUnknownPackageRequired((std::string const &)*arg2,(std::string const &)*arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_hasUnknownPackage(void * jarg1, wchar_t* jarg2) {
+  unsigned int jresult ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string arg_str2 ;
+  bool result;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg2);
+    if (!mbstr) return 0;
+    
+    arg_str2.assign(mbstr);
+    arg2 = &arg_str2;
+    delete[] mbstr;
+  }
+  result = (bool)(arg1)->hasUnknownPackage((std::string const &)*arg2);
+  jresult = result; 
   return jresult;
 }
 
@@ -32426,6 +32520,324 @@ SWIGEXPORT void SWIGSTDCALL CSharp_XMLOutputStream_setSBMLNamespaces(void * jarg
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_0(wchar_t* jarg1, unsigned int jarg2, wchar_t* jarg3, wchar_t* jarg4) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  bool arg2 ;
+  std::string *arg3 = 0 ;
+  std::string *arg4 = 0 ;
+  std::string arg_str1 ;
+  std::string arg_str3 ;
+  std::string arg_str4 ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg1);
+    if (!mbstr) return 0;
+    
+    arg_str1.assign(mbstr);
+    arg1 = &arg_str1;
+    delete[] mbstr;
+  }
+  arg2 = jarg2 ? true : false; 
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg3);
+    if (!mbstr) return 0;
+    
+    arg_str3.assign(mbstr);
+    arg3 = &arg_str3;
+    delete[] mbstr;
+  }
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg4);
+    if (!mbstr) return 0;
+    
+    arg_str4.assign(mbstr);
+    arg4 = &arg_str4;
+    delete[] mbstr;
+  }
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream((std::string const &)*arg1,arg2,(std::string const &)*arg3,(std::string const &)*arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_1(wchar_t* jarg1, unsigned int jarg2, wchar_t* jarg3) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  bool arg2 ;
+  std::string *arg3 = 0 ;
+  std::string arg_str1 ;
+  std::string arg_str3 ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg1);
+    if (!mbstr) return 0;
+    
+    arg_str1.assign(mbstr);
+    arg1 = &arg_str1;
+    delete[] mbstr;
+  }
+  arg2 = jarg2 ? true : false; 
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg3);
+    if (!mbstr) return 0;
+    
+    arg_str3.assign(mbstr);
+    arg3 = &arg_str3;
+    delete[] mbstr;
+  }
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream((std::string const &)*arg1,arg2,(std::string const &)*arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_2(wchar_t* jarg1, unsigned int jarg2) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  bool arg2 ;
+  std::string arg_str1 ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg1);
+    if (!mbstr) return 0;
+    
+    arg_str1.assign(mbstr);
+    arg1 = &arg_str1;
+    delete[] mbstr;
+  }
+  arg2 = jarg2 ? true : false; 
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream((std::string const &)*arg1,arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_3(wchar_t* jarg1) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string arg_str1 ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg1);
+    if (!mbstr) return 0;
+    
+    arg_str1.assign(mbstr);
+    arg1 = &arg_str1;
+    delete[] mbstr;
+  }
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream((std::string const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_4() {
+  void * jresult ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_XMLOwningOutputStringStream(void * jarg1) {
+  XMLOwningOutputStringStream *arg1 = (XMLOwningOutputStringStream *) 0 ;
+  
+  arg1 = (XMLOwningOutputStringStream *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_0(wchar_t* jarg1, wchar_t* jarg2, unsigned int jarg3, wchar_t* jarg4, wchar_t* jarg5) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  std::string *arg4 = 0 ;
+  std::string *arg5 = 0 ;
+  std::string arg_str1 ;
+  std::string arg_str2 ;
+  std::string arg_str4 ;
+  std::string arg_str5 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  {
+    char*  mbstr = convertUnicodeToACP(jarg1);
+    if (!mbstr) return 0;
+    
+    arg_str1.assign(mbstr);
+    arg1 = &arg_str1;
+    delete[] mbstr;
+  }
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg2);
+    if (!mbstr) return 0;
+    
+    arg_str2.assign(mbstr);
+    arg2 = &arg_str2;
+    delete[] mbstr;
+  }
+  arg3 = jarg3 ? true : false; 
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg4);
+    if (!mbstr) return 0;
+    
+    arg_str4.assign(mbstr);
+    arg4 = &arg_str4;
+    delete[] mbstr;
+  }
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg5);
+    if (!mbstr) return 0;
+    
+    arg_str5.assign(mbstr);
+    arg5 = &arg_str5;
+    delete[] mbstr;
+  }
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1,(std::string const &)*arg2,arg3,(std::string const &)*arg4,(std::string const &)*arg5);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_1(wchar_t* jarg1, wchar_t* jarg2, unsigned int jarg3, wchar_t* jarg4) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  std::string *arg4 = 0 ;
+  std::string arg_str1 ;
+  std::string arg_str2 ;
+  std::string arg_str4 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  {
+    char*  mbstr = convertUnicodeToACP(jarg1);
+    if (!mbstr) return 0;
+    
+    arg_str1.assign(mbstr);
+    arg1 = &arg_str1;
+    delete[] mbstr;
+  }
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg2);
+    if (!mbstr) return 0;
+    
+    arg_str2.assign(mbstr);
+    arg2 = &arg_str2;
+    delete[] mbstr;
+  }
+  arg3 = jarg3 ? true : false; 
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg4);
+    if (!mbstr) return 0;
+    
+    arg_str4.assign(mbstr);
+    arg4 = &arg_str4;
+    delete[] mbstr;
+  }
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1,(std::string const &)*arg2,arg3,(std::string const &)*arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_2(wchar_t* jarg1, wchar_t* jarg2, unsigned int jarg3) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  std::string arg_str1 ;
+  std::string arg_str2 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  {
+    char*  mbstr = convertUnicodeToACP(jarg1);
+    if (!mbstr) return 0;
+    
+    arg_str1.assign(mbstr);
+    arg1 = &arg_str1;
+    delete[] mbstr;
+  }
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg2);
+    if (!mbstr) return 0;
+    
+    arg_str2.assign(mbstr);
+    arg2 = &arg_str2;
+    delete[] mbstr;
+  }
+  arg3 = jarg3 ? true : false; 
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1,(std::string const &)*arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_3(wchar_t* jarg1, wchar_t* jarg2) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  std::string arg_str1 ;
+  std::string arg_str2 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  {
+    char*  mbstr = convertUnicodeToACP(jarg1);
+    if (!mbstr) return 0;
+    
+    arg_str1.assign(mbstr);
+    arg1 = &arg_str1;
+    delete[] mbstr;
+  }
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg2);
+    if (!mbstr) return 0;
+    
+    arg_str2.assign(mbstr);
+    arg2 = &arg_str2;
+    delete[] mbstr;
+  }
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1,(std::string const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_4(wchar_t* jarg1) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string arg_str1 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  {
+    char*  mbstr = convertUnicodeToACP(jarg1);
+    if (!mbstr) return 0;
+    
+    arg_str1.assign(mbstr);
+    arg1 = &arg_str1;
+    delete[] mbstr;
+  }
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_XMLOwningOutputFileStream(void * jarg1) {
+  XMLOwningOutputFileStream *arg1 = (XMLOwningOutputFileStream *) 0 ;
+  
+  arg1 = (XMLOwningOutputFileStream *)jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLInputStream__SWIG_0(wchar_t* jarg1, unsigned int jarg2, wchar_t* jarg3, void * jarg4) {
   void * jresult ;
   char *arg1 = (char *) 0 ;
@@ -33476,6 +33888,24 @@ SWIGEXPORT void SWIGSTDCALL CSharp_XMLErrorLog_printErrors__SWIG_1(void * jarg1)
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_XMLErrorLog_printErrors__SWIG_2(void * jarg1, void * jarg2, long long jarg3) {
+  XMLErrorLog *arg1 = (XMLErrorLog *) 0 ;
+  std::ostream *arg2 = 0 ;
+  unsigned int arg3 ;
+  
+  arg1 = (XMLErrorLog *)jarg1; 
+  arg2 = (std::ostream *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::ostream & type is null", 0);
+    return ;
+  } 
+  {
+    arg3 = (unsigned int)jarg3;  
+  }
+  ((XMLErrorLog const *)arg1)->printErrors(*arg2,arg3);
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_XMLErrorLog_isSeverityOverridden(void * jarg1) {
   unsigned int jresult ;
   XMLErrorLog *arg1 = (XMLErrorLog *) 0 ;
@@ -33559,6 +33989,26 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLErrorLog_getError(void * jarg1, long lo
     arg2 = (unsigned int)jarg2;  
   }
   result = (SBMLError *)((SBMLErrorLog const *)arg1)->getError(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLErrorLog_getErrorWithSeverity(void * jarg1, long long jarg2, long long jarg3) {
+  void * jresult ;
+  SBMLErrorLog *arg1 = (SBMLErrorLog *) 0 ;
+  unsigned int arg2 ;
+  unsigned int arg3 ;
+  SBMLError *result = 0 ;
+  
+  arg1 = (SBMLErrorLog *)jarg1; 
+  {
+    arg2 = (unsigned int)jarg2;  
+  }
+  {
+    arg3 = (unsigned int)jarg3;  
+  }
+  result = (SBMLError *)((SBMLErrorLog const *)arg1)->getErrorWithSeverity(arg2,arg3);
   jresult = (void *)result; 
   return jresult;
 }
@@ -39688,7 +40138,27 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_removeChild(void * jarg1, long long ja
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_replaceChild(void * jarg1, long long jarg2, void * jarg3) {
+SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_replaceChild__SWIG_0(void * jarg1, long long jarg2, void * jarg3, unsigned int jarg4) {
+  int jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  unsigned int arg2 ;
+  ASTNode *arg3 = (ASTNode *) 0 ;
+  bool arg4 ;
+  int result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  {
+    arg2 = (unsigned int)jarg2;  
+  }
+  arg3 = (ASTNode *)jarg3; 
+  arg4 = jarg4 ? true : false; 
+  result = (int)(arg1)->replaceChild(arg2,arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_replaceChild__SWIG_1(void * jarg1, long long jarg2, void * jarg3) {
   int jresult ;
   ASTNode *arg1 = (ASTNode *) 0 ;
   unsigned int arg2 ;
@@ -40960,13 +41430,13 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_hasCorrectNumberArguments(voi
 SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_ASTNode_getDefinitionURLString(void * jarg1) {
   wchar_t* jresult ;
   ASTNode *arg1 = (ASTNode *) 0 ;
-  std::string *result = 0 ;
+  std::string result;
   
   arg1 = (ASTNode *)jarg1; 
-  result = (std::string *) &((ASTNode const *)arg1)->getDefinitionURLString();
+  result = ((ASTNode const *)arg1)->getDefinitionURLString();
   {
-    jresult = convertUTF8ToUnicode((result)->c_str());
-    wchar_t* unistr = convertUTF8ToUnicode((result)->c_str());
+    jresult = convertUTF8ToUnicode( (&result)->c_str() );
+    wchar_t* unistr = convertUTF8ToUnicode( (&result)->c_str() );
     jresult = (wchar_t*) SWIG_csharp_wstring_callback((const wchar_t*)unistr);
     delete[] unistr;
   }
@@ -41365,6 +41835,11 @@ SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_getLastParseL3Error() {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_SBML_deleteL3Parser() {
+  SBML_deleteL3Parser();
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_0() {
   void * jresult ;
   L3ParserSettings *result = 0 ;
@@ -41436,6 +41911,22 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_3(void * jarg1, 
   arg4 = jarg4 ? true : false; 
   arg5 = jarg5 ? true : false; 
   result = (L3ParserSettings *)new L3ParserSettings(arg1,arg2,arg3,arg4,arg5);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_4(void * jarg1) {
+  void * jresult ;
+  L3ParserSettings *arg1 = 0 ;
+  L3ParserSettings *result = 0 ;
+  
+  arg1 = (L3ParserSettings *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "L3ParserSettings const & type is null", 0);
+    return 0;
+  } 
+  result = (L3ParserSettings *)new L3ParserSettings((L3ParserSettings const &)*arg1);
   jresult = (void *)result; 
   return jresult;
 }
@@ -42007,11 +42498,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ASTBasePlugin_removeChild(void * jarg1, long l
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_ASTBasePlugin_replaceChild(void * jarg1, long long jarg2, void * jarg3) {
+SWIGEXPORT int SWIGSTDCALL CSharp_ASTBasePlugin_replaceChild(void * jarg1, long long jarg2, void * jarg3, unsigned int jarg4) {
   int jresult ;
   ASTBasePlugin *arg1 = (ASTBasePlugin *) 0 ;
   unsigned int arg2 ;
   ASTBase *arg3 = (ASTBase *) 0 ;
+  bool arg4 ;
   int result;
   
   arg1 = (ASTBasePlugin *)jarg1; 
@@ -42019,7 +42511,8 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ASTBasePlugin_replaceChild(void * jarg1, long 
     arg2 = (unsigned int)jarg2;  
   }
   arg3 = (ASTBase *)jarg3; 
-  result = (int)(arg1)->replaceChild(arg2,arg3);
+  arg4 = jarg4 ? true : false; 
+  result = (int)(arg1)->replaceChild(arg2,arg3,arg4);
   jresult = result; 
   return jresult;
 }

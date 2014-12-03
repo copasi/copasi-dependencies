@@ -4410,7 +4410,7 @@ ASTFunction::syncMembersAndTypeFrom(ASTFunction* rhs, int type)
     ASTBase * node = NULL;
     if (mPackageName.empty() == false && mPackageName != "core")
     {
-      node = const_cast<ASTBase*>(getPlugin(mPackageName)->getMath());
+      node = getPlugin(mPackageName)->getMath()->deepCopy();
     }
     else
     {
@@ -4420,7 +4420,7 @@ ASTFunction::syncMembersAndTypeFrom(ASTFunction* rhs, int type)
       {
         if (getPlugin(i)->isSetMath() == true)
         {
-          node = const_cast<ASTBase*>(getPlugin(i)->getMath());
+          node = getPlugin(i)->getMath()->deepCopy();
           found = true;
         }
         i++;
@@ -4438,6 +4438,7 @@ ASTFunction::syncMembersAndTypeFrom(ASTFunction* rhs, int type)
       {
         copyChildren = false;
       }
+      delete node;
     }
   }
 

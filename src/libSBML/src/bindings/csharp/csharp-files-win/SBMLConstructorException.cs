@@ -82,13 +82,19 @@ public class SBMLConstructorException : System.ArgumentException, IDisposable {
    this(libsbmlPINVOKE.new_SBMLConstructorException__SWIG_0(), true, v) 
   {}
 
-  public SBMLConstructorException() : this(libsbmlPINVOKE.new_SBMLConstructorException__SWIG_0(), true) {
+  
+/** */ /* libsbml-internal */ public
+ SBMLConstructorException() : this(libsbmlPINVOKE.new_SBMLConstructorException__SWIG_0(), true) {
   }
 
-  public SBMLConstructorException(string errmsg, string sbmlErrMsg) : this(libsbmlPINVOKE.new_SBMLConstructorException__SWIG_1(errmsg, sbmlErrMsg), true) {
+  
+/** */ /* libsbml-internal */ public
+ SBMLConstructorException(string errmsg, string sbmlErrMsg) : this(libsbmlPINVOKE.new_SBMLConstructorException__SWIG_1(errmsg, sbmlErrMsg), true) {
   }
 
-  public SBMLConstructorException(string elementName, SBMLNamespaces xmlns) : this(libsbmlPINVOKE.new_SBMLConstructorException__SWIG_2(elementName, SBMLNamespaces.getCPtr(xmlns)), true) {
+  
+/** */ /* libsbml-internal */ public
+ SBMLConstructorException(string elementName, SBMLNamespaces xmlns) : this(libsbmlPINVOKE.new_SBMLConstructorException__SWIG_2(elementName, SBMLNamespaces.getCPtr(xmlns)), true) {
   }
 
   

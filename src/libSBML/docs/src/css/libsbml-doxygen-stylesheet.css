@@ -136,7 +136,7 @@ dl.el {
 }
 
 .memdoc div.fragment {
-    margin: 0px 1.75em 0px 1.75em;
+    margin: 0.5em 1.75em 0px 1.75em;
 }
 
 div.contents :not(div.memdoc)  div.fragment div.line:first-child {
@@ -1369,7 +1369,7 @@ body div.contents ol li {
   margin-bottom: 0.5em;
 }
 
-#doc-content td[align="right"] {
+#doc-content :not(table.mlabels) td[align="right"] {
   background-color: #fafafa;
 }
 

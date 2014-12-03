@@ -511,10 +511,7 @@ public class SyntaxChecker : IDisposable {
   }
 
   
-/**
-   * Returns true @c true or @c false depending on whether the argument
-   * string conforms to the syntax of SBML identifiers or is empty.
-   */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public
  static bool isValidInternalSId(string sid) {
     bool ret = libsbmlPINVOKE.SyntaxChecker_isValidInternalSId(sid);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();

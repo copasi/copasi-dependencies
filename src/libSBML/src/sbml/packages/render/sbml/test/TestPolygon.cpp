@@ -80,6 +80,7 @@ void
 PolygonTest_teardown (void)
 {
     delete P;
+    delete renderns;
 }
 
 START_TEST (test_Polygon_createMethods )

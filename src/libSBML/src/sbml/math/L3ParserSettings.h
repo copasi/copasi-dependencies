@@ -319,8 +319,11 @@ typedef enum
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 class Model;
-class ASTBasePlugin;
 class L3Parser;
+
+#ifndef LIBSBML_USE_LEGACY_MATH
+class ASTBasePlugin;
+#endif
 
 class LIBSBML_EXTERN L3ParserSettings
 {
@@ -333,8 +336,9 @@ private:
   bool mParseunits;
   bool mAvoCsymbol;
   bool mStrCmpIsCaseSensitive;
+#ifndef LIBSBML_USE_LEGACY_MATH
   std::vector<ASTBasePlugin*> mPlugins;
-
+#endif
   /** @endcond */
 
 public:
@@ -446,6 +450,16 @@ public:
                    bool caseSensitive = false, 
                    SBMLNamespaces* sbmlns = NULL);
 
+
+  /**
+   * Copy constructor.
+   */
+   L3ParserSettings(const L3ParserSettings& source);
+
+  /**
+   * Assignment operator.
+   */
+   L3ParserSettings& operator=(const L3ParserSettings& source);
 
   /**
    * Destroys this L3ParserSettings object.

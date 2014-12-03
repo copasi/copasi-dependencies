@@ -9,7 +9,7 @@
 package org.sbml.libsbml;
 
 /** 
- *  A token in libSBML's XML stream.
+ *  A token in an XML stream.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -18,6 +18,48 @@ the SBML specifications, although it is used to implement features
 defined in SBML.
 </p>
 
+ <p>
+ * The libSBML XML parser interface can read an XML file or data stream and
+ * convert the contents into tokens.  The tokens represent items in the XML
+ * stream, either XML elements (start or end tags) or text that appears as
+ * content inside an element.  The {@link XMLToken} class is libSBML's low-level
+ * representation of these entities.
+ <p>
+ * Each {@link XMLToken} has the following information associated with it:
+ * <ol>
+ * <li> <em>Qualified name</em>: every XML element or XML attribute has a
+ * name (e.g., for the element <code>&lt;mytag&gt;</code>, the name is
+ * <code>'mytag'</code>), but this name may be qualified with a namespace
+ * (e.g., it may appear as <code>&lt;someNamespace:mytag&gt;</code> in the
+ * input).  An {@link XMLToken} stores the name of a token, along with any namespace
+ * qualification present, through the use of an {@link XMLTriple} object.  This
+ * object stores the bare name of the element, its XML namespace prefix (if
+ * any), and the XML namespace with which that prefix is associated.
+ * <li> <em>Namespaces</em>: An XML token can have one or more XML namespaces
+ * associated with it.  These namespaces may be specified explicitly on the
+ * element or inherited from parent elements.  In libSBML, a list of
+ * namespaces is stored in an {@link XMLNamespaces} object.  An {@link XMLToken} possesses a
+ * field for storing an {@link XMLNamespaces} object.
+ * <li> <em>Attributes</em>: XML elements can have attributes associated with
+ * them, and these attributes can have values assigned to them.  The set of
+ * attribute-value pairs is stored in an {@link XMLAttributes} object stored in an
+ * {@link XMLToken} object.  (Note: only elements can have attributes&mdash;text
+ * blocks cannot have them in XML.)
+ * <li> <em>Line</em> number: the line number in the input where the token appears.
+ * <li> <em>Column</em> number: the column number in the input where the token appears.
+ * </ol>
+ <p>
+ * The {@link XMLToken} class serves as base class for {@link XMLNode}.  XML lends itself to
+ * a tree-structured representation, and in libSBML, the nodes in an XML
+ * document tree are {@link XMLNode} objects.  Most higher-level libSBML classes and
+ * methods that offer XML-level functionality (such as the methods on {@link SBase}
+ * for interacting with annotations) work with {@link XMLNode} objects rather than
+ * {@link XMLToken} objects directly.
+ <p>
+ * @see XMLNode
+ * @see XMLTriple
+ * @see XMLAttributes
+ * @see XMLNamespaces
  */
 
 public class XMLToken {
@@ -115,7 +157,7 @@ public class XMLToken {
 
   
 /**
-   * Creates a new empty {@link XMLToken}.
+   * Creates a new empty {@link XMLToken} object.
    */ public
  XMLToken() throws org.sbml.libsbml.XMLConstructorException {
     this(libsbmlJNI.new_XMLToken__SWIG_0(), true);
@@ -123,14 +165,21 @@ public class XMLToken {
 
   
 /**
-   * Creates a start element {@link XMLToken} with the given set of attributes and
-   * namespace declarations.
+   * Creates an XML start element with attributes and namespace declarations.
    <p>
-   * @param triple {@link XMLTriple}.
-   * @param attributes {@link XMLAttributes}, the attributes to set.
-   * @param namespaces {@link XMLNamespaces}, the namespaces to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an {@link XMLTriple} object describing the start tag.
+   <p>
+   * @param attributes {@link XMLAttributes}, the attributes to set on the element to
+   * be created.
+   <p>
+   * @param namespaces {@link XMLNamespaces}, the namespaces to set on the element to
+   * be created.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -153,14 +202,21 @@ appears in the documentation.
 
   
 /**
-   * Creates a start element {@link XMLToken} with the given set of attributes and
-   * namespace declarations.
+   * Creates an XML start element with attributes and namespace declarations.
    <p>
-   * @param triple {@link XMLTriple}.
-   * @param attributes {@link XMLAttributes}, the attributes to set.
-   * @param namespaces {@link XMLNamespaces}, the namespaces to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an {@link XMLTriple} object describing the start tag.
+   <p>
+   * @param attributes {@link XMLAttributes}, the attributes to set on the element to
+   * be created.
+   <p>
+   * @param namespaces {@link XMLNamespaces}, the namespaces to set on the element to
+   * be created.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -183,14 +239,21 @@ appears in the documentation.
 
   
 /**
-   * Creates a start element {@link XMLToken} with the given set of attributes and
-   * namespace declarations.
+   * Creates an XML start element with attributes and namespace declarations.
    <p>
-   * @param triple {@link XMLTriple}.
-   * @param attributes {@link XMLAttributes}, the attributes to set.
-   * @param namespaces {@link XMLNamespaces}, the namespaces to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an {@link XMLTriple} object describing the start tag.
+   <p>
+   * @param attributes {@link XMLAttributes}, the attributes to set on the element to
+   * be created.
+   <p>
+   * @param namespaces {@link XMLNamespaces}, the namespaces to set on the element to
+   * be created.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -213,12 +276,22 @@ appears in the documentation.
 
   
 /**
-   * Creates a start element {@link XMLToken} with the given set of attributes.
+   * Creates an XML start element with attributes.
    <p>
-   * @param triple {@link XMLTriple}.
-   * @param attributes {@link XMLAttributes}, the attributes to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an {@link XMLTriple} object describing the start tag.
+   <p>
+   * @param attributes {@link XMLAttributes}, the attributes to set on the element to
+   * be created.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
+   <p>
+   * The XML namespace component of this {@link XMLToken} object will be left empty.
+   * See the other variants of the {@link XMLToken} constructors for versions that
+   * take namespace arguments.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -241,12 +314,22 @@ appears in the documentation.
 
   
 /**
-   * Creates a start element {@link XMLToken} with the given set of attributes.
+   * Creates an XML start element with attributes.
    <p>
-   * @param triple {@link XMLTriple}.
-   * @param attributes {@link XMLAttributes}, the attributes to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an {@link XMLTriple} object describing the start tag.
+   <p>
+   * @param attributes {@link XMLAttributes}, the attributes to set on the element to
+   * be created.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
+   <p>
+   * The XML namespace component of this {@link XMLToken} object will be left empty.
+   * See the other variants of the {@link XMLToken} constructors for versions that
+   * take namespace arguments.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -269,12 +352,22 @@ appears in the documentation.
 
   
 /**
-   * Creates a start element {@link XMLToken} with the given set of attributes.
+   * Creates an XML start element with attributes.
    <p>
-   * @param triple {@link XMLTriple}.
-   * @param attributes {@link XMLAttributes}, the attributes to set.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an {@link XMLTriple} object describing the start tag.
+   <p>
+   * @param attributes {@link XMLAttributes}, the attributes to set on the element to
+   * be created.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
+   <p>
+   * The XML namespace component of this {@link XMLToken} object will be left empty.
+   * See the other variants of the {@link XMLToken} constructors for versions that
+   * take namespace arguments.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -297,11 +390,15 @@ appears in the documentation.
 
   
 /**
-   * Creates an end element {@link XMLToken}.
+   * Creates an XML end element.
    <p>
-   * @param triple {@link XMLTriple}.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an {@link XMLTriple} object describing the end tag.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -324,11 +421,15 @@ appears in the documentation.
 
   
 /**
-   * Creates an end element {@link XMLToken}.
+   * Creates an XML end element.
    <p>
-   * @param triple {@link XMLTriple}.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an {@link XMLTriple} object describing the end tag.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -351,11 +452,15 @@ appears in the documentation.
 
   
 /**
-   * Creates an end element {@link XMLToken}.
+   * Creates an XML end element.
    <p>
-   * @param triple {@link XMLTriple}.
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param triple an {@link XMLTriple} object describing the end tag.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -378,14 +483,18 @@ appears in the documentation.
 
   
 /**
-   * Creates a text {@link XMLToken}.
+   * Creates a text object.
    <p>
-   * @param chars a string, the text to be added to the {@link XMLToken}
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param chars a string, the text to be added to the {@link XMLToken} object.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    <p>
    * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
+   * Thrown if the argument <code>chars</code> is <code>null.</code>
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -408,14 +517,18 @@ appears in the documentation.
 
   
 /**
-   * Creates a text {@link XMLToken}.
+   * Creates a text object.
    <p>
-   * @param chars a string, the text to be added to the {@link XMLToken}
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param chars a string, the text to be added to the {@link XMLToken} object.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    <p>
    * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
+   * Thrown if the argument <code>chars</code> is <code>null.</code>
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -438,14 +551,18 @@ appears in the documentation.
 
   
 /**
-   * Creates a text {@link XMLToken}.
+   * Creates a text object.
    <p>
-   * @param chars a string, the text to be added to the {@link XMLToken}
-   * @param line a long integer, the line number (default = 0).
-   * @param column a long integer, the column number (default = 0).
+   * @param chars a string, the text to be added to the {@link XMLToken} object.
+   <p>
+   * @param line a long integer, the line number to associate with the
+   * token (default = 0).
+   <p>
+   * @param column a long integer, the column number to associate with the
+   * token (default = 0).
    <p>
    * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
+   * Thrown if the argument <code>chars</code> is <code>null.</code>
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -468,7 +585,7 @@ appears in the documentation.
 
   
 /**
-   * Copy constructor; creates a copy of this {@link XMLToken}.
+   * Copy constructor; creates a copy of this {@link XMLToken} object.
    <p>
    * @param orig the {@link XMLToken} object to copy.
    <p>
@@ -492,9 +609,10 @@ appears in the documentation.
 
   
 /**
-   * Returns the attributes of this element.
+   * Returns the attributes of the XML element represented by this token.
    <p>
-   * @return the {@link XMLAttributes} of this XML element.
+   * @return the attributes of this XML element, stored in an {@link XMLAttributes}
+   * object.
    */ public
  XMLAttributes getAttributes() {
     return new XMLAttributes(libsbmlJNI.XMLToken_getAttributes(swigCPtr, this), false);
@@ -502,14 +620,21 @@ appears in the documentation.
 
   
 /**
-   * Sets an {@link XMLAttributes} to this {@link XMLToken}.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Sets the attributes on the XML element represented by this token.
    <p>
-   * @param attributes {@link XMLAttributes} to be set to this {@link XMLToken}.
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param attributes an {@link XMLAttributes} object to be assigned to this
+   * {@link XMLToken} object, thereby setting the XML attributes associated with this
+   * token.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -517,7 +642,8 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
-   * @note This function replaces the existing {@link XMLAttributes} with the new one.
+   * @note This function replaces any existing {@link XMLAttributes} object
+   * on this {@link XMLToken} object with the one given by <code>attributes</code>.
    */ public
  int setAttributes(XMLAttributes attributes) {
     return libsbmlJNI.XMLToken_setAttributes(swigCPtr, this, XMLAttributes.getCPtr(attributes), attributes);
@@ -525,25 +651,47 @@ appears in the documentation.
 
   
 /**
-   * Adds an attribute to the attribute set in this {@link XMLToken} optionally 
-   * with a prefix and URI defining a namespace.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    <p>
-   * @param name a string, the local name of the attribute.
-   * @param value a string, the value of the attribute.
-   * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name a string, the so-called 'local part' of the attribute name;
+   * that is, the attribute name without any namespace qualifier or prefix.
+   <p>
+   * @param value a string, the value assigned to the attribute.
+   <p>
+   * @param namespaceURI a string, the XML namespace URI of the attribute.
+   <p>
+   * @param prefix a string, the prefix for the XML namespace.
+   <p>
+   * Recall that in XML, the complete form of an attribute on an XML element
+   * is the following:
+   * <center>
+   * <code>prefix:name='value'</code>
+   * </center>
+   * The <code>name</code> part is the name of the attribute, the
+   * <code>'value'</code> part is the value assigned to the attribute (and
+   * it is always a quoted string), and the <code>prefix</code> part is
+   * an optional XML namespace prefix.  Internally in libSBML, this data
+   * is stored in an {@link XMLAttributes} object associated with this {@link XMLToken}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
-   * @note if local name with the same namespace URI already exists in the
-   * attribute set, its value and prefix will be replaced.
+   * <p>
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this {@link XMLToken} object, then the previous value will be replaced
+ * with the new value provided to this method.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -566,25 +714,47 @@ appears in the documentation.
 
   
 /**
-   * Adds an attribute to the attribute set in this {@link XMLToken} optionally 
-   * with a prefix and URI defining a namespace.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    <p>
-   * @param name a string, the local name of the attribute.
-   * @param value a string, the value of the attribute.
-   * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name a string, the so-called 'local part' of the attribute name;
+   * that is, the attribute name without any namespace qualifier or prefix.
+   <p>
+   * @param value a string, the value assigned to the attribute.
+   <p>
+   * @param namespaceURI a string, the XML namespace URI of the attribute.
+   <p>
+   * @param prefix a string, the prefix for the XML namespace.
+   <p>
+   * Recall that in XML, the complete form of an attribute on an XML element
+   * is the following:
+   * <center>
+   * <code>prefix:name='value'</code>
+   * </center>
+   * The <code>name</code> part is the name of the attribute, the
+   * <code>'value'</code> part is the value assigned to the attribute (and
+   * it is always a quoted string), and the <code>prefix</code> part is
+   * an optional XML namespace prefix.  Internally in libSBML, this data
+   * is stored in an {@link XMLAttributes} object associated with this {@link XMLToken}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
-   * @note if local name with the same namespace URI already exists in the
-   * attribute set, its value and prefix will be replaced.
+   * <p>
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this {@link XMLToken} object, then the previous value will be replaced
+ * with the new value provided to this method.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -607,25 +777,47 @@ appears in the documentation.
 
   
 /**
-   * Adds an attribute to the attribute set in this {@link XMLToken} optionally 
-   * with a prefix and URI defining a namespace.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    <p>
-   * @param name a string, the local name of the attribute.
-   * @param value a string, the value of the attribute.
-   * @param namespaceURI a string, the namespace URI of the attribute.
-   * @param prefix a string, the prefix of the namespace
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name a string, the so-called 'local part' of the attribute name;
+   * that is, the attribute name without any namespace qualifier or prefix.
+   <p>
+   * @param value a string, the value assigned to the attribute.
+   <p>
+   * @param namespaceURI a string, the XML namespace URI of the attribute.
+   <p>
+   * @param prefix a string, the prefix for the XML namespace.
+   <p>
+   * Recall that in XML, the complete form of an attribute on an XML element
+   * is the following:
+   * <center>
+   * <code>prefix:name='value'</code>
+   * </center>
+   * The <code>name</code> part is the name of the attribute, the
+   * <code>'value'</code> part is the value assigned to the attribute (and
+   * it is always a quoted string), and the <code>prefix</code> part is
+   * an optional XML namespace prefix.  Internally in libSBML, this data
+   * is stored in an {@link XMLAttributes} object associated with this {@link XMLToken}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    *
    * </ul> <p>
-   * @note if local name with the same namespace URI already exists in the
-   * attribute set, its value and prefix will be replaced.
+   * <p>
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this {@link XMLToken} object, then the previous value will be replaced
+ * with the new value provided to this method.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -648,23 +840,32 @@ appears in the documentation.
 
   
 /**
-   * Adds an attribute with the given {@link XMLTriple}/value pair to the attribute set
-   * in this {@link XMLToken}.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Adds an attribute to the XML element represented by this token.
    <p>
-   * @note if local name with the same namespace URI already exists in the 
-   * attribute set, its value and prefix will be replaced.
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute.
-   * @param value a string, the value of the attribute.
+   * @param triple an {@link XMLTriple} object defining the attribute, its value,
+   * and optionally its XML namespace (if any is provided).
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param value a string, the value assigned to the attribute.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
-   * </ul>
+   *
+   * </ul> <p>
+   * <p>
+ * @note If an attribute with the same name and XML namespace URI already
+ * exists on this {@link XMLToken} object, then the previous value will be replaced
+ * with the new value provided to this method.
    */ public
  int addAttr(XMLTriple triple, String value) {
     return libsbmlJNI.XMLToken_addAttr__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple, value);
@@ -672,20 +873,32 @@ appears in the documentation.
 
   
 /**
-   * Removes an attribute with the given index from the attribute set in
-   * this {@link XMLToken}.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Removes the <em>n</em>th attribute from the XML element represented by
+   * this token.
+   <p>
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
    * @param n an integer the index of the resource to be deleted
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * The value {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE} is returned if there is no attribute on this
+   * element at the given index <code>n</code>.
+   <p>
+   * @see #getAttrIndex(XMLTriple triple) 
+   * @see #getAttrIndex(String name, String uri) 
+   * @see #getAttributesLength()
    */ public
  int removeAttr(int n) {
     return libsbmlJNI.XMLToken_removeAttr__SWIG_0(swigCPtr, this, n);
@@ -693,21 +906,30 @@ appears in the documentation.
 
   
 /**
-   * Removes an attribute with the given local name and namespace URI from 
-   * the attribute set in this {@link XMLToken}.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Removes an attribute from the XML element represented by this token.
    <p>
-   * @param name   a string, the local name of the attribute.
-   * @param uri    a string, the namespace URI of the attribute.
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name   a string, the name of the attribute to be removed.
+   * @param uri    a string, the XML namespace URI of the attribute to be removed.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * The value {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE} is returned if there is no attribute on this
+   * element with the given <code>name</code> (and <code>uri</code> if specified).
+   <p>
+   * @see #hasAttr(String name, String uri) 
    */ public
  int removeAttr(String name, String uri) {
     return libsbmlJNI.XMLToken_removeAttr__SWIG_1(swigCPtr, this, name, uri);
@@ -715,21 +937,30 @@ appears in the documentation.
 
   
 /**
-   * Removes an attribute with the given local name and namespace URI from 
-   * the attribute set in this {@link XMLToken}.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Removes an attribute from the XML element represented by this token.
    <p>
-   * @param name   a string, the local name of the attribute.
-   * @param uri    a string, the namespace URI of the attribute.
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param name   a string, the name of the attribute to be removed.
+   * @param uri    a string, the XML namespace URI of the attribute to be removed.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * The value {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE} is returned if there is no attribute on this
+   * element with the given <code>name</code> (and <code>uri</code> if specified).
+   <p>
+   * @see #hasAttr(String name, String uri) 
    */ public
  int removeAttr(String name) {
     return libsbmlJNI.XMLToken_removeAttr__SWIG_2(swigCPtr, this, name);
@@ -737,20 +968,29 @@ appears in the documentation.
 
   
 /**
-   * Removes an attribute with the given {@link XMLTriple} from the attribute set 
-   * in this {@link XMLToken}.  
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Removes an attribute from the XML element represented by this token.
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute.
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param triple an {@link XMLTriple} describing the attribute to be removed.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * The value {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE} is returned if there is no attribute on this
+   * element matching the properties of the given <code>triple</code>.
+   <p>
+   * @see #hasAttr(XMLTriple triple) 
    */ public
  int removeAttr(XMLTriple triple) {
     return libsbmlJNI.XMLToken_removeAttr__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple);
@@ -758,12 +998,17 @@ appears in the documentation.
 
   
 /**
-   * Clears (deletes) all attributes in this {@link XMLToken}.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Removes all attributes of this {@link XMLToken} object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
@@ -775,13 +1020,14 @@ appears in the documentation.
 
   
 /**
-   * Return the index of an attribute with the given local name and namespace URI.
+   * Returns the index of the attribute with the given name and namespace
+   * URI.
    <p>
-   * @param name a string, the local name of the attribute.
+   * @param name a string, the name of the attribute.
    * @param uri  a string, the namespace URI of the attribute.
    <p>
-   * @return the index of an attribute with the given local name and namespace URI, 
-   * or <code>-1</code> if not present.
+   * @return the index of an attribute with the given local name and
+   * namespace URI, or <code>-1</code> if it is not present on this token.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -804,13 +1050,14 @@ appears in the documentation.
 
   
 /**
-   * Return the index of an attribute with the given local name and namespace URI.
+   * Returns the index of the attribute with the given name and namespace
+   * URI.
    <p>
-   * @param name a string, the local name of the attribute.
+   * @param name a string, the name of the attribute.
    * @param uri  a string, the namespace URI of the attribute.
    <p>
-   * @return the index of an attribute with the given local name and namespace URI, 
-   * or <code>-1</code> if not present.
+   * @return the index of an attribute with the given local name and
+   * namespace URI, or <code>-1</code> if it is not present on this token.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -833,12 +1080,14 @@ appears in the documentation.
 
   
 /**
-   * Return the index of an attribute with the given {@link XMLTriple}.
+   * Returns the index of the attribute defined by the given {@link XMLTriple}
+   * object.
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute for which 
-   *        the index is required.
+   * @param triple the {@link XMLTriple} object that defines the attribute whose
+   * index is being sought.
    <p>
-   * @return the index of an attribute with the given {@link XMLTriple}, or <code>-1</code> if not present.
+   * @return the index of an attribute with the given {@link XMLTriple} object, or
+   * <code>-1</code> if no such attribute is present on this token.
    */ public
  int getAttrIndex(XMLTriple triple) {
     return libsbmlJNI.XMLToken_getAttrIndex__SWIG_2(swigCPtr, this, XMLTriple.getCPtr(triple), triple);
@@ -846,9 +1095,11 @@ appears in the documentation.
 
   
 /**
-   * Return the number of attributes in the attributes set.
+   * Returns the number of attributes on this {@link XMLToken} object.
    <p>
-   * @return the number of attributes in the attributes set in this {@link XMLToken}.
+   * @return the number of attributes possessed by this token.
+   <p>
+   * @see #hasAttr(int)
    */ public
  int getAttributesLength() {
     return libsbmlJNI.XMLToken_getAttributesLength(swigCPtr, this);
@@ -856,18 +1107,23 @@ appears in the documentation.
 
   
 /**
-   * Return the local name of an attribute in the attributes set in this 
-   * {@link XMLToken} (by position).
+   * Returns the name of the <em>n</em>th attribute in this token's list of
+   * attributes.
    <p>
-   * @param index an integer, the position of the attribute whose local name 
-   * is required.
+   * @param index an integer, the position of the attribute whose name
+   * is being sought.
    <p>
-   * @return the local name of an attribute in this list (by position).  
+   * @return the name of the attribute located at position <code>n</code> in the list
+   * of attributes possessed by this {@link XMLToken} object.
    <p>
-   * @note If index
-   * is out of range, an empty string will be returned.  Use
-   * {@link XMLToken#hasAttr(int)}
-   * to test for the attribute existence.
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  {@link XMLToken#hasAttr(int)} can be used to test for an
+ * attribute's existence explicitly, and {@link XMLToken#getAttributesLength()} can
+ * be used to find out the number of attributes possessed by this token. 
+   <p>
+   * @see #hasAttr(int)
+   * @see #getAttributesLength()
    */ public
  String getAttrName(int index) {
     return libsbmlJNI.XMLToken_getAttrName(swigCPtr, this, index);
@@ -875,18 +1131,23 @@ appears in the documentation.
 
   
 /**
-   * Return the prefix of an attribute in the attribute set in this 
-   * {@link XMLToken} (by position).
+   * Returns the prefix of the <em>n</em>th attribute in this token's list of
+   * attributes.
    <p>
-   * @param index an integer, the position of the attribute whose prefix is 
-   * required.
+   * @param index an integer, the position of the attribute whose prefix is
+   * being sought.
    <p>
-   * @return the namespace prefix of an attribute in the attribute set
-   * (by position).  
+   * @return the XML namespace prefix of the attribute located at position 
+   * <code>n</code> in the list of attributes possessed by this {@link XMLToken} object.
    <p>
-   * @note If index is out of range, an empty string will be returned. Use
-   * {@link XMLToken#hasAttr(int)} to test
-   * for the attribute existence.
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  {@link XMLToken#hasAttr(int)} can be used to test for an
+ * attribute's existence explicitly, and {@link XMLToken#getAttributesLength()} can
+ * be used to find out the number of attributes possessed by this token.
+   <p>
+   * @see #hasAttr(int)
+   * @see #getAttributesLength()
    */ public
  String getAttrPrefix(int index) {
     return libsbmlJNI.XMLToken_getAttrPrefix(swigCPtr, this, index);
@@ -894,18 +1155,24 @@ appears in the documentation.
 
   
 /**
-   * Return the prefixed name of an attribute in the attribute set in this 
-   * {@link XMLToken} (by position).
+   * Returns the prefixed name of the <em>n</em>th attribute in this token's
+   * list of attributes.
    <p>
-   * @param index an integer, the position of the attribute whose prefixed 
-   * name is required.
+   * In this context, <em>prefixed name</em> means the name of the attribute
+   * prefixed with the XML namespace prefix assigned to the attribute.  This
+   * will be a string of the form <code>prefix:name</code>.
    <p>
-   * @return the prefixed name of an attribute in the attribute set 
-   * (by position).  
+   * @param index an integer, the position of the attribute whose prefixed
+   * name is being sought.
    <p>
-   * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLToken#hasAttr(int)} to test
-   * for attribute existence.
+   * @return the prefixed name of the attribute located at position 
+   * <code>n</code> in the list of attributes possessed by this {@link XMLToken} object.
+   <p>
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  {@link XMLToken#hasAttr(int)} can be used to test for an
+ * attribute's existence explicitly, and {@link XMLToken#getAttributesLength()} can
+ * be used to find out the number of attributes possessed by this token.
    */ public
  String getAttrPrefixedName(int index) {
     return libsbmlJNI.XMLToken_getAttrPrefixedName(swigCPtr, this, index);
@@ -913,17 +1180,20 @@ appears in the documentation.
 
   
 /**
-   * Return the namespace URI of an attribute in the attribute set in this 
-   * {@link XMLToken} (by position).
+   * Returns the XML namespace URI of the <em>n</em>th attribute in this
+   * token's list of attributes.
    <p>
-   * @param index an integer, the position of the attribute whose namespace 
-   * URI is required.
+   * @param index an integer, the position of the attribute whose namespace
+   * URI is being sought.
    <p>
-   * @return the namespace URI of an attribute in the attribute set (by position).
+   * @return the XML namespace URI of the attribute located at position <code>n</code>
+   * in the list of attributes possessed by this {@link XMLToken} object.
    <p>
-   * @note If index is out of range, an empty string will be returned.  Use
-   * {@link XMLToken#hasAttr(int)} to test
-   * for attribute existence.
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  {@link XMLToken#hasAttr(int)} can be used to test for an
+ * attribute's existence explicitly, and {@link XMLToken#getAttributesLength()} can
+ * be used to find out the number of attributes possessed by this token.
    */ public
  String getAttrURI(int index) {
     return libsbmlJNI.XMLToken_getAttrURI(swigCPtr, this, index);
@@ -931,17 +1201,20 @@ appears in the documentation.
 
   
 /**
-   * Return the value of an attribute in the attribute set in this {@link XMLToken}  
-   * (by position).
+   * Returns the value of the <em>n</em>th attribute in this token's list of
+   * attributes.
    <p>
-   * @param index an integer, the position of the attribute whose value is 
+   * @param index an integer, the position of the attribute whose value is
    * required.
    <p>
-   * @return the value of an attribute in the attribute set (by position).  
+   * @return the value of the attribute located at position <code>n</code> in the list
+   * of attributes possessed by this {@link XMLToken} object.
    <p>
-   * @note If index is out of range, an empty string will be returned. Use
-   * {@link XMLToken#hasAttr(int)} to test
-   * for attribute existence.
+   * <p>
+ * @note If <code>index</code> is out of range, this method will return an empty
+ * string.  {@link XMLToken#hasAttr(int)} can be used to test for an
+ * attribute's existence explicitly, and {@link XMLToken#getAttributesLength()} can
+ * be used to find out the number of attributes possessed by this token.
    */ public
  String getAttrValue(int index) {
     return libsbmlJNI.XMLToken_getAttrValue__SWIG_0(swigCPtr, this, index);
@@ -949,18 +1222,20 @@ appears in the documentation.
 
   
 /**
-   * Return a value of an attribute with the given local name and namespace URI.
+   * Returns the value of the attribute with a given name and XML namespace URI.
    <p>
-   * @param name a string, the local name of the attribute whose value is required.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute whose value is being
+   * sought.
    <p>
-   * @return The attribute value as a string.  
+   * @param uri a string, the XML namespace URI of the attribute.
    <p>
-   * @note If an attribute with the 
-   * given local name and namespace URI does not exist, an empty string will be 
-   * returned.  
-   * Use {@link XMLToken#hasAttr(String, String)}
-   * to test for attribute existence.
+   * @return The value of the attribute, as a string.
+   <p>
+   * @note If an attribute with the given <code>name</code> and <code>uri</code> does not exist
+   * on this token object, this method will return an empty string.
+   * {@link XMLToken#hasAttr(String, String)} can be used to test
+   * explicitly for the presence of an attribute with a given name and
+   * namespace.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -983,18 +1258,20 @@ appears in the documentation.
 
   
 /**
-   * Return a value of an attribute with the given local name and namespace URI.
+   * Returns the value of the attribute with a given name and XML namespace URI.
    <p>
-   * @param name a string, the local name of the attribute whose value is required.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute whose value is being
+   * sought.
    <p>
-   * @return The attribute value as a string.  
+   * @param uri a string, the XML namespace URI of the attribute.
    <p>
-   * @note If an attribute with the 
-   * given local name and namespace URI does not exist, an empty string will be 
-   * returned.  
-   * Use {@link XMLToken#hasAttr(String, String)}
-   * to test for attribute existence.
+   * @return The value of the attribute, as a string.
+   <p>
+   * @note If an attribute with the given <code>name</code> and <code>uri</code> does not exist
+   * on this token object, this method will return an empty string.
+   * {@link XMLToken#hasAttr(String, String)} can be used to test
+   * explicitly for the presence of an attribute with a given name and
+   * namespace.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -1017,17 +1294,18 @@ appears in the documentation.
 
   
 /**
-   * Return a value of an attribute with the given {@link XMLTriple}.
+   * Returns the value of the attribute specified by a given {@link XMLTriple} object.
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute whose 
-   *        value is required.
+   * @param triple an {@link XMLTriple} describing the attribute whose value is being
+   * sought.
    <p>
-   * @return The attribute value as a string.  
+   * @return The value of the attribute, as a string.
    <p>
-   * @note If an attribute with the
-   * given {@link XMLTriple} does not exist, an empty string will be returned.  
-   * Use {@link XMLToken#hasAttr(XMLTriple)}
-   * to test for attribute existence.
+   * @note If an attribute defined by the given <code>triple</code> does not exist on
+   * this token object, this method will return an empty string.
+   * {@link XMLToken#hasAttr(XMLTriple)} can be used to test
+   * explicitly for the existence of an attribute with the properties of
+   * a given triple.
    */ public
  String getAttrValue(XMLTriple triple) {
     return libsbmlJNI.XMLToken_getAttrValue__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple);
@@ -1035,14 +1313,12 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether
-   * an attribute with the given index exists in the attribute set in this 
-   * {@link XMLToken}.
+   * Returns <code>true</code> if an attribute with the given index exists.
    <p>
    * @param index an integer, the position of the attribute.
    <p>
-   * @return <code>true</code> if an attribute with the given index exists in the attribute 
-   * set in this {@link XMLToken}, <code>false</code> otherwise.
+   * @return <code>true</code> if this token object possesses an attribute with the
+   * given index, <code>false</code> otherwise.
    */ public
  boolean hasAttr(int index) {
     return libsbmlJNI.XMLToken_hasAttr__SWIG_0(swigCPtr, this, index);
@@ -1050,15 +1326,17 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether
-   * an attribute with the given local name and namespace URI exists 
-   * in the attribute set in this {@link XMLToken}.
+   * Returns <code>true</code> if an attribute with a given name and namespace URI
+   * exists.
    <p>
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute being sought.
    <p>
-   * @return <code>true</code> if an attribute with the given local name and namespace 
-   * URI exists in the attribute set in this {@link XMLToken}, <code>false</code> otherwise.
+   * @param uri a string, the XML namespace URI of the attribute being
+   * sought.
+   <p>
+   * @return <code>true</code> if an attribute with the given local name and namespace
+   * URI exists in the list of attributes on this token object, <code>false</code>
+   * otherwise.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -1081,15 +1359,17 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether
-   * an attribute with the given local name and namespace URI exists 
-   * in the attribute set in this {@link XMLToken}.
+   * Returns <code>true</code> if an attribute with a given name and namespace URI
+   * exists.
    <p>
-   * @param name a string, the local name of the attribute.
-   * @param uri  a string, the namespace URI of the attribute.
+   * @param name a string, the name of the attribute being sought.
    <p>
-   * @return <code>true</code> if an attribute with the given local name and namespace 
-   * URI exists in the attribute set in this {@link XMLToken}, <code>false</code> otherwise.
+   * @param uri a string, the XML namespace URI of the attribute being
+   * sought.
+   <p>
+   * @return <code>true</code> if an attribute with the given local name and namespace
+   * URI exists in the list of attributes on this token object, <code>false</code>
+   * otherwise.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -1112,14 +1392,14 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether
-   * an attribute with the given XML triple exists in the attribute set in 
-   * this {@link XMLToken} 
+   * Returns <code>true</code> if an attribute defined by a given {@link XMLTriple} object
+   * exists.
    <p>
-   * @param triple an {@link XMLTriple}, the XML triple of the attribute 
+   * @param triple an {@link XMLTriple} object describing the attribute being sought.
    <p>
-   * @return <code>true</code> if an attribute with the given XML triple exists
-   * in the attribute set in this {@link XMLToken}, <code>false</code> otherwise.
+   * @return <code>true</code> if an attribute matching the properties of the given
+   * {@link XMLTriple} object exists in the list of attributes on this token, 
+   * <code>false</code> otherwise.
    */ public
  boolean hasAttr(XMLTriple triple) {
     return libsbmlJNI.XMLToken_hasAttr__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple);
@@ -1127,10 +1407,9 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * the attribute set in this {@link XMLToken} set is empty.
+   * Returns <code>true</code> if this token has no attributes.
    <p>
-   * @return <code>true</code> if the attribute set in this {@link XMLToken} is empty, 
+   * @return <code>true</code> if the list of attributes on {@link XMLToken} object is empty,
    * <code>false</code> otherwise.
    */ public
  boolean isAttributesEmpty() {
@@ -1139,7 +1418,7 @@ appears in the documentation.
 
   
 /**
-   * Returns the XML namespace declarations for this XML element.
+   * Returns the XML namespaces declared for this token.
    <p>
    * @return the XML namespace declarations for this XML element.
    */ public
@@ -1149,14 +1428,19 @@ appears in the documentation.
 
   
 /**
-   * Sets an XMLnamespaces to this XML element.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Sets the XML namespaces on this XML element.
    <p>
-   * @param namespaces {@link XMLNamespaces} to be set to this {@link XMLToken}.
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param namespaces the {@link XMLNamespaces} object to be assigned to this {@link XMLToken} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1164,7 +1448,8 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
-   * @note This function replaces the existing {@link XMLNamespaces} with the new one.
+   * @note This function replaces any existing {@link XMLNamespaces} object on this
+   * {@link XMLToken} object with the new one given by <code>namespaces</code>.
    */ public
  int setNamespaces(XMLNamespaces namespaces) {
     return libsbmlJNI.XMLToken_setNamespaces(swigCPtr, this, XMLNamespaces.getCPtr(namespaces), namespaces);
@@ -1172,18 +1457,26 @@ appears in the documentation.
 
   
 /**
-   * Appends an XML namespace prefix and URI pair to this {@link XMLToken}.
-   * If there is an XML namespace with the given prefix in this {@link XMLToken}, 
-   * then the existing XML namespace will be overwritten by the new one.
+   * Appends an XML namespace declaration to this token.
    <p>
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * The namespace added will be defined by the given XML namespace URI and
+   * an optional prefix.  If this {@link XMLToken} object already possesses an XML
+   * namespace declaration with the given <code>prefix</code>, then the existing XML
+   * namespace URI will be overwritten by the new one given by <code>uri</code>.
    <p>
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param uri a string, the XML namespace URI for the namespace.
+   <p>
+   * @param prefix a string, the namespace prefix to use.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
@@ -1210,18 +1503,26 @@ appears in the documentation.
 
   
 /**
-   * Appends an XML namespace prefix and URI pair to this {@link XMLToken}.
-   * If there is an XML namespace with the given prefix in this {@link XMLToken}, 
-   * then the existing XML namespace will be overwritten by the new one.
+   * Appends an XML namespace declaration to this token.
    <p>
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * The namespace added will be defined by the given XML namespace URI and
+   * an optional prefix.  If this {@link XMLToken} object already possesses an XML
+   * namespace declaration with the given <code>prefix</code>, then the existing XML
+   * namespace URI will be overwritten by the new one given by <code>uri</code>.
    <p>
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param uri a string, the XML namespace URI for the namespace.
+   <p>
+   * @param prefix a string, the namespace prefix to use.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
@@ -1248,20 +1549,32 @@ appears in the documentation.
 
   
 /**
-   * Removes an XML Namespace stored in the given position of the {@link XMLNamespaces}
-   * of this {@link XMLToken}.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Removes the <em>n</em>th XML namespace declaration.
    <p>
-   * @param index an integer, position of the removed namespace.
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param index an integer, the position of the namespace to be removed.
+   * The position in this context refers to the position of the namespace in
+   * the {@link XMLNamespaces} object stored in this {@link XMLToken} object.  Callers can
+   * use one of the <code>getNamespace___()</code> methods to find the index
+   * number of a given namespace.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * @see #getNamespaceIndex(String uri)
+   * @see #getNamespaceIndexByPrefix(String prefix)
+   * @see #getNamespacesLength()
    */ public
  int removeNamespace(int index) {
     return libsbmlJNI.XMLToken_removeNamespace__SWIG_0(swigCPtr, this, index);
@@ -1269,19 +1582,30 @@ appears in the documentation.
 
   
 /**
-   * Removes an XML Namespace with the given prefix.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Removes an XML namespace declaration having a given prefix.
    <p>
-   * @param prefix a string, prefix of the required namespace.
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param prefix a string, the prefix of the namespace to be removed.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
    * <li> {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
-   * </ul>
+   *
+   * </ul> <p>
+   * The value {@link libsbmlConstants#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE}
+   * is returned if there is no namespace with the given <code>prefix</code> on this
+   * element.
+   <p>
+   * @see #getNamespaceIndexByPrefix(String prefix)
    */ public
  int removeNamespace(String prefix) {
     return libsbmlJNI.XMLToken_removeNamespace__SWIG_1(swigCPtr, this, prefix);
@@ -1289,16 +1613,21 @@ appears in the documentation.
 
   
 /**
-   * Clears (deletes) all XML namespace declarations in the {@link XMLNamespaces} of
-   * this {@link XMLToken}.
-   * Nothing will be done if this {@link XMLToken} is not a start element.
+   * Removes all XML namespace declarations from this token.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element. 
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
  int clearNamespaces() {
@@ -1307,11 +1636,12 @@ appears in the documentation.
 
   
 /**
-   * Look up the index of an XML namespace declaration by URI.
+   * Returns the index of an XML namespace declaration based on its URI.
    <p>
-   * @param uri a string, uri of the required namespace.
+   * @param uri a string, the XML namespace URI of the sought-after namespace.
    <p>
-   * @return the index of the given declaration, or <code>-1</code> if not present.
+   * @return the index of the given declaration, or <code>-1</code> if
+   * no such namespace URI is present on this {@link XMLToken} object.
    */ public
  int getNamespaceIndex(String uri) {
     return libsbmlJNI.XMLToken_getNamespaceIndex(swigCPtr, this, uri);
@@ -1319,11 +1649,12 @@ appears in the documentation.
 
   
 /**
-   * Look up the index of an XML namespace declaration by prefix.
+   * Returns the index of an XML namespace declaration based on its prefix.
    <p>
-   * @param prefix a string, prefix of the required namespace.
+   * @param prefix a string, the prefix of the sought-after XML namespace.
    <p>
-   * @return the index of the given declaration, or <code>-1</code> if not present.
+   * @return the index of the given declaration, or <code>-1</code> if
+   * no such namespace URI is present on this {@link XMLToken} object.
    */ public
  int getNamespaceIndexByPrefix(String prefix) {
     return libsbmlJNI.XMLToken_getNamespaceIndexByPrefix(swigCPtr, this, prefix);
@@ -1331,10 +1662,10 @@ appears in the documentation.
 
   
 /**
-   * Returns the number of XML namespaces stored in the {@link XMLNamespaces} 
-   * of this {@link XMLToken}.
+   * Returns the number of XML namespaces declared on this token.
    <p>
-   * @return the number of namespaces in this list.
+   * @return the number of XML namespaces stored in the {@link XMLNamespaces}
+   * object of this {@link XMLToken} object.
    */ public
  int getNamespacesLength() {
     return libsbmlJNI.XMLToken_getNamespacesLength(swigCPtr, this);
@@ -1342,18 +1673,16 @@ appears in the documentation.
 
   
 /**
-   * Look up the prefix of an XML namespace declaration by position.
-   <p>
-   * Callers should use getNamespacesLength() to find out how many 
-   * namespaces are stored in the {@link XMLNamespaces}.
+   * Returns the prefix of the <em>n</em>th XML namespace declaration.
    <p>
    * @param index an integer, position of the required prefix.
    <p>
-   * @return the prefix of an XML namespace declaration in the {@link XMLNamespaces} 
-   * (by position).  
+   * @return the prefix of an XML namespace declaration in the {@link XMLNamespaces}
+   * (by position).
    <p>
-   * @note If index is out of range, an empty string will be
-   * returned.
+   * @note If <code>index</code> is out of range, this method will return an empty
+   * string.  {@link XMLToken#getNamespacesLength()} can be used to find out how
+   * many namespaces are defined on this {@link XMLToken} object.
    <p>
    * @see #getNamespacesLength()
    */ public
@@ -1363,13 +1692,16 @@ appears in the documentation.
 
   
 /**
-   * Look up the prefix of an XML namespace declaration by its URI.
+   * Returns the prefix associated with a given XML namespace URI on this
+   * token.
    <p>
-   * @param uri a string, the URI of the prefix being sought
+   * @param uri a string, the URI of the namespace whose prefix is being
+   * sought.
    <p>
-   * @return the prefix of an XML namespace declaration given its URI.  
+   * @return the prefix of an XML namespace declaration on this {@link XMLToken} object.
    <p>
-   * @note If <code>uri</code> does not exist, an empty string will be returned.
+   * @note If there is no XML namespace with the given <code>uri</code> declared on
+   * this {@link XMLToken} object, this method will return an empty string.
    */ public
  String getNamespacePrefix(String uri) {
     return libsbmlJNI.XMLToken_getNamespacePrefix__SWIG_1(swigCPtr, this, uri);
@@ -1377,15 +1709,14 @@ appears in the documentation.
 
   
 /**
-   * Look up the URI of an XML namespace declaration by its position.
+   * Returns the URI of the <em>n</em>th XML namespace declared on this token. 
    <p>
-   * @param index an integer, position of the required URI.
+   * @param index an integer, the position of the sought-after XML namespace URI.
    <p>
-   * @return the URI of an XML namespace declaration in the {@link XMLNamespaces}
-   * (by position).  
+   * @return the URI of the <em>n</em>th XML namespace stored in the
+   * {@link XMLNamespaces} object in this {@link XMLToken} object.
    <p>
-   * @note If <code>index</code> is out of range, an empty string will be
-   * returned.
+   * @note If <code>index</code> is out of range, this method will return an empty string.
    <p>
    * @see #getNamespacesLength()
    */ public
@@ -1395,13 +1726,15 @@ appears in the documentation.
 
   
 /**
-   * Look up the URI of an XML namespace declaration by its prefix.
+   * Returns the URI of an XML namespace with a given prefix.
    <p>
-   * @param prefix a string, the prefix of the required URI
+   * @param prefix a string, the prefix of the sought-after XML namespace URI.
    <p>
-   * @return the URI of an XML namespace declaration given its prefix.  
+   * @return the URI of an XML namespace declaration given its prefix.
    <p>
-   * @note If <code>prefix</code> does not exist, an empty string will be returned.
+   * @note If there is no XML namespace with the given <code>prefix</code> stored in
+   * the {@link XMLNamespaces} object of this {@link XMLToken} object, this method will
+   * return an empty string.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -1424,13 +1757,15 @@ appears in the documentation.
 
   
 /**
-   * Look up the URI of an XML namespace declaration by its prefix.
+   * Returns the URI of an XML namespace with a given prefix.
    <p>
-   * @param prefix a string, the prefix of the required URI
+   * @param prefix a string, the prefix of the sought-after XML namespace URI.
    <p>
-   * @return the URI of an XML namespace declaration given its prefix.  
+   * @return the URI of an XML namespace declaration given its prefix.
    <p>
-   * @note If <code>prefix</code> does not exist, an empty string will be returned.
+   * @note If there is no XML namespace with the given <code>prefix</code> stored in
+   * the {@link XMLNamespaces} object of this {@link XMLToken} object, this method will
+   * return an empty string.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -1453,11 +1788,10 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * the {@link XMLNamespaces} of this {@link XMLToken} is empty.
+   * Returns <code>true</code> if there are no namespaces declared on this token.
    <p>
-   * @return <code>true</code> if the {@link XMLNamespaces} of this {@link XMLToken} is empty, 
-   * <code>false</code> otherwise.
+   * @return <code>true</code> if the {@link XMLNamespaces} object stored in this {@link XMLToken}
+   * token is empty, <code>false</code> otherwise.
    */ public
  boolean isNamespacesEmpty() {
     return libsbmlJNI.XMLToken_isNamespacesEmpty(swigCPtr, this);
@@ -1465,14 +1799,12 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * an XML Namespace with the given URI is contained in the {@link XMLNamespaces} of
-   * this {@link XMLToken}.
+   * Returns <code>true</code> if this token has an XML namespace with a given URI.
    <p>
-   * @param uri a string, the uri for the namespace
+   * @param uri a string, the URI of the XML namespace.
    <p>
-   * @return <code>true</code> if an XML Namespace with the given URI is contained in the
-   * {@link XMLNamespaces} of this {@link XMLToken},  <code>false</code> otherwise.
+   * @return <code>true</code> if an XML namespace with the given URI is contained in
+   * the {@link XMLNamespaces} object of this {@link XMLToken} object, <code>false</code> otherwise.
    */ public
  boolean hasNamespaceURI(String uri) {
     return libsbmlJNI.XMLToken_hasNamespaceURI(swigCPtr, this, uri);
@@ -1480,11 +1812,9 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * an XML Namespace with the given prefix is contained in the {@link XMLNamespaces} of
-   * this {@link XMLToken}.
+   * Returns <code>true</code> if this token has an XML namespace with a given prefix.
    <p>
-   * @param prefix a string, the prefix for the namespace
+   * @param prefix a string, the prefix for the XML namespace.
    <p>
    * @return <code>true</code> if an XML Namespace with the given URI is contained in the
    * {@link XMLNamespaces} of this {@link XMLToken}, <code>false</code> otherwise.
@@ -1495,15 +1825,15 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * an XML Namespace with the given uri/prefix pair is contained in the 
-   * {@link XMLNamespaces} ofthis {@link XMLToken}.
+   * Returns <code>true</code> if this token has an XML namespace with a given prefix
+   * and URI combination.
    <p>
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * @param uri a string, the URI for the namespace.
+   * @param prefix a string, the prefix for the namespace.
    <p>
-   * @return <code>true</code> if an XML Namespace with the given uri/prefix pair is 
-   * contained in the {@link XMLNamespaces} of this {@link XMLToken},  <code>false</code> otherwise.
+   * @return <code>true</code> if an XML namespace with the given URI/prefix pair is
+   * contained in the {@link XMLNamespaces} object of this {@link XMLToken} object, <code>false</code>
+   * otherwise.
    */ public
  boolean hasNamespaceNS(String uri, String prefix) {
     return libsbmlJNI.XMLToken_hasNamespaceNS(swigCPtr, this, uri, prefix);
@@ -1511,14 +1841,21 @@ appears in the documentation.
 
   
 /**
-   * Sets the XMLTripe (name, uri and prefix) of this XML element.
-   * Nothing will be done if this XML element is a text node.
+   * Sets the name, namespace prefix and namespace URI of this token.
    <p>
-   * @param triple {@link XMLTriple} to be added to this XML element.
+   * <p>
+ * This operation only makes sense for XML start elements.  This
+ * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
+ * element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param triple the new {@link XMLTriple} to use for this {@link XMLToken} object.  If
+   * this {@link XMLToken} already had an {@link XMLTriple} object stored within it, that
+   * object will be replaced.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1532,9 +1869,9 @@ appears in the documentation.
 
   
 /**
-   * Returns the (unqualified) name of this XML element.
+   * Returns the (unqualified) name of token.
    <p>
-   * @return the (unqualified) name of this XML element.
+   * @return the (unqualified) name of token.
    */ public
  String getName() {
     return libsbmlJNI.XMLToken_getName(swigCPtr, this);
@@ -1542,12 +1879,12 @@ appears in the documentation.
 
   
 /**
-   * Returns the namespace prefix of this XML element.
+   * Returns the XML namespace prefix of token.
    <p>
-   * @return the namespace prefix of this XML element.  
+   * @return the XML namespace prefix of token.
    <p>
-   * @note If no prefix
-   * exists, an empty string will be return.
+   * @note If no XML namespace prefix has been assigned to this token, this
+   * method will return an empty string.
    */ public
  String getPrefix() {
     return libsbmlJNI.XMLToken_getPrefix(swigCPtr, this);
@@ -1555,9 +1892,9 @@ appears in the documentation.
 
   
 /**
-   * Returns the namespace URI of this XML element.
+   * Returns the XML namespace URI of token.
    <p>
-   * @return the namespace URI of this XML element.
+   * @return the XML namespace URI of token.
    */ public
  String getURI() {
     return libsbmlJNI.XMLToken_getURI(swigCPtr, this);
@@ -1565,9 +1902,14 @@ appears in the documentation.
 
   
 /**
-   * Returns the text of this element.
+   * Returns the character text of token.
    <p>
-   * @return the characters of this XML text.
+   * @return the characters of this XML token.  If this token is not a
+   * text token (i.e., it's an XML element and not character content),
+   * then this will return an empty string.
+   <p>
+   * @see #isText()
+   * @see #isElement()
    */ public
  String getCharacters() {
     return libsbmlJNI.XMLToken_getCharacters(swigCPtr, this);
@@ -1575,17 +1917,25 @@ appears in the documentation.
 
   
 /**
-   * Appends characters to this XML text content.
+   * Appends characters to the text content of token.
    <p>
-   * @param chars string, characters to append
+   * This method only makes sense for {@link XMLToken} objects that contains text.
+   * If this method is called on a token that represents an XML start or end
+   * tag, it will return the code {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * @param chars string, characters to append to the text of this token.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
-   * </ul>
+   *
+   * </ul> <p>
+   * @see #isText()
+   * @see #isElement()
    */ public
  int append(String chars) {
     return libsbmlJNI.XMLToken_append(swigCPtr, this, chars);
@@ -1593,8 +1943,7 @@ appears in the documentation.
 
   
 /**
-   * Returns the column at which this {@link XMLToken} occurred in the input
-   * document or data stream.
+   * Returns the column number at which this token occurs in the input.
    <p>
    * @return the column at which this {@link XMLToken} occurred.
    */ public
@@ -1604,8 +1953,7 @@ appears in the documentation.
 
   
 /**
-   * Returns the line at which this {@link XMLToken} occurred in the input document
-   * or data stream.
+   * Returns the line number at which this token occurs in the input.
    <p>
    * @return the line at which this {@link XMLToken} occurred.
    */ public
@@ -1615,10 +1963,19 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * this {@link XMLToken} is an XML element.
+   * Returns <code>true</code> if this token represents an XML element.
    <p>
-   * @return <code>true</code> if this {@link XMLToken} is an XML element, <code>false</code> otherwise.
+   * This generic predicate returns <code>true</code> if the element is either a start
+   * or end tag, and <code>false</code> if it's a text object.  The related methods
+   * XMLToken:isStart(), {@link XMLToken#isEnd()} and {@link XMLToken#isText()} are more
+   * specific predicates.
+   <p>
+   * @return <code>true</code> if this {@link XMLToken} object represents an XML element, 
+   * <code>false</code> otherwise.
+   <p>
+   * @see #isStart()
+   * @see #isEnd()
+   * @see #isText()
    */ public
  boolean isElement() {
     return libsbmlJNI.XMLToken_isElement(swigCPtr, this);
@@ -1626,10 +1983,14 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * this {@link XMLToken} is an XML end element.
+   * Returns <code>true</code> if this token represents an XML end element.
    <p>
-   * @return <code>true</code> if this {@link XMLToken} is an XML end element, <code>false</code> otherwise.
+   * @return <code>true</code> if this {@link XMLToken} object represents an XML end element,
+   * <code>false</code> otherwise.
+   <p>
+   * @see #isStart()
+   * @see #isElement()
+   * @see #isText()
    */ public
  boolean isEnd() {
     return libsbmlJNI.XMLToken_isEnd(swigCPtr, this);
@@ -1637,13 +1998,20 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * this {@link XMLToken} is an XML end element for the given start element.
+   * Returns <code>true</code> if this token represents an XML end element for a
+   * particular start element.
    <p>
-   * @param element {@link XMLToken}, element for which query is made.
+   * @param element {@link XMLToken}, the element with which the current object
+   * should be compared to determined whether the current object is a
+   * start element for the given one.
    <p>
-   * @return <code>true</code> if this {@link XMLToken} is an XML end element for the given
-   * {@link XMLToken} start element, <code>false</code> otherwise.
+   * @return <code>true</code> if this {@link XMLToken} object represents an XML end tag for
+   * the start tag given by <code>element</code>, <code>false</code> otherwise.
+   <p>
+   * @see #isElement()
+   * @see #isStart()
+   * @see #isEnd()
+   * @see #isText()
    */ public
  boolean isEndFor(XMLToken element) {
     return libsbmlJNI.XMLToken_isEndFor(swigCPtr, this, XMLToken.getCPtr(element), element);
@@ -1651,11 +2019,12 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * this {@link XMLToken} is an end of file marker.
+   * Returns <code>true</code> if this token is an end of file marker.
    <p>
-   * @return <code>true</code> if this {@link XMLToken} is an end of file (input) marker, <code>false</code>
-   * otherwise.
+   * @return <code>true</code> if this {@link XMLToken} object represents the end of the input,
+   * <code>false</code> otherwise.
+   <p>
+   * @see #setEOF()
    */ public
  boolean isEOF() {
     return libsbmlJNI.XMLToken_isEOF(swigCPtr, this);
@@ -1663,10 +2032,13 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * this {@link XMLToken} is an XML start element.
+   * Returns <code>true</code> if this token represents an XML start element.
    <p>
    * @return <code>true</code> if this {@link XMLToken} is an XML start element, <code>false</code> otherwise.
+   <p>
+   * @see #isElement()
+   * @see #isEnd()
+   * @see #isText()
    */ public
  boolean isStart() {
     return libsbmlJNI.XMLToken_isStart(swigCPtr, this);
@@ -1674,10 +2046,13 @@ appears in the documentation.
 
   
 /**
-   * Predicate returning <code>true</code> or <code>false</code> depending on whether 
-   * this {@link XMLToken} is an XML text element.
+   * Returns <code>true</code> if this token represents an XML text element.
    <p>
    * @return <code>true</code> if this {@link XMLToken} is an XML text element, <code>false</code> otherwise.
+   <p>
+   * @see #isElement()
+   * @see #isStart()
+   * @see #isEnd()
    */ public
  boolean isText() {
     return libsbmlJNI.XMLToken_isText(swigCPtr, this);
@@ -1685,15 +2060,19 @@ appears in the documentation.
 
   
 /**
-   * Declares this XML start element is also an end element.
+   * Declares that this token represents an XML element end tag.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
-   * </ul>
+   *
+   * </ul> <p>
+   * @see #isStart()
+   * @see #isEnd()
    */ public
  int setEnd() {
     return libsbmlJNI.XMLToken_setEnd(swigCPtr, this);
@@ -1701,15 +2080,18 @@ appears in the documentation.
 
   
 /**
-   * Declares this {@link XMLToken} is an end-of-file (input) marker.
+   * Declares that this token is an end-of-file/input marker.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
-   * </ul>
+   *
+   * </ul> <p>
+   * @see #isEOF()
    */ public
  int setEOF() {
     return libsbmlJNI.XMLToken_setEOF(swigCPtr, this);
@@ -1717,11 +2099,12 @@ appears in the documentation.
 
   
 /**
-   * Declares this XML start/end element is no longer an end element.
+   * Declares that this token no longer represents an XML start/end element.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.   The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -1733,8 +2116,11 @@ appears in the documentation.
 
   
 /**
-   * Prints a string representation of the underlying token stream, for
-   * debugging purposes.
+   * Prints a string representation of the underlying token stream.
+   <p>
+   * This method is intended for debugging purposes.
+   <p>
+   * @return a text string representing this {@link XMLToken} object.
    */ public
  String toString() {
     return libsbmlJNI.XMLToken_toString(swigCPtr, this);

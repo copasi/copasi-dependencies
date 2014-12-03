@@ -40,9 +40,7 @@ protected:
   int targetLevel;
   int targetVersion;
   std::string renderNsUri;
-  SBMLNamespaces *renderNs;
   std::string layoutNsUri; 
-  SBMLNamespaces *layoutNs;
   /** @endcond */
 
 protected:

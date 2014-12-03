@@ -20,13 +20,14 @@ namespace libsbml {
  *
  * A 'triple' in the libSBML XML layer encapsulates the notion of qualified
  * name, meaning an element name or an attribute name with an optional
- * namespace qualifier.  An XMLTriple instance carries up to three data items:
- * 
- * <ul>
+ * namespace qualifier.  Triples by themselves are not entities in an XML
+ * stream&mdash;they are not, for example, elements or attributes; rather,
+ * XMLTriple is used in libSBML to construct these other kinds of objects.
  *
+ * An XMLTriple instance carries up to three data items:
+ * <ol>
  * <li> The name of the attribute or element; that is, the attribute name
  * as it appears in an XML document or data stream;
- *
  * <li> The XML namespace prefix (if any) of the attribute.  For example,
  * in the following fragment of XML, the namespace prefix is the string
  * <code>mysim</code> and it appears on both the element
@@ -36,15 +37,18 @@ namespace libsbml {
  * @verbatim
 <mysim:someelement mysim:attribA='value' />
 @endverbatim
- *
  * <li> The XML namespace URI with which the prefix is associated.  In
  * XML, every namespace used must be declared and mapped to a URI.
- *
- * </ul>
+ * </ol>
  *
  * XMLTriple objects are the lowest-level data item in the XML layer
  * of libSBML.  Other objects such as XMLToken make use of XMLTriple
  * objects.
+ *
+ * @see XMLToken
+ * @see XMLNode
+ * @see XMLAttributes
+ * @see XMLNamespaces
  */
 
 public class XMLTriple : IDisposable {
@@ -94,42 +98,47 @@ public class XMLTriple : IDisposable {
 
   
 /**
-   * Creates a new, empty XMLTriple.
+   * Creates a new, empty XMLTriple object.
    */ public
  XMLTriple() : this(libsbmlPINVOKE.new_XMLTriple__SWIG_0(), true) {
   }
 
   
 /**
-   * Creates a new XMLTriple with the given @p name, @p uri and and @p
+   * Creates a new XMLTriple object with a given @p name, @p uri and and @p
    * prefix.
    *
-   * @param name a string, name for the XMLTriple.
-   * @param uri a string, URI of the XMLTriple.
-   * @param prefix a string, prefix for the URI of the XMLTriple,
+   * @param name a string, the name for the entity represented by this object.
+   * @param uri a string, the XML namespace URI associated with the prefix.
+   * @param prefix a string, the XML namespace prefix for this triple.
    *
    * @throws XMLConstructorException
-   * Thrown if the argument @p orig is @c null.
+   * Thrown if any of the arguments are @c null.
    */ public
  XMLTriple(string name, string uri, string prefix) : this(libsbmlPINVOKE.new_XMLTriple__SWIG_1(name, uri, prefix), true) {
   }
 
   
 /**
-   * Creates a new XMLTriple by splitting the given @p triplet on the
-   * separator character @p sepchar.
+   * Creates an XMLTriple object by splitting a given string at a given
+   * separator character.
    *
-   * Triplet may be in one of the following formats:
-   * <ul>
-   * <li> name
-   * <li> URI sepchar name
-   * <li> URI sepchar name sepchar prefix
-   * </ul>
-   * @param triplet a string representing the triplet as above
+   * The 'triplet' in this case is a string that may be in one of the
+   * following three possible formats:
+   * <ol>
+   * <li> <span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span> </li>
+   * <li> <span style='background-color: #ccc; padding-left: 2px; padding-right: 2px'>URI</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span></li>
+   * <li> <span style='background-color: #ccc; padding-left: 2px; padding-right: 2px'>URI</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: #d0d0fd; padding-left: 2px; padding-right: 2px'>prefix</span></li>
+   * </ol>
+   *
+   * where <span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span>
+   * represents the separator character, @p sepchar.
+   *
+   * @param triplet a string representing the triplet as shown above
    * @param sepchar a character, the sepchar used in the triplet
    *
    * @throws XMLConstructorException
-   * Thrown if the argument @p orig is @c null.
+   * Thrown if the argument @p triplet is @c null.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -138,20 +147,25 @@ public class XMLTriple : IDisposable {
 
   
 /**
-   * Creates a new XMLTriple by splitting the given @p triplet on the
-   * separator character @p sepchar.
+   * Creates an XMLTriple object by splitting a given string at a given
+   * separator character.
    *
-   * Triplet may be in one of the following formats:
-   * <ul>
-   * <li> name
-   * <li> URI sepchar name
-   * <li> URI sepchar name sepchar prefix
-   * </ul>
-   * @param triplet a string representing the triplet as above
+   * The 'triplet' in this case is a string that may be in one of the
+   * following three possible formats:
+   * <ol>
+   * <li> <span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span> </li>
+   * <li> <span style='background-color: #ccc; padding-left: 2px; padding-right: 2px'>URI</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span></li>
+   * <li> <span style='background-color: #ccc; padding-left: 2px; padding-right: 2px'>URI</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: lightblue; padding-left: 2px; padding-right: 2px'>name</span><span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span><span style='background-color: #d0d0fd; padding-left: 2px; padding-right: 2px'>prefix</span></li>
+   * </ol>
+   *
+   * where <span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span>
+   * represents the separator character, @p sepchar.
+   *
+   * @param triplet a string representing the triplet as shown above
    * @param sepchar a character, the sepchar used in the triplet
    *
    * @throws XMLConstructorException
-   * Thrown if the argument @p orig is @c null.
+   * Thrown if the argument @p triplet is @c null.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -160,7 +174,7 @@ public class XMLTriple : IDisposable {
 
   
 /**
-   * Copy constructor; creates a copy of this XMLTriple set.
+   * Copy constructor; creates a copy of this XMLTriple object.
    *
    * @param orig the XMLTriple object to copy.
    *
@@ -185,9 +199,9 @@ public class XMLTriple : IDisposable {
 
   
 /**
-   * Returns the @em name portion of this XMLTriple.
+   * Returns the @em name portion of this XMLTriple object.
    *
-   * @return a string, the name from this XMLTriple.
+   * @return a string, the name portion of this XMLTriple object.
    */ public
  string getName() {
     string ret = libsbmlPINVOKE.XMLTriple_getName(swigCPtr);
@@ -196,9 +210,9 @@ public class XMLTriple : IDisposable {
 
   
 /**
-   * Returns the @em prefix portion of this XMLTriple.
+   * Returns the @em prefix portion of this XMLTriple object.
    *
-   * @return a string, the @em prefix portion of this XMLTriple.
+   * @return a string, the prefix portion of this XMLTriple object.
    */ public
  string getPrefix() {
     string ret = libsbmlPINVOKE.XMLTriple_getPrefix(swigCPtr);
@@ -207,9 +221,9 @@ public class XMLTriple : IDisposable {
 
   
 /**
-   * Returns the @em URI portion of this XMLTriple.
+   * Returns the @em URI portion of this XMLTriple object.
    *
-   * @return URI a string, the @em prefix portion of this XMLTriple.
+   * @return URI a string, the URI portion of this XMLTriple object.
    */ public
  string getURI() {
     string ret = libsbmlPINVOKE.XMLTriple_getURI(swigCPtr);
@@ -220,7 +234,10 @@ public class XMLTriple : IDisposable {
 /**
    * Returns the prefixed name from this XMLTriple.
    *
-   * @return a string, the prefixed name from this XMLTriple.
+   * @return a string, the prefixed name from this XMLTriple.  This is
+   * constructed by concatenating the @em prefix stored in this XMLTriple
+   * object, followed by a colon character <code>':'</code>, followed by the
+   * @em name stored in this XMLTriple object.
    */ public
  string getPrefixedName() {
     string ret = libsbmlPINVOKE.XMLTriple_getPrefixedName(swigCPtr);
@@ -229,9 +246,8 @@ public class XMLTriple : IDisposable {
 
   
 /**
-   * Predicate returning @c true or @c false depending on whether 
-   * this XMLTriple is empty.
-   * 
+   * Returns @c true if this XMLTriple object is empty.
+   *
    * @return @c true if this XMLTriple is empty, @c false otherwise.
    */ public
  bool isEmpty() {

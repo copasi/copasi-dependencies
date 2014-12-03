@@ -96,7 +96,9 @@ public class XMLConstructorException extends java.lang.IllegalArgumentException 
     this(libsbmlJNI.new_XMLConstructorException(), true, v);
   }
 
-  public XMLConstructorException() {
+  
+/** * @internal */ public
+ XMLConstructorException() {
     this(libsbmlJNI.new_XMLConstructorException(), true);
   }
 

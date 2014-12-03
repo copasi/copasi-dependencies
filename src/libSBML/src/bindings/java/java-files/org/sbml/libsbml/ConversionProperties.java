@@ -32,6 +32,106 @@ the implementation of extra functionality provided by libSBML.
  * SBML document; consequently, the packages in use are also communicated by
  * the values of the SBML namespaces set on a {@link ConversionProperties} object.
  <p>
+ * <p>
+ * <h2>General information about the use of SBML converters</h2>
+ <p>
+ * The use of all the converters follows a similar approach.  First, one
+ * creates a {@link ConversionProperties} object and calls
+ * {@link ConversionProperties#addOption(ConversionOption)}
+ * on this object with one arguments: a text string that identifies the desired
+ * converter.  (The text string is specific to each converter; consult the
+ * documentation for a given converter to find out how it should be enabled.)
+ <p>
+ * Next, for some converters, the caller can optionally set some
+ * converter-specific properties using additional calls to
+ * {@link ConversionProperties#addOption(ConversionOption)}.
+ * Many converters provide the ability to
+ * configure their behavior to some extent; this is realized through the use
+ * of properties that offer different options.  The default property values
+ * for each converter can be interrogated using the method
+ * {@link SBMLConverter#getDefaultProperties()} on the converter class in question .
+ <p>
+ * Finally, the caller should invoke the method
+ * {@link SBMLDocument#convert(ConversionProperties)}
+ * with the {@link ConversionProperties} object as an argument.
+ <p>
+ * <h3>Example of invoking an SBML converter</h3>
+ <p>
+ * The following code fragment illustrates an example using
+ * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * <code>'replaceReactions':</code>
+ <p>
+<pre class='fragment'>
+{@link ConversionProperties} props = new {@link ConversionProperties}();
+if (props != null) {
+  props.addOption('replaceReactions');
+} else {
+  // Deal with error.
+}
+</pre>
+<p>
+ * In the case of {@link SBMLReactionConverter}, there are no options to affect
+ * its behavior, so the next step is simply to invoke the converter on
+ * an {@link SBMLDocument} object.  Continuing the example code:
+ <p>
+<pre class='fragment'>
+  // Assume that the variable 'document' has been set to an {@link SBMLDocument} object.
+  status = document.convert(config);
+  if (status != libsbml.LIBSBML_OPERATION_SUCCESS)
+  {
+    // Handle error somehow.
+    System.out.println('Error: conversion failed due to the following:');
+    document.printErrors();
+  }
+</pre>
+<p>
+ * Here is an example of using a converter that offers an option. The
+ * following code invokes {@link SBMLStripPackageConverter} to remove the
+ * SBML Level&nbsp;3 <em>Layout</em> package from a model.  It sets the name
+ * of the package to be removed by adding a value for the option named
+ * <code>'package'</code> defined by that converter:
+ <p>
+<pre class='fragment'>
+{@link ConversionProperties} config = new {@link ConversionProperties}();
+if (config != None) {
+  config.addOption('stripPackage');
+  config.addOption('package', 'layout');
+  status = document.convert(config);
+  if (status != LIBSBML_OPERATION_SUCCESS) {
+    // Handle error somehow.
+    System.out.println('Error: unable to strip the Layout package');
+    document.printErrors();
+  }
+} else {
+  // Handle error somehow.
+  System.out.println('Error: unable to create {@link ConversionProperties} object');
+}
+</pre>
+<p>
+ * <h3>Available SBML converters in libSBML</h3>
+ <p>
+ * LibSBML provides a number of built-in converters; by convention, their
+ * names end in <em>Converter</em>. The following are the built-in converters
+ * provided by libSBML 5.11.0:
+ <p>
+ * <p>
+ * <ul>
+ * <li> CobraToFbcConverter
+ * <li> CompFlatteningConverter
+ * <li> FbcToCobraConverter
+ * <li> {@link SBMLFunctionDefinitionConverter}
+ * <li> {@link SBMLIdConverter}
+ * <li> {@link SBMLInferUnitsConverter}
+ * <li> {@link SBMLInitialAssignmentConverter}
+ * <li> {@link SBMLLevelVersionConverter}
+ * <li> {@link SBMLLocalParameterConverter}
+ * <li> {@link SBMLReactionConverter}
+ * <li> {@link SBMLRuleConverter}
+ * <li> {@link SBMLStripPackageConverter}
+ * <li> {@link SBMLUnitsConverter}
+ *
+ * </ul>
+ <p>
  * @see ConversionOption
  * @see SBMLNamespaces
  */

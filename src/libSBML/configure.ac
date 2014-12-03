@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 21501 $)
+AC_REVISION($Revision: 21538 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -545,7 +545,6 @@ AC_CONFIG_FILES([docs/src/doxygen-config-octave.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-python.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-perl.txt])
 AC_CONFIG_FILES([docs/src/doxygen-config-matlab.txt])
-AC_CONFIG_FILES([docs/src/common-text/libsbml-accessing.html])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-downloading.html])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-group-comp-intro.html])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-group-fbc-intro.html])

@@ -613,7 +613,7 @@ SwigDirector_SBMLConverter::SwigDirector_SBMLConverter(std::string const &name) 
   swig_init_callbacks();
 }
 
-SwigDirector_SBMLConverter::SwigDirector_SBMLConverter(SBMLConverter const &c) : SBMLConverter(c), Swig::Director() {
+SwigDirector_SBMLConverter::SwigDirector_SBMLConverter(SBMLConverter const &orig) : SBMLConverter(orig), Swig::Director() {
   swig_init_callbacks();
 }
 
@@ -7778,6 +7778,26 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLDocument_getError(void * jarg1, long lo
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLDocument_getErrorWithSeverity(void * jarg1, long long jarg2, long long jarg3) {
+  void * jresult ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  unsigned int arg2 ;
+  unsigned int arg3 ;
+  SBMLError *result = 0 ;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  {
+    arg2 = (unsigned int)jarg2;  
+  }
+  {
+    arg3 = (unsigned int)jarg3;  
+  }
+  result = (SBMLError *)((SBMLDocument const *)arg1)->getErrorWithSeverity(arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_getNumErrors__SWIG_0(void * jarg1) {
   unsigned int jresult ;
   SBMLDocument *arg1 = (SBMLDocument *) 0 ;
@@ -7825,6 +7845,24 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SBMLDocument_printErrors__SWIG_1(void * jarg1
   
   arg1 = (SBMLDocument *)jarg1; 
   ((SBMLDocument const *)arg1)->printErrors();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SBMLDocument_printErrors__SWIG_2(void * jarg1, void * jarg2, long long jarg3) {
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  std::ostream *arg2 = 0 ;
+  unsigned int arg3 ;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  arg2 = (std::ostream *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::ostream & type is null", 0);
+    return ;
+  } 
+  {
+    arg3 = (unsigned int)jarg3;  
+  }
+  ((SBMLDocument const *)arg1)->printErrors(*arg2,arg3);
 }
 
 
@@ -8235,6 +8273,53 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLDocument_getValidator(void * jarg1, lon
   }
   result = (SBMLValidator *)(arg1)->getValidator(arg2);
   jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_SBMLDocument_addUnknownPackageRequired(void * jarg1, char * jarg2, char * jarg3, unsigned int jarg4) {
+  int jresult ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  bool arg4 ;
+  int result;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  if (!jarg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  arg4 = jarg4 ? true : false; 
+  result = (int)(arg1)->addUnknownPackageRequired((std::string const &)*arg2,(std::string const &)*arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_hasUnknownPackage(void * jarg1, char * jarg2) {
+  unsigned int jresult ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  std::string *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (bool)(arg1)->hasUnknownPackage((std::string const &)*arg2);
+  jresult = result; 
   return jresult;
 }
 
@@ -29972,6 +30057,267 @@ SWIGEXPORT void SWIGSTDCALL CSharp_XMLOutputStream_setSBMLNamespaces(void * jarg
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_0(char * jarg1, unsigned int jarg2, char * jarg3, char * jarg4) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  bool arg2 ;
+  std::string *arg3 = 0 ;
+  std::string *arg4 = 0 ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  arg2 = jarg2 ? true : false; 
+  if (!jarg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  if (!jarg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream((std::string const &)*arg1,arg2,(std::string const &)*arg3,(std::string const &)*arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_1(char * jarg1, unsigned int jarg2, char * jarg3) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  bool arg2 ;
+  std::string *arg3 = 0 ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  arg2 = jarg2 ? true : false; 
+  if (!jarg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream((std::string const &)*arg1,arg2,(std::string const &)*arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_2(char * jarg1, unsigned int jarg2) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  bool arg2 ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  arg2 = jarg2 ? true : false; 
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream((std::string const &)*arg1,arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_3(char * jarg1) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream((std::string const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputStringStream__SWIG_4() {
+  void * jresult ;
+  XMLOwningOutputStringStream *result = 0 ;
+  
+  result = (XMLOwningOutputStringStream *)new XMLOwningOutputStringStream();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_XMLOwningOutputStringStream(void * jarg1) {
+  XMLOwningOutputStringStream *arg1 = (XMLOwningOutputStringStream *) 0 ;
+  
+  arg1 = (XMLOwningOutputStringStream *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_0(char * jarg1, char * jarg2, unsigned int jarg3, char * jarg4, char * jarg5) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  std::string *arg4 = 0 ;
+  std::string *arg5 = 0 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  arg3 = jarg3 ? true : false; 
+  if (!jarg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  if (!jarg5) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg5_str(jarg5);
+  arg5 = &arg5_str; 
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1,(std::string const &)*arg2,arg3,(std::string const &)*arg4,(std::string const &)*arg5);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_1(char * jarg1, char * jarg2, unsigned int jarg3, char * jarg4) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  std::string *arg4 = 0 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  arg3 = jarg3 ? true : false; 
+  if (!jarg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1,(std::string const &)*arg2,arg3,(std::string const &)*arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_2(char * jarg1, char * jarg2, unsigned int jarg3) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  arg3 = jarg3 ? true : false; 
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1,(std::string const &)*arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_3(char * jarg1, char * jarg2) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1,(std::string const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLOwningOutputFileStream__SWIG_4(char * jarg1) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  XMLOwningOutputFileStream *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  result = (XMLOwningOutputFileStream *)new XMLOwningOutputFileStream((std::string const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_XMLOwningOutputFileStream(void * jarg1) {
+  XMLOwningOutputFileStream *arg1 = (XMLOwningOutputFileStream *) 0 ;
+  
+  arg1 = (XMLOwningOutputFileStream *)jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_XMLInputStream__SWIG_0(char * jarg1, unsigned int jarg2, char * jarg3, void * jarg4) {
   void * jresult ;
   char *arg1 = (char *) 0 ;
@@ -30912,6 +31258,24 @@ SWIGEXPORT void SWIGSTDCALL CSharp_XMLErrorLog_printErrors__SWIG_1(void * jarg1)
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_XMLErrorLog_printErrors__SWIG_2(void * jarg1, void * jarg2, long long jarg3) {
+  XMLErrorLog *arg1 = (XMLErrorLog *) 0 ;
+  std::ostream *arg2 = 0 ;
+  unsigned int arg3 ;
+  
+  arg1 = (XMLErrorLog *)jarg1; 
+  arg2 = (std::ostream *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::ostream & type is null", 0);
+    return ;
+  } 
+  {
+    arg3 = (unsigned int)jarg3;  
+  }
+  ((XMLErrorLog const *)arg1)->printErrors(*arg2,arg3);
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_XMLErrorLog_isSeverityOverridden(void * jarg1) {
   unsigned int jresult ;
   XMLErrorLog *arg1 = (XMLErrorLog *) 0 ;
@@ -30995,6 +31359,26 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLErrorLog_getError(void * jarg1, long lo
     arg2 = (unsigned int)jarg2;  
   }
   result = (SBMLError *)((SBMLErrorLog const *)arg1)->getError(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLErrorLog_getErrorWithSeverity(void * jarg1, long long jarg2, long long jarg3) {
+  void * jresult ;
+  SBMLErrorLog *arg1 = (SBMLErrorLog *) 0 ;
+  unsigned int arg2 ;
+  unsigned int arg3 ;
+  SBMLError *result = 0 ;
+  
+  arg1 = (SBMLErrorLog *)jarg1; 
+  {
+    arg2 = (unsigned int)jarg2;  
+  }
+  {
+    arg3 = (unsigned int)jarg3;  
+  }
+  result = (SBMLError *)((SBMLErrorLog const *)arg1)->getErrorWithSeverity(arg2,arg3);
   jresult = (void *)result; 
   return jresult;
 }
@@ -36714,7 +37098,27 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_removeChild(void * jarg1, long long ja
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_replaceChild(void * jarg1, long long jarg2, void * jarg3) {
+SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_replaceChild__SWIG_0(void * jarg1, long long jarg2, void * jarg3, unsigned int jarg4) {
+  int jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  unsigned int arg2 ;
+  ASTNode *arg3 = (ASTNode *) 0 ;
+  bool arg4 ;
+  int result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  {
+    arg2 = (unsigned int)jarg2;  
+  }
+  arg3 = (ASTNode *)jarg3; 
+  arg4 = jarg4 ? true : false; 
+  result = (int)(arg1)->replaceChild(arg2,arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_ASTNode_replaceChild__SWIG_1(void * jarg1, long long jarg2, void * jarg3) {
   int jresult ;
   ASTNode *arg1 = (ASTNode *) 0 ;
   unsigned int arg2 ;
@@ -37914,11 +38318,11 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_hasCorrectNumberArguments(voi
 SWIGEXPORT char * SWIGSTDCALL CSharp_ASTNode_getDefinitionURLString(void * jarg1) {
   char * jresult ;
   ASTNode *arg1 = (ASTNode *) 0 ;
-  std::string *result = 0 ;
+  std::string result;
   
   arg1 = (ASTNode *)jarg1; 
-  result = (std::string *) &((ASTNode const *)arg1)->getDefinitionURLString();
-  jresult = SWIG_csharp_string_callback(result->c_str()); 
+  result = ((ASTNode const *)arg1)->getDefinitionURLString();
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
 }
 
@@ -38227,6 +38631,11 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_getLastParseL3Error() {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_SBML_deleteL3Parser() {
+  SBML_deleteL3Parser();
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_0() {
   void * jresult ;
   L3ParserSettings *result = 0 ;
@@ -38298,6 +38707,22 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_3(void * jarg1, 
   arg4 = jarg4 ? true : false; 
   arg5 = jarg5 ? true : false; 
   result = (L3ParserSettings *)new L3ParserSettings(arg1,arg2,arg3,arg4,arg5);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_4(void * jarg1) {
+  void * jresult ;
+  L3ParserSettings *arg1 = 0 ;
+  L3ParserSettings *result = 0 ;
+  
+  arg1 = (L3ParserSettings *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "L3ParserSettings const & type is null", 0);
+    return 0;
+  } 
+  result = (L3ParserSettings *)new L3ParserSettings((L3ParserSettings const &)*arg1);
   jresult = (void *)result; 
   return jresult;
 }
@@ -38834,11 +39259,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ASTBasePlugin_removeChild(void * jarg1, long l
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_ASTBasePlugin_replaceChild(void * jarg1, long long jarg2, void * jarg3) {
+SWIGEXPORT int SWIGSTDCALL CSharp_ASTBasePlugin_replaceChild(void * jarg1, long long jarg2, void * jarg3, unsigned int jarg4) {
   int jresult ;
   ASTBasePlugin *arg1 = (ASTBasePlugin *) 0 ;
   unsigned int arg2 ;
   ASTBase *arg3 = (ASTBase *) 0 ;
+  bool arg4 ;
   int result;
   
   arg1 = (ASTBasePlugin *)jarg1; 
@@ -38846,7 +39272,8 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ASTBasePlugin_replaceChild(void * jarg1, long 
     arg2 = (unsigned int)jarg2;  
   }
   arg3 = (ASTBase *)jarg3; 
-  result = (int)(arg1)->replaceChild(arg2,arg3);
+  arg4 = jarg4 ? true : false; 
+  result = (int)(arg1)->replaceChild(arg2,arg3,arg4);
   jresult = result; 
   return jresult;
 }

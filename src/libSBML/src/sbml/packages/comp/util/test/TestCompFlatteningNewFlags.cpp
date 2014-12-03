@@ -963,8 +963,6 @@ create_suite_TestCompFlatteningNewFlags (void)
   Suite *suite = suite_create("SBMLCompFlatteningNewFlags");
   
   tcase_add_test(tcase, test_comp_flatten_abort_none_9);
-
-  tcase_add_test(tcase, test_comp_flatten_abort_none_9);
   tcase_add_test(tcase, test_comp_flatten_abort_none_10);
   tcase_add_test(tcase, test_comp_flatten_abort_none_11);
   tcase_add_test(tcase, test_comp_flatten_abort_none_12);

@@ -1401,8 +1401,8 @@ void RenderGroup::importOldCurve(const XMLNode& node)
     const XMLAttributes& curveAttributes=node.getAttributes();
     const XMLNode* child;
     unsigned int n=0,nMax = node.getNumChildren();
-    const XMLNode* pOrigAnnotation=NULL;
-    const XMLNode* pOrigNotes=NULL;
+    //const XMLNode* pOrigAnnotation=NULL;
+    //const XMLNode* pOrigNotes=NULL;
     RENDER_CREATE_NS(renderns, this->getSBMLNamespaces());
     while(n<nMax)
     {
@@ -1555,14 +1555,14 @@ void RenderGroup::importOldCurve(const XMLNode& node)
                 this->mElements.appendAndOwn(pCurve);
             }
         }
-        else if(childName=="annotation")
-        {
-            pOrigAnnotation=child;
-        }
-        else if(childName=="notes")
-        {
-            pOrigNotes=child;
-        }
+        //else if(childName=="annotation")
+        //{
+        //    pOrigAnnotation=child;
+        //}
+        //else if(childName=="notes")
+        //{
+        //    pOrigNotes=child;
+        //}
         ++n;
     }
     delete renderns;
