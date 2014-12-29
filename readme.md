@@ -65,7 +65,7 @@ The following open source libraries are included in this project:
 - Qt MML widget (LGPL, Qt Solutions)
 - [QWT 5.2.0](http://qwt.sourceforge.net/)
 - [QWT 3D plot](http://qwtplot3d.sourceforge.net/)
-- [libSBML 5.8.0](http://sbml.org/Software/libSBML)
+- [libSBML 5.11.1](http://sbml.org/Software/libSBML)
 - [SBW Core](http://sbw.sourceforge.net/)
 - [raptor](http://librdf.org/raptor/)
 
@@ -73,7 +73,7 @@ The following open source libraries are included in this project:
 Just in case it needs saying, each of the libraries in the `src` folder are released under their own respective licenses. Otherwise this project (i.e.: the build scripts) are released under the BSD License: 
 
 ```
-Copyright (c) 2013, Frank T. Bergmann  
+Copyright (c) 2013-2014, Frank T. Bergmann  
 All rights reserved. 
 
 Redistribution and use in source and binary forms, with or without 
